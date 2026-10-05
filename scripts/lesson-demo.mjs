@@ -1,0 +1,14 @@
+import {writeFile} from 'node:fs/promises';
+import {demoLesson} from '../server/demo-lesson.mjs';
+import {studentSpec} from '../server/generator.mjs';
+import {lessonSchema,validate} from '../server/contracts.mjs';
+import {pedagogyChecks} from '../server/lesson-structure.mjs';
+import {demoFlexbox} from '../server/demo-flexbox.mjs';
+const spec=validate(lessonSchema,demoLesson()),failed=pedagogyChecks(spec).filter(c=>!c.ok);
+if(failed.length)throw Error(JSON.stringify(failed));
+await writeFile('public/demo-lesson.json',JSON.stringify(studentSpec(spec),null,2)+'\n');
+console.log('Séance de démonstration validée : /lesson-demo.html');
+const flex=validate(lessonSchema,demoFlexbox()),flexFailures=pedagogyChecks(flex).filter(c=>!c.ok);
+if(flexFailures.length)throw Error(JSON.stringify(flexFailures));
+await writeFile('public/demo-flexbox.json',JSON.stringify(studentSpec(flex),null,2)+'\n');
+console.log('Séance Flexbox générée et validée : /lesson-demo.html?lesson=flexbox');

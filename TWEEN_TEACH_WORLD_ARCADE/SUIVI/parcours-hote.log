@@ -1,0 +1,9 @@
+
+> eden-teacher-twin@1.1.0 test:browser
+> node --import tsx scripts/browser-check.mjs
+
+(node:70486) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Game renderer preserved; infinite loop terminated; mission event received.
+New browser workflows passed: practice adaptation, unplanned insertion proposal and approval, observation, weekly stabilization.
+Browser flow passed: teacher login, plan approval, generation, preview, publication, student save/submit, teacher correction, mobile layout.

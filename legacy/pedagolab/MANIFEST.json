@@ -1,0 +1,243 @@
+{
+  "version": "7.1-curriculum-a1",
+  "files": [
+    {
+      "path": ".env.example",
+      "size": 195,
+      "sha256": "242629b1de21e7fb34507640f2a41dcb98e92d806652a770d1014e719bfb09af"
+    },
+    {
+      "path": ".python-version",
+      "size": 5,
+      "sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "size": 886,
+      "sha256": "e82048f0048e0257799571b00cc8ef232eef57d5b645f3854bf326e57581b04b"
+    },
+    {
+      "path": "MANIFEST.json",
+      "size": 6736,
+      "sha256": "0a36a382997311ed32d250bb86e5afe020f861e72092805a63edf73bc38fb49e"
+    },
+    {
+      "path": "README.md",
+      "size": 1436,
+      "sha256": "71df8492db9ce3a3c9901840740ea1f01e8f917378a65c73d2b3cf22f3b42bcd"
+    },
+    {
+      "path": "curriculum/source/Planification_A1_2026-2027.xlsx",
+      "size": 289313,
+      "sha256": "20900ae92cdda2127cfd82c671cb47e715658d6beb9bdf392540ad41269d03ad"
+    },
+    {
+      "path": "db/schema.sql",
+      "size": 775,
+      "sha256": "d5a6302e7c47bb5cf0e421c4963175649c17ea9e54a6f889f2b47061adb0c836"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "size": 1381,
+      "sha256": "354b563b57ed131f5c38d339799374c3782ca648ca05e3b82d0416791f107a94"
+    },
+    {
+      "path": "docs/DASHBOARD_ANNUEL.md",
+      "size": 2899,
+      "sha256": "20b09f6704626483fea0096246aa813fe9f73178a0eb9a9f1aab2e2d6b7c89d2"
+    },
+    {
+      "path": "docs/DEPLOIEMENT_VERCEL.md",
+      "size": 574,
+      "sha256": "7016dbc1c6fe540741f2a439c030c0773f1d0aa46c1ba01cac51f9ef51e9d2a8"
+    },
+    {
+      "path": "docs/TESTS.md",
+      "size": 1212,
+      "sha256": "f9d577f8050ccdff1b52e435658ce21a8d8febbc4f5e43908b2724a2fb722ef1"
+    },
+    {
+      "path": "docs/TESTS_V7_1.md",
+      "size": 1154,
+      "sha256": "f578572590a642e59644c37ae69fcda85388885a1db7b777def8aad78f715b10"
+    },
+    {
+      "path": "docs/hub.png",
+      "size": 348684,
+      "sha256": "c21e7036922b391ead728caa222a3ab0ac8c7c329991a93f50f89e9d47318b40"
+    },
+    {
+      "path": "docs/resources.png",
+      "size": 2579561,
+      "sha256": "20a7e829d7888462192751fc68a7feb4f9c9eb99141ee8206ad22ef1c0f8bdd5"
+    },
+    {
+      "path": "docs/world.png",
+      "size": 219111,
+      "sha256": "aa79f82f6bed05953814c06bcf0853ceb028113a787b59b79d2a72c25e225966"
+    },
+    {
+      "path": "nexus/content/catalog.json",
+      "size": 1569757,
+      "sha256": "71374081291ce5ce82a378f4720451cd3f343fa3129df9e5007b12b710a03c09"
+    },
+    {
+      "path": "nexus/content/coverage.json",
+      "size": 5108,
+      "sha256": "d1340aec64d7053e303611d3e43a47001ac561eea114a0639b97e4d88d13781b"
+    },
+    {
+      "path": "nexus/content/reference.json",
+      "size": 146936,
+      "sha256": "d7661aa9261e2b5a857f7e178db0c6c62a9b786e5dd04a2aa1076582ee7b20a1"
+    },
+    {
+      "path": "nexus/content/units-authored.json",
+      "size": 331175,
+      "sha256": "adabc23729b787f3c20875f1b2020683887fbf4b15bf3ef41793e2029f16c4d2"
+    },
+    {
+      "path": "nexus/content/v4-lessons.json",
+      "size": 46311,
+      "sha256": "83efc1dad85841ed09429ead110bece7e86328e1a0466077269db26d1daad22b"
+    },
+    {
+      "path": "nexus/docs/cours/BC01.md",
+      "size": 22350,
+      "sha256": "ca7d5b78975968e930c0ff1c15468216c953ca30ca2b345b7890ac6d10b2e5fe"
+    },
+    {
+      "path": "nexus/docs/cours/BC02.md",
+      "size": 13498,
+      "sha256": "89db39ce6051adc2e5ed3c8b025077e4155a43e97401237b066902d58fdb3281"
+    },
+    {
+      "path": "nexus/docs/cours/BC03.md",
+      "size": 36829,
+      "sha256": "98787b45a2d8b8084ad4126d1ad244e41834472518c00bddf5b655bff5b108f2"
+    },
+    {
+      "path": "nexus/docs/cours/BC04.md",
+      "size": 37878,
+      "sha256": "a604395837e05884a41a02600a73dae9fa9716db79bff739dfa54d14e7da8a7c"
+    },
+    {
+      "path": "nexus/docs/cours/BC05.md",
+      "size": 24218,
+      "sha256": "9fab7b54e9cf5cad2d76a7a5e96eb31adc3f85090812144e29b27b021098f94f"
+    },
+    {
+      "path": "nexus/docs/cours/BC06.md",
+      "size": 16411,
+      "sha256": "d964aa397038b4173e38f3a6c31ad71a158a148f827313c54d60d70487a2f5a1"
+    },
+    {
+      "path": "nexus/docs/cours/BC07.md",
+      "size": 32958,
+      "sha256": "30ef57069751a798fcce1ebc2080bb0d166df31e56349407e059bffaec0b19cd"
+    },
+    {
+      "path": "nexus/docs/cours/BC08.md",
+      "size": 15077,
+      "sha256": "556b78e76fae340ac6534def8b613fe6d7644dfbd4b59649786762f5d1845955"
+    },
+    {
+      "path": "nexus/docs/cours/BC09.md",
+      "size": 19995,
+      "sha256": "f5a221a84041dd4be323f346a6e95a4b511ad27d04247d5b3a1632569dfea534"
+    },
+    {
+      "path": "nexus/docs/cours/BC10.md",
+      "size": 43630,
+      "sha256": "db25d11445e652caca743368e470cfa42d58ef065360b8ffe1bd091856d2f5cd"
+    },
+    {
+      "path": "nexus/docs/cours/BCT01.md",
+      "size": 11976,
+      "sha256": "653343c2efd00e8d207ea7058f03b38ca921ec1b97e254169f0a4354bfefb284"
+    },
+    {
+      "path": "nexus/docs/cours/BCT02.md",
+      "size": 23442,
+      "sha256": "ed6c1863b9d2cd7353c89ac1838a435426ef7ace8af91036ba8cad2f06ae0b1a"
+    },
+    {
+      "path": "nexus/docs/cours/BCT03.md",
+      "size": 12585,
+      "sha256": "b0766fd4f5e440ac6970831cd4874b53ebd48d94fcc39a4ab196a04812b743b1"
+    },
+    {
+      "path": "nexus/docs/cours/BCT04.md",
+      "size": 12710,
+      "sha256": "5ca9ab5fa1171140412db77bde269463ff7af7818fa1ed75ff1752aa25773e19"
+    },
+    {
+      "path": "nexus/docs/cours/BCT05.md",
+      "size": 20519,
+      "sha256": "538348c15912f382942ebc22578d8903930d38411d8b61d6fcd8e7cc67f446a7"
+    },
+    {
+      "path": "nexus/docs/cours/BCT06.md",
+      "size": 10886,
+      "sha256": "5dfd86215a39dedcaa525374b3931a3ecc0438fbc9b382be14e41721a4020c9d"
+    },
+    {
+      "path": "public/app.css",
+      "size": 18472,
+      "sha256": "81576d56414adbb48604e882e57e705d29a7ebd7c02d1118a974fe9ac83cfd2a"
+    },
+    {
+      "path": "public/app.js",
+      "size": 64051,
+      "sha256": "7a16703e5debdf80f33503e89077a29e08c58620ec1ae11c0663196db3984a4f"
+    },
+    {
+      "path": "public/data/curriculum-a1.json",
+      "size": 320309,
+      "sha256": "fbde1c4b0bc9656207c643fa0625ee1a76da95c4f7040d51985946696a315590"
+    },
+    {
+      "path": "public/data/resources.json",
+      "size": 411419,
+      "sha256": "fafebdb5e4a7ba61e48baffff059683cc37fc62ddcfc53a5cf6e9355a9a138e7"
+    },
+    {
+      "path": "public/index.html",
+      "size": 330,
+      "sha256": "272680517d386006d31e608abaacd2acb4f7106a535a3276349aefcc4dfdcb66"
+    },
+    {
+      "path": "public/legacy/code-station-v6.html",
+      "size": 397527,
+      "sha256": "ee07d60db06eaccb21e1d1424eae78c0a86fbadc1786599e19a0ee9b192be07a"
+    },
+    {
+      "path": "requirements.txt",
+      "size": 61,
+      "sha256": "c0aab08ecfdc3314b7adcad70ccbb86f810fcdbf6713f31f17cba2dc0e366732"
+    },
+    {
+      "path": "server.py",
+      "size": 22379,
+      "sha256": "ca62cc6aeabf396e3d69889f1d46537d0645f999838da8bb58743dee903337a8"
+    },
+    {
+      "path": "tests/check_project.py",
+      "size": 1188,
+      "sha256": "639d28f4dcc2ca813c61013e1683e80c4af3b8158ade5ab8d50a47cfca624917"
+    },
+    {
+      "path": "tests/harness.html",
+      "size": 416621,
+      "sha256": "ffbc263c6037c0476a2bff37a244cefc7c0110d31e38c5a656a7abc2ab573344"
+    },
+    {
+      "path": "vercel.json",
+      "size": 202,
+      "sha256": "fd5151ee927516a5e4e3cfc4f06453d894ca6ea0b6697e242e68c03cfc67ac06"
+    }
+  ],
+  "counts": {
+    "files": 47
+  }
+}

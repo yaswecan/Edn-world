@@ -1,0 +1,169 @@
+TAP version 13
+# (node:74714) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: idempotent initial profile has no civil AKA, is private, and does not duplicate host account
+ok 1 - idempotent initial profile has no civil AKA, is private, and does not duplicate host account
+  ---
+  duration_ms: 353.46975
+  ...
+# Subtest: concurrent AKA reservation is canonical and class scoped, with no owner information
+ok 2 - concurrent AKA reservation is canonical and class scoped, with no owner information
+  ---
+  duration_ms: 21.234417
+  ...
+# Subtest: format, reserved identities, avatar catalogue, mass assignment and origin are enforced
+ok 3 - format, reserved identities, avatar catalogue, mass assignment and origin are enforced
+  ---
+  duration_ms: 14.934083
+  ...
+# Subtest: AKA and avatar survive a fresh session without changing identity, saves or rewards
+ok 4 - AKA and avatar survive a fresh session without changing identity, saves or rewards
+  ---
+  duration_ms: 48.5485
+  ...
+# Subtest: space distinguishes no badges and missing progression, resumes only an authorized saved mission
+ok 5 - space distinguishes no badges and missing progression, resumes only an authorized saved mission
+  ---
+  duration_ms: 5.87275
+  ...
+# Subtest: only teacher-approved host evidence grants one stable badge across concurrent requests
+ok 6 - only teacher-approved host evidence grants one stable badge across concurrent requests
+  ---
+  duration_ms: 10.679042
+  ...
+# Subtest: featured badge is owned, persistent, removable and projected without its private proof
+ok 7 - featured badge is owned, persistent, removable and projected without its private proof
+  ---
+  duration_ms: 52.7325
+  ...
+# Subtest: three-slot ordering and fourth replacement use synthetic unit inputs, never production awards
+ok 8 - three-slot ordering and fourth replacement use synthetic unit inputs, never production awards
+  ---
+  duration_ms: 0.859916
+  ...
+# Subtest: all personal routes deny guests/external accounts, resource forgery and private caching
+ok 9 - all personal routes deny guests/external accounts, resource forgery and private caching
+  ---
+  duration_ms: 12.703833
+  ...
+# Subtest: password change rejects missing session, mismatch, forged fields, wrong secret and CSRF
+ok 10 - password change rejects missing session, mismatch, forged fields, wrong secret and CSRF
+  ---
+  duration_ms: 49.478666
+  ...
+# Subtest: successful password change revokes all sessions and old secret, and retains profile and saves
+ok 11 - successful password change revokes all sessions and old secret, and retains profile and saves
+  ---
+  duration_ms: 263.705292
+  ...
+# Subtest: existing teacher assistance is scoped and now actually revokes student sessions
+ok 12 - existing teacher assistance is scoped and now actually revokes student sessions
+  ---
+  duration_ms: 90.586708
+  ...
+# Subtest: accounts without local credentials cannot acquire a local secret through this flow
+ok 13 - accounts without local credentials cannot acquire a local secret through this flow
+  ---
+  duration_ms: 2.290792
+  ...
+# Subtest: unavailable public lifecycle is uniform, never mutates accounts or claims mail delivery
+ok 14 - unavailable public lifecycle is uniform, never mutates accounts or claims mail delivery
+  ---
+  duration_ms: 7.009459
+  ...
+# Subtest: simultaneous password changes cannot reuse a revoked session or the old credential
+ok 15 - simultaneous password changes cannot reuse a revoked session or the old credential
+  ---
+  duration_ms: 86.851125
+  ...
+# Subtest: password abuse limit applies before repeated credential verification
+ok 16 - password abuse limit applies before repeated credential verification
+  ---
+  duration_ms: 355.752041
+  ...
+# (node:74715) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: arcade flag protects HTML, assets and APIs; rollback keeps legacy login
+ok 17 - arcade flag protects HTML, assets and APIs; rollback keeps legacy login
+  ---
+  duration_ms: 368.929
+  ...
+# Subtest: catalogue is public, real session is reused, Cyber Funk absent and no fictitious rewards
+ok 18 - catalogue is public, real session is reused, Cyber Funk absent and no fictitious rewards
+  ---
+  duration_ms: 3.097542
+  ...
+# Subtest: visitor and external directory denial covers pagination, search, detail, profile and top
+ok 19 - visitor and external directory denial covers pagination, search, detail, profile and top
+  ---
+  duration_ms: 7.380292
+  ...
+# Subtest: scoping precedes count, search and pagination; teachers are confined to own class
+ok 20 - scoping precedes count, search and pagination; teachers are confined to own class
+  ---
+  duration_ms: 17.160584
+  ...
+# Subtest: profile is persisted on existing account; identity fields and school data are preserved
+ok 21 - profile is persisted on existing account; identity fields and school data are preserved
+  ---
+  duration_ms: 8.933458
+  ...
+# Subtest: profile rejects roles, rewards, public visibility, XSS and origin forgery
+ok 22 - profile rejects roles, rewards, public visibility, XSS and origin forgery
+  ---
+  duration_ms: 6.995417
+  ...
+# Subtest: public registration and email operations stay closed including malicious role requests
+ok 23 - public registration and email operations stay closed including malicious role requests
+  ---
+  duration_ms: 4.216
+  ...
+# Subtest: launch authorizes real assignment and is idempotent across concurrent fresh requests
+ok 24 - launch authorizes real assignment and is idempotent across concurrent fresh requests
+  ---
+  duration_ms: 12.036458
+  ...
+# Subtest: forged destinations, unknown bindings and foreign saves are refused
+ok 25 - forged destinations, unknown bindings and foreign saves are refused
+  ---
+  duration_ms: 10.305833
+  ...
+# Subtest: existing runs cannot bypass changed assignment, autonomy or publication locks
+ok 26 - existing runs cannot bypass changed assignment, autonomy or publication locks
+  ---
+  duration_ms: 2.637375
+  ...
+# Subtest: save round trip preserves existing format, rejects invalid data, confirms only persistence
+ok 27 - save round trip preserves existing format, rejects invalid data, confirms only persistence
+  ---
+  duration_ms: 5.8995
+  ...
+# Subtest: client completions never award verified points or grades, even with new event IDs
+ok 28 - client completions never award verified points or grades, even with new event IDs
+  ---
+  duration_ms: 11.339792
+  ...
+# Subtest: private responses are not cached and logout invalidates the host session
+ok 29 - private responses are not cached and logout invalidates the host session
+  ---
+  duration_ms: 2.085375
+  ...
+# Subtest: production serves no integration documents or prototype; styles and scripts stay confined
+ok 30 - production serves no integration documents or prototype; styles and scripts stay confined
+  ---
+  duration_ms: 34.044875
+  ...
+# Subtest: arcade leaves original identities, lesson versions, missions, unlocks and school records intact
+ok 31 - arcade leaves original identities, lesson versions, missions, unlocks and school records intact
+  ---
+  duration_ms: 1.970916
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3238.826083

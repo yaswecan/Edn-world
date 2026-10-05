@@ -1,0 +1,64 @@
+{
+  "type": "object",
+  "properties": {
+    "classId": {
+      "type": "string"
+    },
+    "intent": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "targetDate": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "requestedChanges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entryId": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "entryId",
+          "date",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "mode": {
+      "enum": [
+        "prepare",
+        "remediation",
+        "change_plan"
+      ]
+    }
+  },
+  "required": [
+    "classId",
+    "intent",
+    "targetDate",
+    "constraints",
+    "requestedChanges",
+    "mode"
+  ],
+  "additionalProperties": false
+}

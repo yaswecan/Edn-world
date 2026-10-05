@@ -1,0 +1,130 @@
+{
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9_.:-]+$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "teaching": {
+            "type": "object",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "hint": {
+                "type": "string"
+              },
+              "check": {
+                "type": "string"
+              },
+              "takeaways": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "diagram": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "steps",
+              "hint",
+              "check",
+              "takeaways",
+              "diagram"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "content",
+          "teaching"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9_.:-]+$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "instruction": {
+            "type": "string"
+          },
+          "objective": {
+            "type": "string"
+          },
+          "expectedEvidence": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "instruction",
+          "objective",
+          "expectedEvidence",
+          "reference"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "teacherGuide": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "objectives",
+    "sections",
+    "activities",
+    "teacherGuide"
+  ],
+  "additionalProperties": false
+}

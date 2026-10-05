@@ -1,0 +1,85 @@
+
+> eden-teacher-twin@1.1.0 test:visual
+> playwright test --config playwright.lesson.config.mjs
+
+[2m[WebServer] [22m(node:74916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 28 tests using 1 worker
+
+(node:74920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:74920) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/visual/lesson.spec.mjs:9:1 › all lesson phases have stable desktop and mobile rendering (2.3s)
+  ✓   2 [desktop] › tests/visual/lesson.spec.mjs:19:1 › answers persist between steps, hints work by keyboard, progress reflects completion (555ms)
+  ✓   3 [desktop] › tests/visual/lesson.spec.mjs:29:1 › key components have visual snapshots and controls have accessible names (753ms)
+  ✓   4 [desktop] › tests/visual/lesson.spec.mjs:38:1 › Today uses the production renderer, gates the diagnostic, saves and resumes (1.4s)
+  ✓   5 [desktop] › tests/visual/lesson.spec.mjs:80:1 › Flexbox diagnostic offers working HTML/CSS exercises on desktop and mobile (750ms)
+  ✓   6 [desktop] › tests/visual/student-copy.spec.mjs:20:1 › student login: minimal form, role switching, keyboard and useful errors (500ms)
+  ✓   7 [desktop] › tests/visual/student-copy.spec.mjs:31:1 › empty student session has a truthful short message and logout (337ms)
+  ✓   8 [desktop] › tests/visual/student-copy.spec.mjs:36:1 › save, send failure and successful receipt reflect confirmed responses; assessment gate stays (1.2s)
+  ✓   9 [desktop] › tests/visual/student-copy.spec.mjs:48:1 › result modal preserves NE, zero, levels, feedback and missing submission (990ms)
+  ✓  10 [desktop] › tests/visual/student-copy.spec.mjs:58:1 › embedded game preserves mission identity, code console, resources and avoids premature save claims (446ms)
+  ✓  11 [desktop] › tests/visual/student-copy.spec.mjs:72:1 › a delayed save never confirms edits made after the request (397ms)
+  ✓  12 [desktop] › tests/visual/workshops.spec.mjs:5:1 › generated Flexbox: real code preview and tests, laboratory experiments, drawing and persisted answers (1.2s)
+  ✓  13 [desktop] › tests/visual/workshops.spec.mjs:22:1 › generated workshops remain readable at desktop and mobile sizes (1.5s)
+  ✓  14 [desktop] › tests/visual/workshops.spec.mjs:31:1 › published lesson saves workshop answers and restores them after a submitted diagnostic and reload (1.3s)
+(node:75011) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75011) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 [mobile] › tests/visual/lesson.spec.mjs:9:1 › all lesson phases have stable desktop and mobile rendering (3.0s)
+  ✓  16 [mobile] › tests/visual/lesson.spec.mjs:19:1 › answers persist between steps, hints work by keyboard, progress reflects completion (551ms)
+  ✓  17 [mobile] › tests/visual/lesson.spec.mjs:29:1 › key components have visual snapshots and controls have accessible names (700ms)
+  ✓  18 [mobile] › tests/visual/lesson.spec.mjs:38:1 › Today uses the production renderer, gates the diagnostic, saves and resumes (1.4s)
+  ✓  19 [mobile] › tests/visual/lesson.spec.mjs:80:1 › Flexbox diagnostic offers working HTML/CSS exercises on desktop and mobile (750ms)
+  ✓  20 [mobile] › tests/visual/student-copy.spec.mjs:20:1 › student login: minimal form, role switching, keyboard and useful errors (470ms)
+  ✓  21 [mobile] › tests/visual/student-copy.spec.mjs:31:1 › empty student session has a truthful short message and logout (272ms)
+  ✘  22 [mobile] › tests/visual/student-copy.spec.mjs:36:1 › save, send failure and successful receipt reflect confirmed responses; assessment gate stays (3.2m)
+(node:75090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75090) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  23 [mobile] › tests/visual/student-copy.spec.mjs:48:1 › result modal preserves NE, zero, levels, feedback and missing submission (1.3s)
+  ✓  24 [mobile] › tests/visual/student-copy.spec.mjs:58:1 › embedded game preserves mission identity, code console, resources and avoids premature save claims (1.7s)
+  ✓  25 [mobile] › tests/visual/student-copy.spec.mjs:72:1 › a delayed save never confirms edits made after the request (1.1s)
+  ✓  26 [mobile] › tests/visual/workshops.spec.mjs:5:1 › generated Flexbox: real code preview and tests, laboratory experiments, drawing and persisted answers (1.6s)
+  ✓  27 [mobile] › tests/visual/workshops.spec.mjs:22:1 › generated workshops remain readable at desktop and mobile sizes (1.9s)
+  ✓  28 [mobile] › tests/visual/workshops.spec.mjs:31:1 › published lesson saves workshop answers and restores them after a submitted diagnostic and reload (1.3s)
+
+
+  1) [mobile] › tests/visual/student-copy.spec.mjs:36:1 › save, send failure and successful receipt reflect confirmed responses; assessment gate stays 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: 'Évaluation', exact: true })
+    Expected: visible
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 15000ms[22m
+    [2m  - waiting for getByRole('heading', { name: 'Évaluation', exact: true })[22m
+
+
+      35 | });
+      36 | test('save, send failure and successful receipt reflect confirmed responses; assessment gate stays',async({page},info)=>{
+    > 37 |  const state=await routeStudent(page);await page.goto('/today');await expect(page.getByRole('heading',{name:'Évaluation',exact:true})).toBeVisible();
+         |                                                                                                                                        ^
+      38 |  await page.getByRole('button',{name:'Continuer',exact:true}).click();await expect(page.getByRole('alert')).toContainText('Rends ton travail');await page.keyboard.press('Escape');
+      39 |  await page.locator('[data-answer="demo-diag"]').fill('Une carte et une réservation.');
+      40 |  state.saveFails=true;await page.getByRole('button',{name:'Enregistrer',exact:true}).click();await expect(page.getByRole('alert')).toContainText('n’a pas pu être confirmé');await expect(page.locator('#save-status')).not.toContainText('Travail enregistré');await page.keyboard.press('Escape');
+        at /Users/eden/workspace/TwinTeache/tests/visual/student-copy.spec.mjs:37:136
+
+    Error Context: test-results/lesson-visual/student-copy-save-send-fai-72909-onses-assessment-gate-stays-mobile/error-context.md
+
+  1 failed
+    [mobile] › tests/visual/student-copy.spec.mjs:36:1 › save, send failure and successful receipt reflect confirmed responses; assessment gate stays 
+  27 passed (3.8m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report test-results/lesson-report[39m
+[36m[39m

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run check",
+  "functions": {
+    "api/index.mjs": {
+      "maxDuration": 300,
+      "includeFiles": "{public/**,data/**,server/sql-worker.mjs,legacy/pedagolab/public/data/resources.json,legacy/eden-october/docs/app/**,legacy/eden-october/docs/assets/**}"
+    }
+  },
+  "rewrites": [{"source": "/(.*)", "destination": "/api/index"}],
+  "crons": [{"path": "/api/internal/publication-worker", "schedule": "* * * * *"}]
+}

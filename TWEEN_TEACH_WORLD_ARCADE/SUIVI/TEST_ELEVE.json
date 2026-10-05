@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "url": "http://arcade.localhost:4179/arcade",
+  "studentLesson": "http://arcade.localhost:4179/today",
+  "database": ":memory:",
+  "checks": [
+    "connexion avec rôle élève",
+    "lancement du vrai runtime Code Station",
+    "retour à la salle",
+    "séance élève accessible"
+  ],
+  "browserErrors": [],
+  "serverLeftRunning": true
+}

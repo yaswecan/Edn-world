@@ -1,0 +1,29 @@
+{
+  "name": "eden-hub-logique-01-octobre",
+  "version": "6.0.0",
+  "private": true,
+  "type": "module",
+  "description": "EDEN School \u2014 logique bool\u00e9enne et conditions combin\u00e9es \u2014 1 octobre 2026",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local scripts/dev.mjs",
+    "start": "node --env-file-if-exists=.env.local scripts/dev.mjs",
+    "start:static": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs && node scripts/check-vercel.mjs",
+    "build": "npm run check",
+    "test": "node --test tests/*.test.mjs",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.mjs",
+    "secrets": "node scripts/generate-secrets.mjs",
+    "check:deployment": "node scripts/check-vercel.mjs --strict-config",
+    "test:e2e": "python tests/e2e.py",
+    "test:neon": "node --env-file-if-exists=.env.local --test tests/neon.integration.mjs",
+    "prebuild": "node scripts/vendor.mjs && node scripts/export-content.mjs",
+    "test:dom": "python tests/dom_fixture.py"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "1.1.0",
+    "acorn": "8.15.0"
+  }
+}

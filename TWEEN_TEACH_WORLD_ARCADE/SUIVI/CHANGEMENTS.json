@@ -1,0 +1,233 @@
+{
+  "date": "2026-10-05",
+  "gitAvailable": false,
+  "files": [
+    {
+      "path": "server/arcade.mjs",
+      "sha256": "051a48663b13c190ac5917d820a938b55cce6cb181dbc1e16589c67a4fb9727c",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "server/app.mjs",
+      "sha256": "88f274a79be83763ca8c2170c6d128720e5f893a47448b61699dcd32427cf034",
+      "beforeSha256": "cea5d55cb907deff2e59d29500cf0be243d80a0448ad4c377aafb7481e8d1881",
+      "status": "changed"
+    },
+    {
+      "path": "server/game.mjs",
+      "sha256": "2b89f74b062bbdb4a0d412228d46e95248dc813df8a063c9680c305a80eca77b",
+      "beforeSha256": "7b0891cbc2ba904329f2461ca939a16c24562b4c9cabb0c64fed09a0157ac371",
+      "status": "changed"
+    },
+    {
+      "path": "public/app.js",
+      "sha256": "783d5a23aca595c69a51cc310f6b9e8532bf63e147848dea6b2a843bf1445ee9",
+      "beforeSha256": "516fc13b10c6dc16b0e34db566acff91df4d94fedcd01789575ccb8555cc8fb9",
+      "status": "changed"
+    },
+    {
+      "path": "scripts/game-runtime.mjs",
+      "sha256": "11df18fcfeb4d0153261be381141a9114c98ae1123de2143948823c6039eb253",
+      "beforeSha256": "25689e5ddc3eb4786ae9a3e391e0d134332bc7f3b0e1b4fbde9912521d4ac7ba",
+      "status": "changed"
+    },
+    {
+      "path": "public/game/runtime.js",
+      "sha256": "83dd9e6c01adcd862714e6589d03062e55c06227d87c9a340c177b0c1d19faa9",
+      "beforeSha256": "8b5d275bfba4eb37dbaa516b90b823d6a017730d5501e1f75261d1b9181c128b",
+      "status": "changed"
+    },
+    {
+      "path": "public/game/index.html",
+      "sha256": "2ce705655fff57c1dcfccd7051d56e5cefe18778e177dd6c303e4bb0049abc1c",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/game/style.css",
+      "sha256": "81576d56414adbb48604e882e57e705d29a7ebd7c02d1118a974fe9ac83cfd2a",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "tests/arcade.test.mjs",
+      "sha256": "4772eb04eaae079bdb5b1697b116eec49bc50aaa05369d929458369d40752b42",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "tests/fixtures/arcade.mjs",
+      "sha256": "20177440593e82a9845505822283b994ba2515393b98ec4f5ad27d762f1858c6",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "scripts/arcade-browser-check.mjs",
+      "sha256": "0f814570d6c901c7d0f4b717437a176f4814fc67c4ef8199fc32fa2505dbac30",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": ".env.example",
+      "sha256": "93bbc44f796e639d1a4571b4c8302efd1b41124b6dc2eae5d7ebab9daf0dd61b",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": ".vercelignore",
+      "sha256": "e9497a79c2552ece1a90f8316d62d5087e84b17d40a5c6cef41404076312cc23",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "README.md",
+      "sha256": "89fbe4f72027dc54ecfed327601c51ec6a9421f1ea517b6a81f3e9cb7f4a2666",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/index.html",
+      "sha256": "d3b80e0eadeab4427b52442e8915873554d4d3e24141c399721e5aefd803f76d",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/style.css",
+      "sha256": "1037e5dd887925a7dccc029a945ffd4614ba1ed65142d3fdf44c084bf3b9fc20",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/identity.js",
+      "sha256": "b28cfb130440d11421bd09576cd01f3b834f752fd8a3bb5492055ee4837f0a58",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/app.js",
+      "sha256": "81f3cebd2e78c7246194dbb15e095602df1a656af068b020219240f16d019f0c",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/code-station.webp",
+      "sha256": "027d8f437aec9120e8915dc9dc4189454197ce70b51801ff77926e96622739fd",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/cyber-funk.webp",
+      "sha256": "29cf666d29a4c2511938d20fcfd22509b5555511f6a29d1f0b450d3e50303c49",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/city.webp",
+      "sha256": "76a8724db1261c5dd16c8018be696d3a7fb14b373d1c58efb87b31d3b32c54df",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/03.webp",
+      "sha256": "c5c2567abc869cccd007ec53303db33271716431b9ba0cb982176c94e22e45c5",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/15.webp",
+      "sha256": "c6b0eba083326676e0486317bf30e23f20f6414820834808f5c81cbe378ec084",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/14.webp",
+      "sha256": "db96bd6a3c73b7ef07b804e3416e163c6a579c8742f63ef86438fb31c85327b8",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/02.webp",
+      "sha256": "d96de1a8cd45aa357ecc3243a50238ba511ada2c43b799a8705a4faf0ae0fb1e",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/09.webp",
+      "sha256": "ca4d2a81f9e5033bf5792d4376c3fa414b0836bb03354b817253d76f599095c8",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/05.webp",
+      "sha256": "9729dd24dba3c5b7b3fc09d282e4fb66c95ecbc0c87161c7e2c4686de9b409c1",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/13.webp",
+      "sha256": "2b9d765150faaaa393783ad9cb5da22e144770d5a7c94d53abcfe0d952fa2ca7",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/12.webp",
+      "sha256": "3c90ff3df38d14769ba42cde4415787a038e3a3a80dee36c29ae50bf88924cef",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/04.webp",
+      "sha256": "a808051a1753c09c183cc711b1a69b49ac437e2397e83fa47cac6496a85fd9c6",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/08.webp",
+      "sha256": "f3845bff195445b44b6a79c0780b0712a80994ba80e22cefd39bfc7bc61f438c",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/11.webp",
+      "sha256": "5f74d066e75a37bcf39819389f32c72442224c0af865a0b04017fd6bc6a4f407",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/07.webp",
+      "sha256": "2d35987496b9f5c562d2cb96f3a9378f59efe5fd173335c59e77bd2ac4142a71",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/06.webp",
+      "sha256": "d06c0af4665b15e6b2782309aeb5a064a0a2dae7a1fe1be373a6033f99a437ab",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/10.webp",
+      "sha256": "b14fc00ec9ad6b0f592d1d115d365ed6d080bbea7b4c2eb0fdaf5c8af8c05cd9",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    },
+    {
+      "path": "public/world-arcade/assets/avatars/01.webp",
+      "sha256": "6921a35312555f438b7b065863460d85593fbdd7b35a91cceffbba475bc40e59",
+      "beforeSha256": null,
+      "status": "added_or_updated_no_git_baseline"
+    }
+  ],
+  "unchangedVerifiedByHash": [
+    "public/style.css",
+    "public/lesson.css",
+    "public/lesson-renderer.js",
+    "package.json",
+    "package-lock.json",
+    "database/schema.sql"
+  ],
+  "noDatabaseMigration": true,
+  "realDatabaseAccessed": false,
+  "productionDeployed": false
+}

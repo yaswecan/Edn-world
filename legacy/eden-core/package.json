@@ -1,0 +1,28 @@
+{
+  "name": "eden-hub-vercel-neon",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Hub élève EDEN + simulateur PC. Site statique, API Vercel Node et persistance Neon PostgreSQL.",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local scripts/dev.mjs",
+    "start": "node --env-file-if-exists=.env.local scripts/dev.mjs",
+    "start:static": "node scripts/serve.mjs",
+    "check": "node scripts/check.mjs && node scripts/check-vercel.mjs",
+    "build": "npm run check",
+    "test": "node --test tests/*.test.mjs",
+    "test:neon": "node --env-file-if-exists=.env.local --test tests/neon.integration.mjs",
+    "test:e2e": "python tests/e2e.py",
+    "test:e2e:sim": "python tests/simulator_e2e.py",
+    "test:e2e:api": "python tests/vercel_ui.py",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.mjs",
+    "secrets": "node scripts/generate-secrets.mjs",
+    "smoke": "node scripts/smoke.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "1.1.0"
+  }
+}

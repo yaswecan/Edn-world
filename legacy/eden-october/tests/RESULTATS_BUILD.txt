@@ -1,0 +1,21 @@
+
+> eden-hub-logique-01-octobre@6.0.0 prebuild
+> node scripts/vendor.mjs && node scripts/export-content.mjs
+
+Analyseur embarqué vérifié (mode local hors ligne). npm ci reste requis sur Vercel pour Neon.
+lesson.json actualisé depuis content.js.
+
+> eden-hub-logique-01-octobre@6.0.0 build
+> npm run check
+
+
+> eden-hub-logique-01-octobre@6.0.0 check
+> node scripts/check.mjs && node scripts/check-vercel.mjs
+
+OK : 52 fichiers publics, 31 écrans, 26 diapositives, planning proposé 175 min, liens et syntaxe vérifiés.
+OK Vercel : 12 handlers, docs/ présent, Node 22, migration SQL et lockfile cohérents. Aucun secret lu au build.
+
+> eden-hub-logique-01-octobre@6.0.0 check:deployment
+> node scripts/check-vercel.mjs --strict-config
+
+OK Vercel : 12 handlers, docs/ présent, Node 22, migration SQL et lockfile cohérents. Aucun secret lu au build.

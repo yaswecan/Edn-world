@@ -1,0 +1,567 @@
+{
+  "scope": "integration_hote_locale_sqlite_memoire",
+  "status": "completed_with_dependencies",
+  "cases": [
+    {
+      "id": "UI-01",
+      "severity": "P1",
+      "area": "Entrée / clavier",
+      "scenario": "Visiteur et élève connecté",
+      "expected": "Commencer et Entrée ouvrent les deux bornes ; un champ ou dialogue actif ne déclenche pas la salle.",
+      "status": "passed",
+      "evidence": [
+        "navigateur.log",
+        "navigateur.json"
+      ],
+      "notes": "Recette réelle avec Chrome et serveur hôte, données synthétiques en mémoire."
+    },
+    {
+      "id": "UI-02",
+      "severity": "P1",
+      "area": "Lien profond / retour",
+      "scenario": "Session autorisée",
+      "expected": "Retour depuis le jeu vers la salle, refresh et retour navigateur sans réinitialisation ni passage forcé au splash.",
+      "status": "passed",
+      "evidence": [
+        "navigateur.log",
+        "navigateur.json"
+      ],
+      "notes": "Recette réelle avec Chrome et serveur hôte, données synthétiques en mémoire."
+    },
+    {
+      "id": "UI-03",
+      "severity": "P1",
+      "area": "Rendu bureau",
+      "scenario": "1440×1050 et 1280×720",
+      "expected": "Deux silhouettes de bornes, ville, cyan/rose et panneaux comparables aux captures ; pas de cartes génériques.",
+      "status": "passed",
+      "evidence": [
+        "navigateur.log",
+        "navigateur.json"
+      ],
+      "notes": "Recette réelle avec Chrome et serveur hôte, données synthétiques en mémoire."
+    },
+    {
+      "id": "UI-04",
+      "severity": "P1",
+      "area": "Mobile / tablette",
+      "scenario": "768×1024, 390×844, 360×800",
+      "expected": "Pas de débordement horizontal ; bornes empilées et contrôle tactile lisible.",
+      "status": "passed",
+      "evidence": [
+        "navigateur.log",
+        "navigateur.json"
+      ],
+      "notes": "Recette réelle avec Chrome et serveur hôte, données synthétiques en mémoire."
+    },
+    {
+      "id": "UI-05",
+      "severity": "P1",
+      "area": "Focus / zoom",
+      "scenario": "Clavier et zoom 200 %",
+      "expected": "Focus visible, dialogues fermables, retour du focus et champs utilisables.",
+      "status": "not_run",
+      "evidence": [
+        "navigateur.json",
+        "captures/12-profil-zoom-200.png"
+      ],
+      "notes": "Focus, Échap, restauration du focus et viewport équivalent 200 % testés. Zoom natif du navigateur non exécuté."
+    },
+    {
+      "id": "UI-06",
+      "severity": "P2",
+      "area": "Son / mouvements",
+      "scenario": "Préférence système réduite",
+      "expected": "Aucun son automatique ; réduction des mouvements respectée ; CRT désactivable.",
+      "status": "passed",
+      "evidence": [
+        "navigateur.log",
+        "navigateur.json"
+      ],
+      "notes": "Recette réelle avec Chrome et serveur hôte, données synthétiques en mémoire."
+    },
+    {
+      "id": "UI-07",
+      "severity": "P1",
+      "area": "Démontage du module",
+      "scenario": "Dix navigations aller-retour",
+      "expected": "Aucun listener, canvas ou son résiduel ; cours et espace professeur inchangés.",
+      "status": "passed",
+      "evidence": [
+        "navigateur.log",
+        "navigateur.json"
+      ],
+      "notes": "Dix allers-retours par navigation de document ; iframe/MessagePort détruits à la fermeture, pas de stylesheet arcade sur les cours. Aucun audit mémoire par profilage."
+    },
+    {
+      "id": "UI-08",
+      "severity": "P1",
+      "area": "Chargement / absence / panne",
+      "scenario": "Réponses 200 vide, 403, 500, hors réseau",
+      "expected": "États distincts sans fixtures de secours, traces techniques ni fausse confirmation.",
+      "status": "passed",
+      "evidence": [
+        "navigateur.log",
+        "navigateur.json"
+      ],
+      "notes": "Recette réelle avec Chrome et serveur hôte, données synthétiques en mémoire."
+    },
+    {
+      "id": "AUTH-01",
+      "severity": "P0",
+      "area": "Session élève",
+      "scenario": "Élève connecté",
+      "expected": "Même identité et session ; aucune seconde création de compte ; sauvegarde retrouvée.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log",
+        "navigateur.json"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "AUTH-02",
+      "severity": "P0",
+      "area": "Inscription externe",
+      "scenario": "Fournisseur de test configuré",
+      "expected": "Compte réel de test créé via service hôte ; rôle externe fixé côté serveur et vérification e-mail appliquée.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Aucun fournisseur hôte d’inscription externe/e-mail ; création réelle et rôle externe non implémentés. Formulaire fermé et refus serveur testés."
+    },
+    {
+      "id": "AUTH-03",
+      "severity": "P0",
+      "area": "Élévation de rôle",
+      "scenario": "Payload/query/storage role=teacher ou student",
+      "expected": "Aucun privilège scolaire accordé ; champs non autorisés refusés/ignorés côté serveur.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "AUTH-04",
+      "severity": "P0",
+      "area": "Handlers simulés",
+      "scenario": "Bundle de production et interception réseau",
+      "expected": "Aucun handler créant une fausse session locale ; aucune connexion réussie sur simple validation HTML.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log",
+        "navigateur.json"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "AUTH-05",
+      "severity": "P0",
+      "area": "Secrets",
+      "scenario": "Connexion, inscription, logs et stockage de test",
+      "expected": "Ni mot de passe ni jeton sensible en localStorage, URL, rapport ou log ; captures masquées.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log",
+        "navigateur.json"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "AUTH-06",
+      "severity": "P1",
+      "area": "Vérification / récupération",
+      "scenario": "Jeton expiré, réutilisé et renvoi",
+      "expected": "Récupération via fournisseur hôte ; messages utiles et aucune fausse promesse d’envoi.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Aucun fournisseur de vérification/récupération e-mail ; endpoints fermés sans promesse d’envoi. Jetons réels non vérifiés."
+    },
+    {
+      "id": "AUTH-07",
+      "severity": "P0",
+      "area": "Drapeau public fermé",
+      "scenario": "E-mail non prêt ou politique non validée",
+      "expected": "Inscription nouvelle fermée en production sans bloquer la connexion scolaire existante.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "AUTH-08",
+      "severity": "P1",
+      "area": "Déconnexion / changement de compte",
+      "scenario": "Compte A puis compte B",
+      "expected": "Session invalidée selon le fournisseur ; aucune fiche privée de A servie à B par le cache.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log",
+        "navigateur.json"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "ACL-01",
+      "severity": "P0",
+      "area": "Annuaire scolaire public",
+      "scenario": "Visiteur et externe",
+      "expected": "Refus via UI, requête directe, recherche, compteur, pagination, fiche et export.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "ACL-02",
+      "severity": "P0",
+      "area": "Isolation entre classes/écoles",
+      "scenario": "Compte autorisé à classe A seulement",
+      "expected": "Classe B inaccessible même avec identifiant deviné ; isolation des caches et des totaux.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "ACL-03",
+      "severity": "P0",
+      "area": "Professeur",
+      "scenario": "Professeur classe A",
+      "expected": "Galerie complète de ses périmètres autorisés, pas de lecture automatique de toutes les écoles.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "ACL-04",
+      "severity": "P0",
+      "area": "Profil privé",
+      "scenario": "Profil non public",
+      "expected": "Ni profil ni grade ni affiliation révélés à un contexte non autorisé ; DTO public minimal.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "ACL-05",
+      "severity": "P0",
+      "area": "Retrait visibilité",
+      "scenario": "Profil précédemment visible",
+      "expected": "Retrait effectif des listes/Top 5/caches publics sans suppression non autorisée des archives scolaires.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Communauté non ouverte : retrait public non testable. Retrait de visibilité de classe testé côté serveur, données conservées et no-store."
+    },
+    {
+      "id": "GAME-01",
+      "severity": "P1",
+      "area": "Code Station réel",
+      "scenario": "Moteur hôte présent",
+      "expected": "Le vrai moteur et sa sauvegarde sont lancés, pas la mini-démo Canvas du pack.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log",
+        "navigateur.json"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "GAME-02",
+      "severity": "P1",
+      "area": "Cyber Funk réel ou absent",
+      "scenario": "Moteur hôte inspecté",
+      "expected": "Vrai moteur lancé ou état indisponible honnête ; aucun remplacement silencieux par la démo.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Moteur Cyber Funk recherché et absent. Borne désactivée et endpoint 503 testés, aucun jeu substitué."
+    },
+    {
+      "id": "GAME-03",
+      "severity": "P0",
+      "area": "Déblocage / accès direct",
+      "scenario": "Niveau verrouillé",
+      "expected": "Refus côté serveur même par URL directe ; condition professeur conservée.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "GAME-04",
+      "severity": "P1",
+      "area": "Annulation asynchrone",
+      "scenario": "Réponse lanceur retardée",
+      "expected": "Événement annulé avant await ; aucune démo ouverte pendant l’autorisation.",
+      "status": "not_applicable",
+      "evidence": [
+        "navigateur.log",
+        "pont-reference.log"
+      ],
+      "notes": "Aucun événement worldarcade:launch ni fallback Canvas utilisé. Appel direct API ; réponse tardive ignorée testée. Pont de référence testé séparément."
+    },
+    {
+      "id": "GAME-05",
+      "severity": "P0",
+      "area": "Route / cible falsifiée",
+      "scenario": "Jeu inconnu, URL externe, retour malveillant",
+      "expected": "Destination refusée ; pas de redirection arbitraire ni de hausse de droits.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "GAME-06",
+      "severity": "P1",
+      "area": "Concurrence / démontage",
+      "scenario": "Double clic puis sortie du module",
+      "expected": "Une ouverture à la fois ; réponse tardive ignorée après démontage.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log",
+        "navigateur.json"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "GAME-07",
+      "severity": "P0",
+      "area": "Sauvegarde d’un autre",
+      "scenario": "Compte A demande sauvegarde B",
+      "expected": "Refus serveur ; progression A préservée et aucune donnée B révélée.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "SCORE-01",
+      "severity": "P0",
+      "area": "Fausse réussite",
+      "scenario": "Console/storage/événement terminé=true",
+      "expected": "Aucun point ni grade attribué par le simple signal client.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Scénario couvert par les tests locaux ; voir le rapport pour les limites de périmètre."
+    },
+    {
+      "id": "SCORE-02",
+      "severity": "P0",
+      "area": "Double crédit",
+      "scenario": "Réussite simultanée via deux onglets",
+      "expected": "Une attribution selon clé métier stable, y compris si la clé client change.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Aucun barème ni service d’attribution serveur. Pas de crédit arcade. Déduplication des runs concurrents et preuves déclaratives testée, pas une comptabilité de récompenses."
+    },
+    {
+      "id": "SCORE-03",
+      "severity": "P1",
+      "area": "Reprise réseau",
+      "scenario": "Même réussite renvoyée après interruption",
+      "expected": "Pas de double crédit ; état confirmé uniquement après réponse persistée.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Pas d’attribution de score à rejouer. Sauvegarde interrompue/retry testés au navigateur, sans double récompense revendiquée."
+    },
+    {
+      "id": "TOP-01",
+      "severity": "P1",
+      "area": "Limite de cinq",
+      "scenario": "0, 3, 5 et 8 joueurs éligibles",
+      "expected": "0 à 5 lignes maximum ; aucun remplissage fictif ni curseur vers des lignes suivantes.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Aucune métrique approuvée : réponse indisponible à zéro entrée et borne client cinq. Cas 3/5/8 joueurs avec scores non exécutés."
+    },
+    {
+      "id": "TOP-02",
+      "severity": "P1",
+      "area": "Ex æquo",
+      "scenario": "Égalité à la cinquième ligne",
+      "expected": "Départage stable/documenté ; cinq personnes maximum, pas de sixième ligne.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Pas de classement calculé, donc aucun départage ex æquo à valider."
+    },
+    {
+      "id": "TOP-03",
+      "severity": "P0",
+      "area": "Périmètre et place privée",
+      "scenario": "Externe et élève hors Top 5",
+      "expected": "Données du bon scope ; propre position seulement en encart privé, aucun voisin supplémentaire.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Permissions du point d’accès testées ; place personnelle absente faute de classement."
+    },
+    {
+      "id": "TOP-04",
+      "severity": "P1",
+      "area": "Périodes / jeux",
+      "scenario": "Bornes temporelles et métriques différentes",
+      "expected": "Filtres calculés serveur ; pas d’addition inter-jeux non comparable ni remise à zéro des XP cumulés.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Pas de métrique/périodes validées. Paramètres non supportés refusés, aucun filtre simulé."
+    },
+    {
+      "id": "RANK-01",
+      "severity": "P1",
+      "area": "Grades réels",
+      "scenario": "Catalogue métier présent",
+      "expected": "Mêmes IDs et règles, grade réel affiché ; aucun seuil importé de la proposition.",
+      "status": "blocked",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Catalogue métier absent. Aucun grade personnel ou seuil proposé importé."
+    },
+    {
+      "id": "RANK-02",
+      "severity": "P1",
+      "area": "Catalogue absent",
+      "scenario": "Aucune configuration métier",
+      "expected": "Pas de promotion automatique ni grade personnel de secours ; proposition réservée à la validation privée.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Grades indisponibles et grade personnel null. Aucun défaut Rookie, ni import du catalogue proposé."
+    },
+    {
+      "id": "RANK-03",
+      "severity": "P0",
+      "area": "Indépendance pédagogique",
+      "scenario": "Note modifiée ou absence d’évaluation",
+      "expected": "Aucun changement de grade ou score arcade déduit d’une note ou d’une absence.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Aucun calcul de grade ou score depuis les notes. Réussites déclaratives restent non approuvées ; notes/corrections conservées par snapshot."
+    },
+    {
+      "id": "REG-01",
+      "severity": "P0",
+      "area": "Non-régression données",
+      "scenario": "Snapshot base de test avant/après",
+      "expected": "Comptes, notes, missions, conditions de déblocage et sauvegardes existants conservés.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Snapshot avant/après sur SQLite mémoire : identités hors champ arcadeProfile, versions, missions, mondes, déblocages et données scolaires conservés. Sauvegarde ancienne lue à l’identique avant modification volontaire de test."
+    },
+    {
+      "id": "REG-02",
+      "severity": "P1",
+      "area": "Non-régression visuelle",
+      "scenario": "Cours élève et page professeur",
+      "expected": "Aucun style global ou raccourci arcade n’affecte les pages non arcade.",
+      "status": "passed",
+      "evidence": [
+        "tests-visuels.log",
+        "parcours-hote.log",
+        "captures/14-cours-eleve.png",
+        "captures/15-professeur.png"
+      ],
+      "notes": "28 cas visuels existants passent sans changer leurs baselines. Captures hôtes avec drapeau actif également contrôlées, bureau/mobile."
+    },
+    {
+      "id": "OPS-01",
+      "severity": "P1",
+      "area": "Build / dépendances",
+      "scenario": "Commandes du dépôt",
+      "expected": "Lint/typecheck/tests/build pertinents exécutés ; lockfile respecté ; aucune dépendance lourde sans besoin.",
+      "status": "passed",
+      "evidence": [
+        "build.log",
+        "tests-unitaires.log",
+        "tests-arcade.log",
+        "tests-historiques.log",
+        "tests-visuels.log",
+        "parcours-hote.log"
+      ],
+      "notes": "Build/check, 100 cas à la passe complète, 15 arcade au retest final, 128 historiques, 28 visuels et parcours hôte réussis. Aucune dépendance/lockfile changé."
+    },
+    {
+      "id": "OPS-02",
+      "severity": "P0",
+      "area": "Activation / rollback",
+      "scenario": "Environnement local ou preview autorisé",
+      "expected": "Drapeaux documentés, retour vers ancienne entrée possible, aucune activation publique ou migration réelle implicite.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Drapeau 0/1 testé en mémoire, y compris URL encodée. Aucun changement de schéma. Rollback documenté ; aucune instance réelle activée."
+    },
+    {
+      "id": "OPS-03",
+      "severity": "P1",
+      "area": "Distribution du pack",
+      "scenario": "Bundle et répertoire public",
+      "expected": "Pas de docs internes, corpus complet, référence HTML ou fixtures servis dans les routes de production.",
+      "status": "passed",
+      "evidence": [
+        "tests-arcade.log"
+      ],
+      "notes": "Pack, docs et fixtures non servis. .vercelignore exclut le pack. Pas de bundle distant ou déploiement exécuté."
+    },
+    {
+      "id": "OPS-04",
+      "severity": "P1",
+      "area": "Rapport honnête",
+      "scenario": "Rapport de livraison de Codex",
+      "expected": "Commandes/captures réellement obtenues ; statuts non exécutés explicites et aucun verdict inventé.",
+      "status": "passed",
+      "evidence": [
+        "RAPPORT_INTEGRATION.md",
+        "REVIEW.md",
+        "navigateur.json",
+        "CHANGEMENTS.json"
+      ],
+      "notes": "Résultats locaux, dépendances bloquées et contrôles non exécutés distingués ; aucune affirmation de production."
+    }
+  ],
+  "date": "2026-10-05",
+  "summary": {
+    "passed": 32,
+    "not_run": 1,
+    "blocked": 10,
+    "not_applicable": 1
+  }
+}

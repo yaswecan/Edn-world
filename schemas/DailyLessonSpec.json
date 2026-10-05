@@ -1,0 +1,781 @@
+{
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "lessonId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[A-Za-z0-9_.:-]+$"
+    },
+    "lessonVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "classId": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "planEntryId": {
+      "type": "string"
+    },
+    "planVersion": {
+      "type": "integer"
+    },
+    "sequence": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reactivation": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "diagnostic": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "baseline",
+            "previous_lesson"
+          ]
+        },
+        "sourceLessonRunId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sourceLessonVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "duration": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 20
+        },
+        "criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "^[A-Za-z0-9_.:-]+$"
+              },
+              "type": {
+                "enum": [
+                  "WriteResponse",
+                  "CodeEditor",
+                  "Quiz",
+                  "Matching",
+                  "FillBlank",
+                  "Terminal",
+                  "Preview",
+                  "Reflection",
+                  "Submission",
+                  "CodeStationLauncher",
+                  "TruthTable",
+                  "CircuitExercise",
+                  "DragDrop",
+                  "Console",
+                  "TestRunner",
+                  "FileExplorer",
+                  "MasteryCheck",
+                  "Simulator",
+                  "Blackboard"
+                ]
+              },
+              "title": {
+                "type": "string"
+              },
+              "instruction": {
+                "type": "string"
+              },
+              "objective": {
+                "type": "string"
+              },
+              "skills": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "expectedEvidence": {
+                "type": "string"
+              },
+              "duration": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "correctionMode": {
+                "enum": [
+                  "manual",
+                  "exact",
+                  "javascript",
+                  "structured",
+                  "html",
+                  "css",
+                  "sql",
+                  "rubric",
+                  "none"
+                ]
+              },
+              "expectedAnswer": {
+                "type": "string"
+              },
+              "reference": {
+                "type": "string"
+              },
+              "starter": {
+                "type": "string"
+              },
+              "options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "tests": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "invoke": {
+                      "type": "string"
+                    },
+                    "argsJSON": {
+                      "type": "string"
+                    },
+                    "expectedJSON": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "invoke",
+                    "argsJSON",
+                    "expectedJSON"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "workshop": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "language": {
+                    "enum": [
+                      "javascript",
+                      "html",
+                      "css",
+                      "sql",
+                      "text"
+                    ]
+                  },
+                  "document": {
+                    "type": "string"
+                  },
+                  "style": {
+                    "type": "string"
+                  },
+                  "hints": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "checks": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "prediction": {
+                    "type": "string"
+                  },
+                  "board": {
+                    "enum": [
+                      "01-parent",
+                      "02-axes",
+                      "03-espace-libre",
+                      "04-aligner",
+                      "05-espaces",
+                      "06-une-regle",
+                      "07-deboguer",
+                      "08-refaire"
+                    ]
+                  }
+                }
+              }
+            },
+            "required": [
+              "id",
+              "type",
+              "title",
+              "instruction",
+              "objective",
+              "skills",
+              "expectedEvidence",
+              "duration",
+              "required",
+              "correctionMode",
+              "expectedAnswer",
+              "reference",
+              "starter",
+              "options",
+              "tests"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 2,
+          "maxItems": 4
+        },
+        "rubric": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "criterion": {
+                "type": "string"
+              },
+              "taskId": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "max": {
+                "type": "number",
+                "minimum": 0
+              },
+              "a1": {
+                "type": "number"
+              },
+              "a2": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "id",
+              "criterion",
+              "taskId",
+              "label",
+              "max",
+              "a1",
+              "a2"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "sourceLessonRunId",
+        "sourceLessonVersion",
+        "duration",
+        "criteria",
+        "tasks",
+        "rubric"
+      ],
+      "additionalProperties": false
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "blockId": {
+            "type": "string"
+          },
+          "minutes": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "blockId",
+          "minutes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9_.:-]+$"
+          },
+          "type": {
+            "enum": [
+              "LessonHero",
+              "ConceptCard",
+              "LiveCode",
+              "Activity",
+              "Pause",
+              "Diagnostic",
+              "Reflection",
+              "CodeStationLauncher",
+              "Timeline",
+              "ObjectiveCard",
+              "Diagram",
+              "BlackboardDiagram"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "minutes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "activityIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "boards": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "01-parent",
+                "02-axes",
+                "03-espace-libre",
+                "04-aligner",
+                "05-espaces",
+                "06-une-regle",
+                "07-deboguer",
+                "08-refaire"
+              ]
+            }
+          },
+          "phase": {
+            "enum": [
+              "opening",
+              "diagnostic",
+              "understand",
+              "observe",
+              "guided",
+              "pause",
+              "autonomy",
+              "extend",
+              "summary"
+            ]
+          },
+          "teaching": {
+            "type": "object",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "hint": {
+                "type": "string"
+              },
+              "check": {
+                "type": "string"
+              },
+              "takeaways": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "diagram": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "steps",
+              "hint",
+              "check",
+              "takeaways",
+              "diagram"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "content",
+          "minutes",
+          "activityIds",
+          "skills"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9_.:-]+$"
+          },
+          "type": {
+            "enum": [
+              "WriteResponse",
+              "CodeEditor",
+              "Quiz",
+              "Matching",
+              "FillBlank",
+              "Terminal",
+              "Preview",
+              "Reflection",
+              "Submission",
+              "CodeStationLauncher",
+              "TruthTable",
+              "CircuitExercise",
+              "DragDrop",
+              "Console",
+              "TestRunner",
+              "FileExplorer",
+              "MasteryCheck",
+              "Simulator",
+              "Blackboard"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "instruction": {
+            "type": "string"
+          },
+          "objective": {
+            "type": "string"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expectedEvidence": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "correctionMode": {
+            "enum": [
+              "manual",
+              "exact",
+              "javascript",
+              "structured",
+              "html",
+              "css",
+              "sql",
+              "rubric",
+              "none"
+            ]
+          },
+          "expectedAnswer": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "starter": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoke": {
+                  "type": "string"
+                },
+                "argsJSON": {
+                  "type": "string"
+                },
+                "expectedJSON": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "invoke",
+                "argsJSON",
+                "expectedJSON"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "workshop": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "language": {
+                "enum": [
+                  "javascript",
+                  "html",
+                  "css",
+                  "sql",
+                  "text"
+                ]
+              },
+              "document": {
+                "type": "string"
+              },
+              "style": {
+                "type": "string"
+              },
+              "hints": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "prediction": {
+                "type": "string"
+              },
+              "board": {
+                "enum": [
+                  "01-parent",
+                  "02-axes",
+                  "03-espace-libre",
+                  "04-aligner",
+                  "05-espaces",
+                  "06-une-regle",
+                  "07-deboguer",
+                  "08-refaire"
+                ]
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "instruction",
+          "objective",
+          "skills",
+          "expectedEvidence",
+          "duration",
+          "required",
+          "correctionMode",
+          "expectedAnswer",
+          "reference",
+          "starter",
+          "options",
+          "tests"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "slides": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "body"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "codeStation": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "missionId": {
+              "type": "string"
+            },
+            "missionVersion": {
+              "type": "integer"
+            },
+            "worldId": {
+              "type": "string"
+            },
+            "duration": {
+              "type": "number"
+            },
+            "required": {
+              "type": "boolean"
+            },
+            "unlockAfter": {
+              "type": "string"
+            },
+            "completionRule": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "missionId",
+            "missionVersion",
+            "worldId",
+            "duration",
+            "required",
+            "unlockAfter",
+            "completionRule"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "teacherGuide": {
+      "type": "string"
+    },
+    "studentFlow": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sourceVersions": {
+      "type": "object",
+      "properties": {
+        "curriculumVersion": {
+          "type": "string"
+        },
+        "planVersion": {
+          "type": "integer"
+        },
+        "previousLessonRunId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "curriculumVersion",
+        "planVersion",
+        "previousLessonRunId"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "lessonId",
+    "lessonVersion",
+    "classId",
+    "date",
+    "planEntryId",
+    "planVersion",
+    "sequence",
+    "title",
+    "skills",
+    "objectives",
+    "prerequisites",
+    "reactivation",
+    "diagnostic",
+    "timeline",
+    "blocks",
+    "activities",
+    "slides",
+    "resources",
+    "codeStation",
+    "teacherGuide",
+    "studentFlow",
+    "sourceVersions"
+  ],
+  "additionalProperties": false
+}

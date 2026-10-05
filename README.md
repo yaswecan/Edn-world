@@ -1,0 +1,157 @@
+# EDEN Teacher Twin
+
+Application locale fonctionnelle construite à partir de la spécification v1.1, du classeur A1 et des quatre projets fournis. L’interface est en français. EDEN conserve le plan versionné, les séances, le cahier de texte, les copies et les preuves ; les corpus et Google Drive sont des exports.
+
+## World Arcade
+
+Le module intégré est disponible à `/arcade` sur une instance de recette autorisée avec `EDEN_WORLD_ARCADE=1` (désactivé par défaut). Il réutilise les comptes scolaires, les missions PédagoLab affectées, leurs verrous et leurs sauvegardes. Les profils arcade permettent de choisir un pseudo et un avatar ; la galerie respecte les permissions de classe et la visibilité choisie. Le thème reste limité à l’arcade.
+
+Cyber Funk reste indisponible faute de moteur hôte. Les points, le Top 5, les grades et l’inscription externe restent fermés en l’absence de règles métier ou de services validés. Aucun joueur fictif ni score de démonstration n’est importé. Le drapeau du module n’ouvre pas ces fonctions publiques.
+
+Recette isolée, sans charger `.env.local` et sans base réelle : `node --import tsx scripts/arcade-browser-check.mjs`. Ce script utilise Chrome/Chromium et une base en mémoire, puis ferme son serveur local. Tests API : `node --import tsx --test tests/arcade.test.mjs`. Voir le [rapport d’intégration](TWEEN_TEACH_WORLD_ARCADE/SUIVI/RAPPORT_INTEGRATION.md), la [matrice de recette](TWEEN_TEACH_WORLD_ARCADE/SUIVI/RECETTE.json) et la [revue](TWEEN_TEACH_WORLD_ARCADE/SUIVI/REVIEW.md) pour les preuves, les dépendances et le retour arrière. Aucun changement de schéma ni déploiement n’a été exécuté.
+
+Pour essayer soi-même en élève : `node --import tsx scripts/arcade-student-preview.mjs`, puis ouvrir `http://arcade.localhost:4179/arcade`. Utiliser le compte de test `student-a`, classe `A1`, avec le mot de passe de la fixture locale `synthetic-test-password`. La séance de test est accessible sur `/today`. L’instance utilise l’application réelle avec une base en mémoire, ne charge pas `.env.local` et reste ouverte jusqu’à Ctrl+C. Les modifications de test disparaissent à son arrêt. Le nom d’hôte dédié sépare ses cookies de ceux de l’application locale habituelle.
+
+### Compte joueur
+
+Mon espace rassemble la carte privée, les missions accessibles et les sauvegardes hôtes. Personnaliser permet de modifier l’AKA et l’avatar avec aperçu, annulation et confirmation serveur. Les AKA conservent le format existant (2–24 caractères) et sont uniques sans distinction de casse dans chaque classe, enseignants et élèves compris. Les anciens profils restent compatibles, sans migration ni renommage automatique.
+
+Mes badges présente « Premier signal », obtenu uniquement à partir d’une mission Code Station approuvée par le professeur. La mise en avant contrôle les badges réellement acquis, sans crédit de XP. Les deux autres badges proposés attendent leurs conditions métier. Mon compte permet de changer le mot de passe local (secret actuel + confirmation) et ferme réellement toutes les sessions ; l’assistance professeur existante applique aussi cette révocation. Aucun parcours e-mail ni compte externe n’est simulé.
+
+Recette dédiée : `node --import tsx --test tests/arcade-account.test.mjs`, puis `node --import tsx scripts/arcade-account-browser-check.mjs`. Pour conserver les anciens rapports de non-régression : `ARCADE_REPORT_DIRECTORY=TWEEN_TEACH_WORLD_ARCADE/SUIVI/COMPTE_JOUEUR_REGRESSION node --import tsx scripts/arcade-browser-check.mjs`. Ces commandes n’utilisent que des bases en mémoire et des comptes synthétiques.
+
+Voir les rapports [audit](TWEEN_TEACH_WORLD_ARCADE/SUIVI/COMPTE_JOUEUR_AUDIT.md), [recette des 40 scénarios](TWEEN_TEACH_WORLD_ARCADE/SUIVI/COMPTE_JOUEUR_RECETTE.md) et [livraison](TWEEN_TEACH_WORLD_ARCADE/SUIVI/COMPTE_JOUEUR_LIVRAISON.md). Les services publics, grades et Cyber Funk conservent leurs blocages. Le drapeau, les configurations locales et les bases réelles ne sont pas modifiés par ce lot.
+
+## Démarrer
+
+Node.js 22.14 ou supérieur.
+
+```sh
+npm install
+npm run dev
+```
+
+Ouvrir **http://127.0.0.1:3000**. À la première ouverture, créer le mot de passe professeur (12 caractères minimum). L’identifiant est `professeur`. Il n’existe aucun mot de passe prédéfini.
+
+### Renderer élève EDEN
+
+Le générateur compose des ateliers selon les compétences : éditeurs HTML/CSS avec aperçu à plusieurs largeurs, exercices JavaScript testés, manipulations, classements, tableaux à dessiner et productions autonomes. Le profil Flexbox propose un laboratoire « prévoir → modifier une propriété → observer », trois exercices progressifs, les schémas feutre de la référence du 5 octobre, une production de quatre cartes et une mission de débogage. Les dessins, légendes et essais du laboratoire sont sauvegardés comme les autres réponses.
+
+**Essayer la séquence issue du générateur** : [Flexbox](http://127.0.0.1:3000/lesson-demo.html?lesson=flexbox). `npm run demo:lesson` reconstruit les deux exemples ; `npm run demo:serve` les sert sur le port 4178. Les tests des exercices fonctionnent aussi en démonstration. La démonstration ne transmet aucune copie au professeur.
+
+Les contrôles de publication exigent au moins trois formes d’activité, une manipulation/reconstruction, un schéma lié aux notions et, pour les compétences de code couvertes, un éditeur en pratique guidée et en autonomie. Le modèle de prose ne peut modifier les fichiers de départ, tests, exemples de code ou ateliers structurés. Les corpus contiennent les fichiers HTML/CSS/JS de départ et les tableaux SVG, dont les versions à compléter. Voir [l’alignement avec la référence Flexbox](docs/workshops-reference.md).
+
+La page **Aujourd’hui** et l’aperçu professeur utilisent désormais `public/lesson-renderer.js` et les tokens de `public/lesson.css`. Le serveur impose les phases : départ/objectifs, diagnostic, comprendre, observer, pratique guidée, autonomie, prolongement et bilan. Une pause s’ajoute aux créneaux longs. Le modèle reçoit uniquement `LessonContentSpec` : il ne peut plus choisir les composants, leur ordre, les durées, les exercices à correction déterministe ou le diagnostic. Les contrôles pédagogiques bloquent la publication d’une séance incomplète.
+
+Voir la séance exemple **Deux règles. Une décision.** sur **http://127.0.0.1:3000/lesson-demo.html**, sans connexion. Elle utilise le même renderer et des données fictives. Ses réponses restent dans l’onglet ; les remises réelles se font dans la séance publiée. Pour servir uniquement la démonstration : `npm run demo:serve`, puis **http://127.0.0.1:4178/lesson-demo.html**. `npm run demo:lesson` reconstruit son JSON public, sans corrigés.
+
+L’[audit](docs/lesson-audit.md), le [design system](docs/lesson-design-system.md), la [revue visuelle](docs/lesson-visual-review.md) et [PROGRESS.md](PROGRESS.md) détaillent les sources et limites. Les hubs Logique & JavaScript et Flexbox fournis le 5 octobre définissent désormais la cible graphique : logo EDEN School original, encre et turquoise. La palette commune est dans `public/brand.css` ; elle couvre toutes les séances, leurs aperçus et les outils professeur.
+
+Les versions de séances déjà enregistrées restent lisibles. Pour bénéficier de la nouvelle structure et des contenus guidés, régénérer un **brouillon** depuis la planification. Les copies et versions publiées ne sont pas réécrites automatiquement.
+
+Le classeur fourni a été importé dans la base locale de ce workspace : **28 feuilles, 142 entrées de planning (dont 125 avec compétences), 105 critères, 14 séquences et 18 identifiants élèves**. Sur une installation neuve, utiliser **Ma classe & réglages → Importer le classeur → Analyser le classeur fourni → Valider cet import**.
+
+Parcourir **Planification → Préparer**. Le professeur confirme la durée du créneau, que le classeur ne précise pas. Le Twin compose un brouillon, son diagnostic et son corpus. Relire dans **Aperçu élève**, puis publier. Créer les codes élèves dans **Ma classe & réglages** ; ils se connectent à **/today**. Clôturer la séance dans **Cahier de texte** pour alimenter le diagnostic suivant.
+
+Import en ligne de commande, avec prévisualisation par défaut :
+
+```sh
+npm run import
+npm run import -- --apply
+npm run import -- "/chemin/planification.xlsx" --apply
+```
+
+## Ce qui fonctionne
+
+- Réconciliation explicite des évaluations et du cahier de texte Excel, ligne par ligne. Le professeur confirme identité, niveaux, autonomie/transfert et contenu réellement réalisé ; chaque décision est auditée et idempotente.
+- Import des 28 feuilles, conservation des textes et des cellules/formules source, SHA-256, diff, avertissements, conflits et versions. Réimport identique idempotent. Le contenu prévu du cahier de texte n’est jamais interprété comme une séance réalisée.
+- Dashboard, recherche et glisser-déposer du plan, propositions atomiques de déplacement, insertion, scission, fusion, permutation et report. Diff et impacts sur prérequis/évaluations, approbation et rejet des versions périmées. Une intention sans créneau ouvre un brouillon d’insertion à compléter, sans changer le plan avant validation.
+- `DailyLessonSpec` et `DailyBundle` ; renderer à composants stables ; index documentaire versionné et recherche pondérée sur les 140 unités NEXUS, avec sources enregistrées dans les runs. Génération locale utilisable sans compte externe. Intégration optionnelle OpenAI pour enrichir les contenus par sortie structurée.
+- Adaptations pratiques/différenciées relues avant application. Une adaptation en cours de séance remplace uniquement les ateliers non commencés ; elle conserve le diagnostic initial, les tentatives et les copies, compile le corpus candidat puis bascule atomiquement la version publiée. Si un élève commence un atelier pendant l’aperçu, l’approbation est refusée. Les élèves utilisent **Actualiser** pour recevoir la nouvelle version.
+- Séance dense du 1er octobre migrée dans les composants communs : questions, circuits/tables de vérité, fonctions, défis facultatifs et diapositives. Les diagnostics historiques ne sont pas présumés réalisés.
+- Évaluation diagnostique obligatoire dans chaque séance : 2 à 4 exercices, 10 à 20 minutes et barème /20 couvrant chaque tâche et critère. Elle reprend la dernière séance réellement clôturée, y compris une réalisation partielle ; séances annulées, reportées, remplacées et événements non évaluables exclus. Sans historique réel, un diagnostic initial propose des exercices sur les prérequis déclarés, des repères HTML/CSS ou de programmation selon la séance, ou des situations de procédure et de vérification. Ce point de départ ne crée aucune preuve d’une séance passée. Les tests HTML/CSS du diagnostic sont exécutables et conservés dans l’historique. Une tentative rouverte ramène l’élève au diagnostic même après restauration de sa progression locale.
+- Sessions serveur opaques, cookies HttpOnly/SameSite, accès professeur/élève distincts, périmètre par classe, contrôle d’origine et limitation des connexions. Aucun secret inclus dans le frontend.
+- Réponses sauvegardées localement et au serveur avec reçu ; copie remise immuable et empreinte ; réouverture dans une nouvelle tentative ; premiers/derniers essais et historique. Références de diagnostic masquées avant la remise.
+- Correction déterministe des réponses fermées/structurées, du JavaScript couvert par l’interpréteur EDEN, de la structure HTML et des déclarations CSS. SQL exécuté dans un processus SQLite éphémère, limité à 1,5 seconde et 64 Mio. Pré-correction des réponses ouvertes par rubrique et modèle, sur demande professeur, avec citation de preuve et seuil de confiance 0,85. Productions non interprétables en `NE / review_required`. Relecture avec justification et historique ; preuves issues des corrections approuvées.
+- Maîtrise calculée à partir des preuves approuvées : deux sources autonomes distinctes, espacées d’au moins 7 jours, dont une en transfert. Pondération récente 60/25/15 séparée de cette condition. Une révision ne crée pas une preuve supplémentaire.
+- Groupes G0–G3 par critère, historique pondéré, observations professeur, groupe NE séparé, ajustements ciblés conservés et stabilisation hebdomadaire. Activités différenciées et propositions de réactivation de 12 minutes.
+- PDF, PPTX, XLSX, JSON et ZIP réellement compilés avec manifestes SHA-256. Artefacts adressés par contenu sur disque ou S3, téléchargement ZIP en flux ; compatibilité avec les anciens exports en base. Corpus complet réservé au professeur. Dossier individuel avec copie, code, premiers essais, historiques, bilans/corrections HTML et PDF, manifestes et classeur à quatre onglets.
+- Catalogue extrait des **5 mondes / 20 missions PédagoLab**, gameplay et validateurs préservés. Runtime intégré dans une iframe sans accès à l’origine EDEN ; évaluateurs dans des Workers limités à une seconde et sans réseau. Événements et productions en base. Le professeur valide séparément leur valeur pédagogique.
+- Primitives Drive Distributor conservées à l’identique : compte de service, délégation Workspace, Shared Drives, raccourcis et arborescences. Distribution sélective des ressources élèves, du corpus professeur et des dossiers individuels validés depuis le serveur. File de travaux persistante, réservation exclusive avec bail et heartbeat, reprise après interruption, rapport par destinataire et retries. Upload résumable au-delà de 5 Mio. Aucun transit du corpus via une requête navigateur limitée à 4 Mo.
+
+## Configuration externe
+
+Copier `.env.example` en `.env.local`, puis renseigner uniquement les services souhaités.
+
+| Service | Configuration | Comportement sans configuration |
+| --- | --- | --- |
+| PostgreSQL / Neon | `DATABASE_URL` | SQLite dans `.data/eden.sqlite` en local |
+| OpenAI | `OPENAI_API_KEY`, `OPENAI_MODEL` ; `OPENAI_GRADING_MODEL` optionnel | Composition à partir des ressources pédagogiques locales |
+| Stockage objet | `EDEN_S3_BUCKET`, `AWS_REGION`, identifiants AWS ; `EDEN_S3_ENDPOINT` optionnel | Disque `.data/artifacts` avec SQLite ; binaires en base avec PostgreSQL |
+| Google Drive | `GOOGLE_SERVICE_ACCOUNT_EMAIL`, `GOOGLE_PRIVATE_KEY`, `GOOGLE_DRIVE_ELEVES_FOLDER_ID`, `GOOGLE_DRIVE_TEACHER_FOLDER_ID` pour le corpus professeur ; impersonation optionnelle | Erreur explicite, aucun faux rapport de publication |
+
+En production, `DATABASE_URL` est obligatoire ; configurer `EDEN_TEACHER_PASSWORD` avant le premier démarrage et servir l’application derrière HTTPS. Les cookies sont `Secure` avec `NODE_ENV=production`. Définir `HOST=0.0.0.0` si le reverse proxy ou le conteneur l’exige. Ne pas exposer la base SQLite ni les archives sources. L’application n’a pas été déployée.
+
+L’API OpenAI utilise le [format JSON Schema strict de Responses](https://developers.openai.com/api/docs/guides/structured-outputs), avec `store: false`. Le contexte de génération ne contient pas de noms ni de copies individuelles. La pré-correction, demandée séparément par le professeur, transmet la copie concernée et sa rubrique sans ajouter d’identité nominative. Drive utilise le [protocole de transfert résumable documenté par Google](https://developers.google.com/workspace/drive/api/guides/manage-uploads).
+
+## Vercel et worker
+
+`api/index.mjs` expose la même application sans serveur d’écoute permanent. `vercel.json` inclut les ressources nécessaires, fixe une durée maximale de 300 secondes et configure un cron de publication chaque minute. Ce rythme nécessite une offre Vercel compatible avec cette fréquence. Configurer `DATABASE_URL`, `EDEN_TEACHER_PASSWORD`, `CRON_SECRET` et les services utilisés dans les variables d’environnement du projet. Le serveur refuse l’initialisation serverless sans PostgreSQL. Les artefacts S3 restent privés et ne sont servis qu’après contrôle d’accès EDEN.
+
+Le worker HTTP `/api/internal/publication-worker` exige `Authorization: Bearer <CRON_SECRET>`. En local, `npm run dev` traite la même file toutes les cinq secondes. Les distributions validées sont suivies depuis **Corpus → Suivi des distributions**. Une erreur partielle reprend les destinataires en échec ; les succès déjà enregistrés sont conservés. Une version de séance modifiée après la validation ne sera pas distribuée silencieusement.
+
+Configuration basée sur les documentations [Vercel Functions](https://vercel.com/docs/project-configuration/vercel-json), [Cron](https://vercel.com/docs/cron-jobs/manage-cron-jobs) et [AWS S3 JavaScript](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-nodejs.html). Le déploiement distant n’a pas été exécuté.
+
+## Contrats des composants et des tests
+
+Les types disponibles sont exportés dans `schemas/ActivitySpec.json` et `schemas/DailyLessonSpec.json`. Les champs communs suffisent au renderer ; aucun frontend quotidien n’est généré.
+
+- `Quiz` / `MasteryCheck` : `options` contient les choix.
+- `FillBlank` : `options` contient les libellés des champs ; réponses JSON indexées par numéro.
+- `Matching` : chaque option est `libellé|choix 1|choix 2` ; réponses JSON indexées.
+- `TruthTable` / `CircuitExercise` : `options` contient les entrées ; chaque sortie vaut `0` ou `1`.
+- `DragDrop` : `options` est la liste à ordonner ; réponse JSON ordonnée. Flèches clavier et glisser-déposer.
+- `FileExplorer` : `starter` contient un objet JSON nom de fichier → contenu, affiché comme texte.
+- `Simulator` : `starter` contient `{ "inputs": [{ "name": "A", "label": "Entrée A", "values": ["0", "1"] }] }` ; état et explication enregistrés.
+- `Preview` : HTML/CSS élève dans une iframe sandbox sans scripts ni réseau. `Terminal` simule uniquement `pwd`, `ls`, `cd`, `cat`, `help` dans un projet fixe.
+- `Diagram` / `BlackboardDiagram` : chaînes de nœuds séparés par `→` ou `->`, une chaîne par ligne ; aucun HTML interprété.
+- Correction `structured` : `expectedAnswer` contient l’objet ou le tableau JSON de référence, crédit partiel par élément.
+- Tests `html` : `argsJSON` décrit `{ "tag": "h1", "text": "Bonjour", "minCount": 1 }` ou un attribut avec `attribute`/`value`.
+- Tests `css` : `{ "selector": ".card", "property": "display", "value": "flex" }`.
+- Tests `sql` : `argsJSON` contient `{ "tables": [{ "name": "people", "columns": ["name", "age"], "rows": [["Nora", 18]] }] }` ; `expectedJSON` contient les lignes attendues. Seules les requêtes SELECT isolées sont prises en charge.
+
+## Validation
+
+```sh
+npm run check
+npm test
+npm run test:legacy
+npx playwright install chromium
+npm run test:browser
+npm run test:visual
+```
+
+Les tests de leçon contrôlent les 140 unités NEXUS, les sections minimales, le refus des changements de structure par le modèle, l’échappement et 16 snapshots HTML de composants. Les tests visuels comparent 28 captures : huit phases de démonstration, quatre composants et deux états de `/today`, sur desktop et mobile. `/today` utilise son véritable `app.js` avec des réponses API déterministes ; `test:browser` vérifie séparément le serveur réel, la publication et PédagoLab.
+
+Les baselines sont dans `tests/visual/baselines/darwin/`. La configuration utilise Chrome système sur macOS, ou le Chromium Playwright ailleurs ; `PLAYWRIGHT_CHROMIUM_EXECUTABLE` permet de fixer le binaire. Conserver le même navigateur et le même système pour une comparaison stricte. Un premier lancement sur un autre OS nécessite une baseline relue. Après un changement visuel intentionnel seulement, exécuter `npm run test:visual:update`, inspecter les captures, puis relancer `npm run test:visual` sans mise à jour. Pour les snapshots HTML : `UPDATE_LESSON_SNAPSHOTS=1 node --test tests/lesson.test.mjs`. Les vérifications structurelles ne remplacent pas la relecture pédagogique.
+
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE` permet d’utiliser un Chromium déjà installé. Les tests utilisent des bases temporaires en mémoire, sans données ni identifiants de production. Le scénario navigateur teste le parcours professeur → publication → remise élève → correction, le runtime PédagoLab, l’arrêt d’une boucle infinie et le rendu mobile, l’adaptation pratique, l’insertion hors planning, les observations et la stabilisation hebdomadaire. Les captures sont dans `test-results/`.
+
+## Structure
+
+- `server/` : persistance SQLite/PostgreSQL, import, contrats, génération, contrôles, authentification, correction, corpus, jeu et routes API.
+- `public/` : interface professeur/élève et runtime PédagoLab encapsulé.
+- `data/game-catalog.json` : catalogue migré, indépendant du renderer.
+- `schemas/` : schémas stricts exportés par `npm run check`.
+- `database/schema.sql` : tables d’agrégats et versions, DDL commun SQLite/PostgreSQL.
+- `legacy/` : sources de référence extraites, hors dépendances, caches de build, métadonnées macOS et fichiers `.env` secrets.
+- `tests/` : invariants pédagogiques, frontières d’accès, lifecycle API et transferts Drive simulés.
+
+## Limites et validation externe
+
+- Neon, OpenAI, S3 et Google Drive exigent les configurations de l’établissement. Aucun appel réel ni déploiement externe n’a été exécuté ; les tests de transfert et de pré-correction utilisent des réponses simulées.
+- La persistance conserve des agrégats JSON versionnés avec index de classe et tables de domaine distinctes. Ce n’est pas la décomposition SQL normalisée exhaustive suggérée par le modèle cible. La recherche est lexicale pondérée, sans service vectoriel externe.
+- PDF/PPTX/XLSX sont encore compilés en mémoire avant archivage ; le ZIP est servi en flux. Sans S3, le mode PostgreSQL conserve les binaires en base pour garantir leur durabilité sur un hébergement éphémère.
+- Les commandes conversationnelles reconnues produisent des propositions déterministes. Une ambiguïté demande une sélection dans l’interface ; il ne s’agit pas d’un interpréteur universel de toute consigne naturelle.
+- Le catalogue initial vient des projets fournis ; le professeur peut adapter un template, relire ses scénarios puis affecter sa version validée à un brouillon. La création libre de nouveaux mondes et validateurs ainsi qu’une simulation universelle de circuit ne sont pas fournies. Les ouvertures professeur ne créent aucune preuve de maîtrise.
+- Les réponses ouvertes et les résultats des jeux restent soumis à validation professeur. Le moteur SQL utilise SQLite, pas tous les dialectes ; les tests HTML/CSS vérifient la structure, pas un rendu pixel à pixel. Les formules JavaScript non comprises gardent le statut de relecture.

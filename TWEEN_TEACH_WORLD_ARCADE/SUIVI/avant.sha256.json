@@ -1,0 +1,13 @@
+{
+  "server/app.mjs": "cea5d55cb907deff2e59d29500cf0be243d80a0448ad4c377aafb7481e8d1881",
+  "server/game.mjs": "7b0891cbc2ba904329f2461ca939a16c24562b4c9cabb0c64fed09a0157ac371",
+  "public/app.js": "516fc13b10c6dc16b0e34db566acff91df4d94fedcd01789575ccb8555cc8fb9",
+  "public/style.css": "df4fde4432ba82d03a6c95f1c031e51d599a6e5487822fa4ac86b909a558a6f7",
+  "public/lesson.css": "aa393238d8422c304e9e89dd1594644c7f772bc5ed8ac22f6516756d1e15a006",
+  "public/lesson-renderer.js": "c9642e1db780dce29d765c7ce0d571712d1454ff97b03df9eb3a6fdfa4fcdc2e",
+  "public/game/runtime.js": "8b5d275bfba4eb37dbaa516b90b823d6a017730d5501e1f75261d1b9181c128b",
+  "scripts/game-runtime.mjs": "25689e5ddc3eb4786ae9a3e391e0d134332bc7f3b0e1b4fbde9912521d4ac7ba",
+  "package.json": "fd05e97ea7ccd629f6c2112684f16b0dc2b5028fd410b9a30a4fca7f6b86e056",
+  "package-lock.json": "533d1941ed36ceb5b966a138ea58e469c769e825a5bc0c3fc617c3f6f42e6882",
+  "database/schema.sql": "9cd4da91d8b7a4be9bf0c21d76e316ae016ebb7a81b777bf85b4dfd5f82ee5cf"
+}

@@ -1,0 +1,49 @@
+{
+  "name": "eden-teacher-twin",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.14"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
+    "start": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
+    "import": "node --env-file-if-exists=.env.local --import tsx scripts/import.mjs",
+    "test": "node --import tsx --test tests/*.test.mjs",
+    "test:legacy": "node --test legacy/eden-october/tests/functions.test.mjs legacy/eden-october/tests/logic.test.mjs legacy/eden-october/tests/practice.test.mjs legacy/drive/tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "npm run check",
+    "test:browser": "node --import tsx scripts/browser-check.mjs",
+    "demo:lesson": "node scripts/lesson-demo.mjs",
+    "demo:serve": "node scripts/lesson-preview-server.mjs",
+    "test:visual": "playwright test --config playwright.lesson.config.mjs",
+    "test:visual:update": "playwright test --config playwright.lesson.config.mjs --update-snapshots"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1146.0",
+    "ajv": "8.20.0",
+    "archiver": "7.0.1",
+    "css-tree": "^3.1.0",
+    "exceljs": "4.4.0",
+    "express": "5.1.0",
+    "googleapis": "156.0.0",
+    "jszip": "3.10.1",
+    "parse5": "^7.3.0",
+    "pdfkit": "0.17.2",
+    "pg": "8.16.3",
+    "pptxgenjs": "4.0.1",
+    "tsx": "4.20.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.0"
+  },
+  "overrides": {
+    "exceljs": {
+      "uuid": "11.1.1"
+    },
+    "pptxgenjs": {
+      "image-size": "2.0.3"
+    }
+  }
+}

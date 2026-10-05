@@ -1,0 +1,14 @@
+(node:71095) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+PASS visitor entry, keyboard guard, closed registration and focus return
+PASS real host login is required; profile persists with no credential storage
+PASS scoped directory pagination, search and accessible profile dialog
+PASS top and grades explicitly unavailable, without prototype points
+PASS true runtime, deep link, persistent save and retry after network failure
+PASS slow launch ignores late response after navigation and never launches a demo
+PASS 500, forbidden, empty and offline have distinct UI states
+PASS desktop, compact desktop, tablet and stacked mobile without page overflow
+PASS 200 percent equivalent viewport, focus visibility, CRT and reduced motion
+PASS ten module round trips preserve host pages, without listeners or styles leaking
+PASS logout clears host session and no profile is reused for the next account
+No uncaught browser errors.

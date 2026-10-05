@@ -1,0 +1,3914 @@
+{
+  "version": "socle-fourni-2026-2027-v3",
+  "sourceFile": "content/source/referentiel-original.md",
+  "sourceSha256": "8f448dc473622449bef1d5a7ebc347019f6666d07a5ccf0346ffc760b4dc4bf9",
+  "sourceNotice": "Codes, libellés, hiérarchie, typologies, notions et outils extraits du référentiel fourni. Les alias signalent des anomalies ; ils ne remplacent pas les codes sources.",
+  "blocks": [
+    {
+      "id": "BC01",
+      "label": "Comprendre le fonctionnement du Web, des réseaux et de l'écosystème numérique",
+      "sourceLine": 3,
+      "sourceCategory": "BCO1",
+      "objective": "Comprendre le fonctionnement global d'un produit numérique, les flux techniques qui le composent et les acteurs impliqués dans sa création et son évolution.",
+      "businessSkills": "> Expliquer le fonctionnement d'une application web\n> Comprendre les échanges client / serveur\n> Identifier les composants d'une architecture web\n> Comprendre le rôle d'un navigateur, serveur, API et base de données\n> Comprendre les principes fondamentaux du réseau\n> Situer le rôle du développeur dans le cycle de vie d'un produit numérique\n> Comprendre les principaux acteurs et métiers intervenant dans la création d'un produit numérique",
+      "environment": "> client / serveur\n> requêtes / réponses HTTP / HTTPS \n> navigateur / serveur / base de données\n> DNS / hébergement / nom de domaine\n> API / services\n> cycle de vie d’une requête\n> architecture web simple\n> cloud\n> Modèle OSI",
+      "transversal": "> Sécurité : notion de communication non sécurisée\n> Performance : impact réseau\n> Accessibilité : dépendance navigateur",
+      "competencyIds": [
+        "BC01-C1",
+        "BC01-C2",
+        "BC01-C3"
+      ],
+      "skillIds": [
+        "BC01-C1-1",
+        "BC01-C1-2",
+        "BC01-C2-1",
+        "BC01-C2-2",
+        "BC01-C2-3",
+        "BC01-C2-4",
+        "BC01-C3-1",
+        "BC01-C3-2"
+      ]
+    },
+    {
+      "id": "BC02",
+      "label": "Installer et configurer un environnement de travail fonctionnel",
+      "sourceLine": 25,
+      "sourceCategory": "BCO1",
+      "objective": "> Être autonome dans l’installation et la configuration d’un environnement de développement professionnel.\n> Installer et utiliser un outil de versionning et de collaboration afin de travailler en équipe.\n> Être capable de faire fonctionner un projet dans une techno déjà connue à partir d’une documentation technique ou d’un repo inconnu.",
+      "businessSkills": "> installer un environnement de développement complet\n> configurer un IDE (extensions, debug, formatage)\n> comprendre le rôle des outils utilisés dans une chaîne de développement\n> installer un runtime (Node, PHP, Python)\n> gérer les dépendances d’un projet\n> exécuter un projet en local\n> comprendre les erreurs d’installation\n> utiliser un terminal efficacement\n> naviguer dans une arborescence de projet\n> versionner un projet \n> initialiser un projet Git\n> cloner / push / pull un repository",
+      "environment": "> poste de travail développeur\n> système d’exploitation (Windows / Linux / Mac)\n> terminal / shell\n> cycle outil → code → exécution → debug\n> environnement local vs distant\n> dépendances logicielles\n> envionnement de développement collaboratif / dépôt Git\n> gestionnaire de paquets",
+      "transversal": "",
+      "competencyIds": [
+        "BC02-C1",
+        "BC02-C2",
+        "BC02-C3"
+      ],
+      "skillIds": [
+        "BC02-C1-1",
+        "BC02-C1-2",
+        "BC02-C2-1",
+        "BC02-C2-2",
+        "BC02-C3-1"
+      ]
+    },
+    {
+      "id": "BC03",
+      "label": "Comprendre, analyser et concevoir à partir d'un besoin utilisateur",
+      "sourceLine": 41,
+      "sourceCategory": "BCO1",
+      "objective": "Comprendre un besoin utilisateur, analyser les enjeux d'un produit numérique et interpréter les éléments de conception nécessaires à sa réalisation.",
+      "businessSkills": "> Recueillir et reformuler un besoin\n> Analyser un besoin fonctionnel fourni à partir d'un cahier des charges\n> Identifier les fonctionnalités attendues\n> Construire des parcours utilisateurs\n> Lire une maquette \n> Respecter la charte graphique de l'entreprise\n> Tenir compte du type d'utilisation de l'interface et de l'expérience utilisateur\n> Structurer une arborescence",
+      "environment": "> Logique produit / utilisateur (bases du design produit & pensée UX)\n> Structure d’une application web\n> Parcours utilisateur\n> Spécifications fonctionnelles et cahier des charges\n> Culture graphique web",
+      "transversal": "> Qualité : cohérence fonctionnelle\n> Collaboration : travail en équipe projet\n> IA : Utiliser l’IA comme assistant technique pour produire une maquette",
+      "competencyIds": [
+        "BC03-C1",
+        "BC03-C2",
+        "BC03-C3",
+        "BC03-C4"
+      ],
+      "skillIds": [
+        "BC03-C1-1",
+        "BC03-C1-2",
+        "BC03-C1-3",
+        "BC03-C1-4",
+        "BC03-C2-1",
+        "BC03-C2-2",
+        "BC03-C2-3",
+        "BC03-C3-1",
+        "BC03-C3-2",
+        "BC03-C3-3",
+        "BC03-C3-4",
+        "BC03-C4-1",
+        "BC03-C4-3",
+        "BC03-C4-2"
+      ]
+    },
+    {
+      "id": "BC04",
+      "label": "Concevoir des interfaces web accessibles et responsives",
+      "sourceLine": 70,
+      "sourceCategory": "BCO1",
+      "objective": "Créer des interfaces web lisibles, structurées et adaptées aux usages modernes et conforme aux besoins utilisateurs.",
+      "businessSkills": "> Créer une interface web structurée et lisible\n> Adapter une interface à différents supports\n> Respecter la charte graphique de la maquette ou un système de design simple\n> Produire une interface accessible \n> Rendre son site visible par les moteurs de recherche",
+      "environment": "> DOM et structure HTML/CSS\n> Rendu navigateur et adaptabilité support\n> Accessibilité \n> Indexation moteur de recherche",
+      "transversal": "Accessibilité : navigation clavier, structure logique\nPerformance : poids des assets\nQualité : organisation du code UI\nÉco-conception : sobriété visuelle\nIA : Utiliser l’IA comme assistant technique à la création d'une interface statique responsive",
+      "competencyIds": [
+        "BC04-C1",
+        "BC04-C2",
+        "BC04-C3",
+        "BC04-C4",
+        "BC04-C5"
+      ],
+      "skillIds": [
+        "BC04-C1-1",
+        "BC04-C1-2",
+        "BC04-C1-3",
+        "BC04-C1-4",
+        "BC04-C2-1",
+        "BC04-C2-2",
+        "BC04-C2-3",
+        "BC04-C3-1",
+        "BC04-C3-2",
+        "BC04-C4-1",
+        "BC04-C4-2",
+        "BC04-C4-3",
+        "BC04-C5-1",
+        "BC04-C5-2",
+        "BC04-C5-3"
+      ]
+    },
+    {
+      "id": "BC05",
+      "label": "Résoudre des problèmes par la logique algorithmique",
+      "sourceLine": 99,
+      "sourceCategory": "BCO1",
+      "objective": "Analyser un problème, le décomposer et produire une solution logique exécutable.",
+      "businessSkills": "Décomposer un problème en étapes, en tâche et sous-tâche\nConstruire un algorithme répondant à un besoin\nManipuler des variables et structures de données\nTraduire un raisonnement en code\nCorriger une erreur logique\nOptimiser un traitement simple",
+      "environment": "Flux de données\nEntrées / traitements / sorties\nVariables / Fonctions\nComplexité simple d'un traitement",
+      "transversal": "Test et qualité : Débogage logique et raisonnement / Structuration du code\nUX/UI : parcours et logique utilisateur\nIA : Utilisation critique d'aide au raisonnement et test de la logique définie",
+      "competencyIds": [
+        "BC05-C1",
+        "BC05-C2"
+      ],
+      "skillIds": [
+        "BC05-C1-1",
+        "BC05-C1-2",
+        "BC05-C1-3",
+        "BC05-C1-4",
+        "BC05-C1-5",
+        "BC05-C1-6",
+        "BC05-C1-7",
+        "BC05-C2-1",
+        "BC05-C2-2",
+        "BC05-C2-3"
+      ]
+    },
+    {
+      "id": "BC06",
+      "label": "Développer une interface web dynamique",
+      "sourceLine": 123,
+      "sourceCategory": "BCO1",
+      "objective": "Rendre une interface interactive et connectée à des données.",
+      "businessSkills": "> Développer une interface utilisateur fonctionnelle\n> Gérer les interactions utilisateur (événements, formulaires, navigation)\n> Manipuler dynamiquement le contenu affiché\n> Consommer des données externes via API\n> Gérer les états d’interface (chargement, erreur, succès)\n> Structurer un code frontend lisible et maintenable",
+      "environment": "DOM et événements\nflux API → UI\nasynchronisme",
+      "transversal": "UX : feedback utilisateur\nAccessibilité : Navigation clavier, Gestion du focus, Formulaires accessibles ARIA\nQualité logicielle : Séparation des responsabilités, Nommage cohérent, Code structuré, Respect des normes, Architecture des composants, données externes\nTests & Débogage : Console navigateur, Breakpoints, Validation du comportement utilisateur, Debug UI (inspection, DOM, API) \nPerformance & Éco-conception : Limitation des appels API, Optimisation du rendu\nIA & Esprit critique : Génération assistée de composants, Vérification du code généré",
+      "competencyIds": [
+        "BC06-C1",
+        "BC06-C2",
+        "BC06-C3"
+      ],
+      "skillIds": [
+        "BC06-C1-1",
+        "BC06-C2-1",
+        "BC06-C2-2",
+        "BC06-C2-3",
+        "BC06-C3-1",
+        "BC06-C3-2"
+      ]
+    },
+    {
+      "id": "BC07",
+      "label": "Développer une logique serveur et une API",
+      "sourceLine": 143,
+      "sourceCategory": "BCO1",
+      "objective": "Produire une logique backend exposant des fonctionnalités métier.",
+      "businessSkills": "Créer une API\nStructurer une logique métier\nGérer les requêtes et réponses HTTP\nValider des données entrantes\nManipuler des données reçues\nProduire des données exploitables par un frontend \nAuthentifier un utilisateur",
+      "environment": "Architecture client / serveur\nCycle HTTP\nREST\nserveur\nauthentification\nautorisation\nmiddleware",
+      "transversal": "",
+      "competencyIds": [
+        "BC07-C1",
+        "BC07-C2",
+        "BC07-C3",
+        "BC07-C4",
+        "BC07-C5"
+      ],
+      "skillIds": [
+        "BC07-C1-1",
+        "BC07-C1-2",
+        "BC07-C1-3",
+        "BC07-C2-1",
+        "BC07-C2-2",
+        "BC07-C2-3",
+        "BC07-C2-4",
+        "BC07-C3-1",
+        "BC07-C3-2",
+        "BC07-C3-3",
+        "BC07-C4-1",
+        "BC07-C4-2",
+        "BC07-C5-1"
+      ]
+    },
+    {
+      "id": "BC08",
+      "label": "Concevoir et manipuler une base de données",
+      "sourceLine": 168,
+      "sourceCategory": "BCO1",
+      "objective": "Concevoir et exploiter une base de données au sein d'une application.",
+      "businessSkills": "Concevoir un modèle de données\nCréer une base de données\nRéaliser un CRUD\nStructurer les relations entre données\nGarantir la cohérence des données",
+      "environment": "Persistance\nRelation application ↔ base de données\nIntégrité des données",
+      "transversal": "Qualité des données\nPerformance des requêtes\nSécurité : SQL (requêtes préparées PDO)",
+      "competencyIds": [
+        "BC08-C1",
+        "BC08-C2",
+        "BC08-C3",
+        "BC08-C4"
+      ],
+      "skillIds": [
+        "BC08-C1-1",
+        "BC08-C1-2",
+        "BC08-C2-1",
+        "BC08-C3-1",
+        "BC08-C3-2",
+        "BC08-C4-1"
+      ]
+    },
+    {
+      "id": "BC09",
+      "label": "Déployer et maintenir une application web - principe de base",
+      "sourceLine": 189,
+      "sourceCategory": "BCO1",
+      "objective": "Mettre une application en production et assurer son fonctionnement.",
+      "businessSkills": "Déployer une application\nUtiliser Linux et SSH dans un contexte de déploiement \nConfigurer un environnement serveur simple\nUtiliser un accès distant\nDiagnostiquer des erreurs de production",
+      "environment": "> Hébergement\n> Serveur Linux\n> DNS\n> Logs\n> Sécurisation de base d'un serveur",
+      "transversal": "> Sécurité système\n> Logs production \n> Performance",
+      "competencyIds": [
+        "BC09-C1",
+        "BC09-C2",
+        "BC09-C3",
+        "BC09-C4",
+        "BC09-C5"
+      ],
+      "skillIds": [
+        "BC09-C1-1",
+        "BC09-C1-2",
+        "BC09-C2-1",
+        "BC09-C2-2",
+        "BC09-C3-1",
+        "BC09-C3-2",
+        "BC09-C4-1",
+        "BC09-C5-1"
+      ]
+    },
+    {
+      "id": "BC10",
+      "label": "Collaborer et évoluer dans un environnement professionnel",
+      "sourceLine": 211,
+      "sourceCategory": "BCO1",
+      "objective": "Contribuer efficacement à un projet réalisé en équipe.",
+      "businessSkills": "> Collaborer avec une équipe\n> Utiliser Git dans un contexte collaboratif\n> Respecter un planning et reporter son travail aux équipes\n> Suivre un backlog et une planification de projet\n> Connaître et appliquer les méthodologies de gestion de projet (Agile, Cascade, Kanban)\n> Travailler à distance\n> Communiquer avec les parties prenantes\n> Présenter un projet ou une solution\n> Réaliser une veille technologique\n> Respecter une démarche responsable (éthique numérique, référentiels)\n> S'inscrire dans une démarche d'amélioration continue",
+      "environment": "> Cycle de développement logiciel\n> Livraison continue (notions)\n> Organisation projet collaboratif\n> Méthodologies de gestion de projet\n> Organisation de son travail : priorisation des tâches, charge et délais",
+      "transversal": "Communication\nOrganisation\nCollaboration Communication ; Organisation ; Collaboration ; Documenter son travail, présenter ses choix techniques (intégré ex-BT07)",
+      "competencyIds": [
+        "BC10-C1",
+        "BC10-C2",
+        "BC10-C3",
+        "BC10-C4",
+        "BC10-C5",
+        "BC10-C6",
+        "BC10-C7"
+      ],
+      "skillIds": [
+        "BC10-C1-1",
+        "BC10-C1-2",
+        "BC10-C2-1",
+        "BC10-C2-2",
+        "BC10-C2-3",
+        "BC10-C2-4",
+        "BC10-C2-5",
+        "BC10-C3-1",
+        "BC10-C3-2",
+        "BC10-C4-1",
+        "BC10-C4-2",
+        "BC10-C5-1",
+        "BC10-C5-2",
+        "BC10-C5-3",
+        "BC10-C5-4",
+        "BC10-C6-1",
+        "BC10-C7-1",
+        "BC10-C7-2"
+      ]
+    },
+    {
+      "id": "BCT01",
+      "label": "Qualité, documentation et autonomie technique (compétence transverse)",
+      "sourceLine": 243,
+      "sourceCategory": "BCT",
+      "objective": "Exploiter la documentation existante.\nProduire un code lisible, maintenable et documenté.",
+      "businessSkills": "> Exploiter la documentation existante.\n> Rédiger une documentation technique\n> Respecter les conventions de code\n> Documenter une API \n> Commenter son code \n> Refactoriser un code existant",
+      "environment": "> Conventions de code\n> Documentation\n> Bonnes pratiques\n> Maintenabilité",
+      "transversal": "Référencé par BC05, BC06, BC07, BC09, BC10",
+      "competencyIds": [
+        "BCT01-C1",
+        "BCT01-C2"
+      ],
+      "skillIds": [
+        "BCT01-C1-1",
+        "BCT01-C1-2",
+        "BCT01-C1-3",
+        "BCT01-C1-4",
+        "BCT01-C2-1"
+      ]
+    },
+    {
+      "id": "BCT02",
+      "label": "Tests, débogage et résolution de problèmes (compétence transverse)",
+      "sourceLine": 262,
+      "sourceCategory": "BCT",
+      "objective": "Garantir le bon fonctionnement d'une application par une démarche de résolution de problèmes et de test systématique.",
+      "businessSkills": "> Adopter une démarche de résolution de problème\n> Réaliser une recette fonctionnelle\n> Exécuter un test unitaire\n> Reproduire et tracer un bug\n> Déboguer une application\n> Lire des logs",
+      "environment": "> Démarche de résolution de problème (hypothèse, isolation, vérification) \n> observer -> formuler une hypothèse -> isoler -> vérifier -> corriger\n> Recette fonctionnelle\n> Tests automatisés\n> Cycle erreur → correction → validation\n> Logs\n> Traçabilité",
+      "transversal": "Référencé par BC04, BC05, BC06, BC07, BC09",
+      "competencyIds": [
+        "BCT02-C1",
+        "BCT02-C2",
+        "BCT02-C3",
+        "BCT02-C4",
+        "BCT02-C5"
+      ],
+      "skillIds": [
+        "BCT02-C1-1",
+        "BCT02-C1-2",
+        "BCT02-C2-1",
+        "BCT02-C2-2",
+        "BCT02-C2-3",
+        "BCT02-C3-1",
+        "BCT02-C3-2",
+        "BCT02-C4-1",
+        "BCT02-C4-2",
+        "BC02-C5-1"
+      ]
+    },
+    {
+      "id": "BCT03",
+      "label": "Performance et démarche green IT (compétence transverse)",
+      "sourceLine": 286,
+      "sourceCategory": "BCT",
+      "objective": "Produire des applications efficaces et limiter leur impact environnemental.",
+      "businessSkills": "> Limiter les ressources inutiles\n> Optimiser les médias et les requêtes\n> Interpréter des indicateurs de performance\n> Adopter une démarche de sobriété numérique",
+      "environment": "> Performance web\n> Éco-conception numérique\n> Indicateurs de mesure",
+      "transversal": "",
+      "competencyIds": [
+        "BCT03-C1",
+        "BCT03-C2",
+        "BCT03-C3"
+      ],
+      "skillIds": [
+        "BCT03-C1-1",
+        "BCT03-C1-2",
+        "BCT03-C2-1",
+        "BCT03-C3-1",
+        "BCT03-C3-2"
+      ]
+    },
+    {
+      "id": "BCT04",
+      "label": "Accessibilité numérique (compétence transverse)",
+      "sourceLine": 302,
+      "sourceCategory": "BCT",
+      "objective": "Concevoir des services numériques utilisables par le plus grand nombre.",
+      "businessSkills": "> Comprendre les enjeux du handicap numérique\n> Produire une structure HTML sémantique\n> Garantir la navigation clavier\n> Utiliser les attributs ARIA lorsque nécessaire\n> Vérifier et corriger les défauts d'accessibilité identifiés",
+      "environment": "> RGAA\n> Navigation clavier\n> ARIA\n> Contraste et alternatives textuelles",
+      "transversal": "",
+      "competencyIds": [
+        "BCT04-C1",
+        "BCT04-C2",
+        "BCT04-C3"
+      ],
+      "skillIds": [
+        "BCT04-C1-1",
+        "BCT04-C2-1",
+        "BCT04-C2-2",
+        "BCT04-C3-1",
+        "BCT04-C3-2"
+      ]
+    },
+    {
+      "id": "BCT05",
+      "label": "IA comme assistant de développement (compétence transverse)",
+      "sourceLine": 319,
+      "sourceCategory": "BCT",
+      "objective": "Utiliser les outils d'IA comme assistants professionnels de manière critique et tracée. \n\nComprendre\n↓\nQuestionner\n↓\nVérifier\n↓\nCorriger\n↓\nDécider",
+      "businessSkills": "> Utiliser l’IA comme outil d’assistance\n> Utiliser l'IA génératives de façon raisonnée\n> Comprendre les limites de l'IA\n> Rédiger des prompts adaptés\n> Vérifier les résultats générés\n> Documenter l'usage de l'IA\n> Respecter les règles de confidentialité\n> Respecter l'IA Act\n> Prendre en compte les biais d'interprétation d'un LMM te les effet discriminatoire\n> Conserver la maîtrise des décisions techniques\n> Identifier les limites des outils",
+      "environment": "> Limites et biais de l'IA\n> Prompting\n> Vérification critique des sorties IA",
+      "transversal": "Référencé par l'ensemble des BC (utilisation critique de l'IA dans chaque projet)",
+      "competencyIds": [
+        "BCT05-C1",
+        "BCT05-C2",
+        "BCT05-C3",
+        "BCT05-C4"
+      ],
+      "skillIds": [
+        "BCT05-C1-1",
+        "BCT05-C2-1",
+        "BCT05-C2-2",
+        "BCT05-C3-1",
+        "BCT05-C3-2",
+        "BCT05-C3-3",
+        "BCT05-C4-1",
+        "BTC05-C4-2"
+      ]
+    },
+    {
+      "id": "BCT06",
+      "label": "Hygiène numérique et cyber sécurité (compétence transverse)",
+      "sourceLine": 342,
+      "sourceCategory": "BCO1",
+      "objective": "Comprendre les risques liés au numérique et adopter une posture défensive en tant que développeur.",
+      "businessSkills": "> Connaître les attaques courantes\n> Protéger ses données personnelles et professionnelles\n> Adopter une hygiène numérique responsable\n> Savoir attaquer pour mieux défendre",
+      "environment": "> OWASP\n> Authentification\n> Cybersécurité offensive / défensive\n> Hygiène numérique",
+      "transversal": "",
+      "competencyIds": [
+        "BCT06-C1",
+        "BCT06-C2"
+      ],
+      "skillIds": [
+        "BCT06-C1-1",
+        "BCT06-C1-2",
+        "BCT06-C2-1",
+        "BCT06-C2-2"
+      ]
+    }
+  ],
+  "competencies": [
+    {
+      "id": "BC01-C1",
+      "label": "Comprendre le fonctionnement général d'un ordinateur",
+      "blockId": "BC01",
+      "sourceLine": 13,
+      "skillIds": [
+        "BC01-C1-1",
+        "BC01-C1-2"
+      ]
+    },
+    {
+      "id": "BC01-C2",
+      "label": "Comprendre le fonctionnement du web",
+      "blockId": "BC01",
+      "sourceLine": 15,
+      "skillIds": [
+        "BC01-C2-1",
+        "BC01-C2-2",
+        "BC01-C2-3",
+        "BC01-C2-4"
+      ]
+    },
+    {
+      "id": "BC01-C3",
+      "label": "Comprendre le cycle de vie d'un produit numérique",
+      "blockId": "BC01",
+      "sourceLine": 19,
+      "skillIds": [
+        "BC01-C3-1",
+        "BC01-C3-2"
+      ]
+    },
+    {
+      "id": "BC02-C1",
+      "label": "Installer et configurer un poste de développement",
+      "blockId": "BC02",
+      "sourceLine": 35,
+      "skillIds": [
+        "BC02-C1-1",
+        "BC02-C1-2"
+      ]
+    },
+    {
+      "id": "BC02-C2",
+      "label": "Versionner un projet",
+      "blockId": "BC02",
+      "sourceLine": 37,
+      "skillIds": [
+        "BC02-C2-1",
+        "BC02-C2-2"
+      ]
+    },
+    {
+      "id": "BC02-C3",
+      "label": "Naviguer localement dans un terminal Linux",
+      "blockId": "BC02",
+      "sourceLine": 39,
+      "skillIds": [
+        "BC02-C3-1"
+      ]
+    },
+    {
+      "id": "BC03-C1",
+      "label": "Recueillir un besoin et exploiter un cahier des charges",
+      "blockId": "BC03",
+      "sourceLine": 51,
+      "skillIds": [
+        "BC03-C1-1",
+        "BC03-C1-2",
+        "BC03-C1-3",
+        "BC03-C1-4"
+      ]
+    },
+    {
+      "id": "BC03-C2",
+      "label": "Comprendre les enjeux de conception UX/UI",
+      "blockId": "BC03",
+      "sourceLine": 55,
+      "skillIds": [
+        "BC03-C2-1",
+        "BC03-C2-2",
+        "BC03-C2-3"
+      ]
+    },
+    {
+      "id": "BC03-C3",
+      "label": "Lire et interpréter des éléments de conception fonctionnelle",
+      "blockId": "BC03",
+      "sourceLine": 58,
+      "skillIds": [
+        "BC03-C3-1",
+        "BC03-C3-2",
+        "BC03-C3-3",
+        "BC03-C3-4"
+      ]
+    },
+    {
+      "id": "BC03-C4",
+      "label": "Comprendre l'identité de marque et traduire une charte graphique en interface",
+      "blockId": "BC03",
+      "sourceLine": 62,
+      "skillIds": [
+        "BC03-C4-1",
+        "BC03-C4-3",
+        "BC03-C4-2"
+      ]
+    },
+    {
+      "id": "BC04-C1",
+      "label": "Structurer une page web en HTML sémantique",
+      "blockId": "BC04",
+      "sourceLine": 80,
+      "skillIds": [
+        "BC04-C1-1",
+        "BC04-C1-2",
+        "BC04-C1-3",
+        "BC04-C1-4"
+      ]
+    },
+    {
+      "id": "BC04-C2",
+      "label": "Mettre en forme une page web en CSS",
+      "blockId": "BC04",
+      "sourceLine": 84,
+      "skillIds": [
+        "BC04-C2-1",
+        "BC04-C2-2",
+        "BC04-C2-3"
+      ]
+    },
+    {
+      "id": "BC04-C3",
+      "label": "Produire une interface responsive (mobile first)",
+      "blockId": "BC04",
+      "sourceLine": 87,
+      "skillIds": [
+        "BC04-C3-1",
+        "BC04-C3-2"
+      ]
+    },
+    {
+      "id": "BC04-C4",
+      "label": "Optimiser le référencement d'une page web",
+      "blockId": "BC04",
+      "sourceLine": 89,
+      "skillIds": [
+        "BC04-C4-1",
+        "BC04-C4-2",
+        "BC04-C4-3"
+      ]
+    },
+    {
+      "id": "BC04-C5",
+      "label": "Utiliser un CMS et ou outil nocode pour concevoir une interface",
+      "blockId": "BC04",
+      "sourceLine": 92,
+      "skillIds": [
+        "BC04-C5-1",
+        "BC04-C5-2",
+        "BC04-C5-3"
+      ]
+    },
+    {
+      "id": "BC05-C1",
+      "label": "Elaborer un algorithme pour résoudre une problématique",
+      "blockId": "BC05",
+      "sourceLine": 109,
+      "skillIds": [
+        "BC05-C1-1",
+        "BC05-C1-2",
+        "BC05-C1-3",
+        "BC05-C1-4",
+        "BC05-C1-5",
+        "BC05-C1-6",
+        "BC05-C1-7"
+      ]
+    },
+    {
+      "id": "BC05-C2",
+      "label": "Décomposer et résoudre une problématique algorithmique",
+      "blockId": "BC05",
+      "sourceLine": 116,
+      "skillIds": [
+        "BC05-C2-1",
+        "BC05-C2-2",
+        "BC05-C2-3"
+      ]
+    },
+    {
+      "id": "BC06-C1",
+      "label": "Manipuler le DOM et gérer les événements",
+      "blockId": "BC06",
+      "sourceLine": 133,
+      "skillIds": [
+        "BC06-C1-1"
+      ]
+    },
+    {
+      "id": "BC06-C2",
+      "label": "Manipuler les données côté client",
+      "blockId": "BC06",
+      "sourceLine": 134,
+      "skillIds": [
+        "BC06-C2-1",
+        "BC06-C2-2",
+        "BC06-C2-3"
+      ]
+    },
+    {
+      "id": "BC06-C3",
+      "label": "Utiliser un service distant comme source de données",
+      "blockId": "BC06",
+      "sourceLine": 137,
+      "skillIds": [
+        "BC06-C3-1",
+        "BC06-C3-2"
+      ]
+    },
+    {
+      "id": "BC07-C1",
+      "label": "Programmer dans un langage serveur & POO",
+      "blockId": "BC07",
+      "sourceLine": 153,
+      "skillIds": [
+        "BC07-C1-1",
+        "BC07-C1-2",
+        "BC07-C1-3"
+      ]
+    },
+    {
+      "id": "BC07-C2",
+      "label": "Structurer un backend capable de traiter des requêtes, d'appliquer des règles métier et d'exposer des données à un frontend",
+      "blockId": "BC07",
+      "sourceLine": 156,
+      "skillIds": [
+        "BC07-C2-1",
+        "BC07-C2-2",
+        "BC07-C2-3",
+        "BC07-C2-4"
+      ]
+    },
+    {
+      "id": "BC07-C3",
+      "label": "Sécuriser une application PHP en adoptant une posture défensive :",
+      "blockId": "BC07",
+      "sourceLine": 160,
+      "skillIds": [
+        "BC07-C3-1",
+        "BC07-C3-2",
+        "BC07-C3-3"
+      ]
+    },
+    {
+      "id": "BC07-C4",
+      "label": "Tester une API",
+      "blockId": "BC07",
+      "sourceLine": 163,
+      "skillIds": [
+        "BC07-C4-1",
+        "BC07-C4-2"
+      ]
+    },
+    {
+      "id": "BC07-C5",
+      "label": "Découvrir un framework PHP (Laravel)",
+      "blockId": "BC07",
+      "sourceLine": 165,
+      "skillIds": [
+        "BC07-C5-1"
+      ]
+    },
+    {
+      "id": "BC08-C1",
+      "label": "Modéliser une base de données (MCD/MLD/physique)",
+      "blockId": "BC08",
+      "sourceLine": 178,
+      "skillIds": [
+        "BC08-C1-1",
+        "BC08-C1-2"
+      ]
+    },
+    {
+      "id": "BC08-C2",
+      "label": "Créer et structurer une base de données",
+      "blockId": "BC08",
+      "sourceLine": 180,
+      "skillIds": [
+        "BC08-C2-1"
+      ]
+    },
+    {
+      "id": "BC08-C3",
+      "label": "Écrire des requêtes SQL (CRUD) et objets avancés",
+      "blockId": "BC08",
+      "sourceLine": 181,
+      "skillIds": [
+        "BC08-C3-1",
+        "BC08-C3-2"
+      ]
+    },
+    {
+      "id": "BC08-C4",
+      "label": "Connecter une base de données à une application PHP",
+      "blockId": "BC08",
+      "sourceLine": 183,
+      "skillIds": [
+        "BC08-C4-1"
+      ]
+    },
+    {
+      "id": "BC09-C1",
+      "label": "Déployer une application en production",
+      "blockId": "BC09",
+      "sourceLine": 199,
+      "skillIds": [
+        "BC09-C1-1",
+        "BC09-C1-2"
+      ]
+    },
+    {
+      "id": "BC09-C2",
+      "label": "Utiliser Linux en contexte serveur",
+      "blockId": "BC09",
+      "sourceLine": 201,
+      "skillIds": [
+        "BC09-C2-1",
+        "BC09-C2-2"
+      ]
+    },
+    {
+      "id": "BC09-C3",
+      "label": "Se connecter à un serveur distant",
+      "blockId": "BC09",
+      "sourceLine": 203,
+      "skillIds": [
+        "BC09-C3-1",
+        "BC09-C3-2"
+      ]
+    },
+    {
+      "id": "BC09-C4",
+      "label": "Sécuriser un serveur à minima",
+      "blockId": "BC09",
+      "sourceLine": 205,
+      "skillIds": [
+        "BC09-C4-1"
+      ]
+    },
+    {
+      "id": "BC09-C5",
+      "label": "Diagnostiquer une erreur de production",
+      "blockId": "BC09",
+      "sourceLine": 206,
+      "skillIds": [
+        "BC09-C5-1"
+      ]
+    },
+    {
+      "id": "BC10-C1",
+      "label": "Connaître les étapes et l'organisation d'un projet web",
+      "blockId": "BC10",
+      "sourceLine": 221,
+      "skillIds": [
+        "BC10-C1-1",
+        "BC10-C1-2"
+      ]
+    },
+    {
+      "id": "BC10-C2",
+      "label": "Connaître et appliquer une méthodologie de gestion de projet",
+      "blockId": "BC10",
+      "sourceLine": 223,
+      "skillIds": [
+        "BC10-C2-1",
+        "BC10-C2-2",
+        "BC10-C2-3",
+        "BC10-C2-4",
+        "BC10-C2-5"
+      ]
+    },
+    {
+      "id": "BC10-C3",
+      "label": "Collaborer avec Git/GitHub et réaliser une revue de code",
+      "blockId": "BC10",
+      "sourceLine": 228,
+      "skillIds": [
+        "BC10-C3-1",
+        "BC10-C3-2"
+      ]
+    },
+    {
+      "id": "BC10-C4",
+      "label": "Partager des ressources et collaborer à distance",
+      "blockId": "BC10",
+      "sourceLine": 230,
+      "skillIds": [
+        "BC10-C4-1",
+        "BC10-C4-2"
+      ]
+    },
+    {
+      "id": "BC10-C5",
+      "label": "Adopter une posture professionnelle",
+      "blockId": "BC10",
+      "sourceLine": 232,
+      "skillIds": [
+        "BC10-C5-1",
+        "BC10-C5-2",
+        "BC10-C5-3",
+        "BC10-C5-4"
+      ]
+    },
+    {
+      "id": "BC10-C6",
+      "label": "Respecter une démarche éthique",
+      "blockId": "BC10",
+      "sourceLine": 236,
+      "skillIds": [
+        "BC10-C6-1"
+      ]
+    },
+    {
+      "id": "BC10-C7",
+      "label": "Réaliser une veille technologique",
+      "blockId": "BC10",
+      "sourceLine": 237,
+      "skillIds": [
+        "BC10-C7-1",
+        "BC10-C7-2"
+      ]
+    },
+    {
+      "id": "BCT01-C1",
+      "label": "Utiliser et rédiger une documention technique",
+      "blockId": "BCT01",
+      "sourceLine": 253,
+      "skillIds": [
+        "BCT01-C1-1",
+        "BCT01-C1-2",
+        "BCT01-C1-3",
+        "BCT01-C1-4"
+      ]
+    },
+    {
+      "id": "BCT01-C2",
+      "label": "Refactoriser un code",
+      "blockId": "BCT01",
+      "sourceLine": 257,
+      "skillIds": [
+        "BCT01-C2-1"
+      ]
+    },
+    {
+      "id": "BCT02-C1",
+      "label": "Adopter une démarche de résolution de problème",
+      "blockId": "BCT02",
+      "sourceLine": 272,
+      "skillIds": [
+        "BCT02-C1-1",
+        "BCT02-C1-2"
+      ]
+    },
+    {
+      "id": "BCT02-C2",
+      "label": "Participer à la recette fonctionnelle d'un projet",
+      "blockId": "BCT02",
+      "sourceLine": 274,
+      "skillIds": [
+        "BCT02-C2-1",
+        "BCT02-C2-2",
+        "BCT02-C2-3"
+      ]
+    },
+    {
+      "id": "BCT02-C3",
+      "label": "Réaliser des tests",
+      "blockId": "BCT02",
+      "sourceLine": 277,
+      "skillIds": [
+        "BCT02-C3-1",
+        "BCT02-C3-2"
+      ]
+    },
+    {
+      "id": "BCT02-C4",
+      "label": "Déboguer une application et lire des logs",
+      "blockId": "BCT02",
+      "sourceLine": 279,
+      "skillIds": [
+        "BCT02-C4-1",
+        "BCT02-C4-2"
+      ]
+    },
+    {
+      "id": "BCT02-C5",
+      "label": "Utiliser les outils d'inspection navigateur",
+      "blockId": "BCT02",
+      "sourceLine": 281,
+      "skillIds": [
+        "BC02-C5-1"
+      ]
+    },
+    {
+      "id": "BCT03-C1",
+      "label": "Auditer et optimiser la performance d'une page",
+      "blockId": "BCT03",
+      "sourceLine": 296,
+      "skillIds": [
+        "BCT03-C1-1",
+        "BCT03-C1-2"
+      ]
+    },
+    {
+      "id": "BCT03-C2",
+      "label": "Optimiser les requêtes et traitements",
+      "blockId": "BCT03",
+      "sourceLine": 298,
+      "skillIds": [
+        "BCT03-C2-1"
+      ]
+    },
+    {
+      "id": "BCT03-C3",
+      "label": "Adopter une démarche d'éco-conception numérique",
+      "blockId": "BCT03",
+      "sourceLine": 299,
+      "skillIds": [
+        "BCT03-C3-1",
+        "BCT03-C3-2"
+      ]
+    },
+    {
+      "id": "BCT04-C1",
+      "label": "Comprendre les enjeux de l'accessibilité numérique",
+      "blockId": "BCT04",
+      "sourceLine": 312,
+      "skillIds": [
+        "BCT04-C1-1"
+      ]
+    },
+    {
+      "id": "BCT04-C2",
+      "label": "Appliquer les règles d'accessibilité (RGAA, ARIA)",
+      "blockId": "BCT04",
+      "sourceLine": 313,
+      "skillIds": [
+        "BCT04-C2-1",
+        "BCT04-C2-2"
+      ]
+    },
+    {
+      "id": "BCT04-C3",
+      "label": "Vérifier l'accessibilité d'une interface",
+      "blockId": "BCT04",
+      "sourceLine": 315,
+      "skillIds": [
+        "BCT04-C3-1",
+        "BCT04-C3-2"
+      ]
+    },
+    {
+      "id": "BCT05-C1",
+      "label": "Comprendre le fonctionnement et les types d'IA",
+      "blockId": "BCT05",
+      "sourceLine": 329,
+      "skillIds": [
+        "BCT05-C1-1"
+      ]
+    },
+    {
+      "id": "BCT05-C2",
+      "label": "Utiliser l'IA comme assistant (prompting, génération)",
+      "blockId": "BCT05",
+      "sourceLine": 330,
+      "skillIds": [
+        "BCT05-C2-1",
+        "BCT05-C2-2"
+      ]
+    },
+    {
+      "id": "BCT05-C3",
+      "label": "Exercer un regard critique sur les productions d'une IA",
+      "blockId": "BCT05",
+      "sourceLine": 332,
+      "skillIds": [
+        "BCT05-C3-1",
+        "BCT05-C3-2",
+        "BCT05-C3-3"
+      ]
+    },
+    {
+      "id": "BCT05-C4",
+      "label": "Adopter un usage responsable et ethique de l'IA",
+      "blockId": "BCT05",
+      "sourceLine": 335,
+      "skillIds": [
+        "BCT05-C4-1",
+        "BTC05-C4-2"
+      ]
+    },
+    {
+      "id": "BCT06-C1",
+      "label": "Hygiène numérique et sensibilisation",
+      "blockId": "BCT06",
+      "sourceLine": 352,
+      "skillIds": [
+        "BCT06-C1-1",
+        "BCT06-C1-2"
+      ]
+    },
+    {
+      "id": "BCT06-C2",
+      "label": "Initiation cybersécurité (pratique offensive/défensive)",
+      "blockId": "BCT06",
+      "sourceLine": 354,
+      "skillIds": [
+        "BCT06-C2-1",
+        "BCT06-C2-2"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "BC01-C1-1",
+      "sourceCode": "BC01-C1-1",
+      "label": "Connaître les grandes étapes de l'histoire de l'informatique",
+      "typology": "Savoir",
+      "notions": "Situer les grandes étapes de l'histoire de l'informatique pour contextualiser les choix techniques actuels\nLes composants essentiels d'un ordinateur (GPU, CPU, RAM, SSD, HDD)\nLe rôle de ces composants pour un développeur",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C1",
+      "sourceLine": 13,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Situer les grandes étapes de l'histoire de l'informatique pour contextualiser les choix techniques actuels",
+        "Les composants essentiels d'un ordinateur (GPU, CPU, RAM, SSD, HDD)",
+        "Le rôle de ces composants pour un développeur"
+      ]
+    },
+    {
+      "id": "BC01-C1-2",
+      "sourceCode": "BC01-C1-2",
+      "label": "Identifier les composants matériels d'un ordinateur et expliquer leur impact sur les performances d'une application",
+      "typology": "Savoir",
+      "notions": "Identifier les composants matériels d'un ordinateur (CPU, GPU, RAM, stockage)\nExpliquer leur impact sur les performances d'une application",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C1",
+      "sourceLine": 14,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Identifier les composants matériels d'un ordinateur (CPU, GPU, RAM, stockage)",
+        "Expliquer leur impact sur les performances d'une application"
+      ]
+    },
+    {
+      "id": "BC01-C2-1",
+      "sourceCode": "BC01-C2-1",
+      "label": "Décrire le cycle complet d'une requête web et distinguer les rôles de chaque composant",
+      "typology": "Savoir",
+      "notions": "> Le fonctionnement du web\n> La différence entre un ordinateur de bureau et un serveur informatique\n> HTTP, DNS\n> cycle complet d'une requête (requête → serveur → réponse → rendu navigateur)\n\n- Connaître le cycle d'une requête HTTP/HTTPS\n- Comprendre les notions d’hébergement, domaine, DNS, HTTPS",
+      "tools": "DevTools",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C2",
+      "sourceLine": 15,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Le fonctionnement du web",
+        "La différence entre un ordinateur de bureau et un serveur informatique",
+        "HTTP, DNS",
+        "cycle complet d'une requête (requête → serveur → réponse → rendu navigateur)",
+        "Connaître le cycle d'une requête HTTP/HTTPS",
+        "Comprendre les notions d’hébergement, domaine, DNS, HTTPS"
+      ]
+    },
+    {
+      "id": "BC01-C2-2",
+      "sourceCode": "BC01-C2-2",
+      "label": "Schématiser l'architecture d'une application web en identifiant les rôles et interactions entre navigateur, serveur et API",
+      "typology": "Savoir",
+      "notions": "> Les rôles et interactions : serveur, navigateur, API\n> Comprendre le rôle d'une API dans une architecture web",
+      "tools": "Schémas d'architecture",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C2",
+      "sourceLine": 16,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Les rôles et interactions : serveur, navigateur, API",
+        "Comprendre le rôle d'une API dans une architecture web"
+      ]
+    },
+    {
+      "id": "BC01-C2-3",
+      "sourceCode": "BC01-C2-3",
+      "label": "Distinguer les principaux protocoles d'échange",
+      "typology": "Savoir",
+      "notions": "> protocoles d'échanges : HTTP vs HTTPS, FTP, SSH  \n> comprendre les protocoles réseau LAN/WAN/VPN\n> expliquer le choix d'un protocole selon le contexte d'usage",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C2",
+      "sourceLine": 17,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "protocoles d'échanges : HTTP vs HTTPS, FTP, SSH",
+        "comprendre les protocoles réseau LAN/WAN/VPN",
+        "expliquer le choix d'un protocole selon le contexte d'usage"
+      ]
+    },
+    {
+      "id": "BC01-C2-4",
+      "sourceCode": "BC01-C2-4",
+      "label": "Expliquer les fondamentaux réseau et les mobiliser pour diagnostiquer un problème de communication simple",
+      "typology": "Savoir",
+      "notions": "> IP / ports / DNS / Requêtes  \n> Architecture des réseaux (Routeur, Switch, appareils) \n> La commande ping\n> Encapsulation des données au travers de protocole (model OSI)",
+      "tools": "Terminal",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C2",
+      "sourceLine": 18,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "IP / ports / DNS / Requêtes",
+        "Architecture des réseaux (Routeur, Switch, appareils)",
+        "La commande ping",
+        "Encapsulation des données au travers de protocole (model OSI)"
+      ]
+    },
+    {
+      "id": "BC01-C3-1",
+      "sourceCode": "BC01-C3-1",
+      "label": "Décrire les phases du cycle de vie d'un produit numérique",
+      "typology": "Savoir",
+      "notions": "> Connaître les grandes étapes de production d'un produit web  : brief / analyse du besoin -> conception (fonctionnelle et graphique) -> dev -> tests et recette -> déploiement -> maintenance et évolution\n> Identifier les livrables associés\n> Comprendre qu'un produit numérique évolue dans le temps",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C3",
+      "sourceLine": 19,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connaître les grandes étapes de production d'un produit web  : brief / analyse du besoin -> conception (fonctionnelle et graphique) -> dev -> tests et recette -> déploiement -> maintenance et évolution",
+        "Identifier les livrables associés",
+        "Comprendre qu'un produit numérique évolue dans le temps"
+      ]
+    },
+    {
+      "id": "BC01-C3-2",
+      "sourceCode": "BC01-C3-2",
+      "label": "Positionner le rôle du développeur au sein d'une équipe projet",
+      "typology": "Savoir",
+      "notions": "> Identifier les principaux métiers intervenant dans un projet numérique : développeur, designer, product manager, chef de projet, DevOps, testeur, QA\n> Comprendre les interactions entre les différents métiers : collaboration, communication, rôle de chacun dans un projet\n> Se positionner en tant que développeur au sein d'une équipe en identifiant les interactions avec les autres métiers du numérique.",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC01",
+      "parentId": "BC01-C3",
+      "sourceLine": 20,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Identifier les principaux métiers intervenant dans un projet numérique : développeur, designer, product manager, chef de projet, DevOps, testeur, QA",
+        "Comprendre les interactions entre les différents métiers : collaboration, communication, rôle de chacun dans un projet",
+        "Se positionner en tant que développeur au sein d'une équipe en identifiant les interactions avec les autres métiers du numérique."
+      ]
+    },
+    {
+      "id": "BC02-C1-1",
+      "sourceCode": "BC02-C1-1",
+      "label": "Installer un système d'exploitation (OS)",
+      "typology": "Savoir-faire technique",
+      "notions": "> Notions de dualboot — installation de Linux en parallèle (via VM virtualBox)",
+      "tools": "Linux (dualboot) A1 \nWindows A2",
+      "levelSource": "A1 A2",
+      "blockId": "BC02",
+      "parentId": "BC02-C1",
+      "sourceLine": 35,
+      "aliases": [],
+      "notes": [],
+      "level": "A1/A2",
+      "notionItems": [
+        "Notions de dualboot — installation de Linux en parallèle (via VM virtualBox)"
+      ]
+    },
+    {
+      "id": "BC02-C1-2",
+      "sourceCode": "BC02-C1-2",
+      "label": "Installer et configurer des outils de développement",
+      "typology": "Savoir-faire technique",
+      "notions": "> Navigateur, logiciel, IDE, extensions...",
+      "tools": "VS Code",
+      "levelSource": "A2",
+      "blockId": "BC02",
+      "parentId": "BC02-C1",
+      "sourceLine": 36,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Navigateur, logiciel, IDE, extensions..."
+      ]
+    },
+    {
+      "id": "BC02-C2-1",
+      "sourceCode": "BC02-C2-1",
+      "label": "Utiliser un gestionnaire de versionning",
+      "typology": "Savoir-faire technique",
+      "notions": "> Présentation git / github\n> Usages : repo, commit, versionning, sauvegarde et publication du code en ligne",
+      "tools": "Git / GitHub",
+      "levelSource": "A2",
+      "blockId": "BC02",
+      "parentId": "BC02-C2",
+      "sourceLine": 37,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Présentation git / github",
+        "Usages : repo, commit, versionning, sauvegarde et publication du code en ligne"
+      ]
+    },
+    {
+      "id": "BC02-C2-2",
+      "sourceCode": "BC02-C2-2",
+      "label": "Utiliser un gestionnaire de versionning en contexte collaboratif",
+      "typology": "Savoir-faire technique",
+      "notions": "> Branches / Merge / résolution de conflits simples\n> Pull Request, commentaires",
+      "tools": "Git / GitHub",
+      "levelSource": "",
+      "blockId": "BC02",
+      "parentId": "BC02-C2",
+      "sourceLine": 38,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Branches / Merge / résolution de conflits simples",
+        "Pull Request, commentaires"
+      ]
+    },
+    {
+      "id": "BC02-C3-1",
+      "sourceCode": "BC02-C3-1",
+      "label": "Utiliser les commandes Linux",
+      "typology": "Savoir-faire technique",
+      "notions": "> Histoire de Linux\n> Navigation dans l'arborescence (ls, pwd, cd, mkdir, grep)\n> Créer / lire / éditer des fichiers\n> Installer et mettre à jour des packets\n> Créer et gérer un utilisateur\n> Réinvestissement des bases : navigation, gestion de fichiers, droits",
+      "tools": "Linux (terminal)",
+      "levelSource": "A2",
+      "blockId": "BC02",
+      "parentId": "BC02-C3",
+      "sourceLine": 39,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Histoire de Linux",
+        "Navigation dans l'arborescence (ls, pwd, cd, mkdir, grep)",
+        "Créer / lire / éditer des fichiers",
+        "Installer et mettre à jour des packets",
+        "Créer et gérer un utilisateur",
+        "Réinvestissement des bases : navigation, gestion de fichiers, droits"
+      ]
+    },
+    {
+      "id": "BC03-C1-1",
+      "sourceCode": "BC03-C1-1",
+      "label": "Prendre des notes à partir d'un échange",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Identifier les données importantes à conserver lors d'un brief \n> Ecrire les données identifiées en même tant qu'un brief en autonomie",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C1",
+      "sourceLine": 51,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Identifier les données importantes à conserver lors d'un brief",
+        "Ecrire les données identifiées en même tant qu'un brief en autonomie"
+      ]
+    },
+    {
+      "id": "BC03-C1-2",
+      "sourceCode": "BC03-C1-2",
+      "label": "Comprendre et reformuler une tâche, un brief ou un besoin exprimé",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Reformulation orale de la tâche \n> Vérifier sa compréhension avant de coder",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C1",
+      "sourceLine": 52,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Reformulation orale de la tâche",
+        "Vérifier sa compréhension avant de coder"
+      ]
+    },
+    {
+      "id": "BC03-C1-3",
+      "sourceCode": "BC03-C1-3",
+      "label": "Lire et interpréter un cahier des charges",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Savoir expliquer la notion de CDC \n> Connaître les éléments présentés dans un CDC\n> Retrouver les informations nécessaires au développement dans le CDC \n> S'appuyer sur le CDC pour développer",
+      "tools": "",
+      "levelSource": "A2",
+      "blockId": "BC03",
+      "parentId": "BC03-C1",
+      "sourceLine": 53,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Savoir expliquer la notion de CDC",
+        "Connaître les éléments présentés dans un CDC",
+        "Retrouver les informations nécessaires au développement dans le CDC",
+        "S'appuyer sur le CDC pour développer"
+      ]
+    },
+    {
+      "id": "BC03-C1-4",
+      "sourceCode": "BC03-C1-4",
+      "label": "Identifier le besoin utilisateur derrière une demande",
+      "typology": "Savoir-faire technique",
+      "notions": "> Comprendre le lien : besoin -> demande -> objectif -> problématique -> contexte d'usage\n> Questionner avant de coder : pour qui ? pourquoi ? comment mesure-t-on le succès ?\n> Reformuler en termes d'impact utilisateur plutôt que de fonctionnalité technique",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C1",
+      "sourceLine": 54,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Comprendre le lien : besoin -> demande -> objectif -> problématique -> contexte d'usage",
+        "Questionner avant de coder : pour qui ? pourquoi ? comment mesure-t-on le succès ?",
+        "Reformuler en termes d'impact utilisateur plutôt que de fonctionnalité technique"
+      ]
+    },
+    {
+      "id": "BC03-C2-1",
+      "sourceCode": "BC03-C2-1",
+      "label": "Connaître les principes fondamentaux de l'expérience utilisateur (UX) et le design d'interface (UI)",
+      "typology": "Savoir",
+      "notions": "> Comprendre les enjeux UX (expérience) et UI (interface)\n> Connaître le principe de conception centrée utilisateur\n> Connaître les notions de cible et personna \n> Connaître les méthodologies d'étude de la cible\n> Comprendre le parcours utilisateur : en amont / pendant et après la visite de l'utilisateur\n> Vérifier l'accessibilité, la compréhension, la cohérence du parcours\n> Identifier les frictions dans le parcours utilisateur : ce qui bloque, ce qui surprend, ce qui décourage",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C2",
+      "sourceLine": 55,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Comprendre les enjeux UX (expérience) et UI (interface)",
+        "Connaître le principe de conception centrée utilisateur",
+        "Connaître les notions de cible et personna",
+        "Connaître les méthodologies d'étude de la cible",
+        "Comprendre le parcours utilisateur : en amont / pendant et après la visite de l'utilisateur",
+        "Vérifier l'accessibilité, la compréhension, la cohérence du parcours",
+        "Identifier les frictions dans le parcours utilisateur : ce qui bloque, ce qui surprend, ce qui décourage"
+      ]
+    },
+    {
+      "id": "BC03-C2-2",
+      "sourceCode": "BC03-C2-2",
+      "label": "Connaître les bonnes pratiques UI",
+      "typology": "Savoir",
+      "notions": "> Grille de lecture  \n> Base de l'ergonomie web \n> Connaître les design patterns de base en design (header, navigation, footer)",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C2",
+      "sourceLine": 56,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Grille de lecture",
+        "Base de l'ergonomie web",
+        "Connaître les design patterns de base en design (header, navigation, footer)"
+      ]
+    },
+    {
+      "id": "BC03-C2-3",
+      "sourceCode": "BC03-C2-3",
+      "label": "Analyser une interface ou un produit numérique existant",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Réaliser un benchmark\n> Identifier les bonnes pratiques et pistes d'amélioration\n> Proposer des corrections côté dev issues de l'analyse (UX, performance, accessibilité)\n> Relier l'analyse utilisateur à une décision technique concrète",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C2",
+      "sourceLine": 57,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Réaliser un benchmark",
+        "Identifier les bonnes pratiques et pistes d'amélioration",
+        "Proposer des corrections côté dev issues de l'analyse (UX, performance, accessibilité)",
+        "Relier l'analyse utilisateur à une décision technique concrète"
+      ]
+    },
+    {
+      "id": "BC03-C3-1",
+      "sourceCode": "BC03-C3-1",
+      "label": "Identifier le parcours utilisateur",
+      "typology": "Savoir-faire technique",
+      "notions": "> Présentation et définition : storyboard / arborescence / page / zoning / wireframe / Landing Page\n> Lire et interpréter une arborescence\n> Notion de rubrique, de landing page\n> Lien entre les pages d'un site",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C3",
+      "sourceLine": 58,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Présentation et définition : storyboard / arborescence / page / zoning / wireframe / Landing Page",
+        "Lire et interpréter une arborescence",
+        "Notion de rubrique, de landing page",
+        "Lien entre les pages d'un site"
+      ]
+    },
+    {
+      "id": "BC03-C3-2",
+      "sourceCode": "BC03-C3-2",
+      "label": "Identifier la structure d'une page, d'un wireframe",
+      "typology": "Savoir-faire technique",
+      "notions": "> Présentation et définition d'un wireframe\n> Identifier de la struture de la page : Header, Menu, Hn, paragraphe...\n(lien compétence UI : lecture en grille)",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C3",
+      "sourceLine": 59,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Présentation et définition d'un wireframe",
+        "Identifier de la struture de la page : Header, Menu, Hn, paragraphe...",
+        "(lien compétence UI : lecture en grille)"
+      ]
+    },
+    {
+      "id": "BC03-C3-3",
+      "sourceCode": "BC03-C3-3",
+      "label": "Lire et comprendre des spécifications fonctionnelles",
+      "typology": "Savoir-faire technique",
+      "notions": "> lire des spécifications fonctionnelles (base CDC ou User storie) \n> traduire les spécifications fonctionnelles pour son développement\n> Prendre en compte l'ensemble des spécifications sans interpréter par soi-même une maquette",
+      "tools": "",
+      "levelSource": "A2",
+      "blockId": "BC03",
+      "parentId": "BC03-C3",
+      "sourceLine": 60,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "lire des spécifications fonctionnelles (base CDC ou User storie)",
+        "traduire les spécifications fonctionnelles pour son développement",
+        "Prendre en compte l'ensemble des spécifications sans interpréter par soi-même une maquette"
+      ]
+    },
+    {
+      "id": "BC03-C3-4",
+      "sourceCode": "BC03-C3-4",
+      "label": "Connaître les diiférents médias et formats composant une page web",
+      "typology": "Savoir",
+      "notions": "> Types de média : image / vidéo / Texte,...\n> Format des images : JPG, SVG, PNG...\n> Format des typographies : print, web...\n> Format des couleurs : RVB, CMJN\n> Format des vidéos\n> Format des audios",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C3",
+      "sourceLine": 61,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Types de média : image / vidéo / Texte,...",
+        "Format des images : JPG, SVG, PNG...",
+        "Format des typographies : print, web...",
+        "Format des couleurs : RVB, CMJN",
+        "Format des vidéos",
+        "Format des audios"
+      ]
+    },
+    {
+      "id": "BC03-C4-1",
+      "sourceCode": "BC03-C4-1",
+      "label": "Lire et interpréter une charte graphique, un guide de style",
+      "typology": "Savoir-faire technique",
+      "notions": "> Connaître la notion d'identité de marque et ses enjeux : la charte traduit une intention de marque\n> Comprendre les composants d'une charte graphique : \n   - logo : usages, variantes (couleur, noir/blanc, favicon), zones d'exclusion \n   - typographie : familles, graisses, corp \n   - palette de couleurs : primaire, secondaire, neutre, accessibilité des contrastes \n   - ton éditorial : registre, vocabulaire, prise de parole (ce que la marque dit d'elle-même)\n   - guide de style Web (formulaire, boutons, H1,...)\n\n> Comprendre le rôle d'un graphiste / DA et savoir collaborer sans empiéter sur ses décisions\n> Lire et interpréter une charte graphique web : couleur, typographie, formulaire...\n> En tant que développeur : identifier les éléments graphiques récurrents dans le cadre de son intégration HTML / CSS",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C4",
+      "sourceLine": 62,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connaître la notion d'identité de marque et ses enjeux : la charte traduit une intention de marque",
+        "Comprendre les composants d'une charte graphique :",
+        "logo : usages, variantes (couleur, noir/blanc, favicon), zones d'exclusion",
+        "typographie : familles, graisses, corp",
+        "palette de couleurs : primaire, secondaire, neutre, accessibilité des contrastes",
+        "ton éditorial : registre, vocabulaire, prise de parole (ce que la marque dit d'elle-même)",
+        "guide de style Web (formulaire, boutons, H1,...)",
+        "Comprendre le rôle d'un graphiste / DA et savoir collaborer sans empiéter sur ses décisions",
+        "Lire et interpréter une charte graphique web : couleur, typographie, formulaire...",
+        "En tant que développeur : identifier les éléments graphiques récurrents dans le cadre de son intégration HTML / CSS"
+      ]
+    },
+    {
+      "id": "BC03-C4-3",
+      "sourceCode": "BC03-C4-3",
+      "label": "Connaître les principes fondamentaux de conception visuelle d'une interface",
+      "typology": "Savoir",
+      "notions": "> Comprende les enjeux de la conception graphique : transmettre un message (selon les cultures, les modes,... les codants graphiques contribuent à l'interprétation du message)\n> Grille de lecture et sens de lecture : hiérarchie visuelle / contraste / alignement / espaces / rythme visuel / lisibilité\n> Harmonie des couleurs",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C4",
+      "sourceLine": 63,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Comprende les enjeux de la conception graphique : transmettre un message (selon les cultures, les modes,... les codants graphiques contribuent à l'interprétation du message)",
+        "Grille de lecture et sens de lecture : hiérarchie visuelle / contraste / alignement / espaces / rythme visuel / lisibilité",
+        "Harmonie des couleurs"
+      ]
+    },
+    {
+      "id": "BC03-C4-2",
+      "sourceCode": "BC03-C4-2",
+      "label": "Utiliser un outil de maquettage",
+      "typology": "Savoir-faire technique",
+      "notions": "> Maîtriser l'interface de l'outil\n> Récupérer les paramètres de l'élément inspecté dans une maquette existante : taille typo, couleur...\n> Réaliser une interface simple à l'aide d'un outil de maquettage",
+      "tools": "Figma",
+      "levelSource": "",
+      "blockId": "BC03",
+      "parentId": "BC03-C4",
+      "sourceLine": 64,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Maîtriser l'interface de l'outil",
+        "Récupérer les paramètres de l'élément inspecté dans une maquette existante : taille typo, couleur...",
+        "Réaliser une interface simple à l'aide d'un outil de maquettage"
+      ]
+    },
+    {
+      "id": "BC04-C1-1",
+      "sourceCode": "BC04-C1-1",
+      "label": "HTML5 - Comprendre la sémantique HTML",
+      "typology": "Savoir-faire technique",
+      "notions": "> Balises sémantiques, attributs, data-attributs\n> Niveaux de texte, balises block/inline/orphelines\n> Produire un HTML valide (W3C)",
+      "tools": "HTML5, W3C",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C1",
+      "sourceLine": 80,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Balises sémantiques, attributs, data-attributs",
+        "Niveaux de texte, balises block/inline/orphelines",
+        "Produire un HTML valide (W3C)"
+      ]
+    },
+    {
+      "id": "BC04-C1-2",
+      "sourceCode": "BC04-C1-2",
+      "label": "HTML5 - Organiser le squelette d'une page et son layout",
+      "typology": "Savoir-faire technique",
+      "notions": "> Squelette complet d'une page HTML5\n> Balises de layout : main, header, footer, section, article\n> Fluid layout — intégration Figma → HTML",
+      "tools": "HTML5, Figma",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C1",
+      "sourceLine": 81,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Squelette complet d'une page HTML5",
+        "Balises de layout : main, header, footer, section, article",
+        "Fluid layout — intégration Figma → HTML"
+      ]
+    },
+    {
+      "id": "BC04-C1-3",
+      "sourceCode": "BC04-C1-3",
+      "label": "HTML5 - Formulaires et contenu interactif",
+      "typology": "Savoir-faire technique",
+      "notions": "> Boîtes de dialogue et modales\n> Formulaires HTML5 : datalist, option, input, select, textarea, label\n> Balises nouvelles générations : progress, meter",
+      "tools": "HTML5",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C1",
+      "sourceLine": 82,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Boîtes de dialogue et modales",
+        "Formulaires HTML5 : datalist, option, input, select, textarea, label",
+        "Balises nouvelles générations : progress, meter"
+      ]
+    },
+    {
+      "id": "BC04-C1-4",
+      "sourceCode": "BC04-C1-4",
+      "label": "HTML 5 - positionner /disposer des éléments sur une page / Garantir la cohérence structurelle d'une page",
+      "typology": "Savoir-faire technique",
+      "notions": "> Établir la liste des composants (header, footer, cartes...)\n> Respecter les normes W3C et conventions de nommage HTML",
+      "tools": "Figma",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C1",
+      "sourceLine": 83,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Établir la liste des composants (header, footer, cartes...)",
+        "Respecter les normes W3C et conventions de nommage HTML"
+      ]
+    },
+    {
+      "id": "BC04-C2-1",
+      "sourceCode": "BC04-C2-1",
+      "label": "CSS3 - Appliquer un style au composant d'une interface",
+      "typology": "Savoir-faire technique",
+      "notions": "> Lier CSS à HTML\n> Propriétés de base : couleur, taille, fond, bordure\n> Sélecteurs, cascade, unités de mesure",
+      "tools": "CSS3",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C2",
+      "sourceLine": 84,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Lier CSS à HTML",
+        "Propriétés de base : couleur, taille, fond, bordure",
+        "Sélecteurs, cascade, unités de mesure"
+      ]
+    },
+    {
+      "id": "BC04-C2-2",
+      "sourceCode": "BC04-C2-2",
+      "label": "CSS3 - Mettre en forme une interface",
+      "typology": "Savoir-faire technique",
+      "notions": "> Flexbox : alignement, distribution, direction, wrap\n> Grid : grilles, colonnes, zones, gap\n> Cas d'usage : Flexbox pour composants, Grid pour layouts",
+      "tools": "CSS3",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C2",
+      "sourceLine": 85,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Flexbox : alignement, distribution, direction, wrap",
+        "Grid : grilles, colonnes, zones, gap",
+        "Cas d'usage : Flexbox pour composants, Grid pour layouts"
+      ]
+    },
+    {
+      "id": "BC04-C2-3",
+      "sourceCode": "BC04-C2-3",
+      "label": "CSS3 - Appliquer un système de design et respecter la charte graphique",
+      "typology": "Savoir-faire technique",
+      "notions": "> Cohérence de la charte graphique sur l'ensemble du site\n> Respect de la maquette Figma fournie\n> Conventions CSS maintenues sur plusieurs pages\n> Cohérence nommage (BEM ou convention choisie)",
+      "tools": "CSS3, Figma",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C2",
+      "sourceLine": 86,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Cohérence de la charte graphique sur l'ensemble du site",
+        "Respect de la maquette Figma fournie",
+        "Conventions CSS maintenues sur plusieurs pages",
+        "Cohérence nommage (BEM ou convention choisie)"
+      ]
+    },
+    {
+      "id": "BC04-C3-1",
+      "sourceCode": "BC04-C3-1",
+      "label": "Savoir expliquer le responsive design et le mobile first",
+      "typology": "Savoir",
+      "notions": "> Types de devices et résolutions d'écran\n> Principe de responsivité\n> Concept \"mobile first\" et enrichissement progressif",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C3",
+      "sourceLine": 87,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Types de devices et résolutions d'écran",
+        "Principe de responsivité",
+        "Concept \"mobile first\" et enrichissement progressif"
+      ]
+    },
+    {
+      "id": "BC04-C3-2",
+      "sourceCode": "BC04-C3-2",
+      "label": "Adapter une interface à tous les supports",
+      "typology": "Savoir-faire technique",
+      "notions": "> Media queries : syntaxe, breakpoints, mobile first\n> Viewport units : vw, vh, vmin, vmax\n> Flexbox et Grid en contexte responsive\n> Adapter des composants riches (cartes, tableaux) en responsive\n> Cohérence de l'expérience sur tous les breakpoints\n> Arbitrer les choix responsive et les justifier",
+      "tools": "CSS3",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C3",
+      "sourceLine": 88,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Media queries : syntaxe, breakpoints, mobile first",
+        "Viewport units : vw, vh, vmin, vmax",
+        "Flexbox et Grid en contexte responsive",
+        "Adapter des composants riches (cartes, tableaux) en responsive",
+        "Cohérence de l'expérience sur tous les breakpoints",
+        "Arbitrer les choix responsive et les justifier"
+      ]
+    },
+    {
+      "id": "BC04-C4-1",
+      "sourceCode": "BC04-C4-1",
+      "label": "Comprendre les enjeux du référencement",
+      "typology": "Savoir",
+      "notions": "> Présentation des notions de SEO (Search Engine Optimization) et GEO (Generative Engine Optimization)\n> Enjeux du référencement naturel pour un site web\n> Savoir positionner le canal SEO vs les autres canaux (display, SEA,...)",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C4",
+      "sourceLine": 89,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Présentation des notions de SEO (Search Engine Optimization) et GEO (Generative Engine Optimization)",
+        "Enjeux du référencement naturel pour un site web",
+        "Savoir positionner le canal SEO vs les autres canaux (display, SEA,...)"
+      ]
+    },
+    {
+      "id": "BC04-C4-2",
+      "sourceCode": "BC04-C4-2",
+      "label": "Appliquer les bonnes pratiques de référencement côté développeur",
+      "typology": "Savoir-faire technique",
+      "notions": "> Fonctionnement d'un Googlebot (crawl, indexation)\n> Mise en application des bonnes pratiques de base : Balises méta, structure Hn, attributs alt, optimisation images, lazy loading, minification CSS/JS\n> structure sémantique HTML\n> métadonnées\n> SEO technique",
+      "tools": "VS Code",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C4",
+      "sourceLine": 90,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Fonctionnement d'un Googlebot (crawl, indexation)",
+        "Mise en application des bonnes pratiques de base : Balises méta, structure Hn, attributs alt, optimisation images, lazy loading, minification CSS/JS",
+        "structure sémantique HTML",
+        "métadonnées",
+        "SEO technique"
+      ]
+    },
+    {
+      "id": "BC04-C4-3",
+      "sourceCode": "BC04-C4-3",
+      "label": "Auditer et optimiser une page pour le référencement",
+      "typology": "Savoir-faire technique",
+      "notions": "> Installer et utiliser Google Lighthouse\n> Interpréter les 4 scores : Performance, Accessibilité, SEO, Best practices\n> Identifier et corriger les points bloquants en autonomie",
+      "tools": "Google Lighthouse",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C4",
+      "sourceLine": 91,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Installer et utiliser Google Lighthouse",
+        "Interpréter les 4 scores : Performance, Accessibilité, SEO, Best practices",
+        "Identifier et corriger les points bloquants en autonomie"
+      ]
+    },
+    {
+      "id": "BC04-C5-1",
+      "sourceCode": "BC04-C5-1",
+      "label": "Savoir quand et pourqoi utiliser un CMS ou un outil No-code",
+      "typology": "Savoir",
+      "notions": "> fonctionnement d'un CMS (back / front) et outil no-code\n> les différents types de CMS et outil no-code\n> les enjeux et usage\n> le coût",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C5",
+      "sourceLine": 92,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "fonctionnement d'un CMS (back / front) et outil no-code",
+        "les différents types de CMS et outil no-code",
+        "les enjeux et usage",
+        "le coût"
+      ]
+    },
+    {
+      "id": "BC04-C5-2",
+      "sourceCode": "BC04-C5-2",
+      "label": "Créer une interface statique à l'aide d'un outil no-code ou d'un CMS",
+      "typology": "Savoir-faire technique",
+      "notions": "> prise en main de l'interface de création de l'outil\n> création d'une page : structure, paramétrage de la page..",
+      "tools": "Wordpress \n/ Framer",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C5",
+      "sourceLine": 93,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "prise en main de l'interface de création de l'outil",
+        "création d'une page : structure, paramétrage de la page.."
+      ]
+    },
+    {
+      "id": "BC04-C5-3",
+      "sourceCode": "BC04-C5-3",
+      "label": "Créer une interface dynamique à l'aide d'un outil no-code ou d'un CMS",
+      "typology": "Savoir-faire technique",
+      "notions": "> gestion des templates\n> gestion du bakc office du site pour créer des blog, actualités, .....et permettre une mise à jour à distance",
+      "tools": "Wordpress \n/ Framer",
+      "levelSource": "",
+      "blockId": "BC04",
+      "parentId": "BC04-C5",
+      "sourceLine": 94,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "gestion des templates",
+        "gestion du bakc office du site pour créer des blog, actualités, .....et permettre une mise à jour à distance"
+      ]
+    },
+    {
+      "id": "BC05-C1-1",
+      "sourceCode": "BC05-C1-1",
+      "label": "Comprendre la logique booléenne, portes logiques",
+      "typology": "Savoir",
+      "notions": "Algèbre de Bool : portes OR / AND / XOR / NAND\nManipulation avec modules Arduino pré-câblés (sans composant électronique) — logique avant code",
+      "tools": "Arduino (modules pré-câblés)",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C1",
+      "sourceLine": 109,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Algèbre de Bool : portes OR / AND / XOR / NAND",
+        "Manipulation avec modules Arduino pré-câblés (sans composant électronique) — logique avant code"
+      ]
+    },
+    {
+      "id": "BC05-C1-2",
+      "sourceCode": "BC05-C1-2",
+      "label": "Élaborer une condition",
+      "typology": "Savoir-faire technique",
+      "notions": "Les opérateurs logiques (&&, ||, !)\nLes comparateurs (===, !=, >, >=, <, <=)\nLes structures conditionnelles : if / else / switch\nConditions imbriquées",
+      "tools": "Python, puis JS",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C1",
+      "sourceLine": 110,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Les opérateurs logiques (&&, ||, !)",
+        "Les comparateurs (===, !=, >, >=, <, <=)",
+        "Les structures conditionnelles : if / else / switch",
+        "Conditions imbriquées"
+      ]
+    },
+    {
+      "id": "BC05-C1-3",
+      "sourceCode": "BC05-C1-3",
+      "label": "Élaborer une boucle",
+      "typology": "Savoir-faire technique",
+      "notions": "La répétition d'instructions au travers d'une boucle\nLes différents types de boucle : while et for\nLes termes d'incrémentation et décrémentation\nLes cas d'utilisation des boucles",
+      "tools": "Python, puis JS",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C1",
+      "sourceLine": 111,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "La répétition d'instructions au travers d'une boucle",
+        "Les différents types de boucle : while et for",
+        "Les termes d'incrémentation et décrémentation",
+        "Les cas d'utilisation des boucles"
+      ]
+    },
+    {
+      "id": "BC05-C1-4",
+      "sourceCode": "BC05-C1-4",
+      "label": "Utiliser des variables et constantes — types primitifs",
+      "typology": "Savoir-faire technique",
+      "notions": "Les variables avec let et non var\nLes constantes avec const\nLes opérateurs assignants =, +=, -=, *=, /=\nLes types de données string, number, boolean\nLes opérateurs mathématiques +, -, *, /, %, **",
+      "tools": "Python, puis JS",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C1",
+      "sourceLine": 112,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Les variables avec let et non var",
+        "Les constantes avec const",
+        "Les opérateurs assignants =, +=, -=, *=, /=",
+        "Les types de données string, number, boolean",
+        "Les opérateurs mathématiques +, -, *, /, %, **"
+      ]
+    },
+    {
+      "id": "BC05-C1-5",
+      "sourceCode": "BC05-C1-5",
+      "label": "Utiliser des tableaux",
+      "typology": "Savoir-faire technique",
+      "notions": "Parcours / recherche\nMéthodes de tableaux : map, filter, find, forEach",
+      "tools": "Python, puis JS",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C1",
+      "sourceLine": 113,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Parcours / recherche",
+        "Méthodes de tableaux : map, filter, find, forEach"
+      ]
+    },
+    {
+      "id": "BC05-C1-6",
+      "sourceCode": "BC05-C1-6",
+      "label": "Utiliser des objets littéraux",
+      "typology": "Savoir-faire technique",
+      "notions": "Structures de données : objet littéral\n> Utiliser des clés valeurs\n> Destructuration des données\n> Accéder à une clé au travers de la syntaxe \".\"",
+      "tools": "Python, puis JS",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C1",
+      "sourceLine": 114,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Structures de données : objet littéral",
+        "Utiliser des clés valeurs",
+        "Destructuration des données",
+        "Accéder à une clé au travers de la syntaxe \".\""
+      ]
+    },
+    {
+      "id": "BC05-C1-7",
+      "sourceCode": "BC05-C1-7",
+      "label": "Définir et manipuler une fonction",
+      "typology": "Savoir-faire technique",
+      "notions": "Les fonctions en programmation\nLes différentes manières de créer une fonction (function, arrow functions)\nLes paramètres, arguments et valeurs de retour\nLe mot-clé return",
+      "tools": "Python, puis JS",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C1",
+      "sourceLine": 115,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Les fonctions en programmation",
+        "Les différentes manières de créer une fonction (function, arrow functions)",
+        "Les paramètres, arguments et valeurs de retour",
+        "Le mot-clé return"
+      ]
+    },
+    {
+      "id": "BC05-C2-1",
+      "sourceCode": "BC05-C2-1",
+      "label": "Identifier le traitement entre les données en entrée et celles en sortie",
+      "typology": "Savoir-faire technique",
+      "notions": "> Dégager et approfondir les éléments de règles métier : comprendre les règles métier\n> Identifier quelles transformations/traitement réaliser sur quelles données\n> Analyser un besoin fonctionnel\n> Identification des contraintes",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C2",
+      "sourceLine": 116,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Dégager et approfondir les éléments de règles métier : comprendre les règles métier",
+        "Identifier quelles transformations/traitement réaliser sur quelles données",
+        "Analyser un besoin fonctionnel",
+        "Identification des contraintes"
+      ]
+    },
+    {
+      "id": "BC05-C2-2",
+      "sourceCode": "BC05-C2-2",
+      "label": "Décomposer une problèmatique algorithmique en étape logique",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Découpage logique d'un problème complexe en tâche et sous-tâche\n> Transcrire ses idées en règles (conditions) avant de débuter son code",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C2",
+      "sourceLine": 117,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Découpage logique d'un problème complexe en tâche et sous-tâche",
+        "Transcrire ses idées en règles (conditions) avant de débuter son code"
+      ]
+    },
+    {
+      "id": "BC05-C2-3",
+      "sourceCode": "BC05-C2-3",
+      "label": "Elaborer un algorithmes en pseudo-code ou logigramme",
+      "typology": "Savoir-faire technique",
+      "notions": "> Écrire un algorithme à partir d'une spécification fonctionnelle\n> Abstraction et modélisation d'une solution",
+      "tools": "Pseudocode / logigramme sur papier",
+      "levelSource": "",
+      "blockId": "BC05",
+      "parentId": "BC05-C2",
+      "sourceLine": 118,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Écrire un algorithme à partir d'une spécification fonctionnelle",
+        "Abstraction et modélisation d'une solution"
+      ]
+    },
+    {
+      "id": "BC06-C1-1",
+      "sourceCode": "BC06-C1-1",
+      "label": "Manipuler le DOM avec le JavaScript",
+      "typology": "Savoir-faire technique",
+      "notions": "Sélection, modification, suppression\n- La notion de DOM et d'arborescence de la page.\n- Ajouter, modifier un noeud (appendChild)\n- Les méthodes querySelector et querySelectorAll\n- Quelques méthodes de base de l'API du DOM (textContent, style, classList)\n> Click, submit, change\n> Ecouter et réagir des événements avec la méthode addEventListener\n> flux d'interaction utilisateur\n> cycle événement → traitement → mise à jour",
+      "tools": "JavaScript (vanilla)",
+      "levelSource": "",
+      "blockId": "BC06",
+      "parentId": "BC06-C1",
+      "sourceLine": 133,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Sélection, modification, suppression",
+        "La notion de DOM et d'arborescence de la page.",
+        "Ajouter, modifier un noeud (appendChild)",
+        "Les méthodes querySelector et querySelectorAll",
+        "Quelques méthodes de base de l'API du DOM (textContent, style, classList)",
+        "Click, submit, change",
+        "Ecouter et réagir des événements avec la méthode addEventListener",
+        "flux d'interaction utilisateur",
+        "cycle événement → traitement → mise à jour"
+      ]
+    },
+    {
+      "id": "BC06-C2-1",
+      "sourceCode": "BC06-C2-1",
+      "label": "Maîtriser les fondamentaux JavaScript",
+      "typology": "Savoir-faire technique",
+      "notions": "- Les primitives (string, number et boolean)\n- Les variables et les constantes en JavaScript ;\n- Les fonctions en JavaScript ;\n- Les structures de données (tableaux et objets litéraux) ;\n- Les conditions ;\n- Les objets natifs (Math, etc.)\n- L'ES6 (const/var, arrow functions et méthodes dédiées au tableau)",
+      "tools": "JavaScript (vanilla)",
+      "levelSource": "",
+      "blockId": "BC06",
+      "parentId": "BC06-C2",
+      "sourceLine": 134,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Les primitives (string, number et boolean)",
+        "Les variables et les constantes en JavaScript ;",
+        "Les fonctions en JavaScript ;",
+        "Les structures de données (tableaux et objets litéraux) ;",
+        "Les conditions ;",
+        "Les objets natifs (Math, etc.)",
+        "L'ES6 (const/var, arrow functions et méthodes dédiées au tableau)"
+      ]
+    },
+    {
+      "id": "BC06-C2-2",
+      "sourceCode": "BC06-C2-2",
+      "label": "Contrôler et valider un formulaire de données",
+      "typology": "Savoir-faire technique",
+      "notions": "> Validation, collecte de données\n> Attributs method et action, types de champs\n> Validation utilisateur\n> Gestion des erreurs utilisateur\n> Feedback utilisateur",
+      "tools": "HTML / JS",
+      "levelSource": "",
+      "blockId": "BC06",
+      "parentId": "BC06-C2",
+      "sourceLine": 135,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Validation, collecte de données",
+        "Attributs method et action, types de champs",
+        "Validation utilisateur",
+        "Gestion des erreurs utilisateur",
+        "Feedback utilisateur"
+      ]
+    },
+    {
+      "id": "BC06-C2-3",
+      "sourceCode": "BC06-C2-3",
+      "label": "Identifier et corriger les erreurs JavaScript",
+      "typology": "Savoir-faire technique",
+      "notions": "Erreurs de syntaxe, runtime, logique\nMéthodologie de débogage : observer le bug, hypothèse, tester\nExécution de tests fournis (les élèves exécutent des tests déjà faits)",
+      "tools": "DevTools",
+      "levelSource": "",
+      "blockId": "BC06",
+      "parentId": "BC06-C2",
+      "sourceLine": 136,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Erreurs de syntaxe, runtime, logique",
+        "Méthodologie de débogage : observer le bug, hypothèse, tester",
+        "Exécution de tests fournis (les élèves exécutent des tests déjà faits)"
+      ]
+    },
+    {
+      "id": "BC06-C3-1",
+      "sourceCode": "BC06-C3-1",
+      "label": "Exploiter des données depuis une API tierse",
+      "typology": "Savoir-faire technique",
+      "notions": "- Maîtriser l'outil de requetage Postman\n- Définir et manipuler les objets litéraux\n- Utiliser l'asynchrone en JavaScript ( async et syntaxe await)\n- Comprendre les promesses\n- S'identifier à l'aide de token\n- Envoyer des requetes et recevoir la réponse via fetch\n- Comprendre les fondamteaux de l'API REST\n- Les différentes méthodes CRUD (GET, POST, PUT, DEL)\n- interprétation des données reçues\n- gestion des cas d'erreur\n- validation d'une réponsew\n> Flux de données dans une application\n> Entrée → Validation → Traitement → Persistance → Restitution\n> Communication frontend ↔ backend ↔ base de données\n> Appels asynchrones vers une API\n> JSON \n> Sérialisation / désérialisation\n> json_encode / json_decode (PHP)",
+      "tools": "Fetch API / Postman",
+      "levelSource": "A2",
+      "blockId": "BC06",
+      "parentId": "BC06-C3",
+      "sourceLine": 137,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Maîtriser l'outil de requetage Postman",
+        "Définir et manipuler les objets litéraux",
+        "Utiliser l'asynchrone en JavaScript ( async et syntaxe await)",
+        "Comprendre les promesses",
+        "S'identifier à l'aide de token",
+        "Envoyer des requetes et recevoir la réponse via fetch",
+        "Comprendre les fondamteaux de l'API REST",
+        "Les différentes méthodes CRUD (GET, POST, PUT, DEL)",
+        "interprétation des données reçues",
+        "gestion des cas d'erreur",
+        "validation d'une réponsew",
+        "Flux de données dans une application",
+        "Entrée → Validation → Traitement → Persistance → Restitution",
+        "Communication frontend ↔ backend ↔ base de données",
+        "Appels asynchrones vers une API",
+        "JSON",
+        "Sérialisation / désérialisation",
+        "json_encode / json_decode (PHP)"
+      ]
+    },
+    {
+      "id": "BC06-C3-2",
+      "sourceCode": "BC06-C3-2",
+      "label": "Introduction à Node.js (culture technique)",
+      "typology": "Savoir-faire technique",
+      "notions": "- Les bases du fonctionnement de Node.JS\n- Executer un script Javascript via Node.js\n- Node versus Npm\n- Le fichier package.json\n- Les commandes node -v et npm -v",
+      "tools": "Node.js / npm (découverte)",
+      "levelSource": "A2",
+      "blockId": "BC06",
+      "parentId": "BC06-C3",
+      "sourceLine": 138,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Les bases du fonctionnement de Node.JS",
+        "Executer un script Javascript via Node.js",
+        "Node versus Npm",
+        "Le fichier package.json",
+        "Les commandes node -v et npm -v"
+      ]
+    },
+    {
+      "id": "BC07-C1-1",
+      "sourceCode": "BC07-C1-1",
+      "label": "Langage serveur - syntaxe et structures de base PHP",
+      "typology": "Savoir-faire technique",
+      "notions": "Syntaxe PHP, variables, conditions, boucles\nFonctions sur tableaux\nCréation de fonction, fonction récursive",
+      "tools": "PHP natif",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C1",
+      "sourceLine": 153,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Syntaxe PHP, variables, conditions, boucles",
+        "Fonctions sur tableaux",
+        "Création de fonction, fonction récursive"
+      ]
+    },
+    {
+      "id": "BC07-C1-2",
+      "sourceCode": "BC07-C1-2",
+      "label": "Langage serveur - transmission de données et gestion d'état HTTP",
+      "typology": "Savoir-faire technique",
+      "notions": "Manipulation des dates, sessions et cookies\nTransmission de données via GET/POST",
+      "tools": "PHP natif",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C1",
+      "sourceLine": 154,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Manipulation des dates, sessions et cookies",
+        "Transmission de données via GET/POST"
+      ]
+    },
+    {
+      "id": "BC07-C1-3",
+      "sourceCode": "BC07-C1-3",
+      "label": "Coder dans un langage orienté objet (Programmation Orientée Objet)",
+      "typology": "Savoir-faire technique",
+      "notions": "Paradigmes de programmation orientée objet en PHP\nClasses, objets, héritage de base\nCréation d'au moins une classe et un héritage (certifiant A2)",
+      "tools": "PHP natif (POO)",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C1",
+      "sourceLine": 155,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Paradigmes de programmation orientée objet en PHP",
+        "Classes, objets, héritage de base",
+        "Création d'au moins une classe et un héritage (certifiant A2)"
+      ]
+    },
+    {
+      "id": "BC07-C2-1",
+      "sourceCode": "BC07-C2-1",
+      "label": "Structurer un backend en architecture MVC",
+      "typology": "Savoir-faire technique",
+      "notions": "Architecture MVC simplifiée ; séparation routes / contrôleurs / vues\nBonne utilisation du pattern MVC\nProjet de fin de module dédié (1 semaine)",
+      "tools": "PHP natif (MVC simplifié)",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C2",
+      "sourceLine": 156,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Architecture MVC simplifiée ; séparation routes / contrôleurs / vues",
+        "Bonne utilisation du pattern MVC",
+        "Projet de fin de module dédié (1 semaine)"
+      ]
+    },
+    {
+      "id": "BC07-C2-2",
+      "sourceCode": "BC07-C2-2",
+      "label": "Concevoir et exposer une API REST",
+      "typology": "Savoir-faire technique",
+      "notions": "Découverte du concept d'API REST : routes, controllers, formatage des données\nCodes et statuts HTTP — sans BDD, sans middleware (A1 fin)\nMéthodes GET / POST / PUT / DELETE\nRouting manuel via front controller\nGestion des codes HTTP (200/404/500) via header()\nConnexion BDD (PDO)\nrègle métier\nvalidation métier\ncycle de traitement d'une donnée",
+      "tools": "PHP natif, REST",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C2",
+      "sourceLine": 157,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Découverte du concept d'API REST : routes, controllers, formatage des données",
+        "Codes et statuts HTTP — sans BDD, sans middleware (A1 fin)",
+        "Méthodes GET / POST / PUT / DELETE",
+        "Routing manuel via front controller",
+        "Gestion des codes HTTP (200/404/500) via header()",
+        "Connexion BDD (PDO)",
+        "règle métier",
+        "validation métier",
+        "cycle de traitement d'une donnée"
+      ]
+    },
+    {
+      "id": "BC07-C2-3",
+      "sourceCode": "BC07-C2-3",
+      "label": "Intégrer une API REST dans une architecture MVC complète",
+      "typology": "Savoir-faire technique",
+      "notions": "Intégration dans une architecture MVC complète\nProjet de fin de module noté\nséparation des responsabilités\ncirculation de la donnée dans l'application\nflux requête → traitement → réponse",
+      "tools": "PHP natif (MVC)",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C2",
+      "sourceLine": 158,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Intégration dans une architecture MVC complète",
+        "Projet de fin de module noté",
+        "séparation des responsabilités",
+        "circulation de la donnée dans l'application",
+        "flux requête → traitement → réponse"
+      ]
+    },
+    {
+      "id": "BC07-C2-4",
+      "sourceCode": "BC07-C2-4",
+      "label": "Comprendre une architecture 3-tiers et consommer une API",
+      "typology": "Savoir-faire technique",
+      "notions": "> Architecture 3 tiers\n> Flux de données dans une application\n> Entrée → Validation → Traitement → Persistance → Restitution\n> Communication frontend ↔ backend ↔ base de données\n> Appels asynchrones vers une API",
+      "tools": "Fetch / Ajax",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C2",
+      "sourceLine": 159,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Architecture 3 tiers",
+        "Flux de données dans une application",
+        "Entrée → Validation → Traitement → Persistance → Restitution",
+        "Communication frontend ↔ backend ↔ base de données",
+        "Appels asynchrones vers une API"
+      ]
+    },
+    {
+      "id": "BC07-C3-1",
+      "sourceCode": "BC07-C3-1",
+      "label": "Comprendre les attaques courantes",
+      "typology": "Savoir",
+      "notions": "XSS / Injection SQL / CSRF\nSensibilisation hygiène numérique (atelier hors code, A1)",
+      "tools": "OWASP Top 10",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C3",
+      "sourceLine": 160,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "XSS / Injection SQL / CSRF",
+        "Sensibilisation hygiène numérique (atelier hors code, A1)"
+      ]
+    },
+    {
+      "id": "BC07-C3-2",
+      "sourceCode": "BC07-C3-2",
+      "label": "Sécuriser un formulaire et valider les entrées",
+      "typology": "Savoir-faire technique",
+      "notions": "Validation et assainissement des entrées utilisateur\nfilter_var, validation côté serveur\ncontrainte métier\ncas limite\ncohérence des données",
+      "tools": "PHP (filter_var)",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C3",
+      "sourceLine": 161,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Validation et assainissement des entrées utilisateur",
+        "filter_var, validation côté serveur",
+        "contrainte métier",
+        "cas limite",
+        "cohérence des données"
+      ]
+    },
+    {
+      "id": "BC07-C3-3",
+      "sourceCode": "BC07-C3-3",
+      "label": "Authentifier un utilisateur de manière sécurisée",
+      "typology": "Savoir-faire technique",
+      "notions": "Sessions PHP, hash de mot de passe, gestion d'une autorisation simple\nOWASP appliqué en pratique offensive/défensive : capture the flag (bandit0, picoCTF, RootMe)\nPare-feu, fail2ban, durcissement SSH",
+      "tools": "PHP (session, password_hash) / CTF",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C3",
+      "sourceLine": 162,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Sessions PHP, hash de mot de passe, gestion d'une autorisation simple",
+        "OWASP appliqué en pratique offensive/défensive : capture the flag (bandit0, picoCTF, RootMe)",
+        "Pare-feu, fail2ban, durcissement SSH"
+      ]
+    },
+    {
+      "id": "BC07-C4-1",
+      "sourceCode": "BC07-C4-1",
+      "label": "Tester des routes API avec Postman",
+      "typology": "Savoir-faire technique",
+      "notions": "Tests de routes, requêtes, réponses — premiers tests sur l'API Node.js (A1)",
+      "tools": "Postman",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C4",
+      "sourceLine": 163,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Tests de routes, requêtes, réponses — premiers tests sur l'API Node.js (A1)"
+      ]
+    },
+    {
+      "id": "BC07-C4-2",
+      "sourceCode": "BC07-C4-2",
+      "label": "Exécuter des tests unitaires fournis",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "Syntaxe, exécution de tests unitaires\nRecette fonctionnelle (types : intégration, montée de charge, unitaire) sur projet avec bugs existants",
+      "tools": "PHPUnit, cahier de recette",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C4",
+      "sourceLine": 164,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Syntaxe, exécution de tests unitaires",
+        "Recette fonctionnelle (types : intégration, montée de charge, unitaire) sur projet avec bugs existants"
+      ]
+    },
+    {
+      "id": "BC07-C5-1",
+      "sourceCode": "BC07-C5-1",
+      "label": "Installation et prise en main de Laravel",
+      "typology": "Savoir-faire technique",
+      "notions": "Installation d'un framework PHP\nAvantages/inconvénients face au PHP natif\nStructure d'un projet à partir d'un CDC\nCommandes de base, ORM, moteur de template (Blade)",
+      "tools": "Laravel (initiation A2)",
+      "levelSource": "A2",
+      "blockId": "BC07",
+      "parentId": "BC07-C5",
+      "sourceLine": 165,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Installation d'un framework PHP",
+        "Avantages/inconvénients face au PHP natif",
+        "Structure d'un projet à partir d'un CDC",
+        "Commandes de base, ORM, moteur de template (Blade)"
+      ]
+    },
+    {
+      "id": "BC08-C1-1",
+      "sourceCode": "BC08-C1-1",
+      "label": "Modéliser un modèle logique (MCD et MLD)",
+      "typology": "Savoir-faire technique",
+      "notions": "Établir le schéma de la BDD à partir d'un cahier des charges\nIdentifier les données à informatiser (dictionnaire des données)\nStructurer les données en tables/entités, définir les clés primaires\nDéfinir les relations et cardinalités\nSavoir créer un MLD à partir du MCD\ninformation métier\ncycle de vie d'une donnée\nqualité des données",
+      "tools": "Merise",
+      "levelSource": "A2",
+      "blockId": "BC08",
+      "parentId": "BC08-C1",
+      "sourceLine": 178,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Établir le schéma de la BDD à partir d'un cahier des charges",
+        "Identifier les données à informatiser (dictionnaire des données)",
+        "Structurer les données en tables/entités, définir les clés primaires",
+        "Définir les relations et cardinalités",
+        "Savoir créer un MLD à partir du MCD",
+        "information métier",
+        "cycle de vie d'une donnée",
+        "qualité des données"
+      ]
+    },
+    {
+      "id": "BC08-C1-2",
+      "sourceCode": "BC08-C1-2",
+      "label": "Modéliser le modèle physique (avec jointures) + UML",
+      "typology": "Savoir-faire technique",
+      "notions": "Création de la BDD à partir d'un MLD\nModélisation avec Merise ET UML à partir de spécifications détaillées",
+      "tools": "MySQL",
+      "levelSource": "A2",
+      "blockId": "BC08",
+      "parentId": "BC08-C1",
+      "sourceLine": 179,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Création de la BDD à partir d'un MLD",
+        "Modélisation avec Merise ET UML à partir de spécifications détaillées"
+      ]
+    },
+    {
+      "id": "BC08-C2-1",
+      "sourceCode": "BC08-C2-1",
+      "label": "Créer une base de données",
+      "typology": "Savoir-faire technique",
+      "notions": "Tables, types, clés primaires/étrangères à aprtir du concepteur\nSavoir gérer les utilisateurs, la sauvegarde et la structure avec PHPMyAdmin\nintégrité des données",
+      "tools": "MySQL",
+      "levelSource": "A2",
+      "blockId": "BC08",
+      "parentId": "BC08-C2",
+      "sourceLine": 180,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Tables, types, clés primaires/étrangères à aprtir du concepteur",
+        "Savoir gérer les utilisateurs, la sauvegarde et la structure avec PHPMyAdmin",
+        "intégrité des données"
+      ]
+    },
+    {
+      "id": "BC08-C3-1",
+      "sourceCode": "BC08-C3-1",
+      "label": "Écrire des requêtes CRUD",
+      "typology": "Savoir-faire technique",
+      "notions": "Modéliser le traitement à appliquer aux données\nSELECT / INSERT / UPDATE / DELETE",
+      "tools": "SQL",
+      "levelSource": "A2",
+      "blockId": "BC08",
+      "parentId": "BC08-C3",
+      "sourceLine": 181,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Modéliser le traitement à appliquer aux données",
+        "SELECT / INSERT / UPDATE / DELETE"
+      ]
+    },
+    {
+      "id": "BC08-C3-2",
+      "sourceCode": "BC08-C3-2",
+      "label": "Requêtes avancées et objets SQL",
+      "typology": "Savoir-faire technique",
+      "notions": "Jointures (INNER JOIN, LEFT JOIN)\nProcédures stockées, vues, triggers\nFonctions avancées en SQL sur les dates, les chaines de caractères, les filtres, les tris,..,",
+      "tools": "SQL / MySQL",
+      "levelSource": "A2",
+      "blockId": "BC08",
+      "parentId": "BC08-C3",
+      "sourceLine": 182,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Jointures (INNER JOIN, LEFT JOIN)",
+        "Procédures stockées, vues, triggers",
+        "Fonctions avancées en SQL sur les dates, les chaines de caractères, les filtres, les tris,..,"
+      ]
+    },
+    {
+      "id": "BC08-C4-1",
+      "sourceCode": "BC08-C4-1",
+      "label": "Utiliser une base dans une application via PDO",
+      "typology": "Savoir-faire technique",
+      "notions": "PDO / ORM\nConnexion, requêtes préparées (sécurité SQL)",
+      "tools": "PHP / PDO",
+      "levelSource": "A2",
+      "blockId": "BC08",
+      "parentId": "BC08-C4",
+      "sourceLine": 183,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "PDO / ORM",
+        "Connexion, requêtes préparées (sécurité SQL)"
+      ]
+    },
+    {
+      "id": "BC09-C1-1",
+      "sourceCode": "BC09-C1-1",
+      "label": "Déployer une application statique",
+      "typology": "Savoir-faire technique",
+      "notions": "Premier déploiement : page statique avec LiveServer (dev local)\nMise en ligne réelle via GitHub Pages ou Netlify\nPremière confrontation avec la notion de 'mettre en production'",
+      "tools": "LiveServer, GitHub Pages / Netlify",
+      "levelSource": "",
+      "blockId": "BC09",
+      "parentId": "BC09-C1",
+      "sourceLine": 199,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Premier déploiement : page statique avec LiveServer (dev local)",
+        "Mise en ligne réelle via GitHub Pages ou Netlify",
+        "Première confrontation avec la notion de 'mettre en production'"
+      ]
+    },
+    {
+      "id": "BC09-C1-2",
+      "sourceCode": "BC09-C1-2",
+      "label": "Déployer une application PHP/MySQL",
+      "typology": "Savoir-faire technique",
+      "notions": "Transfert des fichiers, configuration de la base, mise en ligne",
+      "tools": "Hébergement mutualisé (O2switch, Hostinger...) ou VPS",
+      "levelSource": "A2",
+      "blockId": "BC09",
+      "parentId": "BC09-C1",
+      "sourceLine": 200,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Transfert des fichiers, configuration de la base, mise en ligne"
+      ]
+    },
+    {
+      "id": "BC09-C2-1",
+      "sourceCode": "BC09-C2-1",
+      "label": "Découverte des fondamentaux du terminal Linux",
+      "typology": "Savoir-faire technique",
+      "notions": "Navigation dans l'arborescence, gestion de fichiers, droits de base\nCommandes CLI : ls, pwd, cd, mkdir, grep (réinvestissement de BC02)",
+      "tools": "Linux (terminal)",
+      "levelSource": "A2",
+      "blockId": "BC09",
+      "parentId": "BC09-C2",
+      "sourceLine": 201,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Navigation dans l'arborescence, gestion de fichiers, droits de base",
+        "Commandes CLI : ls, pwd, cd, mkdir, grep (réinvestissement de BC02)"
+      ]
+    },
+    {
+      "id": "BC09-C2-2",
+      "sourceCode": "BC09-C2-2",
+      "label": "Administration des systèmes Linux",
+      "typology": "Savoir-faire technique",
+      "notions": "Connexion SSH avec modification de port\nInstaller et déployer son application PHP et ses dépendances",
+      "tools": "Linux (terminal), SSH",
+      "levelSource": "A2",
+      "blockId": "BC09",
+      "parentId": "BC09-C2",
+      "sourceLine": 202,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Connexion SSH avec modification de port",
+        "Installer et déployer son application PHP et ses dépendances"
+      ]
+    },
+    {
+      "id": "BC09-C3-1",
+      "sourceCode": "BC09-C3-1",
+      "label": "Connexion SSH et transfert de fichiers (Raspberry Pi)",
+      "typology": "Savoir-faire technique",
+      "notions": "Connexion SSH et copie de fichiers vers une machine distante (Raspberry Pi)",
+      "tools": "SSH, Raspberry Pi",
+      "levelSource": "",
+      "blockId": "BC09",
+      "parentId": "BC09-C3",
+      "sourceLine": 203,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connexion SSH et copie de fichiers vers une machine distante (Raspberry Pi)"
+      ]
+    },
+    {
+      "id": "BC09-C3-2",
+      "sourceCode": "BC09-C3-2",
+      "label": "Connexion SSH en contexte serveur de production",
+      "typology": "Savoir-faire technique",
+      "notions": "Connexion SSH en contexte serveur de production (modification port de connexion)",
+      "tools": "SSH",
+      "levelSource": "",
+      "blockId": "BC09",
+      "parentId": "BC09-C3",
+      "sourceLine": 204,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connexion SSH en contexte serveur de production (modification port de connexion)"
+      ]
+    },
+    {
+      "id": "BC09-C4-1",
+      "sourceCode": "BC09-C4-1",
+      "label": "Sécurisation basique d'un serveur",
+      "typology": "Savoir-faire technique",
+      "notions": "Notions de base : pare-feu, accès SSH sécurisé (clé vs mot de passe)\nProtéger son système avec un pare-feu, modifier le port SSH, honeypot, fail2ban",
+      "tools": "SSH / pare-feu basique",
+      "levelSource": "",
+      "blockId": "BC09",
+      "parentId": "BC09-C4",
+      "sourceLine": 205,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Notions de base : pare-feu, accès SSH sécurisé (clé vs mot de passe)",
+        "Protéger son système avec un pare-feu, modifier le port SSH, honeypot, fail2ban"
+      ]
+    },
+    {
+      "id": "BC09-C5-1",
+      "sourceCode": "BC09-C5-1",
+      "label": "Lire des logs serveur et corriger des erreurs de production",
+      "typology": "Savoir-faire technique",
+      "notions": "Lecture de logs serveur, erreurs 500/404 en prod\nIdentifier et catégoriser les erreurs (codes HTTP 200, 404, 500)",
+      "tools": "Logs serveur (cPanel / SSH)",
+      "levelSource": "",
+      "blockId": "BC09",
+      "parentId": "BC09-C5",
+      "sourceLine": 206,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Lecture de logs serveur, erreurs 500/404 en prod",
+        "Identifier et catégoriser les erreurs (codes HTTP 200, 404, 500)"
+      ]
+    },
+    {
+      "id": "BC10-C1-1",
+      "sourceCode": "BC10-C1-1",
+      "label": "Connaître la notion de projet web et les étapes de production",
+      "typology": "Savoir",
+      "notions": "> Connaître la définition de la gestion de projet \n> Connaître les grandes étapes de production d'un projet web / les grandes phases projet : brief / conception / créa / dev / recette / mise en production \n> Connaître les principaux métiers intervenants\n> réussir à se positionner en tant que développeur au sein d'une équipe",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C1",
+      "sourceLine": 221,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connaître la définition de la gestion de projet",
+        "Connaître les grandes étapes de production d'un projet web / les grandes phases projet : brief / conception / créa / dev / recette / mise en production",
+        "Connaître les principaux métiers intervenants",
+        "réussir à se positionner en tant que développeur au sein d'une équipe"
+      ]
+    },
+    {
+      "id": "BC10-C1-2",
+      "sourceCode": "BC10-C1-2",
+      "label": "Lire et interpréter un planning (diagramme de Gantt)",
+      "typology": "Savoir-faire technique",
+      "notions": "> Comprendre les enjeux du diagramme de gantt \n> Identifier la liste des tâches dans un DG \n> Identifier les délais et deadlines de chaque tâche dans un DG \n> Identifier le lien entre les tâches\n> Notion de chemin critique",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C1",
+      "sourceLine": 222,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Comprendre les enjeux du diagramme de gantt",
+        "Identifier la liste des tâches dans un DG",
+        "Identifier les délais et deadlines de chaque tâche dans un DG",
+        "Identifier le lien entre les tâches",
+        "Notion de chemin critique"
+      ]
+    },
+    {
+      "id": "BC10-C2-1",
+      "sourceCode": "BC10-C2-1",
+      "label": "S'adapter à une démarche cascade",
+      "typology": "Savoir-faire organisationnel",
+      "notions": "> définition de la méthode cascade",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C2",
+      "sourceLine": 223,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "définition de la méthode cascade"
+      ]
+    },
+    {
+      "id": "BC10-C2-2",
+      "sourceCode": "BC10-C2-2",
+      "label": "S'adapter à une démarche Agile/Scrum",
+      "typology": "Savoir-faire organisationnel",
+      "notions": "> Présentation de la philosophie Agile\n> Présenttaion du Scrum :\n- définition de la méthode agile SCRUM : philosophie / quand utiliser Scrum \n- définir la notion de sprints et de release \n- connaître les rôles principaux des intervenants SCRUM \n- connaître les principaux évènements et artefacts d'un sprint : backlog / daily metting / retrospectives / review / burndow \n> Suivre un backlog et interpréter une user-story en tant que développeur (priorisation, specifications, définition of done...)\n> connaître les différences entre Scrum vs Cascade (quand utiliser l'un ou l'autre)\n> Participer à un sprint / suivre le déroulé d'un sprint en tant que développeur dans une équipe agile",
+      "tools": "Scrum",
+      "levelSource": "A2",
+      "blockId": "BC10",
+      "parentId": "BC10-C2",
+      "sourceLine": 224,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Présentation de la philosophie Agile",
+        "Présenttaion du Scrum :",
+        "définition de la méthode agile SCRUM : philosophie / quand utiliser Scrum",
+        "définir la notion de sprints et de release",
+        "connaître les rôles principaux des intervenants SCRUM",
+        "connaître les principaux évènements et artefacts d'un sprint : backlog / daily metting / retrospectives / review / burndow",
+        "Suivre un backlog et interpréter une user-story en tant que développeur (priorisation, specifications, définition of done...)",
+        "connaître les différences entre Scrum vs Cascade (quand utiliser l'un ou l'autre)",
+        "Participer à un sprint / suivre le déroulé d'un sprint en tant que développeur dans une équipe agile"
+      ]
+    },
+    {
+      "id": "BC10-C2-3",
+      "sourceCode": "BC10-C2-3",
+      "label": "Utiliser Kanban",
+      "typology": "Savoir-faire organisationnel",
+      "notions": "> Définition de la méthode Kanban \n> Utiliser un tableau kanban\n> Mettre en place un tableau Kanban",
+      "tools": "Git hub project",
+      "levelSource": "A2",
+      "blockId": "BC10",
+      "parentId": "BC10-C2",
+      "sourceLine": 225,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Définition de la méthode Kanban",
+        "Utiliser un tableau kanban",
+        "Mettre en place un tableau Kanban"
+      ]
+    },
+    {
+      "id": "BC10-C2-4",
+      "sourceCode": "BC10-C2-4",
+      "label": "Estimer son temps",
+      "typology": "Savoir-faire organisationnel",
+      "notions": "",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C2",
+      "sourceLine": 226,
+      "aliases": [],
+      "notes": [
+        "Notions non renseignées dans la source : les contenus de cours sont des propositions, pas des exigences ajoutées."
+      ],
+      "level": "Non précisé",
+      "notionItems": []
+    },
+    {
+      "id": "BC10-C2-5",
+      "sourceCode": "BC10-C2-5",
+      "label": "Suivre et respecter une deadline et une charge de travail",
+      "typology": "Savoir-faire organisationnel",
+      "notions": "> Se référer à son planning lors de son travail\n> Mesurer le temps réellement passé sur une tâche \n> Alerter lorsqu'un retard est constaté\n> Savoir s'adapter et reprioriser son MVP\n> Alerter en cas de retard, reprioriser son MVP",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C2",
+      "sourceLine": 227,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Se référer à son planning lors de son travail",
+        "Mesurer le temps réellement passé sur une tâche",
+        "Alerter lorsqu'un retard est constaté",
+        "Savoir s'adapter et reprioriser son MVP",
+        "Alerter en cas de retard, reprioriser son MVP"
+      ]
+    },
+    {
+      "id": "BC10-C3-1",
+      "sourceCode": "BC10-C3-1",
+      "label": "Utiliser des outils de développement collaboratif (Git/GitHub)",
+      "typology": "Savoir-faire",
+      "notions": "Branches / Merge / résolution de conflits simples",
+      "tools": "Git",
+      "levelSource": "A2",
+      "blockId": "BC10",
+      "parentId": "BC10-C3",
+      "sourceLine": 228,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Branches / Merge / résolution de conflits simples"
+      ]
+    },
+    {
+      "id": "BC10-C3-2",
+      "sourceCode": "BC10-C3-2",
+      "label": "Réaliser une revue de code",
+      "typology": "Savoir-faire",
+      "notions": "Pull Request, commentaires\nREADME, documentation technique",
+      "tools": "GitHub / Markdown",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C3",
+      "sourceLine": 229,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Pull Request, commentaires",
+        "README, documentation technique"
+      ]
+    },
+    {
+      "id": "BC10-C4-1",
+      "sourceCode": "BC10-C4-1",
+      "label": "Utiliser des outils de partage de ressources",
+      "typology": "Savoir-faire",
+      "notions": "Utilisation du Drive pour partage de supports\nGestion des utilisateurs et des droits par dossier\nGestion du versionning des documents",
+      "tools": "Google Drive",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C4",
+      "sourceLine": 230,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Utilisation du Drive pour partage de supports",
+        "Gestion des utilisateurs et des droits par dossier",
+        "Gestion du versionning des documents"
+      ]
+    },
+    {
+      "id": "BC10-C4-2",
+      "sourceCode": "BC10-C4-2",
+      "label": "Travailler à distance",
+      "typology": "Savoir-être",
+      "notions": "> Travail à distance sur les projets en équipe ou individuel\n> Suivre un cours, une réunion ou un temps d'échange en visio",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C4",
+      "sourceLine": 231,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Travail à distance sur les projets en équipe ou individuel",
+        "Suivre un cours, une réunion ou un temps d'échange en visio"
+      ]
+    },
+    {
+      "id": "BC10-C5-1",
+      "sourceCode": "BC10-C5-1",
+      "label": "Faire un retour à un collaborateur",
+      "typology": "Savoir-être relationnel",
+      "notions": "> Application de la communication non violente (CNV)\n> Apporter des faits concrets (problèmes rencontrés, besoins)",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C5",
+      "sourceLine": 232,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Application de la communication non violente (CNV)",
+        "Apporter des faits concrets (problèmes rencontrés, besoins)"
+      ]
+    },
+    {
+      "id": "BC10-C5-2",
+      "sourceCode": "BC10-C5-2",
+      "label": "Recevoir un feedback",
+      "typology": "Savoir-être relationnel",
+      "notions": "> Connaître la définition d'un feedback\n> Analyser les retours de ses collaborateurs pour les prendre en compte\n> Réagir de façon constructive",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C5",
+      "sourceLine": 233,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connaître la définition d'un feedback",
+        "Analyser les retours de ses collaborateurs pour les prendre en compte",
+        "Réagir de façon constructive"
+      ]
+    },
+    {
+      "id": "BC10-C5-3",
+      "sourceCode": "BC10-C5-3",
+      "label": "Adopter une posture professionnelle face à un intervenant pro",
+      "typology": "Savoir-être relationnel",
+      "notions": "> Ponctualité, écoute, respect de l'interlocuteur",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C5",
+      "sourceLine": 234,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Ponctualité, écoute, respect de l'interlocuteur"
+      ]
+    },
+    {
+      "id": "BC10-C5-4",
+      "sourceCode": "BC10-C5-4",
+      "label": "Prendre la parole en public",
+      "typology": "Savoir-être",
+      "notions": "> Adapter son discours à son interlocuteur ;\n> Vulgariser un sujet technique ;\n> Justifier un choix réalisé ;\n> Présenter une démonstration produit.",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C5",
+      "sourceLine": 235,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Adapter son discours à son interlocuteur ;",
+        "Vulgariser un sujet technique ;",
+        "Justifier un choix réalisé ;",
+        "Présenter une démonstration produit."
+      ]
+    },
+    {
+      "id": "BC10-C6-1",
+      "sourceCode": "BC10-C6-1",
+      "label": "Respecter une démarche éthique",
+      "typology": "Savoir",
+      "notions": "> Éthique numérique\n> IA responsable\n> protection des données\n> sobriété numérique\n> responsabilité du développeur",
+      "tools": "Référentiels",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C6",
+      "sourceLine": 236,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Éthique numérique",
+        "IA responsable",
+        "protection des données",
+        "sobriété numérique",
+        "responsabilité du développeur"
+      ]
+    },
+    {
+      "id": "BC10-C7-1",
+      "sourceCode": "BC10-C7-1",
+      "label": "Réaliser une veille technologique",
+      "typology": "Savoir-faire",
+      "notions": "> identifier des sources fiables\n> distinguer information, opinion et contenu promotionnel\n> rechercher une information technique en autonomie\n> suivre l'évolution d'un écosystème technologique\n> développer sa culture numérique professionnelle\n> actualiser ses connaissances\n>> objetof : apprendre à apprendre",
+      "tools": "RSS / Blogs",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C7",
+      "sourceLine": 237,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "identifier des sources fiables",
+        "distinguer information, opinion et contenu promotionnel",
+        "rechercher une information technique en autonomie",
+        "suivre l'évolution d'un écosystème technologique",
+        "développer sa culture numérique professionnelle",
+        "actualiser ses connaissances",
+        "objetof : apprendre à apprendre"
+      ]
+    },
+    {
+      "id": "BC10-C7-2",
+      "sourceCode": "BC10-C7-2",
+      "label": "Partager et valoriser sa veille",
+      "typology": "Savoir-faire",
+      "notions": "> synthétiser une information technique\n> vulgariser une information complexe\n> expliquer l'intérêt d'une technologie ou d'une pratique\n> partager ses apprentissages avec une équipe\n> développer une démarche d'amélioration continue",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BC10",
+      "parentId": "BC10-C7",
+      "sourceLine": 238,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "synthétiser une information technique",
+        "vulgariser une information complexe",
+        "expliquer l'intérêt d'une technologie ou d'une pratique",
+        "partager ses apprentissages avec une équipe",
+        "développer une démarche d'amélioration continue"
+      ]
+    },
+    {
+      "id": "BCT01-C1-1",
+      "sourceCode": "BCT01-C1-1",
+      "label": "Rédiger une documentation de projet",
+      "typology": "Savoir-faire technique",
+      "notions": "README, documentation de projet (lien BC10)",
+      "tools": "Markdown",
+      "levelSource": "A2",
+      "blockId": "BCT01",
+      "parentId": "BCT01-C1",
+      "sourceLine": 253,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "README, documentation de projet (lien BC10)"
+      ]
+    },
+    {
+      "id": "BCT01-C1-2",
+      "sourceCode": "BCT01-C1-2",
+      "label": "Documenter une API et commenter son code",
+      "typology": "Savoir-faire technique",
+      "notions": "Documentation d'API (lien BC07)\nCommentaires PHP + JS rédigés dans la langue attendue",
+      "tools": "Markdown, PHP, JS",
+      "levelSource": "A2",
+      "blockId": "BCT01",
+      "parentId": "BCT01-C1",
+      "sourceLine": 254,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Documentation d'API (lien BC07)",
+        "Commentaires PHP + JS rédigés dans la langue attendue"
+      ]
+    },
+    {
+      "id": "BCT01-C1-3",
+      "sourceCode": "BCT01-C1-3",
+      "label": "Rechercher une information dans une documentation technique",
+      "typology": "Savoir-faire technique",
+      "notions": "> Navigation dans une documentation\n> Recherche d'information\n> Interprétation d'exemple",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT01",
+      "parentId": "BCT01-C1",
+      "sourceLine": 255,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Navigation dans une documentation",
+        "Recherche d'information",
+        "Interprétation d'exemple"
+      ]
+    },
+    {
+      "id": "BCT01-C1-4",
+      "sourceCode": "BCT01-C1-4",
+      "label": "Exploiter une documentation pour installer ou utiliser un outil",
+      "typology": "Savoir-faire technique",
+      "notions": "> Suivre un guide d'installation\n> identifier les prérequis\n> Résoudre un problème simple à partir de la documentation",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT01",
+      "parentId": "BCT01-C1",
+      "sourceLine": 256,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Suivre un guide d'installation",
+        "identifier les prérequis",
+        "Résoudre un problème simple à partir de la documentation"
+      ]
+    },
+    {
+      "id": "BCT01-C2-1",
+      "sourceCode": "BCT01-C2-1",
+      "label": "Refactoriser et améliorer la qualité du code",
+      "typology": "Savoir-faire technique",
+      "notions": "Maintenabilité, lisibilité, conventions de code\nReprendre un développement existant avec bugs à corriger et fonctionnalités à intégrer",
+      "tools": "IDE",
+      "levelSource": "",
+      "blockId": "BCT01",
+      "parentId": "BCT01-C2",
+      "sourceLine": 257,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Maintenabilité, lisibilité, conventions de code",
+        "Reprendre un développement existant avec bugs à corriger et fonctionnalités à intégrer"
+      ]
+    },
+    {
+      "id": "BCT02-C1-1",
+      "sourceCode": "BCT02-C1-1",
+      "label": "Structurer sa démarche de stratégie de débogage",
+      "typology": "Savoir-faire technique",
+      "notions": "Démarche : \n1. observer le bug\n2. formuler une hypothèse \n3. isoler la cause\n4. vérifier\n5. corriger \n\nMéthode appliquée au code, à la configuration et à l'environnement",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C1",
+      "sourceLine": 272,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Démarche :",
+        "1. observer le bug",
+        "2. formuler une hypothèse",
+        "3. isoler la cause",
+        "4. vérifier",
+        "5. corriger",
+        "Méthode appliquée au code, à la configuration et à l'environnement"
+      ]
+    },
+    {
+      "id": "BCT02-C1-2",
+      "sourceCode": "BCT02-C1-2",
+      "label": "Identifier un problème technique rencontré",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Rechercher et comprendre l'origine des messages d'erreurs les plus courants\n> Manipuler un outils de débogage",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C1",
+      "sourceLine": 273,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Rechercher et comprendre l'origine des messages d'erreurs les plus courants",
+        "Manipuler un outils de débogage"
+      ]
+    },
+    {
+      "id": "BCT02-C2-1",
+      "sourceCode": "BCT02-C2-1",
+      "label": "Connaître les différents types de recette et tests",
+      "typology": "Savoir",
+      "notions": "> Connaître les différents types de recette \n> Recette fonctionnelle \n> Tests techniques \n> types (intégration, montée de charge, unitaire), criticité, PV de validation, tickets",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C2",
+      "sourceLine": 274,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connaître les différents types de recette",
+        "Recette fonctionnelle",
+        "Tests techniques",
+        "types (intégration, montée de charge, unitaire), criticité, PV de validation, tickets"
+      ]
+    },
+    {
+      "id": "BCT02-C2-2",
+      "sourceCode": "BCT02-C2-2",
+      "label": "Contrôle de l'aspect fonctionnel du produit en suivant le plan de recette",
+      "typology": "Savoir-faire technique",
+      "notions": "> Suivre les étapes du plan de recette \n> Valider les fonctionnalités exprimées dans la tâche confiée et détaillées dans les spécifications",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C2",
+      "sourceLine": 275,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Suivre les étapes du plan de recette",
+        "Valider les fonctionnalités exprimées dans la tâche confiée et détaillées dans les spécifications"
+      ]
+    },
+    {
+      "id": "BCT02-C2-3",
+      "sourceCode": "BCT02-C2-3",
+      "label": "Gérer le flux d'un ticket en tant que développeur",
+      "typology": "Savoir-faire technique",
+      "notions": "> Comprendre les notions de criticité \n> Comprendre et gérer le flux d'un ticket en tant que développeur",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C2",
+      "sourceLine": 276,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Comprendre les notions de criticité",
+        "Comprendre et gérer le flux d'un ticket en tant que développeur"
+      ]
+    },
+    {
+      "id": "BCT02-C3-1",
+      "sourceCode": "BCT02-C3-1",
+      "label": "Exécuter des tests déjà fournis",
+      "typology": "Savoir-faire technique",
+      "notions": "Exécution de tests unitaires déjà fournis pour vérifier son code (A1 — l'élève n'écrit pas encore les tests)",
+      "tools": "Tests fournis",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C3",
+      "sourceLine": 277,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Exécution de tests unitaires déjà fournis pour vérifier son code (A1 — l'élève n'écrit pas encore les tests)"
+      ]
+    },
+    {
+      "id": "BCT02-C3-2",
+      "sourceCode": "BCT02-C3-2",
+      "label": "Tester une API avec Postman",
+      "typology": "Savoir-faire technique",
+      "notions": "Tests de routes, requêtes, réponses (lien BC07)",
+      "tools": "Postman",
+      "levelSource": "A2 idem BC07-C4",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C3",
+      "sourceLine": 278,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Tests de routes, requêtes, réponses (lien BC07)"
+      ]
+    },
+    {
+      "id": "BCT02-C4-1",
+      "sourceCode": "BCT02-C4-1",
+      "label": "Déboguer du code",
+      "typology": "Savoir-faire technique",
+      "notions": "Console, breakpoints — première correction de bug avec méthode",
+      "tools": "DevTools",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C4",
+      "sourceLine": 279,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Console, breakpoints — première correction de bug avec méthode"
+      ]
+    },
+    {
+      "id": "BCT02-C4-2",
+      "sourceCode": "BCT02-C4-2",
+      "label": "Utiliser un debugger et lire des logs",
+      "typology": "Savoir-faire technique",
+      "notions": "Inspection pas à pas (IDE)\nDiagnostic via logs serveur (lien BC09 — logs production)",
+      "tools": "IDE, Serveur",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C4",
+      "sourceLine": 280,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Inspection pas à pas (IDE)",
+        "Diagnostic via logs serveur (lien BC09 — logs production)"
+      ]
+    },
+    {
+      "id": "BC02-C5-1",
+      "sourceCode": "BC02-C5-1",
+      "label": "Utiliser l'inspecteur de code type DevTools",
+      "typology": "Savoir-faire technique",
+      "notions": "> Inspecter le DOM, les requêtes réseau, les erreurs console\n> Utiliser un outils d'inspection pour comprendre un comportement inconnu\n> Premier principe de résolution de problème : observation / hypothèse / investigation (en lien avec bloc Tst et débogage)",
+      "tools": "DevTools",
+      "levelSource": "",
+      "blockId": "BCT02",
+      "parentId": "BCT02-C5",
+      "sourceLine": 281,
+      "aliases": [
+        "BCT02-C5-1"
+      ],
+      "notes": [
+        "Code source conservé : BC02-C5-1. Alias de recherche proposé : BCT02-C5-1. À arbitrer par le responsable du référentiel."
+      ],
+      "level": "Non précisé",
+      "notionItems": [
+        "Inspecter le DOM, les requêtes réseau, les erreurs console",
+        "Utiliser un outils d'inspection pour comprendre un comportement inconnu",
+        "Premier principe de résolution de problème : observation / hypothèse / investigation (en lien avec bloc Tst et débogage)"
+      ]
+    },
+    {
+      "id": "BCT03-C1-1",
+      "sourceCode": "BCT03-C1-1",
+      "label": "Auditer une page avec Lighthouse",
+      "typology": "Savoir-faire technique",
+      "notions": "Scores performance / accessibilité / SEO / bonnes pratiques\nInstaller et utiliser Google Lighthouse",
+      "tools": "Google Lighthouse",
+      "levelSource": "",
+      "blockId": "BCT03",
+      "parentId": "BCT03-C1",
+      "sourceLine": 296,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Scores performance / accessibilité / SEO / bonnes pratiques",
+        "Installer et utiliser Google Lighthouse"
+      ]
+    },
+    {
+      "id": "BCT03-C1-2",
+      "sourceCode": "BCT03-C1-2",
+      "label": "Optimiser les médias et ressources",
+      "typology": "Savoir-faire technique",
+      "notions": "Compression d'images, lazy loading, minification CSS/JS",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT03",
+      "parentId": "BCT03-C1",
+      "sourceLine": 297,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Compression d'images, lazy loading, minification CSS/JS"
+      ]
+    },
+    {
+      "id": "BCT03-C2-1",
+      "sourceCode": "BCT03-C2-1",
+      "label": "Optimiser les requêtes et traitements",
+      "typology": "Savoir-faire technique",
+      "notions": "Limiter les appels API\nOptimiser les requêtes SQL (lien BC08)",
+      "tools": "",
+      "levelSource": "A2",
+      "blockId": "BCT03",
+      "parentId": "BCT03-C2",
+      "sourceLine": 298,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Limiter les appels API",
+        "Optimiser les requêtes SQL (lien BC08)"
+      ]
+    },
+    {
+      "id": "BCT03-C3-1",
+      "sourceCode": "BCT03-C3-1",
+      "label": "Impact du numérique et de l'IA sur l'environnement",
+      "typology": "Savoir",
+      "notions": "> Impact du numérique sur l'environnement — fresque du numérique\n> Impact de l'usage de l'IA sur l'environnement",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT03",
+      "parentId": "BCT03-C3",
+      "sourceLine": 299,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Impact du numérique sur l'environnement — fresque du numérique",
+        "Impact de l'usage de l'IA sur l'environnement"
+      ]
+    },
+    {
+      "id": "BCT03-C3-2",
+      "sourceCode": "BCT03-C3-2",
+      "label": "Identifier les leviers d'éco-conception",
+      "typology": "Savoir-faire technique",
+      "notions": "Référentiel GR491 / bonnes pratiques (sélection)",
+      "tools": "GR491",
+      "levelSource": "",
+      "blockId": "BCT03",
+      "parentId": "BCT03-C3",
+      "sourceLine": 300,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Référentiel GR491 / bonnes pratiques (sélection)"
+      ]
+    },
+    {
+      "id": "BCT04-C1-1",
+      "sourceCode": "BCT04-C1-1",
+      "label": "Sensibilisation aux enjeux du handicap numérique",
+      "typology": "Atelier \nSavoir",
+      "notions": "> Atelier sensibilisation aux handicaps\n> Leviers principaux par type de handicap\n> Existence et rôle du RGAA",
+      "tools": "Atelier, RGAA",
+      "levelSource": "",
+      "blockId": "BCT04",
+      "parentId": "BCT04-C1",
+      "sourceLine": 312,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Atelier sensibilisation aux handicaps",
+        "Leviers principaux par type de handicap",
+        "Existence et rôle du RGAA"
+      ]
+    },
+    {
+      "id": "BCT04-C2-1",
+      "sourceCode": "BCT04-C2-1",
+      "label": "Appliquer les règles RGAA de base",
+      "typology": "Savoir-faire technique",
+      "notions": "> Contraste WCAG AA, alternatives textuelles, navigation clavier\n> Attributs ARIA sur composants interactifs",
+      "tools": "HTML/ARIA, RGAA",
+      "levelSource": "",
+      "blockId": "BCT04",
+      "parentId": "BCT04-C2",
+      "sourceLine": 313,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Contraste WCAG AA, alternatives textuelles, navigation clavier",
+        "Attributs ARIA sur composants interactifs"
+      ]
+    },
+    {
+      "id": "BCT04-C2-2",
+      "sourceCode": "BCT04-C2-2",
+      "label": "Réinvestir l'accessibilité sur tous les projets interface",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "BC06 : composants JS dynamiques, focus sur les modales\nBC07 : formulaires PHP accessibles, messages d'erreur",
+      "tools": "HTML/ARIA",
+      "levelSource": "",
+      "blockId": "BCT04",
+      "parentId": "BCT04-C2",
+      "sourceLine": 314,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "BC06 : composants JS dynamiques, focus sur les modales",
+        "BC07 : formulaires PHP accessibles, messages d'erreur"
+      ]
+    },
+    {
+      "id": "BCT04-C3-1",
+      "sourceCode": "BCT04-C3-1",
+      "label": "Auditer l'accessibilité avec Google Lighthouse",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Interpréter le score accessibilité Lighthouse\n> Lien avec BCT03 (Lighthouse couvre aussi performance et SEO)",
+      "tools": "Google Lighthouse",
+      "levelSource": "",
+      "blockId": "BCT04",
+      "parentId": "BCT04-C3",
+      "sourceLine": 315,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Interpréter le score accessibilité Lighthouse",
+        "Lien avec BCT03 (Lighthouse couvre aussi performance et SEO)"
+      ]
+    },
+    {
+      "id": "BCT04-C3-2",
+      "sourceCode": "BCT04-C3-2",
+      "label": "Corriger et justifier les choix d'accessibilité",
+      "typology": "Savoir-faire méthodologique",
+      "notions": "> Corriger les défauts d'accessibilité identifiés\n> Justifier les choix lors de la soutenance\n> Critère de recette fonctionnelle (BCT02)",
+      "tools": "Lighthouse, cahier de recette",
+      "levelSource": "",
+      "blockId": "BCT04",
+      "parentId": "BCT04-C3",
+      "sourceLine": 316,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Corriger les défauts d'accessibilité identifiés",
+        "Justifier les choix lors de la soutenance",
+        "Critère de recette fonctionnelle (BCT02)"
+      ]
+    },
+    {
+      "id": "BCT05-C1-1",
+      "sourceCode": "BCT05-C1-1",
+      "label": "C'est quoi l'IA et les types d'IA",
+      "typology": "Savoir",
+      "notions": "IA générative\nmodèle de langage\nprédiction statistique\ndonnées d'entraînement\nlimites des modèles\nhallucinations",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C1",
+      "sourceLine": 329,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "IA générative",
+        "modèle de langage",
+        "prédiction statistique",
+        "données d'entraînement",
+        "limites des modèles",
+        "hallucinations"
+      ]
+    },
+    {
+      "id": "BCT05-C2-1",
+      "sourceCode": "BCT05-C2-1",
+      "label": "Formuler une demande efficace",
+      "typology": "Savoir-faire technique",
+      "notions": "prompt\ncontexte\nprécision\nreformulation\nitération",
+      "tools": "Outils IA générative",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C2",
+      "sourceLine": 330,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "prompt",
+        "contexte",
+        "précision",
+        "reformulation",
+        "itération"
+      ]
+    },
+    {
+      "id": "BCT05-C2-2",
+      "sourceCode": "BCT05-C2-2",
+      "label": "Utiliser une IA pour assister une tâche technique",
+      "typology": "Savoir-faire technique",
+      "notions": "génération de code\naide à la documentation\naide à la recherche d'information\naide à la compréhension d'un code existant",
+      "tools": "Copilot / ChatGPT / Claude",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C2",
+      "sourceLine": 331,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "génération de code",
+        "aide à la documentation",
+        "aide à la recherche d'information",
+        "aide à la compréhension d'un code existant"
+      ]
+    },
+    {
+      "id": "BCT05-C3-1",
+      "sourceCode": "BCT05-C3-1",
+      "label": "Vérifier les informations produites",
+      "typology": "Savoir-faire méthologique",
+      "notions": "vérification des sources\nvalidation des informations\ndétection d'erreurs\nesprit critique",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C3",
+      "sourceLine": 332,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "vérification des sources",
+        "validation des informations",
+        "détection d'erreurs",
+        "esprit critique"
+      ]
+    },
+    {
+      "id": "BCT05-C3-2",
+      "sourceCode": "BCT05-C3-2",
+      "label": "Auditer et corriger un code généré",
+      "typology": "Savoir-faire méthologique",
+      "notions": "lecture de code\ncompréhension d'un code non écrit par soi-même\ndétection de bugs\ncorrection\namélioration",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C3",
+      "sourceLine": 333,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "lecture de code",
+        "compréhension d'un code non écrit par soi-même",
+        "détection de bugs",
+        "correction",
+        "amélioration"
+      ]
+    },
+    {
+      "id": "BCT05-C3-3",
+      "sourceCode": "BCT05-C3-3",
+      "label": "Identifier les limites d'une solution proposée par une IA",
+      "typology": "Savoir-faire méthologique",
+      "notions": "> erreurs de raisonnement\n> solutions alternatives\n> remise en question",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C3",
+      "sourceLine": 334,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "erreurs de raisonnement",
+        "solutions alternatives",
+        "remise en question"
+      ]
+    },
+    {
+      "id": "BCT05-C4-1",
+      "sourceCode": "BCT05-C4-1",
+      "label": "Utiliser l'IA dans le respect du cadre pédagogique et professionnel",
+      "typology": "Savoir-être",
+      "notions": "> Connaître l'IA Act\n> transparence d'usage\n> confidentialité / protection des données\n> propriété intellectuelle\n> impact de l'IA sur l'apprentissage",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C4",
+      "sourceLine": 335,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Connaître l'IA Act",
+        "transparence d'usage",
+        "confidentialité / protection des données",
+        "propriété intellectuelle",
+        "impact de l'IA sur l'apprentissage"
+      ]
+    },
+    {
+      "id": "BTC05-C4-2",
+      "sourceCode": "BTC05-C4-2",
+      "label": "Prendre en compte les biais et les effets discriminatoire de l'IA",
+      "typology": "Savoir-être",
+      "notions": "> type de biais \n> effet discriminatoire (exemple les castes)\n> esprit critique",
+      "tools": "",
+      "levelSource": "",
+      "blockId": "BCT05",
+      "parentId": "BCT05-C4",
+      "sourceLine": 336,
+      "aliases": [
+        "BCT05-C4-2"
+      ],
+      "notes": [
+        "Code source conservé : BTC05-C4-2. Alias de recherche proposé : BCT05-C4-2. À arbitrer par le responsable du référentiel."
+      ],
+      "level": "Non précisé",
+      "notionItems": [
+        "type de biais",
+        "effet discriminatoire (exemple les castes)",
+        "esprit critique"
+      ]
+    },
+    {
+      "id": "BCT06-C1-1",
+      "sourceCode": "BCT06-C1-1",
+      "label": "Hygiène numérique",
+      "typology": "Savoir",
+      "notions": "OSINT (Dox) — réception d'infos personnelles suite à fuite de données\nAuthentification à double facteur\nGestionnaire de mot de passe",
+      "tools": "Atelier",
+      "levelSource": "",
+      "blockId": "BCT06",
+      "parentId": "BCT06-C1",
+      "sourceLine": 352,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "OSINT (Dox) — réception d'infos personnelles suite à fuite de données",
+        "Authentification à double facteur",
+        "Gestionnaire de mot de passe"
+      ]
+    },
+    {
+      "id": "BCT06-C1-2",
+      "sourceCode": "BCT06-C1-2",
+      "label": "Phishing — atelier pratique",
+      "typology": "Savoir-faire technique",
+      "notions": "Création d'une page de phishing HTML/CSS\nUtilisation d'une API pour stocker les statistiques des personnes hackées\nSensibilisation aux dangers du phishing",
+      "tools": "HTML/CSS, API",
+      "levelSource": "",
+      "blockId": "BCT06",
+      "parentId": "BCT06-C1",
+      "sourceLine": 353,
+      "aliases": [],
+      "notes": [],
+      "level": "Non précisé",
+      "notionItems": [
+        "Création d'une page de phishing HTML/CSS",
+        "Utilisation d'une API pour stocker les statistiques des personnes hackées",
+        "Sensibilisation aux dangers du phishing"
+      ]
+    },
+    {
+      "id": "BCT06-C2-1",
+      "sourceCode": "BCT06-C2-1",
+      "label": "Connaître les attaques de base et se défendre",
+      "typology": "Savoir",
+      "notions": "Connaître les attaques de base\nAttaquer son propre système et adopter une position défensive",
+      "tools": "OWASP Top 10",
+      "levelSource": "A2",
+      "blockId": "BCT06",
+      "parentId": "BCT06-C2",
+      "sourceLine": 354,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Connaître les attaques de base",
+        "Attaquer son propre système et adopter une position défensive"
+      ]
+    },
+    {
+      "id": "BCT06-C2-2",
+      "sourceCode": "BCT06-C2-2",
+      "label": "Protéger son système avec des outils Linux",
+      "typology": "Savoir-faire technique",
+      "notions": "Protéger son système avec un pare-feu\nModifier son port de connexion SSH\nHoneypot, utiliser fail2ban",
+      "tools": "fail2ban, pare-feu",
+      "levelSource": "A2",
+      "blockId": "BCT06",
+      "parentId": "BCT06-C2",
+      "sourceLine": 355,
+      "aliases": [],
+      "notes": [],
+      "level": "A2",
+      "notionItems": [
+        "Protéger son système avec un pare-feu",
+        "Modifier son port de connexion SSH",
+        "Honeypot, utiliser fail2ban"
+      ]
+    }
+  ]
+}

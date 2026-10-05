@@ -1,0 +1,11 @@
+import {runPublicationJob} from './jobs.mjs';
+import {openStore} from './store.mjs';
+import {seedTeacher} from './auth.mjs';
+import {seedCatalog} from './game.mjs';
+import {createApp} from './app.mjs';
+if(process.env.NODE_ENV==='production'&&!process.env.DATABASE_URL)throw Error('DATABASE_URL est requis en production.');
+const store=await openStore();await seedTeacher(store);await seedCatalog(store);
+let workerBusy=false;const worker=setInterval(async()=>{if(workerBusy)return;workerBusy=true;try{await runPublicationJob(store);}catch(e){console.error('Publication worker:',e);}finally{workerBusy=false;}},5000);worker.unref();
+const port=Number(process.env.PORT||3000),host=process.env.HOST||'127.0.0.1';
+const server=createApp(store).listen(port,host,err=>{if(err)throw err;console.log(`EDEN Teacher Twin → http://${host}:${port} (${store.kind})`);});
+for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>{clearInterval(worker);server.close(async()=>{await store.close();process.exit(0);});});

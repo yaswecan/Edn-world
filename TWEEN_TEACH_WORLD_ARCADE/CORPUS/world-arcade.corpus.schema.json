@@ -1,0 +1,1435 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "principles",
+    "design",
+    "screenFlow",
+    "ui",
+    "games",
+    "rankReference",
+    "policies",
+    "decisionsToResolve"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "packageVersion",
+        "createdOn",
+        "locale",
+        "product",
+        "module",
+        "kind",
+        "notRuntimeConfiguration",
+        "hostRepositoryInspected",
+        "noProductionUsersIncluded"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "packageVersion": {
+          "type": "string"
+        },
+        "createdOn": {
+          "type": "string"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "module": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "integration_design_corpus"
+        },
+        "notRuntimeConfiguration": {
+          "const": true
+        },
+        "hostRepositoryInspected": {
+          "const": false
+        },
+        "noProductionUsersIncluded": {
+          "type": "boolean"
+        }
+      }
+    },
+    "principles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "design": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "palette",
+        "typography",
+        "layout",
+        "motion",
+        "prohibited"
+      ],
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "palette": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "background",
+            "panel",
+            "panelRaised",
+            "text",
+            "textMuted",
+            "border",
+            "pink",
+            "cyan",
+            "purple",
+            "gold"
+          ],
+          "properties": {
+            "background": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "panel": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "panelRaised": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "text": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "textMuted": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "border": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "pink": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "cyan": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "purple": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "gold": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bodyReference",
+            "displayReference",
+            "pixelReference",
+            "fontFilesIncluded",
+            "externalFontLoadingByDefault",
+            "hostApprovedFontPolicyHasPriority"
+          ],
+          "properties": {
+            "bodyReference": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "displayReference": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "pixelReference": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "fontFilesIncluded": {
+              "type": "boolean"
+            },
+            "externalFontLoadingByDefault": {
+              "type": "boolean"
+            },
+            "hostApprovedFontPolicyHasPriority": {
+              "type": "boolean"
+            }
+          }
+        },
+        "layout": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "desktop",
+            "tablet",
+            "mobile",
+            "referenceSidebarWidthPx",
+            "touchTargetGoalPx",
+            "minimumTestWidthPx",
+            "testViewports",
+            "globalCssImportAllowed",
+            "recommendedNamespace"
+          ],
+          "properties": {
+            "desktop": {
+              "type": "string"
+            },
+            "tablet": {
+              "type": "string"
+            },
+            "mobile": {
+              "type": "string"
+            },
+            "referenceSidebarWidthPx": {
+              "type": "integer"
+            },
+            "touchTargetGoalPx": {
+              "type": "integer"
+            },
+            "minimumTestWidthPx": {
+              "type": "integer"
+            },
+            "testViewports": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            },
+            "globalCssImportAllowed": {
+              "type": "boolean"
+            },
+            "recommendedNamespace": {
+              "type": "string"
+            }
+          }
+        },
+        "motion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "soundDefault",
+            "soundRequiresExplicitInteraction",
+            "respectSystemReducedMotion",
+            "decorativeTransitionGoalMs",
+            "crtCanBeDisabled",
+            "stopEffectsOnUnmount"
+          ],
+          "properties": {
+            "soundDefault": {
+              "type": "boolean"
+            },
+            "soundRequiresExplicitInteraction": {
+              "type": "boolean"
+            },
+            "respectSystemReducedMotion": {
+              "type": "boolean"
+            },
+            "decorativeTransitionGoalMs": {
+              "type": "integer"
+            },
+            "crtCanBeDisabled": {
+              "type": "boolean"
+            },
+            "stopEffectsOnUnmount": {
+              "type": "boolean"
+            }
+          }
+        },
+        "prohibited": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "screenFlow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "firstScreen",
+        "startTarget",
+        "authenticationRequiredToBrowseCatalog",
+        "existingSessionReused",
+        "returnFromGameTarget",
+        "forcedSplashOnDeepLink",
+        "screens"
+      ],
+      "properties": {
+        "firstScreen": {
+          "type": "string"
+        },
+        "startTarget": {
+          "type": "string"
+        },
+        "authenticationRequiredToBrowseCatalog": {
+          "type": "boolean"
+        },
+        "existingSessionReused": {
+          "type": "boolean"
+        },
+        "returnFromGameTarget": {
+          "type": "string"
+        },
+        "forcedSplashOnDeepLink": {
+          "type": "boolean"
+        },
+        "screens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "specId",
+              "mainAction",
+              "roles",
+              "states"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "specId": {
+                "type": "string"
+              },
+              "mainAction": {
+                "type": "string"
+              },
+              "roles": {
+                "type": "string"
+              },
+              "states": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entry",
+        "navigation",
+        "lobby",
+        "game",
+        "players",
+        "leaderboard",
+        "profile",
+        "ranks",
+        "auth",
+        "settings",
+        "shared"
+      ],
+      "properties": {
+        "entry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "start",
+            "keyboardHint",
+            "signIn",
+            "signUp"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "start": {
+              "type": "string"
+            },
+            "keyboardHint": {
+              "type": "string"
+            },
+            "signIn": {
+              "type": "string"
+            },
+            "signUp": {
+              "type": "string"
+            }
+          }
+        },
+        "navigation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "games",
+            "players",
+            "leaderboard",
+            "profile",
+            "ranks",
+            "settings",
+            "backToArcade",
+            "backToHost"
+          ],
+          "properties": {
+            "games": {
+              "type": "string"
+            },
+            "players": {
+              "type": "string"
+            },
+            "leaderboard": {
+              "type": "string"
+            },
+            "profile": {
+              "type": "string"
+            },
+            "ranks": {
+              "type": "string"
+            },
+            "settings": {
+              "type": "string"
+            },
+            "backToArcade": {
+              "type": "string"
+            },
+            "backToHost": {
+              "type": "string"
+            }
+          }
+        },
+        "lobby": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "playersTitle",
+            "allPlayers",
+            "topFiveTitle"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "playersTitle": {
+              "type": "string"
+            },
+            "allPlayers": {
+              "type": "string"
+            },
+            "topFiveTitle": {
+              "type": "string"
+            }
+          }
+        },
+        "game": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "play",
+            "resume",
+            "opening",
+            "unavailable",
+            "locked",
+            "retry",
+            "signInRequired",
+            "verifyRequired",
+            "unavailableMessage",
+            "lockedMessage",
+            "launchFailure",
+            "saveConfirmed",
+            "saveUnconfirmed",
+            "leave",
+            "fullscreen",
+            "pause",
+            "continue"
+          ],
+          "properties": {
+            "play": {
+              "type": "string"
+            },
+            "resume": {
+              "type": "string"
+            },
+            "opening": {
+              "type": "string"
+            },
+            "unavailable": {
+              "type": "string"
+            },
+            "locked": {
+              "type": "string"
+            },
+            "retry": {
+              "type": "string"
+            },
+            "signInRequired": {
+              "type": "string"
+            },
+            "verifyRequired": {
+              "type": "string"
+            },
+            "unavailableMessage": {
+              "type": "string"
+            },
+            "lockedMessage": {
+              "type": "string"
+            },
+            "launchFailure": {
+              "type": "string"
+            },
+            "saveConfirmed": {
+              "type": "string"
+            },
+            "saveUnconfirmed": {
+              "type": "string"
+            },
+            "leave": {
+              "type": "string"
+            },
+            "fullscreen": {
+              "type": "string"
+            },
+            "pause": {
+              "type": "string"
+            },
+            "continue": {
+              "type": "string"
+            }
+          }
+        },
+        "players": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "searchLabel",
+            "searchPlaceholder",
+            "myClass",
+            "community",
+            "chooseScope",
+            "more",
+            "none",
+            "noMatch",
+            "loading",
+            "loadFailure",
+            "noPermission",
+            "sortHandle",
+            "sortRank",
+            "profileUnavailable"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "searchLabel": {
+              "type": "string"
+            },
+            "searchPlaceholder": {
+              "type": "string"
+            },
+            "myClass": {
+              "type": "string"
+            },
+            "community": {
+              "type": "string"
+            },
+            "chooseScope": {
+              "type": "string"
+            },
+            "more": {
+              "type": "string"
+            },
+            "none": {
+              "type": "string"
+            },
+            "noMatch": {
+              "type": "string"
+            },
+            "loading": {
+              "type": "string"
+            },
+            "loadFailure": {
+              "type": "string"
+            },
+            "noPermission": {
+              "type": "string"
+            },
+            "sortHandle": {
+              "type": "string"
+            },
+            "sortRank": {
+              "type": "string"
+            },
+            "profileUnavailable": {
+              "type": "string"
+            }
+          }
+        },
+        "leaderboard": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "periodLabel",
+            "gameLabel",
+            "scopeLabel",
+            "week",
+            "month",
+            "allTime",
+            "myPosition",
+            "noEntries",
+            "unavailable",
+            "loading",
+            "score",
+            "grade",
+            "tied",
+            "tieLimitExplanation"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "periodLabel": {
+              "type": "string"
+            },
+            "gameLabel": {
+              "type": "string"
+            },
+            "scopeLabel": {
+              "type": "string"
+            },
+            "week": {
+              "type": "string"
+            },
+            "month": {
+              "type": "string"
+            },
+            "allTime": {
+              "type": "string"
+            },
+            "myPosition": {
+              "type": "string"
+            },
+            "noEntries": {
+              "type": "string"
+            },
+            "unavailable": {
+              "type": "string"
+            },
+            "loading": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            },
+            "grade": {
+              "type": "string"
+            },
+            "tied": {
+              "type": "string"
+            },
+            "tieLimitExplanation": {
+              "type": "string"
+            }
+          }
+        },
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "handleLabel",
+            "avatarLabel",
+            "save",
+            "saving",
+            "saved",
+            "saveFailed",
+            "rankLabel",
+            "rankMissing",
+            "visibilityLabel",
+            "private",
+            "community",
+            "publicParticipation",
+            "visibilityPending",
+            "updateAvatar",
+            "noFullNameHint"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "handleLabel": {
+              "type": "string"
+            },
+            "avatarLabel": {
+              "type": "string"
+            },
+            "save": {
+              "type": "string"
+            },
+            "saving": {
+              "type": "string"
+            },
+            "saved": {
+              "type": "string"
+            },
+            "saveFailed": {
+              "type": "string"
+            },
+            "rankLabel": {
+              "type": "string"
+            },
+            "rankMissing": {
+              "type": "string"
+            },
+            "visibilityLabel": {
+              "type": "string"
+            },
+            "private": {
+              "type": "string"
+            },
+            "community": {
+              "type": "string"
+            },
+            "publicParticipation": {
+              "type": "string"
+            },
+            "visibilityPending": {
+              "type": "string"
+            },
+            "updateAvatar": {
+              "type": "string"
+            },
+            "noFullNameHint": {
+              "type": "string"
+            }
+          }
+        },
+        "ranks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "unavailable",
+            "current",
+            "next",
+            "notSameAsPosition"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "unavailable": {
+              "type": "string"
+            },
+            "current": {
+              "type": "string"
+            },
+            "next": {
+              "type": "string"
+            },
+            "notSameAsPosition": {
+              "type": "string"
+            }
+          }
+        },
+        "auth": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "signInTitle",
+            "signUpTitle",
+            "emailLabel",
+            "identifierLabel",
+            "passwordLabel",
+            "confirmAction",
+            "signInAction",
+            "showPassword",
+            "hidePassword",
+            "forgotPassword",
+            "invalidCredentials",
+            "requestAccepted",
+            "requestFailed",
+            "verifyTitle",
+            "resend",
+            "emailVerified",
+            "resetAccepted",
+            "signOut",
+            "signOutFailure",
+            "registrationClosed",
+            "tooManyAttempts",
+            "sessionExpired",
+            "privacyLink",
+            "termsLink"
+          ],
+          "properties": {
+            "signInTitle": {
+              "type": "string"
+            },
+            "signUpTitle": {
+              "type": "string"
+            },
+            "emailLabel": {
+              "type": "string"
+            },
+            "identifierLabel": {
+              "type": "string"
+            },
+            "passwordLabel": {
+              "type": "string"
+            },
+            "confirmAction": {
+              "type": "string"
+            },
+            "signInAction": {
+              "type": "string"
+            },
+            "showPassword": {
+              "type": "string"
+            },
+            "hidePassword": {
+              "type": "string"
+            },
+            "forgotPassword": {
+              "type": "string"
+            },
+            "invalidCredentials": {
+              "type": "string"
+            },
+            "requestAccepted": {
+              "type": "string"
+            },
+            "requestFailed": {
+              "type": "string"
+            },
+            "verifyTitle": {
+              "type": "string"
+            },
+            "resend": {
+              "type": "string"
+            },
+            "emailVerified": {
+              "type": "string"
+            },
+            "resetAccepted": {
+              "type": "string"
+            },
+            "signOut": {
+              "type": "string"
+            },
+            "signOutFailure": {
+              "type": "string"
+            },
+            "registrationClosed": {
+              "type": "string"
+            },
+            "tooManyAttempts": {
+              "type": "string"
+            },
+            "sessionExpired": {
+              "type": "string"
+            },
+            "privacyLink": {
+              "type": "string"
+            },
+            "termsLink": {
+              "type": "string"
+            }
+          }
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "title",
+            "sound",
+            "reducedMotion",
+            "crt",
+            "soundOn",
+            "soundOff"
+          ],
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "sound": {
+              "type": "string"
+            },
+            "reducedMotion": {
+              "type": "string"
+            },
+            "crt": {
+              "type": "string"
+            },
+            "soundOn": {
+              "type": "string"
+            },
+            "soundOff": {
+              "type": "string"
+            }
+          }
+        },
+        "shared": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "close",
+            "back",
+            "cancel",
+            "confirm",
+            "loading",
+            "retry",
+            "offline",
+            "accessDenied",
+            "skipToContent",
+            "notAvailable"
+          ],
+          "properties": {
+            "close": {
+              "type": "string"
+            },
+            "back": {
+              "type": "string"
+            },
+            "cancel": {
+              "type": "string"
+            },
+            "confirm": {
+              "type": "string"
+            },
+            "loading": {
+              "type": "string"
+            },
+            "retry": {
+              "type": "string"
+            },
+            "offline": {
+              "type": "string"
+            },
+            "accessDenied": {
+              "type": "string"
+            },
+            "skipToContent": {
+              "type": "string"
+            },
+            "notAvailable": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "games": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "displayTitle",
+          "order",
+          "accentToken",
+          "imageAssetId",
+          "description",
+          "runtimeBinding",
+          "resumeExistingSave",
+          "preserveHostUnlocks"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "code-station",
+              "cyber-funk"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "displayTitle": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer"
+          },
+          "accentToken": {
+            "type": "string"
+          },
+          "imageAssetId": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "runtimeBinding": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "hostGameId",
+              "route",
+              "status",
+              "demoFallbackInProduction"
+            ],
+            "properties": {
+              "hostGameId": {
+                "type": "null"
+              },
+              "route": {
+                "type": "null"
+              },
+              "status": {
+                "type": "string"
+              },
+              "demoFallbackInProduction": {
+                "const": false
+              }
+            }
+          },
+          "resumeExistingSave": {
+            "type": "boolean"
+          },
+          "preserveHostUnlocks": {
+            "type": "boolean"
+          }
+        }
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "rankReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "source",
+        "existingHostCatalogueHasPriority",
+        "userConfirmedNaming",
+        "displayRenameProposal",
+        "divisions",
+        "automaticPromotionEnabled",
+        "resetProgressOnPrestige",
+        "ranks"
+      ],
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "existingHostCatalogueHasPriority": {
+          "type": "boolean"
+        },
+        "userConfirmedNaming": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "displayRenameProposal": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "legacyLabel",
+            "newLabel",
+            "preservePersistentId"
+          ],
+          "properties": {
+            "legacyLabel": {
+              "type": "string"
+            },
+            "newLabel": {
+              "type": "string"
+            },
+            "preservePersistentId": {
+              "type": "boolean"
+            }
+          }
+        },
+        "divisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "automaticPromotionEnabled": {
+          "const": false
+        },
+        "resetProgressOnPrestige": {
+          "type": "boolean"
+        },
+        "ranks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "order",
+              "color",
+              "xpThreshold"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "order": {
+                "type": "integer"
+              },
+              "color": {
+                "type": "string"
+              },
+              "xpThreshold": {
+                "type": "null"
+              }
+            }
+          },
+          "minItems": 9,
+          "maxItems": 9
+        }
+      }
+    },
+    "policies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "configurationStatus",
+        "identity",
+        "privacy",
+        "players",
+        "leaderboard",
+        "rewards",
+        "activation"
+      ],
+      "properties": {
+        "configurationStatus": {
+          "type": "string"
+        },
+        "identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reuseHostAuth",
+            "duplicateSchoolAccounts",
+            "publicRoleGrantedBy",
+            "clientRoleFieldAllowed",
+            "passwordPolicySource",
+            "persistPasswordOrEmailInLocalStorage"
+          ],
+          "properties": {
+            "reuseHostAuth": {
+              "type": "boolean"
+            },
+            "duplicateSchoolAccounts": {
+              "type": "boolean"
+            },
+            "publicRoleGrantedBy": {
+              "type": "string"
+            },
+            "clientRoleFieldAllowed": {
+              "type": "boolean"
+            },
+            "passwordPolicySource": {
+              "type": "string"
+            },
+            "persistPasswordOrEmailInLocalStorage": {
+              "type": "boolean"
+            }
+          }
+        },
+        "privacy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "publicSchoolDirectory",
+            "publicProfileDefault",
+            "publicStudentParticipationDefault",
+            "guestDirectoryAccessDefault",
+            "showPresenceDefault",
+            "allowedPublicProfileFields",
+            "disallowedPublicProfileFields",
+            "publicOpeningRequiresApprovedMinorPolicy"
+          ],
+          "properties": {
+            "publicSchoolDirectory": {
+              "type": "boolean"
+            },
+            "publicProfileDefault": {
+              "type": "string"
+            },
+            "publicStudentParticipationDefault": {
+              "type": "boolean"
+            },
+            "guestDirectoryAccessDefault": {
+              "type": "boolean"
+            },
+            "showPresenceDefault": {
+              "type": "boolean"
+            },
+            "allowedPublicProfileFields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "disallowedPublicProfileFields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "publicOpeningRequiresApprovedMinorPolicy": {
+              "type": "boolean"
+            }
+          }
+        },
+        "players": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "serverScopeFiltering",
+            "serverPagination",
+            "suggestedPageSize",
+            "countOnlyVisiblePlayers",
+            "neverImportDemoPlayers"
+          ],
+          "properties": {
+            "serverScopeFiltering": {
+              "type": "boolean"
+            },
+            "serverPagination": {
+              "type": "boolean"
+            },
+            "suggestedPageSize": {
+              "type": "integer"
+            },
+            "countOnlyVisiblePlayers": {
+              "type": "boolean"
+            },
+            "neverImportDemoPlayers": {
+              "type": "boolean"
+            }
+          }
+        },
+        "leaderboard": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "maxRows",
+            "clientAndServerLimit",
+            "returnPaginationCursor",
+            "personalPositionOutsideTopFive",
+            "metricsSource",
+            "combineGamesOnlyWithApprovedCommonMetric",
+            "clientAwardEventsTrusted",
+            "demoXpAllowed",
+            "fallbackScoresAllowed",
+            "periodsOfferedOnlyIfSupportedByHost",
+            "proposedPeriods",
+            "proposedTimeZoneIfMissing",
+            "newTimeZoneRequiresValidation",
+            "tiePresentationProposal"
+          ],
+          "properties": {
+            "maxRows": {
+              "const": 5
+            },
+            "clientAndServerLimit": {
+              "type": "boolean"
+            },
+            "returnPaginationCursor": {
+              "type": "boolean"
+            },
+            "personalPositionOutsideTopFive": {
+              "type": "string"
+            },
+            "metricsSource": {
+              "type": "string"
+            },
+            "combineGamesOnlyWithApprovedCommonMetric": {
+              "type": "boolean"
+            },
+            "clientAwardEventsTrusted": {
+              "type": "boolean"
+            },
+            "demoXpAllowed": {
+              "type": "boolean"
+            },
+            "fallbackScoresAllowed": {
+              "type": "boolean"
+            },
+            "periodsOfferedOnlyIfSupportedByHost": {
+              "type": "boolean"
+            },
+            "proposedPeriods": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "proposedTimeZoneIfMissing": {
+              "type": "string"
+            },
+            "newTimeZoneRequiresValidation": {
+              "type": "boolean"
+            },
+            "tiePresentationProposal": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "order",
+                "displayCompetitionRank",
+                "topFiveRemainsFiveRows"
+              ],
+              "properties": {
+                "order": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "displayCompetitionRank": {
+                  "type": "boolean"
+                },
+                "topFiveRemainsFiveRows": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "rewards": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "authority",
+            "noAwardOnClientFinishedFlag",
+            "deduplicateByStableBusinessAwardKey",
+            "transactionOrEquivalentRequired",
+            "clientIdempotencyKeyAloneIsInsufficient",
+            "noDemoToProductionProgressMigration"
+          ],
+          "properties": {
+            "authority": {
+              "type": "string"
+            },
+            "noAwardOnClientFinishedFlag": {
+              "type": "boolean"
+            },
+            "deduplicateByStableBusinessAwardKey": {
+              "type": "boolean"
+            },
+            "transactionOrEquivalentRequired": {
+              "type": "boolean"
+            },
+            "clientIdempotencyKeyAloneIsInsufficient": {
+              "type": "boolean"
+            },
+            "noDemoToProductionProgressMigration": {
+              "type": "boolean"
+            }
+          }
+        },
+        "activation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "newUiDefault",
+            "preserveExistingUiUntilReplacementWorks",
+            "newPublicRegistrationDefault",
+            "newCommunityDirectoryDefault",
+            "newCommunityLeaderboardDefault",
+            "productionDemoModeAllowed",
+            "publicOpeningGates"
+          ],
+          "properties": {
+            "newUiDefault": {
+              "type": "string"
+            },
+            "preserveExistingUiUntilReplacementWorks": {
+              "type": "boolean"
+            },
+            "newPublicRegistrationDefault": {
+              "type": "boolean"
+            },
+            "newCommunityDirectoryDefault": {
+              "type": "boolean"
+            },
+            "newCommunityLeaderboardDefault": {
+              "type": "boolean"
+            },
+            "productionDemoModeAllowed": {
+              "const": false
+            },
+            "publicOpeningGates": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "decisionsToResolve": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "subject",
+          "status",
+          "safeFallback"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "safeFallback": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:tween-teach:world-arcade:corpus:1",
+  "title": "World Arcade — design corpus, not runtime configuration"
+}

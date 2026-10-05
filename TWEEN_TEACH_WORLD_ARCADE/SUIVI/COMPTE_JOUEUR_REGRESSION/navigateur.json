@@ -1,0 +1,263 @@
+{
+  "results": [
+    {
+      "name": "visitor entry, keyboard guard, closed registration and focus return",
+      "status": "passed"
+    },
+    {
+      "name": "real host login is required; profile persists with no credential storage",
+      "status": "passed"
+    },
+    {
+      "name": "scoped directory pagination, search and accessible profile dialog",
+      "status": "passed"
+    },
+    {
+      "name": "top and grades explicitly unavailable, without prototype points",
+      "status": "passed"
+    },
+    {
+      "name": "true runtime, deep link, persistent save and retry after network failure",
+      "status": "passed"
+    },
+    {
+      "name": "slow launch ignores late response after navigation and never launches a demo",
+      "status": "passed"
+    },
+    {
+      "name": "500, forbidden, empty and offline have distinct UI states",
+      "status": "passed"
+    },
+    {
+      "name": "desktop, compact desktop, tablet and stacked mobile without page overflow",
+      "status": "passed"
+    },
+    {
+      "name": "200 percent equivalent viewport, focus visibility, CRT and reduced motion",
+      "status": "passed"
+    },
+    {
+      "name": "ten module round trips preserve host pages, without listeners or styles leaking",
+      "status": "passed"
+    },
+    {
+      "name": "logout clears host session and no profile is reused for the next account",
+      "status": "passed"
+    }
+  ],
+  "captures": [
+    {
+      "file": "captures/01-entree.png",
+      "route": "/arcade",
+      "role": "guest",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/02-inscription-fermee.png",
+      "route": "/arcade",
+      "role": "guest",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/03-salle-visiteur.png",
+      "route": "/arcade#arcade",
+      "role": "guest",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/04-profil.png",
+      "route": "/arcade#personnaliser",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/05-joueurs.png",
+      "route": "/arcade#joueurs",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/06-classement-indisponible.png",
+      "route": "/arcade#classement",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/07-grades-indisponibles.png",
+      "route": "/arcade#badges",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/08-sauvegarde-erreur.png",
+      "route": "/arcade#jeu/game_0d45bacf-46ee-4d72-9b1d-37aac2e3d79c",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/09-jeu.png",
+      "route": "/arcade#jeu/game_0d45bacf-46ee-4d72-9b1d-37aac2e3d79c",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/10-service-indisponible.png",
+      "route": "/arcade#joueurs",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/11-salle-1440x1050.png",
+      "route": "/arcade#arcade",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/11-salle-1280x720.png",
+      "route": "/arcade#arcade",
+      "role": "student",
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/11-salle-768x1024.png",
+      "route": "/arcade#arcade",
+      "role": "student",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/11-salle-390x844.png",
+      "route": "/arcade#arcade",
+      "role": "student",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/11-salle-360x800.png",
+      "route": "/arcade#arcade",
+      "role": "student",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/12-profil-zoom-200.png",
+      "route": "/arcade#personnaliser",
+      "role": "student",
+      "viewport": {
+        "width": 720,
+        "height": 525
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/13-reglages.png",
+      "route": "/arcade#reglages",
+      "role": "student",
+      "viewport": {
+        "width": 720,
+        "height": 525
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/14-cours-eleve.png",
+      "route": "/today",
+      "role": "student",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/14-cours-eleve-mobile.png",
+      "route": "/today",
+      "role": "student",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/15-professeur.png",
+      "route": "/teacher",
+      "role": "teacher",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    },
+    {
+      "file": "captures/15-professeur-mobile.png",
+      "route": "/teacher",
+      "role": "teacher",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fixture": "tests/fixtures/arcade.mjs, SQLite :memory:"
+    }
+  ],
+  "errors": [],
+  "browser": "154.0.8037.93",
+  "database": "SQLite memory only"
+}

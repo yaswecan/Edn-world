@@ -1,0 +1,68 @@
+{
+  "version": "3.0.0",
+  "date": "2026-09-29",
+  "build": {
+    "passed": true,
+    "api_handlers": 10,
+    "core_screens": 36,
+    "lesson_minutes": 175,
+    "pause_minutes": 15
+  },
+  "node_tests": {
+    "passed": 141,
+    "failed": 0,
+    "skipped": 0,
+    "course": 41,
+    "simulator_model": 46,
+    "sync_with_api_fixtures": 12,
+    "http_with_memory_repository": 36,
+    "sql_adapter_with_driver_mock": 6
+  },
+  "chromium_simulator_component": {
+    "transport": "document mémoire, pas HTTP",
+    "drag_drop": true,
+    "clics": true,
+    "cases": [
+      "ram-missing",
+      "loader-missing",
+      "ssd-missing",
+      "os-missing"
+    ],
+    "boot_device": true,
+    "mobile_width": 390,
+    "state_remount": true,
+    "errors": []
+  },
+  "chromium_teacher_component": {
+    "transport": "document mémoire, fetch simulé; pas API réelle",
+    "login_ui": true,
+    "invalid_password_ui": true,
+    "detail": true,
+    "versioned_validation": true,
+    "delete_ui": true,
+    "logout_ui": true,
+    "mobile_width": 390,
+    "errors": []
+  },
+  "http_browser_full_e2e": {
+    "passed": false,
+    "status": "blocked-by-environment",
+    "error": "net::ERR_BLOCKED_BY_ADMINISTRATOR",
+    "policy_modified": false
+  },
+  "neon_live": {
+    "executed": false,
+    "passed": 0,
+    "skipped": 1,
+    "reason": "No TEST_DATABASE_URL or TEST_ALLOW_DB_WRITES=1"
+  },
+  "npm_ci": {
+    "executed": false,
+    "reason": "No network DNS to npm registry; official package metadata/integrity checked; lockfile tested"
+  },
+  "vercel_deployment": {
+    "executed": false,
+    "reason": "No deployment to user account"
+  },
+  "scope": "Neon persistently stores opt-in bonus telemetry and core step count; course responses stay local/exported. No Eden Hub SSO."
+}

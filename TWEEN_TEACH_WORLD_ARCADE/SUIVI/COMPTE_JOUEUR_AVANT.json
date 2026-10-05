@@ -1,0 +1,11 @@
+{
+  "server/auth.mjs": "65ce856fa19bb964d056c858367d3e57857f5f863fb0bc53311576e0ee0172b5",
+  "server/app.mjs": "88f274a79be83763ca8c2170c6d128720e5f893a47448b61699dcd32427cf034",
+  "server/arcade.mjs": "051a48663b13c190ac5917d820a938b55cce6cb181dbc1e16589c67a4fb9727c",
+  "public/world-arcade/app.js": "81f3cebd2e78c7246194dbb15e095602df1a656af068b020219240f16d019f0c",
+  "public/world-arcade/index.html": "d3b80e0eadeab4427b52442e8915873554d4d3e24141c399721e5aefd803f76d",
+  "public/world-arcade/style.css": "1037e5dd887925a7dccc029a945ffd4614ba1ed65142d3fdf44c084bf3b9fc20",
+  "tests/arcade.test.mjs": "4772eb04eaae079bdb5b1697b116eec49bc50aaa05369d929458369d40752b42",
+  "scripts/arcade-browser-check.mjs": "0f814570d6c901c7d0f4b717437a176f4814fc67c4ef8199fc32fa2505dbac30",
+  "README.md": "cd4a2947b630602360b2a196ee83f5741b62d52f61485fed215220e179375165"
+}

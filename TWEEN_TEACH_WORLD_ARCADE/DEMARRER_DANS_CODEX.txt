@@ -1,0 +1,18 @@
+Tu travailles dans mon dépôt Tween Teach existant.
+
+Lis les instructions AGENTS.md applicables du dépôt, puis :
+TWEEN_TEACH_WORLD_ARCADE/00_LIRE_DABORD.md
+TWEEN_TEACH_WORLD_ARCADE/01_PROMPT_CODEX_INTEGRATION.md
+
+Exécute le prompt d’intégration en entier. Il indique les autres fichiers à consulter,
+le front et les captures à reproduire, le corpus, les contrats et la recette.
+
+Implémente réellement World Arcade dans le projet : ne livre pas seulement un plan,
+ne remplace pas l’application par la démo autonome et ne modifie pas les comptes,
+progressions, notes ou droits existants pour les adapter aux données fictives.
+
+Commence par l’audit du dépôt, puis avance par lots avec tests et captures.
+Consigne les résultats réels dans TWEEN_TEACH_WORLD_ARCADE/SUIVI/.
+Si un service ou une décision manque, isole ce point sans inventer son fonctionnement,
+et réalise les autres parties non bloquées. Ne déploie pas en production et ne lance
+aucune migration sur une base réelle sans validation explicite.

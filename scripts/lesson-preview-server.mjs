@@ -1,0 +1,10 @@
+import express from 'express';
+import {resolve} from 'node:path';
+import {demoRoutes} from '../server/demo-routes.mjs';
+const app=express();
+app.use(express.json({limit:'32kb'}));
+demoRoutes(app);
+app.use(express.static('public'));
+app.get('/today',(_req,res)=>res.sendFile(resolve('public/index.html')));
+app.use((error,_req,res,_next)=>res.status(error.status||400).json({error:error.message}));
+app.listen(Number(process.env.LESSON_PREVIEW_PORT||4178),'127.0.0.1',()=>console.log(`EDEN demo http://127.0.0.1:${process.env.LESSON_PREVIEW_PORT||4178}/lesson-demo.html?lesson=flexbox`));

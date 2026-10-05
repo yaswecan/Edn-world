@@ -1,0 +1,1130 @@
+
+> eden-hub-logique-01-octobre@6.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: configuration et santé sans divulgation de clé
+ok 1 - configuration et santé sans divulgation de clé
+  ---
+  duration_ms: 25.741924
+  type: 'test'
+  ...
+# Subtest: données professeur protégées
+ok 2 - données professeur protégées
+  ---
+  duration_ms: 2.941133
+  type: 'test'
+  ...
+# Subtest: mauvais code refusé
+ok 3 - mauvais code refusé
+  ---
+  duration_ms: 8.287418
+  type: 'test'
+  ...
+# Subtest: origine étrangère refusée
+ok 4 - origine étrangère refusée
+  ---
+  duration_ms: 2.744856
+  type: 'test'
+  ...
+# Subtest: envoi sans jeton interdit
+ok 5 - envoi sans jeton interdit
+  ---
+  duration_ms: 3.092271
+  type: 'test'
+  ...
+# Subtest: envoi suivi et validation optimiste
+ok 6 - envoi suivi et validation optimiste
+  ---
+  duration_ms: 33.310707
+  type: 'test'
+  ...
+# Subtest: import ancien BIOS non accepté dans ce serveur
+ok 7 - import ancien BIOS non accepté dans ce serveur
+  ---
+  duration_ms: 0.442228
+  type: 'test'
+  ...
+# Subtest: jeton valide ne permet pas de voir la liste professeur
+ok 8 - jeton valide ne permet pas de voir la liste professeur
+  ---
+  duration_ms: 4.519497
+  type: 'test'
+  ...
+# Subtest: suppression d’un seul dossier et déconnexion
+ok 9 - suppression d’un seul dossier et déconnexion
+  ---
+  duration_ms: 7.787583
+  type: 'test'
+  ...
+# Subtest: cron protégé
+ok 10 - cron protégé
+  ---
+  duration_ms: 1.459875
+  type: 'test'
+  ...
+# Subtest: corps HTML non accepté
+ok 11 - corps HTML non accepté
+  ---
+  duration_ms: 3.426296
+  type: 'test'
+  ...
+# Subtest: assessment et export refusés sans authentification
+ok 12 - assessment et export refusés sans authentification
+  ---
+  duration_ms: 31.878474
+  type: 'test'
+  ...
+# Subtest: démarrage unique et horloge serveur
+ok 13 - démarrage unique et horloge serveur
+  ---
+  duration_ms: 16.459873
+  type: 'test'
+  ...
+# Subtest: remise figée pré-corrigée avec alias de connexion
+ok 14 - remise figée pré-corrigée avec alias de connexion
+  ---
+  duration_ms: 30.117054
+  type: 'test'
+  ...
+# Subtest: la réponse élève ne contient ni corrigé ni note
+ok 15 - la réponse élève ne contient ni corrigé ni note
+  ---
+  duration_ms: 16.665784
+  type: 'test'
+  ...
+# Subtest: remise idempotente : même reçu, pas de doublon
+ok 16 - remise idempotente : même reçu, pas de doublon
+  ---
+  duration_ms: 13.442375
+  type: 'test'
+  ...
+# Subtest: identifiant réutilisé avec une autre copie refusé
+ok 17 - identifiant réutilisé avec une autre copie refusé
+  ---
+  duration_ms: 15.032327
+  type: 'test'
+  ...
+# Subtest: une seconde remise n’écrase pas la première
+ok 18 - une seconde remise n’écrase pas la première
+  ---
+  duration_ms: 12.767256
+  type: 'test'
+  ...
+# Subtest: sauvegarde de cours récupérable même sans paquet automatique
+ok 19 - sauvegarde de cours récupérable même sans paquet automatique
+  ---
+  duration_ms: 5.033173
+  type: 'test'
+  ...
+# Subtest: copie de cours ne modifie pas le diagnostic figé
+ok 20 - copie de cours ne modifie pas le diagnostic figé
+  ---
+  duration_ms: 20.743223
+  type: 'test'
+  ...
+# Subtest: correction manuelle versionnée puis export Excel avec nouveau total
+ok 21 - correction manuelle versionnée puis export Excel avec nouveau total
+  ---
+  duration_ms: 57.316459
+  type: 'test'
+  ...
+# Subtest: changement de point sans motif refusé
+ok 22 - changement de point sans motif refusé
+  ---
+  duration_ms: 11.507853
+  type: 'test'
+  ...
+# Subtest: réouverture conserve l’original et crée une tentative 2
+ok 23 - réouverture conserve l’original et crée une tentative 2
+  ---
+  duration_ms: 18.213017
+  type: 'test'
+  ...
+# Subtest: un élève ne peut pas lire la correction de son camarade
+ok 24 - un élève ne peut pas lire la correction de son camarade
+  ---
+  duration_ms: 10.946846
+  type: 'test'
+  ...
+# Subtest: dossier d’une autre classe refusé
+ok 25 - dossier d’une autre classe refusé
+  ---
+  duration_ms: 10.161229
+  type: 'test'
+  ...
+# Subtest: API de correction refuse point hors barème
+ok 26 - API de correction refuse point hors barème
+  ---
+  duration_ms: 15.305419
+  type: 'test'
+  ...
+# Subtest: export non remis contient NE et aucune copie originale inventée
+ok 27 - export non remis contient NE et aucune copie originale inventée
+  ---
+  duration_ms: 12.43931
+  type: 'test'
+  ...
+# Subtest: requête intersite refuse une correction même avec cookie
+ok 28 - requête intersite refuse une correction même avec cookie
+  ---
+  duration_ms: 2.085279
+  type: 'test'
+  ...
+# Subtest: une nouvelle remise ne peut pas choisir le barème ancien depuis le navigateur
+ok 29 - une nouvelle remise ne peut pas choisir le barème ancien depuis le navigateur
+  ---
+  duration_ms: 8.260488
+  type: 'test'
+  ...
+# Subtest: build : configuration complète acceptée
+ok 30 - build : configuration complète acceptée
+  ---
+  duration_ms: 2.047714
+  type: 'test'
+  ...
+# Subtest: build : audit strict de la configuration source
+ok 31 - build : audit strict de la configuration source
+  ---
+  duration_ms: 0.239542
+  type: 'test'
+  ...
+# Subtest: build : champs absents ne signifient pas installation échouée
+ok 32 - build : champs absents ne signifient pas installation échouée
+  ---
+  duration_ms: 1.164849
+  type: 'test'
+  ...
+# Subtest: build : champs nuls délégués au réglage plateforme
+ok 33 - build : champs nuls délégués au réglage plateforme
+  ---
+  duration_ms: 0.176026
+  type: 'test'
+  ...
+# Subtest: build : audit strict refuse les réglages manquants
+ok 34 - build : audit strict refuse les réglages manquants
+  ---
+  duration_ms: 0.101794
+  type: 'test'
+  ...
+# Subtest: build : ./docs/ et docs sont équivalents
+ok 35 - build : ./docs/ et docs sont équivalents
+  ---
+  duration_ms: 0.10545
+  type: 'test'
+  ...
+# Subtest: build : sortie incorrecte ou non dédiée refusée (".")
+ok 36 - build : sortie incorrecte ou non dédiée refusée (".")
+  ---
+  duration_ms: 0.158039
+  type: 'test'
+  ...
+# Subtest: build : sortie incorrecte ou non dédiée refusée ("../docs")
+ok 37 - build : sortie incorrecte ou non dédiée refusée ("../docs")
+  ---
+  duration_ms: 0.078418
+  type: 'test'
+  ...
+# Subtest: build : sortie incorrecte ou non dédiée refusée ("/docs")
+ok 38 - build : sortie incorrecte ou non dédiée refusée ("/docs")
+  ---
+  duration_ms: 0.308075
+  type: 'test'
+  ...
+# Subtest: build : sortie incorrecte ou non dédiée refusée ("dist")
+ok 39 - build : sortie incorrecte ou non dédiée refusée ("dist")
+  ---
+  duration_ms: 0.399774
+  type: 'test'
+  ...
+# Subtest: build : sortie incorrecte ou non dédiée refusée ("")
+ok 40 - build : sortie incorrecte ou non dédiée refusée ("")
+  ---
+  duration_ms: 0.125359
+  type: 'test'
+  ...
+# Subtest: build : framework explicite incompatible reste bloquant
+ok 41 - build : framework explicite incompatible reste bloquant
+  ---
+  duration_ms: 0.090416
+  type: 'test'
+  ...
+# Subtest: build : npm ci avec des options garde une installation verrouillée
+ok 42 - build : npm ci avec des options garde une installation verrouillée
+  ---
+  duration_ms: 0.07944
+  type: 'test'
+  ...
+# Subtest: build : npm install et les commandes composées ne passent pas silencieusement
+ok 43 - build : npm install et les commandes composées ne passent pas silencieusement
+  ---
+  duration_ms: 0.199351
+  type: 'test'
+  ...
+# Subtest: build : chaîne de build récursive refusée
+ok 44 - build : chaîne de build récursive refusée
+  ---
+  duration_ms: 0.080381
+  type: 'test'
+  ...
+# Subtest: build : configuration legacy builds refusée
+ok 45 - build : configuration legacy builds refusée
+  ---
+  duration_ms: 0.070607
+  type: 'test'
+  ...
+# Subtest: build : objet JSON requis
+ok 46 - build : objet JSON requis
+  ---
+  duration_ms: 0.073341
+  type: 'test'
+  ...
+# Subtest: lockfile : métadonnées originales conservées et cohérentes
+ok 47 - lockfile : métadonnées originales conservées et cohérentes
+  ---
+  duration_ms: 0.159
+  type: 'test'
+  ...
+# Subtest: lockfile : un ordre de clés différent ne change pas les dépendances
+ok 48 - lockfile : un ordre de clés différent ne change pas les dépendances
+  ---
+  duration_ms: 0.190838
+  type: 'test'
+  ...
+# Subtest: lockfile : dépendance modifiée détectée
+ok 49 - lockfile : dépendance modifiée détectée
+  ---
+  duration_ms: 0.101553
+  type: 'test'
+  ...
+# Subtest: lockfile : version Node et métadonnées incohérentes détectées
+ok 50 - lockfile : version Node et métadonnées incohérentes détectées
+  ---
+  duration_ms: 0.207133
+  type: 'test'
+  ...
+# Subtest: lockfile : lockfile incomplet ou sans intégrité refusé
+ok 51 - lockfile : lockfile incomplet ou sans intégrité refusé
+  ---
+  duration_ms: 0.143086
+  type: 'test'
+  ...
+# Subtest: régression : reproduire les deux messages du log avec les anciens tests
+ok 52 - régression : reproduire les deux messages du log avec les anciens tests
+  ---
+  duration_ms: 0.102394
+  type: 'test'
+  ...
+# Subtest: régression : copie partielle, contenu réel présent, build accepté avec avertissements
+ok 53 - régression : copie partielle, contenu réel présent, build accepté avec avertissements
+  ---
+  duration_ms: 131.305843
+  type: 'test'
+  ...
+# Subtest: régression : JSON de configuration absent seulement toléré au build, jamais en audit strict
+ok 54 - régression : JSON de configuration absent seulement toléré au build, jamais en audit strict
+  ---
+  duration_ms: 126.585513
+  type: 'test'
+  ...
+# Subtest: régression : fichier public manquant reste bloquant
+ok 55 - régression : fichier public manquant reste bloquant
+  ---
+  duration_ms: 110.477135
+  type: 'test'
+  ...
+# Subtest: régression : erreur de syntaxe serveur et import cassé restent bloquants
+ok 56 - régression : erreur de syntaxe serveur et import cassé restent bloquants
+  ---
+  duration_ms: 122.558134
+  type: 'test'
+  ...
+# Subtest: régression : SQLite et migration désynchronisée restent bloquants
+ok 57 - régression : SQLite et migration désynchronisée restent bloquants
+  ---
+  duration_ms: 124.806787
+  type: 'test'
+  ...
+# Subtest: régression : JSON invalide refusé sans afficher son contenu
+ok 58 - régression : JSON invalide refusé sans afficher son contenu
+  ---
+  duration_ms: 6.630355
+  type: 'test'
+  ...
+# Subtest: régression : contrôle de configuration résolu depuis le script, pas le cwd
+ok 59 - régression : contrôle de configuration résolu depuis le script, pas le cwd
+  ---
+  duration_ms: 904.439822
+  type: 'test'
+  ...
+# Subtest: Neon transport : pilote chargé une fois, options fullResults
+ok 60 - Neon transport : pilote chargé une fois, options fullResults
+  ---
+  duration_ms: 1.997387
+  type: 'test'
+  ...
+# Subtest: Neon migration : transaction unique + verrou + retry après erreur
+ok 61 - Neon migration : transaction unique + verrou + retry après erreur
+  ---
+  duration_ms: 0.906379
+  type: 'test'
+  ...
+# Subtest: Repository SQL : ingest transaction verrouillée et paramétrée
+ok 62 - Repository SQL : ingest transaction verrouillée et paramétrée
+  ---
+  duration_ms: 0.480105
+  type: 'test'
+  ...
+# Subtest: Repository SQL : chiffres BIGINT normalisés pour le navigateur
+ok 63 - Repository SQL : chiffres BIGINT normalisés pour le navigateur
+  ---
+  duration_ms: 0.294906
+  type: 'test'
+  ...
+# Subtest: Repository SQL : contrôle optimiste de validation
+ok 64 - Repository SQL : contrôle optimiste de validation
+  ---
+  duration_ms: 0.336128
+  type: 'test'
+  ...
+# Subtest: Repository SQL : purge explicite, limitée au scope et avec cascade événements
+ok 65 - Repository SQL : purge explicite, limitée au scope et avec cascade événements
+  ---
+  duration_ms: 0.357821
+  type: 'test'
+  ...
+# Subtest: diagnostic complet : 20 indicateurs, 20/20, A2, à relire
+ok 66 - diagnostic complet : 20 indicateurs, 20/20, A2, à relire
+  ---
+  duration_ms: 11.22123
+  type: 'test'
+  ...
+# Subtest: copie remise vide : zéro observé (différent de non remis)
+ok 67 - copie remise vide : zéro observé (différent de non remis)
+  ---
+  duration_ms: 2.681951
+  type: 'test'
+  ...
+# Subtest: une erreur de syntaxe n’entraîne pas automatiquement 14 zéros
+ok 68 - une erreur de syntaxe n’entraîne pas automatiquement 14 zéros
+  ---
+  duration_ms: 1.638055
+  type: 'test'
+  ...
+# Subtest: console.log seul ne constitue pas return
+ok 69 - console.log seul ne constitue pas return
+  ---
+  duration_ms: 2.082696
+  type: 'test'
+  ...
+# Subtest: retour constant 5 échoue aux paramètres 4/7 et 0/0
+ok 70 - retour constant 5 échoue aux paramètres 4/7 et 0/0
+  ---
+  duration_ms: 1.474337
+  type: 'test'
+  ...
+# Subtest: nom des paramètres libre, fonctions fléchées admises
+ok 71 - nom des paramètres libre, fonctions fléchées admises
+  ---
+  duration_ms: 2.172031
+  type: 'test'
+  ...
+# Subtest: affichage codé en dur ne valide pas un prénom transmis
+ok 72 - affichage codé en dur ne valide pas un prénom transmis
+  ---
+  duration_ms: 2.226053
+  type: 'test'
+  ...
+# Subtest: seuil 0 → NA
+ok 73 - seuil 0 → NA
+  ---
+  duration_ms: 0.089836
+  type: 'test'
+  ...
+# Subtest: seuil 4 → NA
+ok 74 - seuil 4 → NA
+  ---
+  duration_ms: 0.220944
+  type: 'test'
+  ...
+# Subtest: seuil 5 → EC
+ok 75 - seuil 5 → EC
+  ---
+  duration_ms: 0.251059
+  type: 'test'
+  ...
+# Subtest: seuil 9 → EC
+ok 76 - seuil 9 → EC
+  ---
+  duration_ms: 0.164309
+  type: 'test'
+  ...
+# Subtest: seuil 10 → A1
+ok 77 - seuil 10 → A1
+  ---
+  duration_ms: 0.049756
+  type: 'test'
+  ...
+# Subtest: seuil 14 → A1
+ok 78 - seuil 14 → A1
+  ---
+  duration_ms: 0.035935
+  type: 'test'
+  ...
+# Subtest: seuil 15 → A2
+ok 79 - seuil 15 → A2
+  ---
+  duration_ms: 0.033891
+  type: 'test'
+  ...
+# Subtest: seuil 20 → A2
+ok 80 - seuil 20 → A2
+  ---
+  duration_ms: 0.033371
+  type: 'test'
+  ...
+# Subtest: seuil null → NE
+ok 81 - seuil null → NE
+  ---
+  duration_ms: 0.029765
+  type: 'test'
+  ...
+# Subtest: aucune copie : tous points manquants et NE sans total
+ok 82 - aucune copie : tous points manquants et NE sans total
+  ---
+  duration_ms: 0.097417
+  type: 'test'
+  ...
+# Subtest: pas de verrou par critère pour le niveau global
+ok 83 - pas de verrou par critère pour le niveau global
+  ---
+  duration_ms: 0.088674
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse fetch("https://example.com")
+ok 84 - interpréteur borne/refuse fetch("https://example.com")
+  ---
+  duration_ms: 0.146271
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse window.location="https://example.com"
+ok 85 - interpréteur borne/refuse window.location="https://example.com"
+  ---
+  duration_ms: 0.135434
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse process.exit()
+ok 86 - interpréteur borne/refuse process.exit()
+  ---
+  duration_ms: 0.106831
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse eval("1+1")
+ok 87 - interpréteur borne/refuse eval("1+1")
+  ---
+  duration_ms: 0.126931
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse new Function("return 1")()
+ok 88 - interpréteur borne/refuse new Function("return 1")()
+  ---
+  duration_ms: 0.238521
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse console["log"](1)
+ok 89 - interpréteur borne/refuse console["log"](1)
+  ---
+  duration_ms: 0.123897
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse ({}).constructor.constructor("return glo
+ok 90 - interpréteur borne/refuse ({}).constructor.constructor("return glo
+  ---
+  duration_ms: 0.174764
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse while(true){}
+ok 91 - interpréteur borne/refuse while(true){}
+  ---
+  duration_ms: 0.267174
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse for(;;){}
+ok 92 - interpréteur borne/refuse for(;;){}
+  ---
+  duration_ms: 0.28497
+  type: 'test'
+  ...
+# Subtest: interpréteur borne/refuse import("fs")
+ok 93 - interpréteur borne/refuse import("fs")
+  ---
+  duration_ms: 0.215275
+  type: 'test'
+  ...
+# Subtest: récursion bornée sans bloquer le serveur
+ok 94 - récursion bornée sans bloquer le serveur
+  ---
+  duration_ms: 0.464332
+  type: 'test'
+  ...
+# Subtest: log booléens, return et affectation réellement interprétés
+ok 95 - log booléens, return et affectation réellement interprétés
+  ---
+  duration_ms: 1.203879
+  type: 'test'
+  ...
+# Subtest: exercice major
+ok 96 - exercice major
+  ---
+  duration_ms: 0.950065
+  type: 'test'
+  ...
+# Subtest: exercice play
+ok 97 - exercice play
+  ---
+  duration_ms: 0.890865
+  type: 'test'
+  ...
+# Subtest: exercice entry
+ok 98 - exercice entry
+  ---
+  duration_ms: 1.96955
+  type: 'test'
+  ...
+# Subtest: exercice advanced
+ok 99 - exercice advanced
+  ---
+  duration_ms: 2.711055
+  type: 'test'
+  ...
+# Subtest: limite exacte 18 testée
+ok 100 - limite exacte 18 testée
+  ---
+  duration_ms: 0.524883
+  type: 'test'
+  ...
+# Subtest: dernière copie sélectionnée selon reçu entre deux runs
+ok 101 - dernière copie sélectionnée selon reçu entre deux runs
+  ---
+  duration_ms: 0.114814
+  type: 'test'
+  ...
+# Subtest: pas de restauration d’un ancien run après une sauvegarde plus récente
+ok 102 - pas de restauration d’un ancien run après une sauvegarde plus récente
+  ---
+  duration_ms: 0.29831
+  type: 'test'
+  ...
+# Subtest: révision comparable uniquement dans le même run
+ok 103 - révision comparable uniquement dans le même run
+  ---
+  duration_ms: 0.07277
+  type: 'test'
+  ...
+# Subtest: ZIP refuse la traversée de répertoires
+ok 104 - ZIP refuse la traversée de répertoires
+  ---
+  duration_ms: 0.288516
+  type: 'test'
+  ...
+# Subtest: CRC32 de référence
+ok 105 - CRC32 de référence
+  ---
+  duration_ms: 0.109406
+  type: 'test'
+  ...
+# Subtest: export sans remise : classeur fourni, aucun zéro inventé
+ok 106 - export sans remise : classeur fourni, aucun zéro inventé
+  ---
+  duration_ms: 37.865843
+  type: 'test'
+  ...
+# Subtest: export complet : classeur, original, code, exemple et commentaire
+ok 107 - export complet : classeur, original, code, exemple et commentaire
+  ---
+  duration_ms: 32.876361
+  type: 'test'
+  ...
+# Subtest: expression : true && true
+ok 108 - expression : true && true
+  ---
+  duration_ms: 1.366365
+  type: 'test'
+  ...
+# Subtest: expression : true && false
+ok 109 - expression : true && false
+  ---
+  duration_ms: 0.205841
+  type: 'test'
+  ...
+# Subtest: expression : false && true
+ok 110 - expression : false && true
+  ---
+  duration_ms: 0.100302
+  type: 'test'
+  ...
+# Subtest: expression : false && false
+ok 111 - expression : false && false
+  ---
+  duration_ms: 0.073942
+  type: 'test'
+  ...
+# Subtest: expression : true || false
+ok 112 - expression : true || false
+  ---
+  duration_ms: 0.275286
+  type: 'test'
+  ...
+# Subtest: expression : false || true
+ok 113 - expression : false || true
+  ---
+  duration_ms: 0.093351
+  type: 'test'
+  ...
+# Subtest: expression : true || true
+ok 114 - expression : true || true
+  ---
+  duration_ms: 0.160552
+  type: 'test'
+  ...
+# Subtest: expression : false || false
+ok 115 - expression : false || false
+  ---
+  duration_ms: 0.733759
+  type: 'test'
+  ...
+# Subtest: expression : !true
+ok 116 - expression : !true
+  ---
+  duration_ms: 0.29776
+  type: 'test'
+  ...
+# Subtest: expression : !false
+ok 117 - expression : !false
+  ---
+  duration_ms: 0.280554
+  type: 'test'
+  ...
+# Subtest: expression : 20 >= 20
+ok 118 - expression : 20 >= 20
+  ---
+  duration_ms: 0.156677
+  type: 'test'
+  ...
+# Subtest: expression : 20 > 20
+ok 119 - expression : 20 > 20
+  ---
+  duration_ms: 0.069656
+  type: 'test'
+  ...
+# Subtest: expression : 14 === 14
+ok 120 - expression : 14 === 14
+  ---
+  duration_ms: 0.043877
+  type: 'test'
+  ...
+# Subtest: expression : 14 !== 14
+ok 121 - expression : 14 !== 14
+  ---
+  duration_ms: 0.037176
+  type: 'test'
+  ...
+# Subtest: expression : !(true && false)
+ok 122 - expression : !(true && false)
+  ---
+  duration_ms: 0.068143
+  type: 'test'
+  ...
+# Subtest: expression : (true || false) && !true
+ok 123 - expression : (true || false) && !true
+  ---
+  duration_ms: 0.03993
+  type: 'test'
+  ...
+# Subtest: code hors périmètre refusé : fetch("https://example.com")
+ok 124 - code hors périmètre refusé : fetch("https://example.com")
+  ---
+  duration_ms: 0.191409
+  type: 'test'
+  ...
+# Subtest: code hors périmètre refusé : while (true) {}
+ok 125 - code hors périmètre refusé : while (true) {}
+  ---
+  duration_ms: 0.06012
+  type: 'test'
+  ...
+# Subtest: code hors périmètre refusé : new Function("return 1")
+ok 126 - code hors périmètre refusé : new Function("return 1")
+  ---
+  duration_ms: 0.049074
+  type: 'test'
+  ...
+# Subtest: code hors périmètre refusé : globalThis.document.cookie
+ok 127 - code hors périmètre refusé : globalThis.document.cookie
+  ---
+  duration_ms: 0.040231
+  type: 'test'
+  ...
+# Subtest: code hors périmètre refusé : A = true
+ok 128 - code hors périmètre refusé : A = true
+  ---
+  duration_ms: 0.041483
+  type: 'test'
+  ...
+# Subtest: code hors périmètre refusé : true & false
+ok 129 - code hors périmètre refusé : true & false
+  ---
+  duration_ms: 0.082594
+  type: 'test'
+  ...
+# Subtest: code hors périmètre refusé : import("./x")
+ok 130 - code hors périmètre refusé : import("./x")
+  ---
+  duration_ms: 0.044337
+  type: 'test'
+  ...
+# Subtest: erreur sur booléens implicites
+ok 131 - erreur sur booléens implicites
+  ---
+  duration_ms: 0.082644
+  type: 'test'
+  ...
+# Subtest: variable inconnue et garde de profondeur
+ok 132 - variable inconnue et garde de profondeur
+  ---
+  duration_ms: 0.202005
+  type: 'test'
+  ...
+# Subtest: huit combinaisons uniques
+ok 133 - huit combinaisons uniques
+  ---
+  duration_ms: 0.158299
+  type: 'test'
+  ...
+# Subtest: code validé sur tous les cas : and
+ok 134 - code validé sur tous les cas : and
+  ---
+  duration_ms: 0.474647
+  type: 'test'
+  ...
+# Subtest: code validé sur tous les cas : combined
+ok 135 - code validé sur tous les cas : combined
+  ---
+  duration_ms: 0.142165
+  type: 'test'
+  ...
+# Subtest: code validé sur tous les cas : threshold
+ok 136 - code validé sur tous les cas : threshold
+  ---
+  duration_ms: 0.123176
+  type: 'test'
+  ...
+# Subtest: mauvais OU détecté par contre-exemples
+ok 137 - mauvais OU détecté par contre-exemples
+  ---
+  duration_ms: 0.176967
+  type: 'test'
+  ...
+# Subtest: seuil strict détecté exactement à 14
+ok 138 - seuil strict détecté exactement à 14
+  ---
+  duration_ms: 0.135023
+  type: 'test'
+  ...
+# Subtest: aucune exécution libre et syntaxe manquante signalée
+ok 139 - aucune exécution libre et syntaxe manquante signalée
+  ---
+  duration_ms: 0.088554
+  type: 'test'
+  ...
+# Subtest: planning relatif si début absent
+ok 140 - planning relatif si début absent
+  ---
+  duration_ms: 0.735441
+  type: 'test'
+  ...
+# Subtest: diagnostic : passer garde un échec à reprendre, pas une maîtrise
+ok 141 - diagnostic : passer garde un échec à reprendre, pas une maîtrise
+  ---
+  duration_ms: 3.187485
+  type: 'test'
+  ...
+# Subtest: un QCM pédagogique n’est pas validé avec des champs vides
+ok 142 - un QCM pédagogique n’est pas validé avec des champs vides
+  ---
+  duration_ms: 0.137768
+  type: 'test'
+  ...
+# Subtest: table ET doit couvrir quatre cases
+ok 143 - table ET doit couvrir quatre cases
+  ---
+  duration_ms: 0.323328
+  type: 'test'
+  ...
+# Subtest: bonus verrouillé au départ
+ok 144 - bonus verrouillé au départ
+  ---
+  duration_ms: 2.082486
+  type: 'test'
+  ...
+# Subtest: import d’une autre séance rejeté
+ok 145 - import d’une autre séance rejeté
+  ---
+  duration_ms: 0.246592
+  type: 'test'
+  ...
+# Subtest: sanitisation bornée et sans jeton exporté
+ok 146 - sanitisation bornée et sans jeton exporté
+  ---
+  duration_ms: 0.643051
+  type: 'test'
+  ...
+# Subtest: recalcul de score côté modèle
+ok 147 - recalcul de score côté modèle
+  ---
+  duration_ms: 12.396135
+  type: 'test'
+  ...
+# Subtest: identifiants tous distincts, objectifs corrects
+ok 148 - identifiants tous distincts, objectifs corrects
+  ---
+  duration_ms: 0.173362
+  type: 'test'
+  ...
+# Subtest: diag-demarrer : programme complet, tests et console cohérents
+ok 149 - diag-demarrer : programme complet, tests et console cohérents
+  ---
+  duration_ms: 6.653271
+  type: 'test'
+  ...
+# Subtest: diag-saluer : programme complet, tests et console cohérents
+ok 150 - diag-saluer : programme complet, tests et console cohérents
+  ---
+  duration_ms: 2.137789
+  type: 'test'
+  ...
+# Subtest: diag-doubler : programme complet, tests et console cohérents
+ok 151 - diag-doubler : programme complet, tests et console cohérents
+  ---
+  duration_ms: 2.817395
+  type: 'test'
+  ...
+# Subtest: diag-retour : programme complet, tests et console cohérents
+ok 152 - diag-retour : programme complet, tests et console cohérents
+  ---
+  duration_ms: 3.575331
+  type: 'test'
+  ...
+# Subtest: budget 20 min : 3 + 4 + 5 + 6 + remise 2
+ok 153 - budget 20 min : 3 + 4 + 5 + 6 + remise 2
+  ---
+  duration_ms: 0.304009
+  type: 'test'
+  ...
+# Subtest: aucun QCM dans le nouveau diagnostic, quatre vrais programmes
+ok 154 - aucun QCM dans le nouveau diagnostic, quatre vrais programmes
+  ---
+  duration_ms: 0.166542
+  type: 'test'
+  ...
+# Subtest: code de départ sans solution ne valide aucun défi
+ok 155 - code de départ sans solution ne valide aucun défi
+  ---
+  duration_ms: 1.384741
+  type: 'test'
+  ...
+# Subtest: une déclaration seule ne valide pas l’appel de départ
+ok 156 - une déclaration seule ne valide pas l’appel de départ
+  ---
+  duration_ms: 1.145681
+  type: 'test'
+  ...
+# Subtest: un affichage global sans fonction ne remplace pas une déclaration
+ok 157 - un affichage global sans fonction ne remplace pas une déclaration
+  ---
+  duration_ms: 0.590131
+  type: 'test'
+  ...
+# Subtest: deux appels sans le paramètre dynamique sont détectés
+ok 158 - deux appels sans le paramètre dynamique sont détectés
+  ---
+  duration_ms: 1.316619
+  type: 'test'
+  ...
+# Subtest: même fonction utilisable avec un troisième prénom
+ok 159 - même fonction utilisable avec un troisième prénom
+  ---
+  duration_ms: 0.558032
+  type: 'test'
+  ...
+# Subtest: return et console.log ne sont pas interchangeables
+ok 160 - return et console.log ne sont pas interchangeables
+  ---
+  duration_ms: 1.396219
+  type: 'test'
+  ...
+# Subtest: doubler constant 12 rejeté au cas 9
+ok 161 - doubler constant 12 rejeté au cas 9
+  ---
+  duration_ms: 1.554619
+  type: 'test'
+  ...
+# Subtest: doubler string 12 est distingué du nombre 12
+ok 162 - doubler string 12 est distingué du nombre 12
+  ---
+  duration_ms: 0.894412
+  type: 'test'
+  ...
+# Subtest: la console vide ne signifie pas que return est absent
+ok 163 - la console vide ne signifie pas que return est absent
+  ---
+  duration_ms: 0.746047
+  type: 'test'
+  ...
+# Subtest: écrire 12 à la main ne valide pas la récupération du retour
+ok 164 - écrire 12 à la main ne valide pas la récupération du retour
+  ---
+  duration_ms: 0.777284
+  type: 'test'
+  ...
+# Subtest: deux paramètres participent réellement à additionner
+ok 165 - deux paramètres participent réellement à additionner
+  ---
+  duration_ms: 2.852869
+  type: 'test'
+  ...
+# Subtest: chaînage de retour : total transmis et totalSuivant vaut 9
+ok 166 - chaînage de retour : total transmis et totalSuivant vaut 9
+  ---
+  duration_ms: 2.325192
+  type: 'test'
+  ...
+# Subtest: 9 en dur ou second appel en dur ne prouve pas la réutilisation de total
+ok 167 - 9 en dur ou second appel en dur ne prouve pas la réutilisation de total
+  ---
+  duration_ms: 4.320757
+  type: 'test'
+  ...
+# Subtest: syntaxe signalée et bloc à relire, pas quatre exercices à zéro
+ok 168 - syntaxe signalée et bloc à relire, pas quatre exercices à zéro
+  ---
+  duration_ms: 4.287186
+  type: 'test'
+  ...
+# Subtest: erreur d’exécution globale jamais effacée par un bon appel test
+ok 169 - erreur d’exécution globale jamais effacée par un bon appel test
+  ---
+  duration_ms: 0.393034
+  type: 'test'
+  ...
+# Subtest: code complet : nouvelle grille /20 avec critères du code uniquement
+ok 170 - code complet : nouvelle grille /20 avec critères du code uniquement
+  ---
+  duration_ms: 3.850747
+  type: 'test'
+  ...
+# Subtest: les indices ne retirent pas automatiquement des points
+ok 171 - les indices ne retirent pas automatiquement des points
+  ---
+  duration_ms: 2.838157
+  type: 'test'
+  ...
+# Subtest: passer un défi conserve son essai sans valider ses compétences
+ok 172 - passer un défi conserve son essai sans valider ses compétences
+  ---
+  duration_ms: 4.771218
+  type: 'test'
+  ...
+# Subtest: premier essai préservé, dernier code évalué séparément
+ok 173 - premier essai préservé, dernier code évalué séparément
+  ---
+  duration_ms: 4.948104
+  type: 'test'
+  ...
+# Subtest: journal borné aux 20 derniers événements, premier code intact
+ok 174 - journal borné aux 20 derniers événements, premier code intact
+  ---
+  duration_ms: 0.677493
+  type: 'test'
+  ...
+# Subtest: passer sans exécution n’invente pas un premier code exécuté
+ok 175 - passer sans exécution n’invente pas un premier code exécuté
+  ---
+  duration_ms: 0.107322
+  type: 'test'
+  ...
+# Subtest: compteurs invalides sont nettoyés et jetons non exportés
+ok 176 - compteurs invalides sont nettoyés et jetons non exportés
+  ---
+  duration_ms: 0.157028
+  type: 'test'
+  ...
+# Subtest: une indication passed client ne remplace pas le recalcul serveur
+ok 177 - une indication passed client ne remplace pas le recalcul serveur
+  ---
+  duration_ms: 0.601819
+  type: 'test'
+  ...
+# Subtest: restauration V5 : les anciens IDs et le barème restent disponibles
+ok 178 - restauration V5 : les anciens IDs et le barème restent disponibles
+  ---
+  duration_ms: 2.892349
+  type: 'test'
+  ...
+# Subtest: une remise ancienne ne bloque pas le bonus pour des nouveaux écrans inexistants
+ok 179 - une remise ancienne ne bloque pas le bonus pour des nouveaux écrans inexistants
+  ---
+  duration_ms: 5.176289
+  type: 'test'
+  ...
+# Subtest: aperçu sans insertion HTML de la sortie utilisateur
+ok 180 - aperçu sans insertion HTML de la sortie utilisateur
+  ---
+  duration_ms: 0.466735
+  type: 'test'
+  ...
+# Subtest: coloration du code n’insère ni HTML ni script
+ok 181 - coloration du code n’insère ni HTML ni script
+  ---
+  duration_ms: 1.776353
+  type: 'test'
+  ...
+# Subtest: modification d’un caractère change l’empreinte de l’essai
+ok 182 - modification d’un caractère change l’empreinte de l’essai
+  ---
+  duration_ms: 0.420565
+  type: 'test'
+  ...
+# Subtest: remise résume quatre programmes, pas des QCM
+ok 183 - remise résume quatre programmes, pas des QCM
+  ---
+  duration_ms: 3.485284
+  type: 'test'
+  ...
+# Subtest: dossier exporté contient premiers essais et tests recalculés
+ok 184 - dossier exporté contient premiers essais et tests recalculés
+  ---
+  duration_ms: 62.713582
+  type: 'test'
+  ...
+# Subtest: sortie professeur neutralise les chaînes HTML des premiers essais
+ok 185 - sortie professeur neutralise les chaînes HTML des premiers essais
+  ---
+  duration_ms: 3.649413
+  type: 'test'
+  ...
+# Subtest: l’export historique garde son ancien modèle sans onglet d’essais fictif
+ok 186 - l’export historique garde son ancien modèle sans onglet d’essais fictif
+  ---
+  duration_ms: 14.085377
+  type: 'test'
+  ...
+1..186
+# tests 186
+# suites 0
+# pass 186
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1594.593401

@@ -1,0 +1,21 @@
+Tu travailles dans mon dépôt Tween Teach existant.
+
+Lis les AGENTS.md applicables, puis :
+TWEEN_TEACH_WORLD_ARCADE/07_PROMPT_CODEX_COMPTE_JOUEUR.md
+
+Exécute ce lot en t'appuyant sur l'intégration World Arcade réellement
+présente et sur le dossier de référence. Commence par examiner le dépôt,
+puis implémente les comptes joueurs, l'AKA, l'avatar, Mon espace,
+les badges mis en avant et les parcours de mot de passe.
+
+Réutilise l'authentification, les comptes, les permissions, les grades
+et les sauvegardes existants. Pas de deuxième compte pour les élèves,
+pas de données fictives en production, pas d'authentification simulée.
+
+Conserve le design World Arcade et les interfaces de cours/professeur.
+Teste les parcours et renseigne les rapports COMPTE_JOUEUR dans SUIVI/.
+Ne t'arrête pas à un plan. Documente les dépendances réellement bloquantes
+et réalise les parties indépendantes.
+
+Ne déploie pas, n'ouvre pas les inscriptions publiques et ne migre pas
+une base réelle sans validation explicite.

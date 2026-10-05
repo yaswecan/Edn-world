@@ -1,0 +1,14 @@
+.data
+.env*
+!.env.example
+node_modules
+*.zip
+*.xlsx
+test-results
+legacy/drive
+legacy/eden-core
+legacy/pedagolab/node_modules
+legacy/pedagolab/.next
+legacy/pedagolab/public/legacy
+
+TWEEN_TEACH_WORLD_ARCADE

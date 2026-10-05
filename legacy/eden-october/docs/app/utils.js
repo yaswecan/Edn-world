@@ -1,0 +1,5 @@
+export const $=s=>document.querySelector(s);
+export const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export function download(name,text,type='text/plain'){const u=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000);}
+export function safeUrl(url){if(typeof url!=='string'||!url.trim())return null;try{const u=new URL(url,location.href);return u.protocol==='https:'||(u.protocol==='http:'&&u.origin===location.origin)?u.href:null;}catch{return null;}}
+export async function request(path,options={}){const r=await fetch(path,{...options,headers:{'Content-Type':'application/json',...(options.headers||{})},credentials:'same-origin',signal:AbortSignal.timeout(20000)});const d=await r.json().catch(()=>({error:'Réponse du service illisible.'}));if(!r.ok){const e=Error(d.error||'Requête refusée.');e.status=r.status;throw e;}return d;}

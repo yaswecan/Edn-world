@@ -1,0 +1,25 @@
+import {sanitizeState,uid} from './model.js';
+import {request} from './utils.js';
+const KEY='eden:261001:sync:v2';
+export class LessonSync{
+ constructor(onStatus=()=>{},enabled=true){Object.assign(this,{enabled,onStatus,auth:null,pending:null,order:0,busy:false,last:null,timer:null,retry:3000,meta:null,configured:false,finalPacket:null});
+  if(enabled){try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d?.auth?.token)Object.assign(this,{auth:d.auth,pending:d.pending||null,order:d.order||0,finalPacket:d.finalPacket||null});}catch{}window.addEventListener('online',()=>{this.flush();if(this.finalPacket)this.submit(this.finalPacket.state).catch(()=>{});});}
+ }
+ persist(){try{localStorage.setItem(KEY,JSON.stringify({auth:this.auth,pending:this.pending,order:this.order,finalPacket:this.finalPacket}));}catch{this.say('Stockage local saturé. Enregistre au serveur ou exporte maintenant.');}}
+ say(s){this.onStatus(s);}
+ async discover(){if(!this.enabled)return;try{const d=await request('./api/config');this.configured=d.enabled;if(d.enabled&&this.auth){await this.status();this.flush();}this.say(d.enabled?(this.auth?'Compte élève actif · sauvegarde serveur disponible':'Entre ton code de classe pour remettre ton travail au professeur'):'Mode local · serveur à configurer, aucune remise distante');return d;}catch{this.say('Service indisponible · tes réponses locales sont conservées');return {enabled:false};}}
+ async connect(alias,classCode){const d=await request('./api/enroll',{method:'POST',body:JSON.stringify({alias,classCode})});this.auth={alias,token:d.token,studentId:d.studentId,expiresAt:d.expiresAt};this.order=0;this.pending=null;this.finalPacket=null;this.meta=null;this.persist();await this.start();if(this.last)this.offer(this.last);await this.flush();}
+ disconnect(){clearTimeout(this.timer);this.auth=null;this.pending=null;this.order=0;this.meta=null;this.finalPacket=null;try{localStorage.removeItem(KEY);}catch{}this.say('Déconnecté ici · les copies reçues restent chez le professeur');}
+ async api(body=null){if(!this.auth)throw Error('Entre le code de classe avant de remettre ton travail.');return request('./api/assessment',{method:body?'POST':'GET',headers:{Authorization:`Bearer ${this.auth.token}`},...(body?{body:JSON.stringify(body)}:{})});}
+ async start(){this.meta=await this.api({action:'start'});return this.meta;}
+ async status(){const d=await this.api();this.meta=d.session;this.order=Math.max(this.order,d.lastOrder||0);this.persist();return d;}
+ async resume(token){const old=this.auth;this.auth={token};try{const d=await this.status();if(!d.state&&!d.finalState)throw Error('Aucun rendu à restaurer.');const s=d.state||d.finalState;this.auth={token,alias:s.alias};this.persist();return d;}catch(e){this.auth=old;throw e;}}
+ offer(raw){if(!this.enabled)return;this.last=sanitizeState(raw);if(!this.auth||this.auth.alias!==this.last.alias)return;this.pending={packetId:uid(),order:++this.order,state:this.last};this.persist();this.say('Modifications enregistrées ici · envoi en attente…');clearTimeout(this.timer);this.timer=setTimeout(()=>this.flush(),1500);}
+ async flush(){if(!this.enabled||!this.auth||!this.pending||this.busy)return false;const packet=structuredClone(this.pending),auth=this.auth;this.busy=true;let ok=false;
+  try{const r=await request('./api/events',{method:'POST',headers:{Authorization:`Bearer ${auth.token}`},body:JSON.stringify(packet)});if(this.auth?.token!==auth.token)return false;if(r.duplicateOrOlder){this.say('Une version plus récente existe sur le serveur. Ne ferme pas cette page : sauvegarde une copie ou restaure la version serveur.');if(this.pending?.packetId===packet.packetId)this.pending=null;}else if(this.pending?.packetId===packet.packetId){this.pending=null;this.say(`Sauvegardé sur le serveur à ${new Date(r.receivedAt).toLocaleTimeString('fr-FR')}.`);}this.retry=3000;this.persist();ok=true;}
+  catch(e){if(e.status===401){this.say('Session expirée. Exporte ton travail avant de te reconnecter.');}else this.say('Envoi non confirmé. Travail local conservé, nouvelle tentative prévue.');this.retry=e.status===429?60000:Math.min(this.retry*2,60000);}
+  finally{this.busy=false;if(this.pending&&this.auth){clearTimeout(this.timer);this.timer=setTimeout(()=>this.flush(),this.retry);}}return ok;
+ }
+ async saveCopy(raw){if(!this.enabled)throw Error('Pas de remise en mode projection.');const state=sanitizeState(raw);const r=await this.api({action:'save',requestId:uid(),state});this.say(`Copie reçue par le professeur · ${r.id.slice(0,8)} · ${new Date(r.created).toLocaleTimeString('fr-FR')}.`);return r;}
+ async submit(raw){if(!this.enabled)throw Error('Pas de remise en projection.');if(!this.finalPacket)this.finalPacket={action:'submit',requestId:uid(),state:sanitizeState(raw)};this.persist();try{const r=await this.api(this.finalPacket);this.meta={...(this.meta||{}),finalId:r.id};this.finalPacket=null;this.persist();this.say(`Diagnostic remis · reçu ${r.id.slice(0,8)}. Le professeur peut le corriger.`);return r;}catch(e){this.say('Diagnostic NON confirmé. Il est conservé ici : reconnecte-toi puis clique à nouveau sur Remettre.');throw e;}}
+}

@@ -1,0 +1,44 @@
+PASS Entrée visible, salle masquée
+PASS Commencer ouvre les deux jeux
+PASS Top 5 limité à cinq joueurs
+PASS 18 joueurs dans les données
+PASS Images intégrées chargées
+PASS Filtre de période modifie les scores
+PASS Galerie complète
+PASS Recherche de joueur
+PASS Fiche joueur fonctionnelle
+PASS Échap ferme la fiche
+PASS Recherche vide explicite
+PASS Filtre de groupe
+PASS Classement étendu uniquement cinq joueurs
+PASS Filtre de jeu conserve cinq places
+PASS Neuf grades et 27 divisions
+PASS Explorer présent, Scout absent
+PASS Inscription ouvre un profil local
+PASS Ni e-mail ni mot de passe persisté
+PASS Choix avatar conservé
+PASS Réduction des animations
+PASS Effet CRT désactivable
+PASS Code Station ouvre le canvas
+PASS Interaction terminal
+PASS Erreur pédagogique utile
+PASS Bonne réponse répare un terminal
+PASS Pause
+PASS Reprise
+PASS Cyber Funk ouvre un jeu distinct
+PASS Canvas animé et déplacement actif
+PASS Échap quitte le jeu
+PASS Retour accueil
+PASS Entrée clavier ouvre la salle
+PASS Aucune erreur JavaScript
+PASS Pas de débordement desktop
+PASS Pas de débordement mobile
+PASS Deux bornes visibles sur mobile
+PASS Mobile sans débordement : joueurs
+PASS Mobile sans débordement : classement
+PASS Mobile sans débordement : profil
+PASS Mobile sans débordement : badges
+PASS Commandes tactiles présentes
+PASS Aucune erreur JavaScript après parcours mobile
+
+42 checks passed. Screenshots: /tmp/world-arcade-retest-vucvl3v2/World_Arcade_Frontend/previews

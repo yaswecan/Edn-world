@@ -1,0 +1,435 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "DEMO-LOGIC",
+  "lessonVersion": 1,
+  "classId": "DEMO",
+  "date": "2026-10-04",
+  "planEntryId": "demo",
+  "planVersion": 1,
+  "sequence": "01 · La logique en action",
+  "title": "Deux règles. Une décision.",
+  "skills": [
+    "BC05-C1-1",
+    "BC05-C1-2"
+  ],
+  "objectives": [
+    "Traduire une règle avec ET, OU et NON.",
+    "Prévoir un résultat avant de lancer le code.",
+    "Vérifier les cas qui passent… et ceux qui bloquent."
+  ],
+  "prerequisites": [],
+  "reactivation": [],
+  "diagnostic": {
+    "id": "DEMO-LOGIC:diagnostic",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 10,
+    "criteria": [],
+    "tasks": [
+      {
+        "id": "demo-diag",
+        "type": "WriteResponse",
+        "title": "Lis la règle avant le code.",
+        "instruction": "La salle demande une carte ET une réservation. Léa a une carte, mais pas de réservation. Peut-elle entrer ? Explique ton choix.",
+        "objective": "Lis la règle avant le code.",
+        "skills": [],
+        "expectedEvidence": "Une décision et une phrase pour l’expliquer.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      },
+      {
+        "id": "demo-diag-2",
+        "type": "WriteResponse",
+        "title": "Retrouve une fonction.",
+        "instruction": "À quoi sert return dans une fonction ? Donne un exemple, même très court.",
+        "objective": "Retrouve une fonction.",
+        "skills": [],
+        "expectedEvidence": "Une explication avec tes mots.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      }
+    ],
+    "rubric": [
+      {
+        "id": "item-0",
+        "criterion": "baseline",
+        "taskId": "demo-diag",
+        "label": "Une décision et une phrase pour l’expliquer.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      },
+      {
+        "id": "item-1",
+        "criterion": "baseline",
+        "taskId": "demo-diag-2",
+        "label": "Une explication avec tes mots.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      }
+    ]
+  },
+  "timeline": [
+    {
+      "blockId": "opening",
+      "minutes": 4
+    },
+    {
+      "blockId": "diagnostic",
+      "minutes": 10
+    },
+    {
+      "blockId": "concept",
+      "minutes": 12
+    },
+    {
+      "blockId": "observe",
+      "minutes": 8
+    },
+    {
+      "blockId": "guided",
+      "minutes": 18
+    },
+    {
+      "blockId": "autonomy",
+      "minutes": 20
+    },
+    {
+      "blockId": "extension",
+      "minutes": 10
+    },
+    {
+      "blockId": "exit",
+      "minutes": 8
+    }
+  ],
+  "blocks": [
+    {
+      "id": "opening",
+      "type": "LessonHero",
+      "phase": "opening",
+      "title": "Deux règles. Une décision.",
+      "content": "Une carte. Une réservation. La porte du club doit-elle s’ouvrir ? Aujourd’hui, tu transformes une règle simple en code qui tient la route.",
+      "minutes": 4,
+      "activityIds": [],
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "diagnostic",
+      "type": "Diagnostic",
+      "phase": "diagnostic",
+      "title": "Évaluation",
+      "content": "Réponds sans aide, puis rends ton travail. Tu peux rendre une réponse incomplète.",
+      "minutes": 10,
+      "activityIds": [],
+      "skills": [],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "concept",
+      "type": "ConceptCard",
+      "phase": "understand",
+      "title": "ET, OU, NON. Tout part de là.",
+      "content": "Un booléen est une valeur qui vaut vrai ou faux. Une condition utilise cette valeur pour prendre une décision.\n\nET demande deux conditions vraies. OU demande au moins une condition vraie. NON inverse une valeur : vrai devient faux, et faux devient vrai.\n\nAu club, la carte seule ne suffit pas. La réservation seule non plus. Il faut les deux. C’est une règle ET.",
+      "minutes": 12,
+      "activityIds": [],
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "Attention : dans le langage courant, « ou » peut sembler exclure un choix. Ici, OU accepte aussi le cas où les deux conditions sont vraies.",
+        "check": "",
+        "takeaways": [
+          "ET : les deux conditions doivent être vraies.",
+          "OU : au moins une condition doit être vraie."
+        ],
+        "diagram": [
+          "Carte valide + réservation → ET → Accès autorisé",
+          "Une condition manque → Accès refusé"
+        ]
+      }
+    },
+    {
+      "id": "observe",
+      "type": "LiveCode",
+      "phase": "observe",
+      "title": "Lis. Prévois. Puis vérifie.",
+      "content": "const aCarte = true;\nconst aReserve = false;\n\nconst acces = aCarte && aReserve;\nconsole.log(acces); // false",
+      "minutes": 8,
+      "activityIds": [],
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [
+          "La carte est valide : aCarte vaut true.",
+          "La réservation manque : aReserve vaut false.",
+          "Le ET exige les deux. acces vaut donc false."
+        ],
+        "hint": "",
+        "check": "Si la réservation devient vraie, que va afficher la console ?",
+        "takeaways": [
+          "&& traduit ET en JavaScript. Un seul false suffit à refuser l’accès."
+        ],
+        "diagram": []
+      }
+    },
+    {
+      "id": "guided",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "On répare ensemble.",
+      "content": "Tu as lu un exemple. Maintenant, utilise la règle pour corriger une porte trop accueillante.",
+      "minutes": 18,
+      "activityIds": [
+        "guided-code",
+        "guided-quiz",
+        "guided-blank"
+      ],
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [
+          "Lis la règle attendue : carte ET réservation.",
+          "Repère l’opérateur qui ne correspond pas à cette règle.",
+          "Change-le, puis teste aussi les cas qui doivent être refusés."
+        ],
+        "hint": "|| signifie OU. Pour exiger deux conditions vraies, utilise l’opérateur ET : &&.",
+        "check": "Seul le cas true / true doit ouvrir la porte.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "autonomy",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "À toi de garder la porte.",
+      "content": "Ajoute une nouvelle contrainte sans regarder le modèle. Commence par prévoir les cas.",
+      "minutes": 20,
+      "activityIds": [
+        "transfer"
+      ],
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "L’alarme active refuse toujours l’accès. Sans alarme, la carte et la réservation restent nécessaires.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "extension",
+      "type": "Activity",
+      "phase": "extend",
+      "title": "Et si tu changeais les règles ?",
+      "content": "Le club accueille des invités. Réinvestis ET, OU et NON dans une règle un peu plus riche.",
+      "minutes": 10,
+      "activityIds": [
+        "extension"
+      ],
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "Ton invitation peut remplacer la carte et la réservation. Elle ne peut jamais désactiver l’alarme.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Tu peux maintenant expliquer la règle.",
+      "content": "Reviens à la porte du club. Quelle méthode te permet de décider sans deviner ?",
+      "minutes": 8,
+      "activityIds": [
+        "exit"
+      ],
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "ET exige deux conditions vraies. OU en exige au moins une.",
+          "NON inverse un booléen. !alarme signifie : l’alarme est inactive.",
+          "Teste les autorisations ET les refus. Une porte qui s’ouvre une fois n’est pas encore une porte fiable."
+        ],
+        "diagram": []
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "guided-code",
+      "type": "CodeEditor",
+      "title": "Répare la porte du club.",
+      "instruction": "La porte s’ouvre trop facilement. Remplace l’opérateur pour exiger une carte ET une réservation. Teste les quatre combinaisons.",
+      "objective": "Répare la porte du club.",
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "La fonction corrigée et les quatre cas vérifiés.",
+      "duration": 6,
+      "required": true,
+      "correctionMode": "javascript",
+      "starter": "function peutEntrer(aCarte, aReserve) {\n  return aCarte || aReserve;\n}",
+      "options": []
+    },
+    {
+      "id": "guided-quiz",
+      "type": "Quiz",
+      "title": "Un dernier cas à vérifier.",
+      "instruction": "Léa a une réservation, mais sa carte est absente. Que doit renvoyer la fonction ?",
+      "objective": "Un dernier cas à vérifier.",
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Le choix qui correspond à la règle ET.",
+      "duration": 6,
+      "required": true,
+      "correctionMode": "exact",
+      "starter": "",
+      "options": [
+        "true : la réservation suffit.",
+        "false : les deux conditions sont nécessaires.",
+        "Le résultat dépend de l’ordre des paramètres."
+      ]
+    },
+    {
+      "id": "guided-blank",
+      "type": "FillBlank",
+      "title": "La règle avec tes mots.",
+      "instruction": "Complète les deux repères. Utilise « deux » ou « au moins une ».",
+      "objective": "La règle avec tes mots.",
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Deux repères que tu sais expliquer.",
+      "duration": 6,
+      "required": true,
+      "correctionMode": "structured",
+      "starter": "",
+      "options": [
+        "Avec ET, il faut … conditions vraies.",
+        "Avec OU, il faut … condition vraie."
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "CodeEditor",
+      "title": "Ajoute un arrêt d’urgence.",
+      "instruction": "Une alarme doit bloquer l’accès, même avec une carte et une réservation. Écris peutEntrer(aCarte, aReserve, alarme). Teste un accès autorisé, une carte absente et une alarme active.",
+      "objective": "Ajoute un arrêt d’urgence.",
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Une fonction et trois cas, dont un refus causé par l’alarme.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "starter": "function peutEntrer(aCarte, aReserve, alarme) {\n  // La carte ET la réservation, mais PAS l’alarme.\n  return false;\n}",
+      "options": []
+    },
+    {
+      "id": "extension",
+      "type": "WriteResponse",
+      "title": "Une invitation change la règle.",
+      "instruction": "Une invitation permet maintenant d’entrer sans carte ni réservation. L’alarme bloque toujours tout le monde. Écris d’abord la règle avec tes mots. Donne deux cas qui pourraient piéger une mauvaise solution.",
+      "objective": "Une invitation change la règle.",
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Une nouvelle règle et deux cas de test expliqués.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "title": "Ton ticket de sortie",
+      "instruction": "Explique la différence entre ET et OU avec un exemple du club. Écris ensuite un cas que tu avais oublié de tester. Termine par ce que tu veux encore éclaircir.",
+      "objective": "Ton ticket de sortie",
+      "skills": [
+        "BC05-C1-1",
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Un exemple, un cas oublié et ton prochain pas.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "none",
+      "starter": "",
+      "options": []
+    }
+  ],
+  "slides": [],
+  "resources": [
+    "BC05-C1-1",
+    "BC05-C1-2"
+  ],
+  "codeStation": null,
+  "studentFlow": [
+    "opening",
+    "diagnostic",
+    "concept",
+    "observe",
+    "guided",
+    "autonomy",
+    "extension",
+    "exit"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "demo",
+    "planVersion": 1,
+    "previousLessonRunId": null
+  }
+}

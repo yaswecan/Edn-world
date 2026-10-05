@@ -1,0 +1,434 @@
+{
+  ".env.example": {
+    "bytes": 1106,
+    "sha256": "c93988a1de63619a2cdcbf244f9ae97d94bc12fb805034deccdaa178fae1e713"
+  },
+  ".github/workflows/checks.yml": {
+    "bytes": 340,
+    "sha256": "457a820c77e9f7d1837166833b0750b8fb4b1540bc08c6d30750355ced9733a9"
+  },
+  ".gitignore": {
+    "bytes": 92,
+    "sha256": "bf8ff70f86e3880db90b7b69173b49c60c2dc36059d5015c1afff92bccde1127"
+  },
+  ".nvmrc": {
+    "bytes": 3,
+    "sha256": "f14b4987904bcb5814e4459a057ed4d20f58a633152288a761214dcd28780b56"
+  },
+  ".vercelignore": {
+    "bytes": 57,
+    "sha256": "b87ab55d0ac8e63c7859f70c870b1d2fb98fb7c60690a0eb5195ba3931853d7d"
+  },
+  "CHANGELOG.md": {
+    "bytes": 1517,
+    "sha256": "4529c2cd117047e33c2b5762a0d5d4a6cb6d91a0caa860b412d840e98debf14f"
+  },
+  "DEPLOIEMENT.txt": {
+    "bytes": 740,
+    "sha256": "f1ac123fb646231064df5dd5c16317bce7810c095abc3bb5ad55d9724fbbad1c"
+  },
+  "DEPLOIEMENT_VERCEL.md": {
+    "bytes": 9488,
+    "sha256": "44de59234d6a0b823f019888a996c9f92426da96f6a61704cd1500737dd9ffdb"
+  },
+  "NOTICE.md": {
+    "bytes": 804,
+    "sha256": "cde253f27ee981074e6dc502ef2dc82a405a46df861b9f240ae6f2ceeaa437f5"
+  },
+  "README.md": {
+    "bytes": 7725,
+    "sha256": "110709a12d618e3c8361cd02c5ff83de9916a81698a3f70753dde659833b0635"
+  },
+  "api/config.js": {
+    "bytes": 124,
+    "sha256": "9856e192dac6034ba4b6d7641d2c360c4fce8e571867917e4e03a0dd8620a5cc"
+  },
+  "api/cron.js": {
+    "bytes": 122,
+    "sha256": "498402d5eb0964f68c440c62df6ec829b4d49665497fbeaf7fa2fc07488be924"
+  },
+  "api/enroll.js": {
+    "bytes": 124,
+    "sha256": "04ad223b2657ef962748c8a91b0178ff2fe84328d1338a59bbcfbca4079c98c2"
+  },
+  "api/events.js": {
+    "bytes": 124,
+    "sha256": "c035887cd8d868857c7d50796c425ea94cd58415ed9a8db801e3b975999e511e"
+  },
+  "api/health.js": {
+    "bytes": 124,
+    "sha256": "828d9157f7090b3d499d75640a732f32faebfac5e2b72c5c8405aff020cfba00"
+  },
+  "api/teacher/learner/[id].js": {
+    "bytes": 139,
+    "sha256": "4e021ac34b873745259096a1a143e0c5f362e3fdc6d66ae53fe4fbacb1949b19"
+  },
+  "api/teacher/learners.js": {
+    "bytes": 137,
+    "sha256": "abc7e88dd25dc930614714c1e5254a44a23355c469f8153fd5e8f6745a6ed57b"
+  },
+  "api/teacher/login.js": {
+    "bytes": 134,
+    "sha256": "c711265ad2a28bdd88b944577283fc869f50b8d83c4be9d60416620e75b11ef0"
+  },
+  "api/teacher/logout.js": {
+    "bytes": 135,
+    "sha256": "eea16eab9955d9d26a1f748b9332cc4b02c99d2f9ed02d52aa97110de485478d"
+  },
+  "api/teacher/maintenance.js": {
+    "bytes": 140,
+    "sha256": "808448a28a6615fdf9f0f9e379cf8a0f4a902ea850d04d2014d548563744f931"
+  },
+  "database/schema.sql": {
+    "bytes": 1940,
+    "sha256": "84f9817229edc92f2bd8798b8d35b2d63eb9bac71610e5879878739b0349bb4b"
+  },
+  "docs/.nojekyll": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "docs/404.html": {
+    "bytes": 537,
+    "sha256": "dd62ee10f97ee9e7c681ae4a05e75b269b3a5fa2207588882fed14d9f5dbbad0"
+  },
+  "docs/a-propos.html": {
+    "bytes": 5770,
+    "sha256": "3533e1266cf16562d884b4e949364f76fc8e205c0fb24c517e26d1e2791e8160"
+  },
+  "docs/app/app.js": {
+    "bytes": 19862,
+    "sha256": "5af4aebb8f2b7d37ede6862b2787313b6fd2fec4b92fd1ce1a00a8cd34bde29e"
+  },
+  "docs/app/content.js": {
+    "bytes": 18634,
+    "sha256": "f252457ef3e5120988f79ba29af4c078fdf364634318c4fe3cab2cc8275aba37"
+  },
+  "docs/app/model.js": {
+    "bytes": 13213,
+    "sha256": "8760756b8e225263eb777a1c73705ab59c1383221ac9edbf30794c2adab73349"
+  },
+  "docs/app/pcsim/controller.js": {
+    "bytes": 5241,
+    "sha256": "595b07f09cf94057840344dbe59181e1d8bf844f3e01a74695d8e12ad093b794"
+  },
+  "docs/app/pcsim/model.js": {
+    "bytes": 20871,
+    "sha256": "318416966f285660c9f419076e37253f721510c7f47774fc0c0403ee3de92565"
+  },
+  "docs/app/pcsim/style.css": {
+    "bytes": 12923,
+    "sha256": "a13cc06d3c719d58dd73076c0644e901b15ee9c34cb9b2b2c0337f786933d39a"
+  },
+  "docs/app/pcsim/sync.js": {
+    "bytes": 5503,
+    "sha256": "ef3590c87e6efa6274a76b1db6e7a9a95e6e0da84f4d177ea8b5e8c909417014"
+  },
+  "docs/app/pcsim/teacher-live.js": {
+    "bytes": 8087,
+    "sha256": "26b098c92009854d9a7503a9ccccc5a6ce44e57b7dfce404f77f8f827b205372"
+  },
+  "docs/app/pcsim/view.js": {
+    "bytes": 16025,
+    "sha256": "379c8ad189d559814ed3a03d795e25789972c6e63dbcfeb29c68d4611ecd5c08"
+  },
+  "docs/app/runner.js": {
+    "bytes": 2733,
+    "sha256": "c5be41aaf6a99a1ec648739304ed628a7f74d94a76a1c3712561274c19c77a01"
+  },
+  "docs/app/storage.js": {
+    "bytes": 780,
+    "sha256": "1ab507bb0cb934474eec32edc117f1101078e33b4cbed0eddf84abc7217ab6db"
+  },
+  "docs/app/style.css": {
+    "bytes": 24764,
+    "sha256": "3e7a2f9637ce5818451ce99cc0ed6ccd86fa71ea4f1a5b79552291970f9e8b4a"
+  },
+  "docs/app/teacher.js": {
+    "bytes": 1303,
+    "sha256": "e45ae2c7486227c0500815bc5714b7212d182daf4a0be0b1398341ab7cd91666"
+  },
+  "docs/app/views.js": {
+    "bytes": 26300,
+    "sha256": "941b8c8cc8f2796d37717abbee1b865720fee099e5ee02fc82b42aef47c8e224"
+  },
+  "docs/assets/eden_logo.png": {
+    "bytes": 6489,
+    "sha256": "dae62f1c94ccc72257ae1dea578a80ba0251ad98c7ed1633cc33319c99d4e3e4"
+  },
+  "docs/assets/icons/book.png": {
+    "bytes": 56680,
+    "sha256": "eed811ff6aaf03c02d917f77b570c398e5061a369a8d755de02943238dda631b"
+  },
+  "docs/assets/icons/browser.png": {
+    "bytes": 59151,
+    "sha256": "bb8e64b39c456af4e95f243b1150c12268533a6b7e8c4432f71e0eacf96870d5"
+  },
+  "docs/assets/icons/cook.png": {
+    "bytes": 57077,
+    "sha256": "e5a6c1b2ed7822474a85a634b579aa67793b538290d7d6e8a6f9eb2dbd388303"
+  },
+  "docs/assets/icons/cpu.png": {
+    "bytes": 63839,
+    "sha256": "7d0524b0cc002880e7828c2d2508e095c961afc99a818dff089d33269281bcd0"
+  },
+  "docs/assets/icons/editor.png": {
+    "bytes": 61111,
+    "sha256": "06f5c56c21b02e43b39cbf6ac0508b74d92dd058bca1cb0ed150d44100968425"
+  },
+  "docs/assets/icons/file.png": {
+    "bytes": 33415,
+    "sha256": "f19ec50043ded4e3c764d00795493aa9dfc4a77d27e00b28776b60b6f942f2df"
+  },
+  "docs/assets/icons/firmware.png": {
+    "bytes": 45177,
+    "sha256": "c88a2d1f5f6588f4bc4d92a9ff18094d36a33fb4effbbc13e7bd27d2422d88b1"
+  },
+  "docs/assets/icons/kernel.png": {
+    "bytes": 46729,
+    "sha256": "4eaab64852d87f1d08a98589b30d897c329cc2fc4e8ff1875a67746b2976bd0f"
+  },
+  "docs/assets/icons/loader.png": {
+    "bytes": 36898,
+    "sha256": "b6213784cff2567e3378aa7f0667863e34bfd6706c1c29efa507adec3ae20162"
+  },
+  "docs/assets/icons/magnifier.png": {
+    "bytes": 8340,
+    "sha256": "f3cb64cf6dd543c329c8ae5dcc6545d4801060a014fabf26e6a78c04fea2fbbd"
+  },
+  "docs/assets/icons/power.png": {
+    "bytes": 42807,
+    "sha256": "17d73149512310451693c664f4bdd4b7b1848fd1f0559e0dd04dc2c3d88b7f8c"
+  },
+  "docs/assets/icons/process.png": {
+    "bytes": 39203,
+    "sha256": "a2dc26670658f28f6027066beea08d01bdf323819f41591a16369a4871f5449c"
+  },
+  "docs/assets/icons/ram.png": {
+    "bytes": 62001,
+    "sha256": "6478f20fc280991aa2d5a17f1941672f5e0424e8617cf3beb4242ecec952aef8"
+  },
+  "docs/assets/icons/session.png": {
+    "bytes": 46349,
+    "sha256": "80b0125712be5e00ae4ba2ceb87216736d728d6cbaa0a6b5976a0b15dafe06d3"
+  },
+  "docs/assets/icons/ssd.png": {
+    "bytes": 55304,
+    "sha256": "d164466e37dd6a5b34b10256c0822a26c271531cb5fb025091acb72815443b50"
+  },
+  "docs/assets/schemas/01_demarrage.webp": {
+    "bytes": 57634,
+    "sha256": "9b92911eeefb1bfd361a9cb22789d680f9fde473aa28bb7a6676b4b096206927"
+  },
+  "docs/assets/schemas/01_demarrage_vide.webp": {
+    "bytes": 47358,
+    "sha256": "08321454801564f35838ec2d05f40d6d42e6c8068b23e3ed82aa4418effd87b0"
+  },
+  "docs/assets/schemas/02_processus.webp": {
+    "bytes": 55308,
+    "sha256": "f14c5b186617d5c55e8ce9a726b0bb8332b7b86ce35aa1d508075885da336f03"
+  },
+  "docs/assets/schemas/03_plateau.webp": {
+    "bytes": 42824,
+    "sha256": "c9276d7e9d797616149ed2e685f5ec87f8d884b381ef390b7d37f7f91f25f899"
+  },
+  "docs/assets/schemas/03_ressources.webp": {
+    "bytes": 56792,
+    "sha256": "efaec9edcc2e47a2ebc40c3362159efcaf525158cc86d10e80d6693d1e768f1a"
+  },
+  "docs/assets/schemas/04_couches.webp": {
+    "bytes": 59192,
+    "sha256": "8a1957fc6300322b2cc1db260a772f87ead08d925a784deb2d24ff1872217134"
+  },
+  "docs/assets/schemas/04_relais_vide.webp": {
+    "bytes": 36192,
+    "sha256": "4862647de5edc23d8d67d39fc529f5e11bd999153b67cb88e2d06cd3c2286960"
+  },
+  "docs/assets/schemas/05_code.webp": {
+    "bytes": 56854,
+    "sha256": "42c988fd9c1887ee42a741021bf0d38554bf246441d4cdf3b4a5187ea8d01b99"
+  },
+  "docs/assets/schemas/06_langages.webp": {
+    "bytes": 57436,
+    "sha256": "63dc94fbed19445fb294acff4691fac10b560ae4859eea6480e9d39561c64763"
+  },
+  "docs/assets/schemas/07_methode.webp": {
+    "bytes": 50606,
+    "sha256": "f108474e1bb62b6a3408645d97ac746550de3d3294d98c53f8faa37d5fe0f56f"
+  },
+  "docs/assets/schemas/08_synthese.webp": {
+    "bytes": 62146,
+    "sha256": "19aafcd25044cb49bac7aedc82ad933996c232e14ea09ca8f5fd828b40b29bee"
+  },
+  "docs/config.js": {
+    "bytes": 786,
+    "sha256": "b2f0587928f2104a146cf3b13e6d7d7630ab7e26e10eeb75c0a83c4d1d0e6bea"
+  },
+  "docs/index.html": {
+    "bytes": 2067,
+    "sha256": "2d6cb01b8c986629ee2208f1e86fa274b275fa8a271132e3b1b07b2b392ddd57"
+  },
+  "docs/labs/note.txt": {
+    "bytes": 120,
+    "sha256": "3ba6cead2c02c86de085ffec74f80a469481a56467f2ffef5919177caca740da"
+  },
+  "docs/prof.html": {
+    "bytes": 3253,
+    "sha256": "81cbb2f696188e430d1bc60417c8b9a551b56e4e931c17c0a2a44e0851e72dd1"
+  },
+  "docs/resources/fiche-recap.pdf": {
+    "bytes": 511479,
+    "sha256": "37c5259763d56c2b28bb10edd3229698db5cd1422e59cacc22968beb44d05de5"
+  },
+  "enseignant/CONTROLES.md": {
+    "bytes": 5531,
+    "sha256": "869477cc23ab576923925d697cc7dc9986d74b04260c3d7c0288e4cc86ae9c1f"
+  },
+  "enseignant/DEMARRAGE_RAPIDE.md": {
+    "bytes": 4015,
+    "sha256": "0009b9e70adad2699feab2a36e25403343c981a3d66dd6a820d90f62afdf3ad0"
+  },
+  "enseignant/RECONCEPTION_PEDAGOGIQUE.md": {
+    "bytes": 3641,
+    "sha256": "176b24483e0fedb0cb033d12760b0c5a1214e3c1044465a8e9f1a51ba521a642"
+  },
+  "enseignant/SIMULATEUR_PEDAGOGIE.md": {
+    "bytes": 5128,
+    "sha256": "1994580424a4d3fb27b89289115ce50831e03eb58fab34e533810937369a2b8b"
+  },
+  "enseignant/apercus/01_montage.png": {
+    "bytes": 174133,
+    "sha256": "03328c393cd5907f984767057044824cff229d085581c8383d5847fd6acee019"
+  },
+  "enseignant/apercus/02_bios_diagnostic.png": {
+    "bytes": 227791,
+    "sha256": "deb9912f3e5b85c85e92d6dd26b38ae645f633294e0ca710f9588809525a3034"
+  },
+  "enseignant/apercus/LIRE.md": {
+    "bytes": 164,
+    "sha256": "4ba267169b89ab03db19a87f59b39acee9041f49b243d32fb0d349fb4409d938"
+  },
+  "integration/API.md": {
+    "bytes": 6052,
+    "sha256": "7be23a80b2d06b6ec1e51d5df7069228c8c8b016c98d5bac4e0f87971c3ae33b"
+  },
+  "package-lock.json": {
+    "bytes": 703,
+    "sha256": "de7dc94ca75cf52858ad7b5c79e95325ca83bf9b269baf4f235fc3090a4c8e52"
+  },
+  "package.json": {
+    "bytes": 1067,
+    "sha256": "7250e74272ed4a374858644f3b76be7610df2b076ba7faeb193d183983595954"
+  },
+  "scripts/check-vercel.mjs": {
+    "bytes": 2008,
+    "sha256": "8832380959db617f2cbb1c2a5d09687ebd1511ea07f3e20866fae4332afc6611"
+  },
+  "scripts/check.mjs": {
+    "bytes": 2387,
+    "sha256": "2bef609a994df1de8b760ea872e1549cd12d88a8930af7c6e4a25c00ad90ed5e"
+  },
+  "scripts/dev.mjs": {
+    "bytes": 2253,
+    "sha256": "a8b7881bed379914764f62d1c909a40da54635c407c82d1ce86e26b619991159"
+  },
+  "scripts/generate-secrets.mjs": {
+    "bytes": 352,
+    "sha256": "350357e13651667ee5730be30a23c938ee717da50bdaf44a058aa98f5f47c64a"
+  },
+  "scripts/migrate.mjs": {
+    "bytes": 586,
+    "sha256": "c12a6feb0e16f8271590b3262a38b60ff3b5d56d71614ed7686c8d700b201f39"
+  },
+  "scripts/serve.mjs": {
+    "bytes": 2054,
+    "sha256": "020d59397100d3dc9230cbee314d6459a31f6351ec56faab5e975d81771b70a4"
+  },
+  "scripts/smoke.mjs": {
+    "bytes": 3399,
+    "sha256": "3db2d24d5224d7e72fd890b918bd676d2771d707c3fc66dbcedb8a25e0732960"
+  },
+  "server/config.mjs": {
+    "bytes": 2219,
+    "sha256": "4e661cac76f0f5e799b6f4bf50bdc9cd0535295d9a72fb95342656f833e4b88f"
+  },
+  "server/database.mjs": {
+    "bytes": 1048,
+    "sha256": "f669d1aaffb6be1b527c62119f4730901b6ff649bd1432a244e482c75fb595be"
+  },
+  "server/handler.mjs": {
+    "bytes": 11920,
+    "sha256": "a71509601256762c26ff7fb9da3229281e4d0da346f60a1bf68461d195b12e96"
+  },
+  "server/schema.mjs": {
+    "bytes": 2012,
+    "sha256": "c5ffb56363a81737cd66e794e477e2485d8cb81ee7d1f3a0071686b02e2b00c8"
+  },
+  "server/store.mjs": {
+    "bytes": 5808,
+    "sha256": "cb4a5c60b8674f28106f70c3afea745f0b4041990a2cb33cbee3d32200748403"
+  },
+  "tests/api.test.mjs": {
+    "bytes": 11529,
+    "sha256": "08dcea7724da7611be8b8cb862f9e34644ea4b1b3f58abdf255d23ce0bcee878"
+  },
+  "tests/database.test.mjs": {
+    "bytes": 3097,
+    "sha256": "672bff4e65ee2c8186323de38c671b063657d85cc9eb3028868e72845005e38b"
+  },
+  "tests/e2e.py": {
+    "bytes": 8157,
+    "sha256": "dc8262c5ffcf1b5bddb7745ab6b1e9aff4dac5c120b12f0388a9a1c890d4ac9a"
+  },
+  "tests/helpers/memory-store.mjs": {
+    "bytes": 3452,
+    "sha256": "6cfd0bedc0c3758e2b6b070f5ecdcaffe095a50f2375285e47682aa58b1914e4"
+  },
+  "tests/mock-server.mjs": {
+    "bytes": 764,
+    "sha256": "84f0bda5484f09b9b8f59d90ce0da5dc8cdb3dbd03257e0012b04ab49b82876d"
+  },
+  "tests/model.test.mjs": {
+    "bytes": 9277,
+    "sha256": "95493e0db753ea89f75e858eedb6d466080c8b6ba7310fa2834464b5c144fc03"
+  },
+  "tests/neon.integration.mjs": {
+    "bytes": 4119,
+    "sha256": "4dccecc7db5430ae5e1b746b6a4a4e3f401ffeafc9bc1c629cf59d55111ccc74"
+  },
+  "tests/rapport-vercel-neon.json": {
+    "bytes": 1762,
+    "sha256": "d9973b017b034168f88f09ce5a59e77def06c7934db8e6e9c05aae6427c5670c"
+  },
+  "tests/requirements.txt": {
+    "bytes": 19,
+    "sha256": "df7696acf1e200684a962c8b7cb25363273b8239093235e68bb3f60231a9799f"
+  },
+  "tests/simulator.test.mjs": {
+    "bytes": 10763,
+    "sha256": "f7091152a9b13aba7ff9d3a1e17064493507a407eff2867c1632d1593954616e"
+  },
+  "tests/simulator_component.py": {
+    "bytes": 6626,
+    "sha256": "f7c8e8578d2b0bbae12f4ddfe4b5f21660b800328432140ae29413b5816e43ee"
+  },
+  "tests/simulator_e2e.py": {
+    "bytes": 4918,
+    "sha256": "256b1797c456386122a1f3206c1e3ab049c0c552603cc614d4bf2eb514984cf3"
+  },
+  "tests/sync.test.mjs": {
+    "bytes": 5883,
+    "sha256": "7c6acce622e1c911aaeded7a58fa51370fdf03dd716f1d929473ec9c86f2f2df"
+  },
+  "tests/teacher_component.py": {
+    "bytes": 5427,
+    "sha256": "1b38e04fee2116e59ac91e2cd5aa142fc0d7f39f5acb134159fe93c8edc16c36"
+  },
+  "tests/vercel_ui.py": {
+    "bytes": 4607,
+    "sha256": "f71c3d57648b70b53642371a48a6b5c0228b5c21697db7dbc4f0f8dcc05efc10"
+  },
+  "vercel.json": {
+    "bytes": 920,
+    "sha256": "fd09728fc5d2f11c25384619e2275b0f56c48cd4f3b21fd111415e628942975c"
+  }
+}

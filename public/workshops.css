@@ -1,0 +1,76 @@
+/* Shared by generated lessons, teacher previews and the public examples. */
+.lesson-subject-board{margin:20px 0}
+.lesson-subject-board>button{display:block;padding:0;width:100%;border:0;background:#fff;cursor:zoom-in}
+.lesson-subject-board img{display:block;width:100%;height:auto}
+.lesson-subject-board figcaption{font-size:12px;color:var(--lesson-muted);margin-top:10px}
+.lesson-board-dialog{width:min(1260px,96vw);max-width:96vw;max-height:94vh;border:1px solid var(--line);border-radius:14px;padding:18px;background:white}
+.lesson-board-dialog::backdrop{background:#162b32a8}
+.lesson-board-dialog img{display:block;width:100%;margin-top:16px}
+.lesson-board-gallery{margin:28px 0}
+.lesson-board-gallery>details{margin:14px 0;border-bottom:1px dashed var(--line)}
+.lesson-board-gallery>details>summary{padding:14px 0;cursor:pointer;font-size:14px;font-weight:700}
+
+.lesson-workbench{margin:20px 0;border:1px solid var(--console-line);border-radius:14px;overflow:hidden;background:var(--console)}
+.lesson-workbench.has-preview{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.lesson-editor,.lesson-preview{min-width:0}
+.lesson-editor .lesson-window-bar{color:var(--console-text);min-height:46px}
+.lesson-view .lesson-editor textarea{border:0;border-radius:0;min-height:310px;resize:vertical;margin:0;padding:20px;display:block;font-size:13px;line-height:1.85;background:var(--console);color:var(--console-text);white-space:pre;overflow:auto}
+.lesson-source{color:#b9d3d6;border-bottom:1px solid var(--console-line);padding:12px 16px;font-size:12px}
+.lesson-source summary{cursor:pointer}
+.lesson-source pre{overflow:auto;white-space:pre;font:12px/1.6 ui-monospace,monospace;max-height:220px}
+.lesson-source code{background:none;color:inherit}
+.lesson-preview{background:var(--bg);border-left:1px solid var(--console-line)}
+.lesson-preview-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid var(--line);background:#fff;min-height:46px}
+.lesson-preview-toolbar strong{font-size:9px;letter-spacing:1px;margin-right:auto}
+.lesson-preview-toolbar label{display:flex;gap:5px;align-items:center;margin:0;font-size:10px}
+.lesson-preview-toolbar .btn,.lesson-preview-toolbar select{padding:5px 8px;font-size:11px;min-height:36px}
+.lesson-preview-viewport{width:100%;overflow:auto;background:repeating-linear-gradient(45deg,var(--line) 0 6px,var(--bg) 6px 12px)}
+.lesson-preview iframe{display:block;border:0;width:100%;height:310px;background:white;max-width:none}
+.lesson-preview>p{font-size:11px;padding:10px 14px;color:var(--muted);margin:0}
+.lesson-test-contract{padding:20px;background:var(--bg);border-radius:12px;margin:16px 0}
+.lesson-test-contract ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.lesson-test-contract li{font:12px/1.6 ui-monospace,monospace;overflow-wrap:anywhere}
+.lesson-test-contract li:before{content:'○';color:var(--eden-strong);margin-right:9px}
+.lesson-input .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.lesson-drawing{border:2px solid var(--ink);border-radius:10px 17px 11px 14px;overflow:hidden;margin:20px 0;background:#fff}
+.lesson-drawing-tools{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:14px;border-bottom:1px solid var(--line);background:var(--bg)}
+.lesson-drawing-tools>span{font-size:10px;font-weight:800;letter-spacing:1.4px;margin-right:auto}
+.lesson-drawing-tools button{display:flex;gap:6px;align-items:center;min-height:44px;border:1px solid var(--line);border-radius:8px;padding:8px;background:#fff;font-size:12px}
+.lesson-drawing-tools button[aria-pressed=true]{border-color:var(--eden-strong);box-shadow:0 0 0 1px var(--eden-strong)}
+.lesson-drawing-tools i{width:12px;height:12px;border-radius:50%}
+.lesson-drawing-surface{display:block;width:100%;height:auto;aspect-ratio:2/1;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:20px 20px;touch-action:none;cursor:crosshair}
+.lesson-drawing-surface[data-locked=true]{touch-action:auto;cursor:default}
+.lesson-drawing>label,.lesson-drawing>p,.lesson-drawing>details{margin:16px}
+.lesson-drawing>label textarea{margin-top:8px;min-height:90px}
+.lesson-drawing>p{font-size:12px}
+.lesson-lab{padding:22px;background:var(--bg);border:1px solid var(--line);border-radius:15px}
+.lesson-lab-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lesson-lab-controls select{display:block;width:100%;margin-top:5px}
+.lesson-lab>label{margin:18px 0}
+.lesson-lab>label input{display:block;width:100%;margin-top:8px}
+.lesson-lab-feedback{white-space:pre-line;font-size:13px;line-height:1.7;min-height:46px;color:var(--muted)}
+.lesson-lab-axes{font-size:12px;font-weight:750;margin:20px 0 10px;color:var(--eden-strong)}
+.lesson-lab-stage{display:flex;min-height:310px;height:310px;box-sizing:border-box;padding:16px;border:2px dashed var(--ink);border-radius:10px;background:white;overflow:auto}
+.lesson-lab-stage>div{flex-shrink:0;width:90px;min-height:55px;background:var(--wash);border:2px solid var(--ink);border-radius:6px 10px 5px 8px;padding:10px;font-size:12px;line-height:1.6;font-weight:700}
+.lesson-lab-stage small{font-size:10px;font-weight:400}
+.lesson-lab .console{margin:12px 0}
+
+@media(max-width:1100px){.lesson-workbench.has-preview{grid-template-columns:1fr}
+.lesson-preview{border-left:0;border-top:1px solid var(--console-line)}
+.lesson-view .lesson-editor textarea{min-height:250px}
+}
+
+@media(max-width:600px){.lesson-lab{padding:14px}
+.lesson-lab-controls{grid-template-columns:1fr}
+.lesson-lab-stage{padding:8px}
+.lesson-lab-stage>div{width:72px;padding:7px;font-size:11px}
+.lesson-drawing-tools{gap:6px;padding:10px}
+.lesson-drawing-tools>span{width:100%}
+.lesson-drawing-tools button{font-size:11px}
+.lesson-drawing>label,.lesson-drawing>p,.lesson-drawing>details{margin:12px}
+.lesson-preview-toolbar select{min-height:44px}
+.lesson-preview-toolbar .btn{min-height:44px}
+.lesson-board-dialog{padding:10px}
+}
+

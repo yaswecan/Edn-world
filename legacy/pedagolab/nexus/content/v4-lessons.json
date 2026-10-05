@@ -1,0 +1,1238 @@
+[
+  {
+    "id": "energie-1",
+    "title": "Réveille la station",
+    "opening": "La station a besoin de 80 unités d’énergie. Pour l’instant, elle n’en reçoit que 20.",
+    "task": "Change la valeur de energie pour fournir exactement 80 unités.",
+    "skills": [
+      "BC05-C1-4"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [],
+    "kind": "code",
+    "visual": "energy",
+    "files": {
+      "js": "let energie = 20;\n\nreturn energie;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "let energie = 80;\n\nreturn energie;"
+    },
+    "cases": [
+      {
+        "label": "La station reçoit 80 unités",
+        "input": {},
+        "expected": 80
+      }
+    ],
+    "input": {},
+    "concept": "Une variable associe un nom à une valeur. let permet de créer une variable dont la valeur peut changer. Le signe = affecte une valeur : ce n’est pas une question. Ici, return transmet la valeur à notre simulateur, qui dessine la jauge.",
+    "example": "let temperature = 18;\ntemperature = 21;\nreturn temperature;",
+    "hints": [
+      "Compare la jauge à la valeur écrite après le signe =.",
+      "Le nom energie reste le même. C’est sa valeur initiale qui doit changer.",
+      "Dans le rappel, temperature passe de 18 à 21. Applique cette idée à une autre valeur."
+    ],
+    "question": "Quelle partie as-tu modifiée et quel effet as-tu observé ?",
+    "transfer": "Une autre station demande 65 unités. Quelle ligne devrait changer ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "energie-2",
+    "title": "Calcule l’énergie disponible",
+    "opening": "Chaque cellule fournit 20 unités. La station reçoit toujours 20, même avec plusieurs cellules.",
+    "task": "Calcule l’énergie totale à partir de cellules. Essaie plusieurs chargements.",
+    "skills": [
+      "BC05-C1-4"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "energie-1"
+    ],
+    "kind": "code",
+    "visual": "energy",
+    "files": {
+      "js": "const energieParCellule = 20;\nlet energie = energieParCellule;\n\nreturn energie;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "const energieParCellule = 20;\nlet energie = cellules * energieParCellule;\n\nreturn energie;"
+    },
+    "cases": [
+      {
+        "label": "4 cellules → 80 unités",
+        "input": {
+          "cellules": 4
+        },
+        "expected": 80
+      },
+      {
+        "label": "2 cellules → 40 unités",
+        "input": {
+          "cellules": 2
+        },
+        "expected": 40
+      },
+      {
+        "label": "Aucune cellule → 0 unité",
+        "input": {
+          "cellules": 0
+        },
+        "expected": 0
+      }
+    ],
+    "input": {
+      "cellules": 4
+    },
+    "concept": "Une expression calcule une valeur : 3 * 20 vaut 60. const interdit de réaffecter un nom, mais ne signifie pas que tout objet associé est immuable. Ici, l’énergie par cellule est constante ; le nombre de cellules vient du scénario. Une solution générale utilise cette entrée au lieu de retenir seulement le premier résultat.",
+    "example": "const prix = 5;\nconst quantite = 3;\nreturn prix * quantite;",
+    "hints": [
+      "Regarde le nombre de cellules affiché au-dessus de la jauge.",
+      "Multiplier se note * en JavaScript.",
+      "Évite de remplacer le résultat par 80 : le deuxième chargement est différent."
+    ],
+    "question": "Pourquoi écrire 80 directement ne résout-il pas tous les scénarios ?",
+    "transfer": "Avec des cellules de 12 unités, que conserves-tu dans ton calcul ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "cellules"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "energie-3",
+    "title": "Envoie le bon message",
+    "opening": "Le terminal annonce un nom fixe. Chaque station doit afficher son propre indicatif.",
+    "task": "Renvoie le texte « Station » suivi d’un espace puis du nom fourni.",
+    "skills": [
+      "BC05-C1-4"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "energie-2"
+    ],
+    "kind": "code",
+    "visual": "message",
+    "files": {
+      "js": "const message = \"Station Nord\";\n\nreturn message;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "const message = \"Station \" + nom;\n\nreturn message;"
+    },
+    "cases": [
+      {
+        "label": "Indicatif Nord",
+        "input": {
+          "nom": "Nord"
+        },
+        "expected": "Station Nord"
+      },
+      {
+        "label": "Indicatif Est",
+        "input": {
+          "nom": "Est"
+        },
+        "expected": "Station Est"
+      }
+    ],
+    "input": {
+      "nom": "Nord"
+    },
+    "concept": "Une chaîne de caractères est du texte entre guillemets. Un nombre représente une quantité ; un booléen vaut true ou false. Le + concatène du texte, mais additionne deux nombres. Les types changent donc le sens de l’opération.",
+    "example": "const nom = \"Mina\";\nreturn \"Bonjour \" + nom;",
+    "hints": [
+      "Le nom change dans les scénarios. Le mot Station reste identique.",
+      "Utilise nom sans guillemets pour lire sa valeur.",
+      "Pense à l’espace entre les deux mots."
+    ],
+    "question": "Quelle différence y a-t-il entre nom et \"nom\" ?",
+    "transfer": "Pourquoi \"2\" + \"3\" ne produit-il pas le même résultat que 2 + 3 ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "nom"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "acces-1",
+    "title": "Ouvre au bon seuil",
+    "opening": "La porte reste fermée quand l’énergie atteint exactement 50. Elle devrait s’ouvrir dès 50 unités.",
+    "task": "Renvoie true si energie est supérieure ou égale à 50, sinon false.",
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "energie-2"
+    ],
+    "kind": "code",
+    "visual": "gate",
+    "files": {
+      "js": "if (energie > 50) {\n  return true;\n}\nreturn false;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "if (energie >= 50) {\n  return true;\n}\nreturn false;"
+    },
+    "cases": [
+      {
+        "label": "50 unités : ouvrir",
+        "input": {
+          "energie": 50
+        },
+        "expected": true
+      },
+      {
+        "label": "49 unités : fermer",
+        "input": {
+          "energie": 49
+        },
+        "expected": false
+      },
+      {
+        "label": "80 unités : ouvrir",
+        "input": {
+          "energie": 80
+        },
+        "expected": true
+      }
+    ],
+    "input": {
+      "energie": 50
+    },
+    "concept": "Une comparaison produit un booléen. > exclut la borne ; >= l’inclut. if exécute une branche seulement si sa condition est vraie. Tester juste avant, exactement sur et juste après un seuil permet de repérer les erreurs de borne.",
+    "example": "if (temperature >= 30) {\n  return \"Ventiler\";\n}\nreturn \"Attendre\";",
+    "hints": [
+      "Le cas qui pose problème est exactement 50.",
+      "> signifie strictement supérieur.",
+      "Dans le rappel, le ventilateur démarre aussi à 30, pas seulement à 31."
+    ],
+    "question": "Pourquoi la porte doit-elle s’ouvrir à 50 mais pas à 49 ?",
+    "transfer": "Si le seuil devient 70, quels trois cas testerais-tu ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "energie"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "acces-2",
+    "title": "Vérifie les deux conditions",
+    "opening": "La porte s’ouvre avec de l’énergie même sans badge. Les deux conditions sont obligatoires.",
+    "task": "Ouvre uniquement avec au moins 50 unités ET un badge valide.",
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "acces-1"
+    ],
+    "kind": "code",
+    "visual": "gate",
+    "files": {
+      "js": "return energie >= 50 || badge;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "return energie >= 50 && badge;"
+    },
+    "cases": [
+      {
+        "label": "Assez d’énergie et badge : ouvrir",
+        "input": {
+          "energie": 70,
+          "badge": true
+        },
+        "expected": true
+      },
+      {
+        "label": "Pas de badge : fermer",
+        "input": {
+          "energie": 70,
+          "badge": false
+        },
+        "expected": false
+      },
+      {
+        "label": "Pas assez d’énergie : fermer",
+        "input": {
+          "energie": 20,
+          "badge": true
+        },
+        "expected": false
+      },
+      {
+        "label": "Aucun des deux : fermer",
+        "input": {
+          "energie": 20,
+          "badge": false
+        },
+        "expected": false
+      }
+    ],
+    "input": {
+      "energie": 70,
+      "badge": true
+    },
+    "concept": "&& signifie ET : les deux conditions doivent être vraies. || signifie OU inclusif : au moins l’une doit être vraie, y compris les deux ensemble. Pour choisir, décris la règle dans la langue courante, puis teste les quatre combinaisons. Ce simulateur n’est pas un système d’authentification réel.",
+    "example": "const peutSortir = porteOuverte && cheminLibre;",
+    "hints": [
+      "Que se passe-t-il quand un seul voyant est allumé ?",
+      "OU permet un seul critère. Ici, le texte demande les deux.",
+      "Écris une table avec badge oui/non et énergie suffisante oui/non."
+    ],
+    "question": "Quel scénario montre que OU ne convient pas ?",
+    "transfer": "Un éclairage doit fonctionner si le capteur A OU le capteur B détecte un mouvement : quel opérateur choisir ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "energie",
+      "badge"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "acces-3",
+    "title": "Bloque pendant l’alerte",
+    "opening": "Un badge suffit encore à ouvrir la porte pendant une alerte. Le laboratoire doit rester fermé tant que l’alarme est active.",
+    "task": "Ouvre avec un badge ET aucune alarme.",
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "acces-2"
+    ],
+    "kind": "code",
+    "visual": "gate",
+    "files": {
+      "js": "return badge && alarme;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "return badge && !alarme;"
+    },
+    "cases": [
+      {
+        "label": "Badge, pas d’alarme : ouvrir",
+        "input": {
+          "badge": true,
+          "alarme": false
+        },
+        "expected": true
+      },
+      {
+        "label": "Badge, alarme : fermer",
+        "input": {
+          "badge": true,
+          "alarme": true
+        },
+        "expected": false
+      },
+      {
+        "label": "Sans badge : fermer",
+        "input": {
+          "badge": false,
+          "alarme": false
+        },
+        "expected": false
+      }
+    ],
+    "input": {
+      "badge": true,
+      "alarme": false
+    },
+    "concept": "! inverse un booléen. !true vaut false et !false vaut true. Pour exprimer « aucune alarme », on utilise !alarme. Les parenthèses aident à rendre les règles composées lisibles. Elles ne changent pas une règle métier : il faut d’abord savoir ce que l’on veut.",
+    "example": "const disponible = !occupe;",
+    "hints": [
+      "Une alarme active signifie alarme = true.",
+      "Tu dois tester l’absence d’alarme, pas sa présence.",
+      "Le symbole ! inverse true et false."
+    ],
+    "question": "Que vaut !alarme quand alarme vaut true ?",
+    "transfer": "Comment empêcher l’ouverture dès que maintenance devient true ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "badge",
+      "alarme"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "acces-4",
+    "title": "Prévois une seconde alimentation",
+    "opening": "La station possède une batterie et un panneau solaire. Une seule source disponible suffit à l’alimenter.",
+    "task": "Renvoie true dès qu’au moins une source est disponible.",
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "acces-2"
+    ],
+    "kind": "code",
+    "visual": "gate",
+    "files": {
+      "js": "return batterie && solaire;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "return batterie || solaire;"
+    },
+    "cases": [
+      {
+        "label": "Batterie seule : alimenter",
+        "input": {
+          "batterie": true,
+          "solaire": false
+        },
+        "expected": true
+      },
+      {
+        "label": "Solaire seul : alimenter",
+        "input": {
+          "batterie": false,
+          "solaire": true
+        },
+        "expected": true
+      },
+      {
+        "label": "Deux sources : alimenter",
+        "input": {
+          "batterie": true,
+          "solaire": true
+        },
+        "expected": true
+      },
+      {
+        "label": "Aucune source : couper",
+        "input": {
+          "batterie": false,
+          "solaire": false
+        },
+        "expected": false
+      }
+    ],
+    "input": {
+      "batterie": true,
+      "solaire": false
+    },
+    "concept": "Le OU de JavaScript est inclusif. Il accepte une source, l’autre, ou les deux. Un OU exclusif demanderait exactement une source et serait une autre règle. Pour éviter de deviner l’opérateur, écris les résultats attendus des quatre cas.",
+    "example": "const secoursDisponible = batterie || groupeElectrogene;",
+    "hints": [
+      "Essaie le scénario « batterie seule ».",
+      "Avec ET, les deux sources sont obligatoires.",
+      "Les deux sources simultanées doivent aussi fonctionner : ce n’est pas XOR."
+    ],
+    "question": "Pourquoi les deux sources ensemble ne doivent-elles pas être refusées ?",
+    "transfer": "Dans quel cas voudrais-tu au contraire exiger deux confirmations ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "batterie",
+      "solaire"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "patrouille-1",
+    "title": "Répète l’inspection",
+    "opening": "Le drone n’inspecte que le premier secteur. Les trois secteurs doivent être vérifiés.",
+    "task": "Complète la borne de la boucle pour appeler inspecter sur 1, 2 et 3.",
+    "skills": [
+      "BC05-C1-3"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "acces-1"
+    ],
+    "kind": "code",
+    "visual": "drone",
+    "files": {
+      "js": "for (let secteur = 1; secteur <= 1; secteur++) {\n  inspecter(secteur);\n}",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "for (let secteur = 1; secteur <= 3; secteur++) {\n  inspecter(secteur);\n}"
+    },
+    "cases": [
+      {
+        "label": "Inspecter les secteurs 1, 2 et 3",
+        "input": {
+          "n": 3
+        },
+        "expected": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "input": {
+      "n": 3
+    },
+    "concept": "Une boucle répète une action. for précise le départ, une condition pour continuer et une évolution après chaque tour. secteur++ augmente secteur de 1. inspecter est une fonction fournie par le laboratoire : elle inscrit le secteur dans le journal puis le simulateur dessine le trajet.",
+    "example": "for (let tour = 1; tour <= 2; tour++) {\n  console.log(tour);\n}",
+    "hints": [
+      "Le départ est déjà 1. Regarde la condition centrale.",
+      "secteur++ fait avancer le compteur après chaque tour.",
+      "Le dernier numéro demandé est 3 et il doit être inclus."
+    ],
+    "question": "Combien de fois inspecter est-elle appelée ? Comment le sais-tu ?",
+    "transfer": "Pour quatre secteurs, quelle partie de la boucle modifierais-tu ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "inspect",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "patrouille-2",
+    "title": "N’oublie pas le dernier secteur",
+    "opening": "Le drone inspecte 1, 2 et 3 puis revient. Le quatrième secteur reste dans l’ombre.",
+    "task": "Répare la condition pour inspecter exactement les secteurs 1 à 4.",
+    "skills": [
+      "BC05-C1-3"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "patrouille-1"
+    ],
+    "kind": "code",
+    "visual": "drone",
+    "files": {
+      "js": "for (let secteur = 1; secteur < 4; secteur++) {\n  inspecter(secteur);\n}",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "for (let secteur = 1; secteur <= 4; secteur++) {\n  inspecter(secteur);\n}"
+    },
+    "cases": [
+      {
+        "label": "Les quatre secteurs, sans dépasser",
+        "input": {
+          "n": 4
+        },
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ]
+      }
+    ],
+    "input": {
+      "n": 4
+    },
+    "concept": "La condition est testée avant chaque tour. Avec secteur < 4, elle devient fausse dès que secteur atteint 4 : ce secteur n’est donc pas inspecté. Avec <=, la valeur limite est incluse. Le nombre de tours dépend du départ et de la borne, pas seulement du dernier nombre affiché.",
+    "example": "// Affiche 2, 3 puis 4.\nfor (let i = 2; i <= 4; i++) console.log(i);",
+    "hints": [
+      "Observe le secteur qui reste gris après ton essai.",
+      "À secteur = 4, est-ce que secteur < 4 est vrai ?",
+      "Tu as déjà rencontré un seuil inclusif pour ouvrir une porte."
+    ],
+    "question": "Pourquoi < 4 laisse-t-il le dernier secteur de côté ?",
+    "transfer": "Avec un départ à 0 et une borne < 4, quelles valeurs obtiendrais-tu ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "inspect",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "patrouille-3",
+    "title": "Adapte-toi à la taille de la zone",
+    "opening": "Le programme fonctionne pour quatre secteurs, mais chaque station a une taille différente.",
+    "task": "Utilise n pour inspecter tous les secteurs de 1 à n. Si n vaut 0, ne fais aucune inspection.",
+    "skills": [
+      "BC05-C1-3"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "patrouille-2",
+      "energie-2"
+    ],
+    "kind": "code",
+    "visual": "drone",
+    "files": {
+      "js": "for (let secteur = 1; secteur <= 4; secteur++) {\n  inspecter(secteur);\n}",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "for (let secteur = 1; secteur <= n; secteur++) {\n  inspecter(secteur);\n}"
+    },
+    "cases": [
+      {
+        "label": "4 secteurs",
+        "input": {
+          "n": 4
+        },
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "label": "1 secteur",
+        "input": {
+          "n": 1
+        },
+        "expected": [
+          1
+        ]
+      },
+      {
+        "label": "Aucun secteur",
+        "input": {
+          "n": 0
+        },
+        "expected": []
+      },
+      {
+        "label": "7 secteurs",
+        "input": {
+          "n": 7
+        },
+        "expected": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    ],
+    "input": {
+      "n": 4
+    },
+    "concept": "Une solution générale utilise les données d’entrée. n représente ici le nombre de secteurs, de 0 à 12 dans le simulateur. Le programme ne doit pas dépendre uniquement de l’exemple visible. Quand n vaut 0, la condition doit être fausse dès le premier test.",
+    "example": "for (let etage = 1; etage <= nombreEtages; etage++) {\n  console.log(etage);\n}",
+    "hints": [
+      "Change le scénario : observe ce qui reste fixé à quatre.",
+      "n est déjà fourni par la zone. Ne le remplace pas par un nombre fixe.",
+      "Teste aussi n = 0 : le drone doit rester à sa base."
+    ],
+    "question": "Pourquoi le même programme peut-il maintenant fonctionner avec plusieurs tailles ?",
+    "transfer": "Une zone de 12 secteurs arrive demain. Faudra-t-il modifier ton code ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "inspect",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "n"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "patrouille-4",
+    "title": "Évite la boucle sans fin",
+    "opening": "Le drone insiste sur le même secteur. Il ne fait jamais évoluer son compteur.",
+    "task": "Fais avancer secteur après chaque inspection pour que la boucle while termine.",
+    "skills": [
+      "BC05-C1-3"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "patrouille-3"
+    ],
+    "kind": "code",
+    "visual": "drone",
+    "files": {
+      "js": "let secteur = 1;\nwhile (secteur <= n) {\n  inspecter(secteur);\n}",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "let secteur = 1;\nwhile (secteur <= n) {\n  inspecter(secteur);\n  secteur++;\n}"
+    },
+    "cases": [
+      {
+        "label": "4 secteurs et arrêt",
+        "input": {
+          "n": 4
+        },
+        "expected": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "label": "1 secteur et arrêt",
+        "input": {
+          "n": 1
+        },
+        "expected": [
+          1
+        ]
+      },
+      {
+        "label": "0 secteur",
+        "input": {
+          "n": 0
+        },
+        "expected": []
+      }
+    ],
+    "input": {
+      "n": 4
+    },
+    "concept": "while répète tant que sa condition est vraie. Si l’état testé ne change pas, une boucle peut ne jamais s’arrêter. Identifie toujours ce qui progresse vers l’arrêt. Le laboratoire interrompt les exécutions trop longues : cette protection n’est pas une correction de ton programme.",
+    "example": "let restant = 3;\nwhile (restant > 0) {\n  console.log(restant);\n  restant--;\n}",
+    "hints": [
+      "Quelle est la valeur de secteur au deuxième tour ?",
+      "Il manque une instruction qui change la variable testée.",
+      "Dans l’exemple, restant-- rapproche de l’arrêt. Ici, il faut avancer vers n."
+    ],
+    "question": "Quelle instruction garantit la progression vers l’arrêt ?",
+    "transfer": "Comment un compteur décroissant pourrait-il faire terminer une boucle ?",
+    "minutes": 12,
+    "gate": "auto",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "inspect",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "n"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "patrouille-5",
+    "title": "Organise le retour",
+    "opening": "Les secteurs ont été inspectés. Le drone doit revenir du dernier secteur vers le premier.",
+    "task": "Inspecte les secteurs de n à 1, dans cet ordre, sans visiter le secteur 0.",
+    "skills": [
+      "BC05-C1-3"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "patrouille-4"
+    ],
+    "kind": "code",
+    "visual": "drone",
+    "files": {
+      "js": "for (let secteur = 1; secteur <= n; secteur++) {\n  inspecter(secteur);\n}",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "for (let secteur = n; secteur >= 1; secteur--) {\n  inspecter(secteur);\n}"
+    },
+    "cases": [
+      {
+        "label": "Retour sur 4 secteurs",
+        "input": {
+          "n": 4
+        },
+        "expected": [
+          4,
+          3,
+          2,
+          1
+        ]
+      },
+      {
+        "label": "Un seul secteur",
+        "input": {
+          "n": 1
+        },
+        "expected": [
+          1
+        ]
+      },
+      {
+        "label": "Aucune inspection",
+        "input": {
+          "n": 0
+        },
+        "expected": []
+      }
+    ],
+    "input": {
+      "n": 4
+    },
+    "concept": "Le départ, la condition et l’évolution doivent raconter la même direction. Pour descendre, on part de n, on continue tant que le compteur est au moins 1 et on le diminue. Corriger seulement un signe ne suffit pas forcément : vérifie les trois parties ensemble.",
+    "example": "for (let etage = 3; etage >= 1; etage--) {\n  console.log(etage);\n}",
+    "hints": [
+      "Quel doit être le premier numéro inspecté ?",
+      "Le compteur doit diminuer, pas augmenter.",
+      "Vérifie départ, condition et évolution séparément."
+    ],
+    "question": "Explique les trois changements par rapport à l’aller.",
+    "transfer": "Comment écrirais-tu un compte à rebours qui affiche aussi zéro ?",
+    "minutes": 12,
+    "gate": "teacher",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "inspect",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "n"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "signaux-1",
+    "title": "Transfère : compte les alertes",
+    "opening": "Le poste reçoit une liste de signaux : true signifie alerte, false signifie calme. Le compteur affiche toujours zéro.",
+    "task": "Parcours les signaux et renvoie le nombre d’alertes.",
+    "skills": [
+      "BC05-C1-3"
+    ],
+    "parentId": "BC05-C1",
+    "prerequisites": [
+      "patrouille-5",
+      "acces-3"
+    ],
+    "kind": "code",
+    "visual": "signals",
+    "files": {
+      "js": "let alertes = 0;\nfor (const signal of signaux) {\n  // Compte uniquement les signaux vrais.\n}\nreturn alertes;",
+      "html": "",
+      "css": ""
+    },
+    "solution": {
+      "js": "let alertes = 0;\nfor (const signal of signaux) {\n  if (signal === true) alertes++;\n}\nreturn alertes;"
+    },
+    "cases": [
+      {
+        "label": "Deux alertes parmi quatre signaux",
+        "input": {
+          "signaux": [
+            true,
+            false,
+            true,
+            false
+          ]
+        },
+        "expected": 2
+      },
+      {
+        "label": "Aucun signal",
+        "input": {
+          "signaux": []
+        },
+        "expected": 0
+      },
+      {
+        "label": "Une alerte",
+        "input": {
+          "signaux": [
+            true
+          ]
+        },
+        "expected": 1
+      },
+      {
+        "label": "Seulement des signaux calmes",
+        "input": {
+          "signaux": [
+            false,
+            false
+          ]
+        },
+        "expected": 0
+      }
+    ],
+    "input": {
+      "signaux": [
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    "concept": "for...of parcourt les valeurs d’une liste. Dans ce nouvel environnement, chaque tour lit un signal plutôt qu’un numéro de secteur. Une variable peut accumuler un résultat. La condition filtre ce qui doit être compté. Ne confonds pas le nombre d’éléments et le nombre d’éléments qui satisfont une règle.",
+    "example": "let petits = 0;\nfor (const taille of [3, 12, 4]) {\n  if (taille < 5) petits++;\n}\nreturn petits;",
+    "hints": [
+      "Quelle différence entre le nombre total de signaux et le nombre d’alertes ?",
+      "L’incrémentation ne doit se produire que dans une condition.",
+      "Un signal vaut true ou false, ce n’est pas le texte \"true\"."
+    ],
+    "question": "Qu’as-tu réutilisé de la patrouille et qu’as-tu changé ?",
+    "transfer": "Comment compterais-tu les messages non lus dans une autre liste ?",
+    "minutes": 12,
+    "gate": "teacher",
+    "chapter": "automatiser",
+    "track": "Programmer une patrouille",
+    "wrapper": "body",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [
+      "signaux"
+    ],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "interface-1",
+    "title": "Donne une structure au poste",
+    "opening": "Le titre de la station est un simple paragraphe. Les technologies d’assistance ne le reconnaissent pas comme un titre principal.",
+    "task": "Transforme « Poste de commande » en titre h1. Garde le texte.",
+    "skills": [
+      "BC04-C1-1"
+    ],
+    "parentId": "BC04-C1",
+    "prerequisites": [],
+    "kind": "html",
+    "visual": "interface",
+    "files": {
+      "html": "<main>\n  <p id=\"titre\">Poste de commande</p>\n  <p>Les stations attendent tes instructions.</p>\n  <button>Ouvrir le journal</button>\n</main>",
+      "css": "* { box-sizing: border-box; }\nbody { margin: 0; padding: 28px; background: #111b2b; color: #edf4fb; font: 17px/1.6 system-ui; }\n.card { padding: 20px; border: 1px solid #52677d; border-radius: 12px; background: #1a2d40; }\nbutton { padding: 12px 18px; background: #a6efc6; color: #11281e; border: 0; border-radius: 8px; }\n",
+      "js": ""
+    },
+    "solution": {
+      "html": "<main>\n  <h1 id=\"titre\">Poste de commande</h1>\n  <p>Les stations attendent tes instructions.</p>\n  <button>Ouvrir le journal</button>\n</main>",
+      "css": "* { box-sizing: border-box; }\nbody { margin: 0; padding: 28px; background: #111b2b; color: #edf4fb; font: 17px/1.6 system-ui; }\n.card { padding: 20px; border: 1px solid #52677d; border-radius: 12px; background: #1a2d40; }\nbutton { padding: 12px 18px; background: #a6efc6; color: #11281e; border: 0; border-radius: 8px; }\n",
+      "js": ""
+    },
+    "domTests": [
+      {
+        "label": "Un titre principal présent",
+        "selector": "h1#titre",
+        "check": "exists"
+      },
+      {
+        "label": "Texte conservé",
+        "selector": "h1",
+        "check": "text",
+        "expected": "Poste de commande"
+      }
+    ],
+    "concept": "HTML décrit le rôle des contenus. h1 annonce un titre principal, p un paragraphe et button une action. Une grande police ne transforme pas un paragraphe en titre sémantique. La structure aide la lecture, les outils d’assistance et la maintenance.",
+    "example": "<h1>Journal des missions</h1>\n<p>Dernières nouvelles de la base.</p>",
+    "hints": [
+      "Observe les balises autour du titre.",
+      "La balise d’ouverture et la balise de fermeture doivent correspondre.",
+      "Le texte ne change pas : son rôle change."
+    ],
+    "question": "Pourquoi agrandir le paragraphe en CSS ne suffirait-il pas ?",
+    "transfer": "Quel rôle donnerais-tu à un titre de rubrique à l’intérieur de cette page ?",
+    "minutes": 15,
+    "gate": "auto",
+    "chapter": "construire",
+    "track": "Construire le poste de commande",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "interface-2",
+    "title": "Aligne les commandes",
+    "opening": "Les commandes sont trop collées. Il faut les disposer sur une rangée avec un espace régulier.",
+    "task": "Utilise Flexbox pour .actions et crée un gap de 12px.",
+    "skills": [
+      "BC04-C2-2"
+    ],
+    "parentId": "BC04-C2",
+    "prerequisites": [
+      "interface-1"
+    ],
+    "kind": "html",
+    "visual": "interface",
+    "files": {
+      "html": "<main>\n<h1>Poste de commande</h1>\n<div class=\"actions\">\n  <button>Observer</button>\n  <button>Inspecter</button>\n  <button>Rentrer</button>\n</div>\n</main>",
+      "css": "* { box-sizing: border-box; }\nbody { margin: 0; padding: 28px; background: #111b2b; color: #edf4fb; font: 17px/1.6 system-ui; }\n.card { padding: 20px; border: 1px solid #52677d; border-radius: 12px; background: #1a2d40; }\nbutton { padding: 12px 18px; background: #a6efc6; color: #11281e; border: 0; border-radius: 8px; }\n.actions {\n  display: block;\n  gap: 0px;\n}\n",
+      "js": ""
+    },
+    "solution": {
+      "css": "* { box-sizing: border-box; }\nbody { margin: 0; padding: 28px; background: #111b2b; color: #edf4fb; font: 17px/1.6 system-ui; }\n.card { padding: 20px; border: 1px solid #52677d; border-radius: 12px; background: #1a2d40; }\nbutton { padding: 12px 18px; background: #a6efc6; color: #11281e; border: 0; border-radius: 8px; }\n.actions { display: flex; gap: 12px; flex-wrap: wrap; }"
+    },
+    "domTests": [
+      {
+        "label": "Commandes en Flexbox",
+        "selector": ".actions",
+        "check": "style",
+        "property": "display",
+        "expected": "flex"
+      },
+      {
+        "label": "Espacement de 12px",
+        "selector": ".actions",
+        "check": "style",
+        "property": "gap",
+        "expected": "12px"
+      }
+    ],
+    "concept": "Flexbox organise les enfants d’un conteneur selon un axe. display: flex active ce mode. gap crée un espace régulier entre les éléments, sans ajouter de faux espaces dans le HTML. flex-wrap peut autoriser un retour à la ligne quand la place manque.",
+    "example": ".outils {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}",
+    "hints": [
+      "La classe .actions correspond au groupe de boutons.",
+      "gap agit entre les éléments d’un conteneur Flexbox ou Grid.",
+      "Utilise l’onglet CSS : le texte des boutons n’a pas à changer."
+    ],
+    "question": "Pourquoi appliquer display: flex au parent et non à chaque bouton ?",
+    "transfer": "Comment éviter un débordement si une quatrième commande est ajoutée ?",
+    "minutes": 15,
+    "gate": "auto",
+    "chapter": "construire",
+    "track": "Construire le poste de commande",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "interface-3",
+    "title": "Garde le poste utilisable sur mobile",
+    "opening": "La carte possède une largeur fixe de 700px. Sur un petit écran, une partie disparaît.",
+    "task": "Rends la carte fluide, limitée à la largeur disponible. Teste le petit écran.",
+    "skills": [
+      "BC04-C3-2"
+    ],
+    "parentId": "BC04-C3",
+    "prerequisites": [
+      "interface-2"
+    ],
+    "kind": "html",
+    "visual": "interface",
+    "files": {
+      "html": "<main>\n<h1>Station mobile</h1>\n<article class=\"card\">\n  <h2>Patrouille du secteur Nord</h2>\n  <p>Tous les rapports doivent rester lisibles même sur un petit écran.</p>\n</article>\n</main>",
+      "css": "* { box-sizing: border-box; }\nbody { margin: 0; padding: 28px; background: #111b2b; color: #edf4fb; font: 17px/1.6 system-ui; }\n.card { padding: 20px; border: 1px solid #52677d; border-radius: 12px; background: #1a2d40; }\nbutton { padding: 12px 18px; background: #a6efc6; color: #11281e; border: 0; border-radius: 8px; }\n.card { width: 700px; }",
+      "js": ""
+    },
+    "solution": {
+      "css": "* { box-sizing: border-box; }\nbody { margin: 0; padding: 28px; background: #111b2b; color: #edf4fb; font: 17px/1.6 system-ui; }\n.card { padding: 20px; border: 1px solid #52677d; border-radius: 12px; background: #1a2d40; }\nbutton { padding: 12px 18px; background: #a6efc6; color: #11281e; border: 0; border-radius: 8px; }\n.card { width: 100%; max-width: 700px; }"
+    },
+    "domTests": [
+      {
+        "label": "Carte dans la largeur de l’écran",
+        "selector": ".card",
+        "check": "noOverflow"
+      }
+    ],
+    "concept": "Une interface responsive s’adapte à l’espace disponible. Une largeur fixe peut dépasser un petit écran. width: 100% utilise la largeur du parent ; max-width peut limiter l’extension. Le test de débordement est un contrôle partiel : lis aussi le contenu, navigue au clavier et teste différents cas.",
+    "example": ".panneau { width: 100%; max-width: 600px; }",
+    "hints": [
+      "Le problème apparaît surtout en mode téléphone.",
+      "100% est relatif au parent, pas un nombre fixe de pixels.",
+      "Vérifie aussi qu’un texte plus long reste lisible."
+    ],
+    "question": "Pourquoi une largeur fluide résout-elle ce cas ?",
+    "transfer": "Quelle vérification supplémentaire ferais-tu avant de livrer la page ?",
+    "minutes": 15,
+    "gate": "teacher",
+    "chapter": "construire",
+    "track": "Construire le poste de commande",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "reseau-1",
+    "title": "Remets le message sur son trajet",
+    "opening": "Une demande de statut est bloquée : les étapes de son trajet ont été mélangées.",
+    "task": "Remets ces quatre étapes dans l’ordre, du clic au résultat affiché.",
+    "skills": [
+      "BC01-C2-1"
+    ],
+    "parentId": "BC01-C2",
+    "prerequisites": [],
+    "kind": "order",
+    "visual": "network",
+    "items": [
+      {
+        "id": "click",
+        "label": "Le navigateur prépare la requête"
+      },
+      {
+        "id": "server",
+        "label": "Le serveur traite la demande"
+      },
+      {
+        "id": "reply",
+        "label": "Le serveur renvoie la réponse"
+      },
+      {
+        "id": "render",
+        "label": "Le navigateur affiche le résultat"
+      }
+    ],
+    "initialOrder": [
+      "reply",
+      "click",
+      "render",
+      "server"
+    ],
+    "concept": "Le navigateur envoie une requête ; le serveur la reçoit, effectue un traitement et renvoie une réponse. Le navigateur l’interprète et met à jour l’affichage. Cette chaîne est simplifiée : DNS, connexion, TLS, caches et ressources complémentaires peuvent aussi intervenir.",
+    "example": "Clic sur « statut » → requête → traitement → réponse → affichage.",
+    "hints": [
+      "Quelle étape déclenche le trajet ?",
+      "La réponse ne peut pas précéder son traitement.",
+      "Le navigateur intervient au départ et à l’arrivée."
+    ],
+    "question": "Quelle différence fais-tu entre requête et réponse ?",
+    "transfer": "Le serveur répond mais la page reste blanche. Où chercherais-tu ensuite ?",
+    "minutes": 10,
+    "gate": "auto",
+    "chapter": "relier",
+    "track": "Relier les stations",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  },
+  {
+    "id": "reseau-2",
+    "title": "Ne crois pas le faux badge",
+    "opening": "Un terminal affirme « admin » parce qu’une valeur a été modifiée dans le navigateur. Cela ne doit pas donner des droits sur le serveur.",
+    "task": "Choisis où chaque vérification doit être effectuée. Ce laboratoire n’utilise aucun vrai compte.",
+    "skills": [
+      "BC01-C2-2"
+    ],
+    "parentId": "BC01-C2",
+    "prerequisites": [
+      "reseau-1"
+    ],
+    "kind": "classify",
+    "visual": "network",
+    "items": [
+      {
+        "key": "rights",
+        "label": "Décider si un compte a réellement le droit de lire une donnée privée",
+        "options": [
+          "Le serveur, à partir de son contrôle d’accès",
+          "Le texte saisi dans le navigateur"
+        ],
+        "expected": "Le serveur, à partir de son contrôle d’accès",
+        "feedback": "Le client peut demander ; il ne décide pas lui-même de ses droits."
+      },
+      {
+        "key": "display",
+        "label": "Afficher un message clair quand l’accès est refusé",
+        "options": [
+          "Le navigateur, à partir de la réponse reçue",
+          "Changer directement les droits en base"
+        ],
+        "expected": "Le navigateur, à partir de la réponse reçue",
+        "feedback": "Afficher une réponse n’accorde pas une autorisation."
+      }
+    ],
+    "concept": "Le client est l’interface utilisée pour demander une action. Le serveur doit authentifier la demande et vérifier les autorisations sur ses propres données. Modifier le DOM ou un champ ne doit pas créer un droit. Une simulation de porte ne constitue pas une vraie authentification.",
+    "example": "Navigateur : « je demande le rapport » ; serveur : « ta session a-t-elle le droit de lire ce rapport ? ».",
+    "hints": [
+      "Qui pourrait modifier le champ du navigateur ?",
+      "Distingue le dessin de l’écran et l’autorisation d’accès.",
+      "Le serveur peut refuser même si le client affiche un bouton."
+    ],
+    "question": "Pourquoi une étiquette « admin » à l’écran ne prouve-t-elle rien ?",
+    "transfer": "Un jeu reçoit un score envoyé par le client. Pourquoi faut-il le contrôler ?",
+    "minutes": 12,
+    "gate": "teacher",
+    "chapter": "relier",
+    "track": "Relier les stations",
+    "origin": "v4-authored",
+    "edition": 1,
+    "bindings": [],
+    "practice": null,
+    "teacherNote": "Création V4 : entraînement formatif, pas validation exhaustive du N3. Relire et ajuster au groupe. Le parcours code utilise JavaScript ; le parcours Python demandé dans le socle reste disponible dans les kits du professeur.",
+    "sourceVersion": "socle-fourni-2026-2027-v3"
+  }
+]

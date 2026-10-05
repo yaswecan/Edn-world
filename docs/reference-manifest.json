@@ -1,0 +1,30 @@
+[
+  {
+    "archive": "EDEN_HUB_ELEVE_VERCEL_NEON_COMPLET(2).zip",
+    "sha256": "11ea547d0e5a7b582253910a46b82d9c63d1867cb20dd850d65495467f87c95f",
+    "checks": [
+      {
+        "path": "legacy/eden-core/docs/app/style.css",
+        "matchesArchive": true
+      },
+      {
+        "path": "legacy/eden-core/docs/app/content.js",
+        "matchesArchive": true
+      }
+    ]
+  },
+  {
+    "archive": "EDEN_HUB_01_OCTOBRE_DIAGNOSTIC_CODE_V6_COMPLET(2).zip",
+    "sha256": "f6e7836028495d35fee00e21341a3ad56f2d8da7304886d83a918ca929bae8f0",
+    "checks": [
+      {
+        "path": "legacy/eden-october/docs/app/style.css",
+        "matchesArchive": true
+      },
+      {
+        "path": "legacy/eden-october/docs/app/content.js",
+        "matchesArchive": true
+      }
+    ]
+  }
+]

@@ -1,0 +1,209 @@
+{
+  "status": "completed",
+  "hostRepositoryInspected": true,
+  "repository": {
+    "framework": "Express 5.1 / JavaScript ESM / Node >=22.14 / HTML et CSS",
+    "router": "server/app.mjs + public/app.js",
+    "packageManager": "npm",
+    "lockfile": "package-lock.json",
+    "headCommit": null,
+    "dirtyWorkingTree": "Inconnu : aucun dossier .git dans ce workspace"
+  },
+  "applicableInstructions": [
+    "Aucun AGENTS.md dans le dépôt hôte ou ses parents",
+    "TWEEN_TEACH_WORLD_ARCADE/AGENTS.md lu explicitement avec 00 et 01"
+  ],
+  "observedCommands": {
+    "dev": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
+    "start": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
+    "import": "node --env-file-if-exists=.env.local --import tsx scripts/import.mjs",
+    "test": "node --import tsx --test tests/*.test.mjs",
+    "test:legacy": "node --test legacy/eden-october/tests/functions.test.mjs legacy/eden-october/tests/logic.test.mjs legacy/eden-october/tests/practice.test.mjs legacy/drive/tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "npm run check",
+    "test:browser": "node --import tsx scripts/browser-check.mjs",
+    "demo:lesson": "node scripts/lesson-demo.mjs",
+    "demo:serve": "node scripts/lesson-preview-server.mjs",
+    "test:visual": "playwright test --config playwright.lesson.config.mjs",
+    "test:visual:update": "playwright test --config playwright.lesson.config.mjs --update-snapshots"
+  },
+  "integrationPoints": {
+    "auth": {
+      "status": "present",
+      "paths": [
+        "server/auth.mjs",
+        "server/app.mjs"
+      ],
+      "symbols": [
+        "passwordHash",
+        "passwordMatches",
+        "createSession"
+      ],
+      "notes": "Identifiant/mot de passe école seulement ; aucun fournisseur externe."
+    },
+    "sessions": {
+      "status": "present",
+      "paths": [
+        "server/auth.mjs"
+      ],
+      "symbols": [
+        "authentication",
+        "cookie"
+      ],
+      "notes": "Cookie opaque HttpOnly SameSite Strict, session 12 h ; réutiliser sans dupliquer les comptes."
+    },
+    "schoolAffiliations": {
+      "status": "present",
+      "paths": [
+        "server/store.mjs",
+        "server/auth.mjs"
+      ],
+      "symbols": [
+        "scoped"
+      ],
+      "notes": "classId serveur sur enseignants/élèves ; pas de multi-écoles ou multi-affiliations actives."
+    },
+    "permissions": {
+      "status": "present",
+      "paths": [
+        "server/auth.mjs",
+        "server/game.mjs"
+      ],
+      "symbols": [
+        "teacher",
+        "student",
+        "worldAccess",
+        "startGame"
+      ],
+      "notes": "Professeur et élève : même classe seulement. Pas de rôle externe autorisé."
+    },
+    "gameCodeStation": {
+      "status": "present",
+      "paths": [
+        "server/game.mjs",
+        "public/game/runtime.js",
+        "scripts/game-runtime.mjs",
+        "server/app.mjs"
+      ],
+      "symbols": [
+        "startGame",
+        "recordGameEvent"
+      ],
+      "notes": "codeStation dans la spécification de séance lance PédagoLab (5 mondes/20 missions)."
+    },
+    "gameCyberFunk": {
+      "status": "absent",
+      "paths": [],
+      "symbols": [],
+      "notes": "Recherche dans server/public/data/legacy : aucun moteur Cyber Funk."
+    },
+    "gameSaves": {
+      "status": "present",
+      "paths": [
+        "server/app.mjs",
+        "public/game/runtime.js"
+      ],
+      "symbols": [
+        "player_progression"
+      ],
+      "notes": "Agrégat existant par learnerId:world ; conserver son format."
+    },
+    "missionValidation": {
+      "status": "present",
+      "paths": [
+        "server/game.mjs",
+        "scripts/game-runtime.mjs"
+      ],
+      "symbols": [
+        "recordGameEvent",
+        "workerTest"
+      ],
+      "notes": "Évaluateurs isolés côté navigateur ; résultats déclaratifs review_required, approbation professeur."
+    },
+    "rewards": {
+      "status": "absent",
+      "paths": [
+        "server/game.mjs"
+      ],
+      "symbols": [],
+      "notes": "Aucun barème ludique serveur approuvé. Ne pas utiliser les points déclaratifs du runtime."
+    },
+    "ranks": {
+      "status": "absent",
+      "paths": [
+        "server/store.mjs"
+      ],
+      "symbols": [],
+      "notes": "Aucun catalogue métier. Ne pas attribuer Rookie par défaut."
+    },
+    "leaderboard": {
+      "status": "absent",
+      "paths": [
+        "server/game.mjs"
+      ],
+      "symbols": [],
+      "notes": "Pas de métrique vérifiable approuvée ; Top 5 indisponible sans scores ni filtres fictifs."
+    },
+    "layoutAndStyles": {
+      "status": "present",
+      "paths": [
+        "public/index.html",
+        "public/style.css",
+        "public/lesson.css"
+      ],
+      "symbols": [],
+      "notes": "Module HTML dédié /arcade ; styles confinés à .world-arcade ; assets locaux."
+    },
+    "mailProvider": {
+      "status": "absent",
+      "paths": [
+        "server/auth.mjs"
+      ],
+      "symbols": [],
+      "notes": "Aucun envoi transactionnel, vérification ou récupération par e-mail dans le système hôte."
+    },
+    "publicPrivacyPolicy": {
+      "status": "absent",
+      "paths": [],
+      "symbols": [],
+      "notes": "Aucune politique publique/mineurs validée fournie. Public fermé."
+    },
+    "featureFlags": {
+      "status": "to_add",
+      "paths": [
+        "server/arcade.mjs"
+      ],
+      "symbols": [],
+      "notes": "EDEN_WORLD_ARCADE=1 pour recette locale/activation explicite. Public reste fermé indépendamment."
+    },
+    "tests": {
+      "status": "present",
+      "paths": [
+        "tests/api.test.mjs",
+        "scripts/browser-check.mjs",
+        "playwright.lesson.config.mjs"
+      ],
+      "symbols": [],
+      "notes": "Tests mémoire avec url vide ; ne pas charger .env.local ni démarrer server/index.mjs."
+    }
+  },
+  "gameIdMappings": {
+    "code-station": "lesson_versions.spec.codeStation.missionId -> game_missions.world/localId (IDs conservés)",
+    "cyber-funk": null
+  },
+  "proposedChanges": [
+    "Route /arcade et UI dédiée",
+    "Adaptateur de session, galerie/profils sur identités existantes",
+    "Lancement/reprise PédagoLab avec autorisations partagées",
+    "États fermés pour inscription, classement, grades et Cyber Funk",
+    "Tests API, navigateur, captures et revue"
+  ],
+  "unresolvedDecisions": [
+    "Moteur Cyber Funk absent",
+    "Barème/validation ludique et grades absents",
+    "Fournisseur inscription/vérification/récupération absent",
+    "Politique publique/mineurs à valider"
+  ],
+  "migrationRequired": false,
+  "rollbackPlan": "Désactiver EDEN_WORLD_ARCADE. Anciennes routes conservées ; aucun effacement de comptes/sauvegardes. arcadeProfile est un champ JSON facultatif des comptes existants."
+}

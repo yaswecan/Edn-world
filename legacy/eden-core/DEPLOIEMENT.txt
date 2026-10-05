@@ -1,0 +1,13 @@
+EDEN HUB — VERCEL + NEON
+
+1. Lire DEPLOIEMENT_VERCEL.md.
+2. Envoyer le contenu de ce dossier à la racine d’un dépôt GitHub.
+3. Dans Vercel : Framework Other, Root Directory = racine (PAS docs).
+   vercel.json fixe npm ci, npm run build et Output Directory docs.
+4. Configurer DATABASE_URL (Neon), TEACHER_PASSWORD, CLASS_CODE, CRON_SECRET.
+5. Déployer puis vérifier /api/health. Professeur : /prof.html.
+6. Les élèves utilisent l’URL du site, sans ZIP ni extraction.
+
+Le suivi du bonus utilise Neon. Les réponses du cours restent locales et dans les exports.
+Aucun compte Eden Hub existant ni ancienne base SQLite n’est importé automatiquement.
+Ne publie jamais de secret dans GitHub, config.js ou les captures d’écran.

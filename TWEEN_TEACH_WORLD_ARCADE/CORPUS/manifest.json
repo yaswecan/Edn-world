@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "packageVersion": "1.0.0",
+  "kind": "integration_pack_not_course_import",
+  "entryPrompt": "01_PROMPT_CODEX_INTEGRATION.md",
+  "specification": "02_SPECIFICATION_COMPLETE.md",
+  "recipe": "03_PLAN_IMPLEMENTATION_ET_RECETTE.md",
+  "sourceAudit": "04_AUDIT_FRONT_FOURNI.md",
+  "reviewPrompt": "06_PROMPT_CODEX_REVIEW.md",
+  "corpus": "CORPUS/world-arcade.corpus.json",
+  "corpusSchema": "CORPUS/world-arcade.corpus.schema.json",
+  "assetManifest": "CORPUS/assets.manifest.json",
+  "referenceSourceManifest": "CORPUS/reference-source.manifest.json",
+  "referenceEntry": "FRONT_REFERENCE/World_Arcade_Frontend/index.html",
+  "standalonePreview": "FRONT_REFERENCE/WORLD_ARCADE_AUTONOME.html",
+  "contracts": [
+    "CONTRATS/arcade-host-contract.ts",
+    "CONTRATS/launcher-bridge.mjs"
+  ],
+  "runtimeImportAllowed": false,
+  "firstRead": [
+    "00_LIRE_DABORD.md",
+    "01_PROMPT_CODEX_INTEGRATION.md",
+    "04_AUDIT_FRONT_FOURNI.md"
+  ],
+  "gameIds": [
+    "code-station",
+    "cyber-funk"
+  ],
+  "priorityRules": [
+    "host_instructions_and_security_constraints",
+    "existing_host_business_identity_and_rules",
+    "target_specification_and_design_corpus",
+    "reference_front_visual_only",
+    "concept_image_inspiration_only"
+  ],
+  "noDatabaseSeed": true
+}

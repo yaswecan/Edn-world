@@ -1,0 +1,108 @@
+PASSED: required:00_LIRE_DABORD.md
+PASSED: required:DEMARRER_DANS_CODEX.txt
+PASSED: required:01_PROMPT_CODEX_INTEGRATION.md
+PASSED: required:02_SPECIFICATION_COMPLETE.md
+PASSED: required:03_PLAN_IMPLEMENTATION_ET_RECETTE.md
+PASSED: required:04_AUDIT_FRONT_FOURNI.md
+PASSED: required:05_SOURCES_ET_PROVENANCE.md
+PASSED: required:06_PROMPT_CODEX_REVIEW.md
+PASSED: required:AGENTS.md
+PASSED: required:CONTRATS/arcade-host-contract.ts
+PASSED: required:CONTRATS/launcher-bridge.mjs
+PASSED: required:FRONT_REFERENCE/WORLD_ARCADE_AUTONOME.html
+PASSED: manifest-link:entryPrompt
+PASSED: manifest-link:specification
+PASSED: manifest-link:recipe
+PASSED: manifest-link:sourceAudit
+PASSED: manifest-link:reviewPrompt
+PASSED: manifest-link:corpus
+PASSED: manifest-link:corpusSchema
+PASSED: manifest-link:assetManifest
+PASSED: manifest-link:referenceSourceManifest
+PASSED: manifest-link:referenceEntry
+PASSED: manifest-link:standalonePreview
+PASSED: contract-link:CONTRATS/arcade-host-contract.ts
+PASSED: contract-link:CONTRATS/launcher-bridge.mjs
+PASSED: corpus is explicitly not runtime config
+PASSED: host inspection not claimed
+PASSED: two exact game ids
+PASSED: routes not guessed
+PASSED: production demo fallback prohibited
+PASSED: reference grade proposal labeled
+PASSED: nine distinct reference grades
+PASSED: Rookie and Explorer present
+PASSED: no invented thresholds
+PASSED: no automatic grade promotion
+PASSED: leaderboard limited to five
+PASSED: public school directory prohibited
+PASSED: public opening not automatic
+PASSED: demo not production mode
+PASSED: ten unique screens
+PASSED: all screen actions resolve to UI labels
+PASSED: eighteen distinct WebP assets
+PASSED: fifteen illustrated avatars
+PASSED: game asset references resolve
+PASSED: asset:avatar-01
+PASSED: asset:avatar-02
+PASSED: asset:avatar-03
+PASSED: asset:avatar-04
+PASSED: asset:avatar-05
+PASSED: asset:avatar-06
+PASSED: asset:avatar-07
+PASSED: asset:avatar-08
+PASSED: asset:avatar-09
+PASSED: asset:avatar-10
+PASSED: asset:avatar-11
+PASSED: asset:avatar-12
+PASSED: asset:avatar-13
+PASSED: asset:avatar-14
+PASSED: asset:avatar-15
+PASSED: asset:city-panorama
+PASSED: asset:code-station-screen
+PASSED: asset:cyber-funk-screen
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/README.md
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/01.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/02.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/03.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/04.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/05.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/06.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/07.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/08.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/09.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/10.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/11.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/12.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/13.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/14.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/15.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/city.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/code-station.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/cyber-funk.webp
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/build_standalone.py
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/css/styles.css
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/index.html
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/integration/PROMPT_INTEGRATION_TWEENTWEACH.md
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/integration/launcher-example.js
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/js/app.js
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/js/data.js
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/js/games.js
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/01_accueil_desktop.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/02_arcade_desktop.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/03_joueurs_desktop.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/04_grades_desktop.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/05_inscription_desktop.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/06_code_station_demo.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/07_cyber_funk_demo.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/08_accueil_mobile.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/09_arcade_mobile.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/10_jeu_mobile.png
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/tests/results.json
+PASSED: original-copy:FRONT_REFERENCE/World_Arcade_Frontend/tests/smoke_test.py
+PASSED: original-copy:FRONT_REFERENCE/WORLD_ARCADE_AUTONOME.html
+PASSED: no font binaries
+PASSED: no node_modules or .git bundled
+NOT_RUN: complete JSON Schema validation — jsonschema unavailable; standard-library integrity checks executed.
+PASSED: delivery inventory hashes
+
+105 passed; 0 failed; 1 not run.

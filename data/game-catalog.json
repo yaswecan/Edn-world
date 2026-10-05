@@ -1,0 +1,828 @@
+{
+  "code-station": {
+    "title": "CODE//STATION",
+    "icon": "🛰️",
+    "tagline": "Réparer le vaisseau par le code.",
+    "desc": "JavaScript, algorithmique, HTML/CSS, DOM et débogage dans une station en panne.",
+    "colors": [
+      "#10324a",
+      "#15394d"
+    ],
+    "resources": [
+      "BC05-C1-4",
+      "BC05-C1-2",
+      "BC05-C1-3",
+      "BC04-C2-2",
+      "BC06-C1-1"
+    ],
+    "defaultUnlocked": true,
+    "missions": [
+      {
+        "id": "battery",
+        "title": "Énergie critique",
+        "skill": "Variables",
+        "resources": [
+          "BC05-C1-4"
+        ],
+        "brief": "Le sas n’a plus d’énergie. Corrige la réserve fournie au contrôleur.",
+        "files": {
+          "battery.js": "const battery = 20;\nreturn battery;"
+        },
+        "scenarios": [
+          {
+            "name": "Sas principal",
+            "input": {},
+            "expected": 80
+          }
+        ],
+        "validator": "battery"
+      },
+      {
+        "id": "motors",
+        "title": "Relancer les moteurs",
+        "skill": "Boucle",
+        "resources": [
+          "BC05-C1-3",
+          "BCT02-C1-1"
+        ],
+        "brief": "Un même programme doit activer tous les modules, quel que soit leur nombre.",
+        "files": {
+          "motors.js": "const started = [];\nfor (let i = 0; i < nombreModules; i++) {\n  started.push(i);\n}\nreturn started;"
+        },
+        "scenarios": [
+          {
+            "name": "4 modules",
+            "input": {
+              "nombreModules": 4
+            },
+            "expected": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "name": "6 modules",
+            "input": {
+              "nombreModules": 6
+            },
+            "expected": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "name": "0 module",
+            "input": {
+              "nombreModules": 0
+            },
+            "expected": []
+          }
+        ],
+        "validator": "motors"
+      },
+      {
+        "id": "access-card",
+        "title": "Badge d’accès",
+        "skill": "HTML / CSS",
+        "resources": [
+          "BC04-C1-4",
+          "BC04-C2-2"
+        ],
+        "brief": "Reproduis une carte d’accès simple et lisible : titre, identité, rôle et actions correctement disposées.",
+        "files": {
+          "index.html": "<article class=\"access-card\">\n  <h2>NOVA</h2>\n  <p>Ingénieure</p>\n  <div class=\"actions\"><button>Autoriser</button><button>Refuser</button></div>\n</article>",
+          "style.css": ".access-card { width: 320px; padding: 16px; border: 2px solid #29465c; border-radius: 16px; }\n.actions { display: flex; gap: 12px; }"
+        },
+        "scenarios": [
+          {
+            "name": "Carte standard",
+            "input": {},
+            "expected": true
+          }
+        ],
+        "validator": "card"
+      },
+      {
+        "id": "station-final",
+        "title": "Évaluation · Réparer la station",
+        "skill": "Production",
+        "resources": [
+          "BC05-C2-2",
+          "BC05-C1-2",
+          "BC05-C1-3",
+          "BC05-C1-4"
+        ],
+        "brief": "Écris un petit programme de réparation : vérifier la batterie, refroidir les cellules chaudes et préparer tous les modules.",
+        "files": {
+          "repair.js": "function repair(config) {\n  const report = { batteryOk: false, cooled: 0, modules: [] };\n  // À compléter\n  return report;\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Station A",
+            "input": {
+              "battery": 90,
+              "temps": [
+                65,
+                82,
+                75
+              ],
+              "modules": 4
+            },
+            "expected": {
+              "batteryOk": true,
+              "cooled": 2,
+              "modules": [
+                0,
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "name": "Station B",
+            "input": {
+              "battery": 70,
+              "temps": [
+                40,
+                60
+              ],
+              "modules": 0
+            },
+            "expected": {
+              "batteryOk": false,
+              "cooled": 0,
+              "modules": []
+            }
+          }
+        ],
+        "validator": "stationFinal",
+        "final": true
+      }
+    ]
+  },
+  "bunker": {
+    "title": "BUNKER//OPS",
+    "icon": "🧱",
+    "tagline": "Réactiver un centre technique isolé.",
+    "desc": "Linux, système, réseau, services et diagnostic dans un bunker hors ligne.",
+    "colors": [
+      "#243520",
+      "#172619"
+    ],
+    "resources": [
+      "BC02-C3-1",
+      "BC01-C2-4",
+      "BCT02-C1-1",
+      "BCT06-C2-2"
+    ],
+    "requires": "code-station",
+    "missions": [
+      {
+        "id": "shell",
+        "title": "SHELL MAZE",
+        "skill": "Terminal Linux",
+        "resources": [
+          "BC02-C3-1"
+        ],
+        "brief": "Retrouve le journal de maintenance dans le système simulé.",
+        "files": {
+          "commande.txt": "pwd"
+        },
+        "scenarios": [
+          {
+            "name": "Position",
+            "input": {},
+            "expected": "pwd"
+          }
+        ],
+        "validator": "commandPwd"
+      },
+      {
+        "id": "service",
+        "title": "Service vital",
+        "skill": "Services",
+        "resources": [
+          "BC02-C3-1",
+          "BCT02-C1-1"
+        ],
+        "brief": "Le service bunker-air est arrêté. Écris la commande de diagnostic attendue.",
+        "files": {
+          "commande.txt": "systemctl status bunker-air"
+        },
+        "scenarios": [
+          {
+            "name": "Diagnostic",
+            "input": {},
+            "expected": "systemctl status bunker-air"
+          }
+        ],
+        "validator": "commandExact"
+      },
+      {
+        "id": "network",
+        "title": "Liaison interne",
+        "skill": "Réseau",
+        "resources": [
+          "BC01-C2-4"
+        ],
+        "brief": "Vérifie la connectivité vers la passerelle fictive 10.20.0.1.",
+        "files": {
+          "commande.txt": "ping 10.20.0.1"
+        },
+        "scenarios": [
+          {
+            "name": "Passerelle",
+            "input": {},
+            "expected": "ping 10.20.0.1"
+          }
+        ],
+        "validator": "commandExact"
+      },
+      {
+        "id": "bunker-final",
+        "title": "Évaluation · Healthcheck",
+        "skill": "Production système",
+        "resources": [
+          "BC02-C3-1",
+          "BC01-C2-4",
+          "BCT02-C1-1"
+        ],
+        "brief": "Produis un script de contrôle qui vérifie les services critiques et renvoie une liste d’incidents.",
+        "files": {
+          "healthcheck.js": "function healthcheck(services) {\n  const incidents = [];\n  // services = [{name, online}]\n  return incidents;\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Bunker nominal",
+            "input": {
+              "services": [
+                {
+                  "name": "air",
+                  "online": true
+                },
+                {
+                  "name": "power",
+                  "online": true
+                }
+              ]
+            },
+            "expected": []
+          },
+          {
+            "name": "Panne air",
+            "input": {
+              "services": [
+                {
+                  "name": "air",
+                  "online": false
+                },
+                {
+                  "name": "power",
+                  "online": true
+                }
+              ]
+            },
+            "expected": [
+              "air"
+            ]
+          }
+        ],
+        "validator": "healthcheck",
+        "final": true
+      }
+    ]
+  },
+  "rocket": {
+    "title": "ROCKET//LAUNCH",
+    "icon": "🚀",
+    "tagline": "Transformer les maths en trajectoires.",
+    "desc": "Formules, séquences, boucles et simulation pour préparer un lancement.",
+    "colors": [
+      "#3e213a",
+      "#24132e"
+    ],
+    "resources": [
+      "BC05-C1-4",
+      "BC05-C1-3",
+      "BC05-C2-2"
+    ],
+    "requires": "bunker",
+    "missions": [
+      {
+        "id": "pythagore",
+        "title": "La diagonale oubliée",
+        "skill": "Maths → code",
+        "resources": [
+          "BC05-C2-1"
+        ],
+        "brief": "Calcule la distance directe entre deux positions à partir de dx et dy.",
+        "files": {
+          "distance.js": "function distance(dx, dy) {\n  return Math.sqrt(dx * dx + dy * dy);\n}"
+        },
+        "scenarios": [
+          {
+            "name": "30 / 40",
+            "input": {
+              "dx": 30,
+              "dy": 40
+            },
+            "expected": 50
+          },
+          {
+            "name": "6 / 8",
+            "input": {
+              "dx": 6,
+              "dy": 8
+            },
+            "expected": 10
+          },
+          {
+            "name": "coordonnées négatives",
+            "input": {
+              "dx": -9,
+              "dy": 12
+            },
+            "expected": 15
+          }
+        ],
+        "validator": "distance"
+      },
+      {
+        "id": "sequence",
+        "title": "Séquence de lancement",
+        "skill": "Ordre logique",
+        "resources": [
+          "BC05-C2-2"
+        ],
+        "brief": "Réorganise les étapes de lancement dans l’ordre sûr.",
+        "files": {
+          "sequence.js": "const steps = [\"cooling\", \"pressure\", \"ignition\", \"release\"];\nreturn steps;"
+        },
+        "scenarios": [
+          {
+            "name": "Protocole",
+            "input": {},
+            "expected": [
+              "cooling",
+              "pressure",
+              "ignition",
+              "release"
+            ]
+          }
+        ],
+        "validator": "returnArray"
+      },
+      {
+        "id": "countdown",
+        "title": "Compte à rebours",
+        "skill": "Boucle",
+        "resources": [
+          "BC05-C1-3"
+        ],
+        "brief": "Génère le compte à rebours sans écrire chaque nombre à la main.",
+        "files": {
+          "countdown.js": "function countdown(from) {\n  const out = [];\n  for (let i = from; i >= 0; i--) out.push(i);\n  return out;\n}"
+        },
+        "scenarios": [
+          {
+            "name": "5 secondes",
+            "input": {
+              "from": 5
+            },
+            "expected": [
+              5,
+              4,
+              3,
+              2,
+              1,
+              0
+            ]
+          },
+          {
+            "name": "2 secondes",
+            "input": {
+              "from": 2
+            },
+            "expected": [
+              2,
+              1,
+              0
+            ]
+          }
+        ],
+        "validator": "countdown"
+      },
+      {
+        "id": "rocket-final",
+        "title": "Évaluation · Contrôleur de lancement",
+        "skill": "Production",
+        "resources": [
+          "BC05-C1-2",
+          "BC05-C1-3",
+          "BC05-C2-2"
+        ],
+        "brief": "Crée launchReport : distance, checks valides et autorisation de lancement.",
+        "files": {
+          "launch.js": "function launchReport(data) {\n  // data={dx,dy,checks:[true,false,...]}\n  return { distance: 0, ready: false, passedChecks: 0 };\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Lancement prêt",
+            "input": {
+              "data": {
+                "dx": 30,
+                "dy": 40,
+                "checks": [
+                  true,
+                  true,
+                  true
+                ]
+              }
+            },
+            "expected": {
+              "distance": 50,
+              "ready": true,
+              "passedChecks": 3
+            }
+          },
+          {
+            "name": "Check manquant",
+            "input": {
+              "data": {
+                "dx": 6,
+                "dy": 8,
+                "checks": [
+                  true,
+                  false,
+                  true
+                ]
+              }
+            },
+            "expected": {
+              "distance": 10,
+              "ready": false,
+              "passedChecks": 2
+            }
+          }
+        ],
+        "validator": "rocketFinal",
+        "final": true
+      }
+    ]
+  },
+  "infiltration": {
+    "title": "INFILTRATION//TRACE",
+    "icon": "🕵️",
+    "tagline": "Enquêter sans attaquer.",
+    "desc": "HTTP, journaux et cybersécurité défensive dans une simulation d’incident.",
+    "colors": [
+      "#172d3d",
+      "#101924"
+    ],
+    "resources": [
+      "BC01-C2-1",
+      "BC01-C2-3",
+      "BC01-C2-4",
+      "BCT06-C1-1",
+      "BCT06-C2-1"
+    ],
+    "requires": "rocket",
+    "missions": [
+      {
+        "id": "http",
+        "title": "Trace HTTP",
+        "skill": "Client / serveur",
+        "resources": [
+          "BC01-C2-1",
+          "BC01-C2-3"
+        ],
+        "brief": "Associe un code HTTP à son rôle dans le diagnostic.",
+        "files": {
+          "answer.txt": "404"
+        },
+        "scenarios": [
+          {
+            "name": "Ressource absente",
+            "input": {},
+            "expected": "404"
+          }
+        ],
+        "validator": "answerExact"
+      },
+      {
+        "id": "logs",
+        "title": "Journal d’événements",
+        "skill": "Filtrage",
+        "resources": [
+          "BCT06-C2-1",
+          "BCT02-C1-1"
+        ],
+        "brief": "Retourne uniquement les événements dont level vaut ERROR.",
+        "files": {
+          "logs.js": "function errors(events) {\n  return events.filter(e => e.level === \"ERROR\");\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Journal A",
+            "input": {
+              "events": [
+                {
+                  "id": 1,
+                  "level": "INFO"
+                },
+                {
+                  "id": 2,
+                  "level": "ERROR"
+                }
+              ]
+            },
+            "expected": [
+              {
+                "id": 2,
+                "level": "ERROR"
+              }
+            ]
+          }
+        ],
+        "validator": "errors"
+      },
+      {
+        "id": "anomaly",
+        "title": "Anomalie de session",
+        "skill": "Condition",
+        "resources": [
+          "BCT06-C1-1",
+          "BC05-C1-2"
+        ],
+        "brief": "Signale une session si elle cumule trop d’échecs et vient d’un appareil inconnu.",
+        "files": {
+          "anomaly.js": "function suspicious(s) {\n  return s.failed >= 5 && !s.knownDevice;\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Cas suspect",
+            "input": {
+              "s": {
+                "failed": 7,
+                "knownDevice": false
+              }
+            },
+            "expected": true
+          },
+          {
+            "name": "Cas normal",
+            "input": {
+              "s": {
+                "failed": 1,
+                "knownDevice": false
+              }
+            },
+            "expected": false
+          }
+        ],
+        "validator": "suspicious"
+      },
+      {
+        "id": "infiltration-final",
+        "title": "Évaluation · Rapport incident",
+        "skill": "Production défensive",
+        "resources": [
+          "BC01-C2-4",
+          "BCT06-C2-1",
+          "BCT02-C1-1"
+        ],
+        "brief": "Produis un rapport qui compte les erreurs et liste les sessions suspectes.",
+        "files": {
+          "incident.js": "function incidentReport(events, sessions) {\n  return { errors: 0, suspiciousIds: [] };\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Incident",
+            "input": {
+              "events": [
+                {
+                  "level": "ERROR"
+                },
+                {
+                  "level": "INFO"
+                },
+                {
+                  "level": "ERROR"
+                }
+              ],
+              "sessions": [
+                {
+                  "id": "A",
+                  "failed": 6,
+                  "knownDevice": false
+                },
+                {
+                  "id": "B",
+                  "failed": 1,
+                  "knownDevice": true
+                }
+              ]
+            },
+            "expected": {
+              "errors": 2,
+              "suspiciousIds": [
+                "A"
+              ]
+            }
+          }
+        ],
+        "validator": "incidentFinal",
+        "final": true
+      }
+    ]
+  },
+  "assault": {
+    "title": "ASSAULT//SIM",
+    "icon": "🤖",
+    "tagline": "Commander une escouade robotique simulée.",
+    "desc": "Tableaux, objets, conditions et fonctions dans un environnement tactique non réel.",
+    "colors": [
+      "#40251f",
+      "#291611"
+    ],
+    "resources": [
+      "BC05-C1-2",
+      "BC05-C1-3",
+      "BC05-C1-5",
+      "BC05-C1-6",
+      "BC05-C1-7"
+    ],
+    "requires": "infiltration",
+    "missions": [
+      {
+        "id": "array",
+        "title": "Inventaire drones",
+        "skill": "Tableaux",
+        "resources": [
+          "BC05-C1-5"
+        ],
+        "brief": "Compte les drones actifs dans la liste.",
+        "files": {
+          "drones.js": "function activeCount(drones) {\n  return drones.filter(d => d.active).length;\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Escouade A",
+            "input": {
+              "drones": [
+                {
+                  "active": true
+                },
+                {
+                  "active": false
+                },
+                {
+                  "active": true
+                }
+              ]
+            },
+            "expected": 2
+          }
+        ],
+        "validator": "activeCount"
+      },
+      {
+        "id": "energy",
+        "title": "Décision énergie",
+        "skill": "Condition",
+        "resources": [
+          "BC05-C1-2"
+        ],
+        "brief": "Un drone doit recharger si sa batterie est inférieure à 40.",
+        "files": {
+          "energy.js": "function action(drone) {\n  return drone.battery < 40 ? \"RECHARGE\" : \"READY\";\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Batterie faible",
+            "input": {
+              "drone": {
+                "battery": 25
+              }
+            },
+            "expected": "RECHARGE"
+          },
+          {
+            "name": "Batterie OK",
+            "input": {
+              "drone": {
+                "battery": 80
+              }
+            },
+            "expected": "READY"
+          }
+        ],
+        "validator": "droneAction"
+      },
+      {
+        "id": "formation",
+        "title": "Formation",
+        "skill": "Boucle + objets",
+        "resources": [
+          "BC05-C1-3",
+          "BC05-C1-6"
+        ],
+        "brief": "Attribue une position croissante aux drones actifs uniquement.",
+        "files": {
+          "formation.js": "function formation(drones) {\n  const out=[]; let slot=0;\n  for (const d of drones) if (d.active) out.push({id:d.id,slot:slot++});\n  return out;\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Formation A",
+            "input": {
+              "drones": [
+                {
+                  "id": "A",
+                  "active": true
+                },
+                {
+                  "id": "B",
+                  "active": false
+                },
+                {
+                  "id": "C",
+                  "active": true
+                }
+              ]
+            },
+            "expected": [
+              {
+                "id": "A",
+                "slot": 0
+              },
+              {
+                "id": "C",
+                "slot": 1
+              }
+            ]
+          }
+        ],
+        "validator": "formation"
+      },
+      {
+        "id": "assault-final",
+        "title": "Évaluation · Contrôleur d’escouade",
+        "skill": "Production",
+        "resources": [
+          "BC05-C1-2",
+          "BC05-C1-3",
+          "BC05-C1-5",
+          "BC05-C1-7"
+        ],
+        "brief": "Prépare les drones : ignorer les inactifs, recharger les faibles, déployer les autres.",
+        "files": {
+          "controller.js": "function controller(drones) {\n  const report={deploy:[],recharge:[],ignore:[]};\n  return report;\n}"
+        },
+        "scenarios": [
+          {
+            "name": "Escouade complète",
+            "input": {
+              "drones": [
+                {
+                  "id": "A",
+                  "active": true,
+                  "battery": 90
+                },
+                {
+                  "id": "B",
+                  "active": true,
+                  "battery": 20
+                },
+                {
+                  "id": "C",
+                  "active": false,
+                  "battery": 80
+                }
+              ]
+            },
+            "expected": {
+              "deploy": [
+                "A"
+              ],
+              "recharge": [
+                "B"
+              ],
+              "ignore": [
+                "C"
+              ]
+            }
+          }
+        ],
+        "validator": "assaultFinal",
+        "final": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+import {uid,now,scoped,requireValue,fail} from './store.mjs';
+import {publishDrive,driveConfigured} from './drive.mjs';
+export async function enqueueDrive(store,actor,input){
+ requireValue(input.confirmed===true,'Validez les destinataires avant publication Drive.');if(!driveConfigured())fail(503,'Drive non configuré.');
+ const lesson=await scoped(store,'lessons',input.lessonId,actor);requireValue(['published','completed'].includes(lesson.status),'Publiez la séance avant distribution.');
+ requireValue(['student','teacher','individual'].includes(input.audience||'student'),'Destination invalide.');
+ const learners=await store.list('learners',actor.classId),students=input.students?.includes('all')?learners.map(l=>l.id):input.students;
+ if(input.audience!=='teacher')requireValue(Array.isArray(students)&&students.length&&students.every(id=>learners.some(l=>l.id===id)),'Destinataires invalides.');
+ if(input.path)requireValue(Array.isArray(input.path)&&input.path.length<=12&&input.path.every(p=>typeof p==='string'&&p.length&&p.length<150&&!/[\\/]/.test(p)),'Chemin Drive invalide.');
+ return store.transaction(async tx=>{const duplicate=(await tx.list('publication_jobs',actor.classId)).find(j=>input.requestId&&j.requestId===input.requestId);if(duplicate)return duplicate;
+ const job=await tx.insert('publication_jobs',{id:uid('job'),classId:actor.classId,requestId:input.requestId||uid('request'),type:'drive',lessonId:lesson.id,lessonVersionId:lesson.versionId,spec:{confirmed:true,audience:input.audience||'student',students:students||[],subject:input.subject,path:input.path},actor:{id:actor.id,classId:actor.classId,role:'teacher'},status:'queued',attempts:0,leaseUntil:null,availableAt:now()});await tx.audit(actor,'drive.queued',job.id,{lessonVersionId:lesson.versionId,students});return job;});
+}
+export async function runPublicationJob(store,{publish=publishDrive,at=now()}={}){
+ const job=await store.transaction(async tx=>{const candidates=(await tx.list('publication_jobs')).filter(j=>(j.status==='queued'&&j.availableAt<=at)||(j.status==='running'&&j.leaseUntil<at)).sort((a,b)=>a.createdAt.localeCompare(b.createdAt));const j=candidates[0];if(!j)return null;j.status='running';j.attempts++;j.leaseToken=uid('lease');j.leaseUntil=new Date(Date.parse(at)+120000).toISOString();await tx.put('publication_jobs',j);return j;});if(!job)return null;
+ const heartbeat=setInterval(()=>store.transaction(async tx=>{const j=await tx.get('publication_jobs',job.id);if(j.leaseToken===job.leaseToken&&j.status==='running'){j.leaseUntil=new Date(Date.now()+120000).toISOString();await tx.put('publication_jobs',j);}}).catch(console.error),30000);heartbeat.unref();
+ let result,error;
+ try{const lesson=await scoped(store,'lessons',job.lessonId,job.actor);if(lesson.versionId!==job.lessonVersionId)fail(409,'Version de séance modifiée depuis la validation.');const report=await store.get('drive_publications',job.id);result=await publish(store,job.lessonId,job.spec,job.actor,{publicationId:job.id,retryId:report?job.id:undefined});if(result.status!=='success')throw Error('Distribution incomplète : les destinataires en échec seront repris.');}catch(e){error=e.message;}finally{clearInterval(heartbeat);}
+ return store.transaction(async tx=>{const j=await tx.get('publication_jobs',job.id);if(j.leaseToken!==job.leaseToken)return j;j.status=error?(j.attempts<3?'queued':'failed'):'completed';j.error=error||null;j.reportId=result?.id||(await tx.get('drive_publications',job.id))?.id||null;j.leaseUntil=null;j.availableAt=new Date(Date.now()+Math.min(300000,30000*j.attempts)).toISOString();j.finishedAt=error?null:now();await tx.put('publication_jobs',j);return j;});
+}
+export async function retryPublicationJob(store,id,actor,input){requireValue(input.confirmed===true,'Confirmez la reprise.');return store.transaction(async tx=>{const job=await scoped(tx,'publication_jobs',id,actor);requireValue(job.status==='failed','Seuls les traitements en échec peuvent être repris.');job.status='queued';job.attempts=0;job.availableAt=now();await tx.put('publication_jobs',job);await tx.audit(actor,'drive.retry_queued',id);return job;});}

@@ -1,0 +1,665 @@
+{
+  "meta": {
+    "schemaVersion": 1,
+    "packageVersion": "1.0.0",
+    "createdOn": "2026-10-05",
+    "locale": "fr-FR",
+    "product": "Tween Teach",
+    "module": "World Arcade",
+    "kind": "integration_design_corpus",
+    "notRuntimeConfiguration": true,
+    "hostRepositoryInspected": false,
+    "noProductionUsersIncluded": true
+  },
+  "principles": [
+    "Préserver les identités, sauvegardes, notes et permissions du dépôt hôte.",
+    "La référence HTML est une démonstration à porter, pas une source de données métier.",
+    "Aucun faux score, aucune fausse présence, aucun fallback démo en production.",
+    "Distinguer grade durable, classement ponctuel et évaluation scolaire.",
+    "Le corpus ne peut accorder ni rôle, ni accès, ni XP.",
+    "Les textes et contrôles sont du vrai DOM accessible, jamais une capture cliquable.",
+    "La communauté ne reçoit pas l’annuaire scolaire."
+  ],
+  "design": {
+    "source": "FRONT_REFERENCE/World_Arcade_Frontend/css/styles.css",
+    "palette": {
+      "background": "#0B0B13",
+      "panel": "#11111D",
+      "panelRaised": "#171722",
+      "text": "#F7F3FA",
+      "textMuted": "#9692A9",
+      "border": "#2B293B",
+      "pink": "#FF5078",
+      "cyan": "#60DCF5",
+      "purple": "#A292FB",
+      "gold": "#EDD08A"
+    },
+    "typography": {
+      "bodyReference": [
+        "Space Grotesk",
+        "Arial",
+        "sans-serif"
+      ],
+      "displayReference": [
+        "Barlow Condensed",
+        "Impact",
+        "Arial Narrow",
+        "sans-serif"
+      ],
+      "pixelReference": [
+        "Silkscreen",
+        "Courier New",
+        "monospace"
+      ],
+      "fontFilesIncluded": false,
+      "externalFontLoadingByDefault": false,
+      "hostApprovedFontPolicyHasPriority": true
+    },
+    "layout": {
+      "desktop": "sidebar + city and two cabinets + top5 and players",
+      "tablet": "adapt columns without shrinking reading",
+      "mobile": "stacked cabinets, compact navigation, rankings and players below",
+      "referenceSidebarWidthPx": 186,
+      "touchTargetGoalPx": 44,
+      "minimumTestWidthPx": 360,
+      "testViewports": [
+        [
+          1440,
+          1050
+        ],
+        [
+          1280,
+          720
+        ],
+        [
+          768,
+          1024
+        ],
+        [
+          390,
+          844
+        ],
+        [
+          360,
+          800
+        ]
+      ],
+      "globalCssImportAllowed": false,
+      "recommendedNamespace": "world-arcade"
+    },
+    "motion": {
+      "soundDefault": false,
+      "soundRequiresExplicitInteraction": true,
+      "respectSystemReducedMotion": true,
+      "decorativeTransitionGoalMs": 180,
+      "crtCanBeDisabled": true,
+      "stopEffectsOnUnmount": true
+    },
+    "prohibited": [
+      "screenshot-as-clickable-ui",
+      "generic-flat-saas-cards-replacing-cabinets",
+      "system-metadata-in-player-ui",
+      "fake-online-count",
+      "stock-watermark-in-production",
+      "font-binaries-in-delivery"
+    ]
+  },
+  "screenFlow": {
+    "firstScreen": "entry",
+    "startTarget": "lobby",
+    "authenticationRequiredToBrowseCatalog": false,
+    "existingSessionReused": true,
+    "returnFromGameTarget": "lobby",
+    "forcedSplashOnDeepLink": false,
+    "screens": [
+      {
+        "id": "entry",
+        "specId": "WA-01",
+        "mainAction": "entry.start",
+        "roles": "catalog viewers",
+        "states": [
+          "ready"
+        ]
+      },
+      {
+        "id": "lobby",
+        "specId": "WA-02",
+        "mainAction": "game.play",
+        "roles": "catalog viewers",
+        "states": [
+          "loading",
+          "ready",
+          "partial",
+          "unavailable"
+        ]
+      },
+      {
+        "id": "players",
+        "specId": "WA-03",
+        "mainAction": "players.more",
+        "roles": "server-authorized scope",
+        "states": [
+          "loading",
+          "ready",
+          "empty",
+          "no_match",
+          "forbidden",
+          "error"
+        ]
+      },
+      {
+        "id": "leaderboard",
+        "specId": "WA-04",
+        "mainAction": "shared.retry",
+        "roles": "server-authorized scope",
+        "states": [
+          "loading",
+          "ready",
+          "empty",
+          "unavailable",
+          "forbidden",
+          "error"
+        ]
+      },
+      {
+        "id": "profile",
+        "specId": "WA-05",
+        "mainAction": "profile.save",
+        "roles": "current account only",
+        "states": [
+          "sign_in_required",
+          "loading",
+          "ready",
+          "saving",
+          "saved",
+          "error"
+        ]
+      },
+      {
+        "id": "ranks",
+        "specId": "WA-06",
+        "mainAction": "shared.back",
+        "roles": "published catalog viewers",
+        "states": [
+          "loading",
+          "ready",
+          "unavailable"
+        ]
+      },
+      {
+        "id": "settings",
+        "specId": "WA-07",
+        "mainAction": "shared.back",
+        "roles": "current viewer",
+        "states": [
+          "ready"
+        ]
+      },
+      {
+        "id": "auth",
+        "specId": "WA-08",
+        "mainAction": "auth.signInAction",
+        "roles": "guest or expired session",
+        "states": [
+          "ready",
+          "submitting",
+          "request_accepted",
+          "verification_pending",
+          "error",
+          "closed"
+        ]
+      },
+      {
+        "id": "launch",
+        "specId": "WA-09",
+        "mainAction": "game.play",
+        "roles": "server-authorized game access",
+        "states": [
+          "requesting",
+          "ready",
+          "auth_required",
+          "verification_required",
+          "locked",
+          "unavailable",
+          "error"
+        ]
+      },
+      {
+        "id": "player_detail",
+        "specId": "WA-10",
+        "mainAction": "shared.close",
+        "roles": "server-authorized profile projection",
+        "states": [
+          "loading",
+          "ready",
+          "forbidden",
+          "error"
+        ]
+      }
+    ]
+  },
+  "ui": {
+    "entry": {
+      "title": "World Arcade",
+      "start": "Commencer",
+      "keyboardHint": "ou appuie sur Entrée",
+      "signIn": "Se connecter",
+      "signUp": "Créer un compte"
+    },
+    "navigation": {
+      "games": "Jeux",
+      "players": "Joueurs",
+      "leaderboard": "Classement",
+      "profile": "Mon profil",
+      "ranks": "Grades",
+      "settings": "Réglages",
+      "backToArcade": "Retour à l’arcade",
+      "backToHost": "Retour à Tween Teach"
+    },
+    "lobby": {
+      "title": "Choisis ton monde",
+      "playersTitle": "Joueurs",
+      "allPlayers": "Voir les joueurs",
+      "topFiveTitle": "Top 5"
+    },
+    "game": {
+      "play": "Jouer",
+      "resume": "Reprendre",
+      "opening": "Ouverture…",
+      "unavailable": "Indisponible",
+      "locked": "Verrouillé",
+      "retry": "Réessayer",
+      "signInRequired": "Connecte-toi pour jouer.",
+      "verifyRequired": "Vérifie ton adresse e-mail pour continuer.",
+      "unavailableMessage": "Ce monde n’est pas disponible pour le moment.",
+      "lockedMessage": "Ce monde n’est pas encore accessible.",
+      "launchFailure": "Le jeu n’a pas pu s’ouvrir. Réessaie.",
+      "saveConfirmed": "Partie enregistrée.",
+      "saveUnconfirmed": "Ta progression n’a pas encore été enregistrée.",
+      "leave": "Quitter le jeu",
+      "fullscreen": "Plein écran",
+      "pause": "Pause",
+      "continue": "Continuer"
+    },
+    "players": {
+      "title": "Joueurs",
+      "searchLabel": "Rechercher un joueur",
+      "searchPlaceholder": "Rechercher un pseudo",
+      "myClass": "Ma classe",
+      "community": "Communauté",
+      "chooseScope": "Choisir un groupe",
+      "more": "Voir plus de joueurs",
+      "none": "Aucun joueur à afficher.",
+      "noMatch": "Aucun joueur ne correspond à ta recherche.",
+      "loading": "Chargement des joueurs…",
+      "loadFailure": "Les joueurs ne peuvent pas être affichés pour le moment.",
+      "noPermission": "Cette liste n’est pas accessible.",
+      "sortHandle": "Par pseudo",
+      "sortRank": "Par grade",
+      "profileUnavailable": "Ce profil n’est pas accessible."
+    },
+    "leaderboard": {
+      "title": "Top 5",
+      "periodLabel": "Période",
+      "gameLabel": "Jeu",
+      "scopeLabel": "Groupe",
+      "week": "Cette semaine",
+      "month": "Ce mois-ci",
+      "allTime": "Depuis le début",
+      "myPosition": "Ta place",
+      "noEntries": "Aucun score pour le moment.",
+      "unavailable": "Le classement n’est pas disponible pour le moment.",
+      "loading": "Chargement du classement…",
+      "score": "Score",
+      "grade": "Grade",
+      "tied": "Ex æquo",
+      "tieLimitExplanation": "Le tableau affiche cinq joueurs maximum, y compris en cas d’égalité."
+    },
+    "profile": {
+      "title": "Mon profil",
+      "handleLabel": "Pseudo",
+      "avatarLabel": "Avatar",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "saved": "Profil enregistré.",
+      "saveFailed": "Le profil n’a pas été enregistré. Réessaie.",
+      "rankLabel": "Ton grade",
+      "rankMissing": "Ton grade n’est pas encore disponible.",
+      "visibilityLabel": "Visibilité du profil",
+      "private": "Privé",
+      "community": "Visible dans la communauté",
+      "publicParticipation": "Participer au classement de la communauté",
+      "visibilityPending": "La visibilité publique n’est pas disponible pour ce compte.",
+      "updateAvatar": "Choisir un avatar",
+      "noFullNameHint": "Utilise un pseudo, pas ton nom complet."
+    },
+    "ranks": {
+      "title": "Grades",
+      "unavailable": "Les grades ne sont pas disponibles pour le moment.",
+      "current": "Ton grade",
+      "next": "Prochain grade",
+      "notSameAsPosition": "Le grade et la place au classement sont différents."
+    },
+    "auth": {
+      "signInTitle": "Connexion",
+      "signUpTitle": "Créer un compte",
+      "emailLabel": "Adresse e-mail",
+      "identifierLabel": "Identifiant",
+      "passwordLabel": "Mot de passe",
+      "confirmAction": "Créer mon compte",
+      "signInAction": "Se connecter",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "invalidCredentials": "Connexion impossible. Vérifie tes identifiants.",
+      "requestAccepted": "Si l’adresse peut être utilisée, tu recevras les instructions pour continuer.",
+      "requestFailed": "La demande n’a pas pu être envoyée. Réessaie.",
+      "verifyTitle": "Vérifie ton adresse e-mail",
+      "resend": "Renvoyer les instructions",
+      "emailVerified": "Adresse e-mail vérifiée.",
+      "resetAccepted": "Si un compte correspond à cette adresse, tu recevras les instructions de récupération.",
+      "signOut": "Se déconnecter",
+      "signOutFailure": "La déconnexion n’a pas abouti. Réessaie.",
+      "registrationClosed": "Les inscriptions ne sont pas ouvertes pour le moment.",
+      "tooManyAttempts": "Trop de tentatives. Réessaie plus tard.",
+      "sessionExpired": "Ta session a expiré. Reconnecte-toi pour continuer.",
+      "privacyLink": "Confidentialité",
+      "termsLink": "Conditions d’utilisation"
+    },
+    "settings": {
+      "title": "Réglages",
+      "sound": "Son de l’arcade",
+      "reducedMotion": "Réduire les animations",
+      "crt": "Effet écran rétro",
+      "soundOn": "Activer le son",
+      "soundOff": "Couper le son"
+    },
+    "shared": {
+      "close": "Fermer",
+      "back": "Retour",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "loading": "Chargement…",
+      "retry": "Réessayer",
+      "offline": "Connexion interrompue. Réessaie quand le réseau est disponible.",
+      "accessDenied": "Cet espace n’est pas accessible.",
+      "skipToContent": "Aller au contenu",
+      "notAvailable": "Indisponible"
+    }
+  },
+  "games": [
+    {
+      "id": "code-station",
+      "title": "Code Station",
+      "displayTitle": "CODE STATION",
+      "order": 1,
+      "accentToken": "cyan",
+      "imageAssetId": "code-station-screen",
+      "description": "Le signal est perdu. À toi de rallumer la station.",
+      "runtimeBinding": {
+        "hostGameId": null,
+        "route": null,
+        "status": "must_resolve_in_host",
+        "demoFallbackInProduction": false
+      },
+      "resumeExistingSave": true,
+      "preserveHostUnlocks": true
+    },
+    {
+      "id": "cyber-funk",
+      "title": "Cyber Funk 3026",
+      "displayTitle": "CYBER FUNK 3026",
+      "order": 2,
+      "accentToken": "pink",
+      "imageAssetId": "cyber-funk-screen",
+      "description": "La ville ne dort jamais. Trouve ton propre chemin.",
+      "runtimeBinding": {
+        "hostGameId": null,
+        "route": null,
+        "status": "must_resolve_in_host",
+        "demoFallbackInProduction": false
+      },
+      "resumeExistingSave": true,
+      "preserveHostUnlocks": true
+    }
+  ],
+  "rankReference": {
+    "status": "visual_proposal_not_validated_business_rules",
+    "source": "FRONT_REFERENCE/World_Arcade_Frontend/js/data.js",
+    "existingHostCatalogueHasPriority": true,
+    "userConfirmedNaming": [
+      "Rookie",
+      "Explorer"
+    ],
+    "displayRenameProposal": {
+      "legacyLabel": "Scout",
+      "newLabel": "Explorer",
+      "preservePersistentId": true
+    },
+    "divisions": [
+      "I",
+      "II",
+      "III"
+    ],
+    "automaticPromotionEnabled": false,
+    "resetProgressOnPrestige": false,
+    "ranks": [
+      {
+        "id": "rookie",
+        "label": "Rookie",
+        "order": 1,
+        "color": "#B9A4FF",
+        "xpThreshold": null
+      },
+      {
+        "id": "explorer",
+        "label": "Explorer",
+        "order": 2,
+        "color": "#61DCFF",
+        "xpThreshold": null
+      },
+      {
+        "id": "operator",
+        "label": "Operator",
+        "order": 3,
+        "color": "#64E5AD",
+        "xpThreshold": null
+      },
+      {
+        "id": "specialist",
+        "label": "Specialist",
+        "order": 4,
+        "color": "#EDCD7F",
+        "xpThreshold": null
+      },
+      {
+        "id": "vanguard",
+        "label": "Vanguard",
+        "order": 5,
+        "color": "#FF9873",
+        "xpThreshold": null
+      },
+      {
+        "id": "elite",
+        "label": "Elite",
+        "order": 6,
+        "color": "#EB9AE6",
+        "xpThreshold": null
+      },
+      {
+        "id": "phantom",
+        "label": "Phantom",
+        "order": 7,
+        "color": "#ABA7FF",
+        "xpThreshold": null
+      },
+      {
+        "id": "legend",
+        "label": "Legend",
+        "order": 8,
+        "color": "#FFDB8B",
+        "xpThreshold": null
+      },
+      {
+        "id": "prestige",
+        "label": "Prestige",
+        "order": 9,
+        "color": "#FA7696",
+        "xpThreshold": null
+      }
+    ]
+  },
+  "policies": {
+    "configurationStatus": "proposed_safe_defaults_map_to_existing_host_policy",
+    "identity": {
+      "reuseHostAuth": true,
+      "duplicateSchoolAccounts": false,
+      "publicRoleGrantedBy": "server",
+      "clientRoleFieldAllowed": false,
+      "passwordPolicySource": "host_authentication_configuration",
+      "persistPasswordOrEmailInLocalStorage": false
+    },
+    "privacy": {
+      "publicSchoolDirectory": false,
+      "publicProfileDefault": "private",
+      "publicStudentParticipationDefault": false,
+      "guestDirectoryAccessDefault": false,
+      "showPresenceDefault": false,
+      "allowedPublicProfileFields": [
+        "publicId",
+        "handle",
+        "avatarId",
+        "grade",
+        "approvedPublicAchievements"
+      ],
+      "disallowedPublicProfileFields": [
+        "email",
+        "fullName",
+        "dateOfBirth",
+        "className",
+        "classId",
+        "schoolName",
+        "schoolId",
+        "schoolMarks",
+        "lastSeenAt"
+      ],
+      "publicOpeningRequiresApprovedMinorPolicy": true
+    },
+    "players": {
+      "serverScopeFiltering": true,
+      "serverPagination": true,
+      "suggestedPageSize": 24,
+      "countOnlyVisiblePlayers": true,
+      "neverImportDemoPlayers": true
+    },
+    "leaderboard": {
+      "maxRows": 5,
+      "clientAndServerLimit": true,
+      "returnPaginationCursor": false,
+      "personalPositionOutsideTopFive": "private_separate_summary",
+      "metricsSource": "approved_host_metric",
+      "combineGamesOnlyWithApprovedCommonMetric": true,
+      "clientAwardEventsTrusted": false,
+      "demoXpAllowed": false,
+      "fallbackScoresAllowed": false,
+      "periodsOfferedOnlyIfSupportedByHost": true,
+      "proposedPeriods": [
+        "week",
+        "month",
+        "all_time"
+      ],
+      "proposedTimeZoneIfMissing": "Europe/Paris",
+      "newTimeZoneRequiresValidation": true,
+      "tiePresentationProposal": {
+        "order": [
+          "score_desc",
+          "stable_opaque_player_key_asc"
+        ],
+        "displayCompetitionRank": true,
+        "topFiveRemainsFiveRows": true
+      }
+    },
+    "rewards": {
+      "authority": "host_server_validator",
+      "noAwardOnClientFinishedFlag": true,
+      "deduplicateByStableBusinessAwardKey": true,
+      "transactionOrEquivalentRequired": true,
+      "clientIdempotencyKeyAloneIsInsufficient": true,
+      "noDemoToProductionProgressMigration": true
+    },
+    "activation": {
+      "newUiDefault": "off_until_internal_recipe_passes",
+      "preserveExistingUiUntilReplacementWorks": true,
+      "newPublicRegistrationDefault": false,
+      "newCommunityDirectoryDefault": false,
+      "newCommunityLeaderboardDefault": false,
+      "productionDemoModeAllowed": false,
+      "publicOpeningGates": [
+        "host_auth_connected",
+        "verification_email_provider_ready",
+        "password_recovery_ready",
+        "abuse_protection_tested",
+        "server_scope_permissions_tested",
+        "minor_privacy_policy_approved",
+        "no_prototype_auth_handler",
+        "publication_authorized"
+      ]
+    }
+  },
+  "decisionsToResolve": [
+    {
+      "id": "D01",
+      "subject": "Routes, framework et points d’entrée hôtes",
+      "status": "inspect_repository",
+      "safeFallback": "Adapter au dépôt sans le reconstruire."
+    },
+    {
+      "id": "D02",
+      "subject": "Moteur Code Station et sauvegardes",
+      "status": "inspect_repository",
+      "safeFallback": "Carte indisponible si moteur introuvable ; ne pas brancher la mini-démo."
+    },
+    {
+      "id": "D03",
+      "subject": "Moteur Cyber Funk 3026 et sauvegardes",
+      "status": "inspect_repository",
+      "safeFallback": "Carte indisponible si moteur introuvable ; ne pas brancher la mini-démo."
+    },
+    {
+      "id": "D04",
+      "subject": "Catalogue métier des grades et conditions de passage",
+      "status": "reuse_existing_or_seek_approval",
+      "safeFallback": "Aucun seuil XP ni grade personnel inventé."
+    },
+    {
+      "id": "D05",
+      "subject": "Validation serveur et métriques de classement",
+      "status": "reuse_existing_or_seek_approval",
+      "safeFallback": "Jeu hors classement si score non vérifiable ; pas de métrique arbitraire."
+    },
+    {
+      "id": "D06",
+      "subject": "Périmètres classe/établissement/communauté",
+      "status": "inspect_repository",
+      "safeFallback": "Refus des données scolaires hors périmètre autorisé."
+    },
+    {
+      "id": "D07",
+      "subject": "Inscription publique, e-mail, mineurs et confidentialité",
+      "status": "reuse_existing_or_seek_approval",
+      "safeFallback": "Ouverture publique désactivée ; connexion existante préservée."
+    },
+    {
+      "id": "D08",
+      "subject": "Périodes et fuseau du classement",
+      "status": "reuse_existing_or_seek_approval",
+      "safeFallback": "N’afficher que les périodes calculables par le serveur."
+    },
+    {
+      "id": "D09",
+      "subject": "Polices autorisées et politique de chargement",
+      "status": "inspect_repository",
+      "safeFallback": "Polices déjà autorisées ou système, sans nouveau CDN."
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "kind": {
+      "enum": [
+        "baseline",
+        "previous_lesson"
+      ]
+    },
+    "sourceLessonRunId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sourceLessonVersion": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "duration": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 20
+    },
+    "criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9_.:-]+$"
+          },
+          "type": {
+            "enum": [
+              "WriteResponse",
+              "CodeEditor",
+              "Quiz",
+              "Matching",
+              "FillBlank",
+              "Terminal",
+              "Preview",
+              "Reflection",
+              "Submission",
+              "CodeStationLauncher",
+              "TruthTable",
+              "CircuitExercise",
+              "DragDrop",
+              "Console",
+              "TestRunner",
+              "FileExplorer",
+              "MasteryCheck",
+              "Simulator",
+              "Blackboard"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "instruction": {
+            "type": "string"
+          },
+          "objective": {
+            "type": "string"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expectedEvidence": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "correctionMode": {
+            "enum": [
+              "manual",
+              "exact",
+              "javascript",
+              "structured",
+              "html",
+              "css",
+              "sql",
+              "rubric",
+              "none"
+            ]
+          },
+          "expectedAnswer": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string"
+          },
+          "starter": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoke": {
+                  "type": "string"
+                },
+                "argsJSON": {
+                  "type": "string"
+                },
+                "expectedJSON": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "invoke",
+                "argsJSON",
+                "expectedJSON"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "workshop": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "language": {
+                "enum": [
+                  "javascript",
+                  "html",
+                  "css",
+                  "sql",
+                  "text"
+                ]
+              },
+              "document": {
+                "type": "string"
+              },
+              "style": {
+                "type": "string"
+              },
+              "hints": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "prediction": {
+                "type": "string"
+              },
+              "board": {
+                "enum": [
+                  "01-parent",
+                  "02-axes",
+                  "03-espace-libre",
+                  "04-aligner",
+                  "05-espaces",
+                  "06-une-regle",
+                  "07-deboguer",
+                  "08-refaire"
+                ]
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "title",
+          "instruction",
+          "objective",
+          "skills",
+          "expectedEvidence",
+          "duration",
+          "required",
+          "correctionMode",
+          "expectedAnswer",
+          "reference",
+          "starter",
+          "options",
+          "tests"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 2,
+      "maxItems": 4
+    },
+    "rubric": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "criterion": {
+            "type": "string"
+          },
+          "taskId": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "max": {
+            "type": "number",
+            "minimum": 0
+          },
+          "a1": {
+            "type": "number"
+          },
+          "a2": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "criterion",
+          "taskId",
+          "label",
+          "max",
+          "a1",
+          "a2"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "sourceLessonRunId",
+    "sourceLessonVersion",
+    "duration",
+    "criteria",
+    "tasks",
+    "rubric"
+  ],
+  "additionalProperties": false
+}

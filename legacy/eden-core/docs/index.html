@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#62c6c7">
+<meta name="description" content="Un parcours EDEN School guidé : comprendre le démarrage, le système d’exploitation et l’exécution du code.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' blob:; worker-src blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>EDEN · Mon atelier système</title>
+<link rel="icon" href="assets/icons/power.png"><link rel="stylesheet" href="app/style.css"><link rel="stylesheet" href="app/pcsim/style.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Aller à l’activité</a>
+<header class="topbar"><a class="brand" href="#accueil" aria-label="Accueil de mon atelier"><img src="assets/eden_logo.png" alt="EDEN School" width="96"><span class="brand-sep"></span><span>Mon atelier <strong>système</strong></span></a><div class="top-actions"><span id="save-state" class="save-state" role="status">Sur ce navigateur</span><button class="icon-button" data-action="menu" aria-label="Afficher le programme" id="menu-button">Programme</button><button class="quiet-button" data-action="tools">Mon espace</button></div></header>
+<div id="warning" role="status" hidden></div>
+<div id="app"><main id="main"><h1>Ton atelier se prépare…</h1><p>Chargement du parcours.</p></main></div>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<dialog id="modal" aria-labelledby="modal-title"><div id="modal-content"></div></dialog>
+<noscript><main class="nojs"><h1>JavaScript est désactivé.</h1><p>Active-le pour les jeux et la progression. La fiche finale reste disponible en PDF.</p><a href="resources/fiche-recap.pdf">Lire la fiche</a></main></noscript>
+<script type="module" src="app/app.js"></script>
+</body></html>

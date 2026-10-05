@@ -1,0 +1,9 @@
+
+> eden-teacher-twin@1.1.0 build
+> npm run check
+
+
+> eden-teacher-twin@1.1.0 check
+> node scripts/check.mjs
+
+Syntax checks, strict schema exports, database DDL, and Drive primitive preservation passed.

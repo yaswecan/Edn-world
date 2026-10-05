@@ -1,0 +1,52 @@
+
+> eden-teacher-twin@1.1.0 test:visual
+> playwright test --config playwright.lesson.config.mjs
+
+[2m[WebServer] [22m(node:70449) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 28 tests using 1 worker
+
+(node:70455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:70455) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/visual/lesson.spec.mjs:9:1 › all lesson phases have stable desktop and mobile rendering (4.3s)
+  ✓   2 [desktop] › tests/visual/lesson.spec.mjs:19:1 › answers persist between steps, hints work by keyboard, progress reflects completion (591ms)
+  ✓   3 [desktop] › tests/visual/lesson.spec.mjs:29:1 › key components have visual snapshots and controls have accessible names (757ms)
+  ✓   4 [desktop] › tests/visual/lesson.spec.mjs:38:1 › Today uses the production renderer, gates the diagnostic, saves and resumes (1.7s)
+  ✓   5 [desktop] › tests/visual/lesson.spec.mjs:80:1 › Flexbox diagnostic offers working HTML/CSS exercises on desktop and mobile (1.0s)
+  ✓   6 [desktop] › tests/visual/student-copy.spec.mjs:20:1 › student login: minimal form, role switching, keyboard and useful errors (652ms)
+  ✓   7 [desktop] › tests/visual/student-copy.spec.mjs:31:1 › empty student session has a truthful short message and logout (315ms)
+  ✓   8 [desktop] › tests/visual/student-copy.spec.mjs:36:1 › save, send failure and successful receipt reflect confirmed responses; assessment gate stays (1.5s)
+  ✓   9 [desktop] › tests/visual/student-copy.spec.mjs:48:1 › result modal preserves NE, zero, levels, feedback and missing submission (1.2s)
+  ✓  10 [desktop] › tests/visual/student-copy.spec.mjs:58:1 › embedded game preserves mission identity, code console, resources and avoids premature save claims (616ms)
+  ✓  11 [desktop] › tests/visual/student-copy.spec.mjs:72:1 › a delayed save never confirms edits made after the request (441ms)
+  ✓  12 [desktop] › tests/visual/workshops.spec.mjs:5:1 › generated Flexbox: real code preview and tests, laboratory experiments, drawing and persisted answers (1.3s)
+  ✓  13 [desktop] › tests/visual/workshops.spec.mjs:22:1 › generated workshops remain readable at desktop and mobile sizes (1.8s)
+  ✓  14 [desktop] › tests/visual/workshops.spec.mjs:31:1 › published lesson saves workshop answers and restores them after a submitted diagnostic and reload (1.3s)
+(node:70591) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:70591) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  15 [mobile] › tests/visual/lesson.spec.mjs:9:1 › all lesson phases have stable desktop and mobile rendering (1.5s)
+  ✓  16 [mobile] › tests/visual/lesson.spec.mjs:19:1 › answers persist between steps, hints work by keyboard, progress reflects completion (518ms)
+  ✓  17 [mobile] › tests/visual/lesson.spec.mjs:29:1 › key components have visual snapshots and controls have accessible names (687ms)
+  ✓  18 [mobile] › tests/visual/lesson.spec.mjs:38:1 › Today uses the production renderer, gates the diagnostic, saves and resumes (1.2s)
+  ✓  19 [mobile] › tests/visual/lesson.spec.mjs:80:1 › Flexbox diagnostic offers working HTML/CSS exercises on desktop and mobile (670ms)
+  ✓  20 [mobile] › tests/visual/student-copy.spec.mjs:20:1 › student login: minimal form, role switching, keyboard and useful errors (365ms)
+  ✓  21 [mobile] › tests/visual/student-copy.spec.mjs:31:1 › empty student session has a truthful short message and logout (251ms)
+  ✓  22 [mobile] › tests/visual/student-copy.spec.mjs:36:1 › save, send failure and successful receipt reflect confirmed responses; assessment gate stays (1.2s)
+  ✓  23 [mobile] › tests/visual/student-copy.spec.mjs:48:1 › result modal preserves NE, zero, levels, feedback and missing submission (973ms)
+  ✓  24 [mobile] › tests/visual/student-copy.spec.mjs:58:1 › embedded game preserves mission identity, code console, resources and avoids premature save claims (546ms)
+  ✓  25 [mobile] › tests/visual/student-copy.spec.mjs:72:1 › a delayed save never confirms edits made after the request (385ms)
+  ✓  26 [mobile] › tests/visual/workshops.spec.mjs:5:1 › generated Flexbox: real code preview and tests, laboratory experiments, drawing and persisted answers (1.2s)
+  ✓  27 [mobile] › tests/visual/workshops.spec.mjs:22:1 › generated workshops remain readable at desktop and mobile sizes (1.2s)
+  ✓  28 [mobile] › tests/visual/workshops.spec.mjs:31:1 › published lesson saves workshop answers and restores them after a submitted diagnostic and reload (1.2s)
+
+  28 passed (33.5s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report test-results/lesson-report[39m
+[36m[39m

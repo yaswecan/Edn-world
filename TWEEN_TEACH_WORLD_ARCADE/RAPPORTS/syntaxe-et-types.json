@@ -1,0 +1,68 @@
+{
+  "scope": "static_checks_only",
+  "commands": [
+    {
+      "command": [
+        "tsc",
+        "--noEmit",
+        "--strict",
+        "--lib",
+        "es2022,dom",
+        "/mnt/data/TWEEN_TEACH_WORLD_ARCADE/CONTRATS/arcade-host-contract.ts"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/mnt/data/TWEEN_TEACH_WORLD_ARCADE/FRONT_REFERENCE/World_Arcade_Frontend/js/app.js"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/mnt/data/TWEEN_TEACH_WORLD_ARCADE/FRONT_REFERENCE/World_Arcade_Frontend/js/data.js"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/mnt/data/TWEEN_TEACH_WORLD_ARCADE/FRONT_REFERENCE/World_Arcade_Frontend/js/games.js"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "/mnt/data/TWEEN_TEACH_WORLD_ARCADE/CONTRATS/launcher-bridge.mjs"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python",
+        "ast.parse",
+        "all-pack-python-files"
+      ],
+      "returncode": 0,
+      "stdout": "All Python sources parsed successfully. No bytecode generated.",
+      "stderr": ""
+    }
+  ]
+}

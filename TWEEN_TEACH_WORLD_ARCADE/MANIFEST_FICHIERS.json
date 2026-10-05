@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "hashAlgorithm": "SHA-256",
+  "notAnAuthenticitySignature": true,
+  "excluded": [
+    "MANIFEST_FICHIERS.json",
+    "SUIVI/**",
+    "RAPPORTS/pack-validation.json",
+    "RAPPORTS/pack-validation.log"
+  ],
+  "files": [
+    {
+      "path": "00_LIRE_DABORD.md",
+      "bytes": 5657,
+      "sha256": "6cd51822336629640d7865cd2095fab1ee8ee9e71842ebebb23bbbd4b59e0494"
+    },
+    {
+      "path": "01_PROMPT_CODEX_INTEGRATION.md",
+      "bytes": 12774,
+      "sha256": "20ba9f9c82f6a594541f6d1fccb0efda7fd4c64f0f0a4d3e9889e4b149622bf3"
+    },
+    {
+      "path": "02_SPECIFICATION_COMPLETE.md",
+      "bytes": 22020,
+      "sha256": "e28f86807699c2e53884321ffa1a2b6e6c7c8a4b57f026c6ad52cee082926884"
+    },
+    {
+      "path": "03_PLAN_IMPLEMENTATION_ET_RECETTE.md",
+      "bytes": 13497,
+      "sha256": "2aca8980edd68e3a84ba2088e0e885ae24518325476c81927b3a7923c339c922"
+    },
+    {
+      "path": "04_AUDIT_FRONT_FOURNI.md",
+      "bytes": 6579,
+      "sha256": "b16dcfcd5e14fd49f8e5231d264fc5b9a11d277584b5b7199763bd7d6435349f"
+    },
+    {
+      "path": "05_SOURCES_ET_PROVENANCE.md",
+      "bytes": 5196,
+      "sha256": "1c52611a6c419b18dff822110e4510c1c3cb9feabef2986631d3fff9fed49464"
+    },
+    {
+      "path": "06_PROMPT_CODEX_REVIEW.md",
+      "bytes": 3226,
+      "sha256": "892dc01e980dd3390c68f987a3d6a47830e9c737b89a252d21cbd63b7f1d806d"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 1713,
+      "sha256": "5a3d018d7ccc67aaaa0eaf4091705b7e5ea3459e72fc5400658263926db53aec"
+    },
+    {
+      "path": "CONTRATS/README.md",
+      "bytes": 2488,
+      "sha256": "65ef10ab545def5449e967b14c20e7932850ffc262c160bf600e53cf1a7b6624"
+    },
+    {
+      "path": "CONTRATS/arcade-host-contract.ts",
+      "bytes": 5656,
+      "sha256": "ac717832f8f9a531f224c4369cefe2b530ab062621913c73faa1b79c7eaba644"
+    },
+    {
+      "path": "CONTRATS/launcher-bridge.mjs",
+      "bytes": 5027,
+      "sha256": "a9da8fbc59d2fbaaea95929f69f274fe8e3a9a435875ce8ed859c06b319dfe57"
+    },
+    {
+      "path": "CORPUS/README.md",
+      "bytes": 2009,
+      "sha256": "c5632177d3ab49d1b0b4eec8ac43ccb957f06288784b01f1ebff8df8484934ab"
+    },
+    {
+      "path": "CORPUS/assets.manifest.json",
+      "bytes": 7802,
+      "sha256": "c8309b3983a075beb97367e5573b5ff8232f5ac6ab4004d44de06a6be386428a"
+    },
+    {
+      "path": "CORPUS/manifest.json",
+      "bytes": 1288,
+      "sha256": "d8d658294adc905cc60fd71ef0d5ea8a187a84066cac13582532f94c52fe20e8"
+    },
+    {
+      "path": "CORPUS/reference-source.manifest.json",
+      "bytes": 8085,
+      "sha256": "fb0c8c8b0c7e7db3fd19d2d2526d1da2ce5e90fbcdcc19831dad77c813bdfd7e"
+    },
+    {
+      "path": "CORPUS/world-arcade.corpus.json",
+      "bytes": 20031,
+      "sha256": "6d4b83f25d49cb554ef4fd334efbd703c64a965ad28d2f8b0dc103abe41b8159"
+    },
+    {
+      "path": "CORPUS/world-arcade.corpus.schema.json",
+      "bytes": 36134,
+      "sha256": "3891d8357636b1b81feba5aa5bb3d9e5b2d53d366b53399bb7fd9001d07bd601"
+    },
+    {
+      "path": "DEMARRER_DANS_CODEX.txt",
+      "bytes": 1030,
+      "sha256": "c7a08e7f9fbe37185d78a07acb83f05a74d1203a917a9b13f83e134d8e5c0c10"
+    },
+    {
+      "path": "FRONT_REFERENCE/WORLD_ARCADE_AUTONOME.html",
+      "bytes": 377942,
+      "sha256": "68b025caeccef18cfe638335b1c81c0442eacdaeff660d6fe04c450ba7cd1d7b"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/README.md",
+      "bytes": 8374,
+      "sha256": "ae8f75e1f5a113cace6498c0426ab49561062ff2332769aadc17e93fcdd08cfa"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/01.webp",
+      "bytes": 3712,
+      "sha256": "6921a35312555f438b7b065863460d85593fbdd7b35a91cceffbba475bc40e59"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/02.webp",
+      "bytes": 3238,
+      "sha256": "d96de1a8cd45aa357ecc3243a50238ba511ada2c43b799a8705a4faf0ae0fb1e"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/03.webp",
+      "bytes": 3928,
+      "sha256": "c5c2567abc869cccd007ec53303db33271716431b9ba0cb982176c94e22e45c5"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/04.webp",
+      "bytes": 3370,
+      "sha256": "a808051a1753c09c183cc711b1a69b49ac437e2397e83fa47cac6496a85fd9c6"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/05.webp",
+      "bytes": 3402,
+      "sha256": "9729dd24dba3c5b7b3fc09d282e4fb66c95ecbc0c87161c7e2c4686de9b409c1"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/06.webp",
+      "bytes": 3470,
+      "sha256": "d06c0af4665b15e6b2782309aeb5a064a0a2dae7a1fe1be373a6033f99a437ab"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/07.webp",
+      "bytes": 3440,
+      "sha256": "2d35987496b9f5c562d2cb96f3a9378f59efe5fd173335c59e77bd2ac4142a71"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/08.webp",
+      "bytes": 3454,
+      "sha256": "f3845bff195445b44b6a79c0780b0712a80994ba80e22cefd39bfc7bc61f438c"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/09.webp",
+      "bytes": 3300,
+      "sha256": "ca4d2a81f9e5033bf5792d4376c3fa414b0836bb03354b817253d76f599095c8"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/10.webp",
+      "bytes": 3208,
+      "sha256": "b14fc00ec9ad6b0f592d1d115d365ed6d080bbea7b4c2eb0fdaf5c8af8c05cd9"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/11.webp",
+      "bytes": 3392,
+      "sha256": "5f74d066e75a37bcf39819389f32c72442224c0af865a0b04017fd6bc6a4f407"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/12.webp",
+      "bytes": 3278,
+      "sha256": "3c90ff3df38d14769ba42cde4415787a038e3a3a80dee36c29ae50bf88924cef"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/13.webp",
+      "bytes": 3814,
+      "sha256": "2b9d765150faaaa393783ad9cb5da22e144770d5a7c94d53abcfe0d952fa2ca7"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/14.webp",
+      "bytes": 3370,
+      "sha256": "db96bd6a3c73b7ef07b804e3416e163c6a579c8742f63ef86438fb31c85327b8"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/15.webp",
+      "bytes": 3622,
+      "sha256": "c6b0eba083326676e0486317bf30e23f20f6414820834808f5c81cbe378ec084"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/city.webp",
+      "bytes": 36630,
+      "sha256": "76a8724db1261c5dd16c8018be696d3a7fb14b373d1c58efb87b31d3b32c54df"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/code-station.webp",
+      "bytes": 30102,
+      "sha256": "027d8f437aec9120e8915dc9dc4189454197ce70b51801ff77926e96622739fd"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/assets/cyber-funk.webp",
+      "bytes": 32780,
+      "sha256": "29cf666d29a4c2511938d20fcfd22509b5555511f6a29d1f0b450d3e50303c49"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/build_standalone.py",
+      "bytes": 1631,
+      "sha256": "6bcd72576fa31d446498ff83c7c703d838008beede3f7a726d902ef77be3dcea"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/css/styles.css",
+      "bytes": 59138,
+      "sha256": "a8727d5abdeeb31e7e7bdc229700a0f9daeb4bf123d867c3edfb1a12005fb847"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/index.html",
+      "bytes": 9779,
+      "sha256": "73b87befa9137aaa451e9947ba75ecd01c909ca812d1643c45eee2440a6fe18b"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/integration/PROMPT_INTEGRATION_TWEENTWEACH.md",
+      "bytes": 5406,
+      "sha256": "1160d01ceff5ca55b3f9631703b7a28b75eb497bcea518968a594bac8bf8e64e"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/integration/launcher-example.js",
+      "bytes": 1367,
+      "sha256": "cc81153dc01c9a1f0216c560f7458994b68add3d342b8c5e588fdcd88bbea686"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/js/app.js",
+      "bytes": 34340,
+      "sha256": "d38c82840651a27cd0ad41a75115bc60727824dda7bdda843303bb45e3fdd78d"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/js/data.js",
+      "bytes": 5206,
+      "sha256": "da010156ee507b0691b402e4ee22fdb7941bd3a5aa973bfb636c05f1be17f88f"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/js/games.js",
+      "bytes": 18214,
+      "sha256": "8dc30bd4fb15eb438ffba8e5379fe271d17451ba5fa559dc4bc5ee6587b5ea10"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/01_accueil_desktop.png",
+      "bytes": 900171,
+      "sha256": "0dbda6f6a7d472809e2543168ffd9020765af0dfae4dbd82b3bb3f3dec8edb05"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/02_arcade_desktop.png",
+      "bytes": 998611,
+      "sha256": "9377669b7772c5a1515d71721db3acfe5ed46ed9fe6850ad56e9772a46a5eebf"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/03_joueurs_desktop.png",
+      "bytes": 614151,
+      "sha256": "fa3ec8f9bbb65f715450e69427cba80d6bc6eb0492553fc14a1a4a6f507eab90"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/04_grades_desktop.png",
+      "bytes": 577306,
+      "sha256": "66b36b50e7730a36228d97a9528f967b4221d6e04b11e0d97605eb1919456192"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/05_inscription_desktop.png",
+      "bytes": 100154,
+      "sha256": "c4213433a5db4543ed6e2e290a0a9c2fa62de78a897429984be510fff4f7ba16"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/06_code_station_demo.png",
+      "bytes": 139378,
+      "sha256": "d9ff9f271d8d70095e600907e38f25be53377ba5322c24973db40e4db9a3ab6e"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/07_cyber_funk_demo.png",
+      "bytes": 178906,
+      "sha256": "8ace78cfbe190ad233e609de60e8c44027db7bab6352f0569ec2b2c04b867ed3"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/08_accueil_mobile.png",
+      "bytes": 228457,
+      "sha256": "001fb4bd5add73400fea99b86c7b1742b5e0ae3bc1780f15d95f4819f426fba2"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/09_arcade_mobile.png",
+      "bytes": 490981,
+      "sha256": "eedd45abc6b4969549baa3699d54c330d7950ad25c0c4b6aa67d3d3a62add24a"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/previews/10_jeu_mobile.png",
+      "bytes": 259658,
+      "sha256": "c74dcea158fb4cfdae056352e1e9b9df8e3aec85d968533c86de3a24bbb40b09"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/tests/results.json",
+      "bytes": 1889,
+      "sha256": "1c7d58a5412202b06f327f79ec7440820da4cb6f48f0900a24cd533e15e86878"
+    },
+    {
+      "path": "FRONT_REFERENCE/World_Arcade_Frontend/tests/smoke_test.py",
+      "bytes": 10869,
+      "sha256": "edf3b38766f2a29b6fc90f6f4b31a3fbf8fd4e1a5629127be337dd32fc287a8f"
+    },
+    {
+      "path": "OUTILS/README.md",
+      "bytes": 1760,
+      "sha256": "22643bd2990760822716d3238f3bddb979d0f6083fcf1cf4e92d7989342d3c80"
+    },
+    {
+      "path": "OUTILS/launcher-bridge.test.mjs",
+      "bytes": 6793,
+      "sha256": "2f7fab7f0332fc2ea8cee66670d2f7504ad0918ad1b37daba6cfa3f084ba62b7"
+    },
+    {
+      "path": "OUTILS/retester_front.py",
+      "bytes": 1880,
+      "sha256": "ca977059f27d6ee747dbb539691a5b38675e1cc6f1988307c1e4b8e357e04982"
+    },
+    {
+      "path": "OUTILS/verifier_pack.py",
+      "bytes": 7924,
+      "sha256": "fd1207f31dcbad2ffc198ecf1282418556bb7c00c9189bc21697c875f65a2fed"
+    },
+    {
+      "path": "RAPPORTS/VALIDATION_LIVRAISON.md",
+      "bytes": 3487,
+      "sha256": "1065d2c323c71e9ad425a07896348fc4b751cea826049c811f848c28c9399a2a"
+    },
+    {
+      "path": "RAPPORTS/launcher-bridge.tap",
+      "bytes": 3664,
+      "sha256": "3b3c22b7cae46878227bd8f389ab34bce76fc011e3ca4763c5dfb72dc55a9747"
+    },
+    {
+      "path": "RAPPORTS/retest_arcade_desktop.png",
+      "bytes": 998611,
+      "sha256": "9377669b7772c5a1515d71721db3acfe5ed46ed9fe6850ad56e9772a46a5eebf"
+    },
+    {
+      "path": "RAPPORTS/retest_front_reference.json",
+      "bytes": 1889,
+      "sha256": "1c7d58a5412202b06f327f79ec7440820da4cb6f48f0900a24cd533e15e86878"
+    },
+    {
+      "path": "RAPPORTS/retest_front_reference.log",
+      "bytes": 1497,
+      "sha256": "385b286d5dbb3003403873264b436f28e87dcec25098b1fcf0e4ed04de2e3e57"
+    },
+    {
+      "path": "RAPPORTS/syntaxe-et-types.json",
+      "bytes": 1475,
+      "sha256": "9162acb390d48eb222dd8db941b71eddabf4959cc142f4ce9fd9e33da3a1ffb8"
+    },
+    {
+      "path": "REFERENCES/01_MAQUETTE_CONCEPT.png",
+      "bytes": 2358583,
+      "sha256": "0240d896e2507faac6f4f393dbcbaac68a991243bf697b5444c8dd6ea7192faf"
+    },
+    {
+      "path": "REFERENCES/02_RENDU_FRONT.png",
+      "bytes": 998611,
+      "sha256": "9377669b7772c5a1515d71721db3acfe5ed46ed9fe6850ad56e9772a46a5eebf"
+    }
+  ]
+}

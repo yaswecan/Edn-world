@@ -1,0 +1,893 @@
+{
+  "id": "R-261001",
+  "title": "Deux règles. Une décision.",
+  "date": "2026-10-01",
+  "skills": [
+    "BC05-C1-1",
+    "BC05-C1-2"
+  ],
+  "reactivation": [
+    "Déclarer et appeler une fonction",
+    "Paramètres et arguments",
+    "console.log",
+    "return et variable"
+  ],
+  "blocks": [
+    {
+      "id": "diagnostic",
+      "title": "Diagnostic fonctions · 20 min",
+      "minutes": 20
+    },
+    {
+      "id": "retour",
+      "title": "Correction flash",
+      "minutes": 5
+    },
+    {
+      "id": "m1",
+      "title": "01 · Vrai ou faux ?",
+      "minutes": 15
+    },
+    {
+      "id": "m2",
+      "title": "02 · Les deux à la fois",
+      "minutes": 15
+    },
+    {
+      "id": "m3",
+      "title": "03 · Au moins un",
+      "minutes": 10
+    },
+    {
+      "id": "pause",
+      "title": "Pause",
+      "minutes": 15
+    },
+    {
+      "id": "m4",
+      "title": "04 · Inverser la réponse",
+      "minutes": 10
+    },
+    {
+      "id": "m5",
+      "title": "05 · Une règle complète",
+      "minutes": 20
+    },
+    {
+      "id": "m6",
+      "title": "06 · Trouver le cas qui casse",
+      "minutes": 15
+    },
+    {
+      "id": "entrainement",
+      "title": "Entraînement · trois niveaux",
+      "minutes": 25
+    },
+    {
+      "id": "pm09",
+      "title": "Point de maîtrise",
+      "minutes": 15
+    },
+    {
+      "id": "bilan",
+      "title": "Bilan et remise",
+      "minutes": 10
+    }
+  ],
+  "steps": [
+    {
+      "id": "diag-demarrer",
+      "title": "1 · Écris. Puis lance.",
+      "task": "Crée annoncerDepart(), sans paramètre. Elle affiche « La partie commence ». Appelle-la une fois.",
+      "minutes": 3,
+      "filename": "depart.js",
+      "exercise": "depart",
+      "starter": "// 1. Déclare annoncerDepart.\n\n// 2. Appelle-la une fois.\n",
+      "checks": [
+        "Déclarer la fonction ne la lance pas.",
+        "La console doit afficher : La partie commence."
+      ],
+      "hints": [
+        "Place console.log dans le corps de la fonction.",
+        "Après la déclaration, écris le nom de la fonction suivi de parenthèses."
+      ],
+      "block": "diagnostic",
+      "kind": "function-code",
+      "diagnostic": true,
+      "practice": true
+    },
+    {
+      "id": "diag-saluer",
+      "title": "2 · Une fonction, deux prénoms.",
+      "task": "Écris saluer(prenom). Elle affiche « Bonjour » suivi du prénom reçu. Appelle-la avec « Nora », puis « Sami ».",
+      "minutes": 4,
+      "filename": "saluer.js",
+      "exercise": "greet",
+      "starter": "// Une seule fonction, deux appels.\n\n",
+      "checks": [
+        "Utilise le paramètre : ne bloque pas le prénom dans la fonction.",
+        "La console doit afficher Bonjour Nora puis Bonjour Sami."
+      ],
+      "hints": [
+        "Le paramètre est un nom dans la déclaration. L’argument est la valeur envoyée lors de l’appel.",
+        "Dans le message, assemble le texte « Bonjour » et la valeur du paramètre. Pense à l’espace."
+      ],
+      "block": "diagnostic",
+      "kind": "function-code",
+      "diagnostic": true,
+      "practice": true
+    },
+    {
+      "id": "diag-doubler",
+      "title": "3 · Renvoie, puis garde.",
+      "task": "Écris doubler(nombre) : elle renvoie le double. Garde le résultat de doubler(6) dans scoreDouble, puis affiche cette variable.",
+      "minutes": 5,
+      "filename": "doubler.js",
+      "exercise": "double",
+      "starter": "// 1. Déclare une fonction qui renvoie le double.\n\n// 2. Récupère son retour dans scoreDouble.\n\n// 3. Affiche cette variable.\n",
+      "checks": [
+        "Le retour doit être un nombre, pas seulement un message.",
+        "scoreDouble doit contenir 12 ; la console doit afficher 12."
+      ],
+      "hints": [
+        "return renvoie une valeur à l’endroit de l’appel. console.log l’affiche, mais ne la renvoie pas.",
+        "Pour garder une valeur renvoyée : déclare une variable et affecte-lui le résultat de l’appel."
+      ],
+      "block": "diagnostic",
+      "kind": "function-code",
+      "diagnostic": true,
+      "practice": true
+    },
+    {
+      "id": "diag-retour",
+      "title": "4 · Réutilise ton résultat.",
+      "task": "Écris additionner(pommes, poires), qui renvoie leur somme. Garde additionner(2, 3) dans total. Réutilise total avec 4 dans un second appel, stocké dans totalSuivant. Affiche les deux variables.",
+      "minutes": 6,
+      "filename": "additionner.js",
+      "exercise": "add",
+      "starter": "// 1. Déclare additionner avec deux paramètres.\n\n// 2. Garde le premier retour dans total.\n\n// 3. Réutilise total : second retour dans totalSuivant.\n\n// 4. Affiche total puis totalSuivant.\n",
+      "checks": [
+        "Chaque appel renvoie la somme des deux arguments reçus.",
+        "La console affiche 5 puis 9 ; le second appel réutilise total."
+      ],
+      "hints": [
+        "Deux paramètres sont séparés par une virgule. La valeur d’une variable peut servir d’argument.",
+        "Pour le second appel, utilise total comme premier argument, et 4 comme second. Le résultat va dans totalSuivant."
+      ],
+      "block": "diagnostic",
+      "kind": "function-code",
+      "diagnostic": true,
+      "practice": true
+    },
+    {
+      "id": "diag-remettre",
+      "block": "diagnostic",
+      "kind": "submit-diagnostic",
+      "title": "5 · Remets tes quatre programmes.",
+      "task": "Relis le bilan des défis. Une copie incomplète est utile aussi : remets ce que tu as réellement écrit. 2 minutes.",
+      "diagnostic": true
+    },
+    {
+      "id": "retour",
+      "block": "retour",
+      "kind": "debrief",
+      "title": "Afficher ≠ renvoyer.",
+      "task": "Après ta remise, compare une fonction qui affiche et une fonction qui renvoie. Explique où est conservé le résultat.",
+      "takeaway": "L’aperçu montre tes valeurs ; la console montre seulement les appels à console.log.",
+      "prompt": "J’affiche avec… Je renvoie avec… Je garde le résultat dans…",
+      "minimum": 8,
+      "diagram": "fonction"
+    },
+    {
+      "id": "bool-seuil",
+      "block": "m1",
+      "kind": "quiz",
+      "title": "Une comparaison pose une question.",
+      "task": "Prévois les résultats. Attention au mot « à partir de ».",
+      "diagram": "seuil",
+      "questions": [
+        {
+          "id": "s1",
+          "text": "19 >= 20",
+          "choices": [
+            "true",
+            "false"
+          ],
+          "answer": "false",
+          "why": "19 n’atteint pas le seuil de 20."
+        },
+        {
+          "id": "s2",
+          "text": "20 >= 20",
+          "choices": [
+            "true",
+            "false"
+          ],
+          "answer": "true",
+          "why": ">= accepte l’égalité."
+        },
+        {
+          "id": "s3",
+          "text": "20 > 20",
+          "choices": [
+            "true",
+            "false"
+          ],
+          "answer": "false",
+          "why": "> refuse l’égalité."
+        },
+        {
+          "id": "s4",
+          "text": "21 >= 20",
+          "choices": [
+            "true",
+            "false"
+          ],
+          "answer": "true",
+          "why": "21 dépasse le seuil."
+        }
+      ],
+      "hint": "Compare d’abord les nombres. Le résultat d’une comparaison est true ou false."
+    },
+    {
+      "id": "bool-traduire",
+      "block": "m1",
+      "kind": "quiz",
+      "title": "De la phrase au test.",
+      "task": "Choisis l’expression qui traduit exactement la règle.",
+      "questions": [
+        {
+          "id": "s5",
+          "text": "Le joueur a au moins 14 points.",
+          "choices": [
+            "points > 14",
+            "points >= 14",
+            "points === 14"
+          ],
+          "answer": "points >= 14",
+          "why": "« Au moins » inclut le seuil et les valeurs au-dessus."
+        },
+        {
+          "id": "s6",
+          "text": "Les deux nombres sont égaux.",
+          "choices": [
+            "a = b",
+            "a === b",
+            "a > b"
+          ],
+          "answer": "a === b",
+          "why": "=== vérifie ici l’égalité de deux nombres ; = affecte une valeur."
+        },
+        {
+          "id": "s7",
+          "text": "Quel mot décrit true et false ?",
+          "choices": [
+            "booléens",
+            "fichiers",
+            "boucles"
+          ],
+          "answer": "booléens",
+          "why": "Un booléen possède deux valeurs possibles : true ou false."
+        }
+      ],
+      "takeaway": "Je donne un nom clair à une condition : aCarte, aReserve, estFerme."
+    },
+    {
+      "id": "et-explorer",
+      "block": "m2",
+      "kind": "circuit",
+      "title": "Deux conditions. Les deux obligatoires.",
+      "task": "La salle s’ouvre avec une carte ET une réservation. Change les deux interrupteurs, prédis, puis teste.",
+      "mode": "AND",
+      "inputs": [
+        "aCarte",
+        "aReserve"
+      ],
+      "labels": [
+        "Carte présente",
+        "Réservation faite"
+      ],
+      "rule": "aCarte && aReserve",
+      "diagram": "et",
+      "minCases": 4,
+      "takeaway": "ET : un seul false suffit à refuser.",
+      "hint": "Essaie aussi carte seule, réservation seule, aucun des deux et les deux."
+    },
+    {
+      "id": "et-table",
+      "block": "m2",
+      "kind": "truth",
+      "title": "Quatre cas, aucun oublié.",
+      "task": "Complète la table de aCarte && aReserve sans rouvrir le schéma.",
+      "mode": "AND",
+      "inputs": [
+        "aCarte",
+        "aReserve"
+      ],
+      "diagram": null,
+      "hint": "Chaque ligne est un cas différent. Pour ET, les deux entrées doivent être vraies."
+    },
+    {
+      "id": "et-reconstruire",
+      "block": "m2",
+      "kind": "quiz",
+      "title": "Retrouve la règle.",
+      "task": "Choisis sans recopier le modèle.",
+      "questions": [
+        {
+          "id": "e1",
+          "text": "Il faut une carte et une réservation.",
+          "choices": [
+            "aCarte || aReserve",
+            "aCarte && aReserve",
+            "!aCarte"
+          ],
+          "answer": "aCarte && aReserve",
+          "why": "&& impose les deux conditions."
+        },
+        {
+          "id": "e2",
+          "text": "Carte : true. Réservation : false. La salle s’ouvre ?",
+          "choices": [
+            "Oui",
+            "Non"
+          ],
+          "answer": "Non",
+          "why": "La deuxième condition manque, même si la première est vraie."
+        }
+      ],
+      "takeaway": "Un cas qui fonctionne ne suffit pas. Je teste aussi les refus."
+    },
+    {
+      "id": "ou-explorer",
+      "block": "m3",
+      "kind": "circuit",
+      "title": "Au moins une possibilité.",
+      "task": "Pour entrer au concert, un ticket OU une invitation suffit. Les deux ensemble sont aussi acceptés.",
+      "mode": "OR",
+      "inputs": [
+        "aTicket",
+        "estInvite"
+      ],
+      "labels": [
+        "Ticket présent",
+        "Invitation présente"
+      ],
+      "rule": "aTicket || estInvite",
+      "diagram": "ou",
+      "minCases": 4,
+      "hint": "Le OU de cette séance est inclusif : une possibilité, l’autre, ou les deux."
+    },
+    {
+      "id": "ou-table",
+      "block": "m3",
+      "kind": "truth",
+      "title": "Le cas à ne pas rater.",
+      "task": "Complète aTicket || estInvite. Que se passe-t-il quand les deux valent true ?",
+      "mode": "OR",
+      "inputs": [
+        "aTicket",
+        "estInvite"
+      ],
+      "hint": "OU refuse seulement si les deux conditions sont fausses."
+    },
+    {
+      "id": "pause",
+      "block": "pause",
+      "kind": "pause",
+      "title": "Pause. On reprend ensuite.",
+      "task": "Garde cette page ouverte. Au retour, nous ajouterons « NON » à nos règles.",
+      "takeaway": "ET = les deux. OU = au moins un. Un exemple pour chacun ?"
+    },
+    {
+      "id": "non-explorer",
+      "block": "m4",
+      "kind": "circuit",
+      "title": "NON inverse une réponse.",
+      "task": "Le lieu est fermé ? Alors il n’est pas accessible. Teste estFerme, puis !estFerme.",
+      "mode": "NOT",
+      "inputs": [
+        "estFerme"
+      ],
+      "labels": [
+        "Lieu fermé"
+      ],
+      "rule": "!estFerme",
+      "diagram": "non",
+      "minCases": 2,
+      "takeaway": "!false vaut true. !true vaut false.",
+      "hint": "Le ! se lit « non » ou « pas ». Il ne signifie pas « différent » tout seul."
+    },
+    {
+      "id": "non-choisir",
+      "block": "m4",
+      "kind": "quiz",
+      "title": "Lis le nom de la variable.",
+      "task": "Traduis « le lieu n’est pas fermé ».",
+      "questions": [
+        {
+          "id": "n1",
+          "text": "La bonne condition est…",
+          "choices": [
+            "estFerme",
+            "!estFerme",
+            "estFerme === true"
+          ],
+          "answer": "!estFerme",
+          "why": "estFerme décrit la fermeture. On inverse pour tester l’absence de fermeture."
+        },
+        {
+          "id": "n2",
+          "text": "estFerme vaut false. !estFerme vaut…",
+          "choices": [
+            "true",
+            "false"
+          ],
+          "answer": "true",
+          "why": "Le NON inverse le booléen."
+        },
+        {
+          "id": "n3",
+          "text": "Quel groupe faut-il inverser pour dire « pas les deux à la fois » ?",
+          "choices": [
+            "!A && B",
+            "!(A && B)",
+            "!A || B"
+          ],
+          "answer": "!(A && B)",
+          "why": "Les parenthèses montrent que le NON porte sur le résultat du groupe entier."
+        }
+      ],
+      "takeaway": "Les parenthèses indiquent ce que je regroupe ou ce que j’inverse."
+    },
+    {
+      "id": "combine-observer",
+      "block": "m5",
+      "kind": "circuit",
+      "title": "Une entrée… avec une limite.",
+      "task": "Le concert accepte un ticket OU une invitation, ET il ne doit pas être fermé.",
+      "mode": "COMBINED",
+      "inputs": [
+        "aTicket",
+        "estInvite",
+        "estFerme"
+      ],
+      "labels": [
+        "Ticket présent",
+        "Invitation présente",
+        "Lieu fermé"
+      ],
+      "rule": "(aTicket || estInvite) && !estFerme",
+      "diagram": "combine",
+      "minCases": 3,
+      "hint": "Teste un visiteur invité pendant la fermeture. L’invitation ne supprime pas la règle « ouvert »."
+    },
+    {
+      "id": "combine-table",
+      "block": "m5",
+      "kind": "truth",
+      "title": "Trois entrées, huit cas.",
+      "task": "Vérifie la règle complète. Les quatre cas « fermé » doivent tous refuser.",
+      "mode": "COMBINED",
+      "inputs": [
+        "aTicket",
+        "estInvite",
+        "estFerme"
+      ],
+      "hint": "Calcule en trois temps : ticket OU invitation ; NON fermé ; puis ET entre les deux résultats."
+    },
+    {
+      "id": "combine-code",
+      "block": "m5",
+      "kind": "code",
+      "title": "Transforme la règle en code.",
+      "task": "Complète le if. Le mini-labo essaie les huit combinaisons, pas seulement la première.",
+      "exercise": "combined",
+      "diagram": "ifelse",
+      "starter": "if (/* écris la condition ici */) {\n  console.log(\"OK\");\n} else {\n  console.log(\"REFUS\");\n}",
+      "hint": "Reprends ta règle : (aTicket || estInvite) && !estFerme. Écris-la entre les parenthèses du if.",
+      "takeaway": "L’expression décide. if / else choisit le message."
+    },
+    {
+      "id": "bug-indice",
+      "block": "m6",
+      "kind": "quiz",
+      "title": "Un seul contre-exemple suffit.",
+      "task": "Le développeur a écrit OU au lieu de ET. Quel essai révèle le bug ?",
+      "code": "// Il faut une carte ET une réservation.\nif (aCarte || aReserve) {\n  console.log(\"OK\");\n} else {\n  console.log(\"REFUS\");\n}",
+      "questions": [
+        {
+          "id": "b1",
+          "text": "Quel cas autorise à tort l’entrée ?",
+          "choices": [
+            "Carte true, réservation true",
+            "Carte true, réservation false",
+            "Carte false, réservation false"
+          ],
+          "answer": "Carte true, réservation false",
+          "why": "Le OU accepte la carte seule. Le cahier des charges exige les deux."
+        }
+      ],
+      "takeaway": "Je cherche un cas qui distingue la bonne règle de la règle fausse."
+    },
+    {
+      "id": "bug-reparer",
+      "block": "m6",
+      "kind": "code",
+      "title": "Répare sans tout effacer.",
+      "task": "Change la condition. Garde les deux messages : OK et REFUS.",
+      "exercise": "and",
+      "starter": "if (aCarte || aReserve) {\n  console.log(\"OK\");\n} else {\n  console.log(\"REFUS\");\n}",
+      "hint": "La règle exige les deux : compare le rôle de || et celui de &&.",
+      "takeaway": "Observe le résultat attendu, corrige une chose, puis teste à nouveau les quatre cas."
+    },
+    {
+      "id": "bug-transfert",
+      "block": "m6",
+      "kind": "code",
+      "title": "Même méthode, autre situation.",
+      "task": "Pour jouer : au moins 14 points ET une autorisation. Répare le seuil, puis vérifie les six cas.",
+      "exercise": "threshold",
+      "starter": "if (points > 14 && aAutorisation) {\n  console.log(\"OK\");\n} else {\n  console.log(\"REFUS\");\n}",
+      "hint": "« Au moins 14 » inclut 14. Compare > et >=.",
+      "takeaway": "Un cas limite vaut un bon test : juste avant, exactement au seuil, juste après."
+    },
+    {
+      "id": "bug-preuve",
+      "block": "m6",
+      "kind": "write",
+      "title": "Raconte ta réparation.",
+      "task": "Complète avec un exemple précis : « J’ai vu… J’ai changé… J’ai retesté… ».",
+      "prompt": "Ma preuve",
+      "minimum": 20,
+      "hint": "N’écris pas seulement « ça marche ». Cite les entrées et le message observé."
+    },
+    {
+      "id": "entrainement-1",
+      "block": "entrainement",
+      "kind": "function-code",
+      "exercise": "major",
+      "title": "Niveau 1 · Un seuil.",
+      "task": "Complète estMajeur(age). La fonction doit renvoyer true à partir de 18 ans. 5 minutes.",
+      "starter": "function estMajeur(age) {\n  // Renvoie un booléen.\n}\nconsole.log(estMajeur(18));",
+      "filename": "niveau1.js",
+      "hint": "Compare age à 18. Le résultat de la comparaison est déjà un booléen.",
+      "checks": [
+        "17 → false",
+        "18 → true",
+        "19 → true"
+      ],
+      "practice": true
+    },
+    {
+      "id": "entrainement-2",
+      "block": "entrainement",
+      "kind": "function-code",
+      "exercise": "play",
+      "title": "Niveau 2 · Deux règles.",
+      "task": "Écris peutJouer(age, aAccord). Il faut 14 ans ou plus ET un accord. Stocke un appel dans acces, puis affiche acces. 7 minutes.",
+      "starter": "function peutJouer(age, aAccord) {\n  // Complète le retour.\n}\nconst acces = peutJouer(14, true);\nconsole.log(acces);",
+      "filename": "niveau2.js",
+      "hint": "Teste 13, 14 et 15, avec et sans accord. Les deux conditions doivent être réunies.",
+      "checks": [
+        "Teste le seuil exact.",
+        "Vérifie aussi le cas sans accord.",
+        "Affiche la variable acces."
+      ],
+      "practice": true
+    },
+    {
+      "id": "entrainement-3",
+      "block": "entrainement",
+      "kind": "function-code",
+      "exercise": "entry",
+      "title": "Niveau 3 · Une exception.",
+      "task": "Écris peutEntrer(aTicket, estInvite, estFerme). Ticket OU invitation suffisent, mais un lieu fermé refuse toujours. 8 minutes.",
+      "starter": "function peutEntrer(aTicket, estInvite, estFerme) {\n  // Regroupe les conditions.\n}\nconsole.log(peutEntrer(true, false, false));",
+      "filename": "niveau3.js",
+      "hint": "D’abord le groupe ticket OU invitation. Puis ET le lieu NON fermé.",
+      "checks": [
+        "Vérifie les huit combinaisons.",
+        "Un lieu fermé doit refuser même avec un ticket."
+      ],
+      "practice": true
+    },
+    {
+      "id": "entrainement-preuve",
+      "block": "entrainement",
+      "kind": "write",
+      "title": "Explique deux tests.",
+      "task": "Choisis un cas autorisé et un cas refusé du niveau 3. Explique ce qui change. 5 minutes.",
+      "minimum": 15,
+      "prompt": "Avec… j’obtiens… car… Puis je change… et…"
+    },
+    {
+      "id": "pm09",
+      "block": "pm09",
+      "kind": "quiz",
+      "title": "Point de maîtrise · seul.",
+      "task": "Réponds sans le mémo. Les corrections apparaîtront dans ton bilan.",
+      "diagnostic": true,
+      "questions": [
+        {
+          "id": "p1",
+          "text": "true && false",
+          "choices": [
+            "true",
+            "false",
+            "Je ne sais pas"
+          ],
+          "answer": "false",
+          "why": "ET exige deux valeurs vraies."
+        },
+        {
+          "id": "p2",
+          "text": "true || true",
+          "choices": [
+            "true",
+            "false",
+            "Je ne sais pas"
+          ],
+          "answer": "true",
+          "why": "Le OU inclusif accepte aussi les deux."
+        },
+        {
+          "id": "p3",
+          "text": "!false",
+          "choices": [
+            "true",
+            "false",
+            "Je ne sais pas"
+          ],
+          "answer": "true",
+          "why": "NON inverse la valeur."
+        },
+        {
+          "id": "p4",
+          "text": "A=true, B=false, ferme=true. Que vaut (A || B) && !ferme ?",
+          "choices": [
+            "true",
+            "false",
+            "Je ne sais pas"
+          ],
+          "answer": "false",
+          "why": "La fermeture bloque : !ferme vaut false."
+        },
+        {
+          "id": "p5",
+          "text": "Quel test révèle le mieux le bug points > 14 au lieu de points >= 14 ?",
+          "choices": [
+            "points = 13",
+            "points = 14",
+            "points = 15",
+            "Je ne sais pas"
+          ],
+          "answer": "points = 14",
+          "why": "Les deux expressions se distinguent exactement au seuil."
+        }
+      ]
+    },
+    {
+      "id": "bilan",
+      "block": "bilan",
+      "kind": "report",
+      "title": "Ce que tu sais maintenant.",
+      "task": "Enregistre ton bilan, vérifie la remise, puis ouvre le défi bonus si le professeur te laisse du temps.",
+      "takeaway": "Je traduis une règle, je couvre les cas, puis je vérifie le code."
+    },
+    {
+      "id": "bonus",
+      "block": "bonus",
+      "kind": "bonus",
+      "title": "Bonus · Le gardien des règles.",
+      "task": "Construis le bon circuit pour ouvrir une porte. Deux situations, des règles différentes.",
+      "optional": true,
+      "hint": "Choisis les portes logiques en lisant les mots de la règle. Vérifie les huit combinaisons."
+    },
+    {
+      "id": "defi-plus-loin",
+      "block": "defi",
+      "kind": "function-code",
+      "optional": true,
+      "exercise": "advanced",
+      "title": "Défi · Le parc a des exceptions.",
+      "task": "Écris accesParc(age, aTicket, estAccompagne, estFerme). Le lieu doit être ouvert, le ticket obligatoire, et il faut avoir au moins 14 ans OU être accompagné.",
+      "starter": "function accesParc(age, aTicket, estAccompagne, estFerme) {\n  // Écris la règle sans recopier un exercice précédent.\n}\nconsole.log(accesParc(13, true, true, false));",
+      "filename": "defi.js",
+      "checks": [
+        "Aucun accès sans ticket.",
+        "Aucun accès si le lieu est fermé.",
+        "Un jeune de 13 ans accompagné peut entrer.",
+        "Teste 13, 14 et 15 pour les autres situations."
+      ],
+      "hint": "Trois conditions doivent toutes être remplies. L’une des trois contient un OU.",
+      "practice": true
+    }
+  ],
+  "slides": [
+    {
+      "block": "Départ",
+      "title": "Deux règles.\nUne décision.",
+      "subtitle": "S04 · Logique booléenne et conditions combinées",
+      "diagram": "combine",
+      "note": "Le 1er octobre 2026 · Coder, raisonner, tester."
+    },
+    {
+      "block": "diagnostic",
+      "title": "20 minutes.\nQuatre programmes.",
+      "subtitle": "3 min : lancer · 4 min : transmettre · 5 min : renvoyer · 6 min : réutiliser · 2 min : remettre",
+      "diagram": null,
+      "note": "Diagnostic formatif du cours précédent. Les élèves écrivent tout le code. Console, aperçu et cas tests sont disponibles, sans solution fournie. Le premier essai et les indices sont conservés. Le total /20 sera une pré-correction à relire, pas une preuve d’autonomie."
+    },
+    {
+      "block": "diagnostic",
+      "title": "Écris → exécute → compare.",
+      "subtitle": "Un test raté donne une piste. Corrige, puis teste à nouveau.",
+      "diagram": "fonction",
+      "note": "Exécuter lance le programme de l’élève. Vérifier les cas teste aussi d’autres arguments. Les tests ne remplissent pas l’éditeur. En cas de blocage, « À reprendre » permet de continuer sans attribuer la réussite. Respecter les 20 minutes."
+    },
+    {
+      "block": "retour",
+      "title": "Afficher ≠ renvoyer.",
+      "subtitle": "Une sortie visible. Une valeur à réutiliser.",
+      "diagram": "fonction",
+      "note": "Après remise : faire dire « je déclare une fonction, je l’appelle avec des arguments, return renvoie et une variable garde ». Afficher n’est pas retourner. Montrer le premier essai puis la correction, sans en faire un classement."
+    },
+    {
+      "block": "m1",
+      "title": "Un booléen : deux valeurs.",
+      "subtitle": "true ou false. Pas « peut-être ».",
+      "diagram": "booleen",
+      "note": "Un résultat de comparaison est un booléen. Le texte \"true\" n’est pas le booléen true."
+    },
+    {
+      "block": "m1",
+      "title": "Le piège du seuil.",
+      "subtitle": "20 > 20 ?  20 >= 20 ?",
+      "diagram": "seuil",
+      "note": "Faire voter avant d’afficher le résultat : false, puis true."
+    },
+    {
+      "block": "m1",
+      "title": "À toi : comparer.",
+      "subtitle": "Testez juste avant, au seuil, juste après.",
+      "diagram": null,
+      "note": "Ouvrir les écrans de la mission 1. L’élève doit justifier au moins un résultat."
+    },
+    {
+      "block": "m2",
+      "title": "ET : les deux.",
+      "subtitle": "Carte ET réservation.",
+      "diagram": "et",
+      "note": "Deux interrupteurs en série sont une métaphore logique, pas un cours d’électricité."
+    },
+    {
+      "block": "m2",
+      "title": "Ne teste pas seulement « oui ».",
+      "subtitle": "Quatre combinaisons à vérifier.",
+      "diagram": "table",
+      "note": "00, 01, 10, 11. Pour ET : faux, faux, faux, vrai."
+    },
+    {
+      "block": "m2",
+      "title": "À toi : ouvrir la salle.",
+      "subtitle": "Prévois → manipule → vérifie.",
+      "diagram": null,
+      "note": "Faire jouer les quatre cas avant la table sans modèle. Demander : quel seul false bloque ?"
+    },
+    {
+      "block": "m3",
+      "title": "OU : au moins un.",
+      "subtitle": "Ticket, invitation… ou les deux.",
+      "diagram": "ou",
+      "note": "Le OU inclusif est différent du « l’un ou l’autre seulement » du langage courant."
+    },
+    {
+      "block": "m3",
+      "title": "Et si les deux sont vrais ?",
+      "subtitle": "Le OU accepte encore.",
+      "diagram": "ou",
+      "note": "Faire tester explicitement true || true. La réponse est true."
+    },
+    {
+      "block": "pause",
+      "title": "Pause · 15 min",
+      "subtitle": "Reprends à l’annonce du professeur.",
+      "diagram": null,
+      "note": "Horaires du jeudi non fournis : régler le début de séance ou utiliser les durées relatives."
+    },
+    {
+      "block": "m4",
+      "title": "NON : inverser.",
+      "subtitle": "!estFerme se lit « pas fermé ».",
+      "diagram": "non",
+      "note": "Inversion d’un booléen : !false est true, !true est false."
+    },
+    {
+      "block": "m4",
+      "title": "Les parenthèses délimitent.",
+      "subtitle": "!(A && B) n’est pas !A && B.",
+      "diagram": "groupe",
+      "note": "Ne pas introduire une table de priorités : demander ce que le NON doit inverser."
+    },
+    {
+      "block": "m5",
+      "title": "On combine les règles.",
+      "subtitle": "(ticket OU invitation) ET NON fermé.",
+      "diagram": "combine",
+      "note": "Faire nommer les trois étapes : OU ; NON ; ET. Le lieu fermé doit toujours refuser."
+    },
+    {
+      "block": "m5",
+      "title": "Huit cas. Pas de devinette.",
+      "subtitle": "Trois booléens → huit combinaisons.",
+      "diagram": "table3",
+      "note": "Sur papier ou écran, couvrir tous les cas. Un exemple favorable ne prouve rien à lui seul."
+    },
+    {
+      "block": "m5",
+      "title": "if / else choisit un chemin.",
+      "subtitle": "Une condition. Deux messages.",
+      "diagram": "ifelse",
+      "note": "Condition vraie : OK. Sinon : REFUS. Les deux branches ne sont pas exécutées ensemble."
+    },
+    {
+      "block": "m5",
+      "title": "À toi : passer au code.",
+      "subtitle": "Le cadre est fourni. Écris la condition.",
+      "diagram": null,
+      "note": "Le mini-labo encadré accepte les comparaisons, ET/OU/NON et if/else + console.log. Pas de DOM ni de boucle ici."
+    },
+    {
+      "block": "m6",
+      "title": "Trouve le cas qui casse.",
+      "subtitle": "Le programme accepte une carte seule.",
+      "diagram": "methode",
+      "note": "Faire comparer attendu et observé avant la réparation. Chercher le contre-exemple true/false."
+    },
+    {
+      "block": "m6",
+      "title": "Répare, puis reteste.",
+      "subtitle": "Un changement. Tous les cas.",
+      "diagram": null,
+      "note": "Réparer OU → ET, puis > → >=. Demander les entrées exactes qui ont révélé chaque erreur."
+    },
+    {
+      "block": "entrainement",
+      "title": "Trois niveaux.\nUne méthode.",
+      "subtitle": "Seuil → ET → règle complète.",
+      "diagram": "fonction",
+      "note": "Rythme différencié : vérifier le niveau 1, accompagner le niveau 2, laisser les plus rapides réaliser le niveau 3. Aucun zéro de diagnostic lié à ces exercices. Le défi bonus vient après le bilan."
+    },
+    {
+      "block": "pm09",
+      "title": "Point de maîtrise · 15 min",
+      "subtitle": "Seul. Sans aide. Sans mémo.",
+      "diagram": null,
+      "note": "PM-09 après les apprentissages ; diagnostic distinct en entrée. Ce choix pédagogique est explicite dans la trame."
+    },
+    {
+      "block": "bilan",
+      "title": "Trois opérateurs, une méthode.",
+      "subtitle": "ET = les deux · OU = au moins un · NON = inverse",
+      "diagram": "recap",
+      "note": "Récupérer les preuves, pas seulement le nombre de clics. Ne pas imposer le bonus à toute la classe."
+    },
+    {
+      "block": "bonus",
+      "title": "Pour ceux qui ont terminé.",
+      "subtitle": "Le gardien des règles.",
+      "diagram": "combine",
+      "note": "Bonus après le point de maîtrise et le bilan. On peut reprendre plus tard ; ne pas dépasser la fin de séance."
+    },
+    {
+      "block": "bonus",
+      "title": "Et pour aller plus loin ?",
+      "subtitle": "Un ticket, au moins 14 ans ou un accompagnateur… et un lieu ouvert.",
+      "diagram": "parc",
+      "note": "Bonus facultatif : accesParc. Ne pas dépasser l’horaire pour finir. Tester les 24 cas (3 âges × 8 combinaisons)."
+    }
+  ],
+  "version": "6.0.0",
+  "diagnosticVersion": "fonctions-261001-pratique-v2"
+}

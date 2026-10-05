@@ -1,0 +1,148 @@
+TAP version 13
+# Subtest: missing dependencies are rejected
+ok 1 - missing dependencies are rejected
+  ---
+  duration_ms: 1.485546
+  type: 'test'
+  ...
+# Subtest: event is canceled synchronously before async approval
+ok 2 - event is canceled synchronously before async approval
+  ---
+  duration_ms: 5.637669
+  type: 'test'
+  ...
+# Subtest: authorized route is opened once
+ok 3 - authorized route is opened once
+  ---
+  duration_ms: 1.664635
+  type: 'test'
+  ...
+# Subtest: unknown game is canceled and never sent to resolver
+ok 4 - unknown game is canceled and never sent to resolver
+  ---
+  duration_ms: 1.61481
+  type: 'test'
+  ...
+# Subtest: in-flight double click cannot trigger duplicate launch
+ok 5 - in-flight double click cannot trigger duplicate launch
+  ---
+  duration_ms: 1.031763
+  type: 'test'
+  ...
+# Subtest: auth requirement opens the real auth callback without navigation
+ok 6 - auth requirement opens the real auth callback without navigation
+  ---
+  duration_ms: 1.722542
+  type: 'test'
+  ...
+# Subtest: verification requirement is routed separately
+ok 7 - verification requirement is routed separately
+  ---
+  duration_ms: 0.486472
+  type: 'test'
+  ...
+# Subtest: unavailable engine never falls back to demo
+ok 8 - unavailable engine never falls back to demo
+  ---
+  duration_ms: 1.564475
+  type: 'test'
+  ...
+# Subtest: locked engine hides arbitrary backend hint
+ok 9 - locked engine hides arbitrary backend hint
+  ---
+  duration_ms: 0.581475
+  type: 'test'
+  ...
+# Subtest: resolver failure cancels launch without leaking error
+ok 10 - resolver failure cancels launch without leaking error
+  ---
+  duration_ms: 1.65479
+  type: 'test'
+  ...
+# Subtest: external URL is rejected
+ok 11 - external URL is rejected
+  ---
+  duration_ms: 1.669733
+  type: 'test'
+  ...
+# Subtest: javascript URL is rejected
+ok 12 - javascript URL is rejected
+  ---
+  duration_ms: 0.329005
+  type: 'test'
+  ...
+# Subtest: protocol-relative external URL is rejected
+ok 13 - protocol-relative external URL is rejected
+  ---
+  duration_ms: 1.4154
+  type: 'test'
+  ...
+# Subtest: credentialed URL is rejected
+ok 14 - credentialed URL is rejected
+  ---
+  duration_ms: 1.439467
+  type: 'test'
+  ...
+# Subtest: same-origin unlisted route is rejected
+ok 15 - same-origin unlisted route is rejected
+  ---
+  duration_ms: 1.432245
+  type: 'test'
+  ...
+# Subtest: disallowed query is rejected
+ok 16 - disallowed query is rejected
+  ---
+  duration_ms: 1.397513
+  type: 'test'
+  ...
+# Subtest: unmount aborts pending operation and ignores late response
+ok 17 - unmount aborts pending operation and ignores late response
+  ---
+  duration_ms: 1.547949
+  type: 'test'
+  ...
+# Subtest: uninstall is idempotent and removes listener
+ok 18 - uninstall is idempotent and removes listener
+  ---
+  duration_ms: 0.134402
+  type: 'test'
+  ...
+# Subtest: failed request can be retried
+ok 19 - failed request can be retried
+  ---
+  duration_ms: 1.713358
+  type: 'test'
+  ...
+# Subtest: malformed resolver result cannot navigate
+ok 20 - malformed resolver result cannot navigate
+  ---
+  duration_ms: 1.491074
+  type: 'test'
+  ...
+# Subtest: non-cancelable event is refused without resolving
+ok 21 - non-cancelable event is refused without resolving
+  ---
+  duration_ms: 1.429661
+  type: 'test'
+  ...
+# Subtest: origin with a path is rejected
+ok 22 - origin with a path is rejected
+  ---
+  duration_ms: 0.144187
+  type: 'test'
+  ...
+# Subtest: async allowlist is not treated as permission
+ok 23 - async allowlist is not treated as permission
+  ---
+  duration_ms: 0.505821
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 81.201681

@@ -1,0 +1,25 @@
+/* EDEN School — palette des hubs Logique et Flexbox fournis en référence. */
+:root {
+  --ink: #162b32;
+  --muted: #53676d;
+  --eden: #62c6c7;
+  --eden-strong: #246165;
+  --focus: #147e83;
+  --wash: #eaf7f7;
+  --line: #cfdddd;
+  --bg: #f4f7f7;
+  --paper: #fff;
+  --blue: #d9effb;
+  --console: #132b35;
+  --console-line: #2d4b55;
+  --console-text: #f2fcfc;
+  --green: #17604b;
+  --shadow: 0 5px 25px #163b4107;
+}
+
+.eden-logo {
+  display: block;
+  width: 112px;
+  height: auto;
+  flex: none;
+}

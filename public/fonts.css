@@ -1,0 +1,8 @@
+/* Same local font and fallback as the reference hubs; no third-party request. */
+@font-face {
+  font-family: Inter;
+  src: local('Inter');
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}

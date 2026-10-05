@@ -1,0 +1,21 @@
+
+> eden-teacher-twin@1.1.0 test:visual
+> playwright test --config playwright.lesson.config.mjs --project=mobile -g save, send failure
+
+[2m[WebServer] [22m(node:75813) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[2m[WebServer] [22m(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:75814) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75814) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile] › tests/visual/student-copy.spec.mjs:36:1 › save, send failure and successful receipt reflect confirmed responses; assessment gate stays (2.0s)
+
+  1 passed (4.8s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report test-results/lesson-report[39m
+[36m[39m

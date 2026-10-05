@@ -1,0 +1,10 @@
+node_modules/
+.env*
+!.env.example
+.data/
+test-results/
+playwright-report/
+*.zip
+*.xlsx
+!legacy/**/templates/*.xlsx
+.DS_Store

@@ -1,0 +1,231 @@
+{
+  "version": "socle-fourni-2026-2027-v3",
+  "sourceSha256": "8f448dc473622449bef1d5a7ebc347019f6666d07a5ccf0346ffc760b4dc4bf9",
+  "blocks": [
+    {
+      "block": "BC01",
+      "n2": 3,
+      "n3": 8,
+      "dossiers": 8,
+      "coursesIntro": 8,
+      "entryGames": 8,
+      "nativeCodeHtml": 0,
+      "externalPractice": 0,
+      "humanPractice": 8,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC02",
+      "n2": 3,
+      "n3": 5,
+      "dossiers": 5,
+      "coursesIntro": 5,
+      "entryGames": 5,
+      "nativeCodeHtml": 0,
+      "externalPractice": 5,
+      "humanPractice": 0,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC03",
+      "n2": 4,
+      "n3": 14,
+      "dossiers": 14,
+      "coursesIntro": 14,
+      "entryGames": 14,
+      "nativeCodeHtml": 0,
+      "externalPractice": 1,
+      "humanPractice": 13,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC04",
+      "n2": 5,
+      "n3": 15,
+      "dossiers": 15,
+      "coursesIntro": 15,
+      "entryGames": 15,
+      "nativeCodeHtml": 9,
+      "externalPractice": 3,
+      "humanPractice": 3,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC05",
+      "n2": 2,
+      "n3": 10,
+      "dossiers": 10,
+      "coursesIntro": 10,
+      "entryGames": 10,
+      "nativeCodeHtml": 7,
+      "externalPractice": 1,
+      "humanPractice": 3,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC06",
+      "n2": 3,
+      "n3": 6,
+      "dossiers": 6,
+      "coursesIntro": 6,
+      "entryGames": 6,
+      "nativeCodeHtml": 2,
+      "externalPractice": 4,
+      "humanPractice": 0,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC07",
+      "n2": 5,
+      "n3": 13,
+      "dossiers": 13,
+      "coursesIntro": 13,
+      "entryGames": 13,
+      "nativeCodeHtml": 0,
+      "externalPractice": 12,
+      "humanPractice": 1,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC08",
+      "n2": 4,
+      "n3": 6,
+      "dossiers": 6,
+      "coursesIntro": 6,
+      "entryGames": 6,
+      "nativeCodeHtml": 0,
+      "externalPractice": 5,
+      "humanPractice": 1,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC09",
+      "n2": 5,
+      "n3": 8,
+      "dossiers": 8,
+      "coursesIntro": 8,
+      "entryGames": 8,
+      "nativeCodeHtml": 0,
+      "externalPractice": 8,
+      "humanPractice": 0,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BC10",
+      "n2": 7,
+      "n3": 18,
+      "dossiers": 18,
+      "coursesIntro": 18,
+      "entryGames": 18,
+      "nativeCodeHtml": 0,
+      "externalPractice": 2,
+      "humanPractice": 16,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BCT01",
+      "n2": 2,
+      "n3": 5,
+      "dossiers": 5,
+      "coursesIntro": 5,
+      "entryGames": 5,
+      "nativeCodeHtml": 1,
+      "externalPractice": 0,
+      "humanPractice": 4,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BCT02",
+      "n2": 5,
+      "n3": 10,
+      "dossiers": 10,
+      "coursesIntro": 10,
+      "entryGames": 10,
+      "nativeCodeHtml": 1,
+      "externalPractice": 4,
+      "humanPractice": 5,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BCT03",
+      "n2": 3,
+      "n3": 5,
+      "dossiers": 5,
+      "coursesIntro": 5,
+      "entryGames": 5,
+      "nativeCodeHtml": 0,
+      "externalPractice": 3,
+      "humanPractice": 2,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BCT04",
+      "n2": 3,
+      "n3": 5,
+      "dossiers": 5,
+      "coursesIntro": 5,
+      "entryGames": 5,
+      "nativeCodeHtml": 1,
+      "externalPractice": 2,
+      "humanPractice": 2,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BCT05",
+      "n2": 4,
+      "n3": 8,
+      "dossiers": 8,
+      "coursesIntro": 8,
+      "entryGames": 8,
+      "nativeCodeHtml": 1,
+      "externalPractice": 1,
+      "humanPractice": 6,
+      "validatedByDelivery": 0
+    },
+    {
+      "block": "BCT06",
+      "n2": 2,
+      "n3": 4,
+      "dossiers": 4,
+      "coursesIntro": 4,
+      "entryGames": 4,
+      "nativeCodeHtml": 1,
+      "externalPractice": 2,
+      "humanPractice": 1,
+      "validatedByDelivery": 0
+    }
+  ],
+  "totals": {
+    "blocks": 16,
+    "n2": 60,
+    "n3": 140,
+    "newDossiers": 140,
+    "legacyMissions": 20,
+    "nativeCodeHtmlNew": 23,
+    "externalPractice": 53,
+    "humanPractice": 65,
+    "learnerValidatedByDelivery": 0
+  },
+  "missingN3": [],
+  "scope": "Couverture documentaire et occasions d’apprentissage. Ne mesure ni profondeur exhaustive des cours, ni maîtrise élève, ni disponibilité des outils externes.",
+  "aliases": [
+    {
+      "source": "BC02-C5-1",
+      "proposed": [
+        "BCT02-C5-1"
+      ],
+      "reason": [
+        "Code source conservé : BC02-C5-1. Alias de recherche proposé : BCT02-C5-1. À arbitrer par le responsable du référentiel."
+      ]
+    },
+    {
+      "source": "BTC05-C4-2",
+      "proposed": [
+        "BCT05-C4-2"
+      ],
+      "reason": [
+        "Code source conservé : BTC05-C4-2. Alias de recherche proposé : BCT05-C4-2. À arbitrer par le responsable du référentiel."
+      ]
+    }
+  ]
+}

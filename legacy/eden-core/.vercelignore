@@ -1,0 +1,7 @@
+enseignant/
+tests/
+test-results/
+.git/
+.env
+.env.*
+*.zip
