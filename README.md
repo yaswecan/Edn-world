@@ -102,6 +102,16 @@ En production, `DATABASE_URL` est obligatoire ; configurer `EDEN_TEACHER_PASSWOR
 
 L’API OpenAI utilise le [format JSON Schema strict de Responses](https://developers.openai.com/api/docs/guides/structured-outputs), avec `store: false`. Le contexte de génération ne contient pas de noms ni de copies individuelles. La pré-correction, demandée séparément par le professeur, transmet la copie concernée et sa rubrique sans ajouter d’identité nominative. Drive utilise le [protocole de transfert résumable documenté par Google](https://developers.google.com/workspace/drive/api/guides/manage-uploads).
 
+### OpenAI configuré, mais génération refusée avec 429
+
+Le statut « OpenAI configuré » confirme la présence des variables, sans vérifier les crédits ni l’accès au modèle. Une réponse OpenAI 429 signifie que l’appel a bien été envoyé ; renseigner à nouveau les variables Vercel ne résout pas à lui seul ce refus.
+
+- `credit_balance_exhausted` ou `insufficient_quota` : vérifier les crédits et la facturation API du compte associé à la clé.
+- `project_spend_limit_exceeded`, `organization_spend_limit_exceeded` ou `organization_usage_limit_exceeded` : vérifier le plafond indiqué dans OpenAI Platform.
+- `rate_limit_exceeded` ou `slow_down` : espacer les générations et respecter le délai `Retry-After` affiché lorsqu’il est fourni.
+
+La génération classique et la préparation approfondie affichent désormais la cause lorsqu’OpenAI la précise. Les réponses sans code exploitable restent explicitement indéterminées. Aucun nouvel appel automatique n’est déclenché. Les messages bruts du fournisseur ne sont pas exposés ; seuls les codes reconnus, le statut et l’identifiant de requête sont conservés pour le diagnostic. Voir les [codes d’erreur officiels OpenAI](https://developers.openai.com/api/docs/guides/error-codes).
+
 ## Vercel et worker
 
 Importer le dépôt avec **Root Directory `./`** et **Application Preset `Services`**. Le `vercel.json` déclare un seul service Node nommé `eden`, qui utilise `api/index.mjs` et reçoit tous les chemins publics, dont `/api/*`, sans ajouter de préfixe. Les contrôles de connexion et de rôle restent appliqués dans l’application. Node est limité à la version majeure 22 ; la durée maximale d’une requête est de 300 secondes.

@@ -1,5 +1,6 @@
 import {validate} from '../contracts.mjs';
 import {fail} from '../store.mjs';
+import {failOpenAI} from '../openai-errors.mjs';
 import {digest,CHARTER_VERSION} from './contracts.mjs';
 import {prompts} from './prompts.mjs';
 
@@ -38,7 +39,7 @@ export async function callStructured({role,input,schema,config,fetchImpl=fetch,a
  const trace={role,profileVersion:config.version,promptVersion:CHARTER_VERSION,requestedModel:p.model,parameters:{reasoning:body.reasoning||null,max_output_tokens:p.maxOutputTokens,store:false},requestHash:digest(body),startedAt,cache:'provider_usage_only'};
  try{
   const response=await fetchImpl('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify(body),signal:signal?AbortSignal.any([signal,AbortSignal.timeout(config.timeoutMs)]):AbortSignal.timeout(config.timeoutMs)});
-  if(!response.ok)throw Error(`OpenAI HTTP ${response.status} ; aucun repli automatique.`);
+  if(!response.ok)await failOpenAI(response);
   const result=await response.json();Object.assign(trace,{responseId:result.id,effectiveModel:result.model||null,status:result.status,usage:result.usage||null,stopReason:result.incomplete_details?.reason||null});
   if(result.status!=='completed')throw Error(`Réponse incomplète : ${result.incomplete_details?.reason||result.status||'statut absent'}.`);
   const parts=result.output?.flatMap(x=>x.content||[])||[];
@@ -49,5 +50,5 @@ export async function callStructured({role,input,schema,config,fetchImpl=fetch,a
   trace.costUSD=result.usage?(result.usage.input_tokens*p.inputUSDPerMillion+result.usage.output_tokens*p.outputUSDPerMillion)/1e6:null;
   trace.costMethod='Estimation USD tarif standard non mis en cache ; inclut le raisonnement dans output_tokens. Pas une facture.';
   return {value,trace};
- }catch(error){Object.assign(trace,{durationMs:Date.now()-start,error:error.message,status:trace.status||'failed'});error.trace=trace;throw error;}
+ }catch(error){Object.assign(trace,{durationMs:Date.now()-start,error:error.message,status:trace.status||'failed',...(error.details?.provider==='openai'?{providerError:error.details}:{})});error.trace=trace;throw error;}
 }
