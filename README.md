@@ -123,6 +123,14 @@ Le handler refuse l’initialisation sans `DATABASE_URL`. Aucun secret n’est e
 
 Pour reprendre les données locales, lancer d’abord `npm run db:migrate`. Ce contrôle lit `.data/eden.sqlite` sans la modifier et vérifie les documents de `.data/artifacts`. Le rapport donne les effectifs, les séances et leur statut, les comptes disposant déjà d’un accès et le nombre de documents. Aucune connexion distante n’est effectuée sans option supplémentaire.
 
+Pour transférer la base **par upload dans l’interface**, exécuter `npm run db:export` sur l’ordinateur qui possède la base SQLite et ses documents. Le fichier `.data/exports/eden-base-….eden-db.gz` contient toutes les tables et les documents des corpus ; les sessions de connexion sont exclues. La source reste intacte. Les options `--source`, `--artifact-dir` et `--output` permettent de choisir les chemins. Le fichier contient les données des élèves et les empreintes de mots de passe : il reste local, privé et exclu de Git.
+
+Sur la destination, configurer d’abord `DATABASE_URL` et le compte professeur initial, puis déployer le code comprenant l’import. Se connecter comme professeur et ouvrir **Ma classe & réglages → Importer ma base locale → Analyser ma base → Confirmer l’import de ma base**. L’aperçu présente les élèves, les séances et les identifiants professeur qui seront repris. Après confirmation, les comptes et mots de passe locaux remplacent le compte initial ; se reconnecter avec le compte local. Les dates, statuts de publication et accès élèves restent ceux de la sauvegarde.
+
+Cet upload est un **import initial**, autorisé uniquement dans une installation neuve (compte professeur connecté, sessions de ce compte et catalogue initial non modifié). Une base déjà remplie, une autre classe ou un catalogue modifié bloque l’import sans écrasement. Une copie identique est détectée. Les documents sont contrôlés par SHA-256 et les lignes relues avant validation d’une transaction unique. Les tâches externes en cours, les sessions de laboratoire et les documents S3 non inclus bloquent l’export navigateur. Limites : 4 Mio compressés / 32 Mio décompressés ; au-delà, utiliser le transfert administrateur ci-dessous. Le JSON d’une séance seule et le fichier SQLite brut ne sont pas acceptés par cet écran.
+
+Vérification de l’upload : `node --import tsx --test tests/database-upload.test.mjs`. Parcours navigateur avec données synthétiques et base en mémoire : `node --import tsx scripts/database-import-browser-check.mjs`.
+
 Renseigner ensuite l’URL PostgreSQL de destination dans le fichier local `.env.migration.local`, exclu de Git et du déploiement :
 
 ```dotenv

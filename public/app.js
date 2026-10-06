@@ -375,6 +375,7 @@ function settingsView() {
       "Votre classe, vos repères.",
       "Accès individuels, intégrations et historique des imports.",
     ) +
+    `<div class="card spaced"><div class="card-head"><h2>Reprendre ma base locale</h2>${btn("Importer ma base locale", "database-import", "", "primary", "download")}</div><div class="card-body"><p>Transférez les élèves, la planification, les séances et leurs documents dans une installation neuve de Tween Teach. Le contenu sera vérifié avant confirmation.</p></div></div>` +
     `<div class="grid-three spaced">${[
       [
         "Mémoire métier",
@@ -452,6 +453,17 @@ async function openLesson(id) {
   S.lesson = await api("/api/lessons/" + enc(id));
   S.view = "lessons";
   render();
+}
+function showDatabaseImport(report) {
+  S.databasePreview = report;
+  const ready = report.status === "ready";
+  modal(
+    "Vérifier la base locale",
+    `<div class="pills">${pill(`${report.learners} élèves`, "brand-tone")}${pill(`${report.lessons.length} séances`)}${pill(`${report.documents} documents`)}</div>
+    <ul class="block-content">${report.lessons.map(lesson => `<li><strong>${esc(lesson.title)}</strong> · version ${esc(lesson.version)} · ${esc(lesson.date)} · ${esc(stateLabel(lesson.status))}</li>`).join("")}</ul>
+    ${ready ? `<p>Les comptes professeur de la base locale remplaceront le compte de cette installation : <strong>${report.teachers.map(t => esc(t.username)).join(", ")}</strong>. Après l’import, reconnectez-vous avec votre identifiant et votre mot de passe locaux.</p><p>Les dates, les brouillons et les accès élèves sont conservés. Les sessions de connexion sont exclues.</p>` : report.status === "identical" ? '<p>Cette base est déjà importée. Aucune copie supplémentaire n’est nécessaire.</p>' : '<p role="alert">Cette installation contient déjà des données différentes. Pour importer votre base locale, utilisez une installation neuve de Tween Teach.</p>'}
+    <div class="modal-actions">${btn("Fermer", "close-modal")}${ready ? btn("Confirmer l’import de ma base", "database-apply", "", "primary", "check") : ""}</div>`,
+  );
 }
 async function generateEntry(id, intent = "Prépare cette séance") {
   const entry = S.data.entries.find((e) => e.id === id);
@@ -581,6 +593,46 @@ async function studentEvent(type, activityId, payload = {}) {
   });
 }
 const actions = {
+  "database-import": () => {
+    S.databaseFile = null;
+    S.databasePreview = null;
+    modal("Importer votre base locale", `<p>Choisissez le fichier de transfert <strong>.eden-db.gz</strong> contenant la base et ses documents. L’analyse ne modifie aucune donnée.</p><div class="field"><label for="database-file">Fichier de base locale</label><input id="database-file" type="file" accept=".gz,.eden-db.gz"></div><div class="modal-actions">${btn("Analyser ma base", "database-preview", "", "primary", "download")}</div>`);
+  },
+  "database-preview": async () => {
+    const file = $("#database-file").files[0];
+    if (!file) throw Error("Choisissez votre fichier .eden-db.gz.");
+    if (file.size > 4 * 1024 * 1024) throw Error("Le fichier dépasse la limite de 4 Mio. Utilisez le transfert de base depuis le projet local.");
+    S.databaseFile = file;
+    await busy(async () => showDatabaseImport(await api("/api/database/import/preview", {
+      method: "POST", body: file, headers: {"Content-Type": "application/octet-stream"},
+    })), "Vérification de la base et des documents…");
+  },
+  "database-apply": async () => {
+    if (!S.databaseFile || S.databasePreview?.status !== "ready") throw Error("Analysez votre fichier avant de confirmer l’import.");
+    await busy(async () => {
+      const report = await api("/api/database/import/apply", {
+        method: "POST", body: S.databaseFile,
+        headers: {"Content-Type": "application/octet-stream", "X-Database-Confirmation": S.databasePreview.fingerprint},
+      });
+      S.databaseFile = null;
+      S.databasePreview = null;
+      closeModal();
+      if (report.status === "already_imported") {
+        await loadDashboard();
+        render();
+        toast("Cette base est déjà importée.");
+        return;
+      }
+      S.user = null;
+      S.data = null;
+      S.lesson = null;
+      S.loginRole = "teacher";
+      S.session = await api("/api/session");
+      renderLogin();
+      $("#username").value = report.teachers[0].username;
+      modal("Base importée", `<p>${report.learners} élèves et ${report.lessons.length} séances sont enregistrés, avec leurs documents.</p><p>Reconnectez-vous avec le mot de passe de votre compte professeur local. Les séances en brouillon restent à publier.</p>${btn("Se reconnecter", "close-modal", "", "primary")}`);
+    }, "Import de la base locale…");
+  },
   "close-modal": () => closeModal(),
   nav: async (id) => {
     S.lesson = null;

@@ -22,6 +22,9 @@ export async function openStore({url=process.env.DATABASE_URL,path=process.env.E
   async function query(sql,args=[]) { if(pool)return (await (client||pool).query(sql,args)).rows; return db.prepare(sql.replace(/\$\d+/g,'?')).all(...args); }
   async function exec(sql,args=[]) { if(pool)return (await (client||pool).query(sql,args)); return db.prepare(sql.replace(/\$\d+/g,'?')).run(...args); }
   const api={
+   async readRows(t) { return query(`SELECT id,class_id,version,data,created_at FROM ${table(t)} ORDER BY id`); },
+   async insertRow(t,row) { await exec(`INSERT INTO ${table(t)} (id,class_id,version,data,created_at) VALUES ($1,$2,$3,$4,$5)`,[row.id,row.class_id,row.version,row.data,row.created_at]); },
+   async lockTables() { if(client){await client.query("SET LOCAL lock_timeout = '10s'");await client.query(`LOCK TABLE ${TABLES.join(',')} IN SHARE ROW EXCLUSIVE MODE`);} },
    async get(t,id) { return parse((await query(`SELECT data FROM ${table(t)} WHERE id=$1`,[id]))[0]); },
    async list(t,classId) { const rows=await query(`SELECT data FROM ${table(t)}${classId?' WHERE class_id=$1':''} ORDER BY ${t.endsWith('_versions')||['teacher_policies','remediation_snapshots'].includes(t)?'version,':''}created_at,id`,classId?[classId]:[]);return rows.map(parse); },
    async insert(t,obj) { const data={...obj,id:obj.id||uid(t),createdAt:obj.createdAt||now()};await exec(`INSERT INTO ${table(t)} (id,class_id,version,data,created_at) VALUES ($1,$2,$3,$4,$5)`,[data.id,data.classId||'A1',data.version||1,JSON.stringify(data),data.createdAt]);return data; },

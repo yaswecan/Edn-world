@@ -12,6 +12,7 @@
     "start": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
     "import": "node --env-file-if-exists=.env.local --import tsx scripts/import.mjs",
     "db:migrate": "node --env-file-if-exists=.env.migration.local scripts/migrate-postgres.mjs",
+    "db:export": "node scripts/export-database.mjs",
     "test": "node --import tsx --test tests/*.test.mjs",
     "test:legacy": "node --test legacy/eden-october/tests/functions.test.mjs legacy/eden-october/tests/logic.test.mjs legacy/eden-october/tests/practice.test.mjs legacy/drive/tests/*.test.mjs",
     "check": "node scripts/check.mjs",

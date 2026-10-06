@@ -28,10 +28,12 @@ import {driveConfigured,getDrive,listStudents,listChildFolders,publishDrive} fro
 import {runSafe} from './safe-js.mjs';
 import {testActivityCode} from './workshop-testing.mjs';
 import {demoRoutes} from './demo-routes.mjs';
+import {databaseRoutes} from './database-routes.mjs';
 export function createApp(store){
  const app=express();app.disable('x-powered-by');
  app.use((req,res,next)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');res.setHeader('Cache-Control','no-store');res.setHeader('Content-Security-Policy',req.path.startsWith('/game/')?"default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src data:; worker-src blob:; connect-src 'none'; frame-ancestors 'self'":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'");next();});
  app.use(protectOrigin,authentication(store));app.use(express.json({limit:'2mb'}));
+ databaseRoutes(app,store);
  demoRoutes(app);
  arcadeRoutes(app,store);
  pedagogyRoutes(app,store);

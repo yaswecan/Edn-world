@@ -1,7 +1,15 @@
 import {readFileSync} from 'node:fs';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 export const catalog=JSON.parse(readFileSync(new URL('../data/game-catalog.json',import.meta.url)));
-export async function seedCatalog(store,classId='A1'){return store.transaction(async tx=>{for(const [world,w]of Object.entries(catalog)){if(!await tx.get('game_worlds',`${classId}:${world}`))await tx.insert('game_worlds',{id:`${classId}:${world}`,classId,world,title:w.title,requires:w.requires||null,...Object.fromEntries(Object.entries(w).filter(([k])=>k!=='missions'))});for(const m of w.missions){const id=`${classId}:${world}:${m.id}:v1`;if(!await tx.get('game_missions',id))await tx.insert('game_missions',{...m,id,localId:m.id,classId,world,version:1,competencies:m.resources,prerequisites:[],completionRule:'all_scenarios_pass',starterFiles:m.files});}}});}
+export function initialCatalog(classId='A1'){
+ const rows={game_worlds:[],game_missions:[]};
+ for(const [world,w]of Object.entries(catalog)){
+  rows.game_worlds.push({id:`${classId}:${world}`,classId,world,title:w.title,requires:w.requires||null,...Object.fromEntries(Object.entries(w).filter(([k])=>k!=='missions'))});
+  for(const m of w.missions)rows.game_missions.push({...m,id:`${classId}:${world}:${m.id}:v1`,localId:m.id,classId,world,version:1,competencies:m.resources,prerequisites:[],completionRule:'all_scenarios_pass',starterFiles:m.files});
+ }
+ return rows;
+}
+export async function seedCatalog(store,classId='A1'){return store.transaction(async tx=>{for(const [table,rows]of Object.entries(initialCatalog(classId)))for(const row of rows)if(!await tx.get(table,row.id))await tx.insert(table,row);});}
 export async function authorizeGame(store,input,actor){const mission=await scoped(store,'game_missions',input.missionId,actor),lesson=await scoped(store,'lessons',input.lessonId,actor);if(lesson.status!=='published')fail(409,'Séance non ouverte.');const spec=(await store.get('lesson_versions',lesson.versionId)).spec;requireValue(spec.codeStation?.missionId===mission.id,'Mission non affectée à cette séance.');
  const access=await worldAccess(store,actor,mission.world);if(!access.unlocked)fail(409,'Monde verrouillé : terminer le monde préalable ou demander une ouverture au professeur.',access);
  const progress=(await store.list('learning_events',actor.classId)).filter(e=>e.learnerId===actor.id&&e.lessonRunId===lesson.runId&&e.type==='step_completed');const unlock=spec.codeStation.unlockAfter;if(unlock&&!progress.some(e=>e.activityId===unlock))fail(409,'Terminez l’activité autonome avant de lancer la mission.');

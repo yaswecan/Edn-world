@@ -3,21 +3,13 @@ import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import {dirname,join,resolve} from 'node:path';
 import {TABLES,schemaSQL} from '../../server/store.mjs';
+import {snapshotDigest} from '../../server/database-snapshot.mjs';
+export {snapshotDigest};
 
 const columns=['id','class_id','version','data','created_at'];
 const sha256=value=>createHash('sha256').update(value).digest('hex');
 export class MigrationError extends Error {}
 const ensure=(condition,message)=>{if(!condition)throw new MigrationError(message);};
-
-export function snapshotDigest(tables){
- const hash=createHash('sha256');
- for(const table of TABLES){
-  hash.update(JSON.stringify(table));
-  const rows=[...tables[table]].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
-  for(const row of rows)hash.update(JSON.stringify(columns.map(column=>row[column])));
- }
- return hash.digest('hex');
-}
 
 // Never open the application store here: it initializes schema and can write.
 export async function prepareSnapshot({source='.data/eden.sqlite',artifactDirectory}={}){
