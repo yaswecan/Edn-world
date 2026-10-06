@@ -1,13 +1,21 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "buildCommand": "npm run check",
-  "functions": {
-    "api/index.mjs": {
-      "maxDuration": 300,
-      "includeFiles": "{public/**,data/**,server/sql-worker.mjs,legacy/pedagolab/public/data/resources.json,legacy/eden-october/docs/app/**,legacy/eden-october/docs/assets/**}"
+  "services": {
+    "eden": {
+      "root": ".",
+      "framework": "node",
+      "entrypoint": "api/index.mjs",
+      "buildCommand": "npm run check",
+      "devCommand": "node --import tsx scripts/vercel-dev.mjs",
+      "functions": {
+        "api/index.mjs": {
+          "maxDuration": 300,
+          "includeFiles": "{public/**,data/**,server/**,labs/*,legacy/pedagolab/public/data/resources.json,legacy/eden-october/docs/{app,assets,vendor}/**,node_modules/@xterm/xterm/{lib,css}/**}"
+        }
+      }
     }
   },
-  "rewrites": [{"source": "/(.*)", "destination": "/api/index"}],
-  "crons": [{"path": "/api/internal/publication-worker", "schedule": "* * * * *"}]
+  "rewrites": [
+    {"source": "/(.*)", "destination": {"service": "eden"}}
+  ]
 }

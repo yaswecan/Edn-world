@@ -104,11 +104,30 @@ L’API OpenAI utilise le [format JSON Schema strict de Responses](https://devel
 
 ## Vercel et worker
 
-`api/index.mjs` expose la même application sans serveur d’écoute permanent. `vercel.json` inclut les ressources nécessaires, fixe une durée maximale de 300 secondes et configure un cron de publication chaque minute. Ce rythme nécessite une offre Vercel compatible avec cette fréquence. Configurer `DATABASE_URL`, `EDEN_TEACHER_PASSWORD`, `CRON_SECRET` et les services utilisés dans les variables d’environnement du projet. Le serveur refuse l’initialisation serverless sans PostgreSQL. Les artefacts S3 restent privés et ne sont servis qu’après contrôle d’accès EDEN.
+Importer le dépôt avec **Root Directory `./`** et **Application Preset `Services`**. Le `vercel.json` déclare un seul service Node nommé `eden`, qui utilise `api/index.mjs` et reçoit tous les chemins publics, dont `/api/*`, sans ajouter de préfixe. Les contrôles de connexion et de rôle restent appliqués dans l’application. Node est limité à la version majeure 22 ; la durée maximale d’une requête est de 300 secondes.
 
-Le worker HTTP `/api/internal/publication-worker` exige `Authorization: Bearer <CRON_SECRET>`. En local, `npm run dev` traite la même file toutes les cinq secondes. Les distributions validées sont suivies depuis **Corpus → Suivi des distributions**. Une erreur partielle reprend les destinataires en échec ; les succès déjà enregistrés sont conservés. Une version de séance modifiée après la validation ne sera pas distribuée silencieusement.
+Les applications `legacy/drive` et `legacy/pedagolab` proposées par la détection automatique ne sont pas des services de cette application. EDEN appelle directement les API Google via le SDK Drive et lit le catalogue PédagoLab depuis un fichier JSON. Aucun appel HTTP entre services, donc aucun binding Vercel à déclarer. Les fichiers historiques réutilisés, les workers locaux et les ressources du terminal sont inclus dans la fonction. `.vercelignore` conserve aussi les deux fichiers Drive comparés pendant le build.
 
-Configuration basée sur les documentations [Vercel Functions](https://vercel.com/docs/project-configuration/vercel-json), [Cron](https://vercel.com/docs/cron-jobs/manage-cron-jobs) et [AWS S3 JavaScript](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-nodejs.html). Le déploiement distant n’a pas été exécuté.
+Configurer les variables suivantes dans Vercel, pour **Production** et **Preview** (utiliser une base de prévisualisation séparée) :
+
+| Variable | Valeur ou usage |
+| --- | --- |
+| `NODE_ENV` | `production` |
+| `DATABASE_URL` | URL PostgreSQL fournie par l’hébergeur de la base, avec ses paramètres TLS |
+| `EDEN_TEACHER_USERNAME` | Identifiant initial du professeur, par exemple `professeur` |
+| `EDEN_TEACHER_PASSWORD` | Mot de passe initial unique d’au moins 12 caractères |
+| `EDEN_QUALITY_PIPELINE` | `0` jusqu’à la mise en service du worker de génération externe |
+| `CRON_SECRET` | Secret partagé avec l’appelant du worker HTTP, si utilisé |
+
+Le handler refuse l’initialisation sans `DATABASE_URL`. Aucun secret n’est enregistré dans `vercel.json`. Ajouter les variables OpenAI, Google Drive et S3 de `.env.example` pour les intégrations utilisées. Les artefacts S3 restent privés et ne sont servis qu’après contrôle d’accès EDEN. La limite Vercel de 4,5 Mo par requête s’applique aussi aux imports de fichiers, même lorsque l’application accepte une taille supérieure en local.
+
+Le cron à la minute est retiré : l’offre Hobby n’accepte qu’une exécution quotidienne. La publication vers Drive nécessite donc un worker externe ou un ordonnanceur externe appelant `/api/internal/publication-worker` avec `Authorization: Bearer <CRON_SECRET>`. Cet endpoint traite uniquement les publications ; il ne remplace pas le worker de génération pédagogique. Les distributions restent en attente tant qu’aucun worker ne les traite. En local, `npm run dev` traite les files toutes les cinq secondes. Les distributions validées sont suivies depuis **Corpus → Suivi des distributions**. Une erreur partielle reprend les destinataires en échec ; les succès déjà enregistrés sont conservés. Une version de séance modifiée après la validation ne sera pas distribuée silencieusement.
+
+La génération pédagogique avec contrôles navigateur nécessite un processus Node permanent avec Chrome et accès à la même base PostgreSQL ; les laboratoires ont besoin de leur hôte Docker dédié. Ne pas activer `EDEN_QUALITY_PIPELINE=1` sur Vercel avant que ce worker soit opérationnel. Le fichier `api/index.mjs` ne démarre aucun de ces processus.
+
+Pour tester le routage Services localement : `npx vercel@62.4.0 dev --local`. La commande de développement du service lance le handler serverless, sans worker ni SQLite de secours. Utiliser une base PostgreSQL de test via `DATABASE_URL` ; sans cette variable, une réponse 503 est attendue. Après envoi des changements sur GitHub, relancer l’import Vercel pour qu’il lise la nouvelle configuration. Vérifier `/api/health`, la connexion professeur, `/preparation.html` et les ressources `/assets/*` après déploiement.
+
+Configuration basée sur les documentations [Vercel Services](https://vercel.com/docs/services), [routage Services](https://vercel.com/docs/services/routing), [limites des Functions](https://vercel.com/docs/functions/limitations), [Cron sur Hobby](https://vercel.com/docs/cron-jobs/usage-and-pricing) et [AWS S3 JavaScript](https://docs.aws.amazon.com/sdk-for-javascript/v3/developer-guide/getting-started-nodejs.html). Le déploiement distant n’a pas été exécuté.
 
 ## Contrats des composants et des tests
 
