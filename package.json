@@ -11,6 +11,7 @@
     "preview:student": "node --watch --import tsx scripts/arcade-student-preview.mjs",
     "start": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
     "import": "node --env-file-if-exists=.env.local --import tsx scripts/import.mjs",
+    "db:migrate": "node --env-file-if-exists=.env.migration.local scripts/migrate-postgres.mjs",
     "test": "node --import tsx --test tests/*.test.mjs",
     "test:legacy": "node --test legacy/eden-october/tests/functions.test.mjs legacy/eden-october/tests/logic.test.mjs legacy/eden-october/tests/practice.test.mjs legacy/drive/tests/*.test.mjs",
     "check": "node scripts/check.mjs",
@@ -44,6 +45,7 @@
     "tsx": "4.20.6"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
     "@playwright/test": "1.56.0"
   },
   "overrides": {

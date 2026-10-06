@@ -121,6 +121,27 @@ Configurer les variables suivantes dans Vercel, pour **Production** et **Preview
 
 Le handler refuse l’initialisation sans `DATABASE_URL`. Aucun secret n’est enregistré dans `vercel.json`. Ajouter les variables OpenAI, Google Drive et S3 de `.env.example` pour les intégrations utilisées. Les artefacts S3 restent privés et ne sont servis qu’après contrôle d’accès EDEN. La limite Vercel de 4,5 Mo par requête s’applique aussi aux imports de fichiers, même lorsque l’application accepte une taille supérieure en local.
 
+Pour reprendre les données locales, lancer d’abord `npm run db:migrate`. Ce contrôle lit `.data/eden.sqlite` sans la modifier et vérifie les documents de `.data/artifacts`. Le rapport donne les effectifs, les séances et leur statut, les comptes disposant déjà d’un accès et le nombre de documents. Aucune connexion distante n’est effectuée sans option supplémentaire.
+
+Renseigner ensuite l’URL PostgreSQL de destination dans le fichier local `.env.migration.local`, exclu de Git et du déploiement :
+
+```dotenv
+EDEN_MIGRATION_DATABASE_URL=postgresql://UTILISATEUR:MOT_DE_PASSE@HOTE/BASE?sslmode=require
+```
+
+Utiliser la véritable URL fournie par l’hébergeur, avec ses paramètres TLS. Cette même valeur doit être configurée sous **`DATABASE_URL` dans Vercel**. Le nom `EDEN_MIGRATION_DATABASE_URL` est réservé à l’outil local, pour éviter de rediriger accidentellement `npm run dev` vers la production. Ne pas copier le secret dans le dépôt ou le chat.
+
+```sh
+npm run db:migrate -- --check-target
+npm run db:migrate -- --apply
+```
+
+Effectuer la copie vers une base EDEN vide, avant le premier démarrage de l’application distante. Arrêter les modifications locales pendant le transfert et la bascule. Si Vercel a déjà créé un compte professeur ou d’autres données, l’outil refuse de les écraser : utiliser une nouvelle base ou branche vide. Une relance sur une copie strictement identique ne modifie rien. `--source` et `--artifact-dir` permettent de choisir explicitement une autre base SQLite et son dossier de documents.
+
+La copie conserve toutes les tables EDEN, les identifiants, mots de passe hachés existants, dates, versions, historiques et états de publication. Les documents locaux sont vérifiés par SHA-256 puis inclus en base, sans dépendance au disque du poste. Les fichiers déjà sur S3 nécessitent une vérification séparée du stockage avant application. La transaction PostgreSQL est validée uniquement après comparaison intégrale des données relues ; une erreur annule la copie. Les tests SQL utilisent PostgreSQL embarqué PGlite, uniquement en développement.
+
+Une séance en brouillon reste en brouillon après la copie ; utiliser sa publication validée dans EDEN pour la rendre visible aux élèves. Les élèves importés sans mot de passe restent sans accès jusqu’à leur activation depuis l’interface professeur. Le compte professeur transféré conserve son mot de passe existant : `EDEN_TEACHER_PASSWORD` n’écrase pas un compte déjà présent.
+
 Le cron à la minute est retiré : l’offre Hobby n’accepte qu’une exécution quotidienne. La publication vers Drive nécessite donc un worker externe ou un ordonnanceur externe appelant `/api/internal/publication-worker` avec `Authorization: Bearer <CRON_SECRET>`. Cet endpoint traite uniquement les publications ; il ne remplace pas le worker de génération pédagogique. Les distributions restent en attente tant qu’aucun worker ne les traite. En local, `npm run dev` traite les files toutes les cinq secondes. Les distributions validées sont suivies depuis **Corpus → Suivi des distributions**. Une erreur partielle reprend les destinataires en échec ; les succès déjà enregistrés sont conservés. Une version de séance modifiée après la validation ne sera pas distribuée silencieusement.
 
 La génération pédagogique avec contrôles navigateur nécessite un processus Node permanent avec Chrome et accès à la même base PostgreSQL ; les laboratoires ont besoin de leur hôte Docker dédié. Ne pas activer `EDEN_QUALITY_PIPELINE=1` sur Vercel avant que ce worker soit opérationnel. Le fichier `api/index.mjs` ne démarre aucun de ces processus.
