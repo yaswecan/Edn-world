@@ -1,0 +1,20 @@
+{
+  "url": "http://arcade.localhost:4179/arcade#profil",
+  "account": "student-a, fixture synthétique uniquement",
+  "status": "PASS",
+  "requests": [
+    {
+      "path": "/api/arcade/bootstrap",
+      "status": 200
+    },
+    {
+      "path": "/api/arcade/bootstrap",
+      "status": 200
+    },
+    {
+      "path": "/api/arcade/space",
+      "status": 200
+    }
+  ],
+  "errors": []
+}

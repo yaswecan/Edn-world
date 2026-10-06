@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "properties": {
+    "decision": {
+      "enum": [
+        "accept",
+        "revise",
+        "blocked"
+      ]
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "problem": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requestedChange": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolutionCriterion": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "location",
+          "problem",
+          "requestedChange",
+          "resolutionCriterion"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "decision",
+    "issues"
+  ],
+  "additionalProperties": false
+}

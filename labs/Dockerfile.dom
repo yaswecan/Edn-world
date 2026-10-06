@@ -1,0 +1,7 @@
+FROM mcr.microsoft.com/playwright:v1.56.0-noble
+WORKDIR /opt/tween-dom
+RUN npm install --omit=dev --ignore-scripts --save-exact playwright@1.56.0
+COPY dom-runner.mjs ./
+USER pwuser
+ENV HOME=/tmp
+ENTRYPOINT ["node", "/opt/tween-dom/dom-runner.mjs"]

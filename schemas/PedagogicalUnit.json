@@ -1,0 +1,292 @@
+{
+  "type": "object",
+  "properties": {
+    "skill": {
+      "type": "string",
+      "minLength": 1
+    },
+    "depth": {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prerequisiteReminder": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mechanism": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workedExample": {
+          "type": "string",
+          "minLength": 1
+        },
+        "misconception": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transfer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "remediation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "citations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "sourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "segmentId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "claim": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "explicit",
+                  "inference",
+                  "proposal"
+                ]
+              }
+            },
+            "required": [
+              "sourceId",
+              "segmentId",
+              "claim",
+              "kind"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "question",
+        "prerequisiteReminder",
+        "mechanism",
+        "workedExample",
+        "misconception",
+        "transfer",
+        "remediation",
+        "citations"
+      ],
+      "additionalProperties": false
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content": {
+            "type": "string"
+          },
+          "teaching": {
+            "type": "object",
+            "properties": {
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "hint": {
+                "type": "string"
+              },
+              "check": {
+                "type": "string"
+              },
+              "takeaways": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "diagram": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "steps",
+              "hint",
+              "check",
+              "takeaways",
+              "diagram"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "content",
+          "teaching"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "instruction": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objective": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expectedEvidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reference": {
+            "type": "string",
+            "minLength": 1
+          },
+          "starter": {
+            "type": "string"
+          },
+          "expectedAnswer": {
+            "type": "string"
+          },
+          "tests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoke": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "argsJSON": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "expectedJSON": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "invoke",
+                "argsJSON",
+                "expectedJSON"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "hints": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "content": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "content"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "instruction",
+          "objective",
+          "expectedEvidence",
+          "reference",
+          "starter",
+          "expectedAnswer",
+          "tests",
+          "hints",
+          "files"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issueId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "issueId",
+          "change",
+          "location"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "skill",
+    "depth",
+    "sections",
+    "activities",
+    "responses"
+  ],
+  "additionalProperties": false
+}

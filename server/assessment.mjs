@@ -43,6 +43,8 @@ export async function submitAttempt(store,attemptId,answers,actor) {
  if(attempt.submissionId)return scoped(tx,'submissions',attempt.submissionId,actor);
  requireValue(answers&&typeof answers==='object'&&!Array.isArray(answers),'Réponses invalides.');if(JSON.stringify(answers).length>150000)fail(413,'Copie trop volumineuse.');
  const lv=await tx.get('lesson_versions',attempt.lessonVersionId);const frozen=structuredClone(answers),submittedAt=now();
+ attempt.firstAttempt??={};attempt.lastAttempt??={};
+ for(const [taskId,answer] of Object.entries(frozen)){const event={timestamp:submittedAt,type:'answer_submitted',payload:{answer}};attempt.firstAttempt[taskId]??=event;attempt.lastAttempt[taskId]=event;}
  const submission=await tx.insert('submissions',{id:uid('submission'),classId:actor.classId,learnerId:actor.id,attemptId:attempt.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,diagnostic:lv.spec.diagnostic,answers:frozen,history:attempt.history||[],submittedAt,sha256:hash(JSON.stringify(frozen))});
  const correction=await correctAsync(lv.spec.diagnostic,frozen);await tx.insert('corrections',{...correction,id:submission.id,classId:actor.classId,learnerId:actor.id,lessonId:attempt.lessonId,submissionId:submission.id,version:1});
  attempt.submissionId=submission.id;attempt.status='submitted';await tx.put('assessment_attempts',attempt);await tx.audit(actor,'diagnostic.submitted',submission.id,{sha256:submission.sha256});

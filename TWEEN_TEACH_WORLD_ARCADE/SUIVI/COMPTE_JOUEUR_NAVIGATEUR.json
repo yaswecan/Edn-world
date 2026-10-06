@@ -13,6 +13,10 @@
       "status": "PASS"
     },
     {
+      "name": "avatar indisponible : repli explicite sans modifier le profil enregistré",
+      "status": "PASS"
+    },
+    {
       "name": "Mon espace : identité réelle, aucune récompense inventée, carte privée et reprise autorisée",
       "status": "PASS"
     },
@@ -56,6 +60,14 @@
     },
     {
       "file": "03-erreur-sauvegarde.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#personnaliser"
+    },
+    {
+      "file": "03-avatar-indisponible.png",
       "viewport": {
         "width": 1440,
         "height": 1050

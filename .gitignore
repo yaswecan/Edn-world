@@ -8,3 +8,5 @@ playwright-report/
 *.xlsx
 !legacy/**/templates/*.xlsx
 .DS_Store
+.lab-data/
+__pycache__/

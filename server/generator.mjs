@@ -56,7 +56,7 @@ export function qualityCheck(spec,{entry,criteria,previous,corpusComplete=false}
  add('corpus',corpusComplete,'Corpus complet compilé');
  return {publishable:checks.every(c=>c.ok),checks,checkedAt:now()};
 }
-export async function generateLesson(store,intent,actor,{entryId,localOnly=false}={}) {
+export async function generateLesson(store,intent,actor,{entryId,localOnly=false,qualityJobId=null}={}) {
  const entries=await store.list('plan_entries',actor.classId),entry=entryId?await scoped(store,'plan_entries',entryId,actor):resolveEntry(entries,intent);
  const plan=(await store.list('plan_versions',actor.classId)).at(-1);requireValue(plan,'Importez une planification.');
  const curriculum=await store.get('curriculum_versions',plan.curriculumVersion),nodes=entry.skills.map(code=>curriculum.criteria.find(c=>c.n3_code===code)).filter(Boolean);
@@ -68,7 +68,8 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  const snapshot=(await store.list('remediation_snapshots',actor.classId)).sort((a,b)=>a.version-b.version).at(-1);
  if(intent.mode==='remediation'&&snapshot){const allowed=new Set([...entry.skills,...nodes.flatMap(n=>n.prerequisiteCodes)]),workshops=snapshot.groups.flatMap(g=>g.activities.filter(a=>allowed.has(a.criterion)).map(a=>`${g.id} · ${a.criterion} : ${a.mode}. ${a.evidence}`));const block=content.blocks.find(b=>b.type==='Activity');if(block&&workshops.length){block.title='Entraînement';block.content='';content.teacherGuide+=`\nDifférenciation issue des groupes v${snapshot.version} :\n${workshops.join('\n')}`;}}
  const references=await retrieveResources(store,actor.classId,{query:entry.objective,criteria:entry.skills,limit:6});const enrichment=localOnly||dense?{content,provider:'library'}:await enhanceContent(content,{intent:intent.intent,entry,criteria:nodes,references:references.map(r=>({sourceId:r.id,sourceVersion:r.sourceVersion,content:r.resource})),sequence:curriculum.sequences.find(s=>s.id===entry.sequence),remediation:(await store.list('remediation_snapshots',actor.classId)).at(-1)?.summary||null});content=enrichment.content;
- const lessonId=entry.resourcePack||`R-${entry.date.replaceAll('-','').slice(2)}`,id=`${actor.classId}:${lessonId}`;
+ const baseLessonId=entry.resourcePack||`R-${entry.date.replaceAll('-','').slice(2)}`;
+ const lessonId=qualityJobId?`${baseLessonId}-${qualityJobId}`:baseLessonId,id=`${actor.classId}:${lessonId}`;
  const diagnostic=diagnosticFrom(previous,source?.spec,nodes,lessonId);
  const missions=await store.list('game_missions',actor.classId),eligible=missions.filter(m=>m.status!=='draft'&&m.competencies.every(c=>entry.skills.includes(c)||previous?.coveredSkills.includes(c))&&m.competencies.some(c=>entry.skills.includes(c)));
  const mission=dense?null:eligible.sort((a,b)=>b.competencies.filter(c=>entry.skills.includes(c)).length-a.competencies.filter(c=>entry.skills.includes(c)).length)[0];
@@ -83,7 +84,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  validate(lessonSchema,spec);
  const versionId=`${id}:v${version}`,quality=qualityCheck(spec,{entry,criteria:curriculum.criteria,previous});
  await tx.insert('lesson_versions',{id:versionId,classId:actor.classId,version,spec,authorId:actor.id});
- const lesson={id,planEntryId:entry.id,classId:actor.classId,version,versionId,date:entry.date,title:spec.title,status:'draft',quality,provider:enrichment.provider,agentRunId:agent.id};if(old)await tx.put('lessons',lesson);else await tx.insert('lessons',lesson);
+ const lesson={id,planEntryId:entry.id,classId:actor.classId,version,versionId,date:entry.date,title:spec.title,status:'draft',quality,provider:enrichment.provider,agentRunId:agent.id,...(qualityJobId?{qualityJobId,qualityRequired:true,preparationState:'preparing'}:{})};if(old)await tx.put('lessons',lesson);else await tx.insert('lessons',lesson);
  agent.status='completed';agent.lessonId=id;agent.provider=enrichment.provider;agent.steps=['resolve_intent','load_plan','load_previous_completed','load_curriculum','assemble_resources','diagnostic','lesson','select_mission','quality'];agent.retrievalSources=references.map(r=>({id:r.id,sourceVersion:r.sourceVersion,score:r.score}));agent.completedAt=now();await tx.put('agent_runs',agent);
  await tx.audit(actor,'lesson.generated',id,{version,sourceRun:previous?.id||null});return {...lesson,spec};
  });
@@ -91,6 +92,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
 }
 export function studentSpec(spec,{submitted=false}={}) {
  const result=structuredClone(spec);delete result.teacherGuide;
+ result.blocks.forEach(b=>{delete b.depth;});
  const redact=a=>{delete a.expectedAnswer;delete a.reference;delete a.tests;};
  result.activities.forEach(redact);if(!submitted)result.diagnostic.tasks.forEach(a=>{redact(a);if(a.workshop){delete a.workshop.hints;delete a.workshop.board;}});
  return result;

@@ -24,7 +24,7 @@
     },
     "duration": {
       "type": "integer",
-      "minimum": 10,
+      "minimum": 5,
       "maximum": 20
     },
     "criteria": {
@@ -188,6 +188,34 @@
                   "07-deboguer",
                   "08-refaire"
                 ]
+              },
+              "profile": {
+                "enum": [
+                  "html-css",
+                  "algorithm",
+                  "dom",
+                  "shell-git",
+                  "concepts"
+                ]
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "content"
+                  ],
+                  "additionalProperties": false
+                }
               }
             }
           }

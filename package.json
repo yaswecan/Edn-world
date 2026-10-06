@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
+    "preview:student": "node --watch --import tsx scripts/arcade-student-preview.mjs",
     "start": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
     "import": "node --env-file-if-exists=.env.local --import tsx scripts/import.mjs",
     "test": "node --import tsx --test tests/*.test.mjs",
@@ -18,10 +19,15 @@
     "demo:lesson": "node scripts/lesson-demo.mjs",
     "demo:serve": "node scripts/lesson-preview-server.mjs",
     "test:visual": "playwright test --config playwright.lesson.config.mjs",
-    "test:visual:update": "playwright test --config playwright.lesson.config.mjs --update-snapshots"
+    "test:visual:update": "playwright test --config playwright.lesson.config.mjs --update-snapshots",
+    "preview:quality": "node --import tsx scripts/quality-preview.mjs",
+    "test:quality": "node --import tsx --test tests/pedagogy.test.mjs tests/pedagogy-api.test.mjs",
+    "test:quality:browser": "node --import tsx scripts/quality-browser-check.mjs",
+    "test:quality:dom": "node --import tsx scripts/quality-dom-check.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1146.0",
+    "@xterm/xterm": "5.5.0",
     "ajv": "8.20.0",
     "archiver": "7.0.1",
     "css-tree": "^3.1.0",
@@ -30,9 +36,11 @@
     "googleapis": "156.0.0",
     "jszip": "3.10.1",
     "parse5": "^7.3.0",
+    "pdfjs-dist": "5.4.296",
     "pdfkit": "0.17.2",
     "pg": "8.16.3",
     "pptxgenjs": "4.0.1",
+    "sax": "1.4.1",
     "tsx": "4.20.6"
   },
   "devDependencies": {

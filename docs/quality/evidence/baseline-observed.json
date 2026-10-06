@@ -1,0 +1,311 @@
+{
+  "access": "SQLite read-only; no changes to real lessons or users",
+  "runs": [
+    {
+      "referenceHash": "d071e94eeb9d2c5a58d6ba965bcc97908ae7b83dcbe5538aa29b31f75ff420a3",
+      "provider": "library",
+      "status": "completed",
+      "startedAt": "2026-10-05T15:58:19.362Z",
+      "completedAt": "2026-10-05T15:58:19.394Z",
+      "durationMs": 32,
+      "steps": [
+        "resolve_intent",
+        "load_plan",
+        "load_previous_completed",
+        "load_curriculum",
+        "assemble_resources",
+        "diagnostic",
+        "lesson",
+        "select_mission",
+        "quality"
+      ]
+    },
+    {
+      "referenceHash": "d12fbe23133b7af3882d88434e346e31137e6dfde542cad4d5c6995ba5c17e73",
+      "provider": "library",
+      "status": "completed",
+      "startedAt": "2026-10-05T15:57:02.577Z",
+      "completedAt": "2026-10-05T15:57:02.667Z",
+      "durationMs": 90,
+      "steps": [
+        "resolve_intent",
+        "load_plan",
+        "load_previous_completed",
+        "load_curriculum",
+        "assemble_resources",
+        "diagnostic",
+        "lesson",
+        "select_mission",
+        "quality"
+      ]
+    },
+    {
+      "referenceHash": "b415c2a016bb70c20271aba39822c5c903d056f06f342864c6970203f3b73d18",
+      "provider": "library",
+      "status": "completed",
+      "startedAt": "2026-10-05T08:55:14.901Z",
+      "completedAt": "2026-10-05T08:55:14.966Z",
+      "durationMs": 65,
+      "steps": [
+        "resolve_intent",
+        "load_plan",
+        "load_previous_completed",
+        "load_curriculum",
+        "assemble_resources",
+        "diagnostic",
+        "lesson",
+        "select_mission",
+        "quality"
+      ]
+    }
+  ],
+  "versions": [
+    {
+      "referenceHash": "4afe0fcc4dc42bd46bdf1c6d780b14b956692a165fd5f99553fc213f81a7233b",
+      "version": 1,
+      "contentHash": "dcc0da14e983d3ade0ac64458d3052a9f7b59ae81889f886779934127fe60738",
+      "blocks": [
+        {
+          "type": "LessonHero",
+          "characters": 121
+        },
+        {
+          "type": "Diagnostic",
+          "characters": 81
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 764
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 607
+        },
+        {
+          "type": "LiveCode",
+          "characters": 132
+        },
+        {
+          "type": "LiveCode",
+          "characters": 136
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 121
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 123
+        },
+        {
+          "type": "Pause",
+          "characters": 58
+        },
+        {
+          "type": "Activity",
+          "characters": 99
+        },
+        {
+          "type": "Activity",
+          "characters": 68
+        },
+        {
+          "type": "CodeStationLauncher",
+          "characters": 58
+        },
+        {
+          "type": "Reflection",
+          "characters": 70
+        }
+      ],
+      "centralExplanation": "Un terminal permet d’interagir avec un shell. pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte. Un chemin absolu part de la racine, un chemin relatif dépend du dossier courant. Créer, lire et éditer un fichier sont des actions distinctes.\n\nLes permissions déterminent qui peut lire, écrire ou exécuter. Un compte ordinaire limite les conséquences d’une erreur ; les droits administrateur ne doivent servir qu’à une tâche autorisée. Les gestionnaires de paquets diffèrent selon l’OS. Identifier la distribution précède le choix d’une commande d’installation. Les manipulations de comptes, paquets et droits se font ici dans une VM jetable, pas sur le serveur qui héberge les travaux des élèves.",
+      "workedExample": "pwd\nls\ncd labo\nmkdir rapports\ngrep \"ERROR\" logs/app.log\n# Les commandes paquets/comptes sont choisies après identification de la VM."
+    },
+    {
+      "referenceHash": "58f10fa6bacaf09022d1d787cfdf9683777e22618215ebbcc385f748bccab75f",
+      "version": 4,
+      "contentHash": "22385f97e77f61ecb70fc2a56fa0f4dc5232d548fe7a19ecd0f1a3916ea94e59",
+      "blocks": [
+        {
+          "type": "LessonHero",
+          "characters": 153
+        },
+        {
+          "type": "Diagnostic",
+          "characters": 81
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 674
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 766
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 811
+        },
+        {
+          "type": "LiveCode",
+          "characters": 114
+        },
+        {
+          "type": "LiveCode",
+          "characters": 152
+        },
+        {
+          "type": "LiveCode",
+          "characters": 167
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 153
+        },
+        {
+          "type": "Activity",
+          "characters": 153
+        },
+        {
+          "type": "Activity",
+          "characters": 153
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 134
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 152
+        },
+        {
+          "type": "Pause",
+          "characters": 58
+        },
+        {
+          "type": "Activity",
+          "characters": 99
+        },
+        {
+          "type": "Activity",
+          "characters": 68
+        },
+        {
+          "type": "Reflection",
+          "characters": 70
+        }
+      ],
+      "centralExplanation": "Flexbox organise les enfants directs d’un même parent. La déclaration display: flex s’écrit sur ce parent : elle ne s’applique pas à tous ses descendants.\n\nflex-direction choisit l’axe principal. Dans notre page en français, row va de gauche à droite et column de haut en bas. justify-content répartit l’espace sur cet axe ; align-items agit sur l’axe transversal. Les noms des propriétés restent identiques quand la direction change.\n\ngap crée l’espace entre les cartes ; padding crée l’espace à l’intérieur d’une boîte. flex-wrap: wrap autorise un retour à la ligne quand les cartes ne tiennent plus. Grid permet, lui, d’organiser simultanément des lignes et des colonnes.",
+      "workedExample": ".groupe {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n  gap: 16px;\n}"
+    },
+    {
+      "referenceHash": "0cb7c867494348f3e53379864c8172471303122b2fe5b269fa89eadfd5b9f804",
+      "version": 3,
+      "contentHash": "91ee6b4eb09f3852835e87fdcbe06632a891ae1e89bfeb76caffc4d2dd2a4c0e",
+      "blocks": [
+        {
+          "type": "LessonHero",
+          "characters": 153
+        },
+        {
+          "type": "Diagnostic",
+          "characters": 122
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 674
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 766
+        },
+        {
+          "type": "ConceptCard",
+          "characters": 811
+        },
+        {
+          "type": "LiveCode",
+          "characters": 114
+        },
+        {
+          "type": "LiveCode",
+          "characters": 152
+        },
+        {
+          "type": "LiveCode",
+          "characters": 167
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 153
+        },
+        {
+          "type": "Activity",
+          "characters": 153
+        },
+        {
+          "type": "Activity",
+          "characters": 153
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 134
+        },
+        {
+          "type": "Activity",
+          "characters": 74
+        },
+        {
+          "type": "Activity",
+          "characters": 152
+        },
+        {
+          "type": "Pause",
+          "characters": 93
+        },
+        {
+          "type": "Activity",
+          "characters": 128
+        },
+        {
+          "type": "Activity",
+          "characters": 97
+        },
+        {
+          "type": "Reflection",
+          "characters": 90
+        }
+      ],
+      "centralExplanation": "Flexbox organise les enfants directs d’un même parent. La déclaration display: flex s’écrit sur ce parent : elle ne s’applique pas à tous ses descendants.\n\nflex-direction choisit l’axe principal. Dans notre page en français, row va de gauche à droite et column de haut en bas. justify-content répartit l’espace sur cet axe ; align-items agit sur l’axe transversal. Les noms des propriétés restent identiques quand la direction change.\n\ngap crée l’espace entre les cartes ; padding crée l’espace à l’intérieur d’une boîte. flex-wrap: wrap autorise un retour à la ligne quand les cartes ne tiennent plus. Grid permet, lui, d’organiser simultanément des lignes et des colonnes.",
+      "workedExample": ".groupe {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n  gap: 16px;\n}"
+    }
+  ]
+}

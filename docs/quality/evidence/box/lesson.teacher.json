@@ -1,0 +1,573 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "PILOT-box-prep_0f32c953-e9ba-45a3-b56b-ee382ed797d9",
+  "lessonVersion": 3,
+  "classId": "A1",
+  "date": "2026-10-05",
+  "planEntryId": "box",
+  "planVersion": 1,
+  "sequence": "Pilotes de recette",
+  "title": "Une carte de 300 pixels… qui déborde",
+  "skills": [
+    "BC04-C2-1"
+  ],
+  "objectives": [
+    "Pourquoi une carte annoncée à 300 px dépasse-t-elle un contenant de 300 px ?",
+    "Prévoir, vérifier et expliquer un résultat ; produire une variante autonome."
+  ],
+  "prerequisites": [],
+  "reactivation": [],
+  "diagnostic": {
+    "id": "PILOT-box-prep_0f32c953-e9ba-45a3-b56b-ee382ed797d9:diagnostic",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 8,
+    "criteria": [],
+    "tasks": [
+      {
+        "id": "diag-observe",
+        "type": "WriteResponse",
+        "title": "Un point de départ",
+        "instruction": "Décris un exemple que tu sais déjà traiter sur ce sujet et indique ce que tu vérifierais en premier.",
+        "objective": "Un point de départ",
+        "skills": [],
+        "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "duration": 4,
+        "required": true,
+        "correctionMode": "manual",
+        "expectedAnswer": "",
+        "reference": "Une classe CSS cible les éléments qui portent ce nom. Une déclaration associe une propriété à une valeur. Les pixels mesurent ici une largeur ; ils ne désignent pas le nombre de lettres.",
+        "starter": "",
+        "options": [],
+        "tests": []
+      },
+      {
+        "id": "diag-practice",
+        "type": "CodeEditor",
+        "title": "Essaie avant le cours",
+        "instruction": "Écris une règle CSS qui colore uniquement la classe carte en bleu.",
+        "objective": "Essaie avant le cours",
+        "skills": [],
+        "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "duration": 4,
+        "required": true,
+        "correctionMode": "css",
+        "expectedAnswer": "",
+        "reference": ".carte { color: blue; }",
+        "starter": "/* Ta règle */",
+        "options": [],
+        "tests": [
+          {
+            "invoke": "couleur",
+            "argsJSON": "{\"selector\":\".carte\",\"property\":\"color\",\"value\":\"blue\"}",
+            "expectedJSON": "true"
+          }
+        ],
+        "workshop": {
+          "language": "css",
+          "document": "<article class=\"carte\">Projet</article>"
+        }
+      }
+    ],
+    "rubric": [
+      {
+        "id": "rubric-0",
+        "criterion": "baseline",
+        "taskId": "diag-observe",
+        "label": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      },
+      {
+        "id": "rubric-1",
+        "criterion": "baseline",
+        "taskId": "diag-practice",
+        "label": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      }
+    ]
+  },
+  "timeline": [
+    {
+      "blockId": "opening",
+      "minutes": 4
+    },
+    {
+      "blockId": "diagnostic",
+      "minutes": 8
+    },
+    {
+      "blockId": "concept",
+      "minutes": 19
+    },
+    {
+      "blockId": "observe",
+      "minutes": 13
+    },
+    {
+      "blockId": "guided",
+      "minutes": 20
+    },
+    {
+      "blockId": "autonomy",
+      "minutes": 26
+    },
+    {
+      "blockId": "extension",
+      "minutes": 12
+    },
+    {
+      "blockId": "exit",
+      "minutes": 8
+    }
+  ],
+  "blocks": [
+    {
+      "id": "opening",
+      "type": "LessonHero",
+      "phase": "opening",
+      "title": "Une carte de 300 pixels… qui déborde",
+      "content": "Pourquoi une carte annoncée à 300 px dépasse-t-elle un contenant de 300 px ?",
+      "minutes": 4,
+      "activityIds": [],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "diagnostic",
+      "type": "Diagnostic",
+      "phase": "diagnostic",
+      "title": "Ton point de départ",
+      "content": "Réponds avant les aides ; une réponse incomplète reste utile.",
+      "minutes": 8,
+      "activityIds": [],
+      "skills": [],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "concept",
+      "type": "ConceptCard",
+      "phase": "understand",
+      "title": "Comprendre le mécanisme",
+      "content": "Pourquoi une carte annoncée à 300 px dépasse-t-elle un contenant de 300 px ?\n\nUne classe CSS cible les éléments qui portent ce nom. Une déclaration associe une propriété à une valeur. Les pixels mesurent ici une largeur ; ils ne désignent pas le nombre de lettres.\n\nLe navigateur construit plusieurs zones autour du contenu. Le padding éloigne le texte de la bordure ; la bordure entoure l’ensemble ; la marge sépare cette boîte des voisines. Par défaut, width décrit seulement le contenu. Ajouter 20 px de padding de chaque côté ajoute donc 40 px à la largeur occupée.\n\nbox-sizing ne supprime pas ces zones : il change ce que mesure width. Avec border-box, le navigateur réserve la bordure et le padding à l’intérieur de la largeur déclarée. Le contenu reçoit l’espace restant. Une largeur de 100% est calculée à partir du contenant ; border-box évite que les zones intérieures la fassent dépasser.\n\nContenant : 300 px. Carte : width:300px ; padding:20px ; border:2px solid. En content-box : 300 + 20 + 20 + 2 + 2 = 344 px. Débordement : 44 px. En border-box : largeur extérieure 300 px, contenu 300 − 44 = 256 px. La marge, si on en ajoute une, reste hors des 300 px.\n\nEnlever le padding peut masquer le débordement mais colle le texte au bord. Ce n’est pas la même décision que changer le modèle de mesure. border-box ne rend pas à lui seul une carte de largeur fixe responsive : à 240 px, une carte de 300 px dépasse encore. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+      "minutes": 19,
+      "activityIds": [],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "Enlever le padding peut masquer le débordement mais colle le texte au bord. Ce n’est pas la même décision que changer le modèle de mesure. border-box ne rend pas à lui seul une carte de largeur fixe responsive : à 240 px, une carte de 300 px dépasse encore."
+        ],
+        "diagram": [
+          "Largeur déclarée 300 → bordures 4 + padding 40 + contenu 256",
+          "Marge → espace extérieur au calcul de border-box"
+        ]
+      },
+      "depth": {
+        "question": "Pourquoi une carte annoncée à 300 px dépasse-t-elle un contenant de 300 px ?",
+        "prerequisiteReminder": "Une classe CSS cible les éléments qui portent ce nom. Une déclaration associe une propriété à une valeur. Les pixels mesurent ici une largeur ; ils ne désignent pas le nombre de lettres.",
+        "mechanism": "Le navigateur construit plusieurs zones autour du contenu. Le padding éloigne le texte de la bordure ; la bordure entoure l’ensemble ; la marge sépare cette boîte des voisines. Par défaut, width décrit seulement le contenu. Ajouter 20 px de padding de chaque côté ajoute donc 40 px à la largeur occupée.\n\nbox-sizing ne supprime pas ces zones : il change ce que mesure width. Avec border-box, le navigateur réserve la bordure et le padding à l’intérieur de la largeur déclarée. Le contenu reçoit l’espace restant. Une largeur de 100% est calculée à partir du contenant ; border-box évite que les zones intérieures la fassent dépasser.",
+        "workedExample": "Contenant : 300 px. Carte : width:300px ; padding:20px ; border:2px solid. En content-box : 300 + 20 + 20 + 2 + 2 = 344 px. Débordement : 44 px. En border-box : largeur extérieure 300 px, contenu 300 − 44 = 256 px. La marge, si on en ajoute une, reste hors des 300 px.",
+        "misconception": "Enlever le padding peut masquer le débordement mais colle le texte au bord. Ce n’est pas la même décision que changer le modèle de mesure. border-box ne rend pas à lui seul une carte de largeur fixe responsive : à 240 px, une carte de 300 px dépasse encore. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+        "transfer": "Construire deux cartes dans des contenants de largeurs différentes, avec un texte long et un bouton. Choisir une largeur qui suit chaque contenant et défendre le choix du padding.",
+        "remediation": "Dessine les cinq bandes horizontales : bordure, padding, contenu, padding, bordure. Inscris les valeurs puis calcule avant de modifier la règle.",
+        "citations": [
+          {
+            "sourceId": "source_9cc90b5f-79c9-47e4-8a23-34e9d010a95c",
+            "segmentId": "source_9cc90b5f-79c9-47e4-8a23-34e9d010a95c:s1",
+            "claim": "Le navigateur construit plusieurs zones autour du contenu. Le padding éloigne le texte de la bordure ; la bordure entoure l’ensemble ; la marge sépare cette boîte des voisines. Par défaut, width décrit seulement le contenu. Ajouter 20 px de padding de chaque côté ajoute donc 40 px à la largeur occupée.\n\nbox-sizing ne supprime pas ces zones : il change ce que mesure width. Avec border-box, le navigateur réserve la bordure et le padding à l’intérieur de la largeur déclarée. Le contenu reçoit l’espace restant. Une largeur de 100% est calculée à partir du contenant ; border-box évite que les zones intérieures la fassent dépasser.",
+            "kind": "explicit"
+          }
+        ]
+      }
+    },
+    {
+      "id": "observe",
+      "type": "LiveCode",
+      "phase": "observe",
+      "title": "Prévoir et suivre les changements",
+      "content": ".carte {\n  width: 300px;\n  padding: 20px;\n  border: 2px solid;\n  box-sizing: border-box;\n}",
+      "minutes": 13,
+      "activityIds": [
+        "prediction"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Contenant : 300 px. Carte : width:300px ; padding:20px ; border:2px solid. En content-box : 300 + 20 + 20 + 2 + 2 = 344 px. Débordement : 44 px. En border-box : largeur extérieure 300 px, contenu 300 − 44 = 256 px. La marge, si on en ajoute une, reste hors des 300 px.",
+          "Vérifie chaque étape, puis explique le résultat."
+        ],
+        "hint": "",
+        "check": "Le résultat réel correspond-il à ta prévision ?",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "guided",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Enquêter et réparer",
+      "content": "Garde une première tentative. Appuie-toi sur les observations pour corriger.",
+      "minutes": 20,
+      "activityIds": [
+        "drawing",
+        "guided"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Observer et prévoir.",
+          "Changer puis expliquer."
+        ],
+        "hint": "Dessine les cinq bandes horizontales : bordure, padding, contenu, padding, bordure. Inscris les valeurs puis calcule avant de modifier la règle.",
+        "check": "La correction traite le défaut et préserve le reste.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "autonomy",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "Produire sous contraintes",
+      "content": "Tu choisis les étapes ; justifie une décision.",
+      "minutes": 26,
+      "activityIds": [
+        "autonomous",
+        "justify"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "extension",
+      "type": "Activity",
+      "phase": "extend",
+      "title": "Transférer la démarche",
+      "content": "Construire deux cartes dans des contenants de largeurs différentes, avec un texte long et un bouton. Choisir une largeur qui suit chaque contenant et défendre le choix du padding.",
+      "minutes": 12,
+      "activityIds": [
+        "transfer"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Expliquer ce que tu réutilises",
+      "content": "Dessine les cinq bandes horizontales : bordure, padding, contenu, padding, bordure. Inscris les valeurs puis calcule avant de modifier la règle.",
+      "minutes": 8,
+      "activityIds": [
+        "exit"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "Une classe CSS cible les éléments qui portent ce nom. Une déclaration associe une propriété à une valeur. Les pixels mesurent ici une largeur ; ils ne désignent pas le nombre de lettres.",
+          "Enlever le padding peut masquer le débordement mais colle le texte au bord. Ce n’est pas la même décision que changer le modèle de mesure. border-box ne rend pas à lui seul une carte de largeur fixe responsive : à 240 px, une carte de 300 px dépasse encore."
+        ],
+        "diagram": []
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "prediction",
+      "type": "WriteResponse",
+      "title": "Avant le premier essai",
+      "instruction": "Écris ta prévision pour l’exemple, puis une observation qui pourrait la contredire. Après l’essai, explique l’écart éventuel.",
+      "objective": "Avant le premier essai",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Une prévision conservée et une comparaison avec un résultat réel.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "manual",
+      "expectedAnswer": "",
+      "reference": "Contenant : 300 px. Carte : width:300px ; padding:20px ; border:2px solid. En content-box : 300 + 20 + 20 + 2 + 2 = 344 px. Débordement : 44 px. En border-box : largeur extérieure 300 px, contenu 300 − 44 = 256 px. La marge, si on en ajoute une, reste hors des 300 px.",
+      "starter": "",
+      "options": [],
+      "tests": []
+    },
+    {
+      "id": "drawing",
+      "type": "Blackboard",
+      "title": "Rendre le mécanisme visible",
+      "instruction": "Dessine ou décris les relations de la séance. Légende les flèches, indique ce qui change et utilise les valeurs d’un exemple.",
+      "objective": "Rendre le mécanisme visible",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "manual",
+      "expectedAnswer": "",
+      "reference": "Largeur déclarée 300 → bordures 4 + padding 40 + contenu 256\nMarge → espace extérieur au calcul de border-box",
+      "starter": "",
+      "options": [],
+      "tests": [],
+      "workshop": {
+        "profile": "concepts"
+      }
+    },
+    {
+      "id": "guided",
+      "type": "CodeEditor",
+      "title": "Une boîte trop large",
+      "instruction": "Avant de modifier, calcule la largeur extérieure et écris pourquoi elle dépasse 300 px. Conserve le padding de 20 px et la bordure de 2 px ; corrige le modèle de mesure. Vérifie le rendu.",
+      "objective": "Une boîte trop large",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "css",
+      "expectedAnswer": "",
+      "reference": ".carte { width: 300px; padding: 20px; border: 2px solid; box-sizing: border-box; }",
+      "starter": ".carte { width: 300px; padding: 20px; border: 2px solid; }",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "box-sizing",
+          "argsJSON": "{\"selector\":\".carte\",\"property\":\"box-sizing\",\"value\":\"border-box\"}",
+          "expectedJSON": "true"
+        },
+        {
+          "invoke": "padding",
+          "argsJSON": "{\"selector\":\".carte\",\"property\":\"padding\",\"value\":\"20px\"}",
+          "expectedJSON": "true"
+        }
+      ],
+      "workshop": {
+        "language": "css",
+        "profile": "html-css",
+        "document": "<main style=\"width: min(100%, 300px)\"><article class=\"carte\"><h2>Atelier photo</h2><p>Quatre images et une explication pour raconter un changement dans le quartier.</p><button>Voir le projet</button></article></main>",
+        "hints": [
+          "Que mesure width avant la correction ?",
+          "Cherche la propriété qui choisit le modèle de boîte."
+        ],
+        "checks": [
+          "La carte tient dans 300 px.",
+          "Le texte garde 20 px de padding."
+        ]
+      }
+    },
+    {
+      "id": "autonomous",
+      "type": "CodeEditor",
+      "title": "Une carte qui suit son contenant",
+      "instruction": "La même carte doit tenir dans un contenant de 240 px puis de 300 px. Garde 16 px de padding et 2 px de bordure. Utilise une largeur de 100% et un modèle incluant les espaces intérieurs. Teste un texte long et justifie ce choix dans la réponse suivante.",
+      "objective": "Une carte qui suit son contenant",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "css",
+      "expectedAnswer": "",
+      "reference": ".carte { width: 100%; padding: 16px; border: 2px solid; box-sizing: border-box; overflow-wrap: anywhere; }",
+      "starter": ".carte {\n  border: 2px solid;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "width",
+          "argsJSON": "{\"selector\":\".carte\",\"property\":\"width\",\"value\":\"100%\"}",
+          "expectedJSON": "true"
+        },
+        {
+          "invoke": "box-sizing",
+          "argsJSON": "{\"selector\":\".carte\",\"property\":\"box-sizing\",\"value\":\"border-box\"}",
+          "expectedJSON": "true"
+        },
+        {
+          "invoke": "padding",
+          "argsJSON": "{\"selector\":\".carte\",\"property\":\"padding\",\"value\":\"16px\"}",
+          "expectedJSON": "true"
+        }
+      ],
+      "workshop": {
+        "language": "css",
+        "profile": "html-css",
+        "document": "<main style=\"width: min(100%, 300px)\"><article class=\"carte\"><h2>Atelier photo</h2><p>Quatre images et une explication pour raconter un changement dans le quartier.</p><button>Voir le projet</button></article></main>",
+        "checks": [
+          "Largeur de 100% du contenant.",
+          "Padding de 16 px conservé.",
+          "Aucun texte coupé à petite largeur."
+        ],
+        "hints": [
+          "Compare ce que mesure un pourcentage et ce que mesure un pixel."
+        ]
+      }
+    },
+    {
+      "id": "justify",
+      "type": "WriteResponse",
+      "title": "Défends ton choix",
+      "instruction": "Explique un choix de ta production autonome. Donne une erreur plausible, le cas qui la révèle et pourquoi ta solution l’évite.",
+      "objective": "Défends ton choix",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Un choix, un contre-exemple et une explication causale.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "manual",
+      "expectedAnswer": "",
+      "reference": "Enlever le padding peut masquer le débordement mais colle le texte au bord. Ce n’est pas la même décision que changer le modèle de mesure. border-box ne rend pas à lui seul une carte de largeur fixe responsive : à 240 px, une carte de 300 px dépasse encore.",
+      "starter": "",
+      "options": [],
+      "tests": []
+    },
+    {
+      "id": "transfer",
+      "type": "WriteResponse",
+      "title": "Deux cartes, deux contraintes",
+      "instruction": "Dessine deux contenants de 240 et 360 px avec la même carte, puis calcule la place du texte si le padding passe de 16 à 24 px. Explique pourquoi ajouter une marge de 10 px peut faire dépasser une boîte de width:100%, même avec border-box. Propose une mise en page qui préserve l’espace sans cacher le texte.",
+      "objective": "Deux cartes, deux contraintes",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 12,
+      "required": true,
+      "correctionMode": "manual",
+      "expectedAnswer": "",
+      "reference": "À 240 px, contenu : 240 − 48 − 4 = 188 px ; à 360 px : 308 px. Les marges restent extérieures. Une solution consiste à mettre l’espace dans le padding du contenant, ou choisir une largeur qui en tient compte ; examiner l’explication et le rendu.",
+      "starter": "",
+      "options": [],
+      "tests": []
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "title": "Vérification finale",
+      "instruction": "Sans reprendre l’exemple du cours, propose un cas analogue et son résultat. Explique le mécanisme, puis nomme la partie que tu vérifierais encore.",
+      "objective": "Vérification finale",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "manual",
+      "expectedAnswer": "",
+      "reference": "Le navigateur construit plusieurs zones autour du contenu. Le padding éloigne le texte de la bordure ; la bordure entoure l’ensemble ; la marge sépare cette boîte des voisines. Par défaut, width décrit seulement le contenu. Ajouter 20 px de padding de chaque côté ajoute donc 40 px à la largeur occupée.\n\nbox-sizing ne supprime pas ces zones : il change ce que mesure width. Avec border-box, le navigateur réserve la bordure et le padding à l’intérieur de la largeur déclarée. Le contenu reçoit l’espace restant. Une largeur de 100% est calculée à partir du contenant ; border-box évite que les zones intérieures la fassent dépasser.",
+      "starter": "",
+      "options": [],
+      "tests": []
+    }
+  ],
+  "slides": [
+    {
+      "title": "Une carte de 300 pixels… qui déborde",
+      "body": "Pourquoi une carte annoncée à 300 px dépasse-t-elle un contenant de 300 px ?"
+    },
+    {
+      "title": "Comprendre le mécanisme",
+      "body": "Pourquoi une carte annoncée à 300 px dépasse-t-elle un contenant de 300 px ?\n\nUne classe CSS cible les éléments qui portent ce nom. Une déclaration associe une propriété à une valeur. Les pixels mesurent ici une largeur ; ils ne désignent pas le nombre de lettres.\n\nLe navigateur construit plusieurs zones autour du contenu. Le padding éloigne le texte de la bordure ; la bordure entoure l’ensemble ; la marge sépare cette boîte des voisines. Par défaut, width décrit seulement le contenu. Ajouter 20 px de padding de chaque côté ajoute donc 40 px à la largeur occupée.\n\nbox-sizing ne supprime pas ces zones : il change ce que mesure width. Avec border-box, le navigateur réserve la bordure et le padding à l’intérieur de la largeur déclarée. Le contenu reçoit l’espace restant. Une largeur de 100% est calculée à partir du contenant ; border-box évite que les zones intérieures la fassent dépasser.\n\nContenant : 300 px. Carte : width:300px ; padding:20px ; border:2px solid. En content-box : 300 + 20 + 20 + 2 + 2 = 344 px. Débordement : 44 px. En border-box : largeur extérieure 300 px, contenu 300 − 44 = 256 px. La marge, si on en ajoute une, reste hors des 300 px.\n\nEnlever le padding peut masquer le débordement mais colle le texte au bord. Ce n’est pas la même décision que changer le modèle de mesure. border-box ne rend pas à lui seul une carte de largeur fixe responsive : à 240 px, une carte de 300 px dépasse encore. Compare explicitement le cas avant et après la correction, en gardant la première réponse."
+    },
+    {
+      "title": "Prévoir et suivre les changements",
+      "body": ".carte {\n  width: 300px;\n  padding: 20px;\n  border: 2px solid;\n  box-sizing: border-box;\n}"
+    },
+    {
+      "title": "Enquêter et réparer",
+      "body": "Garde une première tentative. Appuie-toi sur les observations pour corriger."
+    },
+    {
+      "title": "Produire sous contraintes",
+      "body": "Tu choisis les étapes ; justifie une décision."
+    },
+    {
+      "title": "Transférer la démarche",
+      "body": "Construire deux cartes dans des contenants de largeurs différentes, avec un texte long et un bouton. Choisir une largeur qui suit chaque contenant et défendre le choix du padding."
+    },
+    {
+      "title": "Expliquer ce que tu réutilises",
+      "body": "Dessine les cinq bandes horizontales : bordure, padding, contenu, padding, bordure. Inscris les valeurs puis calcule avant de modifier la règle."
+    }
+  ],
+  "resources": [
+    "BC04-C2-1"
+  ],
+  "codeStation": null,
+  "teacherGuide": "Fixture originale de recette. Vérifier les explications et la charge auprès de la classe ; aucune validation IA réelle. Dessine les cinq bandes horizontales : bordure, padding, contenu, padding, bordure. Inscris les valeurs puis calcule avant de modifier la règle.",
+  "studentFlow": [
+    "opening",
+    "diagnostic",
+    "concept",
+    "observe",
+    "guided",
+    "autonomy",
+    "extension",
+    "exit"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "quality-curriculum",
+    "planVersion": 1,
+    "previousLessonRunId": null
+  },
+  "sourceNotes": [
+    {
+      "blockId": "concept",
+      "title": "box.md",
+      "location": "line:1",
+      "note": "Le navigateur construit plusieurs zones autour du contenu. Le padding éloigne le texte de la bordure ; la bordure entoure l’ensemble ; la marge sépare cette boîte des voisines. Par défaut, width décrit seulement le contenu. Ajouter 20 px de padding de chaque côté ajoute donc 40 px à la largeur occupée.\n\nbox-sizing ne supprime pas ces zones : il change ce que mesure width. Avec border-box, le navigateur réserve la bordure et le padding à l’intérieur de la largeur déclarée. Le contenu reçoit l’espace restant. Une largeur de 100% est calculée à partir du contenant ; border-box évite que les zones intérieures la fassent dépasser.",
+      "url": null
+    }
+  ]
+}

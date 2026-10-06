@@ -82,7 +82,7 @@
         },
         "duration": {
           "type": "integer",
-          "minimum": 10,
+          "minimum": 5,
           "maximum": 20
         },
         "criteria": {
@@ -246,6 +246,34 @@
                       "07-deboguer",
                       "08-refaire"
                     ]
+                  },
+                  "profile": {
+                    "enum": [
+                      "html-css",
+                      "algorithm",
+                      "dom",
+                      "shell-git",
+                      "concepts"
+                    ]
+                  },
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "path": {
+                          "type": "string"
+                        },
+                        "content": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "path",
+                        "content"
+                      ],
+                      "additionalProperties": false
+                    }
                   }
                 }
               }
@@ -458,6 +486,84 @@
               "diagram"
             ],
             "additionalProperties": false
+          },
+          "depth": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string",
+                "minLength": 1
+              },
+              "prerequisiteReminder": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mechanism": {
+                "type": "string",
+                "minLength": 1
+              },
+              "workedExample": {
+                "type": "string",
+                "minLength": 1
+              },
+              "misconception": {
+                "type": "string",
+                "minLength": 1
+              },
+              "transfer": {
+                "type": "string",
+                "minLength": 1
+              },
+              "remediation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "citations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "sourceId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "segmentId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "claim": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "kind": {
+                      "enum": [
+                        "explicit",
+                        "inference",
+                        "proposal"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "sourceId",
+                    "segmentId",
+                    "claim",
+                    "kind"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "question",
+              "prerequisiteReminder",
+              "mechanism",
+              "workedExample",
+              "misconception",
+              "transfer",
+              "remediation",
+              "citations"
+            ],
+            "additionalProperties": false
           }
         },
         "required": [
@@ -627,6 +733,34 @@
                   "07-deboguer",
                   "08-refaire"
                 ]
+              },
+              "profile": {
+                "enum": [
+                  "html-css",
+                  "algorithm",
+                  "dom",
+                  "shell-git",
+                  "concepts"
+                ]
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "content"
+                  ],
+                  "additionalProperties": false
+                }
               }
             }
           }
@@ -750,6 +884,40 @@
         "previousLessonRunId"
       ],
       "additionalProperties": false
+    },
+    "sourceNotes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "blockId": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "blockId",
+          "title",
+          "location",
+          "note",
+          "url"
+        ],
+        "additionalProperties": false
+      }
     }
   },
   "required": [

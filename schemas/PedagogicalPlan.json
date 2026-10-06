@@ -1,0 +1,309 @@
+{
+  "type": "object",
+  "properties": {
+    "analysis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conceptId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "relations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "citations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "sourceId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "segmentId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "claim": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "kind": {
+                  "enum": [
+                    "explicit",
+                    "inference",
+                    "proposal"
+                  ]
+                }
+              },
+              "required": [
+                "sourceId",
+                "segmentId",
+                "claim",
+                "kind"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "uncertainties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "required": [
+          "conceptId",
+          "label",
+          "prerequisites",
+          "relations",
+          "citations",
+          "uncertainties"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "order": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "advantages": {
+            "type": "string",
+            "minLength": 1
+          },
+          "risks": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "order",
+          "advantages",
+          "risks"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "selectedOrder": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "justification": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "type": "string",
+            "minLength": 1
+          },
+          "conceptIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "sourceSegments": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "explanationBlockId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "activityIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "remediation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mechanismId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runtimeProfile": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reasoningDemand": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "skill",
+          "conceptIds",
+          "sourceSegments",
+          "explanationBlockId",
+          "activityIds",
+          "evidence",
+          "remediation",
+          "mechanismId",
+          "runtimeProfile",
+          "reasoningDemand"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conceptId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "known",
+              "unknown",
+              "reminder"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "conceptId",
+          "status",
+          "evidence",
+          "action"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "duration": {
+      "type": "object",
+      "properties": {
+        "minutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "uncertainty": {
+          "type": "string",
+          "minLength": 1
+        },
+        "includesReadingAttemptsHelpAndCorrection": {
+          "const": true
+        }
+      },
+      "required": [
+        "minutes",
+        "uncertainty",
+        "includesReadingAttemptsHelpAndCorrection"
+      ],
+      "additionalProperties": false
+    },
+    "diagnosticBranches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "commonObjective": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "observation",
+          "action",
+          "commonObjective"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "deferred": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "required": [
+    "analysis",
+    "alternatives",
+    "selectedOrder",
+    "justification",
+    "coverage",
+    "prerequisites",
+    "duration",
+    "diagnosticBranches",
+    "deferred",
+    "gaps"
+  ],
+  "additionalProperties": false
+}

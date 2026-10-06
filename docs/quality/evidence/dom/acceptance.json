@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-05",
+  "status": "PASS",
+  "topology": "Chromium réel dans un adaptateur HTTP de test local ; comptes et code synthétiques seulement.",
+  "dockerIsolation": "NOT RUN",
+  "checks": [
+    {
+      "id": "click-state-console",
+      "status": "PASS"
+    },
+    {
+      "id": "wrong-behavior-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "alternative-solution-accepted",
+      "status": "PASS"
+    },
+    {
+      "id": "localized-errors",
+      "status": "PASS"
+    },
+    {
+      "id": "page-network-denied",
+      "status": "PASS"
+    },
+    {
+      "id": "infinite-loop-deadline",
+      "status": "PASS"
+    },
+    {
+      "id": "authenticated-server-validation-persisted",
+      "status": "PASS"
+    },
+    {
+      "id": "wrong-version-denied",
+      "status": "PASS"
+    },
+    {
+      "id": "project-files-and-reset-snapshot",
+      "status": "PASS"
+    },
+    {
+      "id": "teacher-preview-three-files-mobile",
+      "status": "PASS"
+    }
+  ],
+  "runtime": "chromium/154.0.8037.98"
+}

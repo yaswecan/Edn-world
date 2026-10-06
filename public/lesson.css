@@ -108,6 +108,7 @@
 .lesson-hint p{font-size:14px;margin:0 0 16px;color:var(--lesson-muted)}
 
 .lesson-observation{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;margin-top:30px}
+.lesson-observation>div{min-width:0}
 .lesson-code-window{border-radius:14px;overflow:hidden;background:var(--console);color:var(--console-text);border:1px solid var(--console-line)}
 .lesson-window-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--console-line);font-size:9px;letter-spacing:1px;color:#b9d3d6}
 .lesson-window-bar>span:first-child{display:flex;gap:5px}

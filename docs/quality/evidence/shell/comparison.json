@@ -1,0 +1,117 @@
+{
+  "kind": "authored-fixture-comparison-not-live-AI",
+  "before": {
+    "id": "concept-0",
+    "type": "ConceptCard",
+    "phase": "understand",
+    "title": "Retrouver la trace",
+    "content": "Un terminal permet d’interagir avec un shell. pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte. Un chemin absolu part de la racine, un chemin relatif dépend du dossier courant. Créer, lire et éditer un fichier sont des actions distinctes.\n\nLes permissions déterminent qui peut lire, écrire ou exécuter. Un compte ordinaire limite les conséquences d’une erreur ; les droits administrateur ne doivent servir qu’à une tâche autorisée. Les gestionnaires de paquets diffèrent selon l’OS. Identifier la distribution précède le choix d’une commande d’installation. Les manipulations de comptes, paquets et droits se font ici dans une VM jetable, pas sur le serveur qui héberge les travaux des élèves.",
+    "minutes": 13,
+    "activityIds": [],
+    "skills": [
+      "BC02-C3-1"
+    ],
+    "teaching": {
+      "steps": [],
+      "hint": "Commencer par observer réduit les opérations au hasard.",
+      "check": "",
+      "takeaways": [
+        "Un terminal permet d’interagir avec un shell.",
+        "pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte."
+      ],
+      "diagram": [
+        "Tu ignores où tu es. Quelle commande lance le diagnostic ? → pwd",
+        "Une installation est demandée. Que vérifier avant apt ou dnf ? → La distribution et la documentation de l’outil"
+      ]
+    }
+  },
+  "after": {
+    "id": "concept",
+    "type": "ConceptCard",
+    "phase": "understand",
+    "title": "Comprendre le mécanisme",
+    "content": "Un fichier a été rangé au mauvais endroit. Comment le retrouver et le déplacer sans perdre l’original utile ?\n\nUn fichier contient des données ; un dossier contient des entrées qui désignent des fichiers ou d’autres dossiers. Une commande ne s’exécute pas « dans le texte » du terminal : le shell la transmet à un programme avec des arguments.\n\nLe shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.\n\nDépart dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.\n\ncd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+    "minutes": 19,
+    "activityIds": [],
+    "skills": [
+      "BC02-C3-1"
+    ],
+    "teaching": {
+      "steps": [],
+      "hint": "",
+      "check": "",
+      "takeaways": [
+        "cd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd."
+      ],
+      "diagram": [
+        "Position du shell + chemin relatif → fichier visé",
+        "Lire → copier si nécessaire → déplacer → vérifier les deux emplacements"
+      ]
+    },
+    "depth": {
+      "question": "Un fichier a été rangé au mauvais endroit. Comment le retrouver et le déplacer sans perdre l’original utile ?",
+      "prerequisiteReminder": "Un fichier contient des données ; un dossier contient des entrées qui désignent des fichiers ou d’autres dossiers. Une commande ne s’exécute pas « dans le texte » du terminal : le shell la transmet à un programme avec des arguments.",
+      "mechanism": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+      "workedExample": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+      "misconception": "cd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+      "transfer": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+      "remediation": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+      "citations": [
+        {
+          "sourceId": "source_0877f6b1-703b-49f2-ab76-a770687b0abd",
+          "segmentId": "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s1",
+          "claim": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+          "kind": "explicit"
+        }
+      ]
+    }
+  },
+  "activity": {
+    "id": "guided",
+    "type": "Terminal",
+    "title": "Réparer un classement",
+    "instruction": "Observe pwd et ls. Lis brouillon/notes.txt. Prévois ce qui changera après un déplacement. Place notes.txt dans projet, puis vérifie contenu et absence à l’ancien endroit.",
+    "objective": "Réparer un classement",
+    "skills": [
+      "BC02-C3-1"
+    ],
+    "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+    "duration": 10,
+    "required": true,
+    "correctionMode": "manual",
+    "expectedAnswer": "",
+    "reference": "mkdir -p projet\nmv brouillon/notes.txt projet/notes.txt\ncat projet/notes.txt",
+    "starter": "",
+    "options": [],
+    "tests": [
+      {
+        "invoke": "file",
+        "argsJSON": "{\"path\":\"projet/notes.txt\",\"content\":\"réunion jeudi\\n\",\"label\":\"Le fichier a le bon contenu dans projet\"}",
+        "expectedJSON": "true"
+      },
+      {
+        "invoke": "absent",
+        "argsJSON": "{\"path\":\"brouillon/notes.txt\",\"label\":\"Le fichier a quitté brouillon\"}",
+        "expectedJSON": "true"
+      }
+    ],
+    "workshop": {
+      "profile": "shell-git",
+      "files": [
+        {
+          "path": "brouillon/notes.txt",
+          "content": "réunion jeudi\n"
+        },
+        {
+          "path": "archive/consignes.txt",
+          "content": "Conserver une copie de notes avant livraison.\n"
+        }
+      ],
+      "hints": [
+        "Vérifie ta position avec pwd avant de changer un fichier.",
+        "Lis la source avec cat, puis vérifie la destination après déplacement."
+      ]
+    }
+  },
+  "correction": "mkdir -p projet\nmv brouillon/notes.txt projet/notes.txt\ncat projet/notes.txt"
+}

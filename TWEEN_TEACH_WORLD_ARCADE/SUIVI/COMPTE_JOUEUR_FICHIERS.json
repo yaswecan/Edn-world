@@ -1,0 +1,59 @@
+{
+  "files": [
+    {
+      "path": "server/arcade-profile.mjs",
+      "sha256": "8d654263488a973f297d142e4e384e31f52146e7903465f1b613c933f3bf97f9"
+    },
+    {
+      "path": "server/arcade.mjs",
+      "sha256": "4f67ec923beb7e7610ff6b1046a4d7288db1e9fb2dcdef1584d20109ce37d741"
+    },
+    {
+      "path": "server/auth.mjs",
+      "sha256": "1d4f97d8440982cc1a15cb4fedc4edabe4e839b09f38bbce122d629b261a26ae"
+    },
+    {
+      "path": "server/app.mjs",
+      "sha256": "8891deba1a7dc7aa25d06fb324e87b1494fb689237af25d30445b11934ae3f0d"
+    },
+    {
+      "path": "public/world-arcade/account-views.js",
+      "sha256": "f25c6817bdea76bf43869e49f1e7eeaed5bcd0c0eabc350254eaa9d95a6b9c28"
+    },
+    {
+      "path": "public/world-arcade/app.js",
+      "sha256": "087a4e860f379cbc000e2ad5651ea03596bb9e64e829c735aebb42104bcaf87a"
+    },
+    {
+      "path": "public/world-arcade/style.css",
+      "sha256": "2fbd51dcd3da0a4f247d618cdf122f19b23e4e52f0160660abae545acc2bb91e"
+    },
+    {
+      "path": "public/world-arcade/index.html",
+      "sha256": "2ce717acdccf2b0d4dcbfa3e65c98469cb1a27b763010ddd1397c8d942ebf047"
+    },
+    {
+      "path": "tests/arcade-account.test.mjs",
+      "sha256": "52fb5de52bfdadf8441f4397ffd2f8b7e6cb062434a578a592b97bd7f4580d69"
+    },
+    {
+      "path": "tests/arcade.test.mjs",
+      "sha256": "e0ce2a29362f063e73fecb8481430e6c269687dfd4671cbc73b2f312c74b31cb"
+    },
+    {
+      "path": "scripts/arcade-account-browser-check.mjs",
+      "sha256": "e8ab2311368c216c12125e184c01506625a22a8e1ab399f82402001a9429fcd1"
+    },
+    {
+      "path": "scripts/arcade-browser-check.mjs",
+      "sha256": "f192f8ba08c2bacb85ff31e27954ef0c9802b0f4c431ea18561a29f5a02e5f5f"
+    },
+    {
+      "path": "README.md",
+      "sha256": "d02654c05a8f86eb6b3c7a516fbc2e5f155cf271e264787788ce2aa18bbf3aea"
+    }
+  ],
+  "schemaMigration": false,
+  "realDatabaseAccess": false,
+  "deployment": false
+}

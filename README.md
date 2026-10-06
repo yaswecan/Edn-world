@@ -2,6 +2,14 @@
 
 Application locale fonctionnelle construite à partir de la spécification v1.1, du classeur A1 et des quatre projets fournis. L’interface est en français. EDEN conserve le plan versionné, les séances, le cahier de texte, les copies et les preuves ; les corpus et Google Drive sont des exports.
 
+## Préparation pédagogique approfondie
+
+Le nouveau parcours est accessible dans **Ressources → Importer des documents et préparer une séance**, à `/preparation.html`, et depuis **Préparer** en développement. Il importe les documents, conserve leurs versions et leurs limites d’extraction, puis prépare un parcours, rédige par unités et soumet chaque candidat à une revue indépendante. Les étapes et budgets sont persistants ; une préparation ne publie jamais automatiquement une séance. Sans clé ou modèle configuré, la demande affiche un blocage explicite.
+
+**Recette isolée : `npm run preview:quality`**, puis [ouvrir la préparation](http://quality.localhost:4180/preparation.html). Se connecter d’abord à [l’accueil de recette](http://quality.localhost:4180/) avec `professeur` / `quality-preview-only`. Cette commande ne charge pas `.env.local`, utilise `.data/quality-preview.sqlite` et des comptes synthétiques. Les trois pilotes sont des **fixtures**, pas des générations IA validées. Les anciens cours et comptes ne sont pas modifiés.
+
+Voir [le démarrage et les limites](docs/quality/README.md), [l’audit causal](docs/quality/audit.md), [la recette et ses preuves](docs/quality/acceptance.md) et [le laboratoire séparé](labs/README.md). Tests : `npm run test:quality`, `npm run test:quality:browser`, `npm run test:quality:dom`. Aucun déploiement n’a été effectué.
+
 ## World Arcade
 
 Le module intégré est disponible à `/arcade` sur une instance de recette autorisée avec `EDEN_WORLD_ARCADE=1` (désactivé par défaut). Il réutilise les comptes scolaires, les missions PédagoLab affectées, leurs verrous et leurs sauvegardes. Les profils arcade permettent de choisir un pseudo et un avatar ; la galerie respecte les permissions de classe et la visibilité choisie. Le thème reste limité à l’arcade.
@@ -10,7 +18,7 @@ Cyber Funk reste indisponible faute de moteur hôte. Les points, le Top 5, les g
 
 Recette isolée, sans charger `.env.local` et sans base réelle : `node --import tsx scripts/arcade-browser-check.mjs`. Ce script utilise Chrome/Chromium et une base en mémoire, puis ferme son serveur local. Tests API : `node --import tsx --test tests/arcade.test.mjs`. Voir le [rapport d’intégration](TWEEN_TEACH_WORLD_ARCADE/SUIVI/RAPPORT_INTEGRATION.md), la [matrice de recette](TWEEN_TEACH_WORLD_ARCADE/SUIVI/RECETTE.json) et la [revue](TWEEN_TEACH_WORLD_ARCADE/SUIVI/REVIEW.md) pour les preuves, les dépendances et le retour arrière. Aucun changement de schéma ni déploiement n’a été exécuté.
 
-Pour essayer soi-même en élève : `node --import tsx scripts/arcade-student-preview.mjs`, puis ouvrir `http://arcade.localhost:4179/arcade`. Utiliser le compte de test `student-a`, classe `A1`, avec le mot de passe de la fixture locale `synthetic-test-password`. La séance de test est accessible sur `/today`. L’instance utilise l’application réelle avec une base en mémoire, ne charge pas `.env.local` et reste ouverte jusqu’à Ctrl+C. Les modifications de test disparaissent à son arrêt. Le nom d’hôte dédié sépare ses cookies de ceux de l’application locale habituelle.
+Pour essayer soi-même en élève : `npm run preview:student`, puis ouvrir `http://arcade.localhost:4179/arcade`. Utiliser le compte de test `student-a`, classe `A1`, avec le mot de passe de la fixture locale `synthetic-test-password`. La séance de test est accessible sur `/today`. L’instance utilise l’application réelle avec une base en mémoire, ne charge pas `.env.local` et reste ouverte jusqu’à Ctrl+C. Le serveur redémarre automatiquement lorsque son code change pour garder l’API à jour avec l’interface. Les modifications de test et les sessions disparaissent à chaque redémarrage : reconnectez-vous avec le compte de test. Le nom d’hôte dédié sépare ses cookies de ceux de l’application locale habituelle. Si un ancien aperçu lancé sans surveillance affiche « Route API inconnue. » dans Mon espace, arrêtez-le puis relancez-le avec cette commande.
 
 ### Compte joueur
 

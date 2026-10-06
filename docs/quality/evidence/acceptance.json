@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-05",
+  "ai": "NOT RUN",
+  "lab": "NOT RUN",
+  "browser": "PASS",
+  "pilots": [
+    {
+      "id": "box",
+      "version": 3,
+      "jobStatus": "fixture",
+      "ai": "NOT RUN",
+      "review": "SIMULATED",
+      "render": "PASS",
+      "referenceChecks": [
+        {
+          "id": "reference:guided",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"box-sizing\",\"ok\":true},{\"label\":\"padding\",\"ok\":true}],\"logs\":[\"✓ box-sizing\",\"✓ padding\",\"2 tests réussis sur 2.\",\"Vérifie aussi le rendu à plusieurs largeurs.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"width\",\"ok\":true},{\"label\":\"box-sizing\",\"ok\":true},{\"label\":\"padding\",\"ok\":true}],\"logs\":[\"✓ width\",\"✓ box-sizing\",\"✓ padding\",\"3 tests réussis sur 3.\",\"Vérifie aussi le rendu à plusieurs largeurs.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:diag-practice",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"couleur\",\"ok\":true}],\"logs\":[\"✓ couleur\",\"1 test réussi sur 1.\",\"Vérifie aussi le rendu à plusieurs largeurs.\"],\"error\":null}",
+          "blocking": true
+        }
+      ],
+      "blockers": [],
+      "contentHash": "ab3aea0c884bd02971de4efccfae3ef06b2541d84901ea0c634925c06a1cdc88",
+      "files": "docs/quality/evidence/box"
+    },
+    {
+      "id": "logic",
+      "version": 3,
+      "jobStatus": "fixture",
+      "ai": "NOT RUN",
+      "review": "SIMULATED",
+      "render": "PASS",
+      "referenceChecks": [
+        {
+          "id": "reference:guided",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:transfer",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}",
+          "blocking": true
+        }
+      ],
+      "blockers": [],
+      "contentHash": "c8d955cb652f4976304561db08f082e1c9f7c4b075c9525887ed1163f091cbe4",
+      "files": "docs/quality/evidence/logic"
+    },
+    {
+      "id": "shell",
+      "version": 3,
+      "jobStatus": "blocked",
+      "ai": "NOT RUN",
+      "review": "SIMULATED",
+      "render": "PASS",
+      "referenceChecks": [],
+      "blockers": [
+        "lab:guided",
+        "lab:autonomous",
+        "lab:transfer"
+      ],
+      "contentHash": "08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2",
+      "files": "docs/quality/evidence/shell"
+    }
+  ],
+  "checks": [
+    {
+      "id": "browser-upload-original-structure",
+      "status": "PASS"
+    },
+    {
+      "id": "student-diagnostic-save-first-attempt-submit",
+      "status": "PASS"
+    },
+    {
+      "id": "student-private-source-and-review-isolation",
+      "status": "PASS"
+    },
+    {
+      "id": "student-targeted-support-route",
+      "status": "PASS"
+    },
+    {
+      "id": "teacher-diagnostic-summary",
+      "status": "PASS"
+    },
+    {
+      "id": "browser-errors",
+      "status": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,958 @@
+{
+  "id": "prep_b15b8a9d-8ea4-4bb2-b217-d0269dd25531",
+  "classId": "A1",
+  "requestId": "fixture-shell",
+  "entryId": "shell",
+  "sourceIds": [
+    "source_0877f6b1-703b-49f2-ab76-a770687b0abd"
+  ],
+  "brief": {
+    "version": 1,
+    "intent": "Pilote Retrouver, réparer, garder une trace",
+    "entry": {
+      "id": "shell",
+      "classId": "A1",
+      "date": "2026-10-07",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "sequence": "Pilotes de recette",
+      "duration": 110,
+      "durationConfirmed": true,
+      "status": "planned",
+      "objective": "Retrouver, réparer, garder une trace",
+      "activity": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+      "resourcePack": "PILOT-shell",
+      "createdAt": "2026-10-05T21:06:07.864Z"
+    },
+    "planVersion": 1,
+    "constraints": [],
+    "priorLearning": "Seules les séances clôturées sont des preuves ; diagnostic du jour non réalisé.",
+    "previousSource": null
+  },
+  "simulation": true,
+  "status": "blocked",
+  "stage": "review",
+  "reason": "Brouillon non validé : lab:guided, lab:autonomous, lab:transfer",
+  "events": [
+    {
+      "stage": "queued",
+      "at": "2026-10-05T21:06:24.884Z"
+    },
+    {
+      "stage": "assemble",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-05T21:06:24.886Z"
+    },
+    {
+      "stage": "design",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-05T21:06:24.916Z"
+    },
+    {
+      "stage": "planReview",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-05T21:06:24.924Z"
+    },
+    {
+      "stage": "write",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-05T21:06:24.930Z"
+    },
+    {
+      "stage": "checks",
+      "iteration": 0,
+      "unitIndex": 1,
+      "at": "2026-10-05T21:06:24.936Z"
+    },
+    {
+      "stage": "review",
+      "iteration": 0,
+      "unitIndex": 1,
+      "at": "2026-10-05T21:06:27.738Z"
+    },
+    {
+      "stage": "repair",
+      "iteration": 1,
+      "unitIndex": 0,
+      "at": "2026-10-05T21:06:27.749Z"
+    },
+    {
+      "stage": "checks",
+      "iteration": 1,
+      "unitIndex": 1,
+      "at": "2026-10-05T21:06:27.755Z"
+    },
+    {
+      "stage": "review",
+      "iteration": 1,
+      "unitIndex": 1,
+      "at": "2026-10-05T21:06:30.432Z"
+    }
+  ],
+  "startedAt": "2026-10-05T21:06:24.884Z",
+  "calls": 6,
+  "reservedUSD": 3.0492168,
+  "spentUSD": 0,
+  "iteration": 1,
+  "unitIndex": 1,
+  "reports": [
+    {
+      "state": "draft",
+      "score": 75,
+      "blockers": [
+        "lab:guided",
+        "lab:autonomous",
+        "lab:transfer",
+        "fixture-comparison"
+      ],
+      "contentHash": "eee49379f84893d63a9ad3083ab070d882d740e537d1fdba6b0c821332fdbb13",
+      "briefHash": "ab7d592706a306b19ca7afc67ba3de5f44c95845f33cd982da7d5318c63dc5b8",
+      "charterVersion": "tween-depth-2026-10-05.1",
+      "policy": {
+        "minimum": 90,
+        "dimensionMinimum": 3
+      },
+      "report": {
+        "contentHash": "eee49379f84893d63a9ad3083ab070d882d740e537d1fdba6b0c821332fdbb13",
+        "briefHash": "ab7d592706a306b19ca7afc67ba3de5f44c95845f33cd982da7d5318c63dc5b8",
+        "charterVersion": "tween-depth-2026-10-05.1",
+        "decision": "revise",
+        "dimensions": {
+          "accuracy": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "mechanisms": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "activities": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "progression": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "tone": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "visuals": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          }
+        },
+        "issues": [
+          {
+            "id": "fixture-comparison",
+            "rule": "explain-counterexample",
+            "severity": "major",
+            "location": "blocks/concept",
+            "observation": "La comparaison explicite avant/après doit être renforcée.",
+            "problem": "Le cas piège ne rappelle pas de conserver la prévision initiale.",
+            "requestedChange": "Ajouter la comparaison du cas avant et après correction.",
+            "resolutionCriterion": "La confusion explique la comparaison et conserve la première réponse."
+          }
+        ],
+        "coverageGaps": [],
+        "regressions": [],
+        "uncertainties": [
+          "Revue IA simulée."
+        ],
+        "nextCorrections": [],
+        "externalChecks": [
+          {
+            "id": "schema",
+            "status": "PASS",
+            "evidence": "DailyLessonSpec validé."
+          },
+          {
+            "id": "diagnostic-first",
+            "status": "PASS",
+            "evidence": "Première activité après l’annonce des objectifs."
+          },
+          {
+            "id": "depth:BC02-C3-1",
+            "status": "PASS",
+            "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+          },
+          {
+            "id": "complete",
+            "status": "PASS",
+            "evidence": "Absence de placeholders rédactionnels connus."
+          },
+          {
+            "id": "lab:guided",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:autonomous",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:transfer",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "preserved-activities",
+            "status": "PASS",
+            "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+          },
+          {
+            "id": "render-components",
+            "status": "PASS",
+            "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+          },
+          {
+            "id": "browser-render",
+            "status": "PASS",
+            "evidence": "{\"hash\":\"eee49379f84893d63a9ad3083ab070d882d740e537d1fdba6b0c821332fdbb13\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/eee49379f84893d63a9ad3083ab070d882d740e537d1fdba6b0c821332fdbb13\",\"errors\":[]}"
+          },
+          {
+            "id": "sources",
+            "status": "PASS",
+            "evidence": "Segments versionnés disponibles au relecteur."
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé.",
+          "blocking": true
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs.",
+          "blocking": true
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+          "blocking": true
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus.",
+          "blocking": true
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+          "blocking": true
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+          "blocking": true
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"eee49379f84893d63a9ad3083ab070d882d740e537d1fdba6b0c821332fdbb13\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/eee49379f84893d63a9ad3083ab070d882d740e537d1fdba6b0c821332fdbb13\",\"errors\":[]}",
+          "blocking": true
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur.",
+          "blocking": true
+        }
+      ],
+      "checkedAt": "2026-10-05T21:06:27.746Z"
+    },
+    {
+      "state": "draft",
+      "score": 100,
+      "blockers": [
+        "lab:guided",
+        "lab:autonomous",
+        "lab:transfer"
+      ],
+      "contentHash": "08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2",
+      "briefHash": "ab7d592706a306b19ca7afc67ba3de5f44c95845f33cd982da7d5318c63dc5b8",
+      "charterVersion": "tween-depth-2026-10-05.1",
+      "policy": {
+        "minimum": 90,
+        "dimensionMinimum": 3
+      },
+      "report": {
+        "contentHash": "08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2",
+        "briefHash": "ab7d592706a306b19ca7afc67ba3de5f44c95845f33cd982da7d5318c63dc5b8",
+        "charterVersion": "tween-depth-2026-10-05.1",
+        "decision": "accept",
+        "dimensions": {
+          "accuracy": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "mechanisms": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "activities": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "progression": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "tone": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "visuals": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          }
+        },
+        "issues": [],
+        "coverageGaps": [],
+        "regressions": [],
+        "uncertainties": [
+          "Revue IA simulée."
+        ],
+        "nextCorrections": [],
+        "externalChecks": [
+          {
+            "id": "schema",
+            "status": "PASS",
+            "evidence": "DailyLessonSpec validé."
+          },
+          {
+            "id": "diagnostic-first",
+            "status": "PASS",
+            "evidence": "Première activité après l’annonce des objectifs."
+          },
+          {
+            "id": "depth:BC02-C3-1",
+            "status": "PASS",
+            "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+          },
+          {
+            "id": "complete",
+            "status": "PASS",
+            "evidence": "Absence de placeholders rédactionnels connus."
+          },
+          {
+            "id": "lab:guided",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:autonomous",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:transfer",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "preserved-activities",
+            "status": "PASS",
+            "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+          },
+          {
+            "id": "render-components",
+            "status": "PASS",
+            "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+          },
+          {
+            "id": "browser-render",
+            "status": "PASS",
+            "evidence": "{\"hash\":\"08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"errors\":[]}"
+          },
+          {
+            "id": "sources",
+            "status": "PASS",
+            "evidence": "Segments versionnés disponibles au relecteur."
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé.",
+          "blocking": true
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs.",
+          "blocking": true
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+          "blocking": true
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus.",
+          "blocking": true
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+          "blocking": true
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+          "blocking": true
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"errors\":[]}",
+          "blocking": true
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur.",
+          "blocking": true
+        }
+      ],
+      "checkedAt": "2026-10-05T21:06:30.440Z"
+    }
+  ],
+  "planRevisions": 0,
+  "createdAt": "2026-10-05T21:06:24.884Z",
+  "leaseToken": "lease_13740a84-4e64-41f5-9ce5-c5416f3617d8",
+  "leaseUntil": "2026-10-05T21:11:30.432Z",
+  "lessonId": "A1:PILOT-shell-prep_b15b8a9d-8ea4-4bb2-b217-d0269dd25531",
+  "inflight": null,
+  "lastCallId": "prep_b15b8a9d-8ea4-4bb2-b217-d0269dd25531:call:6",
+  "plan": {
+    "analysis": [
+      {
+        "conceptId": "concept-shell",
+        "label": "Retrouver, réparer, garder une trace",
+        "prerequisites": [],
+        "relations": [
+          "cause → observation"
+        ],
+        "citations": [
+          {
+            "sourceId": "source_0877f6b1-703b-49f2-ab76-a770687b0abd",
+            "segmentId": "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s1",
+            "claim": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+            "kind": "explicit"
+          }
+        ],
+        "uncertainties": [
+          "Charge réelle auprès des élèves non mesurée."
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "id": "definition-first",
+        "order": [
+          "concept-shell"
+        ],
+        "advantages": "Vocabulaire disponible avant les essais.",
+        "risks": "Le besoin de la notion peut rester abstrait."
+      },
+      {
+        "id": "problem-first",
+        "order": [
+          "concept-shell"
+        ],
+        "advantages": "Le défaut concret crée une question ; expliquer avant le défi autonome.",
+        "risks": "Prévoir un rappel si le diagnostic révèle une difficulté."
+      }
+    ],
+    "selectedOrder": [
+      "concept-shell"
+    ],
+    "justification": "Partir du défaut visible, rendre le mécanisme explicite, puis déplacer le problème. Les documents ne dictent pas le rythme ; les prérequis et le temps de pratique le font.",
+    "coverage": [
+      {
+        "skill": "BC02-C3-1",
+        "conceptIds": [
+          "concept-shell"
+        ],
+        "sourceSegments": [
+          "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s1",
+          "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s2",
+          "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s3",
+          "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s4",
+          "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s5"
+        ],
+        "explanationBlockId": "concept",
+        "activityIds": [
+          "prediction",
+          "drawing",
+          "guided",
+          "autonomous",
+          "justify",
+          "transfer",
+          "exit"
+        ],
+        "evidence": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+        "remediation": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+        "mechanismId": "terminal-stages",
+        "runtimeProfile": "shell-git",
+        "reasoningDemand": "Prédiction, causalité, diagnostic et choix argumenté."
+      }
+    ],
+    "prerequisites": [
+      {
+        "conceptId": "baseline",
+        "status": "unknown",
+        "evidence": "Diagnostic du jour pas encore passé.",
+        "action": "Un fichier contient des données ; un dossier contient des entrées qui désignent des fichiers ou d’autres dossiers. Une commande ne s’exécute pas « dans le texte » du terminal : le shell la transmet à un programme avec des arguments."
+      }
+    ],
+    "duration": {
+      "minutes": 110,
+      "uncertainty": "Estimation de conception, prévoir 15 minutes de variation.",
+      "includesReadingAttemptsHelpAndCorrection": true
+    },
+    "diagnosticBranches": [
+      {
+        "observation": "Prérequis fragile",
+        "action": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+        "commonObjective": "Retrouver, réparer, garder une trace"
+      },
+      {
+        "observation": "Prérequis utilisable",
+        "action": "Parcours normal puis production autonome.",
+        "commonObjective": "Retrouver, réparer, garder une trace"
+      }
+    ],
+    "deferred": [
+      "SSH et Git distant : environnements non prévus."
+    ],
+    "gaps": [
+      "Mesures d’apprentissage et comparaison IA réelles non exécutées."
+    ]
+  },
+  "planReview": {
+    "decision": "accept",
+    "issues": []
+  },
+  "unitResponses": [
+    {
+      "issueId": "fixture-comparison",
+      "change": "Fixture de correction : explication précise du cas piège ajoutée.",
+      "location": "blocks/concept"
+    }
+  ],
+  "checks": [
+    {
+      "id": "schema",
+      "status": "PASS",
+      "evidence": "DailyLessonSpec validé.",
+      "blocking": true
+    },
+    {
+      "id": "diagnostic-first",
+      "status": "PASS",
+      "evidence": "Première activité après l’annonce des objectifs.",
+      "blocking": true
+    },
+    {
+      "id": "depth:BC02-C3-1",
+      "status": "PASS",
+      "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+      "blocking": true
+    },
+    {
+      "id": "complete",
+      "status": "PASS",
+      "evidence": "Absence de placeholders rédactionnels connus.",
+      "blocking": true
+    },
+    {
+      "id": "lab:guided",
+      "status": "NOT RUN",
+      "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+      "blocking": true
+    },
+    {
+      "id": "lab:autonomous",
+      "status": "NOT RUN",
+      "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+      "blocking": true
+    },
+    {
+      "id": "lab:transfer",
+      "status": "NOT RUN",
+      "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+      "blocking": true
+    },
+    {
+      "id": "preserved-activities",
+      "status": "PASS",
+      "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+      "blocking": true
+    },
+    {
+      "id": "render-components",
+      "status": "PASS",
+      "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+      "blocking": true
+    },
+    {
+      "id": "browser-render",
+      "status": "PASS",
+      "evidence": "{\"hash\":\"08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"errors\":[]}",
+      "blocking": true
+    },
+    {
+      "id": "sources",
+      "status": "PASS",
+      "evidence": "Segments versionnés disponibles au relecteur.",
+      "blocking": true
+    }
+  ],
+  "decision": {
+    "state": "draft",
+    "score": 100,
+    "blockers": [
+      "lab:guided",
+      "lab:autonomous",
+      "lab:transfer"
+    ],
+    "contentHash": "08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2",
+    "briefHash": "ab7d592706a306b19ca7afc67ba3de5f44c95845f33cd982da7d5318c63dc5b8",
+    "charterVersion": "tween-depth-2026-10-05.1",
+    "policy": {
+      "minimum": 90,
+      "dimensionMinimum": 3
+    },
+    "report": {
+      "contentHash": "08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2",
+      "briefHash": "ab7d592706a306b19ca7afc67ba3de5f44c95845f33cd982da7d5318c63dc5b8",
+      "charterVersion": "tween-depth-2026-10-05.1",
+      "decision": "accept",
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "mechanisms": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "activities": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "progression": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "tone": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "visuals": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        }
+      },
+      "issues": [],
+      "coverageGaps": [],
+      "regressions": [],
+      "uncertainties": [
+        "Revue IA simulée."
+      ],
+      "nextCorrections": [],
+      "externalChecks": [
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé."
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs."
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus."
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible."
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible."
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible."
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"errors\":[]}"
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur."
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "schema",
+        "status": "PASS",
+        "evidence": "DailyLessonSpec validé.",
+        "blocking": true
+      },
+      {
+        "id": "diagnostic-first",
+        "status": "PASS",
+        "evidence": "Première activité après l’annonce des objectifs.",
+        "blocking": true
+      },
+      {
+        "id": "depth:BC02-C3-1",
+        "status": "PASS",
+        "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+        "blocking": true
+      },
+      {
+        "id": "complete",
+        "status": "PASS",
+        "evidence": "Absence de placeholders rédactionnels connus.",
+        "blocking": true
+      },
+      {
+        "id": "lab:guided",
+        "status": "NOT RUN",
+        "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+        "blocking": true
+      },
+      {
+        "id": "lab:autonomous",
+        "status": "NOT RUN",
+        "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+        "blocking": true
+      },
+      {
+        "id": "lab:transfer",
+        "status": "NOT RUN",
+        "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+        "blocking": true
+      },
+      {
+        "id": "preserved-activities",
+        "status": "PASS",
+        "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+        "blocking": true
+      },
+      {
+        "id": "render-components",
+        "status": "PASS",
+        "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+        "blocking": true
+      },
+      {
+        "id": "browser-render",
+        "status": "PASS",
+        "evidence": "{\"hash\":\"08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/08ceb46e4c5facc28bddb9f894eec8ecafd3cdda280576167e12cd0c4acdf5f2\",\"errors\":[]}",
+        "blocking": true
+      },
+      {
+        "id": "sources",
+        "status": "PASS",
+        "evidence": "Segments versionnés disponibles au relecteur.",
+        "blocking": true
+      }
+    ],
+    "checkedAt": "2026-10-05T21:06:30.440Z"
+  },
+  "finishedAt": "2026-10-05T21:06:30.441Z",
+  "durationMs": 5557,
+  "profiles": {
+    "design": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "planReview": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "write": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "review": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "repair": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    }
+  },
+  "sourceVersions": [
+    {
+      "id": "source_0877f6b1-703b-49f2-ab76-a770687b0abd",
+      "title": "Dossier Retrouver, réparer, garder une trace",
+      "contentHash": "27cca68a184b6c86f9c8b05bc4e65066875990732bde64f849e00e76f9cb4bb7"
+    },
+    {
+      "id": "A1:resource:BC02-C3-1:ab5a2bf11cd4",
+      "title": "SHELL MAZE // Retrouver la trace",
+      "contentHash": "ab5a2bf11cd4e87f1d1602cbfd38c3260bc0d14894e7bd52e224f6dde9329cb0"
+    }
+  ],
+  "canCancel": false
+}

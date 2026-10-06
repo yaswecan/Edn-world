@@ -1,0 +1,511 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "PILOT-shell-prep_b15b8a9d-8ea4-4bb2-b217-d0269dd25531",
+  "lessonVersion": 3,
+  "classId": "A1",
+  "date": "2026-10-07",
+  "planEntryId": "shell",
+  "planVersion": 1,
+  "sequence": "Pilotes de recette",
+  "title": "Retrouver, réparer, garder une trace",
+  "skills": [
+    "BC02-C3-1"
+  ],
+  "objectives": [
+    "Un fichier a été rangé au mauvais endroit. Comment le retrouver et le déplacer sans perdre l’original utile ?",
+    "Prévoir, vérifier et expliquer un résultat ; produire une variante autonome."
+  ],
+  "prerequisites": [],
+  "reactivation": [],
+  "diagnostic": {
+    "id": "PILOT-shell-prep_b15b8a9d-8ea4-4bb2-b217-d0269dd25531:diagnostic",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 8,
+    "criteria": [],
+    "tasks": [
+      {
+        "id": "diag-observe",
+        "type": "WriteResponse",
+        "title": "Un point de départ",
+        "instruction": "Décris un exemple que tu sais déjà traiter sur ce sujet et indique ce que tu vérifierais en premier.",
+        "objective": "Un point de départ",
+        "skills": [],
+        "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "duration": 4,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      },
+      {
+        "id": "diag-practice",
+        "type": "WriteResponse",
+        "title": "Essaie avant le cours",
+        "instruction": "À partir du dossier /workspace, écris le chemin relatif vers notes.txt dans le dossier brouillon. Que devient ce chemin après cd brouillon ?",
+        "objective": "Essaie avant le cours",
+        "skills": [],
+        "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "duration": 4,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      }
+    ],
+    "rubric": [
+      {
+        "id": "rubric-0",
+        "criterion": "baseline",
+        "taskId": "diag-observe",
+        "label": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      },
+      {
+        "id": "rubric-1",
+        "criterion": "baseline",
+        "taskId": "diag-practice",
+        "label": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      }
+    ]
+  },
+  "timeline": [
+    {
+      "blockId": "opening",
+      "minutes": 4
+    },
+    {
+      "blockId": "diagnostic",
+      "minutes": 8
+    },
+    {
+      "blockId": "concept",
+      "minutes": 19
+    },
+    {
+      "blockId": "observe",
+      "minutes": 13
+    },
+    {
+      "blockId": "guided",
+      "minutes": 20
+    },
+    {
+      "blockId": "autonomy",
+      "minutes": 26
+    },
+    {
+      "blockId": "extension",
+      "minutes": 12
+    },
+    {
+      "blockId": "exit",
+      "minutes": 8
+    }
+  ],
+  "blocks": [
+    {
+      "id": "opening",
+      "type": "LessonHero",
+      "phase": "opening",
+      "title": "Retrouver, réparer, garder une trace",
+      "content": "Un fichier a été rangé au mauvais endroit. Comment le retrouver et le déplacer sans perdre l’original utile ?",
+      "minutes": 4,
+      "activityIds": [],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "diagnostic",
+      "type": "Diagnostic",
+      "phase": "diagnostic",
+      "title": "Ton point de départ",
+      "content": "Réponds avant les aides ; une réponse incomplète reste utile.",
+      "minutes": 8,
+      "activityIds": [],
+      "skills": [],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "concept",
+      "type": "ConceptCard",
+      "phase": "understand",
+      "title": "Comprendre le mécanisme",
+      "content": "Un fichier a été rangé au mauvais endroit. Comment le retrouver et le déplacer sans perdre l’original utile ?\n\nUn fichier contient des données ; un dossier contient des entrées qui désignent des fichiers ou d’autres dossiers. Une commande ne s’exécute pas « dans le texte » du terminal : le shell la transmet à un programme avec des arguments.\n\nLe shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.\n\nDépart dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.\n\ncd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+      "minutes": 19,
+      "activityIds": [],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "cd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd."
+        ],
+        "diagram": [
+          "Position du shell + chemin relatif → fichier visé",
+          "Lire → copier si nécessaire → déplacer → vérifier les deux emplacements"
+        ]
+      }
+    },
+    {
+      "id": "observe",
+      "type": "LiveCode",
+      "phase": "observe",
+      "title": "Prévoir et suivre les changements",
+      "content": "pwd\nls\ncat brouillon/notes.txt\nmkdir -p projet\nmv brouillon/notes.txt projet/notes.txt\ncat projet/notes.txt",
+      "minutes": 13,
+      "activityIds": [
+        "prediction"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "Vérifie chaque étape, puis explique le résultat."
+        ],
+        "hint": "",
+        "check": "Le résultat réel correspond-il à ta prévision ?",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "guided",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Enquêter et réparer",
+      "content": "Garde une première tentative. Appuie-toi sur les observations pour corriger.",
+      "minutes": 20,
+      "activityIds": [
+        "drawing",
+        "guided"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Observer et prévoir.",
+          "Changer puis expliquer."
+        ],
+        "hint": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+        "check": "La correction traite le défaut et préserve le reste.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "autonomy",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "Produire sous contraintes",
+      "content": "Tu choisis les étapes ; justifie une décision.",
+      "minutes": 26,
+      "activityIds": [
+        "autonomous",
+        "justify"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "extension",
+      "type": "Activity",
+      "phase": "extend",
+      "title": "Transférer la démarche",
+      "content": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+      "minutes": 12,
+      "activityIds": [
+        "transfer"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Expliquer ce que tu réutilises",
+      "content": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+      "minutes": 8,
+      "activityIds": [
+        "exit"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "Un fichier contient des données ; un dossier contient des entrées qui désignent des fichiers ou d’autres dossiers. Une commande ne s’exécute pas « dans le texte » du terminal : le shell la transmet à un programme avec des arguments.",
+          "cd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd."
+        ],
+        "diagram": []
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "prediction",
+      "type": "WriteResponse",
+      "title": "Avant le premier essai",
+      "instruction": "Écris ta prévision pour l’exemple, puis une observation qui pourrait la contredire. Après l’essai, explique l’écart éventuel.",
+      "objective": "Avant le premier essai",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Une prévision conservée et une comparaison avec un résultat réel.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    },
+    {
+      "id": "drawing",
+      "type": "Blackboard",
+      "title": "Rendre le mécanisme visible",
+      "instruction": "Dessine ou décris les relations de la séance. Légende les flèches, indique ce qui change et utilise les valeurs d’un exemple.",
+      "objective": "Rendre le mécanisme visible",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [],
+      "workshop": {
+        "profile": "concepts"
+      }
+    },
+    {
+      "id": "guided",
+      "type": "Terminal",
+      "title": "Réparer un classement",
+      "instruction": "Observe pwd et ls. Lis brouillon/notes.txt. Prévois ce qui changera après un déplacement. Place notes.txt dans projet, puis vérifie contenu et absence à l’ancien endroit.",
+      "objective": "Réparer un classement",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [],
+      "workshop": {
+        "profile": "shell-git",
+        "files": [
+          {
+            "path": "brouillon/notes.txt",
+            "content": "réunion jeudi\n"
+          },
+          {
+            "path": "archive/consignes.txt",
+            "content": "Conserver une copie de notes avant livraison.\n"
+          }
+        ],
+        "hints": [
+          "Vérifie ta position avec pwd avant de changer un fichier.",
+          "Lis la source avec cat, puis vérifie la destination après déplacement."
+        ]
+      }
+    },
+    {
+      "id": "autonomous",
+      "type": "Terminal",
+      "title": "Préparer une livraison sans perte",
+      "instruction": "Cet atelier commence dans son propre espace. Lis les consignes d’archive. Préserve une copie de brouillon/notes.txt dans sauvegarde/notes.txt, puis déplace le document vers livraison/compte rendu.txt. Vérifie les deux contenus et justifie pourquoi tu as copié avant de déplacer.",
+      "objective": "Préparer une livraison sans perte",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [],
+      "workshop": {
+        "profile": "shell-git",
+        "files": [
+          {
+            "path": "brouillon/notes.txt",
+            "content": "réunion jeudi\n"
+          },
+          {
+            "path": "archive/consignes.txt",
+            "content": "Conserver une copie de notes avant livraison.\n"
+          }
+        ],
+        "hints": [
+          "Vérifie ta position avec pwd avant de changer un fichier.",
+          "Lis la source avec cat, puis vérifie la destination après déplacement."
+        ]
+      }
+    },
+    {
+      "id": "justify",
+      "type": "WriteResponse",
+      "title": "Défends ton choix",
+      "instruction": "Explique un choix de ta production autonome. Donne une erreur plausible, le cas qui la révèle et pourquoi ta solution l’évite.",
+      "objective": "Défends ton choix",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Un choix, un contre-exemple et une explication causale.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    },
+    {
+      "id": "transfer",
+      "type": "Terminal",
+      "title": "Garder une trace avec Git, après le rappel",
+      "instruction": "Prolongement facultatif. Git distingue le dossier de travail, l’index (ce qu’on prépare) et le commit (un état enregistré). Cet atelier commence avec notes.txt dans son propre dossier. Observe git status après git init puis après git add notes.txt. Enregistre un premier état avec git -c user.name=Apprenant -c user.email=atelier@example.invalid commit -m \"Premier état\" : cette identité locale ne crée aucun compte. Modifie ensuite notes.txt dans l’éditeur. Avant de refaire add, explique pourquoi le commit précédent ne change pas. Aucune connexion distante ni SSH n’est nécessaire.",
+      "objective": "Garder une trace avec Git, après le rappel",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Un fichier présent dans le premier commit et une explication de la différence entre travail, index et commit.",
+      "duration": 10,
+      "required": false,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [],
+      "workshop": {
+        "profile": "shell-git",
+        "files": [
+          {
+            "path": "notes.txt",
+            "content": "réunion jeudi\n"
+          }
+        ],
+        "hints": [
+          "L’index garde l’état du fichier au moment du add. Le commit enregistre cet état, pas les changements ultérieurs."
+        ]
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "title": "Vérification finale",
+      "instruction": "Sans reprendre l’exemple du cours, propose un cas analogue et son résultat. Explique le mécanisme, puis nomme la partie que tu vérifierais encore.",
+      "objective": "Vérification finale",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    }
+  ],
+  "slides": [
+    {
+      "title": "Retrouver, réparer, garder une trace",
+      "body": "Un fichier a été rangé au mauvais endroit. Comment le retrouver et le déplacer sans perdre l’original utile ?"
+    },
+    {
+      "title": "Comprendre le mécanisme",
+      "body": "Un fichier a été rangé au mauvais endroit. Comment le retrouver et le déplacer sans perdre l’original utile ?\n\nUn fichier contient des données ; un dossier contient des entrées qui désignent des fichiers ou d’autres dossiers. Une commande ne s’exécute pas « dans le texte » du terminal : le shell la transmet à un programme avec des arguments.\n\nLe shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.\n\nDépart dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.\n\ncd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd. Compare explicitement le cas avant et après la correction, en gardant la première réponse."
+    },
+    {
+      "title": "Prévoir et suivre les changements",
+      "body": "pwd\nls\ncat brouillon/notes.txt\nmkdir -p projet\nmv brouillon/notes.txt projet/notes.txt\ncat projet/notes.txt"
+    },
+    {
+      "title": "Enquêter et réparer",
+      "body": "Garde une première tentative. Appuie-toi sur les observations pour corriger."
+    },
+    {
+      "title": "Produire sous contraintes",
+      "body": "Tu choisis les étapes ; justifie une décision."
+    },
+    {
+      "title": "Transférer la démarche",
+      "body": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu."
+    },
+    {
+      "title": "Expliquer ce que tu réutilises",
+      "body": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement."
+    }
+  ],
+  "resources": [
+    "BC02-C3-1"
+  ],
+  "codeStation": null,
+  "studentFlow": [
+    "opening",
+    "diagnostic",
+    "concept",
+    "observe",
+    "guided",
+    "autonomy",
+    "extension",
+    "exit"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "quality-curriculum",
+    "planVersion": 1,
+    "previousLessonRunId": null
+  },
+  "sourceNotes": [
+    {
+      "blockId": "concept",
+      "title": "Dossier Retrouver, réparer, garder une trace",
+      "location": "line:1",
+      "note": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+      "url": null
+    }
+  ]
+}

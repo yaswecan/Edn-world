@@ -1,3 +1,5 @@
+import {installTerminalLabs} from './terminal-lab.js';
+import {installDOMLabs} from './dom-lab.js';
 import { edenLogo } from "./brand.js";
 import { sandboxDocument, terminalSimulation } from "./components.js";
 import { renderLessonBlock, renderLessonPage, renderStudentResult } from "./lesson-renderer.js";
@@ -307,7 +309,7 @@ function lessonView() {
       `${dateText(s.date)} · ${s.sequence} · version ${s.lessonVersion}`,
       btn("Retour aux séances", "nav", "lessons", "", "arrow"),
     ) +
-    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${l.status === "draft" ? btn("Modifier le contenu", "edit-lesson", l.id, "", "settings") + btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content).slice(0, 600)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Avant de publier</h2>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}<p class="section-note">La publication vérifie à nouveau le plan et la dernière séance clôturée.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
+    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${l.status === "draft" ? btn("Modifier le contenu", "edit-lesson", l.id, "", "settings") + btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Avant de publier</h2>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}<p class="section-note">La publication vérifie à nouveau le plan et la dernière séance clôturée.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
   );
 }
 function correctionsView() {
@@ -417,7 +419,7 @@ function render() {
         "La bibliothèque de votre Twin.",
         "Les ressources PédagoLab préservées et reliées au référentiel.",
       ) +
-      `<div class="filters"><input class="search" id="resource-search" placeholder="Rechercher : boucle, Git, HTML…" aria-label="Rechercher une ressource"><span class="muted" id="resource-count"></span></div><div class="grid-three" id="resource-list"></div>`,
+      `<p><a class="btn primary" href="/preparation.html">Importer des documents et préparer une séance</a></p><div class="filters"><input class="search" id="resource-search" placeholder="Rechercher : boucle, Git, HTML…" aria-label="Rechercher une ressource"><span class="muted" id="resource-count"></span></div><div class="grid-three" id="resource-list"></div>`,
   };
   shell((renderers[S.view] || dashboard)());
   if (S.view === "resources") loadResources("");
@@ -461,6 +463,7 @@ async function generateEntry(id, intent = "Prépare cette séance") {
       entryId: id || undefined,
     });
     await loadDashboard();
+    if(lesson.kind==='preparation_job'){location.href='/preparation.html?job='+enc(lesson.job.id);return;}
     await openLesson(lesson.id);
   });
   toast("Séance préparée et corpus compilé. Relisez avant publication.");
@@ -522,6 +525,7 @@ async function startStudent(date) {
     if (!S.attempt.submissionId && diagnosticStep >= 0 && S.step > diagnosticStep)
       S.step = diagnosticStep;
   }
+  S.diagnosticSupport = S.attempt?.submissionId ? (await api('/api/preparation/remediation/'+enc(S.student.id))).support : [];
   renderStudent();
 }
 function studentBlock(spec, index, preview = false) {
@@ -544,6 +548,7 @@ function renderStudent() {
     submitted: !!S.attempt?.submissionId,
     displayName: S.user.displayName,
     completed: S.completed || [],
+    support: S.diagnosticSupport || [],
   });
   if (S.session.worldArcadeEnabled) $(".lesson-topbar > div")?.insertAdjacentHTML("beforeend", '<a class="btn small" href="/arcade">World Arcade</a>');
 }
@@ -947,6 +952,7 @@ const actions = {
       answers: S.answers,
     });
     S.attempt.submissionId = r.submissionId;
+    S.diagnosticSupport = (await api('/api/preparation/remediation/'+enc(S.student.id))).support;
     closeModal();
     toast(studentCopy.submitted);
     renderStudent();
@@ -1212,6 +1218,7 @@ async function handleIntent(intent, entryId) {
   await busy(async () => {
     result = await post("/api/twin/intent", { intent, entryId });
   }, "Analyse de votre intention…");
+  if(result.kind==='preparation_job'){location.href='/preparation.html?job='+enc(result.job.id);return;}
   if (result.kind === "plan_selector") return planStructureDialog();
   if (result.kind === "reorder_choice") {
     S.reorderIntent = result;
@@ -1757,3 +1764,6 @@ async function boot() {
   render();
 }
 boot().catch(showError);
+
+installTerminalLabs({getLesson:()=>S.student});
+installDOMLabs({getLesson:()=>S.student});

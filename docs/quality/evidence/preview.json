@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "url": "http://quality.localhost:4180/",
+  "database": ".data/quality-preview.sqlite",
+  "pilots": [
+    {
+      "pilot": "shell",
+      "status": "blocked",
+      "simulation": true,
+      "url": "http://quality.localhost:4180/preparation.html?job=prep_7c898b3d-e929-4bdb-8078-9b8c97bb5e31"
+    },
+    {
+      "pilot": "logic",
+      "status": "fixture",
+      "simulation": true,
+      "url": "http://quality.localhost:4180/preparation.html?job=prep_452e0542-4ce6-4f70-8469-4432e0a01c97"
+    },
+    {
+      "pilot": "box",
+      "status": "fixture",
+      "simulation": true,
+      "url": "http://quality.localhost:4180/preparation.html?job=prep_16b2707b-80e6-44bd-b35d-2a89ffe3634f"
+    }
+  ]
+}

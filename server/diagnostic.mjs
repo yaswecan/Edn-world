@@ -68,7 +68,7 @@ export function diagnosticChecks(spec){
  const skills=[...new Set(tasks.flatMap(t=>t.skills))];
  return [
   {id:'diagnostic_tasks',ok:tasks.length>=2&&tasks.length<=4&&tasks.every(t=>t.required&&t.correctionMode!=='none'&&t.instruction.trim()&&t.expectedEvidence.trim()&&t.reference.trim()),message:'Évaluation diagnostique obligatoire : 2 à 4 tâches avec consignes, traces attendues et corrigés'},
-  {id:'diagnostic_timing',ok:d.duration>=10&&d.duration<=20&&tasks.reduce((n,t)=>n+t.duration,0)===d.duration&&blocks.length===1&&blocks[0].minutes===d.duration,message:'Diagnostic de 10 à 20 minutes intégré au déroulé'},
+  {id:'diagnostic_timing',ok:d.duration>=5&&d.duration<=20&&tasks.reduce((n,t)=>n+t.duration,0)===d.duration&&blocks.length===1&&blocks[0].minutes===d.duration,message:'Diagnostic de 5 à 20 minutes intégré au déroulé'},
   {id:'diagnostic_coverage',ok:tasks.length>0&&tasks.every(t=>(t.skills.length?t.skills:['baseline']).every(c=>rubric.some(r=>r.taskId===t.id&&r.criterion===c)))&&criteria.length===skills.length&&skills.every(c=>criteria.includes(c)),message:'Chaque tâche et chaque critère du diagnostic sont couverts par le barème'},
   {id:'diagnostic_flow',ok:blocks.length===1&&spec.studentFlow.filter(id=>id===blocks[0].id).length===1,message:'Diagnostic accessible dans le parcours de chaque séance'}
  ];

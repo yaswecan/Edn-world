@@ -1,0 +1,324 @@
+{
+  "type": "object",
+  "properties": {
+    "contentHash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "briefHash": {
+      "type": "string",
+      "minLength": 1
+    },
+    "charterVersion": {
+      "const": "tween-depth-2026-10-05.1"
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "revise",
+        "blocked"
+      ]
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "accuracy": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "score",
+            "justification",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "mechanisms": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "score",
+            "justification",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "activities": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "score",
+            "justification",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "progression": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "score",
+            "justification",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "tone": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "score",
+            "justification",
+            "evidence"
+          ],
+          "additionalProperties": false
+        },
+        "visuals": {
+          "type": "object",
+          "properties": {
+            "score": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4
+            },
+            "justification": {
+              "type": "string",
+              "minLength": 1
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "score",
+            "justification",
+            "evidence"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "accuracy",
+        "mechanisms",
+        "activities",
+        "progression",
+        "tone",
+        "visuals"
+      ],
+      "additionalProperties": false
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rule": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "enum": [
+              "critical",
+              "major",
+              "minor"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "problem": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requestedChange": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolutionCriterion": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "rule",
+          "severity",
+          "location",
+          "observation",
+          "problem",
+          "requestedChange",
+          "resolutionCriterion"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "coverageGaps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "regressions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "uncertainties": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "nextCorrections": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "externalChecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "NOT RUN"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "evidence"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "contentHash",
+    "briefHash",
+    "charterVersion",
+    "decision",
+    "dimensions",
+    "issues",
+    "coverageGaps",
+    "regressions",
+    "uncertainties",
+    "nextCorrections",
+    "externalChecks"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,133 @@
+[
+  {
+    "id": "source_0877f6b1-703b-49f2-ab76-a770687b0abd",
+    "classId": "A1",
+    "version": 1,
+    "sourceKey": "shell.md",
+    "title": "Dossier Retrouver, réparer, garder une trace",
+    "filename": "shell.md",
+    "role": "technical",
+    "visibility": "student",
+    "author": null,
+    "sourceURL": null,
+    "declaredVersion": null,
+    "consultedAt": "2026-10-05T21:06:24.881Z",
+    "contentHash": "27cca68a184b6c86f9c8b05bc4e65066875990732bde64f849e00e76f9cb4bb7",
+    "status": "extracted",
+    "warnings": [],
+    "segments": [
+      {
+        "id": "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s1",
+        "parent": "Explorer un projet",
+        "location": "line:1",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Explorer un projet",
+            "location": "line:1"
+          }
+        ],
+        "text": "Explorer un projet",
+        "visibility": "student"
+      },
+      {
+        "id": "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s2",
+        "parent": "Position et chemins",
+        "location": "line:2; lines:3-3",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Position et chemins",
+            "location": "line:2"
+          },
+          {
+            "type": "text",
+            "text": "pwd indique le répertoire courant. ls liste ses entrées. cd change le répertoire du shell courant. Un chemin relatif dépend de cette position ; /workspace est ici la racine du projet de laboratoire, pas la racine du système.",
+            "location": "lines:3-3"
+          }
+        ],
+        "text": "Position et chemins\n\npwd indique le répertoire courant. ls liste ses entrées. cd change le répertoire du shell courant. Un chemin relatif dépend de cette position ; /workspace est ici la racine du projet de laboratoire, pas la racine du système.",
+        "visibility": "student"
+      },
+      {
+        "id": "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s3",
+        "parent": "Lire avant de déplacer",
+        "location": "line:4; lines:5-5",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Lire avant de déplacer",
+            "location": "line:4"
+          },
+          {
+            "type": "text",
+            "text": "cat affiche un fichier texte ; mkdir crée un dossier ; cp copie ; mv déplace. Les chemins contenant des espaces demandent des guillemets. Utiliser help cd et les manuels installés.",
+            "location": "lines:5-5"
+          }
+        ],
+        "text": "Lire avant de déplacer\n\ncat affiche un fichier texte ; mkdir crée un dossier ; cp copie ; mv déplace. Les chemins contenant des espaces demandent des guillemets. Utiliser help cd et les manuels installés.",
+        "visibility": "student"
+      },
+      {
+        "id": "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s4",
+        "parent": "Versionner après le rappel",
+        "location": "line:6; lines:7-7",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Versionner après le rappel",
+            "location": "line:6"
+          },
+          {
+            "type": "text",
+            "text": "Git distingue fichiers de travail, index préparé par git add et commits. git status permet d’observer. Git n’est pas une sauvegarde de tout ce qui se trouve sur le disque.",
+            "location": "lines:7-7"
+          }
+        ],
+        "text": "Versionner après le rappel\n\nGit distingue fichiers de travail, index préparé par git add et commits. git status permet d’observer. Git n’est pas une sauvegarde de tout ce qui se trouve sur le disque.",
+        "visibility": "student"
+      },
+      {
+        "id": "source_0877f6b1-703b-49f2-ab76-a770687b0abd:s5",
+        "parent": "Sources",
+        "location": "line:8; lines:9-11",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Sources",
+            "location": "line:8"
+          },
+          {
+            "type": "text",
+            "text": "https://www.gnu.org/software/bash/manual/bash.html\nhttps://git-scm.com/docs/gittutorial\nGit est introduit comme prolongement guidé, pas un prérequis du diagnostic.",
+            "location": "lines:9-11"
+          }
+        ],
+        "text": "Sources\n\nhttps://www.gnu.org/software/bash/manual/bash.html\nhttps://git-scm.com/docs/gittutorial\nGit est introduit comme prolongement guidé, pas un prérequis du diagnostic.",
+        "visibility": "student"
+      }
+    ],
+    "supersedes": null,
+    "analysisStatus": "not_analyzed",
+    "createdAt": "2026-10-05T21:06:24.881Z"
+  },
+  {
+    "id": "A1:resource:BC02-C3-1:ab5a2bf11cd4",
+    "title": "SHELL MAZE // Retrouver la trace",
+    "role": "reference",
+    "contentHash": "ab5a2bf11cd4e87f1d1602cbfd38c3260bc0d14894e7bd52e224f6dde9329cb0",
+    "status": "extracted",
+    "warnings": [
+      "Bibliothèque locale ; qualité technique à examiner, non validée par le professeur."
+    ],
+    "segments": [
+      {
+        "id": "A1:resource:BC02-C3-1:ab5a2bf11cd4:full",
+        "parent": "SHELL MAZE // Retrouver la trace",
+        "location": "NEXUS/BC02-C3-1",
+        "text": "{\"code\":\"BC02-C3-1\",\"title\":\"SHELL MAZE // Retrouver la trace\",\"opening\":\"Le journal de NEXUS est caché dans une arborescence de laboratoire. Retrouve ERROR sans modifier les fichiers du système.\",\"lesson\":\"Un terminal permet d’interagir avec un shell. pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte. Un chemin absolu part de la racine, un chemin relatif dépend du dossier courant. Créer, lire et éditer un fichier sont des actions distinctes.\\n\\nLes permissions déterminent qui peut lire, écrire ou exécuter. Un compte ordinaire limite les conséquences d’une erreur ; les droits administrateur ne doivent servir qu’à une tâche autorisée. Les gestionnaires de paquets diffèrent selon l’OS. Identifier la distribution précède le choix d’une commande d’installation. Les manipulations de comptes, paquets et droits se font ici dans une VM jetable, pas sur le serveur qui héberge les travaux des élèves.\",\"example\":\"pwd\\nls\\ncd labo\\nmkdir rapports\\ngrep \\\"ERROR\\\" logs/app.log\\n# Les commandes paquets/comptes sont choisies après identification de la VM.\",\"task\":\"Dans l’atelier préparé, trouve une erreur, crée un rapport, explique ses droits puis réalise l’exercice de compte et de paquet sur la VM.\",\"proof\":\"Chemin exact ; commande grep et résultat ; fichier créé ; droits expliqués ; observation locale des tâches administrateur autorisées.\",\"transfer\":\"La même commande marche dans un dossier et pas dans un autre. Quelle différence entre chemins relatif et absolu peut l’expliquer ?\",\"questions\":[{\"prompt\":\"Tu ignores où tu es. Quelle commande lance le diagnostic ?\",\"correct\":\"pwd\",\"distractors\":[\"Une suppression récursive\",\"Un changement de mot de passe\"],\"feedback\":\"Commencer par observer réduit les opérations au hasard.\"},{\"prompt\":\"Une installation est demandée. Que vérifier avant apt ou dnf ?\",\"correct\":\"La distribution et la documentation de l’outil\",\"distractors\":[\"Le nombre d’onglets ouverts\",\"Le thème du terminal\"],\"feedback\":\"Le gestionnaire dépend de l’environnement : ne copie pas une commande incompatible.\"}],\"mode\":\"classify\",\"sequence\":null,\"practice\":\"external\",\"minutes\":55,\"prereq\":[],\"blockId\":\"BC02\",\"parentId\":\"BC02-C3\",\"skillLabel\":\"Utiliser les commandes Linux\",\"typology\":\"Savoir-faire technique\",\"notions\":\"> Histoire de Linux\\n> Navigation dans l'arborescence (ls, pwd, cd, mkdir, grep)\\n> Créer / lire / éditer des fichiers\\n> Installer et mettre à jour des packets\\n> Créer et gérer un utilisateur\\n> Réinvestissement des bases : navigation, gestion de fichiers, droits\"}",
+        "visibility": "teacher"
+      }
+    ]
+  }
+]

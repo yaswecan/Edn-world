@@ -1,7 +1,10 @@
+import {terminalInput} from './terminal-lab.js';
+import {domInput} from './dom-lab.js';
 import {workshopInput} from './workshop-ui.js';
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const parse=value=>{try{return JSON.parse(value);}catch{return {};}};
 export function componentInput(activity,answer,{disabled=false}={}){
+ if(activity.workshop?.profile==='dom')return domInput(activity,{disabled});
  const workshop=workshopInput(activity,answer,{disabled});if(workshop!==null)return workshop;
  const a=activity,id=escape(a.id),value=answer??a.starter??'',attrs=`data-answer="${id}" ${disabled?'disabled':''}`,field=(label,index,choices=null)=>`<label class="field">${escape(label)}${choices?`<select data-answer-part="${id}" data-part="${index}" ${disabled?'disabled':''}><option value="">Choisir…</option>${choices.map(o=>`<option value="${escape(o)}" ${parse(answer)[index]===o?'selected':''}>${escape(o)}</option>`).join('')}</select>`:`<input data-answer-part="${id}" data-part="${index}" value="${escape(parse(answer)[index]||'')}" ${disabled?'disabled':''}>`}</label>`;
  if(a.type==='Quiz'||a.type==='MasteryCheck')return `<fieldset><legend>${a.type==='MasteryCheck'?'Évalue ta démarche':'Choisis une réponse'}</legend>${a.options.map(o=>`<label class="check-label"><input type="radio" name="${id}" ${attrs} value="${escape(o)}" ${answer===o?'checked':''}>${escape(o)}</label>`).join('')}</fieldset>`;
@@ -13,6 +16,7 @@ export function componentInput(activity,answer,{disabled=false}={}){
  if(a.type==='Simulator'){const config=parse(a.starter),state=parse(answer);return `<div data-simulator="${id}">${(config.inputs||[]).slice(0,8).map(input=>field(input.label||input.name,input.name,input.values||['0','1'])).join('')}<p>État observé : <output>${escape(JSON.stringify(state))}</output></p><label>Prévision et explication<textarea data-answer-part="${id}" data-part="explanation" ${disabled?'disabled':''}>${escape(state.explanation||'')}</textarea></label></div>`;}
  if(a.type==='Preview')return `<label>HTML / CSS<textarea class="code" ${attrs}>${escape(value)}</textarea></label><button type="button" data-preview-html="${id}" ${disabled?'disabled':''}>Actualiser l’aperçu</button><iframe title="Aperçu de ton travail" sandbox="" data-preview-frame="${id}" referrerpolicy="no-referrer"></iframe>`;
  if(a.type==='Console')return `<pre class="console">${escape(a.starter)}</pre><label>Interprète la sortie<textarea ${attrs}>${escape(answer)}</textarea></label>`;
+ if(a.type==='Terminal'&&a.workshop?.profile==='shell-git')return terminalInput(a,escape,disabled,answer);
  if(a.type==='Terminal')return `<pre class="console">Terminal simulé · aucune commande système n’est exécutée.</pre><label>Commandes et résultat attendu<textarea class="code" ${attrs} placeholder="$ commande">${escape(value)}</textarea></label><button type="button" data-terminal="${id}" ${disabled?'disabled':''}>Simuler pwd / ls / cat / cd / help</button><pre data-terminal-output="${id}" class="console"></pre>`;
  if(a.type==='TestRunner')return `<label>Code à vérifier<textarea class="code" ${attrs}>${escape(value)}</textarea></label>`;
  return `<label for="answer-${id}">${a.type==='CodeEditor'?'Ton code':'Ta réponse'}</label><textarea id="answer-${id}" class="${a.type==='CodeEditor'?'code':''}" ${attrs} spellcheck="${a.type==='CodeEditor'?'false':'true'}">${escape(value)}</textarea>`;

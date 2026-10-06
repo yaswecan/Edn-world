@@ -34,7 +34,7 @@ export function ObservationBlock(b){const g=guide(b),isCode=/\b(const|let|functi
 function exercise(a,ctx,component,kind=''){
  const {answers={},diagnostic=false,preview=false,submitted=false,completed=[]}=ctx;
  const disabled=preview||(diagnostic&&submitted);
- const controls=[['CodeEditor','TestRunner'].includes(a.type)&&!preview?action('Vérifier mon code','run-code',a.id):'',!diagnostic&&!preview?action(completed.includes(a.id)?'Activité terminée ✓':'Terminer l’activité','complete-activity',a.id):''].join('');
+ const controls=[['CodeEditor','TestRunner'].includes(a.type)&&a.workshop?.profile!=='dom'&&!preview?action('Vérifier mon code','run-code',a.id):'',!diagnostic&&!preview?action(completed.includes(a.id)?'Activité terminée ✓':'Terminer l’activité','complete-activity',a.id):''].join('');
  return `<article class="lesson-exercise ${kind}" data-component="${component}" data-activity="${escape(a.id)}"><header><div><span class="lesson-kicker">${diagnostic||a.required?'EXERCICE':'FACULTATIF'}</span><h3>${escape(a.title)}</h3></div></header><div class="lesson-instruction">${paragraphs(a.instruction)}</div><div class="lesson-input">${componentInput(a,answers[a.id],{disabled})}</div>${a.expectedEvidence?`<div class="lesson-evidence"><span aria-hidden="true">↳</span><p><strong>À rendre</strong> ${escape(a.expectedEvidence)}</p></div>`:''}${controls?`<div class="lesson-exercise-actions">${controls}</div>`:''}<pre class="console" id="console-${escape(a.id)}" hidden></pre></article>`;
 }
 export const FillBlankBlock=(a,c={})=>exercise(a,c,'FillBlankBlock','lesson-fillblank');
@@ -52,6 +52,10 @@ export function renderLessonBlock(spec,index,ctx={}){
  if(b.type==='LessonHero')return LessonHero(spec,b);
  const g=guide(b),phase=phaseOf(b),label=PHASES.find(([id])=>id===phase)?.[1]||'Une pause';
  let html=`<header class="lesson-section-heading">${label===studentBlockTitle(b)?'':`<div>${stamp(label,'brand-tone')}</div>`}<h1 tabindex="-1">${escape(studentBlockTitle(b))}</h1></header>`;
+ const support=ctx.support?.find(s=>s.blockId===b.id);
+ if(support)html+=`<aside class="lesson-flash"><h2>Un rappel pour poursuivre</h2>${paragraphs(support.reminder)}${paragraphs(support.action)}</aside>`;
+ const sourceNotes=spec.sourceNotes?.filter(n=>n.blockId===b.id)||[];
+ if(sourceNotes.length)html+=`<details class="lesson-hint"><summary>Retrouver les sources utiles</summary>${sourceNotes.map(n=>`<p><strong>${escape(n.title)}</strong> · ${escape(n.location)}</p>${paragraphs(n.note)}${n.url?.startsWith('https://')?`<a href="${escape(n.url)}" target="_blank" rel="noopener noreferrer">Consulter la source</a>`:''}`).join('')}</details>`;
  if(b.type==='Diagnostic'){
   html+=DiagnosticIntro(spec);
   if(ctx.submitted&&!ctx.preview)html+=`<div class="lesson-receipt" role="status">✓ ${studentCopy.submitted}</div>${action('Voir le résultat','student-result')}`;

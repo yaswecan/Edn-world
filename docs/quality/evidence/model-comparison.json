@@ -1,0 +1,757 @@
+{
+  "date": "2026-10-05",
+  "capUSD": 6,
+  "reservedUSD": 0,
+  "rows": [
+    {
+      "configuration": "A",
+      "repetition": 1,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": null,
+      "effort": null,
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    },
+    {
+      "configuration": "A",
+      "repetition": 2,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": null,
+      "effort": null,
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    },
+    {
+      "configuration": "B",
+      "repetition": 1,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": null,
+      "effort": "high",
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    },
+    {
+      "configuration": "B",
+      "repetition": 2,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": null,
+      "effort": "high",
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    },
+    {
+      "configuration": "C",
+      "repetition": 1,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    },
+    {
+      "configuration": "C",
+      "repetition": 2,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    },
+    {
+      "configuration": "D",
+      "repetition": 1,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    },
+    {
+      "configuration": "D",
+      "repetition": 2,
+      "briefHash": "c03eabcffaffaa1045a47c4059299453f62487d1796496db8b903c94b3979d2f",
+      "sourceHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+      "model": "gpt-6.1-sol",
+      "effort": "xhigh",
+      "status": "NOT RUN",
+      "costUSD": null,
+      "durationMs": null,
+      "quality": null,
+      "reason": "Mode rapport : utiliser --live pour appeler le fournisseur."
+    }
+  ],
+  "baseline": {
+    "provider": "library",
+    "contentHash": "ba20dd41168eea780ea4d0e3aaaadcab8680dfe75835fb586b7aa9d62bd54854",
+    "spec": {
+      "schemaVersion": "1.0",
+      "lessonId": "PILOT-logic",
+      "lessonVersion": 1,
+      "classId": "A1",
+      "date": "2026-10-06",
+      "planEntryId": "logic",
+      "planVersion": 1,
+      "sequence": "Pilotes de recette",
+      "title": "Deux règles, une décision",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "objectives": [
+        "Écrire une condition d’accès et vérifier les cas autorisés et refusés."
+      ],
+      "prerequisites": [],
+      "reactivation": [],
+      "diagnostic": {
+        "id": "PILOT-logic:diagnostic",
+        "kind": "baseline",
+        "sourceLessonRunId": null,
+        "sourceLessonVersion": null,
+        "duration": 15,
+        "criteria": [],
+        "tasks": [
+          {
+            "id": "baseline-valeurs",
+            "type": "FillBlank",
+            "title": "Suis les valeurs",
+            "instruction": "Sans exécuter ce code, indique la valeur finale de chaque variable.\nlet score = 3;\nscore = score + 2;\nconst bonus = score * 2;",
+            "objective": "Suis les valeurs",
+            "skills": [],
+            "expectedEvidence": "Les deux valeurs finales.",
+            "duration": 5,
+            "required": true,
+            "correctionMode": "structured",
+            "expectedAnswer": "{\"0\":\"5\",\"1\":\"10\"}",
+            "reference": "score vaut 5, puis bonus vaut 10.",
+            "starter": "",
+            "options": [
+              "Valeur finale de score",
+              "Valeur finale de bonus"
+            ],
+            "tests": []
+          },
+          {
+            "id": "baseline-condition",
+            "type": "FillBlank",
+            "title": "Applique une règle",
+            "instruction": "Une entrée est autorisée à partir de 12 ans. Pour les âges 11, 12 et 13, écris « oui » ou « non ».",
+            "objective": "Applique une règle",
+            "skills": [],
+            "expectedEvidence": "Trois décisions, dont le cas à la limite.",
+            "duration": 5,
+            "required": true,
+            "correctionMode": "structured",
+            "expectedAnswer": "{\"0\":\"non\",\"1\":\"oui\",\"2\":\"oui\"}",
+            "reference": "11 : non ; 12 : oui ; 13 : oui. La limite de 12 ans est incluse.",
+            "starter": "",
+            "options": [
+              "11 ans",
+              "12 ans",
+              "13 ans"
+            ],
+            "tests": []
+          },
+          {
+            "id": "baseline-erreur",
+            "type": "WriteResponse",
+            "title": "Repère et explique une erreur",
+            "instruction": "Un programme ajoute un bonus de 2 points à un score de 3, mais affiche 32. Quel résultat attendais-tu ? Propose une cause possible et un essai pour la vérifier.",
+            "objective": "Repère et explique une erreur",
+            "skills": [],
+            "expectedEvidence": "Le résultat attendu, une hypothèse et un test précis.",
+            "duration": 5,
+            "required": true,
+            "correctionMode": "manual",
+            "expectedAnswer": "",
+            "reference": "Résultat attendu : 5. Une valeur peut être traitée comme du texte et être concaténée. Vérifier le type ou comparer le calcul avec deux nombres. Relire toute autre hypothèse testable.",
+            "starter": "",
+            "options": [],
+            "tests": []
+          }
+        ],
+        "rubric": [
+          {
+            "id": "item-0-0",
+            "taskId": "baseline-valeurs",
+            "criterion": "baseline",
+            "label": "Les deux valeurs finales.",
+            "max": 6.67,
+            "a1": 3.335,
+            "a2": 5.0024999999999995
+          },
+          {
+            "id": "item-1-0",
+            "taskId": "baseline-condition",
+            "criterion": "baseline",
+            "label": "Trois décisions, dont le cas à la limite.",
+            "max": 6.67,
+            "a1": 3.335,
+            "a2": 5.0024999999999995
+          },
+          {
+            "id": "item-2-0",
+            "taskId": "baseline-erreur",
+            "criterion": "baseline",
+            "label": "Le résultat attendu, une hypothèse et un test précis.",
+            "max": 6.66,
+            "a1": 3.33,
+            "a2": 4.995
+          }
+        ]
+      },
+      "timeline": [
+        {
+          "blockId": "opening",
+          "minutes": 5
+        },
+        {
+          "blockId": "diagnostic",
+          "minutes": 15
+        },
+        {
+          "blockId": "concept-0",
+          "minutes": 13
+        },
+        {
+          "blockId": "demo-0",
+          "minutes": 9
+        },
+        {
+          "blockId": "board-0",
+          "minutes": 8
+        },
+        {
+          "blockId": "practice-0",
+          "minutes": 8
+        },
+        {
+          "blockId": "practice-0-1",
+          "minutes": 8
+        },
+        {
+          "blockId": "autonomy",
+          "minutes": 26
+        },
+        {
+          "blockId": "extension",
+          "minutes": 10
+        },
+        {
+          "blockId": "exit",
+          "minutes": 8
+        }
+      ],
+      "blocks": [
+        {
+          "id": "opening",
+          "type": "LessonHero",
+          "phase": "opening",
+          "title": "Deux règles, une décision",
+          "content": "La porte accepte un badge expiré parce qu’une seule condition suffit. Répare la règle : badge valide ET secteur autorisé.",
+          "minutes": 5,
+          "activityIds": [],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [],
+            "hint": "",
+            "check": "",
+            "takeaways": [],
+            "diagram": []
+          }
+        },
+        {
+          "id": "diagnostic",
+          "type": "Diagnostic",
+          "phase": "diagnostic",
+          "title": "Évaluation",
+          "content": "Réponds sans aide, puis rends ton travail. Tu peux rendre une réponse incomplète.",
+          "minutes": 15,
+          "activityIds": [],
+          "skills": [],
+          "teaching": {
+            "steps": [],
+            "hint": "",
+            "check": "",
+            "takeaways": [],
+            "diagram": []
+          }
+        },
+        {
+          "id": "concept-0",
+          "type": "ConceptCard",
+          "phase": "understand",
+          "title": "Deux règles, une décision",
+          "content": "Une condition choisit des instructions selon une expression. if/else construit deux branches ; des conditions imbriquées peuvent préciser plusieurs cas. Switch en JavaScript traite des choix selon des valeurs et demande de comprendre les sorties des cas. Les comparateurs produisent des booléens ; === compare sans conversion implicite.\n\nAND, OR et NOT combinent les règles, avec des parenthèses lorsque l’intention risque d’être ambiguë. = affecte une valeur : ce n’est pas un test d’égalité. Python utilise if, elif, else, and, or, not et == ; il ne possède pas === ni la même syntaxe switch. La progression Python puis JavaScript conserve le raisonnement tout en explicitant les différences.",
+          "minutes": 13,
+          "activityIds": [],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [],
+            "hint": "Le ET exige les deux propriétés.",
+            "check": "",
+            "takeaways": [
+              "Une condition choisit des instructions selon une expression.",
+              "if/else construit deux branches ; des conditions imbriquées peuvent préciser plusieurs cas."
+            ],
+            "diagram": [
+              "Badge valide + secteur autorisé → ET → Accès autorisé",
+              "Une condition fausse → Accès refusé"
+            ]
+          }
+        },
+        {
+          "id": "demo-0",
+          "type": "LiveCode",
+          "phase": "observe",
+          "title": "Pas à pas · Deux règles, une décision",
+          "content": "Python : autorise = badge_valide and secteur_autorise\nJS : const autorise = input.badgeValide && input.secteurAutorise;",
+          "minutes": 9,
+          "activityIds": [],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [
+              "Repère les deux informations : badge valide et secteur autorisé.",
+              "En Python, and combine les deux conditions. En JavaScript, on écrit &&.",
+              "Si une seule condition est fausse, la décision est un refus. Vérifie les quatre combinaisons."
+            ],
+            "hint": "",
+            "check": "Un badge valide ne doit jamais suffire si le secteur est interdit.",
+            "takeaways": [
+              "Écris d’abord la règle en français. Remplace ensuite ET par && et NON par ! en JavaScript."
+            ],
+            "diagram": []
+          }
+        },
+        {
+          "id": "board-0",
+          "type": "Activity",
+          "phase": "guided",
+          "title": "Au tableau · dessine pour comprendre",
+          "content": "Cache le modèle. Reconstruis les relations, puis compare avec un camarade.",
+          "minutes": 8,
+          "activityIds": [
+            "sketch-0"
+          ],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [
+              "Pose les éléments importants sur le tableau.",
+              "Relie, légende et montre le cheminement."
+            ],
+            "hint": "Écris d’abord la règle en français. Remplace ensuite ET par && et NON par ! en JavaScript.",
+            "check": "Un schéma avec des éléments nommés, des relations expliquées et un point de vigilance.",
+            "takeaways": [],
+            "diagram": []
+          }
+        },
+        {
+          "id": "practice-0",
+          "type": "Activity",
+          "phase": "guided",
+          "title": "Construis les quatre cas",
+          "content": "La porte accepte un badge expiré parce qu’une seule condition suffit. Répare la règle : badge valide ET secteur autorisé.",
+          "minutes": 8,
+          "activityIds": [
+            "table-0"
+          ],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [
+              "Prévois le résultat avant de modifier la production.",
+              "Change une chose, puis lance un essai.",
+              "Compare attendu et obtenu. Reprends le cas qui échoue."
+            ],
+            "hint": "Écris d’abord la règle en français. Remplace ensuite ET par && et NON par ! en JavaScript.",
+            "check": "Les quatre sorties de la porte ET.",
+            "takeaways": [],
+            "diagram": []
+          }
+        },
+        {
+          "id": "practice-0-1",
+          "type": "Activity",
+          "phase": "guided",
+          "title": "Répare, puis teste · Deux règles, une décision",
+          "content": "La porte accepte un badge expiré parce qu’une seule condition suffit. Répare la règle : badge valide ET secteur autorisé.",
+          "minutes": 8,
+          "activityIds": [
+            "guided-0"
+          ],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [
+              "Prévois le résultat avant de modifier la production.",
+              "Change une chose, puis lance un essai.",
+              "Compare attendu et obtenu. Reprends le cas qui échoue."
+            ],
+            "hint": "Écris d’abord la règle en français. Remplace ensuite ET par && et NON par ! en JavaScript.",
+            "check": "La fonction corrigée, les cas de test et une explication de l’erreur.",
+            "takeaways": [],
+            "diagram": []
+          }
+        },
+        {
+          "id": "autonomy",
+          "type": "Activity",
+          "phase": "autonomy",
+          "title": "À toi de construire",
+          "content": "Produis une solution dans ce nouveau cas, sans le modèle. Garde un essai qui t’a aidé à comprendre.",
+          "minutes": 26,
+          "activityIds": [
+            "transfer"
+          ],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [],
+            "hint": "",
+            "check": "Ta production traite le nouveau cas. Tu peux expliquer ce que tu as changé et pourquoi.",
+            "takeaways": [],
+            "diagram": []
+          }
+        },
+        {
+          "id": "extension",
+          "type": "Activity",
+          "phase": "extend",
+          "title": "Et si la règle changeait ?",
+          "content": "Réutilise ce que tu viens d’apprendre. Teste aussi un cas inattendu.",
+          "minutes": 10,
+          "activityIds": [
+            "extension"
+          ],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [],
+            "hint": "",
+            "check": "Tu as comparé une prévision avec un résultat et expliqué l’écart éventuel.",
+            "takeaways": [],
+            "diagram": []
+          }
+        },
+        {
+          "id": "exit",
+          "type": "Reflection",
+          "phase": "summary",
+          "title": "Bilan",
+          "content": "Reviens à la question de départ. Explique ta démarche avec un exemple.",
+          "minutes": 8,
+          "activityIds": [
+            "exit"
+          ],
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "teaching": {
+            "steps": [],
+            "hint": "",
+            "check": "",
+            "takeaways": [
+              "Une condition choisit des instructions selon une expression.",
+              "Une solution se vérifie sur plusieurs cas. Prévoir, essayer et comparer aide à comprendre une erreur."
+            ],
+            "diagram": []
+          }
+        }
+      ],
+      "activities": [
+        {
+          "id": "sketch-0",
+          "type": "Blackboard",
+          "title": "Au tableau · rends ton raisonnement visible",
+          "instruction": "À partir de ce cas : Python : autorise = badge_valide and secteur_autorise\nJS : const autorise = input.badgeValide && input.secteurAutorise;\nDessine les éléments importants, relie-les avec des flèches et légende les relations. Signale en couleur un endroit où une erreur pourrait se produire. Tu peux aussi décrire ces relations dans la légende.",
+          "objective": "Au tableau · rends ton raisonnement visible",
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "expectedEvidence": "Un schéma avec des éléments nommés, des relations expliquées et un point de vigilance.",
+          "duration": 8,
+          "required": true,
+          "correctionMode": "manual",
+          "expectedAnswer": "",
+          "reference": "Condition correcte ; table des cas ; cas interdit réellement refusé ; correspondance Python/JS expliquée.",
+          "starter": "",
+          "options": [],
+          "tests": [],
+          "workshop": {
+            "hints": [
+              "Le ET exige les deux propriétés."
+            ]
+          }
+        },
+        {
+          "id": "table-0",
+          "type": "TruthTable",
+          "title": "Construis les quatre cas",
+          "instruction": "La porte exige les deux entrées vraies. Prévois la sortie pour chaque combinaison avant de lancer le code.",
+          "objective": "Construis les quatre cas",
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "expectedEvidence": "Les quatre sorties de la porte ET.",
+          "duration": 8,
+          "required": true,
+          "correctionMode": "structured",
+          "expectedAnswer": "{\"0\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"1\"}",
+          "reference": "Seul le cas 1 / 1 satisfait ET.",
+          "starter": "",
+          "options": [
+            "A=0, B=0",
+            "A=0, B=1",
+            "A=1, B=0",
+            "A=1, B=1"
+          ],
+          "tests": []
+        },
+        {
+          "id": "guided-0",
+          "type": "CodeEditor",
+          "title": "Répare, puis teste · Deux règles, une décision",
+          "instruction": "Autorise uniquement un badge valide ET un secteur autorisé.",
+          "objective": "Répare, puis teste · Deux règles, une décision",
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "expectedEvidence": "La fonction corrigée, les cas de test et une explication de l’erreur.",
+          "duration": 8,
+          "required": true,
+          "correctionMode": "javascript",
+          "expectedAnswer": "",
+          "reference": "function main(input) { return input.badge && input.secteur; }",
+          "starter": "function main(input) {\n  return input.badge || input.secteur;\n}",
+          "options": [],
+          "tests": [
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":true,\"secteur\":false}]",
+              "expectedJSON": "false"
+            },
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":false,\"secteur\":true}]",
+              "expectedJSON": "false"
+            },
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":true,\"secteur\":true}]",
+              "expectedJSON": "true"
+            },
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":false,\"secteur\":false}]",
+              "expectedJSON": "false"
+            }
+          ],
+          "workshop": {
+            "language": "javascript",
+            "checks": [
+              "{\"badge\":true,\"secteur\":false} → false",
+              "{\"badge\":false,\"secteur\":true} → false",
+              "{\"badge\":true,\"secteur\":true} → true",
+              "{\"badge\":false,\"secteur\":false} → false"
+            ],
+            "hints": [
+              "Le ET exige les deux propriétés.",
+              "Vérifie le cas limite avant de modifier une autre ligne."
+            ]
+          }
+        },
+        {
+          "id": "transfer",
+          "type": "CodeEditor",
+          "title": "Reconstruis sans le modèle",
+          "instruction": "Une alarme doit bloquer tous les accès. Écris main(input) : badge ET secteur autorisés, et PAS d’alarme. Teste aussi le cas où tout est valide sauf l’alarme.",
+          "objective": "Répare, puis teste · Deux règles, une décision",
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "expectedEvidence": "La fonction corrigée, les cas de test et une explication de l’erreur.",
+          "duration": 26,
+          "required": true,
+          "correctionMode": "javascript",
+          "expectedAnswer": "",
+          "reference": "function main(input) { return input.badge && input.secteur && !input.alarme; }",
+          "starter": "function main(input) {\n  // Construis ta solution.\n}",
+          "options": [],
+          "tests": [
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":true,\"secteur\":true,\"alarme\":false}]",
+              "expectedJSON": "true"
+            },
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":true,\"secteur\":true,\"alarme\":true}]",
+              "expectedJSON": "false"
+            },
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":false,\"secteur\":true,\"alarme\":false}]",
+              "expectedJSON": "false"
+            },
+            {
+              "invoke": "main",
+              "argsJSON": "[{\"badge\":true,\"secteur\":false,\"alarme\":false}]",
+              "expectedJSON": "false"
+            }
+          ],
+          "workshop": {
+            "language": "javascript",
+            "checks": [
+              "Badge + secteur + aucune alarme → accès.",
+              "Alarme active → refus, même avec badge et secteur.",
+              "Badge ou secteur absent → refus."
+            ],
+            "hints": []
+          }
+        },
+        {
+          "id": "extension",
+          "type": "FillBlank",
+          "title": "Défi · construis le cas qui résiste",
+          "instruction": "Une alarme doit maintenant bloquer tous les accès. Comment ajoutes-tu NOT sans changer les autres règles ?",
+          "objective": "Défi · construis le cas qui résiste",
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "expectedEvidence": "Un cas nouveau, une prévision, une observation et une décision.",
+          "duration": 10,
+          "required": true,
+          "correctionMode": "manual",
+          "expectedAnswer": "",
+          "reference": "Condition correcte ; table des cas ; cas interdit réellement refusé ; correspondance Python/JS expliquée.",
+          "starter": "",
+          "options": [
+            "La nouvelle donnée ou contrainte",
+            "Le résultat que je prévois",
+            "Le résultat observé après mon essai",
+            "Ce que je dois modifier et pourquoi"
+          ],
+          "tests": []
+        },
+        {
+          "id": "exit",
+          "type": "Reflection",
+          "title": "Ton ticket de sortie",
+          "instruction": "Écris une règle que tu retiens. Donne un exemple qui l’illustre. Termine par une question ou un point à retravailler.",
+          "objective": "Ton ticket de sortie",
+          "skills": [
+            "BC05-C1-2"
+          ],
+          "expectedEvidence": "Une règle, un exemple et ton prochain pas.",
+          "duration": 8,
+          "required": true,
+          "correctionMode": "none",
+          "expectedAnswer": "",
+          "reference": "Vérifier la production, les cas testés et la justification selon le critère.",
+          "starter": "",
+          "options": [],
+          "tests": []
+        }
+      ],
+      "slides": [
+        {
+          "title": "Deux règles, une décision",
+          "body": "La porte accepte un badge expiré parce qu’une seule condition suffit. Répare la règle : badge valide ET secteur autorisé."
+        },
+        {
+          "title": "Deux règles, une décision",
+          "body": "Une condition choisit des instructions selon une expression. if/else construit deux branches ; des conditions imbriquées peuvent préciser plusieurs cas. Switch en JavaScript traite des choix selon des valeurs et demande de comprendre les sorties des cas. Les comparateurs produisent des booléens ; === compare sans conversion implicite.\n\nAND, OR et NOT combinent les règles, avec des parenthèses lorsque l’intention risque d’être ambiguë. = affecte une valeur : ce n’est pas un test d’égalité. Python utilise if, elif, else, and, or, not et == ; il ne possède pas === ni la même syntaxe switch. La progression Python puis JavaScript conserve le raisonnement tout en explicitant les différences."
+        },
+        {
+          "title": "Pas à pas · Deux règles, une décision",
+          "body": "Python : autorise = badge_valide and secteur_autorise\nJS : const autorise = input.badgeValide && input.secteurAutorise;"
+        },
+        {
+          "title": "Au tableau · dessine pour comprendre",
+          "body": "Cache le modèle. Reconstruis les relations, puis compare avec un camarade."
+        },
+        {
+          "title": "Construis les quatre cas",
+          "body": "La porte accepte un badge expiré parce qu’une seule condition suffit. Répare la règle : badge valide ET secteur autorisé."
+        },
+        {
+          "title": "Répare, puis teste · Deux règles, une décision",
+          "body": "La porte accepte un badge expiré parce qu’une seule condition suffit. Répare la règle : badge valide ET secteur autorisé."
+        },
+        {
+          "title": "À toi de construire",
+          "body": "Produis une solution dans ce nouveau cas, sans le modèle. Garde un essai qui t’a aidé à comprendre."
+        },
+        {
+          "title": "Et si la règle changeait ?",
+          "body": "Réutilise ce que tu viens d’apprendre. Teste aussi un cas inattendu."
+        },
+        {
+          "title": "Bilan",
+          "body": "Reviens à la question de départ. Explique ta démarche avec un exemple."
+        }
+      ],
+      "resources": [
+        "BC05-C1-2"
+      ],
+      "codeStation": null,
+      "teacherGuide": "Objectif : Une invitation, trois conditions\nTrace : Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.\nÉtayer : Le ET exige les deux propriétés.\nFaire verbaliser les prévisions. Comparer attendu et obtenu. Les manipulations matérielles des ressources restent supervisées. Ne pas confondre une réponse exacte avec une maîtrise durable.",
+      "studentFlow": [
+        "opening",
+        "diagnostic",
+        "concept-0",
+        "demo-0",
+        "board-0",
+        "practice-0",
+        "practice-0-1",
+        "autonomy",
+        "extension",
+        "exit"
+      ],
+      "sourceVersions": {
+        "curriculumVersion": "quality-curriculum",
+        "planVersion": 1,
+        "previousLessonRunId": null
+      }
+    }
+  },
+  "decision": "Aucun modèle retenu sur une qualité non mesurée. high/xhigh sont des paramètres API, pas une reproduction de ChatGPT Pro."
+}
