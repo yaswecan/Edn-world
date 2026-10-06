@@ -1,7 +1,7 @@
 import {storeArtifact} from './artifacts.mjs';
 import PDFDocument from 'pdfkit';
 import ExcelJS from 'exceljs';
-import pptxgen from 'pptxgenjs';
+import {createRequire} from 'node:module';
 import archiver from 'archiver';
 import {PassThrough} from 'node:stream';
 import {hash} from './importer.mjs';
@@ -9,6 +9,10 @@ import {uid,now,scoped,fail} from './store.mjs';
 import {studentFeedback,studentResultStatus} from '../public/student-copy.js';
 import {studentSpec} from './generator.mjs';
 import {readFile} from 'node:fs/promises';
+// PptxGenJS 4 exposes an ESM .js file without declaring type=module. Use its
+// supported CommonJS export so Lambda does not need module syntax detection.
+const require=createRequire(import.meta.url);
+const PptxGenJS=require('pptxgenjs');
 const edenLogo=await readFile(new URL('../public/assets/eden-logo.png',import.meta.url));
 const edenLogoData='data:image/png;base64,'+edenLogo.toString('base64');
 const json=v=>Buffer.from(JSON.stringify(v,null,2));
@@ -44,7 +48,7 @@ export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}
  for(const name of ['trame-professeur','memo-professeur','guide-animation'])add(`03_PROFESSEUR/${name}.pdf`,await pdf(name,guide));
  const groups=(await store.list('remediation_snapshots',actor.classId)).at(-1)?.groups||[];
  add('03_PROFESSEUR/groupes-remediation.xlsx',await workbook({Groupes:[['Groupe','Élève','Critères','Statut'],...groups.flatMap(g=>g.members.map(m=>[g.title,m.learnerId,m.criteria.join(', '),m.reason]))]}));
- const Pptx=pptxgen.default||pptxgen;const ppt=new Pptx();ppt.author='EDEN';ppt.subject=s.title;ppt.title=s.title;ppt.layout='LAYOUT_WIDE';
+ const ppt=new PptxGenJS();ppt.author='EDEN';ppt.subject=s.title;ppt.title=s.title;ppt.layout='LAYOUT_WIDE';
  for(const slide of s.slides){const p=ppt.addSlide();p.background={color:'F4F7F7'};p.addImage({data:edenLogoData,x:11.5,y:.5,w:1.3,h:1.3*260/900});p.addText(slide.title,{x:.6,y:.5,w:10.5,h:1,fontSize:26,bold:true,color:'162B32',breakLine:false});p.addText(slide.body,{x:.6,y:1.8,w:12,h:4.8,fontSize:18,color:'162B32',fit:'shrink'});p.addText('EDEN · '+s.lessonId,{x:.6,y:7,w:12,h:.3,fontSize:10,color:'53676D'});}
  add('04_PRESENTATION/presentation.pptx',Buffer.from(await ppt.write({outputType:'nodebuffer'})));
  add('04_PRESENTATION/presentation.pdf',await pdf(s.title,s.slides));

@@ -10,7 +10,7 @@
       "functions": {
         "api/index.mjs": {
           "maxDuration": 300,
-          "includeFiles": "{public/**,data/**,server/**,labs/*,legacy/pedagolab/public/data/resources.json,legacy/eden-october/docs/{app,assets,vendor}/**,node_modules/@xterm/xterm/{lib,css}/**}"
+          "includeFiles": "{public/**,data/**,server/**,labs/*,legacy/pedagolab/public/data/resources.json,legacy/eden-october/docs/{app,assets,vendor}/**,node_modules/@xterm/xterm/{lib,css}/**,node_modules/{pptxgenjs,image-size}/**}"
         }
       }
     }
