@@ -19,6 +19,12 @@
 .lesson-source summary{cursor:pointer}
 .lesson-source pre{overflow:auto;white-space:pre;font:12px/1.6 ui-monospace,monospace;max-height:220px}
 .lesson-source code{background:none;color:inherit}
+.lesson-view .lesson-debugger{margin:0;padding:14px 18px;background:var(--bg);color:var(--lesson-ink);border-top:1px solid var(--line)}
+.lesson-debugger>summary{cursor:pointer;min-height:44px;padding:10px 0;font-weight:700}
+.lesson-debugger label{display:block;margin:12px 0;font-size:13px}
+.lesson-debugger input{display:block;width:100%;margin-top:5px}
+.lesson-debugger .actions{display:flex;flex-wrap:wrap;gap:8px}
+.lesson-debugger [data-debug-output]{white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto;font:13px/1.6 ui-monospace,monospace}
 .lesson-preview{background:var(--bg);border-left:1px solid var(--console-line)}
 .lesson-preview-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid var(--line);background:#fff;min-height:46px}
 .lesson-preview-toolbar strong{font-size:9px;letter-spacing:1px;margin-right:auto}
@@ -73,4 +79,3 @@
 .lesson-preview-toolbar .btn{min-height:44px}
 .lesson-board-dialog{padding:10px}
 }
-

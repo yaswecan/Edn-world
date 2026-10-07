@@ -9,11 +9,11 @@ import {inspectCandidate} from '../server/pedagogy/browser-evidence.mjs';
 import {jobSummary} from '../server/pedagogy/jobs.mjs';
 import {studentSpec} from '../server/generator.mjs';
 import {passwordHash} from '../server/auth.mjs';
-const output=resolve('docs/quality/evidence');await mkdir(output,{recursive:true});
+const output=resolve(process.env.EDEN_QUALITY_REPORT_PATH||'docs/quality/evidence');await mkdir(output,{recursive:true});
 const {store,actor}=await pedagogyFixture(),server=createApp(store).listen(0,'127.0.0.1');await new Promise((r,j)=>{server.once('listening',r);server.once('error',j);});
 const base=`http://127.0.0.1:${server.address().port}`,options={headless:true};
 const chrome=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';if(existsSync(chrome))options.executablePath=chrome;
-let browser;const report={date:'2026-10-05',ai:'NOT RUN',lab:'NOT RUN',browser:'NOT RUN',pilots:[],checks:[]};
+let browser;const report={date:'2026-10-07',ai:'NOT RUN',lab:'NOT RUN',browser:'NOT RUN',pilots:[],checks:[]};
 try{
  browser=await chromium.launch(options);const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];page.on('pageerror',e=>{errors.push(e.message);console.log('Browser error:',e.message);});
  await page.goto(base);await page.locator('#password').fill('quality-preview-only');await page.getByRole('button',{name:'Se connecter',exact:true}).click();await page.locator('.nav').waitFor();
@@ -46,7 +46,7 @@ try{
  const response=await student.request.get(base+`/api/preparation/remediation/${encodeURIComponent(lesson.id)}`);assert.equal(response.status(),200);const support=await response.json();assert.ok(['insufficient_observation','partially_correct','incorrect','correct'].includes(support.observation));
  const forbidden=await student.request.get(base+'/api/preparation/sources');assert.equal(forbidden.status(),403);const today=(await (await student.request.get(base+'/api/today?date=2026-10-05')).json());assert.equal(today.lesson.pedagogicalValidation,undefined);
  report.checks.push({id:'student-diagnostic-save-first-attempt-submit',status:'PASS'},{id:'student-private-source-and-review-isolation',status:'PASS'},{id:'student-targeted-support-route',status:'PASS'});
- await page.goto(base+'/preparation.html?job='+encodeURIComponent(job.id));await page.getByRole('button',{name:'Synthèse du diagnostic',exact:true}).click();await page.locator('#preview').getByText('Élève test',{exact:true}).waitFor();report.checks.push({id:'teacher-diagnostic-summary',status:'PASS'});
+ await page.goto(base+'/preparation.html?job='+encodeURIComponent(job.id));await page.getByRole('button',{name:'Diagnostic de début de séance',exact:true}).click();await page.locator('#preview').getByText('Élève test',{exact:true}).waitFor();report.checks.push({id:'teacher-diagnostic-summary',status:'PASS'});
  assert.deepEqual(errors,[]);report.browser='PASS';report.checks.push({id:'browser-errors',status:'PASS'});console.log(JSON.stringify(report));
 }catch(error){report.browser='FAIL';report.error=error.stack;throw error;}
 finally{await writeFile(resolve(output,'acceptance.json'),JSON.stringify(report,null,2)+'\n');await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await store.close();}

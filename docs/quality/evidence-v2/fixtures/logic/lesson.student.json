@@ -1,0 +1,497 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "PILOT-logic-prep_a3518579-d6bb-4cce-849f-c438a9f2e333",
+  "lessonVersion": 3,
+  "classId": "A1",
+  "date": "2026-10-06",
+  "planEntryId": "logic",
+  "planVersion": 1,
+  "sequence": "Pilotes de recette",
+  "title": "Une invitation, trois conditions",
+  "skills": [
+    "BC05-C1-2"
+  ],
+  "objectives": [
+    "Comment autoriser un invité sans lui permettre de contourner une alarme ?",
+    "Prévoir, vérifier et expliquer un résultat ; produire une variante autonome."
+  ],
+  "prerequisites": [],
+  "reactivation": [],
+  "diagnostic": {
+    "id": "PILOT-logic-prep_a3518579-d6bb-4cce-849f-c438a9f2e333:diagnostic",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 8,
+    "criteria": [],
+    "tasks": [
+      {
+        "id": "diag-observe",
+        "type": "WriteResponse",
+        "title": "Un point de départ",
+        "instruction": "Décris un exemple que tu sais déjà traiter sur ce sujet et indique ce que tu vérifierais en premier.",
+        "objective": "Un point de départ",
+        "skills": [],
+        "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "duration": 4,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      },
+      {
+        "id": "diag-practice",
+        "type": "WriteResponse",
+        "title": "Essaie avant le cours",
+        "instruction": "Une autorisation exige une carte et une réservation. Écris les résultats pour vrai/faux puis vrai/vrai et explique.",
+        "objective": "Essaie avant le cours",
+        "skills": [],
+        "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "duration": 4,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      }
+    ],
+    "rubric": [
+      {
+        "id": "rubric-0",
+        "criterion": "baseline",
+        "taskId": "diag-observe",
+        "label": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      },
+      {
+        "id": "rubric-1",
+        "criterion": "baseline",
+        "taskId": "diag-practice",
+        "label": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+        "max": 10,
+        "a1": 5,
+        "a2": 7.5
+      }
+    ]
+  },
+  "timeline": [
+    {
+      "blockId": "opening",
+      "minutes": 4
+    },
+    {
+      "blockId": "diagnostic",
+      "minutes": 8
+    },
+    {
+      "blockId": "concept",
+      "minutes": 19
+    },
+    {
+      "blockId": "observe",
+      "minutes": 13
+    },
+    {
+      "blockId": "guided",
+      "minutes": 20
+    },
+    {
+      "blockId": "autonomy",
+      "minutes": 26
+    },
+    {
+      "blockId": "extension",
+      "minutes": 12
+    },
+    {
+      "blockId": "exit",
+      "minutes": 8
+    }
+  ],
+  "blocks": [
+    {
+      "id": "opening",
+      "type": "LessonHero",
+      "phase": "opening",
+      "title": "Une invitation, trois conditions",
+      "content": "Comment autoriser un invité sans lui permettre de contourner une alarme ?",
+      "minutes": 4,
+      "activityIds": [],
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "diagnostic",
+      "type": "Diagnostic",
+      "phase": "diagnostic",
+      "title": "Ton point de départ",
+      "content": "Réponds avant les aides ; une réponse incomplète reste utile.",
+      "minutes": 8,
+      "activityIds": [],
+      "skills": [],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "concept",
+      "type": "ConceptCard",
+      "phase": "understand",
+      "title": "Comprendre le mécanisme",
+      "content": "Comment autoriser un invité sans lui permettre de contourner une alarme ?\n\nUn paramètre reçoit une valeur à l’appel. return fournit le résultat de la fonction. Ici chaque paramètre vaut true ou false : nous ne traitons pas encore les chaînes ni les autres valeurs dites truthy.\n\nUne règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.\n\nCarte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.\n\naCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+      "minutes": 19,
+      "activityIds": [],
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "aCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas."
+        ],
+        "diagram": [
+          "Carte ET réservation → droit habituel",
+          "Droit habituel OU invitation → droit d’entrée",
+          "Droit d’entrée ET absence d’alarme → décision finale"
+        ]
+      }
+    },
+    {
+      "id": "observe",
+      "type": "LiveCode",
+      "phase": "observe",
+      "title": "Prévoir et suivre les changements",
+      "content": "const droit = (false && false) || true; // true\nconst securite = !true; // false\nconst resultat = droit && securite; // false",
+      "minutes": 13,
+      "activityIds": [
+        "prediction"
+      ],
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [
+          "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "Vérifie chaque étape, puis explique le résultat."
+        ],
+        "hint": "",
+        "check": "Le résultat réel correspond-il à ta prévision ?",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "guided",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Enquêter et réparer",
+      "content": "Garde une première tentative. Appuie-toi sur les observations pour corriger.",
+      "minutes": 20,
+      "activityIds": [
+        "drawing",
+        "guided"
+      ],
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [
+          "Observer et prévoir.",
+          "Changer puis expliquer."
+        ],
+        "hint": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active.",
+        "check": "La correction traite le défaut et préserve le reste.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "autonomy",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "Produire sous contraintes",
+      "content": "Tu choisis les étapes ; justifie une décision.",
+      "minutes": 26,
+      "activityIds": [
+        "autonomous",
+        "justify"
+      ],
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "extension",
+      "type": "Activity",
+      "phase": "extend",
+      "title": "Transférer la démarche",
+      "content": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+      "minutes": 12,
+      "activityIds": [
+        "transfer"
+      ],
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Expliquer ce que tu réutilises",
+      "content": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active.",
+      "minutes": 8,
+      "activityIds": [
+        "exit"
+      ],
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "Un paramètre reçoit une valeur à l’appel. return fournit le résultat de la fonction. Ici chaque paramètre vaut true ou false : nous ne traitons pas encore les chaînes ni les autres valeurs dites truthy.",
+          "aCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas."
+        ],
+        "diagram": []
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "prediction",
+      "type": "WriteResponse",
+      "title": "Avant le premier essai",
+      "instruction": "Écris ta prévision pour l’exemple, puis une observation qui pourrait la contredire. Après l’essai, explique l’écart éventuel.",
+      "objective": "Avant le premier essai",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Une prévision conservée et une comparaison avec un résultat réel.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    },
+    {
+      "id": "drawing",
+      "type": "Blackboard",
+      "title": "Rendre le mécanisme visible",
+      "instruction": "Dessine ou décris les relations de la séance. Légende les flèches, indique ce qui change et utilise les valeurs d’un exemple.",
+      "objective": "Rendre le mécanisme visible",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [],
+      "workshop": {
+        "profile": "concepts"
+      }
+    },
+    {
+      "id": "guided",
+      "type": "CodeEditor",
+      "title": "La règle ne protège pas tout le monde",
+      "instruction": "Prévois le résultat pour true,true,false,true. L’alarme doit toujours bloquer. Répare le regroupement puis vérifie les seize combinaisons de booléens.",
+      "objective": "La règle ne protège pas tout le monde",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "javascript",
+      "starter": "function acces(carte, reserve, invite, alarme) {\n  return carte && reserve || invite && !alarme;\n}",
+      "options": [],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Calcule séparément le droit d’entrée et l’absence d’alarme.",
+          "Sur quelle partie de la règle porte le dernier ET ?"
+        ],
+        "checks": [
+          "Tous les cas avec alarme sont refusés.",
+          "Sans alarme, invitation ou duo carte/réservation suffit."
+        ]
+      }
+    },
+    {
+      "id": "autonomous",
+      "type": "CodeEditor",
+      "title": "Choisir une livraison",
+      "instruction": "Écris livraison(paye, adresseValide, domicile, relais). Il faut un colis payé et une adresse valide ; domicile ou relais doit être choisi. Les deux choix ensemble sont acceptés. Prévois les quatre situations que tu juges les plus utiles, puis exécute et explique ton regroupement.",
+      "objective": "Choisir une livraison",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "javascript",
+      "starter": "function livraison(paye, adresseValide, domicile, relais) {\n  return false;\n}",
+      "options": [],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "checks": [
+          "Paiement et adresse toujours exigés.",
+          "Au moins un mode choisi.",
+          "Les deux modes sont acceptés."
+        ],
+        "hints": [
+          "Quel cas ferait accepter un colis non payé dans une règle mal regroupée ?"
+        ]
+      }
+    },
+    {
+      "id": "justify",
+      "type": "WriteResponse",
+      "title": "Défends ton choix",
+      "instruction": "Explique un choix de ta production autonome. Donne une erreur plausible, le cas qui la révèle et pourquoi ta solution l’évite.",
+      "objective": "Défends ton choix",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Un choix, un contre-exemple et une explication causale.",
+      "duration": 13,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    },
+    {
+      "id": "transfer",
+      "type": "CodeEditor",
+      "title": "Une seule livraison, cette fois",
+      "instruction": "La règle change : domicile ET relais ne doivent plus pouvoir être choisis ensemble. Écris une fonction choixUnique(domicile,relais) sans nouvel opérateur. Donne la table des quatre cas et explique ce que tu réutilises de ET, OU et NON.",
+      "objective": "Une seule livraison, cette fois",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 12,
+      "required": true,
+      "correctionMode": "javascript",
+      "starter": "function choixUnique(domicile, relais) { return false; }",
+      "options": [],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Exige au moins un choix puis interdis le cas où les deux sont vrais."
+        ]
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "title": "Vérification finale",
+      "instruction": "Sans reprendre l’exemple du cours, propose un cas analogue et son résultat. Explique le mécanisme, puis nomme la partie que tu vérifierais encore.",
+      "objective": "Vérification finale",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    }
+  ],
+  "slides": [
+    {
+      "title": "Une invitation, trois conditions",
+      "body": "Comment autoriser un invité sans lui permettre de contourner une alarme ?"
+    },
+    {
+      "title": "Comprendre le mécanisme",
+      "body": "Comment autoriser un invité sans lui permettre de contourner une alarme ?\n\nUn paramètre reçoit une valeur à l’appel. return fournit le résultat de la fonction. Ici chaque paramètre vaut true ou false : nous ne traitons pas encore les chaînes ni les autres valeurs dites truthy.\n\nUne règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.\n\nCarte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.\n\naCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas. Compare explicitement le cas avant et après la correction, en gardant la première réponse."
+    },
+    {
+      "title": "Prévoir et suivre les changements",
+      "body": "const droit = (false && false) || true; // true\nconst securite = !true; // false\nconst resultat = droit && securite; // false"
+    },
+    {
+      "title": "Enquêter et réparer",
+      "body": "Garde une première tentative. Appuie-toi sur les observations pour corriger."
+    },
+    {
+      "title": "Produire sous contraintes",
+      "body": "Tu choisis les étapes ; justifie une décision."
+    },
+    {
+      "title": "Transférer la démarche",
+      "body": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement."
+    },
+    {
+      "title": "Expliquer ce que tu réutilises",
+      "body": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active."
+    }
+  ],
+  "resources": [
+    "BC05-C1-2"
+  ],
+  "codeStation": null,
+  "studentFlow": [
+    "opening",
+    "diagnostic",
+    "concept",
+    "observe",
+    "guided",
+    "autonomy",
+    "extension",
+    "exit"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "quality-curriculum",
+    "planVersion": 1,
+    "previousLessonRunId": null
+  },
+  "sourceNotes": [
+    {
+      "blockId": "concept",
+      "title": "Dossier Une invitation, trois conditions",
+      "location": "line:1",
+      "note": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+      "url": null
+    }
+  ]
+}

@@ -1,0 +1,514 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "PILOT-box-prep_849ef194-6fd9-49e3-bd2c-bac98accb324",
+  "lessonVersion": 1,
+  "classId": "A1",
+  "date": "2026-10-05",
+  "planEntryId": "box",
+  "planVersion": 1,
+  "sequence": "Pilotes de recette",
+  "title": "Le style qui résiste",
+  "skills": [
+    "BC04-C2-1"
+  ],
+  "objectives": [
+    "CSS3 - Appliquer un style au composant d'une interface"
+  ],
+  "prerequisites": [],
+  "reactivation": [],
+  "diagnostic": {
+    "id": "PILOT-box-prep_849ef194-6fd9-49e3-bd2c-bac98accb324:diagnostic",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 15,
+    "criteria": [],
+    "tasks": [
+      {
+        "id": "baseline-html",
+        "type": "CodeEditor",
+        "title": "Retrouve la structure HTML",
+        "instruction": "La carte doit contenir un titre principal « Mon projet » et un paragraphe « Première version ». Remplace les deux div par les balises adaptées.",
+        "objective": "Retrouve la structure HTML",
+        "skills": [],
+        "expectedEvidence": "Un titre h1 et un paragraphe p contenant les textes demandés.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "html",
+        "starter": "<div>Mon projet</div>\n<div>Première version</div>",
+        "options": [],
+        "workshop": {
+          "language": "html"
+        }
+      },
+      {
+        "id": "baseline-css",
+        "type": "CodeEditor",
+        "title": "Cible la bonne carte",
+        "instruction": "Le HTML contient <article class=\"carte\">Mon projet</article>. Écris une règle CSS qui colore uniquement les éléments de classe carte en bleu (blue).",
+        "objective": "Cible la bonne carte",
+        "skills": [],
+        "expectedEvidence": "Un sélecteur de classe et une déclaration de couleur valides.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "css",
+        "starter": "/* Écris ta règle ici. */",
+        "options": [],
+        "workshop": {
+          "language": "css",
+          "document": "<article class=\"carte\">Mon projet</article><p>Autre texte</p>"
+        }
+      },
+      {
+        "id": "baseline-verification",
+        "type": "WriteResponse",
+        "title": "Prépare un test de ta page",
+        "instruction": "La carte semble correcte sur un grand écran. Propose deux essais pour vérifier qu’elle reste lisible : indique ce que tu changes et ce que tu observes.",
+        "objective": "Prépare un test de ta page",
+        "skills": [],
+        "expectedEvidence": "Deux essais distincts, avec une modification et un résultat à observer.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      }
+    ],
+    "rubric": [
+      {
+        "id": "item-0-0",
+        "taskId": "baseline-html",
+        "criterion": "baseline",
+        "label": "Un titre h1 et un paragraphe p contenant les textes demandés.",
+        "max": 6.67,
+        "a1": 3.335,
+        "a2": 5.0024999999999995
+      },
+      {
+        "id": "item-1-0",
+        "taskId": "baseline-css",
+        "criterion": "baseline",
+        "label": "Un sélecteur de classe et une déclaration de couleur valides.",
+        "max": 6.67,
+        "a1": 3.335,
+        "a2": 5.0024999999999995
+      },
+      {
+        "id": "item-2-0",
+        "taskId": "baseline-verification",
+        "criterion": "baseline",
+        "label": "Deux essais distincts, avec une modification et un résultat à observer.",
+        "max": 6.66,
+        "a1": 3.33,
+        "a2": 4.995
+      }
+    ]
+  },
+  "timeline": [
+    {
+      "blockId": "opening",
+      "minutes": 5
+    },
+    {
+      "blockId": "diagnostic",
+      "minutes": 15
+    },
+    {
+      "blockId": "concept-0",
+      "minutes": 13
+    },
+    {
+      "blockId": "demo-0",
+      "minutes": 8
+    },
+    {
+      "blockId": "board-0",
+      "minutes": 8
+    },
+    {
+      "blockId": "practice-0",
+      "minutes": 18
+    },
+    {
+      "blockId": "autonomy",
+      "minutes": 25
+    },
+    {
+      "blockId": "extension",
+      "minutes": 10
+    },
+    {
+      "blockId": "exit",
+      "minutes": 8
+    }
+  ],
+  "blocks": [
+    {
+      "id": "opening",
+      "type": "LessonHero",
+      "phase": "opening",
+      "title": "Le style qui résiste",
+      "content": "Tu changes la couleur de la carte, mais elle reste rouge. Trouve la règle gagnante plutôt que d’empiler des !important.",
+      "minutes": 5,
+      "activityIds": [],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "diagnostic",
+      "type": "Diagnostic",
+      "phase": "diagnostic",
+      "title": "Évaluation",
+      "content": "Réponds sans aide, puis rends ton travail. Tu peux rendre une réponse incomplète.",
+      "minutes": 15,
+      "activityIds": [],
+      "skills": [],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "concept-0",
+      "type": "ConceptCard",
+      "phase": "understand",
+      "title": "Le style qui résiste",
+      "content": "Une règle CSS associe un sélecteur à des déclarations propriété:valeur. La feuille peut être liée au document ; les sélecteurs ciblent éléments, classes, attributs ou états. La cascade départage les déclarations selon leur origine, importance, couche, spécificité et ordre lorsque ces critères le permettent.\n\nLes unités répondent à des besoins différents : px, pourcentages, rem ou unités de viewport ne décrivent pas la même référence. Le modèle de boîte sépare contenu, padding, bordure et marge. Avec box-sizing: border-box, la largeur déclarée inclut padding et bordure, pas la marge. Observe les styles calculés et les règles barrées dans DevTools pour expliquer un résultat.",
+      "minutes": 13,
+      "activityIds": [],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "Le navigateur donne les traces de la cascade.",
+        "check": "",
+        "takeaways": [
+          "Une règle CSS associe un sélecteur à des déclarations propriété:valeur.",
+          "La feuille peut être liée au document ; les sélecteurs ciblent éléments, classes, attributs ou états."
+        ],
+        "diagram": [
+          "Avant !important, où chercher ? → Dans les règles appliquées et calculées de DevTools",
+          "Avec border-box, la marge fait-elle partie de width ? → Non"
+        ]
+      }
+    },
+    {
+      "id": "demo-0",
+      "type": "LiveCode",
+      "phase": "observe",
+      "title": "Pas à pas · Le style qui résiste",
+      "content": ".alert { color: #e9f2ff; background: #10182a; padding: 1rem; border: 1px solid #91a7c3; box-sizing: border-box; }",
+      "minutes": 8,
+      "activityIds": [],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Repère les données de départ et la règle utilisée.",
+          "Suis l’exemple. À chaque étape, nomme ce qui change.",
+          "Cache le résultat, puis retrouve-le avec la même règle."
+        ],
+        "hint": "",
+        "check": "Avant !important, où chercher ?",
+        "takeaways": [
+          "Le navigateur donne les traces de la cascade."
+        ],
+        "diagram": []
+      }
+    },
+    {
+      "id": "board-0",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Au tableau · dessine pour comprendre",
+      "content": "Cache le modèle. Reconstruis les relations, puis compare avec un camarade.",
+      "minutes": 8,
+      "activityIds": [
+        "sketch-0"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Pose les éléments importants sur le tableau.",
+          "Relie, légende et montre le cheminement."
+        ],
+        "hint": "Le navigateur donne les traces de la cascade.",
+        "check": "Un schéma avec des éléments nommés, des relations expliquées et un point de vigilance.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "practice-0",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Atelier code · Le style qui résiste",
+      "content": "Tu changes la couleur de la carte, mais elle reste rouge. Trouve la règle gagnante plutôt que d’empiler des !important.",
+      "minutes": 18,
+      "activityIds": [
+        "guided-0"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Prévois le résultat avant de modifier la production.",
+          "Change une chose, puis lance un essai.",
+          "Compare attendu et obtenu. Reprends le cas qui échoue."
+        ],
+        "hint": "Le navigateur donne les traces de la cascade.",
+        "check": "Feuille liée ; sélecteur ciblé ; styles calculés commentés ; largeur/padding/bordure distingués.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "autonomy",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "À toi de construire",
+      "content": "Produis une solution dans ce nouveau cas, sans le modèle. Garde un essai qui t’a aidé à comprendre.",
+      "minutes": 25,
+      "activityIds": [
+        "transfer"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "Ta production traite le nouveau cas. Tu peux expliquer ce que tu as changé et pourquoi.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "extension",
+      "type": "Activity",
+      "phase": "extend",
+      "title": "Et si la règle changeait ?",
+      "content": "Réutilise ce que tu viens d’apprendre. Teste aussi un cas inattendu.",
+      "minutes": 10,
+      "activityIds": [
+        "extension"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "Tu as comparé une prévision avec un résultat et expliqué l’écart éventuel.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Bilan",
+      "content": "Reviens à la question de départ. Explique ta démarche avec un exemple.",
+      "minutes": 8,
+      "activityIds": [
+        "exit"
+      ],
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "Une règle CSS associe un sélecteur à des déclarations propriété:valeur.",
+          "Une solution se vérifie sur plusieurs cas. Prévoir, essayer et comparer aide à comprendre une erreur."
+        ],
+        "diagram": []
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "sketch-0",
+      "type": "Blackboard",
+      "title": "Au tableau · rends ton raisonnement visible",
+      "instruction": "À partir de ce cas : .alert { color: #e9f2ff; background: #10182a; padding: 1rem; border: 1px solid #91a7c3; box-sizing: border-box; }\nDessine les éléments importants, relie-les avec des flèches et légende les relations. Signale en couleur un endroit où une erreur pourrait se produire. Tu peux aussi décrire ces relations dans la légende.",
+      "objective": "Au tableau · rends ton raisonnement visible",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Un schéma avec des éléments nommés, des relations expliquées et un point de vigilance.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [],
+      "workshop": {
+        "hints": [
+          "Le navigateur donne les traces de la cascade."
+        ]
+      }
+    },
+    {
+      "id": "guided-0",
+      "type": "CodeEditor",
+      "title": "Atelier code · Le style qui résiste",
+      "instruction": "La carte mesure trop large. Garde width: 300px, padding: 20px et la bordure de 2px. Corrige le calcul de la largeur totale pour qu’elle reste à 300px.",
+      "objective": "Atelier code · Le style qui résiste",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Feuille liée ; sélecteur ciblé ; styles calculés commentés ; largeur/padding/bordure distingués.",
+      "duration": 18,
+      "required": true,
+      "correctionMode": "css",
+      "starter": ".alert {\n  width: 300px;\n  padding: 20px;\n  border: 2px solid #162b32;\n  /* La largeur totale doit rester 300px. */\n}",
+      "options": [],
+      "workshop": {
+        "language": "css",
+        "document": "<main class=\"panel\"><section class=\"cards\"><article class=\"alert alert-card\"><h2>Signal du Nord</h2><p>Un contenu long pour observer ce qui se passe quand la place manque.</p></article><article class=\"alert-card alert-card--critical\"><h2>Signal du Sud</h2><p>Deux cartes, les mêmes repères.</p></article></section></main>",
+        "style": "* { box-sizing: border-box; } body { margin: 20px; font: 16px/1.5 Inter, Arial, sans-serif; color: #162b32; } button { font: inherit; } a { color: #246165; }",
+        "hints": [
+          "Le navigateur donne les traces de la cascade."
+        ],
+        "checks": [
+          "Le padding et la bordure sont inclus dans la largeur annoncée"
+        ]
+      }
+    },
+    {
+      "id": "transfer",
+      "type": "CodeEditor",
+      "title": "Produis une nouvelle version",
+      "instruction": "Corrige le style de la carte sans modifier son sens HTML, puis explique une règle de cascade et une mesure de boîte.\nNouveau contexte à traiter dans ta production : La taille de police racine augmente. Quelles dimensions basées sur rem évoluent ?",
+      "objective": "Atelier code · Le style qui résiste",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Feuille liée ; sélecteur ciblé ; styles calculés commentés ; largeur/padding/bordure distingués.",
+      "duration": 25,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "/* Repars du document fourni et écris tes règles. */",
+      "options": [],
+      "workshop": {
+        "language": "css",
+        "document": "<main class=\"panel\"><section class=\"cards\"><article class=\"alert alert-card\"><h2>Signal du Nord</h2><p>Un contenu long pour observer ce qui se passe quand la place manque.</p></article><article class=\"alert-card alert-card--critical\"><h2>Signal du Sud</h2><p>Deux cartes, les mêmes repères.</p></article></section></main>",
+        "style": "* { box-sizing: border-box; } body { margin: 20px; font: 16px/1.5 Inter, Arial, sans-serif; color: #162b32; } button { font: inherit; } a { color: #246165; }",
+        "hints": [],
+        "checks": [
+          "Le padding et la bordure sont inclus dans la largeur annoncée"
+        ]
+      }
+    },
+    {
+      "id": "extension",
+      "type": "FillBlank",
+      "title": "Défi · construis le cas qui résiste",
+      "instruction": "La taille de police racine augmente. Quelles dimensions basées sur rem évoluent ?",
+      "objective": "Défi · construis le cas qui résiste",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Un cas nouveau, une prévision, une observation et une décision.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [
+        "La nouvelle donnée ou contrainte",
+        "Le résultat que je prévois",
+        "Le résultat observé après mon essai",
+        "Ce que je dois modifier et pourquoi"
+      ]
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "title": "Ton ticket de sortie",
+      "instruction": "Écris une règle que tu retiens. Donne un exemple qui l’illustre. Termine par une question ou un point à retravailler.",
+      "objective": "Ton ticket de sortie",
+      "skills": [
+        "BC04-C2-1"
+      ],
+      "expectedEvidence": "Une règle, un exemple et ton prochain pas.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "none",
+      "starter": "",
+      "options": []
+    }
+  ],
+  "slides": [
+    {
+      "title": "Le style qui résiste",
+      "body": "Tu changes la couleur de la carte, mais elle reste rouge. Trouve la règle gagnante plutôt que d’empiler des !important."
+    },
+    {
+      "title": "Le style qui résiste",
+      "body": "Une règle CSS associe un sélecteur à des déclarations propriété:valeur. La feuille peut être liée au document ; les sélecteurs ciblent éléments, classes, attributs ou états. La cascade départage les déclarations selon leur origine, importance, couche, spécificité et ordre lorsque ces critères le permettent.\n\nLes unités répondent à des besoins différents : px, pourcentages, rem ou unités de viewport ne décrivent pas la même référence. Le modèle de boîte sépare contenu, padding, bordure et marge. Avec box-sizing: border-box, la largeur déclarée inclut padding et bordure, pas la marge. Observe les styles calculés et les règles barrées dans DevTools pour expliquer un résultat."
+    },
+    {
+      "title": "Pas à pas · Le style qui résiste",
+      "body": ".alert { color: #e9f2ff; background: #10182a; padding: 1rem; border: 1px solid #91a7c3; box-sizing: border-box; }"
+    },
+    {
+      "title": "Au tableau · dessine pour comprendre",
+      "body": "Cache le modèle. Reconstruis les relations, puis compare avec un camarade."
+    },
+    {
+      "title": "Atelier code · Le style qui résiste",
+      "body": "Tu changes la couleur de la carte, mais elle reste rouge. Trouve la règle gagnante plutôt que d’empiler des !important."
+    },
+    {
+      "title": "À toi de construire",
+      "body": "Produis une solution dans ce nouveau cas, sans le modèle. Garde un essai qui t’a aidé à comprendre."
+    },
+    {
+      "title": "Et si la règle changeait ?",
+      "body": "Réutilise ce que tu viens d’apprendre. Teste aussi un cas inattendu."
+    },
+    {
+      "title": "Bilan",
+      "body": "Reviens à la question de départ. Explique ta démarche avec un exemple."
+    }
+  ],
+  "resources": [
+    "BC04-C2-1"
+  ],
+  "codeStation": null,
+  "studentFlow": [
+    "opening",
+    "diagnostic",
+    "concept-0",
+    "demo-0",
+    "board-0",
+    "practice-0",
+    "autonomy",
+    "extension",
+    "exit"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "quality-curriculum",
+    "planVersion": 1,
+    "previousLessonRunId": null
+  }
+}

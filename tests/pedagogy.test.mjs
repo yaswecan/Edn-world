@@ -46,7 +46,7 @@ test('provider sends actual reasoning and output budget; rejects incomplete, emp
 });
 test('real orchestration preserves depth through SQLite and learner rendering; fixture never publishes',async()=>{
  const {store,actor}=await pedagogyFixture();try{
- const job=await buildPilot(store,actor,pilotDefinitions[1],{inspect:async()=>({status:'PASS',evidence:'Simulated browser evidence for orchestration test only.'})});assert.equal(job.status,'fixture',job.reason);assert.equal(job.reports.length,2);assert.equal(job.calls,6);
+ const job=await buildPilot(store,actor,pilotDefinitions[1],{inspect:async()=>({status:'PASS',evidence:'Simulated browser evidence for orchestration test only.'})});assert.equal(job.status,'fixture',job.reason);assert.equal(job.reports.length,2);assert.equal(job.calls,7);
  const lesson=await store.get('lessons',job.lessonId),spec=(await store.get('lesson_versions',lesson.versionId)).spec;
  assert.match(spec.blocks.find(b=>b.id==='concept').content,/prioritaire sur/);const safe=studentSpec(spec);assert.equal(safe.blocks.find(b=>b.id==='concept').depth,undefined);assert.ok(safe.activities.every(a=>!('reference' in a)&&!('tests' in a)));
  const rendered=renderLessonBlock(safe,safe.blocks.findIndex(b=>b.id==='concept'));assert.match(rendered,/prioritaire sur/);assert.equal((await publicationGate(store,lesson,spec))[0].ok,false);
@@ -93,8 +93,8 @@ test('selected dependency order changes units and explanatory blocks instead of 
 test('saved provider response is replayed after interruption without another charge',async()=>{
  const {store,actor}=await pedagogyFixture();try{
  const pilot=pilotDefinitions[1],job=await enqueueGeneration(store,actor,{entryId:pilot.id,intent:'Replay proof'},{config:config(),simulation:true});await runGenerationStep(store);let saved=await store.get('generation_jobs',job.id);saved.workingSpec=pilotSpec(pilot,saved.workingSpec);await store.put('generation_jobs',saved);
- await runGenerationStep(store,{call:fixtureResponder(pilot)});saved=await store.get('generation_jobs',job.id);const calls=saved.calls;assert.equal(saved.stage,'planReview');saved.stage='design';saved.status='running';saved.leaseUntil='2000-01-01';saved.inflight={id:saved.lastCallId};await store.put('generation_jobs',saved);
- const result=await runGenerationStep(store,{call:async()=>{throw Error('Must not send a second paid request');}});assert.equal(result.stage,'planReview');assert.equal(result.calls,calls);assert.equal((await store.list('generation_calls',actor.classId)).length,1);
+ await runGenerationStep(store,{call:fixtureResponder(pilot)});await runGenerationStep(store,{call:fixtureResponder(pilot)});saved=await store.get('generation_jobs',job.id);const calls=saved.calls;assert.equal(saved.stage,'planReview');saved.stage='design';saved.status='running';saved.leaseUntil='2000-01-01';saved.inflight={id:saved.lastCallId};await store.put('generation_jobs',saved);
+ const result=await runGenerationStep(store,{call:async()=>{throw Error('Must not send a second paid request');}});assert.equal(result.stage,'planReview');assert.equal(result.calls,calls);assert.equal((await store.list('generation_calls',actor.classId)).length,2);
  }finally{await store.close();}
 });
 test('four candidate limit and repeated major issue stop rewriting',async()=>{

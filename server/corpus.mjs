@@ -1,4 +1,4 @@
-import {storeArtifact} from './artifacts.mjs';
+import {storeArtifact,artifactBuffer} from './artifacts.mjs';
 import PDFDocument from 'pdfkit';
 import ExcelJS from 'exceljs';
 import {createRequire} from 'node:module';
@@ -9,6 +9,7 @@ import {uid,now,scoped,fail} from './store.mjs';
 import {studentFeedback,studentResultStatus} from '../public/student-copy.js';
 import {studentSpec} from './generator.mjs';
 import {readFile} from 'node:fs/promises';
+import {visualAssets} from './pedagogy/visuals.mjs';
 // PptxGenJS 4 exposes an ESM .js file without declaring type=module. Use its
 // supported CommonJS export so Lambda does not need module syntax detection.
 const require=createRequire(import.meta.url);
@@ -19,7 +20,7 @@ const json=v=>Buffer.from(JSON.stringify(v,null,2));
 export function pdf(title,sections){return new Promise((resolve,reject)=>{const doc=new PDFDocument({margin:45,info:{Title:title,Author:'EDEN School'}}),chunks=[];doc.on('data',c=>chunks.push(c));doc.on('end',()=>resolve(Buffer.concat(chunks)));doc.on('error',reject);doc.image(edenLogo,45,32,{width:140});doc.y=90;doc.fillColor('#162b32').fontSize(23).text(title).moveDown();for(const s of sections){doc.fillColor('#246165').fontSize(13).text(s.title||'').moveDown(.4);doc.fillColor('#162b32').fontSize(10).text(String(s.body||''),{lineGap:4}).moveDown();}doc.end();});}
 export async function workbook(sheets){const book=new ExcelJS.Workbook();book.creator='EDEN';for(const [name,rows]of Object.entries(sheets)){const s=book.addWorksheet(name);rows.forEach(r=>s.addRow(r));s.getRow(1).font={bold:true,color:{argb:'FFFFFFFF'}};s.getRow(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF162B32'}};s.columns.forEach(c=>{c.width=28;});s.views=[{state:'frozen',ySplit:1}];s.eachRow(r=>{r.alignment={vertical:'top',wrapText:true};});}return Buffer.from(await book.xlsx.writeBuffer());}
 export async function zipFiles(files){return new Promise((resolve,reject)=>{const output=new PassThrough(),chunks=[],archive=archiver('zip',{zlib:{level:6}});output.on('data',c=>chunks.push(c));output.on('end',()=>resolve(Buffer.concat(chunks)));output.on('error',reject);archive.on('error',reject);archive.pipe(output);for(const f of files)archive.append(f.buffer,{name:f.path});archive.finalize();});}
-const mime=path=>path.endsWith('.html')?'text/html':path.endsWith('.css')?'text/css':path.endsWith('.js')?'text/javascript':path.endsWith('.svg')?'image/svg+xml':path.endsWith('.pdf')?'application/pdf':path.endsWith('.pptx')?'application/vnd.openxmlformats-officedocument.presentationml.presentation':path.endsWith('.xlsx')?'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':path.endsWith('.json')?'application/json':'text/plain';
+const mime=path=>path.endsWith('.png')?'image/png':path.endsWith('.html')?'text/html':path.endsWith('.css')?'text/css':path.endsWith('.js')?'text/javascript':path.endsWith('.svg')?'image/svg+xml':path.endsWith('.pdf')?'application/pdf':path.endsWith('.pptx')?'application/vnd.openxmlformats-officedocument.presentationml.presentation':path.endsWith('.xlsx')?'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':path.endsWith('.json')?'application/json':'text/plain';
 export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}) {
  const lesson=await scoped(store,'lessons',lessonId,actor),version=await scoped(store,'lesson_versions',candidateVersionId||lesson.versionId,actor),s=version.spec;
  if(candidateVersionId&&version.lessonId!==lessonId)fail(400,'Version candidate liée à une autre séance.');
@@ -29,7 +30,14 @@ export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}
  add('01_ELEVE/carnet-eleve.pdf',await pdf(s.title,activities),'student');
  add('01_ELEVE/fiche-recap.pdf',await pdf('Repères · '+s.title,s.blocks.filter(b=>['ConceptCard','LiveCode'].includes(b.type)).map(b=>({title:b.title,body:b.content}))),'student');
  add('01_ELEVE/exercices.pdf',await pdf('Exercices',activities),'student');
+ for(const asset of await visualAssets(store,s))add(`01_ELEVE/references-visuelles/${asset.id}.png`,Buffer.from(asset.base64,'base64'),'student');
  for(const a of s.activities)if(a.starter)add(`01_ELEVE/fichiers-depart/${a.id}.txt`,Buffer.from(a.starter),'student');
+ for(const a of s.activities)for(const f of a.workshop?.files||[]){
+  if(!/^[a-zA-Z0-9_./ -]+$/.test(f.path)||f.path.startsWith('/')||f.path.split('/').includes('..'))fail(400,'Chemin de support invalide.');
+  add(`01_ELEVE/projets/${a.id}/${f.path}`,Buffer.from(f.content),'student');
+ }
+ add('05_CORRECTION/corrections-activites.pdf',await pdf('Corrections et explications',s.activities.map(a=>({title:a.title,body:a.reference+'\n'+(a.expectedAnswer||'')}))));
+ if(version.designContract)add('03_PROFESSEUR/contrat-conception.json',json(version.designContract));
  for(const a of s.activities.filter(a=>a.type==='CodeEditor'&&a.workshop?.language)){
   const w=a.workshop,folder=`01_ELEVE/ateliers/${a.id}`;
   if(w.language==='css'){
@@ -61,10 +69,28 @@ export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}
  add('06_CODESTATION/correction-mission.json',json(mission?{validator:mission.validator,scenarios:mission.scenarios,rule:s.codeStation.completionRule}:{status:'not_applicable'}));
  add('07_SOURCES_EDEN/lesson.json',json(s));add('07_SOURCES_EDEN/teacher-guide.json',json({guide:s.teacherGuide}));add('07_SOURCES_EDEN/activity-specs.json',json(s.activities));add('07_SOURCES_EDEN/rubric.json',json(s.diagnostic.rubric));
  add('00_MANIFEST/sources.json',json(s.sourceVersions));add('00_MANIFEST/README.txt',Buffer.from('Export EDEN. Le corpus complet contient les corrections et reste réservé au professeur. Distribuer uniquement les artefacts audience=student. EDEN conserve la source de vérité.'));
- const manifest={lessonId:s.lessonId,lessonVersion:s.lessonVersion,classId:actor.classId,generatedAt:now(),planVersion:s.planVersion,curriculumVersion:s.sourceVersions.curriculumVersion,skills:s.skills,duration:s.blocks.reduce((a,b)=>a+b.minutes,0),status:'draft',files:files.map(f=>({path:f.path,sha256:hash(f.buffer),bytes:f.buffer.length,audience:f.audience,mimeType:mime(f.path)}))};
+ const complete=!lesson.qualityRequired||!!version.designContract;
+ const manifest={schemaVersion:2,lessonId:s.lessonId,lessonVersionId:version.id,lessonVersion:s.lessonVersion,preparationRevision:version.preparationRevision||null,completeness:complete?'complete':'partial',missing:complete?[]:['Conception et rédaction approfondies non terminées pour cette version.'],classId:actor.classId,generatedAt:now(),planVersion:s.planVersion,curriculumVersion:s.sourceVersions.curriculumVersion,skills:s.skills,duration:s.blocks.reduce((a,b)=>a+b.minutes,0),status:'draft',files:files.map(f=>({path:f.path,sha256:hash(f.buffer),bytes:f.buffer.length,audience:f.audience,mimeType:mime(f.path)}))};
  add('00_MANIFEST/manifest.json',json(manifest));
- const pack={id:uid('corpus'),classId:actor.classId,lessonId,lessonVersionId:version.id,version:s.lessonVersion,manifest,files:await Promise.all(files.map(async f=>({path:f.path,audience:f.audience,mimeType:mime(f.path),...await storeArtifact(f.buffer,{inline:store.inlineArtifacts})}))),complete:true};
+ const pack={id:uid('corpus'),classId:actor.classId,lessonId,lessonVersionId:version.id,version:s.lessonVersion,manifest,files:await Promise.all(files.map(async f=>({path:f.path,audience:f.audience,mimeType:mime(f.path),...await storeArtifact(f.buffer,{inline:store.inlineArtifacts})}))),complete};
  return store.transaction(async tx=>{const current=await tx.get('lessons',lessonId);if(current.versionId!==version.id&&(!candidateVersionId||current.versionId!==version.baseVersionId))fail(409,'Séance modifiée pendant la compilation. Recompilez.');const duplicate=(await tx.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id);if(duplicate)return duplicate;await tx.insert('corpus_packages',pack);await tx.audit(actor,'corpus.compiled',pack.id,{lessonVersionId:version.id});return pack;});
+}
+export async function downloadableCorpus(store,lesson,actor,versionId=lesson.versionId){
+ const version=await scoped(store,'lesson_versions',versionId,actor);
+ if(`${actor.classId}:${version.spec.lessonId}`!==lesson.id)fail(404,'Version d’une autre séance.');
+ const pack=(await store.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===versionId);
+ if(!pack)fail(409,'Export de cette version non compilé. L’aperçu reste disponible.');
+ if(pack.manifest.lessonVersion!==version.spec.lessonVersion||pack.manifest.lessonId!==version.spec.lessonId)fail(409,'Manifeste de corpus obsolète.');
+ for(const item of pack.manifest.files){
+  const file=pack.files.find(f=>f.path===item.path);
+  if(!file||file.sha256!==item.sha256)fail(409,`Support manquant ou incohérent : ${item.path}.`);
+  try{const bytes=await artifactBuffer(file);if(bytes.length!==item.bytes)throw Error('size');}catch{fail(409,`Support indisponible : ${item.path}. Recompiler le corpus avant téléchargement.`);}
+ }
+ const candidates=(await store.list('generation_candidates',actor.classId)).filter(c=>c.jobId===lesson.qualityJobId),job=lesson.qualityJobId?await store.get('generation_jobs',lesson.qualityJobId):null;
+ const complete=lesson.qualityRequired?!!candidates.find(c=>c.lessonVersionId===versionId&&(c.revision||1)===(job?.revision||1))&&pack.complete:pack.complete;
+ const manifest={...pack.manifest,schemaVersion:2,lessonVersionId:versionId,completeness:complete?'complete':'partial',activePreparationRevision:job?.revision||null,missing:complete?[]:pack.manifest.missing?.length?pack.manifest.missing:['La conception et les productions de la révision active ne sont pas terminées. Cet export correspond à la version indiquée.']};
+ const bytes=json(manifest),files=pack.files.map(f=>f.path==='00_MANIFEST/manifest.json'?{path:f.path,audience:'teacher',mimeType:'application/json',sha256:hash(bytes),bytes:bytes.length,base64:bytes.toString('base64')}:f);
+ return {...pack,manifest,files,complete};
 }
 const escapeHTML=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const html=(title,body)=>Buffer.from(`<!doctype html><html lang="fr"><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:"><title>${escapeHTML(title)}</title><style>body{font:16px/1.65 Inter,Arial,sans-serif;max-width:900px;margin:40px auto;padding:20px;color:#162b32}pre{white-space:pre-wrap;background:#eaf7f7;padding:16px}article{border-top:1px solid #cfdddd;padding:16px 0}</style><img src="${edenLogoData}" width="144" height="42" alt="EDEN School"><h1>${escapeHTML(title)}</h1>${body}</html>`);

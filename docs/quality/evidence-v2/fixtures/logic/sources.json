@@ -1,0 +1,114 @@
+[
+  {
+    "id": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1",
+    "classId": "A1",
+    "version": 1,
+    "sourceKey": "logic.md",
+    "title": "Dossier Une invitation, trois conditions",
+    "filename": "logic.md",
+    "role": "technical",
+    "visibility": "student",
+    "author": null,
+    "sourceURL": null,
+    "declaredVersion": null,
+    "consultedAt": "2026-10-07T12:22:18.779Z",
+    "contentHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37",
+    "status": "extracted",
+    "warnings": [],
+    "segments": [
+      {
+        "id": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s1",
+        "parent": "Décider sans deviner",
+        "location": "line:1",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Décider sans deviner",
+            "location": "line:1"
+          }
+        ],
+        "text": "Décider sans deviner",
+        "visibility": "student"
+      },
+      {
+        "id": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s2",
+        "parent": "Booléens",
+        "location": "line:2; lines:3-3",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Booléens",
+            "location": "line:2"
+          },
+          {
+            "type": "text",
+            "text": "Dans ces exercices, les paramètres sont exclusivement des booléens. && demande deux opérandes vrais ; || accepte au moins un vrai ; ! inverse un booléen.",
+            "location": "lines:3-3"
+          }
+        ],
+        "text": "Booléens\n\nDans ces exercices, les paramètres sont exclusivement des booléens. && demande deux opérandes vrais ; || accepte au moins un vrai ; ! inverse un booléen.",
+        "visibility": "student"
+      },
+      {
+        "id": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s3",
+        "parent": "Regrouper la règle",
+        "location": "line:4; lines:5-5",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Regrouper la règle",
+            "location": "line:4"
+          },
+          {
+            "type": "text",
+            "text": "(aCarte && aReserve || invitation) && !alarme admet les invités mais applique l’arrêt d’urgence à tous. Les parenthèses rendent ce regroupement visible. Vérifier les 16 combinaisons de quatre booléens.",
+            "location": "lines:5-5"
+          }
+        ],
+        "text": "Regrouper la règle\n\n(aCarte && aReserve || invitation) && !alarme admet les invités mais applique l’arrêt d’urgence à tous. Les parenthèses rendent ce regroupement visible. Vérifier les 16 combinaisons de quatre booléens.",
+        "visibility": "student"
+      },
+      {
+        "id": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s4",
+        "parent": "Source technique",
+        "location": "line:6; lines:7-8",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Source technique",
+            "location": "line:6"
+          },
+          {
+            "type": "text",
+            "text": "https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Logical_AND\nExtrait original de séance, pas une description de tous les usages JavaScript.",
+            "location": "lines:7-8"
+          }
+        ],
+        "text": "Source technique\n\nhttps://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Operators/Logical_AND\nExtrait original de séance, pas une description de tous les usages JavaScript.",
+        "visibility": "student"
+      }
+    ],
+    "supersedes": null,
+    "analysisStatus": "not_analyzed",
+    "createdAt": "2026-10-07T12:22:18.779Z"
+  },
+  {
+    "id": "A1:resource:BC05-C1-2:45a60ebbaeee",
+    "title": "CHECKPOINT // Deux règles, une décision",
+    "role": "reference",
+    "contentHash": "45a60ebbaeeecd0385990d2faeb023b8449f4cd5f2488f0c3f2047f16906bc56",
+    "status": "extracted",
+    "warnings": [
+      "Bibliothèque locale ; qualité technique à examiner, non validée par le professeur."
+    ],
+    "segments": [
+      {
+        "id": "A1:resource:BC05-C1-2:45a60ebbaeee:full",
+        "parent": "CHECKPOINT // Deux règles, une décision",
+        "location": "NEXUS/BC05-C1-2",
+        "text": "{\"code\":\"BC05-C1-2\",\"title\":\"CHECKPOINT // Deux règles, une décision\",\"opening\":\"La porte accepte un badge expiré parce qu’une seule condition suffit. Répare la règle : badge valide ET secteur autorisé.\",\"lesson\":\"Une condition choisit des instructions selon une expression. if/else construit deux branches ; des conditions imbriquées peuvent préciser plusieurs cas. Switch en JavaScript traite des choix selon des valeurs et demande de comprendre les sorties des cas. Les comparateurs produisent des booléens ; === compare sans conversion implicite.\\n\\nAND, OR et NOT combinent les règles, avec des parenthèses lorsque l’intention risque d’être ambiguë. = affecte une valeur : ce n’est pas un test d’égalité. Python utilise if, elif, else, and, or, not et == ; il ne possède pas === ni la même syntaxe switch. La progression Python puis JavaScript conserve le raisonnement tout en explicitant les différences.\",\"example\":\"Python : autorise = badge_valide and secteur_autorise\\nJS : const autorise = input.badgeValide && input.secteurAutorise;\",\"task\":\"Écris la règle, teste les quatre combinaisons, puis réalise la variante Python du dossier local.\",\"proof\":\"Condition correcte ; table des cas ; cas interdit réellement refusé ; correspondance Python/JS expliquée.\",\"transfer\":\"Une alarme doit maintenant bloquer tous les accès. Comment ajoutes-tu NOT sans changer les autres règles ?\",\"questions\":[{\"prompt\":\"Badge valide mais secteur interdit : résultat attendu ?\",\"correct\":\"Refus\",\"distractors\":[\"Accord\",\"Toujours une erreur de syntaxe\"],\"feedback\":\"Le ET exige les deux propriétés.\"},{\"prompt\":\"En JavaScript, quelle expression teste une égalité stricte ?\",\"correct\":\"a === b\",\"distractors\":[\"a = b\",\"a += b\"],\"feedback\":\"Une affectation modifie une valeur ; une comparaison vérifie une relation.\"}],\"mode\":\"code\",\"sequence\":null,\"practice\":\"native\",\"minutes\":55,\"prereq\":[\"BC05-C1-4\"],\"blockId\":\"BC05\",\"parentId\":\"BC05-C1\",\"skillLabel\":\"Élaborer une condition\",\"typology\":\"Savoir-faire technique\",\"notions\":\"Les opérateurs logiques (&&, ||, !)\\nLes comparateurs (===, !=, >, >=, <, <=)\\nLes structures conditionnelles : if / else / switch\\nConditions imbriquées\"}",
+        "visibility": "teacher"
+      }
+    ]
+  }
+]

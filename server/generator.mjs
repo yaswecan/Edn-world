@@ -1,3 +1,4 @@
+import {aiPreferences} from './ai/settings.mjs';
 import {retrieveResources} from './retrieval.mjs';
 import {octoberContent} from './october.mjs';
 import {readFileSync} from 'node:fs';
@@ -58,6 +59,7 @@ export function qualityCheck(spec,{entry,criteria,previous,corpusComplete=false}
  return {publishable:checks.every(c=>c.ok),checks,checkedAt:now()};
 }
 export async function generateLesson(store,intent,actor,{entryId,localOnly=false,qualityJobId=null}={}) {
+ if(!localOnly&&(await aiPreferences(store,actor)).provider==='chatgpt_plan')fail(409,'Utilisez la préparation approfondie avec votre connexion ChatGPT. Aucun appel API effectué.');
  const entries=await store.list('plan_entries',actor.classId),entry=entryId?await scoped(store,'plan_entries',entryId,actor):resolveEntry(entries,intent);
  const plan=(await store.list('plan_versions',actor.classId)).at(-1);requireValue(plan,'Importez une planification.');
  const curriculum=await store.get('curriculum_versions',plan.curriculumVersion),nodes=entry.skills.map(code=>curriculum.criteria.find(c=>c.n3_code===code)).filter(Boolean);
@@ -94,7 +96,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
 export function studentSpec(spec,{submitted=false}={}) {
  const result=structuredClone(spec);delete result.teacherGuide;
  result.blocks.forEach(b=>{delete b.depth;});
- const redact=a=>{delete a.expectedAnswer;delete a.reference;delete a.tests;};
+ const redact=a=>{delete a.expectedAnswer;delete a.reference;delete a.tests;delete a.validationVariants;};
  result.activities.forEach(redact);if(!submitted)result.diagnostic.tasks.forEach(a=>{redact(a);if(a.workshop){delete a.workshop.hints;delete a.workshop.board;}});
  return result;
 }

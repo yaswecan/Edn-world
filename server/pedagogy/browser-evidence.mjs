@@ -8,7 +8,7 @@ import {candidateHash} from './quality.mjs';
 
 // A separate local origin, no account cookies, no database, no API routes.
 // User HTML remains in the existing opaque, script-free workshop iframe.
-export async function inspectCandidate(spec,job,{directory=process.env.EDEN_QUALITY_EVIDENCE_PATH||'.data/quality-evidence'}={}){
+export async function inspectCandidate(spec,job,{directory=process.env.EDEN_QUALITY_EVIDENCE_PATH||'.data/quality-evidence',assets=[]}={}){
  if(process.env.VERCEL)return {status:'NOT RUN',evidence:'Inspection navigateur requiert le worker local dédié.'};
  let browser,server;
  try{
@@ -16,6 +16,7 @@ export async function inspectCandidate(spec,job,{directory=process.env.EDEN_QUAL
   const options={headless:true},chrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
   if(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE)options.executablePath=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE;else if(existsSync(chrome))options.executablePath=chrome;
   browser=await chromium.launch(options);const app=express(),safe=studentSpec(spec);
+  app.get('/api/lesson-assets/:id',(req,res)=>{const asset=assets.find(a=>a.id===req.params.id);if(!asset)return res.sendStatus(404);res.type('png').send(Buffer.from(asset.base64,'base64'));});
   app.get('/candidate',(req,res)=>{const i=Number(req.query.block)||0;res.type('html').send(`<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Recette de séance</title><link rel="stylesheet" href="/brand.css"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/lesson.css"><link rel="stylesheet" href="/workshops.css"><body>${renderLessonPage(safe,i,{demo:true})}</body></html>`);});
   app.use(express.static(resolve('public')));server=app.listen(0,'127.0.0.1');await new Promise((r,j)=>{server.once('listening',r);server.once('error',j);});
   const hash=candidateHash(spec,job.sources),destination=resolve(directory,hash);await mkdir(destination,{recursive:true});const errors=[],captures=[];

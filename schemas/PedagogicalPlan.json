@@ -1,6 +1,393 @@
 {
   "type": "object",
   "properties": {
+    "contract": {
+      "type": "object",
+      "properties": {
+        "family": {
+          "type": "string",
+          "enum": [
+            "Design",
+            "Programmation",
+            "Savoir"
+          ]
+        },
+        "familyReason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcomes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "observable": {
+                "type": "string",
+                "minLength": 1
+              },
+              "criteria": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "activityIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "proof": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "skill",
+              "observable",
+              "criteria",
+              "activityIds",
+              "proof"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "finalTask": {
+          "type": "object",
+          "properties": {
+            "activityId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "production": {
+              "type": "string",
+              "minLength": 1
+            },
+            "requiredConceptIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "criteria": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "transferActivityId": {
+              "type": "string",
+              "minLength": 1
+            },
+            "transferVariation": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "activityId",
+            "production",
+            "requiredConceptIds",
+            "criteria",
+            "transferActivityId",
+            "transferVariation"
+          ],
+          "additionalProperties": false
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "activityId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "action": {
+                "type": "string",
+                "minLength": 1
+              },
+              "initialState": {
+                "type": "string",
+                "minLength": 1
+              },
+              "providedInformation": {
+                "type": "string",
+                "minLength": 1
+              },
+              "result": {
+                "type": "string",
+                "minLength": 1
+              },
+              "constraints": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "runtimeProfile": {
+                "type": "string",
+                "minLength": 1
+              },
+              "capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "help": {
+                "type": "string",
+                "enum": [
+                  "guided",
+                  "reduced",
+                  "autonomous"
+                ]
+              },
+              "verification": {
+                "type": "string",
+                "minLength": 1
+              },
+              "finalTaskLink": {
+                "type": "string",
+                "minLength": 1
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "purpose": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "requirement": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "path",
+                    "purpose",
+                    "requirement"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "activityId",
+              "action",
+              "initialState",
+              "providedInformation",
+              "result",
+              "constraints",
+              "runtimeProfile",
+              "capabilities",
+              "help",
+              "verification",
+              "finalTaskLink",
+              "files"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "teaching": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skill": {
+                "type": "string",
+                "minLength": 1
+              },
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "acquisition",
+                  "consolidation"
+                ]
+              },
+              "mechanism": {
+                "type": "string",
+                "minLength": 1
+              },
+              "workedExample": {
+                "type": "string",
+                "minLength": 1
+              },
+              "misconception": {
+                "type": "string",
+                "minLength": 1
+              },
+              "visual": {
+                "type": "string",
+                "minLength": 1
+              },
+              "priorResourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "skill",
+              "mode",
+              "mechanism",
+              "workedExample",
+              "misconception",
+              "visual",
+              "priorResourceIds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "timing": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "blockId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minutes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "includes": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "blockId",
+              "minutes",
+              "includes"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "supports": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "student-course",
+                  "teacher-guide",
+                  "correction",
+                  "starter",
+                  "visual",
+                  "export"
+                ]
+              },
+              "audience": {
+                "type": "string",
+                "enum": [
+                  "student",
+                  "teacher"
+                ]
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "purpose": {
+                "type": "string",
+                "minLength": 1
+              },
+              "activityIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "dependsOn": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "audience",
+              "required",
+              "purpose",
+              "activityIds",
+              "dependsOn"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "remediation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extension": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unresolvedConstraints": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "required": [
+        "family",
+        "familyReason",
+        "outcomes",
+        "finalTask",
+        "activities",
+        "teaching",
+        "timing",
+        "supports",
+        "summary",
+        "remediation",
+        "extension",
+        "assumptions",
+        "unresolvedConstraints"
+      ],
+      "additionalProperties": false
+    },
     "analysis": {
       "type": "array",
       "items": {
@@ -46,6 +433,7 @@
                   "minLength": 1
                 },
                 "kind": {
+                  "type": "string",
                   "enum": [
                     "explicit",
                     "inference",
@@ -206,6 +594,7 @@
             "minLength": 1
           },
           "status": {
+            "type": "string",
             "enum": [
               "known",
               "unknown",
@@ -242,6 +631,7 @@
           "minLength": 1
         },
         "includesReadingAttemptsHelpAndCorrection": {
+          "type": "boolean",
           "const": true
         }
       },
@@ -294,6 +684,7 @@
     }
   },
   "required": [
+    "contract",
     "analysis",
     "alternatives",
     "selectedOrder",

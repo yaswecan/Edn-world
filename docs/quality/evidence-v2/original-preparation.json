@@ -1,0 +1,53 @@
+{
+  "jobId": "prep_56c0948e-9e0b-40d4-8318-112b10a95661",
+  "corpusId": "A1:R-260914-prep_56c0948e-9e0b-40d4-8318-112b10a95661",
+  "session": {
+    "entryId": "A1:PE-2026-09-14-13",
+    "date": "2026-09-14",
+    "sequence": "S03",
+    "category": "SAVOIR-FAIRE TECHNIQUE",
+    "duration": 175
+  },
+  "before": {
+    "status": "blocked",
+    "stage": "design",
+    "policy": "legacy",
+    "sourceCount": 1,
+    "candidates": 0
+  },
+  "originalCalls": [
+    {
+      "outcome": "failed",
+      "provider": "chatgpt_plan",
+      "requestedModel": "gpt-6-astra",
+      "effectiveModel": null,
+      "parameters": {
+        "reasoning": null,
+        "reasoningPolicy": "provider_default_unverified",
+        "store": false,
+        "stream": true
+      },
+      "durationMs": 180069,
+      "partialCharacters": 20851,
+      "hasValidatedOutput": false,
+      "recovery": "uncertain"
+    }
+  ],
+  "after": {
+    "revision": 2,
+    "status": "blocked",
+    "stage": "analysis",
+    "policyVersion": "tween-depth-2026-10-07.2",
+    "reason": "Règles actualisées, sources conservées. Budget initial épuisé : aucun nouvel appel lancé.",
+    "calls": 1,
+    "reservedUSD": 0
+  },
+  "controls": {
+    "historicalVersion": "PASS",
+    "sharedBudget": "PASS",
+    "noPublication": "PASS",
+    "newProviderCalls": 0
+  },
+  "backup": "/Users/eden/workspace/TwinTeache/.data/backups/before-policy-v2-1791375820725.sqlite",
+  "productionDeployed": false
+}

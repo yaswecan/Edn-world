@@ -1,11 +1,11 @@
 let loading;
 function loadTerminal(){return loading??=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/vendor/xterm.css';document.head.append(link);const script=document.createElement('script');script.src='/vendor/xterm.js';script.onload=resolve;script.onerror=()=>reject(Error('Interface terminal indisponible.'));document.head.append(script);});}
 async function call(path,body){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),v=await r.json();if(!r.ok)throw Error(v.error||'Incident technique. Aucune compétence évaluée.');return v;}
-export function installTerminalLabs({getLesson}){
+export function installTerminalLabs({getLesson,getJob}){
  document.addEventListener('click',async event=>{const button=event.target.closest('[data-connect-lab]');if(!button)return;const root=button.closest('[data-real-lab]'),status=root.querySelector('[role=status]');button.disabled=true;
   let terminal,timer,resize,busy=false,cursor=0,pending='';
   try{
-   const lesson=getLesson(),session=await call('/api/labs',{lessonId:lesson.id,lessonVersionId:lesson.versionId,activityId:root.dataset.realLab});await loadTerminal();
+   const lesson=getLesson(),job=getJob?.(),session=await call(job?`/api/preparation/jobs/${encodeURIComponent(job)}/lab`:'/api/labs',{lessonId:lesson.id,lessonVersionId:lesson.versionId,activityId:root.dataset.realLab});await loadTerminal();
    terminal=new window.Terminal({cols:80,rows:20,convertEol:false,scrollback:1000,theme:{background:'#162b32'}});terminal.open(root.querySelector('[data-terminal-host]'));terminal.onData(data=>{pending=(pending+data).slice(-8192);});terminal.focus();status.textContent='Connecté au laboratoire. Ctrl+C interrompt une commande.';
    resize=new ResizeObserver(()=>terminal.resize(Math.max(20,Math.min(120,Math.floor(root.querySelector('[data-terminal-host]').clientWidth/9))),20));resize.observe(root.querySelector('[data-terminal-host]'));
    const poll=async()=>{if(!root.isConnected){clearInterval(timer);resize.disconnect();terminal.dispose();return;}if(busy)return;busy=true;const input=pending;pending='';try{const result=await call(`/api/labs/${session.id}/io`,{input,cursor,cols:terminal.cols,rows:terminal.rows});cursor=result.cursor;terminal.write(result.output||'');}catch(e){status.textContent=e.message;clearInterval(timer);resize.disconnect();button.disabled=false;}finally{busy=false;}};

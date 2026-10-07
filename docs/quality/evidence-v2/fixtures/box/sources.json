@@ -1,0 +1,114 @@
+[
+  {
+    "id": "source_be0c442f-97cd-497f-8883-4c9235933801",
+    "classId": "A1",
+    "version": 1,
+    "sourceKey": "box.md",
+    "title": "box.md",
+    "filename": "box.md",
+    "role": "technical",
+    "visibility": "student",
+    "author": null,
+    "sourceURL": null,
+    "declaredVersion": null,
+    "consultedAt": "2026-10-07T12:22:04.135Z",
+    "contentHash": "7f0dbce1b395482f53ae9865cb75da2ec774ab8c2bb6e4d90763f55f7d988963",
+    "status": "extracted",
+    "warnings": [],
+    "segments": [
+      {
+        "id": "source_be0c442f-97cd-497f-8883-4c9235933801:s1",
+        "parent": "Mesurer avant de corriger",
+        "location": "line:1",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Mesurer avant de corriger",
+            "location": "line:1"
+          }
+        ],
+        "text": "Mesurer avant de corriger",
+        "visibility": "student"
+      },
+      {
+        "id": "source_be0c442f-97cd-497f-8883-4c9235933801:s2",
+        "parent": "Le modèle de boîte",
+        "location": "line:2; lines:3-3",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Le modèle de boîte",
+            "location": "line:2"
+          },
+          {
+            "type": "text",
+            "text": "Avec content-box, width fixe la largeur du contenu. Padding et bordures augmentent la largeur extérieure. Pour width:300px, padding:20px et border:2px, on obtient 344px, hors marges.",
+            "location": "lines:3-3"
+          }
+        ],
+        "text": "Le modèle de boîte\n\nAvec content-box, width fixe la largeur du contenu. Padding et bordures augmentent la largeur extérieure. Pour width:300px, padding:20px et border:2px, on obtient 344px, hors marges.",
+        "visibility": "student"
+      },
+      {
+        "id": "source_be0c442f-97cd-497f-8883-4c9235933801:s3",
+        "parent": "Changer de contrat",
+        "location": "line:4; lines:5-5",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Changer de contrat",
+            "location": "line:4"
+          },
+          {
+            "type": "text",
+            "text": "Avec border-box, la largeur déclarée inclut contenu, padding et bordures. La marge reste extérieure. Une largeur de 100% avec border-box suit la largeur du contenant. Tester aussi un texte long.",
+            "location": "lines:5-5"
+          }
+        ],
+        "text": "Changer de contrat\n\nAvec border-box, la largeur déclarée inclut contenu, padding et bordures. La marge reste extérieure. Une largeur de 100% avec border-box suit la largeur du contenant. Tester aussi un texte long.",
+        "visibility": "student"
+      },
+      {
+        "id": "source_be0c442f-97cd-497f-8883-4c9235933801:s4",
+        "parent": "Sources techniques",
+        "location": "line:6; lines:7-8",
+        "blocks": [
+          {
+            "type": "heading",
+            "text": "Sources techniques",
+            "location": "line:6"
+          },
+          {
+            "type": "text",
+            "text": "https://developer.mozilla.org/fr/docs/Web/CSS/box-sizing\nVersion : CSS Box Sizing, extrait pédagogique original Tween Teach, 5 octobre 2026.",
+            "location": "lines:7-8"
+          }
+        ],
+        "text": "Sources techniques\n\nhttps://developer.mozilla.org/fr/docs/Web/CSS/box-sizing\nVersion : CSS Box Sizing, extrait pédagogique original Tween Teach, 5 octobre 2026.",
+        "visibility": "student"
+      }
+    ],
+    "supersedes": null,
+    "analysisStatus": "not_analyzed",
+    "createdAt": "2026-10-07T12:22:04.135Z"
+  },
+  {
+    "id": "A1:resource:BC04-C2-1:95d6fcc810ae",
+    "title": "CASCADE BREACH // Le style qui résiste",
+    "role": "reference",
+    "contentHash": "95d6fcc810ae7f3345dea09e3e3eb2772fb2d624476df80d84d7dbf59befc7fc",
+    "status": "extracted",
+    "warnings": [
+      "Bibliothèque locale ; qualité technique à examiner, non validée par le professeur."
+    ],
+    "segments": [
+      {
+        "id": "A1:resource:BC04-C2-1:95d6fcc810ae:full",
+        "parent": "CASCADE BREACH // Le style qui résiste",
+        "location": "NEXUS/BC04-C2-1",
+        "text": "{\"code\":\"BC04-C2-1\",\"title\":\"CASCADE BREACH // Le style qui résiste\",\"opening\":\"Tu changes la couleur de la carte, mais elle reste rouge. Trouve la règle gagnante plutôt que d’empiler des !important.\",\"lesson\":\"Une règle CSS associe un sélecteur à des déclarations propriété:valeur. La feuille peut être liée au document ; les sélecteurs ciblent éléments, classes, attributs ou états. La cascade départage les déclarations selon leur origine, importance, couche, spécificité et ordre lorsque ces critères le permettent.\\n\\nLes unités répondent à des besoins différents : px, pourcentages, rem ou unités de viewport ne décrivent pas la même référence. Le modèle de boîte sépare contenu, padding, bordure et marge. Avec box-sizing: border-box, la largeur déclarée inclut padding et bordure, pas la marge. Observe les styles calculés et les règles barrées dans DevTools pour expliquer un résultat.\",\"example\":\".alert { color: #e9f2ff; background: #10182a; padding: 1rem; border: 1px solid #91a7c3; box-sizing: border-box; }\",\"task\":\"Corrige le style de la carte sans modifier son sens HTML, puis explique une règle de cascade et une mesure de boîte.\",\"proof\":\"Feuille liée ; sélecteur ciblé ; styles calculés commentés ; largeur/padding/bordure distingués.\",\"transfer\":\"La taille de police racine augmente. Quelles dimensions basées sur rem évoluent ?\",\"questions\":[{\"prompt\":\"Avant !important, où chercher ?\",\"correct\":\"Dans les règles appliquées et calculées de DevTools\",\"distractors\":[\"Dans le mot de passe serveur\",\"Dans une suppression du HTML\"],\"feedback\":\"Le navigateur donne les traces de la cascade.\"},{\"prompt\":\"Avec border-box, la marge fait-elle partie de width ?\",\"correct\":\"Non\",\"distractors\":[\"Oui toujours\",\"Seulement avec un fond\"],\"feedback\":\"Border-box inclut padding et bordure, pas la marge externe.\"}],\"mode\":\"html\",\"sequence\":null,\"practice\":\"native\",\"minutes\":55,\"prereq\":[],\"blockId\":\"BC04\",\"parentId\":\"BC04-C2\",\"skillLabel\":\"CSS3 - Appliquer un style au composant d'une interface\",\"typology\":\"Savoir-faire technique\",\"notions\":\"> Lier CSS à HTML\\n> Propriétés de base : couleur, taille, fond, bordure\\n> Sélecteurs, cascade, unités de mesure\"}",
+        "visibility": "teacher"
+      }
+    ]
+  }
+]

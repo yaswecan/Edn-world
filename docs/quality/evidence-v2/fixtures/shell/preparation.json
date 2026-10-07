@@ -1,0 +1,2023 @@
+{
+  "id": "prep_4dd5ce8c-44cb-4521-9db2-d0ee82396ef5",
+  "classId": "A1",
+  "requestId": "fixture-shell",
+  "requestDigest": "1496a230ce652f1c7a8eb45fcae509aa9f3f7b1371434bc89b0ad8a8c36dce93",
+  "entryId": "shell",
+  "sourceIds": [
+    "source_a79797a1-84be-4981-a0a4-3d36550ebdec"
+  ],
+  "brief": {
+    "version": 2,
+    "intent": "Pilote Retrouver, réparer, garder une trace",
+    "entry": {
+      "id": "shell",
+      "classId": "A1",
+      "date": "2026-10-07",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "sequence": "Pilotes de recette",
+      "duration": 110,
+      "durationConfirmed": true,
+      "status": "planned",
+      "objective": "Retrouver, réparer, garder une trace",
+      "activity": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+      "resourcePack": "PILOT-shell",
+      "createdAt": "2026-10-07T12:22:00.547Z"
+    },
+    "planVersion": 1,
+    "resolvedContext": {
+      "version": 1,
+      "classId": "A1",
+      "date": "2026-10-07",
+      "entryId": "shell",
+      "planVersion": 1,
+      "workbookHash": null,
+      "planningSource": {
+        "row": null,
+        "limitation": "Ancien import sans adresses et liens détaillés ; réimport requis pour les reconstruire."
+      },
+      "curriculum": [
+        {
+          "n3_code": "BC02-C3-1",
+          "n3_label": "Utiliser les commandes Linux",
+          "notions_tools": "Un terminal permet d’interagir avec un shell. pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte. Un chemin absolu part de la racine, un chemin relatif dépend du dossier courant. Créer, lire et éditer un fichier sont des actions distinctes.\n\nLes permissions déterminent qui peut lire, écrire ou exécuter. Un compte ordinaire limite les conséquences d’une erreur ; les droits administrateur ne doivent servir qu’à une tâche autorisée. Les gestionnaires de paquets diffèrent selon l’OS. Identifier la distribution précède le choix d’une commande d’installation. Les manipulations de comptes, paquets et droits se font ici dans une VM jetable, pas sur le serveur qui héberge les travaux des élèves.",
+          "observable_criterion": "Chemin exact ; commande grep et résultat ; fichier créé ; droits expliqués ; observation locale des tâches administrateur autorisées.",
+          "expected_trace": "Chemin exact ; commande grep et résultat ; fichier créé ; droits expliqués ; observation locale des tâches administrateur autorisées.",
+          "scaffolding_rule": "Commencer par observer réduit les opérations au hasard.",
+          "prerequisiteCodes": []
+        }
+      ],
+      "sequences": [],
+      "completedLearning": [],
+      "diagnosticResults": null,
+      "uncertainties": [],
+      "sessions": [],
+      "hash": "c6257ccc808f79424b3b66e4d6735f9829874f9a59d5e42d8a7ef4e80e1cccf2"
+    },
+    "constraints": [],
+    "priorLearning": "Seules les séances clôturées sont des preuves ; diagnostic du jour non réalisé.",
+    "previousSource": null
+  },
+  "revision": 1,
+  "policyVersion": "tween-depth-2026-10-07.2",
+  "capabilities": {
+    "version": "workshops-2026-10-07.2",
+    "profiles": [
+      {
+        "id": "html-css",
+        "families": [
+          "Design"
+        ],
+        "capabilities": [
+          "files",
+          "editor",
+          "web-preview",
+          "responsive",
+          "annotations"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "algorithm",
+        "families": [
+          "Programmation"
+        ],
+        "capabilities": [
+          "editor",
+          "execution",
+          "console",
+          "behavior-tests",
+          "debugger"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "dom",
+        "families": [
+          "Design",
+          "Programmation"
+        ],
+        "capabilities": [
+          "files",
+          "editor",
+          "web-preview",
+          "console",
+          "dom-events",
+          "behavior-tests"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "shell-git",
+        "families": [
+          "Savoir"
+        ],
+        "capabilities": [
+          "files",
+          "editor",
+          "shell",
+          "git",
+          "state-validation"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "concepts",
+        "families": [
+          "Savoir",
+          "Design"
+        ],
+        "capabilities": [
+          "annotations",
+          "diagrams",
+          "comparison"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      }
+    ]
+  },
+  "candidateCount": 2,
+  "simulation": true,
+  "status": "blocked",
+  "stage": "review",
+  "reason": "Brouillon non validé : lab:guided, lab:autonomous, lab:transfer",
+  "events": [
+    {
+      "stage": "queued",
+      "at": "2026-10-07T12:22:32.587Z"
+    },
+    {
+      "stage": "assemble",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:32.596Z"
+    },
+    {
+      "stage": "analysis",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:32.684Z"
+    },
+    {
+      "stage": "design",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:32.692Z"
+    },
+    {
+      "stage": "planReview",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:32.702Z"
+    },
+    {
+      "stage": "write",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:32.718Z"
+    },
+    {
+      "stage": "checks",
+      "iteration": 0,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:32.728Z"
+    },
+    {
+      "stage": "review",
+      "iteration": 0,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:38.925Z"
+    },
+    {
+      "stage": "repair",
+      "iteration": 1,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:38.945Z"
+    },
+    {
+      "stage": "checks",
+      "iteration": 1,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:38.965Z"
+    },
+    {
+      "stage": "review",
+      "iteration": 1,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:42.111Z"
+    }
+  ],
+  "startedAt": "2026-10-07T12:22:32.587Z",
+  "calls": 7,
+  "reservedUSD": 3.7997119999999995,
+  "spentUSD": 0,
+  "iteration": 1,
+  "unitIndex": 1,
+  "reports": [
+    {
+      "state": "draft",
+      "score": 75,
+      "blockers": [
+        "lab:guided",
+        "lab:autonomous",
+        "lab:transfer",
+        "fixture-comparison"
+      ],
+      "contentHash": "cb11779b38e9668f05c2a945a1460bd627906a98109e440877c1eda113d93d94",
+      "briefHash": "01548ebd6dea553b6a5fb201f4f9b839fed67b507ddcf7e94833f2649018dd20",
+      "charterVersion": "tween-depth-2026-10-07.2",
+      "policy": {
+        "minimum": 90,
+        "dimensionMinimum": 3
+      },
+      "report": {
+        "contentHash": "cb11779b38e9668f05c2a945a1460bd627906a98109e440877c1eda113d93d94",
+        "briefHash": "01548ebd6dea553b6a5fb201f4f9b839fed67b507ddcf7e94833f2649018dd20",
+        "charterVersion": "tween-depth-2026-10-07.2",
+        "decision": "revise",
+        "dimensions": {
+          "accuracy": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "mechanisms": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "activities": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "progression": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "tone": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "visuals": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          }
+        },
+        "issues": [
+          {
+            "id": "fixture-comparison",
+            "rule": "explain-counterexample",
+            "severity": "major",
+            "location": "blocks/concept",
+            "observation": "La comparaison explicite avant/après doit être renforcée.",
+            "problem": "Le cas piège ne rappelle pas de conserver la prévision initiale.",
+            "requestedChange": "Ajouter la comparaison du cas avant et après correction.",
+            "resolutionCriterion": "La confusion explique la comparaison et conserve la première réponse."
+          }
+        ],
+        "coverageGaps": [],
+        "regressions": [],
+        "uncertainties": [
+          "Revue IA simulée."
+        ],
+        "nextCorrections": [],
+        "externalChecks": [
+          {
+            "id": "design-contract",
+            "status": "PASS",
+            "evidence": "Contrat et outils vérifiés sur la version assemblée."
+          },
+          {
+            "id": "schema",
+            "status": "PASS",
+            "evidence": "DailyLessonSpec validé."
+          },
+          {
+            "id": "diagnostic-first",
+            "status": "PASS",
+            "evidence": "Première activité après l’annonce des objectifs."
+          },
+          {
+            "id": "depth:BC02-C3-1",
+            "status": "PASS",
+            "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+          },
+          {
+            "id": "complete",
+            "status": "PASS",
+            "evidence": "Absence de placeholders rédactionnels connus."
+          },
+          {
+            "id": "lab:guided",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:autonomous",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:transfer",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "preserved-activities",
+            "status": "PASS",
+            "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+          },
+          {
+            "id": "render-components",
+            "status": "PASS",
+            "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+          },
+          {
+            "id": "browser-render",
+            "status": "PASS",
+            "evidence": "{\"hash\":\"cb11779b38e9668f05c2a945a1460bd627906a98109e440877c1eda113d93d94\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/cb11779b38e9668f05c2a945a1460bd627906a98109e440877c1eda113d93d94\",\"errors\":[]}"
+          },
+          {
+            "id": "sources",
+            "status": "PASS",
+            "evidence": "Segments versionnés disponibles au relecteur."
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS",
+          "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+          "blocking": true
+        },
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé.",
+          "blocking": true
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs.",
+          "blocking": true
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+          "blocking": true
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus.",
+          "blocking": true
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+          "blocking": true
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+          "blocking": true
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"cb11779b38e9668f05c2a945a1460bd627906a98109e440877c1eda113d93d94\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/cb11779b38e9668f05c2a945a1460bd627906a98109e440877c1eda113d93d94\",\"errors\":[]}",
+          "blocking": true
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur.",
+          "blocking": true
+        }
+      ],
+      "checkedAt": "2026-10-07T12:22:38.939Z"
+    },
+    {
+      "state": "draft",
+      "score": 100,
+      "blockers": [
+        "lab:guided",
+        "lab:autonomous",
+        "lab:transfer"
+      ],
+      "contentHash": "6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47",
+      "briefHash": "01548ebd6dea553b6a5fb201f4f9b839fed67b507ddcf7e94833f2649018dd20",
+      "charterVersion": "tween-depth-2026-10-07.2",
+      "policy": {
+        "minimum": 90,
+        "dimensionMinimum": 3
+      },
+      "report": {
+        "contentHash": "6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47",
+        "briefHash": "01548ebd6dea553b6a5fb201f4f9b839fed67b507ddcf7e94833f2649018dd20",
+        "charterVersion": "tween-depth-2026-10-07.2",
+        "decision": "accept",
+        "dimensions": {
+          "accuracy": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "mechanisms": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "activities": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "progression": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "tone": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "visuals": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          }
+        },
+        "issues": [],
+        "coverageGaps": [],
+        "regressions": [],
+        "uncertainties": [
+          "Revue IA simulée."
+        ],
+        "nextCorrections": [],
+        "externalChecks": [
+          {
+            "id": "design-contract",
+            "status": "PASS",
+            "evidence": "Contrat et outils vérifiés sur la version assemblée."
+          },
+          {
+            "id": "schema",
+            "status": "PASS",
+            "evidence": "DailyLessonSpec validé."
+          },
+          {
+            "id": "diagnostic-first",
+            "status": "PASS",
+            "evidence": "Première activité après l’annonce des objectifs."
+          },
+          {
+            "id": "depth:BC02-C3-1",
+            "status": "PASS",
+            "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+          },
+          {
+            "id": "complete",
+            "status": "PASS",
+            "evidence": "Absence de placeholders rédactionnels connus."
+          },
+          {
+            "id": "lab:guided",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:autonomous",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "lab:transfer",
+            "status": "NOT RUN",
+            "evidence": "Aucune exécution indépendante du laboratoire disponible."
+          },
+          {
+            "id": "preserved-activities",
+            "status": "PASS",
+            "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+          },
+          {
+            "id": "render-components",
+            "status": "PASS",
+            "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+          },
+          {
+            "id": "browser-render",
+            "status": "PASS",
+            "evidence": "{\"hash\":\"6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"errors\":[]}"
+          },
+          {
+            "id": "sources",
+            "status": "PASS",
+            "evidence": "Segments versionnés disponibles au relecteur."
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS",
+          "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+          "blocking": true
+        },
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé.",
+          "blocking": true
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs.",
+          "blocking": true
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+          "blocking": true
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus.",
+          "blocking": true
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+          "blocking": true
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+          "blocking": true
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+          "blocking": true
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"errors\":[]}",
+          "blocking": true
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur.",
+          "blocking": true
+        }
+      ],
+      "checkedAt": "2026-10-07T12:22:42.124Z"
+    }
+  ],
+  "planRevisions": 0,
+  "retryAttempts": {},
+  "createdAt": "2026-10-07T12:22:32.587Z",
+  "leaseToken": "lease_46a9190a-284f-4556-9cc6-0f8601aef9ce",
+  "leaseUntil": "2026-10-07T12:27:42.111Z",
+  "lessonId": "A1:PILOT-shell-prep_4dd5ce8c-44cb-4521-9db2-d0ee82396ef5",
+  "lessonVersionId": "A1:PILOT-shell-prep_4dd5ce8c-44cb-4521-9db2-d0ee82396ef5:v3",
+  "inflight": null,
+  "attemptState": "completed",
+  "lastCallId": "prep_4dd5ce8c-44cb-4521-9db2-d0ee82396ef5:call:7",
+  "documentary": {
+    "inputHash": "82ae1e3581960d515348373093041ee4f20495e57066276a01c42e25a36c7b89",
+    "content": {
+      "concepts": [
+        {
+          "id": "concept-shell",
+          "label": "Retrouver, réparer, garder une trace",
+          "prerequisites": [],
+          "examples": [
+            "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus."
+          ],
+          "misconceptions": [
+            "cd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd."
+          ],
+          "activityOpportunities": [
+            "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu."
+          ],
+          "citations": [
+            {
+              "sourceId": "source_a79797a1-84be-4981-a0a4-3d36550ebdec",
+              "segmentId": "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s1",
+              "claim": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+              "kind": "explicit"
+            }
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "claim": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+          "citations": [
+            {
+              "sourceId": "source_a79797a1-84be-4981-a0a4-3d36550ebdec",
+              "segmentId": "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s1",
+              "claim": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+              "kind": "explicit"
+            }
+          ]
+        }
+      ],
+      "contradictions": [],
+      "gaps": [
+        "Analyse simulée."
+      ],
+      "uninterpretedFigures": []
+    },
+    "at": "2026-10-07T12:22:32.690Z",
+    "callId": "prep_4dd5ce8c-44cb-4521-9db2-d0ee82396ef5:call:1"
+  },
+  "plan": {
+    "analysis": [
+      {
+        "conceptId": "concept-shell",
+        "label": "Retrouver, réparer, garder une trace",
+        "prerequisites": [],
+        "relations": [
+          "cause → observation"
+        ],
+        "citations": [
+          {
+            "sourceId": "source_a79797a1-84be-4981-a0a4-3d36550ebdec",
+            "segmentId": "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s1",
+            "claim": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+            "kind": "explicit"
+          }
+        ],
+        "uncertainties": [
+          "Charge réelle auprès des élèves non mesurée."
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "id": "definition-first",
+        "order": [
+          "concept-shell"
+        ],
+        "advantages": "Vocabulaire disponible avant les essais.",
+        "risks": "Le besoin de la notion peut rester abstrait."
+      },
+      {
+        "id": "problem-first",
+        "order": [
+          "concept-shell"
+        ],
+        "advantages": "Le défaut concret crée une question ; expliquer avant le défi autonome.",
+        "risks": "Prévoir un rappel si le diagnostic révèle une difficulté."
+      }
+    ],
+    "selectedOrder": [
+      "concept-shell"
+    ],
+    "justification": "Partir du défaut visible, rendre le mécanisme explicite, puis déplacer le problème. Les documents ne dictent pas le rythme ; les prérequis et le temps de pratique le font.",
+    "coverage": [
+      {
+        "skill": "BC02-C3-1",
+        "conceptIds": [
+          "concept-shell"
+        ],
+        "sourceSegments": [
+          "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s1",
+          "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s2",
+          "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s3",
+          "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s4",
+          "source_a79797a1-84be-4981-a0a4-3d36550ebdec:s5"
+        ],
+        "explanationBlockId": "concept",
+        "activityIds": [
+          "prediction",
+          "drawing",
+          "guided",
+          "autonomous",
+          "justify",
+          "transfer",
+          "exit"
+        ],
+        "evidence": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+        "remediation": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+        "mechanismId": "terminal-stages",
+        "runtimeProfile": "shell-git",
+        "reasoningDemand": "Prédiction, causalité, diagnostic et choix argumenté."
+      }
+    ],
+    "prerequisites": [
+      {
+        "conceptId": "baseline",
+        "status": "unknown",
+        "evidence": "Diagnostic du jour pas encore passé.",
+        "action": "Un fichier contient des données ; un dossier contient des entrées qui désignent des fichiers ou d’autres dossiers. Une commande ne s’exécute pas « dans le texte » du terminal : le shell la transmet à un programme avec des arguments."
+      }
+    ],
+    "duration": {
+      "minutes": 110,
+      "uncertainty": "Estimation de conception, prévoir 15 minutes de variation.",
+      "includesReadingAttemptsHelpAndCorrection": true
+    },
+    "diagnosticBranches": [
+      {
+        "observation": "Prérequis fragile",
+        "action": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+        "commonObjective": "Retrouver, réparer, garder une trace"
+      },
+      {
+        "observation": "Prérequis utilisable",
+        "action": "Parcours normal puis production autonome.",
+        "commonObjective": "Retrouver, réparer, garder une trace"
+      }
+    ],
+    "deferred": [
+      "SSH et Git distant : environnements non prévus."
+    ],
+    "gaps": [
+      "Mesures d’apprentissage et comparaison IA réelles non exécutées."
+    ],
+    "contract": {
+      "family": "Savoir",
+      "familyReason": "Famille déterminée par la production autonome évaluée.",
+      "outcomes": [
+        {
+          "skill": "BC02-C3-1",
+          "observable": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+          "criteria": [
+            "Production conforme et choix expliqué."
+          ],
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "proof": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu."
+        }
+      ],
+      "finalTask": {
+        "activityId": "autonomous",
+        "production": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+        "requiredConceptIds": [
+          "concept-shell"
+        ],
+        "criteria": [
+          "Résultat et justification vérifiables."
+        ],
+        "transferActivityId": "transfer",
+        "transferVariation": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu."
+      },
+      "activities": [
+        {
+          "activityId": "prediction",
+          "action": "Écris ta prévision pour l’exemple, puis une observation qui pourrait la contredire. Après l’essai, explique l’écart éventuel.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Une prévision conservée et une comparaison avec un résultat réel.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "drawing",
+          "action": "Dessine ou décris les relations de la séance. Légende les flèches, indique ce qui change et utilise les valeurs d’un exemple.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "guided",
+          "action": "Observe pwd et ls. Lis brouillon/notes.txt. Prévois ce qui changera après un déplacement. Place notes.txt dans projet, puis vérifie contenu et absence à l’ancien endroit.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "shell-git",
+          "capabilities": [
+            "shell",
+            "files",
+            "state-validation"
+          ],
+          "help": "guided",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": [
+            {
+              "path": "brouillon/notes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            },
+            {
+              "path": "archive/consignes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            }
+          ]
+        },
+        {
+          "activityId": "autonomous",
+          "action": "Cet atelier commence dans son propre espace. Lis les consignes d’archive. Préserve une copie de brouillon/notes.txt dans sauvegarde/notes.txt, puis déplace le document vers livraison/compte rendu.txt. Vérifie les deux contenus et justifie pourquoi tu as copié avant de déplacer.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "shell-git",
+          "capabilities": [
+            "shell",
+            "files",
+            "state-validation"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": [
+            {
+              "path": "brouillon/notes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            },
+            {
+              "path": "archive/consignes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            }
+          ]
+        },
+        {
+          "activityId": "justify",
+          "action": "Explique un choix de ta production autonome. Donne une erreur plausible, le cas qui la révèle et pourquoi ta solution l’évite.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Un choix, un contre-exemple et une explication causale.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "transfer",
+          "action": "Prolongement facultatif. Git distingue le dossier de travail, l’index (ce qu’on prépare) et le commit (un état enregistré). Cet atelier commence avec notes.txt dans son propre dossier. Observe git status après git init puis après git add notes.txt. Enregistre un premier état avec git -c user.name=Apprenant -c user.email=atelier@example.invalid commit -m \"Premier état\" : cette identité locale ne crée aucun compte. Modifie ensuite notes.txt dans l’éditeur. Avant de refaire add, explique pourquoi le commit précédent ne change pas. Aucune connexion distante ni SSH n’est nécessaire.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Un fichier présent dans le premier commit et une explication de la différence entre travail, index et commit.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "shell-git",
+          "capabilities": [
+            "shell",
+            "files",
+            "state-validation"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": [
+            {
+              "path": "notes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            }
+          ]
+        },
+        {
+          "activityId": "exit",
+          "action": "Sans reprendre l’exemple du cours, propose un cas analogue et son résultat. Explique le mécanisme, puis nomme la partie que tu vérifierais encore.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        }
+      ],
+      "teaching": [
+        {
+          "skill": "BC02-C3-1",
+          "mode": "acquisition",
+          "mechanism": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+          "workedExample": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "misconception": "cd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd.",
+          "visual": "Schéma causal dans le bloc concept.",
+          "priorResourceIds": []
+        }
+      ],
+      "timing": [
+        {
+          "blockId": "opening",
+          "minutes": 4,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "diagnostic",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "concept",
+          "minutes": 19,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "observe",
+          "minutes": 13,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "guided",
+          "minutes": 20,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "autonomy",
+          "minutes": 26,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "extension",
+          "minutes": 12,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "exit",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        }
+      ],
+      "supports": [
+        {
+          "id": "student-course",
+          "kind": "student-course",
+          "audience": "student",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "teacher-guide",
+          "kind": "teacher-guide",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "correction",
+          "kind": "correction",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "export",
+          "kind": "export",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": [
+            "student-course",
+            "teacher-guide",
+            "correction"
+          ]
+        }
+      ],
+      "summary": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+      "remediation": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+      "extension": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+      "assumptions": [
+        "Durée d’apprentissage non mesurée."
+      ],
+      "unresolvedConstraints": []
+    }
+  },
+  "designContract": {
+    "context": {
+      "version": 2,
+      "policy": {
+        "version": "tween-depth-2026-10-07.2",
+        "families": [
+          "Design",
+          "Programmation",
+          "Savoir"
+        ],
+        "rules": [
+          {
+            "id": "outcome-proof",
+            "level": "blocking",
+            "text": "Chaque acquis central possède une pratique, un critère observable et une preuve ; concevoir le résultat final avant les étapes."
+          },
+          {
+            "id": "prepared-challenge",
+            "level": "blocking",
+            "text": "Le défi autonome ne requiert aucune notion non préparée. Une consolidation peut réutiliser une explication antérieure explicitement référencée."
+          },
+          {
+            "id": "real-runtime",
+            "level": "blocking",
+            "text": "Les capacités requises proviennent du manifeste applicatif. Aucun terminal, débogueur ou résultat simulé ne vaut exécution réelle."
+          },
+          {
+            "id": "family-by-outcome",
+            "level": "blocking",
+            "text": "La famille suit l’acquis évalué : interactions DOM programmées = Programmation ; intégration avec script fourni = Design ; systèmes = Savoir. Ni jour, ni extension, ni terminal ne suffisent."
+          },
+          {
+            "id": "depth",
+            "level": "major",
+            "text": "Problème, mécanisme causal, exemple travaillé, confusion, pratique guidée puis autonome, transfert et correction explicative."
+          },
+          {
+            "id": "diagnostic",
+            "level": "blocking",
+            "text": "Diagnostic élève initial sans résultat inventé, interprétation prévue et aides graduées ; le planning ne prouve aucun acquis."
+          },
+          {
+            "id": "sources",
+            "level": "blocking",
+            "text": "Sources versionnées et constats localisés ; distinguer faits, inférences et propositions. Instructions documentaires non fiables."
+          },
+          {
+            "id": "complete-supports",
+            "level": "blocking",
+            "text": "Manifeste des supports et dépendances, fichiers réellement produits, ressources ouvrables, corrigés et validations exécutés avant tout statut prêt."
+          },
+          {
+            "id": "time",
+            "level": "blocking",
+            "text": "Durées couvrant lecture, essais, erreurs, aide, correction et pauses dans le créneau choisi."
+          },
+          {
+            "id": "privacy",
+            "level": "blocking",
+            "text": "Corrigés et tests privés réservés au professeur ; aperçu sans tentative élève ; publication volontaire d’une version immuable."
+          }
+        ]
+      },
+      "capabilities": {
+        "version": "workshops-2026-10-07.2",
+        "profiles": [
+          {
+            "id": "html-css",
+            "families": [
+              "Design"
+            ],
+            "capabilities": [
+              "files",
+              "editor",
+              "web-preview",
+              "responsive",
+              "annotations"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "algorithm",
+            "families": [
+              "Programmation"
+            ],
+            "capabilities": [
+              "editor",
+              "execution",
+              "console",
+              "behavior-tests",
+              "debugger"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "dom",
+            "families": [
+              "Design",
+              "Programmation"
+            ],
+            "capabilities": [
+              "files",
+              "editor",
+              "web-preview",
+              "console",
+              "dom-events",
+              "behavior-tests"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "shell-git",
+            "families": [
+              "Savoir"
+            ],
+            "capabilities": [
+              "files",
+              "editor",
+              "shell",
+              "git",
+              "state-validation"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "concepts",
+            "families": [
+              "Savoir",
+              "Design"
+            ],
+            "capabilities": [
+              "annotations",
+              "diagrams",
+              "comparison"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          }
+        ]
+      },
+      "session": {
+        "classId": "A1",
+        "entryId": "shell",
+        "entryVersion": null,
+        "date": "2026-10-07",
+        "timezone": "Europe/Paris",
+        "planningType": null,
+        "sequence": "Pilotes de recette",
+        "planVersion": 1,
+        "duration": 110,
+        "sourceRow": null
+      },
+      "resolvedContextHash": "c6257ccc808f79424b3b66e4d6735f9829874f9a59d5e42d8a7ef4e80e1cccf2",
+      "sourceVersions": [
+        {
+          "id": "source_a79797a1-84be-4981-a0a4-3d36550ebdec",
+          "hash": "27cca68a184b6c86f9c8b05bc4e65066875990732bde64f849e00e76f9cb4bb7"
+        },
+        {
+          "id": "A1:resource:BC02-C3-1:ab5a2bf11cd4",
+          "hash": "ab5a2bf11cd4e87f1d1602cbfd38c3260bc0d14894e7bd52e224f6dde9329cb0"
+        }
+      ],
+      "revision": 1
+    },
+    "contextHash": "b8d48bf91e91c21f23c707bc8d1d40b2bf1d0fdbe723b0a70709cbac5be28c30",
+    "content": {
+      "family": "Savoir",
+      "familyReason": "Famille déterminée par la production autonome évaluée.",
+      "outcomes": [
+        {
+          "skill": "BC02-C3-1",
+          "observable": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+          "criteria": [
+            "Production conforme et choix expliqué."
+          ],
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "proof": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu."
+        }
+      ],
+      "finalTask": {
+        "activityId": "autonomous",
+        "production": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+        "requiredConceptIds": [
+          "concept-shell"
+        ],
+        "criteria": [
+          "Résultat et justification vérifiables."
+        ],
+        "transferActivityId": "transfer",
+        "transferVariation": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu."
+      },
+      "activities": [
+        {
+          "activityId": "prediction",
+          "action": "Écris ta prévision pour l’exemple, puis une observation qui pourrait la contredire. Après l’essai, explique l’écart éventuel.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Une prévision conservée et une comparaison avec un résultat réel.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "drawing",
+          "action": "Dessine ou décris les relations de la séance. Légende les flèches, indique ce qui change et utilise les valeurs d’un exemple.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "guided",
+          "action": "Observe pwd et ls. Lis brouillon/notes.txt. Prévois ce qui changera après un déplacement. Place notes.txt dans projet, puis vérifie contenu et absence à l’ancien endroit.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "shell-git",
+          "capabilities": [
+            "shell",
+            "files",
+            "state-validation"
+          ],
+          "help": "guided",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": [
+            {
+              "path": "brouillon/notes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            },
+            {
+              "path": "archive/consignes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            }
+          ]
+        },
+        {
+          "activityId": "autonomous",
+          "action": "Cet atelier commence dans son propre espace. Lis les consignes d’archive. Préserve une copie de brouillon/notes.txt dans sauvegarde/notes.txt, puis déplace le document vers livraison/compte rendu.txt. Vérifie les deux contenus et justifie pourquoi tu as copié avant de déplacer.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "shell-git",
+          "capabilities": [
+            "shell",
+            "files",
+            "state-validation"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": [
+            {
+              "path": "brouillon/notes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            },
+            {
+              "path": "archive/consignes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            }
+          ]
+        },
+        {
+          "activityId": "justify",
+          "action": "Explique un choix de ta production autonome. Donne une erreur plausible, le cas qui la révèle et pourquoi ta solution l’évite.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Un choix, un contre-exemple et une explication causale.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "transfer",
+          "action": "Prolongement facultatif. Git distingue le dossier de travail, l’index (ce qu’on prépare) et le commit (un état enregistré). Cet atelier commence avec notes.txt dans son propre dossier. Observe git status après git init puis après git add notes.txt. Enregistre un premier état avec git -c user.name=Apprenant -c user.email=atelier@example.invalid commit -m \"Premier état\" : cette identité locale ne crée aucun compte. Modifie ensuite notes.txt dans l’éditeur. Avant de refaire add, explique pourquoi le commit précédent ne change pas. Aucune connexion distante ni SSH n’est nécessaire.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Un fichier présent dans le premier commit et une explication de la différence entre travail, index et commit.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "shell-git",
+          "capabilities": [
+            "shell",
+            "files",
+            "state-validation"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": [
+            {
+              "path": "notes.txt",
+              "purpose": "État initial à manipuler.",
+              "requirement": "Fichier disponible dans l’atelier."
+            }
+          ]
+        },
+        {
+          "activityId": "exit",
+          "action": "Sans reprendre l’exemple du cours, propose un cas analogue et son résultat. Explique le mécanisme, puis nomme la partie que tu vérifierais encore.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        }
+      ],
+      "teaching": [
+        {
+          "skill": "BC02-C3-1",
+          "mode": "acquisition",
+          "mechanism": "Le shell possède une position courante. pwd l’affiche. ls montre ce qui est à cet endroit. cd modifie cette position pour les commandes suivantes. Un chemin relatif comme brouillon/notes.txt se résout depuis cette position : le même texte peut donc désigner un autre endroit après cd. Un chemin absolu comme /workspace/brouillon/notes.txt part de la racine du système du laboratoire.\n\nLire précède une modification : cat permet d’examiner le contenu. cp crée une autre copie ; mv déplace ou renomme l’entrée. Après un déplacement, on vérifie la présence au nouvel endroit, le contenu, et l’absence à l’ancien. Si un nom contient un espace, les guillemets gardent le chemin en un seul argument. Aucune commande destructrice ni droit administrateur n’est nécessaire ici.",
+          "workedExample": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+          "misconception": "cd projet puis cat projet/notes.txt cherche /workspace/projet/projet/notes.txt. Le chemin a été répété. Depuis ce dossier, cat notes.txt suffit. Une erreur « fichier absent » ne prouve pas que le fichier a été supprimé : commencer par vérifier pwd.",
+          "visual": "Schéma causal dans le bloc concept.",
+          "priorResourceIds": []
+        }
+      ],
+      "timing": [
+        {
+          "blockId": "opening",
+          "minutes": 4,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "diagnostic",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "concept",
+          "minutes": 19,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "observe",
+          "minutes": 13,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "guided",
+          "minutes": 20,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "autonomy",
+          "minutes": 26,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "extension",
+          "minutes": 12,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "exit",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        }
+      ],
+      "supports": [
+        {
+          "id": "student-course",
+          "kind": "student-course",
+          "audience": "student",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "teacher-guide",
+          "kind": "teacher-guide",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "correction",
+          "kind": "correction",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "export",
+          "kind": "export",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": [
+            "student-course",
+            "teacher-guide",
+            "correction"
+          ]
+        }
+      ],
+      "summary": "Départ dans /workspace. Le fichier brouillon/notes.txt contient « réunion jeudi ». pwd affiche /workspace ; cat brouillon/notes.txt confirme le contenu. mkdir -p projet prépare la destination. mv brouillon/notes.txt projet/notes.txt déplace le fichier. cat projet/notes.txt doit encore montrer « réunion jeudi » ; ls brouillon permet de vérifier qu’il n’y est plus.",
+      "remediation": "Dessine trois dossiers et marque ta position. Pour chaque chemin, trace le trajet depuis ce point. Teste pwd avant et après cd, puis utilise help cd pour comprendre le changement.",
+      "extension": "Organiser un autre dossier dont les noms contiennent des espaces ; conserver une copie de référence, livrer une arborescence choisie et expliquer comment on prouve qu’aucun contenu n’a été perdu.",
+      "assumptions": [
+        "Durée d’apprentissage non mesurée."
+      ],
+      "unresolvedConstraints": []
+    },
+    "planHash": "44e8f77d51b03e45b7a46d3e0be70fff7b282e64eb7ea63b693ee39e38e98031",
+    "validatedAt": "2026-10-07T12:22:32.699Z"
+  },
+  "planReview": {
+    "decision": "accept",
+    "issues": []
+  },
+  "unitResponses": [
+    {
+      "issueId": "fixture-comparison",
+      "change": "Fixture de correction : explication précise du cas piège ajoutée.",
+      "location": "blocks/concept"
+    }
+  ],
+  "candidateVersionId": "A1:PILOT-shell-prep_4dd5ce8c-44cb-4521-9db2-d0ee82396ef5:v3",
+  "checks": [
+    {
+      "id": "design-contract",
+      "status": "PASS",
+      "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+      "blocking": true
+    },
+    {
+      "id": "schema",
+      "status": "PASS",
+      "evidence": "DailyLessonSpec validé.",
+      "blocking": true
+    },
+    {
+      "id": "diagnostic-first",
+      "status": "PASS",
+      "evidence": "Première activité après l’annonce des objectifs.",
+      "blocking": true
+    },
+    {
+      "id": "depth:BC02-C3-1",
+      "status": "PASS",
+      "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+      "blocking": true
+    },
+    {
+      "id": "complete",
+      "status": "PASS",
+      "evidence": "Absence de placeholders rédactionnels connus.",
+      "blocking": true
+    },
+    {
+      "id": "lab:guided",
+      "status": "NOT RUN",
+      "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+      "blocking": true
+    },
+    {
+      "id": "lab:autonomous",
+      "status": "NOT RUN",
+      "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+      "blocking": true
+    },
+    {
+      "id": "lab:transfer",
+      "status": "NOT RUN",
+      "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+      "blocking": true
+    },
+    {
+      "id": "preserved-activities",
+      "status": "PASS",
+      "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+      "blocking": true
+    },
+    {
+      "id": "render-components",
+      "status": "PASS",
+      "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+      "blocking": true
+    },
+    {
+      "id": "browser-render",
+      "status": "PASS",
+      "evidence": "{\"hash\":\"6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"errors\":[]}",
+      "blocking": true
+    },
+    {
+      "id": "sources",
+      "status": "PASS",
+      "evidence": "Segments versionnés disponibles au relecteur.",
+      "blocking": true
+    }
+  ],
+  "decision": {
+    "state": "draft",
+    "score": 100,
+    "blockers": [
+      "lab:guided",
+      "lab:autonomous",
+      "lab:transfer"
+    ],
+    "contentHash": "6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47",
+    "briefHash": "01548ebd6dea553b6a5fb201f4f9b839fed67b507ddcf7e94833f2649018dd20",
+    "charterVersion": "tween-depth-2026-10-07.2",
+    "policy": {
+      "minimum": 90,
+      "dimensionMinimum": 3
+    },
+    "report": {
+      "contentHash": "6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47",
+      "briefHash": "01548ebd6dea553b6a5fb201f4f9b839fed67b507ddcf7e94833f2649018dd20",
+      "charterVersion": "tween-depth-2026-10-07.2",
+      "decision": "accept",
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "mechanisms": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "activities": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "progression": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "tone": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "visuals": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        }
+      },
+      "issues": [],
+      "coverageGaps": [],
+      "regressions": [],
+      "uncertainties": [
+        "Revue IA simulée."
+      ],
+      "nextCorrections": [],
+      "externalChecks": [
+        {
+          "id": "design-contract",
+          "status": "PASS",
+          "evidence": "Contrat et outils vérifiés sur la version assemblée."
+        },
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé."
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs."
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus."
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible."
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible."
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN",
+          "evidence": "Aucune exécution indépendante du laboratoire disponible."
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"errors\":[]}"
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur."
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "design-contract",
+        "status": "PASS",
+        "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+        "blocking": true
+      },
+      {
+        "id": "schema",
+        "status": "PASS",
+        "evidence": "DailyLessonSpec validé.",
+        "blocking": true
+      },
+      {
+        "id": "diagnostic-first",
+        "status": "PASS",
+        "evidence": "Première activité après l’annonce des objectifs.",
+        "blocking": true
+      },
+      {
+        "id": "depth:BC02-C3-1",
+        "status": "PASS",
+        "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+        "blocking": true
+      },
+      {
+        "id": "complete",
+        "status": "PASS",
+        "evidence": "Absence de placeholders rédactionnels connus.",
+        "blocking": true
+      },
+      {
+        "id": "lab:guided",
+        "status": "NOT RUN",
+        "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+        "blocking": true
+      },
+      {
+        "id": "lab:autonomous",
+        "status": "NOT RUN",
+        "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+        "blocking": true
+      },
+      {
+        "id": "lab:transfer",
+        "status": "NOT RUN",
+        "evidence": "Aucune exécution indépendante du laboratoire disponible.",
+        "blocking": true
+      },
+      {
+        "id": "preserved-activities",
+        "status": "PASS",
+        "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+        "blocking": true
+      },
+      {
+        "id": "render-components",
+        "status": "PASS",
+        "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+        "blocking": true
+      },
+      {
+        "id": "browser-render",
+        "status": "PASS",
+        "evidence": "{\"hash\":\"6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6269156fcc4fe0b2b12085ba6f47874373374ebeab7c21bf06cd405107986f47\",\"errors\":[]}",
+        "blocking": true
+      },
+      {
+        "id": "sources",
+        "status": "PASS",
+        "evidence": "Segments versionnés disponibles au relecteur.",
+        "blocking": true
+      }
+    ],
+    "checkedAt": "2026-10-07T12:22:42.124Z"
+  },
+  "finishedAt": "2026-10-07T12:22:42.125Z",
+  "durationMs": 9538,
+  "provider": "openai_api",
+  "connectionId": null,
+  "profiles": {
+    "analysis": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "design": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "planReview": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "write": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "review": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "repair": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    }
+  },
+  "sourceVersions": [
+    {
+      "id": "source_a79797a1-84be-4981-a0a4-3d36550ebdec",
+      "title": "Dossier Retrouver, réparer, garder une trace",
+      "contentHash": "27cca68a184b6c86f9c8b05bc4e65066875990732bde64f849e00e76f9cb4bb7"
+    },
+    {
+      "id": "A1:resource:BC02-C3-1:ab5a2bf11cd4",
+      "title": "SHELL MAZE // Retrouver la trace",
+      "contentHash": "ab5a2bf11cd4e87f1d1602cbfd38c3260bc0d14894e7bd52e224f6dde9329cb0"
+    }
+  ],
+  "maxCandidates": 4,
+  "preview": {
+    "versionId": "A1:PILOT-shell-prep_4dd5ce8c-44cb-4521-9db2-d0ee82396ef5:v3",
+    "completeness": "candidate"
+  },
+  "workerState": "idle",
+  "canCancel": true,
+  "canReconcile": true,
+  "canResume": false,
+  "canRevise": true
+}

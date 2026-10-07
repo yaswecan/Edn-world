@@ -2,6 +2,12 @@
 
 Application locale fonctionnelle construite à partir de la spécification v1.1, du classeur A1 et des quatre projets fournis. L’interface est en français. EDEN conserve le plan versionné, les séances, le cahier de texte, les copies et les preuves ; les corpus et Google Drive sont des exports.
 
+## Accès IA avec ChatGPT
+
+`npm run dev:chatgpt` démarre le parcours personnel sur **http://127.0.0.1:4181/**, avec une base séparée et un worker de préparation. Créez votre compte professeur, importez votre planification puis ouvrez **Ma classe & réglages → Réglages IA · API ou ChatGPT**. Le mode API reste un choix explicite ; aucune bascule de facturation automatique. Les credentials ChatGPT restent hors de la base et des exports.
+
+Le mode Vercel est désactivé en attente d’accès partenaire confirmé. Connexion et génération réelles restent à valider avec un compte éligible. Voir le [démarrage et la configuration](docs/chatgpt/README.md), [l’audit](docs/chatgpt/audit.md), [les sources vérifiées](docs/chatgpt/sources.md) et [la recette](docs/chatgpt/acceptance.md). Aucun déploiement de production.
+
 ## Préparation pédagogique approfondie
 
 Le nouveau parcours est accessible dans **Ressources → Importer des documents et préparer une séance**, à `/preparation.html`, et depuis **Préparer** en développement. Il importe les documents, conserve leurs versions et leurs limites d’extraction, puis prépare un parcours, rédige par unités et soumet chaque candidat à une revue indépendante. Les étapes et budgets sont persistants ; une préparation ne publie jamais automatiquement une séance. Sans clé ou modèle configuré, la demande affiche un blocage explicite.
@@ -221,3 +227,5 @@ Les baselines sont dans `tests/visual/baselines/darwin/`. La configuration utili
 - Les commandes conversationnelles reconnues produisent des propositions déterministes. Une ambiguïté demande une sélection dans l’interface ; il ne s’agit pas d’un interpréteur universel de toute consigne naturelle.
 - Le catalogue initial vient des projets fournis ; le professeur peut adapter un template, relire ses scénarios puis affecter sa version validée à un brouillon. La création libre de nouveaux mondes et validateurs ainsi qu’une simulation universelle de circuit ne sont pas fournies. Les ouvertures professeur ne créent aucune preuve de maîtrise.
 - Les réponses ouvertes et les résultats des jeux restent soumis à validation professeur. Le moteur SQL utilise SQLite, pas tous les dialectes ; les tests HTML/CSS vérifient la structure, pas un rendu pixel à pixel. Les formules JavaScript non comprises gardent le statut de relecture.
+
+Préparation pédagogique V2 : [recette et limites](docs/quality/acceptance-v2.md), [audit du cas interrompu](docs/quality/audit-v2.md), [décision d’architecture](docs/quality/architecture-v2.md). `npm run preview:quality:v2` ouvre la base de recette isolée sur le port 4182 sans appel IA automatique.

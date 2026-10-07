@@ -274,8 +274,77 @@
                       ],
                       "additionalProperties": false
                     }
+                  },
+                  "visual": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "alt": {
+                        "type": "string"
+                      },
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "alt",
+                      "width",
+                      "height"
+                    ],
+                    "additionalProperties": false
                   }
                 }
+              },
+              "publicTests": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "invoke": {
+                      "type": "string"
+                    },
+                    "argsJSON": {
+                      "type": "string"
+                    },
+                    "expectedJSON": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "invoke",
+                    "argsJSON",
+                    "expectedJSON"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 20
+              },
+              "validationVariants": {
+                "type": "object",
+                "properties": {
+                  "wrong": {
+                    "type": "string"
+                  },
+                  "wrongExplanation": {
+                    "type": "string"
+                  },
+                  "alternative": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "wrong",
+                  "wrongExplanation",
+                  "alternative"
+                ],
+                "additionalProperties": false
               }
             },
             "required": [
@@ -536,6 +605,7 @@
                       "minLength": 1
                     },
                     "kind": {
+                      "type": "string",
                       "enum": [
                         "explicit",
                         "inference",
@@ -761,8 +831,77 @@
                   ],
                   "additionalProperties": false
                 }
+              },
+              "visual": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "alt": {
+                    "type": "string"
+                  },
+                  "width": {
+                    "type": "number"
+                  },
+                  "height": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "id",
+                  "alt",
+                  "width",
+                  "height"
+                ],
+                "additionalProperties": false
               }
             }
+          },
+          "publicTests": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "invoke": {
+                  "type": "string"
+                },
+                "argsJSON": {
+                  "type": "string"
+                },
+                "expectedJSON": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "invoke",
+                "argsJSON",
+                "expectedJSON"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 20
+          },
+          "validationVariants": {
+            "type": "object",
+            "properties": {
+              "wrong": {
+                "type": "string"
+              },
+              "wrongExplanation": {
+                "type": "string"
+              },
+              "alternative": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "wrong",
+              "wrongExplanation",
+              "alternative"
+            ],
+            "additionalProperties": false
           }
         },
         "required": [

@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-07T13:31:40.634Z",
+  "services": [
+    {
+      "port": 4181,
+      "status": 200,
+      "ok": true,
+      "service": "EDEN Teacher Twin",
+      "storage": "sqlite"
+    },
+    {
+      "port": 4182,
+      "status": 200,
+      "ok": true,
+      "service": "EDEN Teacher Twin",
+      "storage": "sqlite"
+    }
+  ],
+  "originalPreparation": {
+    "id": "prep_56c0948e-9e0b-40d4-8318-112b10a95661",
+    "status": "blocked",
+    "revision": 2,
+    "calls": 1,
+    "durationLimitMinutes": 30
+  },
+  "validation": {
+    "automated": {
+      "command": "npm test",
+      "passed": 212,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    "checks": {
+      "command": "npm run check",
+      "status": "PASS"
+    },
+    "browser": "browser/acceptance.json",
+    "domDocker": "dom/docker.json",
+    "shell": "labs.json",
+    "realPilots": "real-metrics.json"
+  },
+  "productionDeployed": false,
+  "studentPublication": false
+}

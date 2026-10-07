@@ -5,7 +5,7 @@ import { uid, requireValue, fail } from './store.mjs';
 export const hash = data => createHash('sha256').update(data).digest('hex');
 export const codes = text => [...new Set(String(text||'').match(/BCT?\d{2}-C\d+-\d+/g)||[])];
 const text = value => value==null?'':value instanceof Date?value.toISOString().slice(0,10):typeof value==='object'?value.richText?value.richText.map(x=>x.text).join(''):value.text??text(value.result):String(value);
-const date = v => v instanceof Date?v.toISOString().slice(0,10):typeof v==='number'?new Date(Math.round((v-25569)*86400000)).toISOString().slice(0,10):/^\d{4}-\d{2}-\d{2}$/.test(text(v))?text(v):null;
+const date = v => v?.formula?date(v.result):v instanceof Date?v.toISOString().slice(0,10):typeof v==='number'?new Date(Math.round((v-25569)*86400000)).toISOString().slice(0,10):/^\d{4}-\d{2}-\d{2}$/.test(text(v))?text(v):null;
 export async function parseWorkbook(buffer) {
  // ExcelJS expects unprefixed SpreadsheetML tags. Normalize namespace prefixes
  // in a temporary in-memory copy; the original bytes remain the import identity.
@@ -21,13 +21,14 @@ export async function parseWorkbook(buffer) {
   zip.file(file.name,normalized);
  }
  const wb=new ExcelJS.Workbook();await wb.xlsx.load(await zip.generateAsync({type:'nodebuffer'}));
- const sheets=wb.worksheets.map(s=>({name:s.name,rows:s.getSheetValues().slice(1).map(r=>(r||[]).slice(1).map(v=>v?.formula?{formula:v.formula,value:text(v.result)}:text(v)))}));
+ const sheets=wb.worksheets.map(s=>({name:s.name,merges:[...(s.model.merges||[])],cells:s.getRows(1,s.rowCount)?.flatMap(row=>{const cells=[];row.eachCell({includeEmpty:false},cell=>cells.push({address:cell.address,value:cell.value instanceof Date?{date:cell.value.toISOString().slice(0,10)}:cell.value,hyperlink:cell.hyperlink||null,master:cell.isMerged?cell.master.address:null}));return cells;})||[],rows:s.getSheetValues().slice(1).map(r=>(r||[]).slice(1).map(v=>v?.formula?{formula:v.formula,value:text(v.result)}:text(v)))}));
  const sheet=prefix=>requireValue(wb.worksheets.find(s=>s.name.startsWith(prefix)),`Feuille ${prefix} manquante.`);
  const warnings=[], criteria=[],entries=[],sequences=[],evaluations=[],resources=[],learners=[],journal=[],history=[];
  sheet('02 ').eachRow((r,n)=>{const a=r.values;const code=text(a[3]);if(!/^BCT?\d{2}-C\d+-\d+$/.test(code))return;
   criteria.push({id:code,n2_code:text(a[1]),n2_label:text(a[2]),n3_code:code,n3_label:text(a[4]),typology:text(a[5]),notions_tools:text(a[6]),examples:[],sequence_id:text(a[7]),planned_dates:text(a[8]),expected_trace:text(a[9]),status:text(a[10]),observable_criterion:text(a[12]),prerequisites:text(a[13]),prerequisiteCodes:codes(text(a[13])),mastery_rule:text(a[14]),scaffolding_rule:text(a[15]),sourceRow:n});
  });
  sheet('03 ').eachRow((r,n)=>{const a=r.values,d=date(a[1]);if(!d)return;entries.push({id:`PE-${d}-${n}`,date:d,day:text(a[2]),category:text(a[3]),sequence:text(a[4]),module:text(a[5]),skills:codes(text(a[6])),objective:text(a[7]),activity:text(a[8]),notes:text(a[9]),assessmentId:text(a[11]),assessmentDuration:text(a[12]),assessmentCriteria:codes(text(a[13])),resourcePack:(text(a[15]).match(/R-\d{6}/)||[])[0]||null,duration:175,durationConfirmed:false,status:'planned',sourceRow:n});});
+ for(const entry of entries){const planning=sheet('03 '),row=planning.getRow(entry.sourceRow);entry.workbookSource={sheet:planning.name,row:entry.sourceRow,sha256:hash(buffer),cells:[]};row.eachCell({includeEmpty:false},cell=>entry.workbookSource.cells.push({address:cell.address,value:cell.value instanceof Date?{date:cell.value.toISOString().slice(0,10)}:cell.value,hyperlink:cell.hyperlink||null,master:cell.isMerged?cell.master.address:null}));}
  warnings.push('La durée du créneau n’est pas une colonne du planning détaillé : 175 minutes proposées, à confirmer avant publication. La durée d’évaluation n’est pas utilisée comme durée de séance.');
  for(const s of wb.worksheets.filter(s=>/^S\d{2}/.test(s.name)))sequences.push({id:s.name.slice(0,3),title:text(s.getCell('C6').value),objectives:text(s.getCell('C8').value),prerequisites:text(s.getCell('C10').value),tools:text(s.getCell('C12').value),source:sheets.find(x=>x.name===s.name)});
  sheet('05 ').eachRow(r=>{const a=r.values;if(!/^(PM|BP|EO|CC)-/.test(text(a[1])))return;evaluations.push({id:text(a[1]),date:date(a[2]),type:text(a[4]),duration:text(a[5]),sequence:text(a[6]),objective:text(a[7]),skills:codes(a.slice(8,12).map(text).join(' ')),status:'planned',official:/offici|commune/i.test(text(a[4]))});});

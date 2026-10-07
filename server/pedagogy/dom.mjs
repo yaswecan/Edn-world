@@ -1,3 +1,4 @@
+import {ownedJob} from './jobs.mjs';
 import {teacher,student} from '../auth.mjs';
 import {scoped,requireValue,fail,uid,now} from '../store.mjs';
 import {digest} from './contracts.mjs';
@@ -39,6 +40,6 @@ export function domRoutes(app,store){
  });
  app.post('/api/preparation/jobs/:id/dom',teacher,async(req,res)=>{
   const key=`teacher:${req.user.id}`;if(busy.has(key))fail(409,'Un aperçu est déjà en cours.');busy.add(key);
-  try{const job=await scoped(store,'generation_jobs',req.params.id,req.user);requireValue(job.lessonId,'Brouillon absent.');const lesson=await store.get('lessons',job.lessonId),spec=(await store.get('lesson_versions',lesson.versionId)).spec,task=spec.activities.find(a=>a.id===req.body.activityId&&a.workshop?.profile==='dom');requireValue(task,'Atelier inconnu.');res.json(await labService('/dom',{files:validateDOMFiles(req.body.files||domFiles(task)),actions:req.body.actions||[],...(req.body.action==='check'?{tests:task.tests}:{})}));}finally{busy.delete(key);}
+  try{const job=await ownedJob(store,req.params.id,req.user);requireValue(job.lessonId,'Brouillon absent.');const lesson=await store.get('lessons',job.lessonId),spec=(await store.get('lesson_versions',lesson.versionId)).spec,task=spec.activities.find(a=>a.id===req.body.activityId&&a.workshop?.profile==='dom');requireValue(task,'Atelier inconnu.');res.json(await labService('/dom',{files:validateDOMFiles(req.body.files||domFiles(task)),actions:req.body.actions||[],...(req.body.action==='check'?{tests:task.tests}:{})}));}finally{busy.delete(key);}
  });
 }

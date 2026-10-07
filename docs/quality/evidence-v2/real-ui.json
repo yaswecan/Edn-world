@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-07T13:24:55.210Z",
+  "jobId": "prep_849ef194-6fd9-49e3-bd2c-bac98accb324",
+  "status": "blocked",
+  "calls": 9,
+  "checks": [
+    {
+      "id": "exhausted-real-budget-no-retry",
+      "status": "PASS"
+    },
+    {
+      "id": "real-partial-preview-pinned",
+      "status": "PASS"
+    },
+    {
+      "id": "uncompiled-export-unavailable-with-explanation",
+      "status": "PASS"
+    }
+  ]
+}

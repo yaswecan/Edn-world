@@ -1,0 +1,29 @@
+{
+  "simulation": "AI responses only; real HTTP, Chromium and interpreter",
+  "checks": [
+    {
+      "id": "real-worker-debugging-and-code-change",
+      "status": "PASS"
+    },
+    {
+      "id": "teacher-preview-no-student-progress",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile-no-overflow",
+      "status": "PASS"
+    },
+    {
+      "id": "design-rendered-reference-zoom-and-access-control",
+      "status": "PASS"
+    },
+    {
+      "id": "lost-browser-connection-worker-continues-no-new-call",
+      "status": "PASS"
+    },
+    {
+      "id": "correct-zero-candidate-count-at-analysis",
+      "status": "PASS"
+    }
+  ]
+}

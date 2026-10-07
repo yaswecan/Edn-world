@@ -10,9 +10,11 @@
       "minLength": 1
     },
     "charterVersion": {
-      "const": "tween-depth-2026-10-05.1"
+      "type": "string",
+      "const": "tween-depth-2026-10-07.2"
     },
     "decision": {
+      "type": "string",
       "enum": [
         "accept",
         "revise",
@@ -209,6 +211,7 @@
             "minLength": 1
           },
           "severity": {
+            "type": "string",
             "enum": [
               "critical",
               "major",
@@ -287,6 +290,7 @@
             "minLength": 1
           },
           "status": {
+            "type": "string",
             "enum": [
               "PASS",
               "FAIL",

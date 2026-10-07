@@ -1,6 +1,6 @@
 # Préparation approfondie — utilisation et configuration
 
-État du 5 octobre 2026 : parcours intégré et testé avec des données synthétiques. La génération IA réelle, sa qualité et le laboratoire Docker réel restent **NOT RUN** dans cet environnement. Le moteur DOM est implémenté et testé dans Chromium réel via un adaptateur de test local ; son isolation Docker reste à valider. SSH n’est pas proposé. Ces limites ne sont pas masquées par des démonstrations.
+Historique du 5 octobre 2026 (voir la [recette V2 du 7 octobre](acceptance-v2.md) pour l’état actuel) : parcours intégré et testé avec des données synthétiques. La génération IA réelle, sa qualité et le laboratoire Docker réel restent **NOT RUN** dans cet environnement. Le moteur DOM est implémenté et testé dans Chromium réel via un adaptateur de test local ; son isolation Docker reste à valider. SSH n’est pas proposé. Ces limites ne sont pas masquées par des démonstrations.
 
 ## Recette locale
 

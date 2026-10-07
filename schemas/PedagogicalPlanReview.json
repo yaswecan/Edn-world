@@ -2,6 +2,7 @@
   "type": "object",
   "properties": {
     "decision": {
+      "type": "string",
       "enum": [
         "accept",
         "revise",

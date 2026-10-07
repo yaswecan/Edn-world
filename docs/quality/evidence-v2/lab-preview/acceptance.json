@@ -1,0 +1,29 @@
+{
+  "simulation": "Course authored as fixture; real authenticated app, Chromium, PTY and Docker",
+  "checks": [
+    {
+      "id": "authenticated-real-terminal",
+      "status": "PASS"
+    },
+    {
+      "id": "wrong-state-and-alternative-method",
+      "status": "PASS"
+    },
+    {
+      "id": "editor-and-shell-share-files",
+      "status": "PASS"
+    },
+    {
+      "id": "stale-version-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "teacher-preview-without-student-progress",
+      "status": "PASS"
+    },
+    {
+      "id": "mobile-no-overflow",
+      "status": "PASS"
+    }
+  ]
+}

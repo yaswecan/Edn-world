@@ -32,13 +32,23 @@ class Scope{
  declare(k,v,constant=false){if(this.map.has(k))throw failure(`« ${k} » est déjà déclaré.`,'RUNTIME');this.map.set(k,{value:v,constant});}
  set(k,v){if(this.map.has(k)){const b=this.map.get(k);if(b.constant)throw failure(`« ${k} » est une constante.`,'RUNTIME');b.value=v;}else if(this.parent)this.parent.set(k,v);else throw failure(`Déclare « ${k} » avant de l’utiliser.`,'RUNTIME');return v;}
 }
-const FN=Symbol('student-function'),RETURN=Symbol('return');
+const FN=Symbol('student-function'),RETURN=Symbol('return'),PAUSE=Symbol('debug-pause');
 const show=v=>v===undefined?'undefined':v===null?'null':String(v);
-export function runSafe(source,{invoke=null,args=[],variables={}}={}){
+export function runSafe(source,{invoke=null,args=[],variables={},debug=null}={}){
  const out={ok:false,logs:[],calls:[],variables:{},value:undefined,ast:null,error:'',unsupported:false};let budget=6000,depth=0;
  const tick=()=>{if(--budget<0)throw failure('Trop d’opérations : exécution arrêtée.','LIMIT');};
  const bound=v=>{let size=0;const visit=(value,level=0)=>{if(++size>1000||level>24||(typeof value==='string'&&value.length>3000)||(Array.isArray(value)&&value.length>256))throw failure('Résultat trop volumineux.','LIMIT');if(value&&typeof value==='object'){if(value[FN])throw failure('Une fonction ne peut pas être stockée dans une production.');for(const item of Object.values(value))visit(item,level+1);}};visit(v);return v;};
  const global=new Scope();let last;
+ let steps=0;
+ if(debug)out.debug={paused:false,steps:0,current:null,trace:[]};
+ function observe(node,scope){
+  if(!debug||['FunctionDeclaration','BlockStatement','EmptyStatement'].includes(node.type))return;
+  const values={},chain=[];for(let s=scope;s;s=s.parent)chain.unshift(s);
+  for(const s of chain)for(const [name,binding] of s.map)values[name]=binding.value?.[FN]?'[fonction]':structuredClone(binding.value);
+  const frame={step:++steps,line:node.loc.start.line,column:node.loc.start.column,type:node.type,variables:values};
+  out.debug.steps=steps;out.debug.current=frame;if(out.debug.trace.length<200)out.debug.trace.push(frame);
+  if(steps>=Number(debug.pauseAt??Infinity)||(steps>Number(debug.afterStep||0)&&(debug.breakpoints||[]).includes(frame.line))){out.debug.paused=true;throw {[PAUSE]:true};}
+ }
  const keyOf=(n,s)=>{const key=n.computed?expr(n.property,s):n.property.name;if(!['string','number'].includes(typeof key)||['__proto__','prototype','constructor'].includes(String(key)))throw failure('Propriété non disponible.');return key;};
  const read=(value,key)=>{if(value==null)throw failure('Valeur absente.','RUNTIME');if(Array.isArray(value)||typeof value==='string'){if(key==='length')return value.length;if(/^(0|[1-9][0-9]*)$/.test(String(key)))return value[key];throw failure('Propriété non disponible.');}if(typeof value==='object'&&!value[FN])return Object.hasOwn(value,key)?value[key]:undefined;throw failure('Propriété non disponible.');};
  const primitive=v=>{if(v!==null&&['object','function'].includes(typeof v))throw failure('Une valeur simple est attendue.');return v;};
@@ -55,7 +65,7 @@ export function runSafe(source,{invoke=null,args=[],variables={}}={}){
  function fn(n,scope){return {[FN]:true,node:n,scope};}
  function hoist(nodes,scope){for(const n of nodes)if(n.type==='FunctionDeclaration'&&!scope.map.has(n.id.name))scope.declare(n.id.name,fn(n,scope));}
  function call(f,values,name){tick();if(!f?.[FN])throw failure(`« ${name} » n’est pas une fonction.`,'RUNTIME');if(++depth>24)throw failure('Trop d’appels imbriqués.','LIMIT');const local=new Scope(f.scope);f.node.params.forEach((p,i)=>local.declare(p.name,values[i]));let value;
- try{if(f.node.body.type!=='BlockStatement')value=expr(f.node.body,local);else{hoist(f.node.body.body,local);for(const n of f.node.body.body)stmt(n,local);}}catch(e){if(e?.[RETURN])value=e.value;else throw e;}finally{depth--;}
+ try{if(f.node.body.type!=='BlockStatement'){observe(f.node.body,local);value=expr(f.node.body,local);}else{hoist(f.node.body.body,local);for(const n of f.node.body.body)stmt(n,local);}}catch(e){if(e?.[RETURN])value=e.value;else throw e;}finally{depth--;}
  if(out.calls.length<150)out.calls.push({name,args:values.map(v=>v?.[FN]?'[fonction]':v),value});return value;
  }
  function expr(n,s){tick();switch(n.type){
@@ -86,9 +96,9 @@ export function runSafe(source,{invoke=null,args=[],variables={}}={}){
  }
  default:throw failure(`Expression ${n.type} non disponible.`);
  }}
- function stmt(n,s){tick();switch(n.type){case 'ForStatement':{const loop=new Scope(s);if(n.init){if(n.init.type==='VariableDeclaration')stmt(n.init,loop);else expr(n.init,loop);}while(!n.test||expr(n.test,loop)){tick();stmt(n.body,loop);if(n.update)expr(n.update,loop);}return;}case 'ForOfStatement':{if(n.await||n.left.type!=='VariableDeclaration'||n.left.declarations.length!==1)throw failure('Boucle for…of simple attendue.');const values=expr(n.right,s);if(!Array.isArray(values))throw failure('Un tableau est attendu.');for(const value of [...values]){tick();const local=new Scope(s);local.declare(n.left.declarations[0].id.name,value,n.left.kind==='const');stmt(n.body,local);}return;}case 'FunctionDeclaration':return;case 'EmptyStatement':return;case 'VariableDeclaration':for(const d of n.declarations)s.declare(d.id.name,d.init?expr(d.init,s):undefined,n.kind==='const');return;case 'ExpressionStatement':last=expr(n.expression,s);return;case 'ReturnStatement':throw {[RETURN]:true,value:n.argument?expr(n.argument,s):undefined};case 'IfStatement':if(expr(n.test,s))stmt(n.consequent,s);else if(n.alternate)stmt(n.alternate,s);return;case 'BlockStatement':{const local=new Scope(s);hoist(n.body,local);for(const x of n.body)stmt(x,local);return;}default:throw failure(`Instruction ${n.type} non disponible.`);}}
- try{out.ast=parseSafe(source);for(const [k,v] of Object.entries(variables))global.declare(k,bound(structuredClone(v)));hoist(out.ast.body,global);for(const n of out.ast.body)stmt(n,global);out.value=last;out.ok=true;}catch(e){out.error=e.message||'Instruction incorrecte.';out.unsupported=['UNSUPPORTED','LIMIT'].includes(e.code);out.syntax=e.code==='SYNTAX';out.errorCode=e.code||'RUNTIME';}
- if(out.ok&&invoke){out.logs=[];try{out.value=call(global.get(invoke),bound(structuredClone(args)),invoke);out.ok=true;out.error='';}catch(e){out.ok=false;out.error=e.message;out.unsupported||=['UNSUPPORTED','LIMIT'].includes(e.code);}}
+ function stmt(n,s){tick();observe(n,s);switch(n.type){case 'ForStatement':{const loop=new Scope(s);if(n.init){if(n.init.type==='VariableDeclaration')stmt(n.init,loop);else expr(n.init,loop);}while(!n.test||expr(n.test,loop)){tick();stmt(n.body,loop);if(n.update)expr(n.update,loop);}return;}case 'ForOfStatement':{if(n.await||n.left.type!=='VariableDeclaration'||n.left.declarations.length!==1)throw failure('Boucle for…of simple attendue.');const values=expr(n.right,s);if(!Array.isArray(values))throw failure('Un tableau est attendu.');for(const value of [...values]){tick();const local=new Scope(s);local.declare(n.left.declarations[0].id.name,value,n.left.kind==='const');stmt(n.body,local);}return;}case 'FunctionDeclaration':return;case 'EmptyStatement':return;case 'VariableDeclaration':for(const d of n.declarations)s.declare(d.id.name,d.init?expr(d.init,s):undefined,n.kind==='const');return;case 'ExpressionStatement':last=expr(n.expression,s);return;case 'ReturnStatement':throw {[RETURN]:true,value:n.argument?expr(n.argument,s):undefined};case 'IfStatement':if(expr(n.test,s))stmt(n.consequent,s);else if(n.alternate)stmt(n.alternate,s);return;case 'BlockStatement':{const local=new Scope(s);hoist(n.body,local);for(const x of n.body)stmt(x,local);return;}default:throw failure(`Instruction ${n.type} non disponible.`);}}
+ try{out.ast=parseSafe(source);for(const [k,v] of Object.entries(variables))global.declare(k,bound(structuredClone(v)));hoist(out.ast.body,global);for(const n of out.ast.body)stmt(n,global);out.value=last;out.ok=true;}catch(e){if(e?.[PAUSE])out.ok=true;else out.error=e.message||'Instruction incorrecte.';out.unsupported=['UNSUPPORTED','LIMIT'].includes(e.code);out.syntax=e.code==='SYNTAX';out.errorCode=e.code||'RUNTIME';}
+ if(out.ok&&!out.debug?.paused&&invoke){out.logs=[];try{out.value=call(global.get(invoke),bound(structuredClone(args)),invoke);out.ok=true;out.error='';}catch(e){out.ok=!!e?.[PAUSE];out.error=e?.[PAUSE]?'':e.message;out.unsupported||=['UNSUPPORTED','LIMIT'].includes(e.code);}}
  for(const [k,b] of global.map)if(!b.value?.[FN])out.variables[k]=b.value;
  return out;
 }

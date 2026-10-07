@@ -1,0 +1,236 @@
+{
+  "kind": "authored-fixture-comparison-not-live-AI",
+  "before": {
+    "id": "concept-0",
+    "type": "ConceptCard",
+    "phase": "understand",
+    "title": "Deux règles, une décision",
+    "content": "Une condition choisit des instructions selon une expression. if/else construit deux branches ; des conditions imbriquées peuvent préciser plusieurs cas. Switch en JavaScript traite des choix selon des valeurs et demande de comprendre les sorties des cas. Les comparateurs produisent des booléens ; === compare sans conversion implicite.\n\nAND, OR et NOT combinent les règles, avec des parenthèses lorsque l’intention risque d’être ambiguë. = affecte une valeur : ce n’est pas un test d’égalité. Python utilise if, elif, else, and, or, not et == ; il ne possède pas === ni la même syntaxe switch. La progression Python puis JavaScript conserve le raisonnement tout en explicitant les différences.",
+    "minutes": 13,
+    "activityIds": [],
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "teaching": {
+      "steps": [],
+      "hint": "Le ET exige les deux propriétés.",
+      "check": "",
+      "takeaways": [
+        "Une condition choisit des instructions selon une expression.",
+        "if/else construit deux branches ; des conditions imbriquées peuvent préciser plusieurs cas."
+      ],
+      "diagram": [
+        "Badge valide + secteur autorisé → ET → Accès autorisé",
+        "Une condition fausse → Accès refusé"
+      ]
+    }
+  },
+  "beforeActivity": {
+    "id": "guided-0",
+    "type": "CodeEditor",
+    "title": "Répare, puis teste · Deux règles, une décision",
+    "instruction": "Autorise uniquement un badge valide ET un secteur autorisé.",
+    "objective": "Répare, puis teste · Deux règles, une décision",
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "expectedEvidence": "La fonction corrigée, les cas de test et une explication de l’erreur.",
+    "duration": 8,
+    "required": true,
+    "correctionMode": "javascript",
+    "expectedAnswer": "",
+    "reference": "function main(input) { return input.badge && input.secteur; }",
+    "starter": "function main(input) {\n  return input.badge || input.secteur;\n}",
+    "options": [],
+    "tests": [
+      {
+        "invoke": "main",
+        "argsJSON": "[{\"badge\":true,\"secteur\":false}]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "main",
+        "argsJSON": "[{\"badge\":false,\"secteur\":true}]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "main",
+        "argsJSON": "[{\"badge\":true,\"secteur\":true}]",
+        "expectedJSON": "true"
+      },
+      {
+        "invoke": "main",
+        "argsJSON": "[{\"badge\":false,\"secteur\":false}]",
+        "expectedJSON": "false"
+      }
+    ],
+    "workshop": {
+      "language": "javascript",
+      "checks": [
+        "{\"badge\":true,\"secteur\":false} → false",
+        "{\"badge\":false,\"secteur\":true} → false",
+        "{\"badge\":true,\"secteur\":true} → true",
+        "{\"badge\":false,\"secteur\":false} → false"
+      ],
+      "hints": [
+        "Le ET exige les deux propriétés.",
+        "Vérifie le cas limite avant de modifier une autre ligne."
+      ]
+    }
+  },
+  "after": {
+    "id": "concept",
+    "type": "ConceptCard",
+    "phase": "understand",
+    "title": "Comprendre le mécanisme",
+    "content": "Comment autoriser un invité sans lui permettre de contourner une alarme ?\n\nUn paramètre reçoit une valeur à l’appel. return fournit le résultat de la fonction. Ici chaque paramètre vaut true ou false : nous ne traitons pas encore les chaînes ni les autres valeurs dites truthy.\n\nUne règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.\n\nCarte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.\n\naCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+    "minutes": 19,
+    "activityIds": [],
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "teaching": {
+      "steps": [],
+      "hint": "",
+      "check": "",
+      "takeaways": [
+        "aCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas."
+      ],
+      "diagram": [
+        "Carte ET réservation → droit habituel",
+        "Droit habituel OU invitation → droit d’entrée",
+        "Droit d’entrée ET absence d’alarme → décision finale"
+      ]
+    },
+    "depth": {
+      "question": "Comment autoriser un invité sans lui permettre de contourner une alarme ?",
+      "prerequisiteReminder": "Un paramètre reçoit une valeur à l’appel. return fournit le résultat de la fonction. Ici chaque paramètre vaut true ou false : nous ne traitons pas encore les chaînes ni les autres valeurs dites truthy.",
+      "mechanism": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+      "workedExample": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+      "misconception": "aCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas. Compare explicitement le cas avant et après la correction, en gardant la première réponse.",
+      "transfer": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+      "remediation": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active.",
+      "citations": [
+        {
+          "sourceId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1",
+          "segmentId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s1",
+          "claim": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+          "kind": "explicit"
+        }
+      ]
+    }
+  },
+  "activity": {
+    "id": "guided",
+    "type": "CodeEditor",
+    "title": "La règle ne protège pas tout le monde",
+    "instruction": "Prévois le résultat pour true,true,false,true. L’alarme doit toujours bloquer. Répare le regroupement puis vérifie les seize combinaisons de booléens.",
+    "objective": "La règle ne protège pas tout le monde",
+    "skills": [
+      "BC05-C1-2"
+    ],
+    "expectedEvidence": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+    "duration": 10,
+    "required": true,
+    "correctionMode": "javascript",
+    "expectedAnswer": "",
+    "reference": "function acces(carte, reserve, invite, alarme) { return ((carte && reserve) || invite) && !alarme; }",
+    "starter": "function acces(carte, reserve, invite, alarme) {\n  return carte && reserve || invite && !alarme;\n}",
+    "options": [],
+    "tests": [
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,false,false,false]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,false,false,false]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,true,false,false]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,true,false,false]",
+        "expectedJSON": "true"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,false,true,false]",
+        "expectedJSON": "true"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,false,true,false]",
+        "expectedJSON": "true"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,true,true,false]",
+        "expectedJSON": "true"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,true,true,false]",
+        "expectedJSON": "true"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,false,false,true]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,false,false,true]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,true,false,true]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,true,false,true]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,false,true,true]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,false,true,true]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[false,true,true,true]",
+        "expectedJSON": "false"
+      },
+      {
+        "invoke": "acces",
+        "argsJSON": "[true,true,true,true]",
+        "expectedJSON": "false"
+      }
+    ],
+    "workshop": {
+      "language": "javascript",
+      "profile": "algorithm",
+      "hints": [
+        "Calcule séparément le droit d’entrée et l’absence d’alarme.",
+        "Sur quelle partie de la règle porte le dernier ET ?"
+      ],
+      "checks": [
+        "Tous les cas avec alarme sont refusés.",
+        "Sans alarme, invitation ou duo carte/réservation suffit."
+      ]
+    }
+  },
+  "correction": "function acces(carte, reserve, invite, alarme) { return ((carte && reserve) || invite) && !alarme; }"
+}

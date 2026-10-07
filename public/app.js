@@ -168,6 +168,7 @@ function showError(e) {
 }
 const navItems = [
   ["dashboard", "dashboard", "Vue d’ensemble"],
+  ["ai", "spark", "ChatGPT & API"],
   ["plan", "calendar", "Planification"],
   ["lessons", "book", "Mes séances"],
   ["corrections", "check", "Corrections"],
@@ -188,6 +189,7 @@ async function loadDashboard() {
   S.data = await api("/api/dashboard");
 }
 async function navigate(view) {
+  if (view === "ai") { location.href = "/ai-settings.html"; return; }
   S.view = view;
   S.filter = "";
   await loadDashboard();
@@ -376,7 +378,7 @@ function settingsView() {
       "Accès individuels, intégrations et historique des imports.",
     ) +
     `<div class="card spaced"><div class="card-head"><h2>Reprendre ma base locale</h2>${btn("Importer ma base locale", "database-import", "", "primary", "download")}</div><div class="card-body"><p>Transférez les élèves, la planification, les séances et leurs documents dans une installation neuve de Tween Teach. Le contenu sera vérifié avant confirmation.</p></div></div>` +
-    `<div class="grid-three spaced">${[
+    `<p><a class="btn primary" href="/ai-settings.html">Réglages IA · API ou ChatGPT</a></p><div class="grid-three spaced">${[
       [
         "Mémoire métier",
         d.integrations.storage === "postgres"
@@ -387,7 +389,7 @@ function settingsView() {
       [
         "Génération",
         d.integrations.openai ? "OpenAI configuré" : "Bibliothèque pédagogique",
-        "La génération IA s’active avec OPENAI_API_KEY et OPENAI_MODEL côté serveur.",
+        "Choisissez votre accès API ou votre abonnement ChatGPT dans les réglages IA.",
       ],
       [
         "Google Drive",
@@ -465,6 +467,14 @@ function showDatabaseImport(report) {
     <div class="modal-actions">${btn("Fermer", "close-modal")}${ready ? btn("Confirmer l’import de ma base", "database-apply", "", "primary", "check") : ""}</div>`,
   );
 }
+function preparationAction(intent, entryId) {
+  const fingerprint = JSON.stringify([S.user?.id, intent, entryId || null]);
+  let action;
+  try { action = JSON.parse(sessionStorage.getItem("tween-main-preparation-action")); } catch {}
+  if (action?.fingerprint !== fingerprint) action = { fingerprint, requestId: crypto.randomUUID() };
+  sessionStorage.setItem("tween-main-preparation-action", JSON.stringify(action));
+  return action.requestId;
+}
 async function generateEntry(id, intent = "Prépare cette séance") {
   const entry = S.data.entries.find((e) => e.id === id);
   if (entry && !entry.durationConfirmed) return editPlanDialog(id, true);
@@ -473,6 +483,7 @@ async function generateEntry(id, intent = "Prépare cette séance") {
     const lesson = await post("/api/lessons/generate", {
       intent,
       entryId: id || undefined,
+      requestId: preparationAction(intent, id),
     });
     await loadDashboard();
     if(lesson.kind==='preparation_job'){location.href='/preparation.html?job='+enc(lesson.job.id);return;}
@@ -1268,7 +1279,7 @@ function planStructureDialog(id = "", draft = null) {
 async function handleIntent(intent, entryId) {
   let result;
   await busy(async () => {
-    result = await post("/api/twin/intent", { intent, entryId });
+    result = await post("/api/twin/intent", { intent, entryId, requestId: preparationAction(intent, entryId) });
   }, "Analyse de votre intention…");
   if(result.kind==='preparation_job'){location.href='/preparation.html?job='+enc(result.job.id);return;}
   if (result.kind === "plan_selector") return planStructureDialog();
@@ -1812,6 +1823,11 @@ async function boot() {
   S.user = S.session.user;
   if (!S.user) return renderLogin();
   if (S.user.role === "student") return startStudent();
+  // Only this fixed local destination is accepted after teacher sign-in.
+  if (new URLSearchParams(location.search).get("next") === "ai-settings") {
+    location.replace("/ai-settings.html");
+    return;
+  }
   await loadDashboard();
   render();
 }

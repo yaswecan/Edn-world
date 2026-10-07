@@ -1,0 +1,495 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "PILOT-shell-prep_5d75b10e-f624-4715-9dc3-57604af00a6b",
+  "lessonVersion": 1,
+  "classId": "A1",
+  "date": "2026-10-07",
+  "planEntryId": "shell",
+  "planVersion": 1,
+  "sequence": "Pilotes de recette",
+  "title": "Retrouver la trace",
+  "skills": [
+    "BC02-C3-1"
+  ],
+  "objectives": [
+    "Utiliser les commandes Linux"
+  ],
+  "prerequisites": [],
+  "reactivation": [],
+  "diagnostic": {
+    "id": "PILOT-shell-prep_5d75b10e-f624-4715-9dc3-57604af00a6b:diagnostic",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 15,
+    "criteria": [],
+    "tasks": [
+      {
+        "id": "baseline-ordre",
+        "type": "FillBlank",
+        "title": "Organise une procédure",
+        "instruction": "Une image doit être modifiée puis remise. Numérote ces actions dans l’ordre : A — vérifier le fichier exporté ; B — ouvrir l’image source ; C — envoyer le fichier vérifié ; D — modifier l’image et exporter une copie.",
+        "objective": "Organise une procédure",
+        "skills": [],
+        "expectedEvidence": "Quatre actions organisées dans un ordre exécutable.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "structured",
+        "starter": "",
+        "options": [
+          "Rang de A",
+          "Rang de B",
+          "Rang de C",
+          "Rang de D"
+        ]
+      },
+      {
+        "id": "baseline-observation",
+        "type": "WriteResponse",
+        "title": "Compare la demande au résultat",
+        "instruction": "La consigne demande un fichier nommé affiche.png de 800 × 600 pixels. Tu obtiens affiche.jpg de 600 × 800 pixels. Identifie les deux écarts et les corrections à effectuer.",
+        "objective": "Compare la demande au résultat",
+        "skills": [],
+        "expectedEvidence": "Les deux écarts et une correction pour chacun.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      },
+      {
+        "id": "baseline-test",
+        "type": "WriteResponse",
+        "title": "Vérifie avant de remettre",
+        "instruction": "Le fichier fonctionne sur ton ordinateur. Décris un essai pour vérifier qu’une autre personne pourra aussi l’ouvrir. Précise le résultat attendu et ce que tu ferais en cas d’échec.",
+        "objective": "Vérifie avant de remettre",
+        "skills": [],
+        "expectedEvidence": "Un essai reproductible, un résultat attendu et une action en cas d’échec.",
+        "duration": 5,
+        "required": true,
+        "correctionMode": "manual",
+        "starter": "",
+        "options": []
+      }
+    ],
+    "rubric": [
+      {
+        "id": "item-0-0",
+        "taskId": "baseline-ordre",
+        "criterion": "baseline",
+        "label": "Quatre actions organisées dans un ordre exécutable.",
+        "max": 6.67,
+        "a1": 3.335,
+        "a2": 5.0024999999999995
+      },
+      {
+        "id": "item-1-0",
+        "taskId": "baseline-observation",
+        "criterion": "baseline",
+        "label": "Les deux écarts et une correction pour chacun.",
+        "max": 6.67,
+        "a1": 3.335,
+        "a2": 5.0024999999999995
+      },
+      {
+        "id": "item-2-0",
+        "taskId": "baseline-test",
+        "criterion": "baseline",
+        "label": "Un essai reproductible, un résultat attendu et une action en cas d’échec.",
+        "max": 6.66,
+        "a1": 3.33,
+        "a2": 4.995
+      }
+    ]
+  },
+  "timeline": [
+    {
+      "blockId": "opening",
+      "minutes": 5
+    },
+    {
+      "blockId": "diagnostic",
+      "minutes": 15
+    },
+    {
+      "blockId": "concept-0",
+      "minutes": 13
+    },
+    {
+      "blockId": "demo-0",
+      "minutes": 8
+    },
+    {
+      "blockId": "board-0",
+      "minutes": 8
+    },
+    {
+      "blockId": "practice-0",
+      "minutes": 18
+    },
+    {
+      "blockId": "autonomy",
+      "minutes": 25
+    },
+    {
+      "blockId": "extension",
+      "minutes": 10
+    },
+    {
+      "blockId": "exit",
+      "minutes": 8
+    }
+  ],
+  "blocks": [
+    {
+      "id": "opening",
+      "type": "LessonHero",
+      "phase": "opening",
+      "title": "Retrouver la trace",
+      "content": "Le journal de NEXUS est caché dans une arborescence de laboratoire. Retrouve ERROR sans modifier les fichiers du système.",
+      "minutes": 5,
+      "activityIds": [],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "diagnostic",
+      "type": "Diagnostic",
+      "phase": "diagnostic",
+      "title": "Évaluation",
+      "content": "Réponds sans aide, puis rends ton travail. Tu peux rendre une réponse incomplète.",
+      "minutes": 15,
+      "activityIds": [],
+      "skills": [],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "concept-0",
+      "type": "ConceptCard",
+      "phase": "understand",
+      "title": "Retrouver la trace",
+      "content": "Un terminal permet d’interagir avec un shell. pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte. Un chemin absolu part de la racine, un chemin relatif dépend du dossier courant. Créer, lire et éditer un fichier sont des actions distinctes.\n\nLes permissions déterminent qui peut lire, écrire ou exécuter. Un compte ordinaire limite les conséquences d’une erreur ; les droits administrateur ne doivent servir qu’à une tâche autorisée. Les gestionnaires de paquets diffèrent selon l’OS. Identifier la distribution précède le choix d’une commande d’installation. Les manipulations de comptes, paquets et droits se font ici dans une VM jetable, pas sur le serveur qui héberge les travaux des élèves.",
+      "minutes": 13,
+      "activityIds": [],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "Commencer par observer réduit les opérations au hasard.",
+        "check": "",
+        "takeaways": [
+          "Un terminal permet d’interagir avec un shell.",
+          "pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte."
+        ],
+        "diagram": [
+          "Tu ignores où tu es. Quelle commande lance le diagnostic ? → pwd",
+          "Une installation est demandée. Que vérifier avant apt ou dnf ? → La distribution et la documentation de l’outil"
+        ]
+      }
+    },
+    {
+      "id": "demo-0",
+      "type": "LiveCode",
+      "phase": "observe",
+      "title": "Pas à pas · Retrouver la trace",
+      "content": "pwd\nls\ncd labo\nmkdir rapports\ngrep \"ERROR\" logs/app.log\n# Les commandes paquets/comptes sont choisies après identification de la VM.",
+      "minutes": 8,
+      "activityIds": [],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Repère les données de départ et la règle utilisée.",
+          "Suis l’exemple. À chaque étape, nomme ce qui change.",
+          "Cache le résultat, puis retrouve-le avec la même règle."
+        ],
+        "hint": "",
+        "check": "Tu ignores où tu es. Quelle commande lance le diagnostic ?",
+        "takeaways": [
+          "Commencer par observer réduit les opérations au hasard."
+        ],
+        "diagram": []
+      }
+    },
+    {
+      "id": "board-0",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Au tableau · dessine pour comprendre",
+      "content": "Cache le modèle. Reconstruis les relations, puis compare avec un camarade.",
+      "minutes": 8,
+      "activityIds": [
+        "sketch-0"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Pose les éléments importants sur le tableau.",
+          "Relie, légende et montre le cheminement."
+        ],
+        "hint": "Commencer par observer réduit les opérations au hasard.",
+        "check": "Un schéma avec des éléments nommés, des relations expliquées et un point de vigilance.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "practice-0",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Associe les cas aux bons repères",
+      "content": "Le journal de NEXUS est caché dans une arborescence de laboratoire. Retrouve ERROR sans modifier les fichiers du système.",
+      "minutes": 18,
+      "activityIds": [
+        "guided-0"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [
+          "Prévois le résultat avant de modifier la production.",
+          "Change une chose, puis lance un essai.",
+          "Compare attendu et obtenu. Reprends le cas qui échoue."
+        ],
+        "hint": "Commencer par observer réduit les opérations au hasard.",
+        "check": "Des associations fondées sur les règles du cours.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "autonomy",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "À toi de construire",
+      "content": "Produis une solution dans ce nouveau cas, sans le modèle. Garde un essai qui t’a aidé à comprendre.",
+      "minutes": 25,
+      "activityIds": [
+        "transfer"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "Ta production traite le nouveau cas. Tu peux expliquer ce que tu as changé et pourquoi.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "extension",
+      "type": "Activity",
+      "phase": "extend",
+      "title": "Et si la règle changeait ?",
+      "content": "Réutilise ce que tu viens d’apprendre. Teste aussi un cas inattendu.",
+      "minutes": 10,
+      "activityIds": [
+        "extension"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "Tu as comparé une prévision avec un résultat et expliqué l’écart éventuel.",
+        "takeaways": [],
+        "diagram": []
+      }
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Bilan",
+      "content": "Reviens à la question de départ. Explique ta démarche avec un exemple.",
+      "minutes": 8,
+      "activityIds": [
+        "exit"
+      ],
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "",
+        "check": "",
+        "takeaways": [
+          "Un terminal permet d’interagir avec un shell.",
+          "Une solution se vérifie sur plusieurs cas. Prévoir, essayer et comparer aide à comprendre une erreur."
+        ],
+        "diagram": []
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "sketch-0",
+      "type": "Blackboard",
+      "title": "Au tableau · rends ton raisonnement visible",
+      "instruction": "À partir de ce cas : pwd\nls\ncd labo\nmkdir rapports\ngrep \"ERROR\" logs/app.log\n# Les commandes paquets/comptes sont choisies après identification de la VM.\nDessine les éléments importants, relie-les avec des flèches et légende les relations. Signale en couleur un endroit où une erreur pourrait se produire. Tu peux aussi décrire ces relations dans la légende.",
+      "objective": "Au tableau · rends ton raisonnement visible",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Un schéma avec des éléments nommés, des relations expliquées et un point de vigilance.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [],
+      "workshop": {
+        "hints": [
+          "Commencer par observer réduit les opérations au hasard."
+        ]
+      }
+    },
+    {
+      "id": "guided-0",
+      "type": "Matching",
+      "title": "Associe les cas aux bons repères",
+      "instruction": "Le journal de NEXUS est caché dans une arborescence de laboratoire. Retrouve ERROR sans modifier les fichiers du système.",
+      "objective": "Associe les cas aux bons repères",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Des associations fondées sur les règles du cours.",
+      "duration": 18,
+      "required": true,
+      "correctionMode": "structured",
+      "starter": "",
+      "options": [
+        "Tu ignores où tu es. Quelle commande lance le diagnostic ?|Une suppression récursive|Un changement de mot de passe|pwd",
+        "Une installation est demandée. Que vérifier avant apt ou dnf ?|Le nombre d’onglets ouverts|Le thème du terminal|La distribution et la documentation de l’outil"
+      ]
+    },
+    {
+      "id": "transfer",
+      "type": "WriteResponse",
+      "title": "À toi de produire · un autre cas",
+      "instruction": "Dans l’atelier préparé, trouve une erreur, crée un rapport, explique ses droits puis réalise l’exercice de compte et de paquet sur la VM.\nNouvelle contrainte : La même commande marche dans un dossier et pas dans un autre. Quelle différence entre chemins relatif et absolu peut l’expliquer ?",
+      "objective": "À toi de produire · un autre cas",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Chemin exact ; commande grep et résultat ; fichier créé ; droits expliqués ; observation locale des tâches administrateur autorisées.",
+      "duration": 25,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": []
+    },
+    {
+      "id": "extension",
+      "type": "FillBlank",
+      "title": "Défi · construis le cas qui résiste",
+      "instruction": "La même commande marche dans un dossier et pas dans un autre. Quelle différence entre chemins relatif et absolu peut l’expliquer ?",
+      "objective": "Défi · construis le cas qui résiste",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Un cas nouveau, une prévision, une observation et une décision.",
+      "duration": 10,
+      "required": true,
+      "correctionMode": "manual",
+      "starter": "",
+      "options": [
+        "La nouvelle donnée ou contrainte",
+        "Le résultat que je prévois",
+        "Le résultat observé après mon essai",
+        "Ce que je dois modifier et pourquoi"
+      ]
+    },
+    {
+      "id": "exit",
+      "type": "Reflection",
+      "title": "Ton ticket de sortie",
+      "instruction": "Écris une règle que tu retiens. Donne un exemple qui l’illustre. Termine par une question ou un point à retravailler.",
+      "objective": "Ton ticket de sortie",
+      "skills": [
+        "BC02-C3-1"
+      ],
+      "expectedEvidence": "Une règle, un exemple et ton prochain pas.",
+      "duration": 8,
+      "required": true,
+      "correctionMode": "none",
+      "starter": "",
+      "options": []
+    }
+  ],
+  "slides": [
+    {
+      "title": "Retrouver la trace",
+      "body": "Le journal de NEXUS est caché dans une arborescence de laboratoire. Retrouve ERROR sans modifier les fichiers du système."
+    },
+    {
+      "title": "Retrouver la trace",
+      "body": "Un terminal permet d’interagir avec un shell. pwd montre le répertoire courant ; ls liste ; cd change de répertoire ; mkdir crée un dossier ; grep recherche du texte. Un chemin absolu part de la racine, un chemin relatif dépend du dossier courant. Créer, lire et éditer un fichier sont des actions distinctes.\n\nLes permissions déterminent qui peut lire, écrire ou exécuter. Un compte ordinaire limite les conséquences d’une erreur ; les droits administrateur ne doivent servir qu’à une tâche autorisée. Les gestionnaires de paquets diffèrent selon l’OS. Identifier la distribution précède le choix d’une commande d’installation. Les manipulations de comptes, paquets et droits se font ici dans une VM jetable, pas sur le serveur qui héberge les travaux des élèves."
+    },
+    {
+      "title": "Pas à pas · Retrouver la trace",
+      "body": "pwd\nls\ncd labo\nmkdir rapports\ngrep \"ERROR\" logs/app.log\n# Les commandes paquets/comptes sont choisies après identification de la VM."
+    },
+    {
+      "title": "Au tableau · dessine pour comprendre",
+      "body": "Cache le modèle. Reconstruis les relations, puis compare avec un camarade."
+    },
+    {
+      "title": "Associe les cas aux bons repères",
+      "body": "Le journal de NEXUS est caché dans une arborescence de laboratoire. Retrouve ERROR sans modifier les fichiers du système."
+    },
+    {
+      "title": "À toi de construire",
+      "body": "Produis une solution dans ce nouveau cas, sans le modèle. Garde un essai qui t’a aidé à comprendre."
+    },
+    {
+      "title": "Et si la règle changeait ?",
+      "body": "Réutilise ce que tu viens d’apprendre. Teste aussi un cas inattendu."
+    },
+    {
+      "title": "Bilan",
+      "body": "Reviens à la question de départ. Explique ta démarche avec un exemple."
+    }
+  ],
+  "resources": [
+    "BC02-C3-1"
+  ],
+  "codeStation": null,
+  "studentFlow": [
+    "opening",
+    "diagnostic",
+    "concept-0",
+    "demo-0",
+    "board-0",
+    "practice-0",
+    "autonomy",
+    "extension",
+    "exit"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "quality-curriculum",
+    "planVersion": 1,
+    "previousLessonRunId": null
+  }
+}

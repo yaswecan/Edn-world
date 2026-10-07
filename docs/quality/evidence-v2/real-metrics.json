@@ -1,0 +1,85 @@
+{
+  "at": "2026-10-07T13:29:30.536Z",
+  "sharedCallCeiling": 24,
+  "totalCalls": 21,
+  "pilots": [
+    {
+      "jobId": "prep_849ef194-6fd9-49e3-bd2c-bac98accb324",
+      "entryId": "box",
+      "status": "blocked",
+      "stage": "write",
+      "revision": 2,
+      "candidates": 0,
+      "calls": 9,
+      "startedAt": "2026-10-07T12:16:55.767Z",
+      "finishedAt": "2026-10-07T13:16:55.951Z",
+      "deadline": "2026-10-07T13:16:55.767Z",
+      "elapsedMs": 3600184,
+      "providerDurationMs": 1968492,
+      "knownTokenUsage": {
+        "input": 113256,
+        "output": 53763,
+        "reportedCalls": 8,
+        "totalCalls": 9
+      },
+      "uncertainCalls": 1,
+      "costUSD": null,
+      "costReason": "Forfait ChatGPT : prix par appel et quota restant non fournis.",
+      "checks": [],
+      "review": null,
+      "reason": "Le délai maximal de l’appel ChatGPT (213 s) a été atteint. Le texte partiel est conservé, mais aucun résultat complet n’a été confirmé. Reprenez cette étape pour réessayer."
+    },
+    {
+      "jobId": "prep_67f319e8-762f-4248-baf5-1d5404a0f767",
+      "entryId": "logic",
+      "status": "blocked",
+      "stage": "planReview",
+      "revision": 2,
+      "candidates": 0,
+      "calls": 8,
+      "startedAt": "2026-10-07T12:29:00.190Z",
+      "finishedAt": "2026-10-07T13:28:59.093Z",
+      "deadline": "2026-10-07T13:29:00.190Z",
+      "elapsedMs": 3598903,
+      "providerDurationMs": 2196262,
+      "knownTokenUsage": {
+        "input": 117992,
+        "output": 59759,
+        "reportedCalls": 7,
+        "totalCalls": 8
+      },
+      "uncertainCalls": 1,
+      "costUSD": null,
+      "costReason": "Forfait ChatGPT : prix par appel et quota restant non fournis.",
+      "checks": [],
+      "review": null,
+      "reason": "Conception refusée avant rédaction : La faisabilité repose sur une « exécution groupée native » et sur le chargement des seize entrées dans un composant natif, sans capacité correspondante explicitement attestée. Le manifeste context.capabilities autorise editor, execution, console, behavior-tests et debugger pour algorithm, mais ne décrit ni import de table, ni lancement groupé des cas publics, ni report des observations dans la table élève. La présence de behavior-tests ne suffit pas à établir ces opérations. La demande de seize combinaisons est bien explicite dans logic.md, segment s3 ; son dispositif opérationnel reste à préciser.; Le total atteint correctement 110 minutes, pauses comprises, mais plusieurs allocations ne rendent pas la charge crédible pour des débutants sans acquis attestés. demo-0 cumule lecture de main/input/return, exemples intermédiaires, comparaison de deux expressions, essais réels, traduction et méthode d’énumération en dix minutes. guided-0 prévoit un essai fautif, un diagnostic, une réparation, quatre retests, l’ajout d’alarme et deux nouveaux essais en neuf minutes. Pour la livraison, trois minutes couvrent les essais discriminants et la validation. Les erreurs, les aides et les retests ne disposent pas d’une marge identifiable ; affirmer que l’aide remplace le tâtonnement ne garantit pas leur absorption.; Le contrat exige qu’aucun modèle d’invitation ne soit accessible pendant l’autonomie, mais place l’exemple travaillé dans un cours élève et prévoit un export dépendant de ce cours. La source originale, également déclarée visible aux élèves, donne directement la règle cible dans son segment s3. La consigne de masquer les vues ne précise pas comment éviter qu’un document ou export déjà ouvert reste consultable. Cela ne concerne pas les champs privés reference, expectedAnswer ou tests, dont la séparation applicative est prévue, mais bien les supports destinés aux élèves."
+    },
+    {
+      "jobId": "prep_5d75b10e-f624-4715-9dc3-57604af00a6b",
+      "entryId": "shell",
+      "status": "blocked",
+      "stage": "design",
+      "revision": 1,
+      "candidates": 0,
+      "calls": 4,
+      "startedAt": "2026-10-07T12:29:00.193Z",
+      "finishedAt": "2026-10-07T13:28:55.057Z",
+      "deadline": "2026-10-07T13:29:00.193Z",
+      "elapsedMs": 3594864,
+      "providerDurationMs": 1521831,
+      "knownTokenUsage": {
+        "input": 38516,
+        "output": 32237,
+        "reportedCalls": 3,
+        "totalCalls": 4
+      },
+      "uncertainCalls": 0,
+      "costUSD": null,
+      "costReason": "Forfait ChatGPT : prix par appel et quota restant non fournis.",
+      "checks": [],
+      "review": null,
+      "reason": "Conception à corriger : contract/finalTask/prerequisites : Notion non préparée : copier-deplacer-conserver. ; contract/finalTask/prerequisites : Notion non préparée : permissions-administration. ; contract/unresolvedConstraints : Les exercices administrateur de comptes et de paquets de la référence ne peuvent pas être exécutés avec les seules autorisations fournies : le manifeste n’atteste ni VM jetable administrable ni tâche administrateur autorisée. Ils restent explicitement reportés et ne sont pas évalués comme réalisés."
+    }
+  ]
+}

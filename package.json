@@ -7,6 +7,13 @@
     "node": ">=22.14 <23"
   },
   "scripts": {
+    "preview:quality:v2": "node --import tsx scripts/quality-real.mjs",
+    "test:quality:v2": "node --import tsx --test tests/preparation-v2.test.mjs",
+    "test:quality:v2:browser": "node --import tsx scripts/preparation-v2-browser.mjs",
+    "preview:labs": "node scripts/lab-preview.mjs",
+    "dev:chatgpt": "node scripts/chatgpt-local.mjs",
+    "test:chatgpt": "node --import tsx --test tests/chatgpt*.test.mjs",
+    "test:chatgpt:browser": "node --import tsx scripts/chatgpt-browser-check.mjs",
     "dev": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
     "preview:student": "node --watch --import tsx scripts/arcade-student-preview.mjs",
     "start": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",
@@ -37,11 +44,13 @@
     "express": "5.1.0",
     "googleapis": "156.0.0",
     "jszip": "3.10.1",
+    "oauth4webapi": "3.8.2",
     "parse5": "^7.3.0",
     "pdfjs-dist": "5.4.296",
     "pdfkit": "0.17.2",
     "pg": "8.16.3",
     "pptxgenjs": "4.0.1",
+    "proper-lockfile": "4.1.2",
     "sax": "1.4.1",
     "tsx": "4.20.6"
   },

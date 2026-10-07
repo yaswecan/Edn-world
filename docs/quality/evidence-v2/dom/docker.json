@@ -1,0 +1,52 @@
+{
+  "image": "sha256:3aa6f98e3b8fd8930471503592ccb79929f451b51e75696e6c833aff026c7c81",
+  "topology": "Actual broker render_dom; Docker Desktop; synthetic code only",
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "sandboxed-browser-clicks-and-console",
+      "status": "PASS"
+    },
+    {
+      "id": "plausible-error-rejected",
+      "status": "PASS"
+    },
+    {
+      "id": "alternative-accepted",
+      "status": "PASS"
+    },
+    {
+      "id": "external-network-denied",
+      "status": "PASS"
+    },
+    {
+      "id": "infinite-loop-terminated-and-container-removed",
+      "status": "PASS"
+    }
+  ],
+  "launchArguments": [
+    "run",
+    "--rm",
+    "-i",
+    "--name",
+    "tween-dom-2131dbb89d621b382becb192b225944b27633097bcb994a5f3c9350635d18608",
+    "--network=none",
+    "--read-only",
+    "--cap-drop=ALL",
+    "--security-opt=no-new-privileges",
+    "--pids-limit=128",
+    "--memory=512m",
+    "--memory-swap=512m",
+    "--cpus=0.5",
+    "--ulimit",
+    "nofile=512:512",
+    "--log-driver=none",
+    "--tmpfs",
+    "/tmp:rw,nosuid,nodev,size=64m,uid=1000,gid=1000",
+    "--shm-size=64m",
+    "--user",
+    "1000:1000",
+    "sha256:3aa6f98e3b8fd8930471503592ccb79929f451b51e75696e6c833aff026c7c81"
+  ],
+  "runtime": "sha256:3aa6f98e3b8fd8930471503592ccb79929f451b51e75696e6c833aff026c7c81 chromium/141.0.7390.37"
+}

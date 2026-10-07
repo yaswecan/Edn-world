@@ -7,8 +7,9 @@ import {mechanisms,runtimeProfiles} from './catalog.mjs';
 import {requireValue} from '../store.mjs';
 import {validateDOMFiles} from './dom.mjs';
 import {phases} from '../lesson-structure.mjs';
+import {validateDesignContract} from './design.mjs';
 
-const runtimeFiles=['./quality.mjs','./contracts.mjs','../contracts.mjs','./prompts.mjs','../../public/app.js','../../public/style.css','../../public/workshops.css','../safe-js.mjs','../structural-grading.mjs','../workshop-testing.mjs','../../public/workshop-ui.js','../../public/workshop-runtime.js','../../public/lesson-renderer.js','../../public/lesson.css','../../public/brand.css','../../public/brand.js','../../public/components.js','../../public/student-copy.js','../../public/terminal-lab.js','../../public/dom-lab.js','./dom.mjs','./labs.mjs','../../labs/dom-runner.mjs','../../labs/broker.py','../../labs/files.py'];
+const runtimeFiles=['./visuals.mjs','./policy.mjs','./design.mjs','../../public/debugger.js','../../public/debugger-worker.js','./quality.mjs','./contracts.mjs','../contracts.mjs','./prompts.mjs','../../public/app.js','../../public/style.css','../../public/workshops.css','../safe-js.mjs','../structural-grading.mjs','../workshop-testing.mjs','../../public/workshop-ui.js','../../public/workshop-runtime.js','../../public/lesson-renderer.js','../../public/lesson.css','../../public/brand.css','../../public/brand.js','../../public/components.js','../../public/student-copy.js','../../public/terminal-lab.js','../../public/dom-lab.js','./dom.mjs','./labs.mjs','../../labs/dom-runner.mjs','../../labs/broker.py','../../labs/files.py'];
 export function runtimeFingerprint(){const assets=readdirSync(new URL('../../public/assets/',import.meta.url),{recursive:true,withFileTypes:true}).filter(f=>f.isFile()).map(f=>new URL(f.name,`file://${f.parentPath}/`)).sort((a,b)=>a.href.localeCompare(b.href));return digest([...runtimeFiles.map(name=>[name,digest(readFileSync(new URL(name,import.meta.url)))]),...assets.map(url=>[url.pathname.split('/public/')[1],digest(readFileSync(url))])]);}
 export function candidateHash(spec,sources=[]){return digest({spec,sources:sources.map(s=>({id:s.id,contentHash:s.contentHash})),runtime:runtimeFingerprint(),labImages:{shell:process.env.EDEN_LAB_SHELL_IMAGE||null,dom:process.env.EDEN_LAB_DOM_IMAGE||null},charter:CHARTER_VERSION});}
 export function validatePlan(plan,spec,sources,{knownEvidence=[]}={}){
@@ -27,7 +28,7 @@ export function validatePlan(plan,spec,sources,{knownEvidence=[]}={}){
  for(const skill of spec.skills){const coverage=plan.coverage.find(c=>c.skill===skill);requireValue(coverage&&coverage.conceptIds.length&&coverage.conceptIds.every(id=>ids.has(id)),'Compétence sans notion.');
   requireValue(coverage.sourceSegments.length&&coverage.sourceSegments.every(s=>segments.has(s)),'Compétence sans passage source vérifiable.');
   requireValue(spec.blocks.some(b=>b.id===coverage.explanationBlockId&&b.phase==='understand'&&b.skills.includes(skill)),'Bloc explicatif absent.');
-  requireValue(coverage.activityIds.length&&coverage.activityIds.every(id=>spec.activities.some(a=>a.id===id&&a.skills.includes(skill))),'Activités de couverture absentes.');
+  requireValue(coverage.activityIds.length&&coverage.activityIds.every(id=>spec.activities.some(a=>a.id===id&&a.skills.includes(skill))||spec.diagnostic.tasks.some(a=>a.id===id)),'Activités de couverture absentes.');
   requireValue(mechanisms.some(m=>m.id===coverage.mechanismId)&&runtimeProfiles.some(r=>r.id===coverage.runtimeProfile),'Mécanisme ou atelier inconnu.');
  }
  requireValue(plan.duration.minutes<=spec.blocks.reduce((n,b)=>n+b.minutes,0),'Plan trop long pour le créneau.');
@@ -37,6 +38,7 @@ export function applyPlanOrder(spec,plan){
  const result=structuredClone(spec),rank=skill=>Math.min(...(plan.coverage.find(c=>c.skill===skill)?.conceptIds||[]).map(c=>plan.selectedOrder.indexOf(c)));
  result.skills.sort((a,b)=>rank(a)-rank(b));
  result.blocks.sort((a,b)=>phases.indexOf(a.phase)-phases.indexOf(b.phase)||Math.min(...a.skills.map(rank))-Math.min(...b.skills.map(rank)));
+ for(const block of result.blocks){const timing=plan.contract?.timing.find(t=>t.blockId===block.id);if(timing)block.minutes=timing.minutes;}
  result.timeline=result.blocks.map(b=>({blockId:b.id,minutes:b.minutes}));return result;
 }
 export function unitSlots(spec,skill){
@@ -57,19 +59,34 @@ export function applyUnit(spec,unit,sources){
  for(const citation of unit.depth.citations){const source=sources.find(s=>s.id===citation.sourceId),segment=source?.segments.find(s=>s.id===citation.segmentId);
   if(source?.visibility==='student'&&source.role!=='solution'&&segment?.visibility==='student')for(const b of result.blocks.filter(b=>b.phase==='understand'&&unit.sections.some(s=>s.id===b.id)))result.sourceNotes.push({blockId:b.id,title:source.title,location:segment.location,note:citation.claim,url:source.sourceURL?.startsWith('https://')?source.sourceURL:null});
  }
- for(const task of unit.activities){const a=result.activities.find(a=>a.id===task.id),{hints,files,...fields}=task;Object.assign(a,fields);if(a.workshop){a.workshop.hints=hints;if(files.length)a.workshop.files=files;if(a.workshop.profile==='dom')validateDOMFiles(a.workshop.files);}
+ for(const task of unit.activities){const a=result.activities.find(a=>a.id===task.id),{hints,files,...fields}=task;Object.assign(a,fields);if(a.workshop){a.workshop.hints=hints;delete a.workshop.visual;if(files.length){a.workshop.files=files;const html=files.find(f=>f.path==='index.html'),css=files.find(f=>f.path==='style.css');if(a.workshop.language==='css'&&html)a.workshop.document=html.content;if(a.workshop.language==='html'&&css)a.workshop.style=css.content;}if(a.workshop.profile==='dom')validateDOMFiles(a.workshop.files);}
   requireValue(!['javascript','html','css','sql'].includes(a.correctionMode)||a.tests.length,'Tests supprimés de l’atelier.');
  }
  // No synopsis replaces the complete lesson when compiling slides.
  result.slides=result.blocks.filter(b=>!['Diagnostic','Pause'].includes(b.type)).map(b=>({title:b.title,body:b.content}));validate(lessonSchema,result);return result;
 }
-export async function softwareChecks(spec,{baseline=null,sources=[],browserEvidence=null,labEvidence=null}={}){
+export async function softwareChecks(spec,{baseline=null,sources=[],browserEvidence=null,labEvidence=null,plan=null,context=null,strictArtifacts=false}={}){
  const checks=[],add=(id,status,evidence)=>checks.push({id,status,evidence,blocking:true});
+ if(plan&&context){try{validateDesignContract(plan,spec,context);add('design-contract','PASS','Contrat et outils vérifiés sur la version assemblée.');}catch(e){add('design-contract','FAIL',e.message);}}
  try{validate(lessonSchema,spec);add('schema','PASS','DailyLessonSpec validé.');}catch(e){add('schema','FAIL',e.message);}
  const first=spec.blocks.find(b=>b.type!=='LessonHero');add('diagnostic-first',first?.type==='Diagnostic'?'PASS':'FAIL','Première activité après l’annonce des objectifs.');
  for(const skill of spec.skills){const block=spec.blocks.find(b=>b.phase==='understand'&&b.skills.includes(skill));add(`depth:${skill}`,block?.depth&&Object.values(block.depth).every(v=>typeof v==='string'?v.trim():v.length)?'PASS':'FAIL',`blocks/${block?.id||skill} : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.`);}
  const text=JSON.stringify(spec);add('complete',/expliquer ici|exercice à compléter|TODO_PEDAGOGY|schéma à prévoir/i.test(text)?'FAIL':'PASS','Absence de placeholders rédactionnels connus.');
  for(const a of [...spec.activities,...spec.diagnostic.tasks]){
+  if(strictArtifacts&&spec.activities.includes(a)){
+   const planned=plan?.contract.activities.find(c=>c.activityId===a.id),w=a.workshop;
+   const files=new Set((w?.files||[]).map(f=>f.path));if(w?.language==='css'){files.add('style.css');if(w.document)files.add('index.html');}if(w?.language==='html')files.add('index.html');if(w?.language==='javascript')files.add('main.js');
+   const absent=(planned?.files||[]).filter(f=>!files.has(f.path));add(`files:${a.id}`,absent.length?'FAIL':'PASS',absent.length?'Fichiers conçus mais absents : '+absent.map(f=>f.path).join(', '):'Supports annoncés présents.');
+   if(a.type==='CodeEditor'&&w?.profile==='html-css')add(`visual:${a.id}`,w.visual?'PASS':'FAIL','Rendu de référence conservé séparément du corrigé privé.');
+   if(a.correctionMode==='javascript'){
+    add(`public-tests:${a.id}`,a.publicTests?.length?'PASS':'FAIL','Entrées et valeurs attendues annoncées avant exécution.');
+    const variants=a.validationVariants;
+    if(variants?.wrong.trim()&&variants?.alternative.trim()&&variants.wrongExplanation.trim()){
+     const wrong=await testActivityCode(a,variants.wrong),alternative=await testActivityCode(a,variants.alternative);
+     add(`validation-variants:${a.id}`,!wrong.ok&&!wrong.pending&&alternative.ok?'PASS':'FAIL',JSON.stringify({wrong,alternative,explanation:variants.wrongExplanation}));
+    }else add(`validation-variants:${a.id}`,'NOT RUN','Erreur plausible et solution alternative absentes.');
+   }
+  }
   if(a.workshop?.profile!=='dom'&&['javascript','html','css','sql'].includes(a.correctionMode)){
    const result=await testActivityCode(a,a.reference);add(`reference:${a.id}`,result.ok?'PASS':result.pending?'NOT RUN':'FAIL',JSON.stringify(result));
   }

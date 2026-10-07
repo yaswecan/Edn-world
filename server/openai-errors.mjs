@@ -25,7 +25,7 @@ export async function failOpenAI(response, {localDraftAvailable = false} = {}) {
   const rawType = typeof error?.type === 'string' ? error.type : null;
   const knownCode = Object.hasOwn(quotaMessages, rawCode) || rateCodes.has(rawCode) ? rawCode : null;
   const knownType = ['insufficient_quota', 'rate_limit_error', 'rate_limit_exceeded'].includes(rawType) ? rawType : null;
-  const details = {provider: 'openai', providerStatus: response.status, code: knownCode, type: knownType};
+  const details = {provider: 'openai', providerStatus: response.status, code: knownCode, type: knownType, retryable: false};
   const requestId = response.headers?.get('x-request-id');
   if (requestId && /^[A-Za-z0-9_-]{1,200}$/.test(requestId)) details.requestId = requestId;
   let message = `Génération OpenAI indisponible (${response.status}).`;
@@ -39,12 +39,14 @@ export async function failOpenAI(response, {localDraftAvailable = false} = {}) {
       const seconds = retryDelay(response);
       message = 'Limite temporaire de requêtes ou de tokens OpenAI atteinte. ' + (seconds === null ? 'Espacez les générations et réessayez plus tard.' : `Attendez au moins ${seconds} secondes avant de relancer une génération.`);
       details.kind = 'rate_limit';
+      details.retryable = true;
       if (seconds !== null) details.retryAfterSeconds = seconds;
     } else {
       message = 'OpenAI a refusé la génération (429), sans préciser la cause. Vérifiez les crédits et les limites dans OpenAI Platform ; il peut aussi s’agir d’une limite temporaire de requêtes ou de tokens.';
       details.kind = 'unknown';
     }
   }
+  if(response.status>=500){details.kind='temporary';details.retryable=true;const seconds=retryDelay(response);if(seconds!==null)details.retryAfterSeconds=seconds;}
   if (localDraftAvailable) message += ' Le brouillon local peut être généré sans IA.';
   fail(502, message, details);
 }

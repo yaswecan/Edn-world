@@ -1,0 +1,51 @@
+{
+  "runtime": "sha256:4e65bd33f7ed9a09c9f176f2f8d8538f994eba24d6aced637a4307f25c28a8a4",
+  "checks": [
+    {
+      "id": "wrong-state-rejected",
+      "status": "PASS",
+      "durationMs": 140
+    },
+    {
+      "id": "alternative-correct-method",
+      "status": "PASS",
+      "durationMs": 90
+    },
+    {
+      "id": "two-students-isolated",
+      "status": "PASS",
+      "durationMs": 106
+    },
+    {
+      "id": "real-git-commit",
+      "status": "PASS",
+      "durationMs": 103
+    },
+    {
+      "id": "private-network-and-no-host-mounts",
+      "status": "PASS",
+      "durationMs": 66
+    },
+    {
+      "id": "restart-restores-files-and-git",
+      "status": "PASS",
+      "durationMs": 100
+    },
+    {
+      "id": "pty-interrupt-and-reuse",
+      "status": "PASS",
+      "durationMs": 1011
+    },
+    {
+      "id": "runtime-resource-and-privilege-limits",
+      "status": "PASS",
+      "durationMs": 68
+    },
+    {
+      "id": "18-active-shells-and-admission-limit",
+      "status": "PASS",
+      "durationMs": 20383
+    }
+  ],
+  "simulation": false
+}

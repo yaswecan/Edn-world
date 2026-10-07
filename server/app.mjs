@@ -1,4 +1,5 @@
 import {labRoutes} from './pedagogy/labs.mjs';
+import {visualRoutes} from './pedagogy/visuals.mjs';
 import {domRoutes} from './pedagogy/dom.mjs';
 import {pedagogyRoutes} from './pedagogy/routes.mjs';
 import {enqueueGeneration,jobSummary,qualityEnabled} from './pedagogy/jobs.mjs';
@@ -22,22 +23,25 @@ import {previewImport,applyImport,hash} from './importer.mjs';
 import {generateLesson,studentSpec,parisDate,library} from './generator.mjs';
 import {lessonQuality,publishLesson,closeLesson,editLesson,proposePlanChange,applyPlanChange} from './domain.mjs';
 import {submitAttempt,reviseCorrection,proposeRubricCorrection,computeRemediation,mastery} from './assessment.mjs';
-import {compileCorpus,zipFiles,individualExport,workbook} from './corpus.mjs';
+import {compileCorpus,zipFiles,individualExport,workbook,downloadableCorpus} from './corpus.mjs';
 import {catalog,startGame,recordGameEvent,worldAccess,authorizeRun} from './game.mjs';
 import {driveConfigured,getDrive,listStudents,listChildFolders,publishDrive} from './drive.mjs';
 import {runSafe} from './safe-js.mjs';
 import {testActivityCode} from './workshop-testing.mjs';
 import {demoRoutes} from './demo-routes.mjs';
 import {databaseRoutes} from './database-routes.mjs';
-export function createApp(store){
+import {aiRoutes} from './ai/routes.mjs';
+export function createApp(store,{chatgpt}={}){
  const app=express();app.disable('x-powered-by');
  app.use((req,res,next)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');res.setHeader('Cache-Control','no-store');res.setHeader('Content-Security-Policy',req.path.startsWith('/game/')?"default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src data:; worker-src blob:; connect-src 'none'; frame-ancestors 'self'":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'");next();});
  app.use(protectOrigin,authentication(store));app.use(express.json({limit:'2mb'}));
  databaseRoutes(app,store);
  demoRoutes(app);
  arcadeRoutes(app,store);
- pedagogyRoutes(app,store);
+ aiRoutes(app,store,{chatgpt});
+ pedagogyRoutes(app,store,{chatgpt});
  labRoutes(app,store);
+ visualRoutes(app,store);
  domRoutes(app,store);
  app.get('/api/internal/publication-worker',async(req,res)=>{const expected=process.env.CRON_SECRET?Buffer.from('Bearer '+process.env.CRON_SECRET):null,provided=Buffer.from(req.headers.authorization||'');if(!expected||provided.length!==expected.length||!timingSafeEqual(provided,expected))fail(401,'Accès worker refusé.');const job=await runPublicationJob(store);res.json({processed:!!job,jobId:job?.id,status:job?.status});});
  app.get('/api/health',(req,res)=>res.json({ok:true,service:'EDEN Teacher Twin',storage:store.kind}));
@@ -58,7 +62,7 @@ export function createApp(store){
  app.post('/api/plans/:id/changes/propose',teacher,async(req,res)=>res.json(await proposePlanChange(store,req.user,req.body)));
  app.patch('/api/plans/:id/entries/:entryId',teacher,async(req,res)=>res.json(await proposePlanChange(store,req.user,{...req.body,entryId:req.params.entryId})));
  app.post('/api/plans/:id/changes/:changeId/apply',teacher,async(req,res)=>res.json(await applyPlanChange(store,req.params.changeId,req.user,req.body)));
- const generate=async(req,res)=>{requireValue(typeof req.body.intent==='string'&&req.body.intent.length<=4000,'Intention attendue (4000 caractères maximum).');if(req.body.mode==='change_plan')return res.json(await proposePlanChange(store,req.user,req.body));if(qualityEnabled()&&req.body.localOnly!==true)return res.status(202).json({kind:'preparation_job',job:jobSummary(await enqueueGeneration(store,req.user,req.body))});const result=await generateLesson(store,{classId:req.user.classId,intent:req.body.intent,targetDate:req.body.targetDate||null,constraints:req.body.constraints||[],mode:req.body.mode||'prepare'},req.user,{entryId:req.body.entryId,localOnly:req.body.localOnly===true});const corpus=await compileCorpus(store,result.id,req.user);const {quality}=await lessonQuality(store,result);result.quality=quality;await store.put('lessons',{...result,spec:undefined});res.json({...result,corpusManifest:corpus.manifest,bundle:{lesson:result.spec,diagnostic:result.spec.diagnostic,rubric:result.spec.diagnostic.rubric,correctionReference:result.spec.diagnostic.tasks.map(t=>({id:t.id,reference:t.reference})),remediationPolicy:{groups:['G0','G1','G2','G3'],unobserved:'NE'},codeStationMission:result.spec.codeStation,teacherGuide:result.spec.teacherGuide,studentInterface:studentSpec(result.spec),corpusManifest:corpus.manifest,journalDraft:{coveredSkills:[],status:'planned'},qualityReport:quality,planImpact:null}});};
+ const generate=async(req,res)=>{requireValue(typeof req.body.intent==='string'&&req.body.intent.length<=4000,'Intention attendue (4000 caractères maximum).');if(req.body.mode==='change_plan')return res.json(await proposePlanChange(store,req.user,req.body));if(qualityEnabled()&&req.body.localOnly!==true)return res.status(202).json({kind:'preparation_job',job:jobSummary(await enqueueGeneration(store,req.user,req.body,{chatgpt}))});const result=await generateLesson(store,{classId:req.user.classId,intent:req.body.intent,targetDate:req.body.targetDate||null,constraints:req.body.constraints||[],mode:req.body.mode||'prepare'},req.user,{entryId:req.body.entryId,localOnly:req.body.localOnly===true});const corpus=await compileCorpus(store,result.id,req.user);const {quality}=await lessonQuality(store,result);result.quality=quality;await store.put('lessons',{...result,spec:undefined});res.json({...result,corpusManifest:corpus.manifest,bundle:{lesson:result.spec,diagnostic:result.spec.diagnostic,rubric:result.spec.diagnostic.rubric,correctionReference:result.spec.diagnostic.tasks.map(t=>({id:t.id,reference:t.reference})),remediationPolicy:{groups:['G0','G1','G2','G3'],unobserved:'NE'},codeStationMission:result.spec.codeStation,teacherGuide:result.spec.teacherGuide,studentInterface:studentSpec(result.spec),corpusManifest:corpus.manifest,journalDraft:{coveredSkills:[],status:'planned'},qualityReport:quality,planImpact:null}});};
  app.post('/api/twin/intent',teacher,async(req,res)=>{const result=await interpretIntent(store,req.user,req.body);if(result.kind!=='prepare')return res.json(result);req.body={...req.body,entryId:result.entryId,mode:result.mode};return generate(req,res);});app.post('/api/lessons/generate',teacher,generate);
  app.get('/api/twin/runs/:id',teacher,async(req,res)=>res.json(await scoped(store,'agent_runs',req.params.id,req.user)));
  app.post('/api/twin/runs/:id/approve',teacher,async(req,res)=>{const run=await scoped(store,'agent_runs',req.params.id,req.user);res.json(await publishLesson(store,run.lessonId,req.user,req.body));});
@@ -89,7 +93,7 @@ export function createApp(store){
  app.get('/api/mastery/:id',teacher,async(req,res)=>{await scoped(store,'learners',req.params.id,req.user);const evidence=(await store.list('evidence',req.user.classId)).filter(e=>e.learnerId===req.params.id),policy=(await store.list('teacher_policies',req.user.classId)).at(-1);res.json((await store.list('competency_n3',req.user.classId)).map(c=>({criterion:c.n3_code,...mastery(evidence.filter(e=>e.criterion===c.n3_code),policy)})));});
  app.post('/api/corpus/:id/compile',teacher,async(req,res)=>{const c=await compileCorpus(store,req.params.id,req.user);res.json(c.manifest);});
  app.get('/api/corpus/:id/manifest',teacher,async(req,res)=>{const lesson=await scoped(store,'lessons',req.params.id,req.user),c=(await store.list('corpus_packages',req.user.classId)).find(c=>c.lessonVersionId===lesson.versionId);if(!c)fail(404,'Corpus non compilé.');res.json(c.manifest);});
- app.get('/api/corpus/:id/download',teacher,async(req,res)=>{const lesson=await scoped(store,'lessons',req.params.id,req.user),c=(await store.list('corpus_packages',req.user.classId)).find(c=>c.lessonVersionId===lesson.versionId);if(!c)fail(404,'Corpus non compilé.');res.type('application/zip').attachment(`${c.manifest.lessonId}_CORPUS_COMPLET.zip`);await streamCorpus(c,res);});
+ app.get('/api/corpus/:id/download',teacher,async(req,res)=>{const lesson=await scoped(store,'lessons',req.params.id,req.user),c=await downloadableCorpus(store,lesson,req.user,req.query.versionId||lesson.versionId);res.type('application/zip').attachment(`${c.manifest.lessonId}_v${c.manifest.lessonVersion}_CORPUS_${c.complete?'COMPLET':'PARTIEL'}.zip`);await streamCorpus(c,res);});
  app.get('/api/resources/search',teacher,async(req,res)=>res.json(await retrieveResources(store,req.user.classId,{query:String(req.query.q||''),criteria:String(req.query.criteria||'').split(',').filter(Boolean)})));
  app.get('/api/resources',teacher,async(req,res)=>{const q=String(req.query.q||'').toLocaleLowerCase();res.json(library.filter(r=>JSON.stringify(r).toLocaleLowerCase().includes(q)));});
  app.post('/api/code/run',student,async(req,res)=>{
@@ -131,6 +135,8 @@ export function createApp(store){
  app.post('/api/integrations/drive/publications/:id/retry',teacher,async(req,res)=>{const report=await scoped(store,'drive_publications',req.params.id,req.user);res.json(await publishDrive(store,report.lessonId,{...report.spec,confirmed:req.body.confirmed},req.user,{retryId:report.id}));});
  app.get('/api/audit',teacher,async(req,res)=>res.json(await store.list('audit_log',req.user.classId)));
  app.use('/api',(_req,_res)=>fail(404,'Route API inconnue.'));
+ app.get('/runtime/safe-js.mjs',(_req,res)=>res.sendFile(resolve('server/safe-js.mjs')));
+ app.get('/legacy/eden-october/docs/vendor/acorn.mjs',(_req,res)=>res.sendFile(resolve('legacy/eden-october/docs/vendor/acorn.mjs')));
  app.use('/game',express.static(resolve('public/game')));
  app.use('/assets',express.static(resolve('legacy/eden-october/docs/assets')));
  app.use(express.static(resolve('public'),{index:false}));

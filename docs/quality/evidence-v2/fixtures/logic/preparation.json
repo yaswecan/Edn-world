@@ -1,0 +1,1967 @@
+{
+  "id": "prep_a3518579-d6bb-4cce-849f-c438a9f2e333",
+  "classId": "A1",
+  "requestId": "fixture-logic",
+  "requestDigest": "87a74204a32eb45db596d2d0bb2fed91fb2f4ae488c8a12966781dd9a49ce719",
+  "entryId": "logic",
+  "sourceIds": [
+    "source_f46ed02d-6156-488b-be22-1dfe31be6ca1"
+  ],
+  "brief": {
+    "version": 2,
+    "intent": "Pilote Une invitation, trois conditions",
+    "entry": {
+      "id": "logic",
+      "classId": "A1",
+      "date": "2026-10-06",
+      "skills": [
+        "BC05-C1-2"
+      ],
+      "sequence": "Pilotes de recette",
+      "duration": 110,
+      "durationConfirmed": true,
+      "status": "planned",
+      "objective": "Une invitation, trois conditions",
+      "activity": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+      "resourcePack": "PILOT-logic",
+      "createdAt": "2026-10-07T12:22:00.547Z"
+    },
+    "planVersion": 1,
+    "resolvedContext": {
+      "version": 1,
+      "classId": "A1",
+      "date": "2026-10-06",
+      "entryId": "logic",
+      "planVersion": 1,
+      "workbookHash": null,
+      "planningSource": {
+        "row": null,
+        "limitation": "Ancien import sans adresses et liens détaillés ; réimport requis pour les reconstruire."
+      },
+      "curriculum": [
+        {
+          "n3_code": "BC05-C1-2",
+          "n3_label": "Élaborer une condition",
+          "notions_tools": "Une condition choisit des instructions selon une expression. if/else construit deux branches ; des conditions imbriquées peuvent préciser plusieurs cas. Switch en JavaScript traite des choix selon des valeurs et demande de comprendre les sorties des cas. Les comparateurs produisent des booléens ; === compare sans conversion implicite.\n\nAND, OR et NOT combinent les règles, avec des parenthèses lorsque l’intention risque d’être ambiguë. = affecte une valeur : ce n’est pas un test d’égalité. Python utilise if, elif, else, and, or, not et == ; il ne possède pas === ni la même syntaxe switch. La progression Python puis JavaScript conserve le raisonnement tout en explicitant les différences.",
+          "observable_criterion": "Condition correcte ; table des cas ; cas interdit réellement refusé ; correspondance Python/JS expliquée.",
+          "expected_trace": "Condition correcte ; table des cas ; cas interdit réellement refusé ; correspondance Python/JS expliquée.",
+          "scaffolding_rule": "Le ET exige les deux propriétés.",
+          "prerequisiteCodes": []
+        }
+      ],
+      "sequences": [],
+      "completedLearning": [],
+      "diagnosticResults": null,
+      "uncertainties": [],
+      "sessions": [],
+      "hash": "2481dce87b42496afadd3ce1102159d40897c6871caac84676bf03cd3ab3d6ac"
+    },
+    "constraints": [],
+    "priorLearning": "Seules les séances clôturées sont des preuves ; diagnostic du jour non réalisé.",
+    "previousSource": null
+  },
+  "revision": 1,
+  "policyVersion": "tween-depth-2026-10-07.2",
+  "capabilities": {
+    "version": "workshops-2026-10-07.2",
+    "profiles": [
+      {
+        "id": "html-css",
+        "families": [
+          "Design"
+        ],
+        "capabilities": [
+          "files",
+          "editor",
+          "web-preview",
+          "responsive",
+          "annotations"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "algorithm",
+        "families": [
+          "Programmation"
+        ],
+        "capabilities": [
+          "editor",
+          "execution",
+          "console",
+          "behavior-tests",
+          "debugger"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "dom",
+        "families": [
+          "Design",
+          "Programmation"
+        ],
+        "capabilities": [
+          "files",
+          "editor",
+          "web-preview",
+          "console",
+          "dom-events",
+          "behavior-tests"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "shell-git",
+        "families": [
+          "Savoir"
+        ],
+        "capabilities": [
+          "files",
+          "editor",
+          "shell",
+          "git",
+          "state-validation"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      },
+      {
+        "id": "concepts",
+        "families": [
+          "Savoir",
+          "Design"
+        ],
+        "capabilities": [
+          "annotations",
+          "diagrams",
+          "comparison"
+        ],
+        "available": true,
+        "scope": "Simulated availability for contract tests only."
+      }
+    ]
+  },
+  "candidateCount": 2,
+  "simulation": true,
+  "status": "fixture",
+  "stage": "complete",
+  "reason": null,
+  "events": [
+    {
+      "stage": "queued",
+      "at": "2026-10-07T12:22:18.783Z"
+    },
+    {
+      "stage": "assemble",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:18.784Z"
+    },
+    {
+      "stage": "analysis",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:18.825Z"
+    },
+    {
+      "stage": "design",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:18.834Z"
+    },
+    {
+      "stage": "planReview",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:18.849Z"
+    },
+    {
+      "stage": "write",
+      "iteration": 0,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:18.859Z"
+    },
+    {
+      "stage": "checks",
+      "iteration": 0,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:18.871Z"
+    },
+    {
+      "stage": "review",
+      "iteration": 0,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:23.362Z"
+    },
+    {
+      "stage": "repair",
+      "iteration": 1,
+      "unitIndex": 0,
+      "at": "2026-10-07T12:22:23.379Z"
+    },
+    {
+      "stage": "checks",
+      "iteration": 1,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:23.391Z"
+    },
+    {
+      "stage": "review",
+      "iteration": 1,
+      "unitIndex": 1,
+      "at": "2026-10-07T12:22:31.000Z"
+    }
+  ],
+  "startedAt": "2026-10-07T12:22:18.783Z",
+  "calls": 7,
+  "reservedUSD": 3.7608479999999997,
+  "spentUSD": 0,
+  "iteration": 1,
+  "unitIndex": 1,
+  "reports": [
+    {
+      "state": "draft",
+      "score": 75,
+      "blockers": [
+        "fixture-comparison"
+      ],
+      "contentHash": "abc8e74a0ae48b123d4327c4d5c0cc8974908b077c4f3183746404e78d1998b1",
+      "briefHash": "6def19c4e52d1fa283f3d6aef6bfa7292fb708af62bf4406a23e142c8397ee81",
+      "charterVersion": "tween-depth-2026-10-07.2",
+      "policy": {
+        "minimum": 90,
+        "dimensionMinimum": 3
+      },
+      "report": {
+        "contentHash": "abc8e74a0ae48b123d4327c4d5c0cc8974908b077c4f3183746404e78d1998b1",
+        "briefHash": "6def19c4e52d1fa283f3d6aef6bfa7292fb708af62bf4406a23e142c8397ee81",
+        "charterVersion": "tween-depth-2026-10-07.2",
+        "decision": "revise",
+        "dimensions": {
+          "accuracy": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "mechanisms": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "activities": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "progression": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "tone": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "visuals": {
+            "score": 3,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          }
+        },
+        "issues": [
+          {
+            "id": "fixture-comparison",
+            "rule": "explain-counterexample",
+            "severity": "major",
+            "location": "blocks/concept",
+            "observation": "La comparaison explicite avant/après doit être renforcée.",
+            "problem": "Le cas piège ne rappelle pas de conserver la prévision initiale.",
+            "requestedChange": "Ajouter la comparaison du cas avant et après correction.",
+            "resolutionCriterion": "La confusion explique la comparaison et conserve la première réponse."
+          }
+        ],
+        "coverageGaps": [],
+        "regressions": [],
+        "uncertainties": [
+          "Revue IA simulée."
+        ],
+        "nextCorrections": [],
+        "externalChecks": [
+          {
+            "id": "design-contract",
+            "status": "PASS",
+            "evidence": "Contrat et outils vérifiés sur la version assemblée."
+          },
+          {
+            "id": "schema",
+            "status": "PASS",
+            "evidence": "DailyLessonSpec validé."
+          },
+          {
+            "id": "diagnostic-first",
+            "status": "PASS",
+            "evidence": "Première activité après l’annonce des objectifs."
+          },
+          {
+            "id": "depth:BC05-C1-2",
+            "status": "PASS",
+            "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+          },
+          {
+            "id": "complete",
+            "status": "PASS",
+            "evidence": "Absence de placeholders rédactionnels connus."
+          },
+          {
+            "id": "reference:guided",
+            "status": "PASS",
+            "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}"
+          },
+          {
+            "id": "reference:autonomous",
+            "status": "PASS",
+            "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}"
+          },
+          {
+            "id": "reference:transfer",
+            "status": "PASS",
+            "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}"
+          },
+          {
+            "id": "preserved-activities",
+            "status": "PASS",
+            "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+          },
+          {
+            "id": "render-components",
+            "status": "PASS",
+            "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+          },
+          {
+            "id": "browser-render",
+            "status": "PASS",
+            "evidence": "{\"hash\":\"abc8e74a0ae48b123d4327c4d5c0cc8974908b077c4f3183746404e78d1998b1\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/abc8e74a0ae48b123d4327c4d5c0cc8974908b077c4f3183746404e78d1998b1\",\"errors\":[]}"
+          },
+          {
+            "id": "sources",
+            "status": "PASS",
+            "evidence": "Segments versionnés disponibles au relecteur."
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS",
+          "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+          "blocking": true
+        },
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé.",
+          "blocking": true
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs.",
+          "blocking": true
+        },
+        {
+          "id": "depth:BC05-C1-2",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+          "blocking": true
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus.",
+          "blocking": true
+        },
+        {
+          "id": "reference:guided",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:transfer",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+          "blocking": true
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+          "blocking": true
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"abc8e74a0ae48b123d4327c4d5c0cc8974908b077c4f3183746404e78d1998b1\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/abc8e74a0ae48b123d4327c4d5c0cc8974908b077c4f3183746404e78d1998b1\",\"errors\":[]}",
+          "blocking": true
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur.",
+          "blocking": true
+        }
+      ],
+      "checkedAt": "2026-10-07T12:22:23.375Z"
+    },
+    {
+      "state": "ready",
+      "score": 100,
+      "blockers": [],
+      "contentHash": "6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032",
+      "briefHash": "6def19c4e52d1fa283f3d6aef6bfa7292fb708af62bf4406a23e142c8397ee81",
+      "charterVersion": "tween-depth-2026-10-07.2",
+      "policy": {
+        "minimum": 90,
+        "dimensionMinimum": 3
+      },
+      "report": {
+        "contentHash": "6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032",
+        "briefHash": "6def19c4e52d1fa283f3d6aef6bfa7292fb708af62bf4406a23e142c8397ee81",
+        "charterVersion": "tween-depth-2026-10-07.2",
+        "decision": "accept",
+        "dimensions": {
+          "accuracy": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "mechanisms": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "activities": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "progression": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "tone": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          },
+          "visuals": {
+            "score": 4,
+            "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+            "evidence": [
+              "blocks/concept"
+            ]
+          }
+        },
+        "issues": [],
+        "coverageGaps": [],
+        "regressions": [],
+        "uncertainties": [
+          "Revue IA simulée."
+        ],
+        "nextCorrections": [],
+        "externalChecks": [
+          {
+            "id": "design-contract",
+            "status": "PASS",
+            "evidence": "Contrat et outils vérifiés sur la version assemblée."
+          },
+          {
+            "id": "schema",
+            "status": "PASS",
+            "evidence": "DailyLessonSpec validé."
+          },
+          {
+            "id": "diagnostic-first",
+            "status": "PASS",
+            "evidence": "Première activité après l’annonce des objectifs."
+          },
+          {
+            "id": "depth:BC05-C1-2",
+            "status": "PASS",
+            "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+          },
+          {
+            "id": "complete",
+            "status": "PASS",
+            "evidence": "Absence de placeholders rédactionnels connus."
+          },
+          {
+            "id": "reference:guided",
+            "status": "PASS",
+            "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}"
+          },
+          {
+            "id": "reference:autonomous",
+            "status": "PASS",
+            "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}"
+          },
+          {
+            "id": "reference:transfer",
+            "status": "PASS",
+            "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}"
+          },
+          {
+            "id": "preserved-activities",
+            "status": "PASS",
+            "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+          },
+          {
+            "id": "render-components",
+            "status": "PASS",
+            "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+          },
+          {
+            "id": "browser-render",
+            "status": "PASS",
+            "evidence": "{\"hash\":\"6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"errors\":[]}"
+          },
+          {
+            "id": "sources",
+            "status": "PASS",
+            "evidence": "Segments versionnés disponibles au relecteur."
+          }
+        ]
+      },
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS",
+          "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+          "blocking": true
+        },
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé.",
+          "blocking": true
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs.",
+          "blocking": true
+        },
+        {
+          "id": "depth:BC05-C1-2",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+          "blocking": true
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus.",
+          "blocking": true
+        },
+        {
+          "id": "reference:guided",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "reference:transfer",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}",
+          "blocking": true
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+          "blocking": true
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+          "blocking": true
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"errors\":[]}",
+          "blocking": true
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur.",
+          "blocking": true
+        }
+      ],
+      "checkedAt": "2026-10-07T12:22:31.059Z"
+    }
+  ],
+  "planRevisions": 0,
+  "retryAttempts": {},
+  "createdAt": "2026-10-07T12:22:18.783Z",
+  "leaseToken": "lease_ebef6a44-3b63-4bc8-8cf1-b60257f01a49",
+  "leaseUntil": "2026-10-07T12:27:31.000Z",
+  "lessonId": "A1:PILOT-logic-prep_a3518579-d6bb-4cce-849f-c438a9f2e333",
+  "lessonVersionId": "A1:PILOT-logic-prep_a3518579-d6bb-4cce-849f-c438a9f2e333:v3",
+  "inflight": null,
+  "attemptState": "completed",
+  "lastCallId": "prep_a3518579-d6bb-4cce-849f-c438a9f2e333:call:7",
+  "documentary": {
+    "inputHash": "bd6184fdbe0c67d57e7d139955dba58489ed903f8ba9e85b0d1328ab8797f6f1",
+    "content": {
+      "concepts": [
+        {
+          "id": "concept-logic",
+          "label": "Une invitation, trois conditions",
+          "prerequisites": [],
+          "examples": [
+            "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme."
+          ],
+          "misconceptions": [
+            "aCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas."
+          ],
+          "activityOpportunities": [
+            "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement."
+          ],
+          "citations": [
+            {
+              "sourceId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1",
+              "segmentId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s1",
+              "claim": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+              "kind": "explicit"
+            }
+          ]
+        }
+      ],
+      "findings": [
+        {
+          "claim": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+          "citations": [
+            {
+              "sourceId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1",
+              "segmentId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s1",
+              "claim": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+              "kind": "explicit"
+            }
+          ]
+        }
+      ],
+      "contradictions": [],
+      "gaps": [
+        "Analyse simulée."
+      ],
+      "uninterpretedFigures": []
+    },
+    "at": "2026-10-07T12:22:18.831Z",
+    "callId": "prep_a3518579-d6bb-4cce-849f-c438a9f2e333:call:1"
+  },
+  "plan": {
+    "analysis": [
+      {
+        "conceptId": "concept-logic",
+        "label": "Une invitation, trois conditions",
+        "prerequisites": [],
+        "relations": [
+          "cause → observation"
+        ],
+        "citations": [
+          {
+            "sourceId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1",
+            "segmentId": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s1",
+            "claim": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+            "kind": "explicit"
+          }
+        ],
+        "uncertainties": [
+          "Charge réelle auprès des élèves non mesurée."
+        ]
+      }
+    ],
+    "alternatives": [
+      {
+        "id": "definition-first",
+        "order": [
+          "concept-logic"
+        ],
+        "advantages": "Vocabulaire disponible avant les essais.",
+        "risks": "Le besoin de la notion peut rester abstrait."
+      },
+      {
+        "id": "problem-first",
+        "order": [
+          "concept-logic"
+        ],
+        "advantages": "Le défaut concret crée une question ; expliquer avant le défi autonome.",
+        "risks": "Prévoir un rappel si le diagnostic révèle une difficulté."
+      }
+    ],
+    "selectedOrder": [
+      "concept-logic"
+    ],
+    "justification": "Partir du défaut visible, rendre le mécanisme explicite, puis déplacer le problème. Les documents ne dictent pas le rythme ; les prérequis et le temps de pratique le font.",
+    "coverage": [
+      {
+        "skill": "BC05-C1-2",
+        "conceptIds": [
+          "concept-logic"
+        ],
+        "sourceSegments": [
+          "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s1",
+          "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s2",
+          "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s3",
+          "source_f46ed02d-6156-488b-be22-1dfe31be6ca1:s4"
+        ],
+        "explanationBlockId": "concept",
+        "activityIds": [
+          "prediction",
+          "drawing",
+          "guided",
+          "autonomous",
+          "justify",
+          "transfer",
+          "exit"
+        ],
+        "evidence": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+        "remediation": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active.",
+        "mechanismId": "tested-kata",
+        "runtimeProfile": "algorithm",
+        "reasoningDemand": "Prédiction, causalité, diagnostic et choix argumenté."
+      }
+    ],
+    "prerequisites": [
+      {
+        "conceptId": "baseline",
+        "status": "unknown",
+        "evidence": "Diagnostic du jour pas encore passé.",
+        "action": "Un paramètre reçoit une valeur à l’appel. return fournit le résultat de la fonction. Ici chaque paramètre vaut true ou false : nous ne traitons pas encore les chaînes ni les autres valeurs dites truthy."
+      }
+    ],
+    "duration": {
+      "minutes": 110,
+      "uncertainty": "Estimation de conception, prévoir 15 minutes de variation.",
+      "includesReadingAttemptsHelpAndCorrection": true
+    },
+    "diagnosticBranches": [
+      {
+        "observation": "Prérequis fragile",
+        "action": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active.",
+        "commonObjective": "Une invitation, trois conditions"
+      },
+      {
+        "observation": "Prérequis utilisable",
+        "action": "Parcours normal puis production autonome.",
+        "commonObjective": "Une invitation, trois conditions"
+      }
+    ],
+    "deferred": [
+      "Notions sans lien direct avec le problème."
+    ],
+    "gaps": [
+      "Mesures d’apprentissage et comparaison IA réelles non exécutées."
+    ],
+    "contract": {
+      "family": "Programmation",
+      "familyReason": "Famille déterminée par la production autonome évaluée.",
+      "outcomes": [
+        {
+          "skill": "BC05-C1-2",
+          "observable": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+          "criteria": [
+            "Production conforme et choix expliqué."
+          ],
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "proof": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement."
+        }
+      ],
+      "finalTask": {
+        "activityId": "autonomous",
+        "production": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+        "requiredConceptIds": [
+          "concept-logic"
+        ],
+        "criteria": [
+          "Résultat et justification vérifiables."
+        ],
+        "transferActivityId": "transfer",
+        "transferVariation": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement."
+      },
+      "activities": [
+        {
+          "activityId": "prediction",
+          "action": "Écris ta prévision pour l’exemple, puis une observation qui pourrait la contredire. Après l’essai, explique l’écart éventuel.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Une prévision conservée et une comparaison avec un résultat réel.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "drawing",
+          "action": "Dessine ou décris les relations de la séance. Légende les flèches, indique ce qui change et utilise les valeurs d’un exemple.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "guided",
+          "action": "Prévois le résultat pour true,true,false,true. L’alarme doit toujours bloquer. Répare le regroupement puis vérifie les seize combinaisons de booléens.",
+          "initialState": "function acces(carte, reserve, invite, alarme) {\n  return carte && reserve || invite && !alarme;\n}",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "algorithm",
+          "capabilities": [
+            "editor",
+            "execution",
+            "console",
+            "behavior-tests",
+            "debugger"
+          ],
+          "help": "guided",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "autonomous",
+          "action": "Écris livraison(paye, adresseValide, domicile, relais). Il faut un colis payé et une adresse valide ; domicile ou relais doit être choisi. Les deux choix ensemble sont acceptés. Prévois les quatre situations que tu juges les plus utiles, puis exécute et explique ton regroupement.",
+          "initialState": "function livraison(paye, adresseValide, domicile, relais) {\n  return false;\n}",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "algorithm",
+          "capabilities": [
+            "editor",
+            "execution",
+            "console",
+            "behavior-tests",
+            "debugger"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "justify",
+          "action": "Explique un choix de ta production autonome. Donne une erreur plausible, le cas qui la révèle et pourquoi ta solution l’évite.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Un choix, un contre-exemple et une explication causale.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "transfer",
+          "action": "La règle change : domicile ET relais ne doivent plus pouvoir être choisis ensemble. Écris une fonction choixUnique(domicile,relais) sans nouvel opérateur. Donne la table des quatre cas et explique ce que tu réutilises de ET, OU et NON.",
+          "initialState": "function choixUnique(domicile, relais) { return false; }",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "algorithm",
+          "capabilities": [
+            "editor",
+            "execution",
+            "console",
+            "behavior-tests",
+            "debugger"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "exit",
+          "action": "Sans reprendre l’exemple du cours, propose un cas analogue et son résultat. Explique le mécanisme, puis nomme la partie que tu vérifierais encore.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        }
+      ],
+      "teaching": [
+        {
+          "skill": "BC05-C1-2",
+          "mode": "acquisition",
+          "mechanism": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+          "workedExample": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "misconception": "aCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas.",
+          "visual": "Schéma causal dans le bloc concept.",
+          "priorResourceIds": []
+        }
+      ],
+      "timing": [
+        {
+          "blockId": "opening",
+          "minutes": 4,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "diagnostic",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "concept",
+          "minutes": 19,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "observe",
+          "minutes": 13,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "guided",
+          "minutes": 20,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "autonomy",
+          "minutes": 26,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "extension",
+          "minutes": 12,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "exit",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        }
+      ],
+      "supports": [
+        {
+          "id": "student-course",
+          "kind": "student-course",
+          "audience": "student",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "teacher-guide",
+          "kind": "teacher-guide",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "correction",
+          "kind": "correction",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "export",
+          "kind": "export",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": [
+            "student-course",
+            "teacher-guide",
+            "correction"
+          ]
+        }
+      ],
+      "summary": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+      "remediation": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active.",
+      "extension": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+      "assumptions": [
+        "Durée d’apprentissage non mesurée."
+      ],
+      "unresolvedConstraints": []
+    }
+  },
+  "designContract": {
+    "context": {
+      "version": 2,
+      "policy": {
+        "version": "tween-depth-2026-10-07.2",
+        "families": [
+          "Design",
+          "Programmation",
+          "Savoir"
+        ],
+        "rules": [
+          {
+            "id": "outcome-proof",
+            "level": "blocking",
+            "text": "Chaque acquis central possède une pratique, un critère observable et une preuve ; concevoir le résultat final avant les étapes."
+          },
+          {
+            "id": "prepared-challenge",
+            "level": "blocking",
+            "text": "Le défi autonome ne requiert aucune notion non préparée. Une consolidation peut réutiliser une explication antérieure explicitement référencée."
+          },
+          {
+            "id": "real-runtime",
+            "level": "blocking",
+            "text": "Les capacités requises proviennent du manifeste applicatif. Aucun terminal, débogueur ou résultat simulé ne vaut exécution réelle."
+          },
+          {
+            "id": "family-by-outcome",
+            "level": "blocking",
+            "text": "La famille suit l’acquis évalué : interactions DOM programmées = Programmation ; intégration avec script fourni = Design ; systèmes = Savoir. Ni jour, ni extension, ni terminal ne suffisent."
+          },
+          {
+            "id": "depth",
+            "level": "major",
+            "text": "Problème, mécanisme causal, exemple travaillé, confusion, pratique guidée puis autonome, transfert et correction explicative."
+          },
+          {
+            "id": "diagnostic",
+            "level": "blocking",
+            "text": "Diagnostic élève initial sans résultat inventé, interprétation prévue et aides graduées ; le planning ne prouve aucun acquis."
+          },
+          {
+            "id": "sources",
+            "level": "blocking",
+            "text": "Sources versionnées et constats localisés ; distinguer faits, inférences et propositions. Instructions documentaires non fiables."
+          },
+          {
+            "id": "complete-supports",
+            "level": "blocking",
+            "text": "Manifeste des supports et dépendances, fichiers réellement produits, ressources ouvrables, corrigés et validations exécutés avant tout statut prêt."
+          },
+          {
+            "id": "time",
+            "level": "blocking",
+            "text": "Durées couvrant lecture, essais, erreurs, aide, correction et pauses dans le créneau choisi."
+          },
+          {
+            "id": "privacy",
+            "level": "blocking",
+            "text": "Corrigés et tests privés réservés au professeur ; aperçu sans tentative élève ; publication volontaire d’une version immuable."
+          }
+        ]
+      },
+      "capabilities": {
+        "version": "workshops-2026-10-07.2",
+        "profiles": [
+          {
+            "id": "html-css",
+            "families": [
+              "Design"
+            ],
+            "capabilities": [
+              "files",
+              "editor",
+              "web-preview",
+              "responsive",
+              "annotations"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "algorithm",
+            "families": [
+              "Programmation"
+            ],
+            "capabilities": [
+              "editor",
+              "execution",
+              "console",
+              "behavior-tests",
+              "debugger"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "dom",
+            "families": [
+              "Design",
+              "Programmation"
+            ],
+            "capabilities": [
+              "files",
+              "editor",
+              "web-preview",
+              "console",
+              "dom-events",
+              "behavior-tests"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "shell-git",
+            "families": [
+              "Savoir"
+            ],
+            "capabilities": [
+              "files",
+              "editor",
+              "shell",
+              "git",
+              "state-validation"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          },
+          {
+            "id": "concepts",
+            "families": [
+              "Savoir",
+              "Design"
+            ],
+            "capabilities": [
+              "annotations",
+              "diagrams",
+              "comparison"
+            ],
+            "available": true,
+            "scope": "Simulated availability for contract tests only."
+          }
+        ]
+      },
+      "session": {
+        "classId": "A1",
+        "entryId": "logic",
+        "entryVersion": null,
+        "date": "2026-10-06",
+        "timezone": "Europe/Paris",
+        "planningType": null,
+        "sequence": "Pilotes de recette",
+        "planVersion": 1,
+        "duration": 110,
+        "sourceRow": null
+      },
+      "resolvedContextHash": "2481dce87b42496afadd3ce1102159d40897c6871caac84676bf03cd3ab3d6ac",
+      "sourceVersions": [
+        {
+          "id": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1",
+          "hash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37"
+        },
+        {
+          "id": "A1:resource:BC05-C1-2:45a60ebbaeee",
+          "hash": "45a60ebbaeeecd0385990d2faeb023b8449f4cd5f2488f0c3f2047f16906bc56"
+        }
+      ],
+      "revision": 1
+    },
+    "contextHash": "1cdebe27edb1da54e8f7547af07017c6b938ba5084a373c7e63fb64ee4afb31c",
+    "content": {
+      "family": "Programmation",
+      "familyReason": "Famille déterminée par la production autonome évaluée.",
+      "outcomes": [
+        {
+          "skill": "BC05-C1-2",
+          "observable": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+          "criteria": [
+            "Production conforme et choix expliqué."
+          ],
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "proof": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement."
+        }
+      ],
+      "finalTask": {
+        "activityId": "autonomous",
+        "production": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+        "requiredConceptIds": [
+          "concept-logic"
+        ],
+        "criteria": [
+          "Résultat et justification vérifiables."
+        ],
+        "transferActivityId": "transfer",
+        "transferVariation": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement."
+      },
+      "activities": [
+        {
+          "activityId": "prediction",
+          "action": "Écris ta prévision pour l’exemple, puis une observation qui pourrait la contredire. Après l’essai, explique l’écart éventuel.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Une prévision conservée et une comparaison avec un résultat réel.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "drawing",
+          "action": "Dessine ou décris les relations de la séance. Légende les flèches, indique ce qui change et utilise les valeurs d’un exemple.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "guided",
+          "action": "Prévois le résultat pour true,true,false,true. L’alarme doit toujours bloquer. Répare le regroupement puis vérifie les seize combinaisons de booléens.",
+          "initialState": "function acces(carte, reserve, invite, alarme) {\n  return carte && reserve || invite && !alarme;\n}",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "algorithm",
+          "capabilities": [
+            "editor",
+            "execution",
+            "console",
+            "behavior-tests",
+            "debugger"
+          ],
+          "help": "guided",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "autonomous",
+          "action": "Écris livraison(paye, adresseValide, domicile, relais). Il faut un colis payé et une adresse valide ; domicile ou relais doit être choisi. Les deux choix ensemble sont acceptés. Prévois les quatre situations que tu juges les plus utiles, puis exécute et explique ton regroupement.",
+          "initialState": "function livraison(paye, adresseValide, domicile, relais) {\n  return false;\n}",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "algorithm",
+          "capabilities": [
+            "editor",
+            "execution",
+            "console",
+            "behavior-tests",
+            "debugger"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "justify",
+          "action": "Explique un choix de ta production autonome. Donne une erreur plausible, le cas qui la révèle et pourquoi ta solution l’évite.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Un choix, un contre-exemple et une explication causale.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "transfer",
+          "action": "La règle change : domicile ET relais ne doivent plus pouvoir être choisis ensemble. Écris une fonction choixUnique(domicile,relais) sans nouvel opérateur. Donne la table des quatre cas et explique ce que tu réutilises de ET, OU et NON.",
+          "initialState": "function choixUnique(domicile, relais) { return false; }",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "algorithm",
+          "capabilities": [
+            "editor",
+            "execution",
+            "console",
+            "behavior-tests",
+            "debugger"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        },
+        {
+          "activityId": "exit",
+          "action": "Sans reprendre l’exemple du cours, propose un cas analogue et son résultat. Explique le mécanisme, puis nomme la partie que tu vérifierais encore.",
+          "initialState": "Question posée avant toute aide.",
+          "providedInformation": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "result": "Ta production, un exemple testé et une phrase pour expliquer ton choix.",
+          "constraints": [
+            "Préserver la première tentative."
+          ],
+          "runtimeProfile": "concepts",
+          "capabilities": [
+            "annotations"
+          ],
+          "help": "autonomous",
+          "verification": "Observer le résultat selon les critères annoncés.",
+          "finalTaskLink": "Prépare ou vérifie le résultat final.",
+          "files": []
+        }
+      ],
+      "teaching": [
+        {
+          "skill": "BC05-C1-2",
+          "mode": "acquisition",
+          "mechanism": "Une règle composée se construit avec des sous-décisions. La première concerne le droit d’entrer : avoir carte et réservation, ou être invité. La deuxième concerne la sécurité : l’alarme doit être inactive. L’autorisation finale exige les deux.\n\n&& correspond au ET sur nos booléens ; un seul false empêche l’ensemble d’être vrai. || correspond au OU inclusif : true/true est autorisé lui aussi. ! transforme alarme en la condition opposée. Les parenthèses permettent de montrer à quelle décision s’applique l’arrêt. En JavaScript, && est prioritaire sur || : ne compte pas sur la lecture intuitive d’une longue expression.",
+          "workedExample": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+          "misconception": "aCarte && aReserve || invitation && !alarme ne bloque pas une personne ayant carte et réservation pendant l’alarme. Le dernier ET ne porte que sur invitation. Le cas true,true,false,true révèle le défaut ; un essai autorisé ne le révèle pas.",
+          "visual": "Schéma causal dans le bloc concept.",
+          "priorResourceIds": []
+        }
+      ],
+      "timing": [
+        {
+          "blockId": "opening",
+          "minutes": 4,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "diagnostic",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "concept",
+          "minutes": 19,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "observe",
+          "minutes": 13,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "guided",
+          "minutes": 20,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "autonomy",
+          "minutes": 26,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "extension",
+          "minutes": 12,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        },
+        {
+          "blockId": "exit",
+          "minutes": 8,
+          "includes": "Lecture, essais, erreurs, aide et correction ; pause si prévue."
+        }
+      ],
+      "supports": [
+        {
+          "id": "student-course",
+          "kind": "student-course",
+          "audience": "student",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "teacher-guide",
+          "kind": "teacher-guide",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "correction",
+          "kind": "correction",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": []
+        },
+        {
+          "id": "export",
+          "kind": "export",
+          "audience": "teacher",
+          "required": true,
+          "purpose": "Support complet relié à la séance.",
+          "activityIds": [
+            "prediction",
+            "drawing",
+            "guided",
+            "autonomous",
+            "justify",
+            "transfer",
+            "exit"
+          ],
+          "dependsOn": [
+            "student-course",
+            "teacher-guide",
+            "correction"
+          ]
+        }
+      ],
+      "summary": "Carte=false, réservation=false, invitation=true, alarme=true. Le duo carte/réservation vaut false. Le droit d’entrée vaut false || true, donc true. La sécurité vaut !true, donc false. Le résultat final vaut true && false, donc false. L’invitation ne permet pas de passer pendant l’alarme.",
+      "remediation": "Calcule séparément le droit d’entrée et l’absence d’alarme. Écris leurs deux valeurs avant la décision finale ; commence par un cas où l’alarme est active.",
+      "extension": "Réutiliser le même raisonnement pour une livraison : domicile ou point relais, mais toujours un colis payé et une adresse valide. Écrire la règle, tester un contre-exemple et justifier le regroupement.",
+      "assumptions": [
+        "Durée d’apprentissage non mesurée."
+      ],
+      "unresolvedConstraints": []
+    },
+    "planHash": "97336639b4f81c48704bba412c19f69d38846a1d1c95e2d3c0e9aafed78ee326",
+    "validatedAt": "2026-10-07T12:22:18.843Z"
+  },
+  "planReview": {
+    "decision": "accept",
+    "issues": []
+  },
+  "unitResponses": [
+    {
+      "issueId": "fixture-comparison",
+      "change": "Fixture de correction : explication précise du cas piège ajoutée.",
+      "location": "blocks/concept"
+    }
+  ],
+  "candidateVersionId": "A1:PILOT-logic-prep_a3518579-d6bb-4cce-849f-c438a9f2e333:v3",
+  "checks": [
+    {
+      "id": "design-contract",
+      "status": "PASS",
+      "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+      "blocking": true
+    },
+    {
+      "id": "schema",
+      "status": "PASS",
+      "evidence": "DailyLessonSpec validé.",
+      "blocking": true
+    },
+    {
+      "id": "diagnostic-first",
+      "status": "PASS",
+      "evidence": "Première activité après l’annonce des objectifs.",
+      "blocking": true
+    },
+    {
+      "id": "depth:BC05-C1-2",
+      "status": "PASS",
+      "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+      "blocking": true
+    },
+    {
+      "id": "complete",
+      "status": "PASS",
+      "evidence": "Absence de placeholders rédactionnels connus.",
+      "blocking": true
+    },
+    {
+      "id": "reference:guided",
+      "status": "PASS",
+      "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+      "blocking": true
+    },
+    {
+      "id": "reference:autonomous",
+      "status": "PASS",
+      "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+      "blocking": true
+    },
+    {
+      "id": "reference:transfer",
+      "status": "PASS",
+      "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}",
+      "blocking": true
+    },
+    {
+      "id": "preserved-activities",
+      "status": "PASS",
+      "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+      "blocking": true
+    },
+    {
+      "id": "render-components",
+      "status": "PASS",
+      "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+      "blocking": true
+    },
+    {
+      "id": "browser-render",
+      "status": "PASS",
+      "evidence": "{\"hash\":\"6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"errors\":[]}",
+      "blocking": true
+    },
+    {
+      "id": "sources",
+      "status": "PASS",
+      "evidence": "Segments versionnés disponibles au relecteur.",
+      "blocking": true
+    }
+  ],
+  "decision": {
+    "state": "ready",
+    "score": 100,
+    "blockers": [],
+    "contentHash": "6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032",
+    "briefHash": "6def19c4e52d1fa283f3d6aef6bfa7292fb708af62bf4406a23e142c8397ee81",
+    "charterVersion": "tween-depth-2026-10-07.2",
+    "policy": {
+      "minimum": 90,
+      "dimensionMinimum": 3
+    },
+    "report": {
+      "contentHash": "6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032",
+      "briefHash": "6def19c4e52d1fa283f3d6aef6bfa7292fb708af62bf4406a23e142c8397ee81",
+      "charterVersion": "tween-depth-2026-10-07.2",
+      "decision": "accept",
+      "dimensions": {
+        "accuracy": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "mechanisms": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "activities": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "progression": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "tone": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        },
+        "visuals": {
+          "score": 4,
+          "justification": "Score de fixture pour éprouver la boucle ; ce n’est pas une évaluation indépendante réelle.",
+          "evidence": [
+            "blocks/concept"
+          ]
+        }
+      },
+      "issues": [],
+      "coverageGaps": [],
+      "regressions": [],
+      "uncertainties": [
+        "Revue IA simulée."
+      ],
+      "nextCorrections": [],
+      "externalChecks": [
+        {
+          "id": "design-contract",
+          "status": "PASS",
+          "evidence": "Contrat et outils vérifiés sur la version assemblée."
+        },
+        {
+          "id": "schema",
+          "status": "PASS",
+          "evidence": "DailyLessonSpec validé."
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS",
+          "evidence": "Première activité après l’annonce des objectifs."
+        },
+        {
+          "id": "depth:BC05-C1-2",
+          "status": "PASS",
+          "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur."
+        },
+        {
+          "id": "complete",
+          "status": "PASS",
+          "evidence": "Absence de placeholders rédactionnels connus."
+        },
+        {
+          "id": "reference:guided",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}"
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}"
+        },
+        {
+          "id": "reference:transfer",
+          "status": "PASS",
+          "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}"
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS",
+          "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens."
+        },
+        {
+          "id": "render-components",
+          "status": "PASS",
+          "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur."
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS",
+          "evidence": "{\"hash\":\"6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"errors\":[]}"
+        },
+        {
+          "id": "sources",
+          "status": "PASS",
+          "evidence": "Segments versionnés disponibles au relecteur."
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "design-contract",
+        "status": "PASS",
+        "evidence": "Contrat et outils vérifiés sur la version assemblée.",
+        "blocking": true
+      },
+      {
+        "id": "schema",
+        "status": "PASS",
+        "evidence": "DailyLessonSpec validé.",
+        "blocking": true
+      },
+      {
+        "id": "diagnostic-first",
+        "status": "PASS",
+        "evidence": "Première activité après l’annonce des objectifs.",
+        "blocking": true
+      },
+      {
+        "id": "depth:BC05-C1-2",
+        "status": "PASS",
+        "evidence": "blocks/concept : contrat de profondeur renseigné ; valeur pédagogique soumise au relecteur.",
+        "blocking": true
+      },
+      {
+        "id": "complete",
+        "status": "PASS",
+        "evidence": "Absence de placeholders rédactionnels connus.",
+        "blocking": true
+      },
+      {
+        "id": "reference:guided",
+        "status": "PASS",
+        "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+        "blocking": true
+      },
+      {
+        "id": "reference:autonomous",
+        "status": "PASS",
+        "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true},{\"label\":\"Cas 5\",\"ok\":true},{\"label\":\"Cas 6\",\"ok\":true},{\"label\":\"Cas 7\",\"ok\":true},{\"label\":\"Cas 8\",\"ok\":true},{\"label\":\"Cas 9\",\"ok\":true},{\"label\":\"Cas 10\",\"ok\":true},{\"label\":\"Cas 11\",\"ok\":true},{\"label\":\"Cas 12\",\"ok\":true},{\"label\":\"Cas 13\",\"ok\":true},{\"label\":\"Cas 14\",\"ok\":true},{\"label\":\"Cas 15\",\"ok\":true},{\"label\":\"Cas 16\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"✓ Cas 5\",\"✓ Cas 6\",\"✓ Cas 7\",\"✓ Cas 8\",\"✓ Cas 9\",\"✓ Cas 10\",\"✓ Cas 11\",\"✓ Cas 12\",\"✓ Cas 13\",\"✓ Cas 14\",\"✓ Cas 15\",\"✓ Cas 16\",\"16 tests réussis sur 16.\"],\"error\":null}",
+        "blocking": true
+      },
+      {
+        "id": "reference:transfer",
+        "status": "PASS",
+        "evidence": "{\"ok\":true,\"pending\":false,\"checks\":[{\"label\":\"Cas 1\",\"ok\":true},{\"label\":\"Cas 2\",\"ok\":true},{\"label\":\"Cas 3\",\"ok\":true},{\"label\":\"Cas 4\",\"ok\":true}],\"logs\":[\"✓ Cas 1\",\"✓ Cas 2\",\"✓ Cas 3\",\"✓ Cas 4\",\"4 tests réussis sur 4.\"],\"error\":null}",
+        "blocking": true
+      },
+      {
+        "id": "preserved-activities",
+        "status": "PASS",
+        "evidence": "Identifiants et accès aux activités obligatoires conservés. Le relecteur vérifie leur sens.",
+        "blocking": true
+      },
+      {
+        "id": "render-components",
+        "status": "PASS",
+        "evidence": "Rendu serveur des composants ; ne remplace pas une inspection navigateur.",
+        "blocking": true
+      },
+      {
+        "id": "browser-render",
+        "status": "PASS",
+        "evidence": "{\"hash\":\"6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"scope\":\"Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.\",\"captures\":[\"0-1280.png\",\"1-1280.png\",\"2-1280.png\",\"3-1280.png\",\"4-1280.png\",\"5-1280.png\",\"6-1280.png\",\"7-1280.png\",\"0-390.png\",\"1-390.png\",\"2-390.png\",\"3-390.png\",\"4-390.png\",\"5-390.png\",\"6-390.png\",\"7-390.png\"],\"directory\":\"/Users/eden/workspace/TwinTeache/test-results/quality-render/6b9c9d2d2c2722d4e5ec674ea6a24c92fd3a8b9580e244b60f564c7fd2f6b032\",\"errors\":[]}",
+        "blocking": true
+      },
+      {
+        "id": "sources",
+        "status": "PASS",
+        "evidence": "Segments versionnés disponibles au relecteur.",
+        "blocking": true
+      }
+    ],
+    "checkedAt": "2026-10-07T12:22:31.059Z"
+  },
+  "finishedAt": "2026-10-07T12:22:31.060Z",
+  "durationMs": 12277,
+  "provider": "openai_api",
+  "connectionId": null,
+  "profiles": {
+    "analysis": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "design": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "planReview": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "write": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "review": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    },
+    "repair": {
+      "model": "gpt-6.1-sol",
+      "effort": "high",
+      "inputUSDPerMillion": 2,
+      "outputUSDPerMillion": 10,
+      "maxOutputTokens": 24000
+    }
+  },
+  "sourceVersions": [
+    {
+      "id": "source_f46ed02d-6156-488b-be22-1dfe31be6ca1",
+      "title": "Dossier Une invitation, trois conditions",
+      "contentHash": "97ba5e792d7c44dd6a017ebd6fed8345804ac318588fedc97dc075965916fd37"
+    },
+    {
+      "id": "A1:resource:BC05-C1-2:45a60ebbaeee",
+      "title": "CHECKPOINT // Deux règles, une décision",
+      "contentHash": "45a60ebbaeeecd0385990d2faeb023b8449f4cd5f2488f0c3f2047f16906bc56"
+    }
+  ],
+  "maxCandidates": 4,
+  "preview": {
+    "versionId": "A1:PILOT-logic-prep_a3518579-d6bb-4cce-849f-c438a9f2e333:v3",
+    "completeness": "candidate"
+  },
+  "workerState": "idle",
+  "canCancel": false,
+  "canReconcile": false,
+  "canResume": false,
+  "canRevise": true
+}
