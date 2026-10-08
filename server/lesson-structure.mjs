@@ -63,7 +63,8 @@ export function pedagogyChecks(spec){
  add('lesson_diagnostic',inPhase('diagnostic').length===1&&inPhase('diagnostic')[0].type==='Diagnostic'&&spec.diagnostic?.tasks?.length>0,'Un diagnostic réel, sans doublon');
  add('lesson_coverage',spec.activities.filter(a=>a.required).every(a=>spec.blocks.some(b=>b.activityIds.includes(a.id))),'Toutes les activités obligatoires sont accessibles');
  const tasks=spec.activities.filter(a=>a.required&&a.type!=='Reflection'),types=new Set(tasks.map(a=>a.type));
- add('lesson_variety',types.size>=3,'Au moins trois formes d’activité : produire, manipuler, représenter ou vérifier');
+ const lessonTypes=new Set([...types,...(spec.diagnostic?.tasks||[]).filter(a=>a.required&&a.type!=='Reflection').map(a=>a.type)]);
+ add('lesson_variety',types.size>=2&&lessonTypes.size>=3,'Au moins trois formes d’activité dans la séance, dont deux hors diagnostic : produire, manipuler, représenter ou vérifier');
  add('lesson_manipulation',tasks.some(a=>['Blackboard','Simulator','DragDrop','Matching','TruthTable','CircuitExercise','Preview','Terminal'].includes(a.type))||types.has('CodeEditor')&&types.has('FillBlank'),'Une manipulation ou une reconstruction active, au-delà des questions ouvertes');
  add('lesson_subject_diagram',inPhase('understand').some(b=>b.boards?.length||b.teaching?.diagram.some(row=>row.includes('→')&&row!=='Observer → Comprendre → Essayer → Vérifier')),'Un schéma relié aux notions de la séance');
  const codeSkills=spec.skills.filter(c=>/^BC04-C[12]-|^BC04-C3-2$|^BC04-C4-2$|^BC05-C1-|^BC06-C2-[13]$|^BCT01-C2-1$|^BCT02-C3-1$|^BCT04-C2-1$|^BCT05-C3-2$|^BCT06-C1-2$/.test(c));

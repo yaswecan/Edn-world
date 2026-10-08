@@ -51,6 +51,19 @@ test('publication rejects question-only lessons, absent code pathways and placeh
  const noDiagram=demoFlexbox(),concept=noDiagram.blocks.find(b=>b.phase==='understand');delete concept.boards;concept.teaching.diagram=['Observer → Comprendre → Essayer → Vérifier'];
  assert.equal(pedagogyChecks(noDiagram).find(c=>c.id==='lesson_subject_diagram').ok,false);
 });
+test('activity variety includes the required diagnostic while keeping variety outside it',()=>{
+ const spec=demoFlexbox();
+ for(const a of spec.activities)if(a.type!=='Reflection')a.type=a.id==='transfer'?'FillBlank':'CodeEditor';
+ spec.diagnostic.tasks=[{type:'WriteResponse',required:true}];
+ const varied=()=>pedagogyChecks(spec).find(c=>c.id==='lesson_variety').ok;
+ assert.equal(varied(),true);
+ spec.diagnostic.tasks[0].required=false;assert.equal(varied(),false);
+ spec.diagnostic.tasks=[{type:'Reflection',required:true}];assert.equal(varied(),false);
+ spec.diagnostic.tasks=[{type:'WriteResponse',required:true},{type:'Quiz',required:true}];
+ for(const a of spec.activities)if(a.type!=='Reflection')a.type='CodeEditor';
+ assert.equal(varied(),false);
+});
+
 test('code testing checks the authored task and CSS cascade, without disclosing the answer key',async()=>{
  const task=demoFlexbox().activities.find(a=>a.id==='guided-0');
  assert.equal((await testActivityCode(task,'.groupe { display: block; }')).ok,false);

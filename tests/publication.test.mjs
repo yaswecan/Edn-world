@@ -19,6 +19,19 @@ test('another timetable change does not block publication; changed lesson or cur
  assert.equal(lessonPlanUnchanged(spec,entry,[{...original,entries:[{...entry,id:'e'}]},current]),true);
 });
 
+test('a duration-only planning change accepts an already retimed lesson without rewriting its source',()=>{
+ const entry={id:'A1:e',classId:'A1',date:'2026-10-08',skills:['JS'],objective:'Boucles',duration:175,durationConfirmed:true,status:'planned',version:1};
+ const currentEntry={...entry,duration:135,version:2};
+ const plans=[{version:1,curriculumVersion:'c',entries:[entry]},{version:2,curriculumVersion:'c',entries:[currentEntry]}];
+ const spec={classId:'A1',planEntryId:entry.id,planVersion:1,sourceVersions:{curriculumVersion:'c'},blocks:[{id:'first',minutes:20},{id:'next',minutes:115}],timeline:[{blockId:'first',minutes:20},{blockId:'next',minutes:115}]};
+ const original=structuredClone(spec);
+ assert.equal(lessonPlanUnchanged(spec,currentEntry,plans),true);
+ assert.deepEqual(spec,original);
+ for(const change of [{duration:130},{durationConfirmed:false},{objective:'Autre objectif'},{skills:['CSS']},{date:'2026-10-09'},{status:'cancelled'}])assert.equal(lessonPlanUnchanged(spec,{...currentEntry,...change},plans),false);
+ assert.equal(lessonPlanUnchanged({...spec,timeline:[{blockId:'first',minutes:135}]},currentEntry,plans),false);
+ assert.equal(lessonPlanUnchanged(spec,currentEntry,[plans[0],{...plans[1],curriculumVersion:'new'}]),false);
+});
+
 test('publication preparation compiles missing supports once and leaves final publication explicit',async()=>{
  const {store,actor,lesson}=await diagnosticRevisionFixture();try{
   const old=await store.get('lesson_versions',lesson.versionId),plan=await store.get('plan_versions','quality-plan'),entry=await store.get('plan_entries','box');
