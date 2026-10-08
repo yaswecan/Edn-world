@@ -10,6 +10,24 @@ Application locale fonctionnelle construite à partir de la spécification v1.1,
 
 Le mode Vercel est désactivé en attente d’accès partenaire confirmé. Connexion et génération réelles restent à valider avec un compte éligible. Voir le [démarrage et la configuration](docs/chatgpt/README.md), [l’audit](docs/chatgpt/audit.md), [les sources vérifiées](docs/chatgpt/sources.md) et [la recette](docs/chatgpt/acceptance.md). Aucun déploiement de production.
 
+## Partager avec les élèves sur le même Wi-Fi
+
+Arrêter le lancement personnel avec **Ctrl+C**, puis lancer :
+
+```sh
+npm run dev:lan
+```
+
+Le terminal affiche **Accès élèves sur le même Wi-Fi** avec le lien à partager, par exemple `http://192.168.1.120:4181/today`. L’adresse dépend du réseau actuel : relancer cette commande après un changement de Wi-Fi. Garder le Mac allumé, éveillé et le terminal ouvert pendant la séance. Le professeur conserve `http://127.0.0.1:4181/`.
+
+Ce mode utilise les mêmes comptes, cours et fichiers que `npm run dev:chatgpt`, dans `.data/chatgpt-personal`. Les réponses élèves sont enregistrées et conservées après redémarrage. Dans **Ma classe & réglages**, préparer leurs accès ; dans **Mes séances**, publier la version voulue. Chaque élève ouvre le lien réseau et se connecte avec son compte. Pour partager une séance précise, remplacer `127.0.0.1` dans son lien **Accès élèves** par l’adresse affichée, en conservant le port et `?lesson=…`. L’aperçu `preview:student` reste une recette en mémoire.
+
+Le partage écoute uniquement sur l’adresse privée détectée, en plus de l’adresse locale du professeur. La connexion personnelle IA et l’initialisation professeur restent réservées à l’accès local. Si plusieurs interfaces sont disponibles : `npm run dev:lan -- --lan-host=192.168.1.120` avec l’adresse du Wi-Fi choisi. Pour arrêter le partage : **Ctrl+C**, puis `npm run dev:chatgpt` pour continuer uniquement sur le Mac.
+
+Si un autre appareil n’arrive pas à ouvrir la page, vérifier qu’il est sur le même réseau, autoriser les connexions entrantes de Node dans le pare-feu macOS et vérifier que le Wi-Fi de l’établissement permet les communications entre appareils. Ce mode HTTP est destiné au réseau local de confiance ; il ne publie pas le site sur Internet.
+
+Recette isolée : `node --import tsx --test tests/local-network.test.mjs tests/chatgpt-launcher.test.mjs`, puis `node --import tsx scripts/student-access-browser-check.mjs --lan` et `node --import tsx scripts/code-runner-browser-check.mjs --lan`. Les contrôles navigateur utilisent des comptes synthétiques et vérifient les sauvegardes, l’arcade et l’exécution JavaScript sur une adresse HTTP du réseau. Les identifiants aléatoires utilisent `crypto.getRandomValues` lorsque `crypto.randomUUID` n’est pas disponible sur cette origine.
+
 ## Préparation pédagogique approfondie
 
 Le nouveau parcours est accessible dans **Ressources → Importer des documents et préparer une séance**, à `/preparation.html`, et depuis **Préparer** en développement. Il importe les documents, conserve leurs versions et leurs limites d’extraction, puis prépare un parcours, rédige par unités et soumet chaque candidat à une revue indépendante. Les étapes et budgets sont persistants ; une préparation ne publie jamais automatiquement une séance. Sans clé ou modèle configuré, la demande affiche un blocage explicite.
@@ -172,7 +190,11 @@ Pour transférer la base **par upload dans l’interface**, exécuter `npm run d
 
 Sur la destination, configurer d’abord `DATABASE_URL` et le compte professeur initial, puis déployer le code comprenant l’import. Se connecter comme professeur et ouvrir **Ma classe & réglages → Importer ma base locale → Analyser ma base → Confirmer l’import de ma base**. L’aperçu présente les élèves, les séances et les identifiants professeur qui seront repris. Après confirmation, les comptes et mots de passe locaux remplacent le compte initial ; se reconnecter avec le compte local. Les dates, statuts de publication et accès élèves restent ceux de la sauvegarde.
 
-Cet upload est un **import initial**, autorisé uniquement dans une installation neuve (compte professeur connecté, sessions de ce compte et catalogue initial non modifié). Une base déjà remplie, une autre classe ou un catalogue modifié bloque l’import sans écrasement. Une copie identique est détectée. Les documents sont contrôlés par SHA-256 et les lignes relues avant validation d’une transaction unique. Les tâches externes en cours, les sessions de laboratoire et les documents S3 non inclus bloquent l’export navigateur. Limites : 4 Mio compressés / 32 Mio décompressés ; au-delà, utiliser le transfert administrateur ci-dessous. Le JSON d’une séance seule et le fichier SQLite brut ne sont pas acceptés par cet écran.
+Pour **effacer la base actuelle et la remplacer par votre sauvegarde locale**, choisir **Effacer et remplacer la base actuelle** dans la fenêtre d’import, sélectionner le fichier `.eden-db.gz`, puis **Analyser ma base**. L’aperçu affiche les élèves, séances et remises actuels à supprimer, puis les élèves, accès activés, séances et documents à importer. Cocher la confirmation de suppression puis cliquer sur **Effacer et importer cette base**. Tous les comptes, résultats, historiques et autres enregistrements de la base sont remplacés : aucune fusion. Les mots de passe du fichier sont conservés ; toutes les sessions sont fermées et il faut se reconnecter avec le compte professeur local. Les séances publiées restent publiées. Cette action concerne la base de l’instance ouverte dans le navigateur ; elle ne supprime pas les fichiers SQLite sur l’ordinateur source ni les exports Drive/S3/Git externes.
+
+Le mode par défaut **Importer dans une base vide** reste réservé à une installation neuve (compte professeur connecté, sessions de ce compte et catalogue initial non modifié). Si elle contient déjà des données, le bouton **Préparer le remplacement** ouvre l’aperçu de suppression. Le remplacement est limité à une installation dédiée à la classe du professeur : la présence d’une autre classe bloque toute suppression. Les préparations, distributions ou archivages actifs et les sessions de laboratoire doivent être résolus avant remplacement. Si le contenu de la base change après l’aperçu, l’opération est refusée et une nouvelle analyse est nécessaire ; les connexions seules n’invalident pas l’aperçu.
+
+Une copie identique est détectée sans réimport. Les documents sont contrôlés par SHA-256 et les lignes relues avant validation d’une transaction unique, sur SQLite comme PostgreSQL. Un échec de suppression, d’insertion ou de vérification annule toute l’opération et préserve la base précédente. Les tâches externes en cours, les sessions de laboratoire et les documents S3 non inclus bloquent l’export navigateur. Limites : 4 Mio compressés / 32 Mio décompressés ; au-delà, utiliser le transfert administrateur ci-dessous. Le JSON d’une séance seule et le fichier SQLite brut ne sont pas acceptés par cet écran.
 
 Vérification de l’upload : `node --import tsx --test tests/database-upload.test.mjs`. Parcours navigateur avec données synthétiques et base en mémoire : `node --import tsx scripts/database-import-browser-check.mjs`.
 

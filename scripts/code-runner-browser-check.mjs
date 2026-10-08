@@ -9,6 +9,7 @@ import {createApp} from '../server/app.mjs';
 import {demoLesson} from '../server/demo-lesson.mjs';
 import {practicalBaseline} from '../server/diagnostic-practice.mjs';
 import {studentSpec,library} from '../server/generator.mjs';
+import {lanAddress} from '../server/local-network.mjs';
 
 const {store}=await pedagogyFixture();
 let blockExecution=false;
@@ -21,9 +22,10 @@ app.get('/code-runner-frame.html',(req,res,next)=>{
  res.sendFile(resolve('public/code-runner-frame.html'));
 });
 app.use(createApp(store));
-const server=app.listen(0,'127.0.0.1');
+const lan=process.argv.includes('--lan'),host=lan?lanAddress():'127.0.0.1';
+const server=app.listen(0,host);
 await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject);});
-const base=`http://127.0.0.1:${server.address().port}`,directory='test-results/code-runner';
+const base=`http://${host}:${server.address().port}`,directory=lan?'test-results/code-runner-lan':'test-results/code-runner';
 await mkdir(directory,{recursive:true});
 const chrome=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 let browser,page;
@@ -34,6 +36,12 @@ try{
  page.on('pageerror',error=>errors.push(error.message));
  page.on('request',request=>{if(request.method()==='POST')validationRequests.push(new URL(request.url()).pathname);});
  await page.goto(base+'/lesson-demo.html');
+ if(lan){
+  assert.equal(await page.evaluate(()=>isSecureContext),false);
+  const ids=await page.evaluate(async()=>{const {randomUUID}=await import('/random-id.js');return Array.from({length:100},()=>randomUUID());});
+  assert.equal(new Set(ids).size,100);assert.ok(ids.every(id=>/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(id)));
+  report.checks.push('HTTP-LAN-identifiers-without-secure-context');
+ }
  await page.locator('.lesson-desktop-nav [data-action=demo-step][data-id="4"]').click();
  const root=page.locator('[data-workbench=guided-code]'),editor=root.locator('textarea'),output=root.locator('[data-code-output]'),status=root.locator('[data-code-status]');
  const run=async code=>{await editor.fill(code);await root.getByRole('button',{name:'Exécuter',exact:true}).click();};

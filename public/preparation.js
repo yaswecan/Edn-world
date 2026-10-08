@@ -1,3 +1,4 @@
+import {randomUUID} from './random-id.js';
 import {escape as esc,renderLessonPage} from './lesson-renderer.js';
 import {installWorkshopInteractions} from './workshop-runtime.js';
 import {installDOMLabs} from './dom-lab.js';
@@ -199,7 +200,7 @@ document.addEventListener('submit',async event=>{
   await confirmDuration(duration);
   const body={entryId:data.get('entryId'),intent:data.get('intent'),sourceIds:[...document.querySelectorAll('[name=source]:checked')].map(x=>x.value)},fingerprint=JSON.stringify({...body,duration});
   let action;try{action=JSON.parse(sessionStorage.getItem('tween-preparation-action'));}catch{}
-  if(action?.fingerprint!==fingerprint)action={fingerprint,requestId:crypto.randomUUID()};
+  if(action?.fingerprint!==fingerprint)action={fingerprint,requestId:randomUUID()};
   sessionStorage.setItem('tween-preparation-action',JSON.stringify(action));
   const j=await post('/api/preparation/jobs',{...body,requestId:action.requestId});sessionStorage.setItem('tween-preparation-action',JSON.stringify({...action,jobId:j.id}));selectedJob=j.id;lastJobJSON='';preview=null;previewInfo=null;$('#preview').replaceChildren();setView('current',{focus:true});await showJob();await loadJobs();message('Votre demande est enregistrée. Vous pouvez suivre sa préparation ici.');
  }

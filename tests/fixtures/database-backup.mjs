@@ -11,7 +11,7 @@ export async function backupFixture(){
  const store=await openStore({path:':memory:',url:''});
  try{
   await store.insert('teachers',sourceTeacher);
-  await store.insert('learners',{id:'learner',classId:'A1',role:'student',username:'student',displayName:'Élève test'});
+  await store.insert('learners',{id:'learner',classId:'A1',role:'student',username:'student',displayName:'Élève test',passwordHash:passwordHash('local-student-password')});
   await store.insert('sessions',{id:'local-session',classId:'A1',role:'teacher',userId:sourceTeacher.id});
   await store.insert('plan_entries',{id:'entry',classId:'A1',date:'2026-10-05',skills:[]});
   await store.insert('plan_versions',{id:'plan',classId:'A1',version:2,entries:[]});
@@ -28,5 +28,12 @@ export async function emptyDestination(){
  const store=await openStore({path:':memory:',url:''});
  await store.insert('teachers',destinationTeacher);
  await seedCatalog(store);
+ return store;
+}
+export async function populatedDestination(){
+ const store=await emptyDestination();
+ await store.insert('learners',{id:'old-student',classId:'A1',role:'student',username:'old-student',displayName:'Ancien élève',passwordHash:passwordHash('old-student-password')});
+ await store.insert('lessons',{id:'old-lesson',classId:'A1',title:'Ancienne séance',status:'draft',date:'2026-10-01',version:1});
+ for(const table of ['submissions','work_submissions','evidence','game_runs','learning_progress'])await store.insert(table,{id:'old-'+table,classId:'A1',learnerId:'old-student',lessonId:'old-lesson'});
  return store;
 }

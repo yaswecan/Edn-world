@@ -2,8 +2,13 @@ import {readFile,mkdir,chmod} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {parseEnv} from 'node:util';
 import {fork} from 'node:child_process';
+import {lanAddress} from '../server/local-network.mjs';
 
 if(process.env.VERCEL||process.env.NODE_ENV==='production')throw Error('Le parcours personnel ne se lance pas dans un hébergement de production.');
+const args=process.argv.slice(2);
+if(args.some(arg=>arg!=='--lan'&&!arg.startsWith('--lan-host=')))throw Error('Option inconnue. Utilisez npm run dev:chatgpt ou npm run dev:lan.');
+const lanOption=args.find(arg=>arg.startsWith('--lan-host='));
+const lanHost=args.includes('--lan')||lanOption?lanAddress({address:lanOption?.slice('--lan-host='.length)}):'';
 process.umask(0o077);
 // Deliberately ignore .env.local, inherited API keys, databases and storage providers.
 let local={};try{local=parseEnv(await readFile('.env.chatgpt.local','utf8'));}catch(e){if(e.code!=='ENOENT')throw e;}
@@ -13,6 +18,7 @@ const port=Number(local.EDEN_CHATGPT_PORT||4181);if(!Number.isInteger(port)||por
 const root=resolve('.data/chatgpt-personal');await mkdir(root,{recursive:true,mode:0o700});await chmod(root,0o700);
 const base=Object.fromEntries(['PATH','HOME','TMPDIR','LANG','LC_ALL','SystemRoot'].filter(k=>process.env[k]).map(k=>[k,process.env[k]]));
 const env={...base,...local,NODE_ENV:'development',HOST:'127.0.0.1',PORT:String(port),DATABASE_URL:'',EDEN_DB_PATH:resolve(root,'courses.sqlite'),EDEN_ARTIFACT_PATH:resolve(root,'artifacts'),EDEN_QUALITY_EVIDENCE_PATH:resolve(root,'evidence'),EDEN_CHATGPT_VAULT:resolve(root,'credentials'),EDEN_PERSONAL_LOCAL:'1',EDEN_CHATGPT_MODE:'local',EDEN_QUALITY_PIPELINE:'1',EDEN_AI_WORKER_EXTERNAL:'1'};
+if(lanHost)env.EDEN_LAN_HOST=lanHost;
 let stopping=false,workerStarted=false;const children=new Map(),restarts=new Map();
 function start(name,path){
  const child=fork(path,[],{env,execArgv:['--import','tsx'],stdio:['inherit','inherit','inherit','ipc']});children.set(name,child);

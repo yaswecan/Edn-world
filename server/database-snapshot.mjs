@@ -79,7 +79,7 @@ function validateBackup(backup,classId){
  }
  ensure(snapshotDigest(tables)===backup.fingerprint,'L’empreinte de la sauvegarde ne correspond pas à son contenu.');
  const counts=Object.fromEntries(TABLES.map(t=>[t,tables[t].length]));
- return {fingerprint:backup.fingerprint,totalRows:count,counts,learners:tables.learners.length,documents,
+ return {fingerprint:backup.fingerprint,totalRows:count,counts,learners:tables.learners.length,learnersWithAccess:tables.learners.filter(row=>JSON.parse(row.data).passwordHash).length,documents,
   teachers:tables.teachers.map(row=>{const {username}=JSON.parse(row.data);return {username};}),
   lessons:tables.lessons.map(row=>{const {title,date,status,version}=JSON.parse(row.data);return {title,date,status,version};})};
 }
@@ -122,23 +122,53 @@ function targetStatus(tables,snapshot,actor){
  return 'ready';
 }
 
-export async function inspectBackup(store,snapshot,actor){
- return store.transaction(async tx=>({...snapshot.report,status:targetStatus(await targetRows(tx),snapshot,actor)}));
+function importMode(mode){ensure(['initial','replace'].includes(mode),'Mode d’import invalide.');return mode;}
+const targetFingerprint=tables=>snapshotDigest({...tables,sessions:[]});
+function replacementBlocker(tables,actor){
+ if(TABLES.some(table=>tables[table].some(row=>row.class_id!==actor.classId)))return 'Cette base contient une autre classe. Le remplacement est réservé à une installation dédiée à votre classe.';
+ const jobs=['publication_jobs','generation_jobs'].flatMap(table=>tables[table].map(row=>JSON.parse(row.data)));
+ if(jobs.some(job=>['queued','running','retry_wait'].includes(job.status)||Date.parse(job.leaseUntil)>Date.now()))return 'Une préparation ou une distribution est encore en cours. Terminez-la ou annulez-la, attendez la fin du traitement, puis analysez de nouveau le fichier.';
+ if(tables.archive_outbox.some(row=>['pending','retry','running'].includes(JSON.parse(row.data).state)))return 'Un archivage est encore en attente ou en cours. Attendez sa fin avant de remplacer la base.';
+ if(tables.lab_sessions.length)return 'Cette base contient des sessions de laboratoire liées à cet hôte. Utilisez la migration administrateur.';
+ return null;
 }
 
-export async function restoreBackup(store,snapshot,actor,confirmation){
+export async function inspectBackup(store,snapshot,actor,{mode='initial'}={}){
+ importMode(mode);
+ return store.transaction(async tx=>{
+  await tx.lockTables();
+  const tables=await targetRows(tx),initialStatus=targetStatus(tables,snapshot,actor);
+  const blockedReason=replacementBlocker(tables,actor);
+  const status=mode==='replace'&&initialStatus!=='identical'?(blockedReason?'blocked':'ready'):initialStatus;
+  const target=blockedReason?null:{fingerprint:targetFingerprint(tables),learners:tables.learners.length,lessons:tables.lessons.length,
+   submissions:tables.submissions.length+tables.work_submissions.length,totalRows:TABLES.filter(t=>t!=='sessions').reduce((sum,t)=>sum+tables[t].length,0)};
+  return {...snapshot.report,mode,status,target,canReplace:!blockedReason,blockedReason};
+ });
+}
+
+export async function restoreBackup(store,snapshot,actor,confirmation,{mode='initial',targetConfirmation,sessionId}={}){
+ importMode(mode);
  ensure(confirmation===snapshot.report.fingerprint,'Analysez le fichier puis confirmez cet import.');
+ if(mode==='replace')ensure(typeof targetConfirmation==='string'&&/^[a-f0-9]{64}$/.test(targetConfirmation),'Analysez la base actuelle puis confirmez son remplacement.');
  ensure(snapshotDigest(snapshot.tables)===snapshot.report.fingerprint,'La copie préparée a changé. Analysez de nouveau le fichier.');
  return store.transaction(async tx=>{
   await tx.lockTables();
   const current=await tx.get('teachers',actor.id);
-  if(!current||current.classId!==actor.classId||current.passwordHash!==actor.passwordHash||(current.authVersion||0)!==(actor.authVersion||0))fail(401,'Reconnectez-vous avant l’import.');
+  if(!current||current.role!=='teacher'||current.classId!==actor.classId||current.passwordHash!==actor.passwordHash||(current.authVersion||0)!==(actor.authVersion||0))fail(401,'Reconnectez-vous avant l’import.');
+  if(sessionId){
+   const session=await tx.get('sessions',sessionId);
+   if(!session||session.userId!==actor.id||session.role!=='teacher'||session.classId!==actor.classId||Date.parse(session.expiresAt)<=Date.now()||(session.authVersion||0)!==(current.authVersion||0))fail(401,'Reconnectez-vous avant l’import.');
+  }
   const before=await targetRows(tx),status=targetStatus(before,snapshot,actor);
-  if(status==='conflict')fail(409,'Cette installation contient déjà des données différentes. L’import initial refuse de les écraser ; utilisez une base Tween Teach neuve.');
   if(status==='identical')return {status:'already_imported',...snapshot.report};
+  if(mode==='replace'){
+   const blockedReason=replacementBlocker(before,actor);
+   if(blockedReason)fail(409,blockedReason);
+   if(targetFingerprint(before)!==targetConfirmation)fail(409,'La base actuelle a changé depuis l’analyse. Analysez de nouveau le fichier avant de confirmer le remplacement.');
+  }else if(status==='conflict')fail(409,'Cette installation contient déjà des données différentes. Choisissez « Effacer et remplacer la base actuelle » puis confirmez le remplacement.');
   for(const table of TABLES)for(const row of before[table])await tx.remove(table,row.id);
   for(const table of TABLES)for(const row of snapshot.tables[table])await tx.insertRow(table,row);
   if(snapshotDigest(await targetRows(tx))!==snapshot.report.fingerprint)fail(409,'La vérification après copie a échoué. Import annulé.');
-  return {status:'imported',...snapshot.report};
+  return {status:'imported',mode,...snapshot.report};
  });
 }

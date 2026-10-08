@@ -12,6 +12,7 @@
     "test:quality:v2:browser": "node --import tsx scripts/preparation-v2-browser.mjs",
     "preview:labs": "node scripts/lab-preview.mjs",
     "dev:chatgpt": "node scripts/chatgpt-local.mjs",
+    "dev:lan": "node scripts/chatgpt-local.mjs --lan",
     "test:chatgpt": "node --import tsx --test tests/chatgpt*.test.mjs",
     "test:chatgpt:browser": "node --import tsx scripts/chatgpt-browser-check.mjs",
     "dev": "node --env-file-if-exists=.env.local --import tsx server/index.mjs",

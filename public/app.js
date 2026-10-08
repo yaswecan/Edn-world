@@ -1,3 +1,4 @@
+import {randomUUID} from './random-id.js';
 import {installTerminalLabs,flushTerminalFiles} from './terminal-lab.js';
 import {installDOMLabs} from './dom-lab.js';
 import { edenLogo } from "./brand.js";
@@ -387,7 +388,7 @@ function settingsView() {
       "Votre classe, vos repères.",
       "Accès individuels, intégrations et historique des imports.",
     ) +
-    `<div class="card spaced"><div class="card-head"><h2>Reprendre ma base locale</h2>${btn("Importer ma base locale", "database-import", "", "primary", "download")}</div><div class="card-body"><p>Transférez les élèves, la planification, les séances et leurs documents dans une installation neuve de Tween Teach. Le contenu sera vérifié avant confirmation.</p></div></div>` +
+    `<div class="card spaced"><div class="card-head"><h2>Reprendre ma base locale</h2>${btn("Importer ma base locale", "database-import", "", "primary", "download")}</div><div class="card-body"><p>Importez vos élèves, leurs accès, la planification, les séances et leurs documents depuis un fichier .eden-db.gz. Vous pouvez aussi effacer et remplacer la base actuelle après vérification et confirmation.</p></div></div>` +
     `<p><a class="btn primary" href="/ai-settings.html">Réglages IA · API ou ChatGPT</a></p><div class="grid-three spaced">${[
       [
         "Mémoire métier",
@@ -469,19 +470,34 @@ async function openLesson(id) {
 function showDatabaseImport(report) {
   S.databasePreview = report;
   const ready = report.status === "ready";
+  const replacing = report.mode === "replace";
   modal(
     "Vérifier la base locale",
-    `<div class="pills">${pill(`${report.learners} élèves`, "brand-tone")}${pill(`${report.lessons.length} séances`)}${pill(`${report.documents} documents`)}</div>
+    `<h3>À importer</h3><div class="pills">${pill(`${report.learners} élèves`, "brand-tone")}${pill(`${report.learnersWithAccess} accès activés`)}${pill(`${report.lessons.length} séances`)}${pill(`${report.documents} documents`)}</div>
     <ul class="block-content">${report.lessons.map(lesson => `<li><strong>${esc(lesson.title)}</strong> · version ${esc(lesson.version)} · ${esc(lesson.date)} · ${esc(stateLabel(lesson.status))}</li>`).join("")}</ul>
-    ${ready ? `<p>Les comptes professeur de la base locale remplaceront le compte de cette installation : <strong>${report.teachers.map(t => esc(t.username)).join(", ")}</strong>. Après l’import, reconnectez-vous avec votre identifiant et votre mot de passe locaux.</p><p>Les dates, les brouillons et les accès élèves sont conservés. Les sessions de connexion sont exclues.</p>` : report.status === "identical" ? '<p>Cette base est déjà importée. Aucune copie supplémentaire n’est nécessaire.</p>' : '<p role="alert">Cette installation contient déjà des données différentes. Pour importer votre base locale, utilisez une installation neuve de Tween Teach.</p>'}
-    <div class="modal-actions">${btn("Fermer", "close-modal")}${ready ? btn("Confirmer l’import de ma base", "database-apply", "", "primary", "check") : ""}</div>`,
+    ${ready && replacing ? `<div class="alert" role="alert"><div><strong>La base actuelle sera entièrement effacée.</strong><p>${report.target.learners} élèves, ${report.target.lessons} séances et ${report.target.submissions} remises actuels seront supprimés, avec la planification, les résultats et l’historique (${report.target.totalRows} enregistrements au total).</p><p>Seul le contenu du fichier choisi sera conservé. Les données absentes du fichier seront perdues. Il n’y a pas de fusion.</p></div></div>` : ""}
+    ${ready ? `<p>Les comptes professeur de la base locale remplaceront les comptes de cette installation : <strong>${report.teachers.map(t => esc(t.username)).join(", ")}</strong>. Après l’import, reconnectez-vous avec votre identifiant et votre mot de passe locaux.</p><p>Les dates, les statuts de publication et les mots de passe élèves du fichier sont conservés. Toutes les sessions de connexion seront fermées.</p>` : report.status === "identical" ? '<p>Cette base est déjà importée. Aucune copie supplémentaire n’est nécessaire.</p>' : `<p role="alert">${esc(report.blockedReason || 'Cette installation contient déjà des données. Vous pouvez préparer leur remplacement complet par le fichier choisi.')}</p>`}
+    ${ready && replacing ? '<label class="check-label"><input id="database-replace-confirm" type="checkbox">Je confirme la suppression de toute la base actuelle et son remplacement par ce fichier.</label>' : ""}
+    <div class="modal-actions">${btn("Fermer", "close-modal")}${ready ? btn(replacing ? "Effacer et importer cette base" : "Confirmer l’import de ma base", "database-apply", "", replacing ? "danger" : "primary", "check") : report.status === "conflict" && report.canReplace ? btn("Préparer le remplacement", "database-replace-preview", "", "danger") : ""}</div>`,
   );
+  if (ready && replacing) {
+    const confirm = $("#database-replace-confirm"), apply = $('#dialog [data-action="database-apply"]');
+    apply.disabled = true;
+    confirm.addEventListener("change", () => { apply.disabled = !confirm.checked; });
+  }
+}
+async function previewDatabase(mode) {
+  S.databasePreview = null;
+  await busy(async () => showDatabaseImport(await api("/api/database/import/preview", {
+    method: "POST", body: S.databaseFile,
+    headers: {"Content-Type": "application/octet-stream", "X-Database-Mode": mode},
+  })), "Vérification de la base et des documents…");
 }
 function preparationAction(intent, entryId) {
   const fingerprint = JSON.stringify([S.user?.id, intent, entryId || null]);
   let action;
   try { action = JSON.parse(sessionStorage.getItem("tween-main-preparation-action")); } catch {}
-  if (action?.fingerprint !== fingerprint) action = { fingerprint, requestId: crypto.randomUUID() };
+  if (action?.fingerprint !== fingerprint) action = { fingerprint, requestId: randomUUID() };
   sessionStorage.setItem("tween-main-preparation-action", JSON.stringify(action));
   return action.requestId;
 }
@@ -630,7 +646,7 @@ function persistLocal() {
 }
 async function studentEvent(type, activityId, payload = {}) {
   return post("/api/events", {
-    eventId: crypto.randomUUID(),
+    eventId: randomUUID(),
     lessonId: S.student.id,
     lessonVersionId: S.student.versionId,
     type,
@@ -642,23 +658,27 @@ const actions = {
   "database-import": () => {
     S.databaseFile = null;
     S.databasePreview = null;
-    modal("Importer votre base locale", `<p>Choisissez le fichier de transfert <strong>.eden-db.gz</strong> contenant la base et ses documents. L’analyse ne modifie aucune donnée.</p><div class="field"><label for="database-file">Fichier de base locale</label><input id="database-file" type="file" accept=".gz,.eden-db.gz"></div><div class="modal-actions">${btn("Analyser ma base", "database-preview", "", "primary", "download")}</div>`);
+    modal("Importer votre base locale", `<p>Choisissez le fichier de transfert <strong>.eden-db.gz</strong> contenant la base et ses documents. L’analyse ne modifie aucune donnée.</p><div class="field"><label for="database-file">Fichier de base locale</label><input id="database-file" type="file" accept=".gz,.eden-db.gz"></div><div class="field"><label for="database-mode">Que souhaitez-vous faire ?</label><select id="database-mode"><option value="initial">Importer dans une base vide</option><option value="replace">Effacer et remplacer la base actuelle</option></select></div><div class="modal-actions">${btn("Analyser ma base", "database-preview", "", "primary", "download")}</div>`);
   },
   "database-preview": async () => {
     const file = $("#database-file").files[0];
     if (!file) throw Error("Choisissez votre fichier .eden-db.gz.");
     if (file.size > 4 * 1024 * 1024) throw Error("Le fichier dépasse la limite de 4 Mio. Utilisez le transfert de base depuis le projet local.");
     S.databaseFile = file;
-    await busy(async () => showDatabaseImport(await api("/api/database/import/preview", {
-      method: "POST", body: file, headers: {"Content-Type": "application/octet-stream"},
-    })), "Vérification de la base et des documents…");
+    await previewDatabase($("#database-mode").value);
   },
+  "database-replace-preview": () => previewDatabase("replace"),
   "database-apply": async () => {
     if (!S.databaseFile || S.databasePreview?.status !== "ready") throw Error("Analysez votre fichier avant de confirmer l’import.");
+    const replacing = S.databasePreview.mode === "replace";
+    if (replacing && !$("#database-replace-confirm")?.checked) throw Error("Confirmez la suppression de la base actuelle avant de continuer.");
     await busy(async () => {
       const report = await api("/api/database/import/apply", {
         method: "POST", body: S.databaseFile,
-        headers: {"Content-Type": "application/octet-stream", "X-Database-Confirmation": S.databasePreview.fingerprint},
+        headers: {"Content-Type": "application/octet-stream", "X-Database-Confirmation": S.databasePreview.fingerprint,
+          "X-Database-Mode": S.databasePreview.mode,
+          ...(replacing ? {"X-Database-Target-Confirmation": S.databasePreview.target.fingerprint} : {}),
+        },
       });
       S.databaseFile = null;
       S.databasePreview = null;
@@ -676,8 +696,8 @@ const actions = {
       S.session = await api("/api/session");
       renderLogin();
       $("#username").value = report.teachers[0].username;
-      modal("Base importée", `<p>${report.learners} élèves et ${report.lessons.length} séances sont enregistrés, avec leurs documents.</p><p>Reconnectez-vous avec le mot de passe de votre compte professeur local. Les séances en brouillon restent à publier.</p>${btn("Se reconnecter", "close-modal", "", "primary")}`);
-    }, "Import de la base locale…");
+      modal("Base importée", `<p>${report.mode === "replace" ? "La base actuelle a été remplacée. " : ""}${report.learners} élèves et ${report.lessons.length} séances sont enregistrés, avec leurs documents.</p><p>Reconnectez-vous avec le mot de passe de votre compte professeur local. Les séances publiées restent accessibles ; les brouillons restent à publier.</p>${btn("Se reconnecter", "close-modal", "", "primary")}`);
+    }, replacing ? "Remplacement par la base locale…" : "Import de la base locale…");
   },
   "close-modal": () => closeModal(),
   nav: async (id) => {
@@ -1070,7 +1090,7 @@ const actions = {
         let pending;try{pending=JSON.parse(localStorage.getItem(key));}catch{}
         // Persist the logical operation before transport. An uncertain HTTP
         // response retries the exact same files, including after page reload.
-        pending??={requestId:crypto.randomUUID(),lessonVersionId:S.student.versionId,answers:structuredClone(S.answers)};
+        pending??={requestId:randomUUID(),lessonVersionId:S.student.versionId,answers:structuredClone(S.answers)};
         localStorage.setItem(key,JSON.stringify(pending));
         const receipt=await post(`/api/lessons/${enc(S.student.id)}/work/submit`,pending);
         localStorage.setItem(key+':receipt',JSON.stringify(receipt));localStorage.removeItem(key);
@@ -1226,7 +1246,7 @@ const forms = {
   'revise-lesson':async(f,data)=>{
     const error=$('[data-revision-error]',f),progress=$('[data-revision-progress]',f),area=$('textarea',f),preset=$('[data-action=revision-js]',f);
     error.hidden=true;progress.hidden=false;progress.textContent='Modification en cours… Vous pouvez retrouver la proposition ici après son traitement.';
-    if(f.dataset.lastPrompt!==data.prompt){f.dataset.requestId=crypto.randomUUID();f.dataset.lastPrompt=data.prompt;}
+    if(f.dataset.lastPrompt!==data.prompt){f.dataset.requestId=randomUUID();f.dataset.lastPrompt=data.prompt;}
     area.readOnly=true;preset.disabled=true;
     try{
       const proposal=await post(`/api/lessons/${enc(f.dataset.id)}/revisions/propose`,{version:Number(f.dataset.version),prompt:data.prompt,requestId:f.dataset.requestId});
@@ -1357,7 +1377,7 @@ const forms = {
       subject: data.subject,
       students: new FormData(f).getAll("students"),
       confirmed: true,
-      requestId: crypto.randomUUID(),
+      requestId: randomUUID(),
     });
     showPublicationJob(job);
   },
@@ -1723,7 +1743,7 @@ function autosaveActivity(id) {
     id,
     setTimeout(async () => {
       const event = {
-        eventId: crypto.randomUUID(),
+        eventId: randomUUID(),
         lessonId,
         lessonVersionId,
         type: "answer_saved",
@@ -1919,7 +1939,7 @@ window.addEventListener("message", async (e) => {
     if (e.data?.type === "eden:close") closeModal();
     if (e.data?.type === "eden:event")
       await post(`/api/game/runs/${enc(S.gameRun.id)}/events`, {
-        eventId: crypto.randomUUID(),
+        eventId: randomUUID(),
         type: e.data.eventType,
         payload: e.data.payload,
       });

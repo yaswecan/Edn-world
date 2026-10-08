@@ -4,10 +4,18 @@ import {existsSync} from 'node:fs';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {chromium,expect} from '@playwright/test';
 import {studentPreview} from './lib/student-preview.mjs';
+import {createApp} from '../server/app.mjs';
+import {lanAddress} from '../server/local-network.mjs';
 
-const {values}=parseArgs({options:{source:{type:'string'},date:{type:'string'}}});
+const {values}=parseArgs({options:{source:{type:'string'},date:{type:'string'},lan:{type:'boolean'}}});
 const fixture=await studentPreview({source:values.source,date:values.date});
-const {base,store,lesson}=fixture,directory='test-results/student-access';
+const {store,lesson}=fixture,directory=values.lan?'test-results/student-access-lan':'test-results/student-access';
+let base=fixture.base,lanServer;
+if(values.lan){
+ const host=lanAddress();lanServer=createApp(store).listen(0,host);
+ await new Promise((resolve,reject)=>{lanServer.once('listening',resolve);lanServer.once('error',reject);});
+ base=`http://${host}:${lanServer.address().port}`;
+}
 await mkdir(directory,{recursive:true});
 const chrome=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const errors=[],report={scope:'Local student login, daily lesson and arcade round trip; disposable in-memory database',checks:[]};
@@ -18,6 +26,7 @@ try {
  await context.route('**/*',route=>new URL(route.request().url()).origin===base?route.continue():route.abort());
  page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
  await page.goto(base+'/today');
+ if(values.lan)assert.equal(await page.evaluate(()=>isSecureContext),false);
  await expect(page.getByRole('button',{name:'Élève',exact:true})).toHaveAttribute('aria-pressed','true');
  await page.getByLabel('Identifiant',{exact:true}).fill('student-a');
  await page.getByLabel('Mot de passe',{exact:true}).fill(fixture.password);
@@ -85,6 +94,8 @@ try {
  report.status='FAIL';report.error=error.stack;await page?.screenshot({path:directory+'/failure.png',fullPage:true});throw error;
 } finally {
  await writeFile(directory+'/report.json',JSON.stringify(report,null,2)+'\n');
- await browser?.close();await fixture.close();
+ await browser?.close();
+ if(lanServer){lanServer.closeAllConnections();await new Promise(resolve=>lanServer.close(resolve));}
+ await fixture.close();
 }
 console.log(JSON.stringify(report,null,2));

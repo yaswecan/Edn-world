@@ -88,7 +88,7 @@
   started=true;
   const code=event.data.code;
   if(typeof code!=='string'||code.length>100000){finish({type:'error',message:'Le code est trop long. Réduis-le à 100 000 caractères puis relance.'});return;}
-  const completionEvent='finished-'+crypto.randomUUID();
+  const completionEvent='finished-'+Array.from(crypto.getRandomValues(new Uint8Array(16)),byte=>byte.toString(16).padStart(2,'0')).join('');
   const prelude=`(${bootstrap.toString()})(${JSON.stringify(completionEvent)});\n`,offset=prelude.split('\n').length-1;
   const errorAt=(message,line)=>({type:'error',message:(line>offset?`Ligne ${line-offset} — `:'')+String(message).slice(0,1500)});
   try{

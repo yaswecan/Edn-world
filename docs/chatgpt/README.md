@@ -26,6 +26,12 @@ Ouvrir **http://127.0.0.1:4181/**. Le lanceur n’importe ni `.env.local`, ni le
 
 Les profils frontend interactif et shell/Git nécessitent le laboratoire existant (`labs/README.md`). Sans sa configuration, ces séances s’arrêtent avant les appels IA, avec un brouillon identifiable. Le HTML/CSS sans scripts et le sous-ensemble de programmation existant restent utilisables localement. Aucun Docker, laboratoire, service payant ou infrastructure de queue n’est créé par SIWC.
 
+## Accès des élèves sur le même Wi-Fi
+
+Après arrêt du lanceur personnel (**Ctrl+C**), `npm run dev:lan` ouvre aussi l’application sur l’adresse privée de l’ordinateur. Partager le lien `/today` affiché dans le terminal. Les élèves utilisent leurs comptes habituels et les séances publiées ; leurs réponses restent dans la même base `courses.sqlite`. Le professeur garde `http://127.0.0.1:4181/`, notamment pour les connexions personnelles IA. Le callback et ses contrôles d’accès local sont conservés.
+
+Le serveur et le worker restent uniques ; les deux adresses partagent la même application. Le mode réseau est explicite, limité à une adresse IPv4 privée attachée à cet ordinateur et doit être relancé après un changement de réseau. En cas de plusieurs interfaces, utiliser `npm run dev:lan -- --lan-host=ADRESSE_IP`. Arrêter le lanceur coupe les deux accès ; relancer `npm run dev:chatgpt` revient à l’accès sur le Mac uniquement. Voir [le partage réseau et le dépannage](../../README.md#partager-avec-les-élèves-sur-le-même-wi-fi).
+
 ## Configuration personnelle facultative
 
 Créer **`.env.chatgpt.local`** uniquement pour les options voulues. Ce fichier est ignoré par Git et Vercel. La liste des variables acceptées est contrôlée par le lanceur.

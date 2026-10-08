@@ -1,3 +1,4 @@
+import {randomUUID} from '../random-id.js';
 import {pixelText} from './identity.js';
 import {profileForm, personalSpace, playerIdentity, accountView, passwordField, collectionView, badgeDialog, nextFeatured} from './account-views.js';
 const root = document.body;
@@ -201,7 +202,7 @@ async function gameMessage(game, message) {
   if(state.game!==game || !message || typeof message!=='object' || game.closing)return;
   if(message.type==='eden:close'){await closeGame();return;}
   if(!['eden:event','eden:progress'].includes(message.type))return;
-  const body = message.type==='eden:progress' ? {progress:message.progress} : {eventId:crypto.randomUUID(), type:message.eventType, payload:message.payload};
+  const body = message.type==='eden:progress' ? {progress:message.progress} : {eventId:randomUUID(), type:message.eventType, payload:message.payload};
   if(message.type==='eden:progress')$('#game-save').textContent='Enregistrement…';
   game.queue = game.queue.then(async()=>{
     try {
