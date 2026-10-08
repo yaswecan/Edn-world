@@ -22,7 +22,14 @@ export const flexProfile={
 };
 
 function flexWorkshops(skills,i){
- const code=(id,title,instruction,starter,tests,board)=>activity(id,title,instruction,skills,{type:'CodeEditor',starter,correctionMode:'css',tests,reference:tests.map(t=>t.invoke).join('\n'),expectedEvidence:'Le CSS, le rendu comparé à ta prévision et les tests de vérification.',workshop:{language:'css',document:tiles,style:baseStyle+'\n'+tileStyle,board,prediction:'Avant l’essai, repère le parent et prévois la position des trois cartes.',hints:['Repère le sélecteur qui contient toutes les cartes.','Ne modifie qu’une propriété, puis compare le rendu.'],checks:tests.map(t=>t.invoke)}});
+ const solutions={
+  '01-parent':'.groupe { display: flex; }',
+  '04-aligner':'.groupe { display: flex; flex-direction: row; justify-content: center; align-items: center; }',
+  '02-axes':'.groupe { display: flex; flex-direction: column; justify-content: flex-start; align-items: center; gap: 12px; }',
+  '08-refaire':'.clubs { display: flex; flex-wrap: wrap; gap: 16px; }\n.club { display: flex; flex-direction: column; gap: 12px; padding: 20px; }',
+  '07-deboguer':'.groupe { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 24px; }'
+ };
+ const code=(id,title,instruction,starter,tests,board)=>activity(id,title,instruction,skills,{type:'CodeEditor',starter,correctionMode:'css',tests,reference:solutions[board],expectedEvidence:'Le CSS, le rendu comparé à ta prévision et les tests de vérification.',workshop:{language:'css',document:tiles,style:baseStyle+'\n'+tileStyle,board,prediction:'Avant l’essai, repère le parent et prévois la position des trois cartes.',hints:['Repère le sélecteur qui contient toutes les cartes.','Ne modifie qu’une propriété, puis compare le rendu.'],checks:tests.map(t=>t.invoke)}});
  const guided=[
   code(`guided-${i}`,'01 · Trouve le bon parent','Les trois cartes doivent tenir sur une ligne. Complète la règle de .groupe pour activer Flexbox. Observe le rendu avant de lancer les tests.','.groupe {\n  /* Active la disposition flexible ici. */\n}',[cssTest('.groupe','display','flex')],'01-parent'),
   code(`align-${i}`,'02 · Centre sur les deux axes','Centre les trois cartes horizontalement et verticalement dans .groupe. Garde la direction row. Change une propriété à la fois.','.groupe {\n  display: flex;\n  flex-direction: row;\n  /* Centre sur les deux axes. */\n}',[cssTest('.groupe','display','flex'),cssTest('.groupe','justify-content','center'),cssTest('.groupe','align-items','center')],'04-aligner'),
@@ -87,9 +94,19 @@ function webWorkshop(r,skills,i){
   'BCT06-C1-2':['<main>\n  <h1>Reconnaître une demande suspecte</h1>\n  <!-- Ajoute un avertissement et une action de signalement fictive. -->\n</main>',[htmlTest('aside'),htmlTest('button')]]
  };
  const [starter,tests]=configs[r.code]||[css?'/* Construis les règles demandées. */':'<main>\n  <!-- Construis la page demandée. -->\n</main>',[]];
+ const references={
+  'BC04-C1-1':'<main><h1>État de NEXUS</h1><p>Le secteur est stable.</p><button>Tester le signal</button></main>',
+  'BC04-C1-2':'<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Journal des secteurs</title></head><body><header>Journal des secteurs</header><main><h1>État des secteurs</h1><p>Le signal est stable.</p></main><footer>Équipe NEXUS</footer></body></html>',
+  'BC04-C1-3':'<label for="sector">Secteur</label><input id="sector" name="sector"><label for="level">Priorité</label><select id="level"><option>Normale</option><option>Urgente</option></select><label for="detail">Détail</label><textarea id="detail"></textarea><label for="state">Progression</label><progress id="state" value="1" max="4">1 sur 4</progress>',
+  'BC04-C2-1':'.alert { width: 300px; padding: 20px; border: 2px solid #162b32; box-sizing: border-box; }',
+  'BC04-C4-2':'<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Signaler une panne</title><meta name="description" content="Signaler une panne dans un secteur de NEXUS."></head><body><main><h1>Signaler une panne</h1><p>Le plan des secteurs est indisponible.</p><a href="/signalement">Ouvrir le formulaire de signalement</a></main><!-- Cette page textuelle ne nécessite pas d’image. --></body></html>',
+  'BCT04-C2-1':'<label for="code">Code du sas</label><input id="code" name="code"><button>Ouvrir le sas</button>',
+  'BCT06-C1-2':'<main><p>SIMULATION · Organisme fictif NEXUS · aucune collecte de données.</p><h1>Reconnaître une demande suspecte</h1><aside>Ne partage pas ton mot de passe. Vérifie la demande auprès du professeur.</aside><button type="button">Signaler cette demande — simulation</button></main>'
+ };
  const instruction=r.code==='BC04-C2-1'?'La carte mesure trop large. Garde width: 300px, padding: 20px et la bordure de 2px. Corrige le calcul de la largeur totale pour qu’elle reste à 300px.':r.task;
  const task=activity(`guided-${i}`,'Atelier code · '+r.title.split(' // ').at(-1),instruction,skills,{type:'CodeEditor',starter,tests,correctionMode:tests.length?(css?'css':'html'):'manual',reference:r.proof+'\nExemple : '+r.example,expectedEvidence:r.proof,workshop:{language:css?'css':'html',document:css?'<main class="panel"><section class="cards"><article class="alert alert-card"><h2>Signal du Nord</h2><p>Un contenu long pour observer ce qui se passe quand la place manque.</p></article><article class="alert-card alert-card--critical"><h2>Signal du Sud</h2><p>Deux cartes, les mêmes repères.</p></article></section></main>':'',style:baseStyle,hints:[r.questions[0]?.feedback||'Compare la structure et le résultat.'],checks:tests.length?tests.map(t=>t.invoke):[r.proof]}});
  const transfer={...structuredClone(task),id:'transfer',title:'Produis une nouvelle version',instruction:r.task+'\nNouveau contexte à traiter dans ta production : '+r.transfer,starter:css?'/* Repars du document fourni et écris tes règles. */':'<main>\n  <!-- Ta nouvelle production. -->\n</main>',tests:[],correctionMode:'manual',duration:22,reference:r.proof+'\nVérifier également : '+r.transfer,workshop:{...task.workshop,hints:[]}};
+ if(tests.length&&references[r.code])task.reference=references[r.code];
  return {guided:[task],transfer};
 }
 

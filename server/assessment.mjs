@@ -5,6 +5,7 @@ import {rubricGrade} from './rubric-grading.mjs';
 import {runSafe} from './safe-js.mjs';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 import {hash} from './importer.mjs';
+import {freezeContent,canonical} from './content-snapshots.mjs';
 export const level=score=>score==null?'NE':score>=15?'A2':score>=10?'A1':score>=5?'EC':'NA';
 export const valueOfLevel={NA:0,EC:1,A1:2,A2:3,NE:null};
 export function gradeTask(task,answer) {
@@ -47,6 +48,7 @@ export async function submitAttempt(store,attemptId,answers,actor) {
  attempt.firstAttempt??={};attempt.lastAttempt??={};
  for(const [taskId,answer] of Object.entries(frozen)){const event={timestamp:submittedAt,type:'answer_submitted',payload:{answer}};attempt.firstAttempt[taskId]??=event;attempt.lastAttempt[taskId]=event;}
  const submission=await tx.insert('submissions',{id:uid('submission'),classId:actor.classId,learnerId:actor.id,attemptId:attempt.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,diagnostic:lv.spec.diagnostic,answers:frozen,history:attempt.history||[],submittedAt,sha256:hash(JSON.stringify(frozen))});
+ const snapshot=await freezeContent(tx,{classId:actor.classId,event:'diagnostic.submitted',eventId:submission.id,acceptedAt:submittedAt,subject:{kind:'diagnostic',learnerId:actor.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,attemptId:attempt.id},versions:{criteria:hash(canonical(lv.spec.diagnostic)),validator:'eden-assessment-1'},files:[{path:'answers.json',content:canonical(frozen),audience:'student'}]});submission.snapshotId=snapshot.id;await tx.put('submissions',submission);
  const correction=await correctAsync(lv.spec.diagnostic,frozen);await tx.insert('corrections',{...correction,id:submission.id,classId:actor.classId,learnerId:actor.id,lessonId:attempt.lessonId,submissionId:submission.id,version:1});
  attempt.submissionId=submission.id;attempt.status='submitted';await tx.put('assessment_attempts',attempt);await tx.audit(actor,'diagnostic.submitted',submission.id,{sha256:submission.sha256});
  return submission;

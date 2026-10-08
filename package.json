@@ -32,7 +32,11 @@
     "preview:quality": "node --import tsx scripts/quality-preview.mjs",
     "test:quality": "node --import tsx --test tests/pedagogy.test.mjs tests/pedagogy-api.test.mjs",
     "test:quality:browser": "node --import tsx scripts/quality-browser-check.mjs",
-    "test:quality:dom": "node --import tsx scripts/quality-dom-check.mjs"
+    "test:quality:dom": "node --import tsx scripts/quality-dom-check.mjs",
+    "preview:documentary": "node --import tsx scripts/documentary-preview.mjs",
+    "test:documentary": "node --import tsx --test tests/documentary-storage.test.mjs",
+    "test:documentary:browser": "node --import tsx scripts/documentary-browser-check.mjs",
+    "test:documentary:search": "node --import tsx scripts/documentary-search-check.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1146.0",

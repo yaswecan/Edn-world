@@ -8,6 +8,9 @@ import {isIP} from 'node:net';
 import {Worker} from 'node:worker_threads';
 import {uid,now,fail,requireValue,scoped} from '../store.mjs';
 import {digest} from './contracts.mjs';
+import {preserveOriginal} from '../content-snapshots.mjs';
+import {artifactBuffer} from '../artifacts.mjs';
+import {buildDocumentIndex,authorizedSource,suggestClassification} from './documentary-index.mjs';
 export const sourceRoles=['curriculum','progression','technical','reference','exercise','solution','tone','visual'];
 export const MAX_DOCUMENT_BYTES=8*1024*1024;
 const textOf=node=>node.nodeName==='#text'?node.value:(node.childNodes||[]).map(textOf).join('');
@@ -71,26 +74,31 @@ export async function extractDocument(buffer,filename){
 export function semanticSegments(blocks,sourceId,visibility){
  const groups=[];let parent='Document',group=[];
  const flush=()=>{if(group.length){const number=groups.length+1;groups.push({id:`${sourceId}:s${number}`,parent,location:group.map(b=>b.location).join('; '),blocks:group,text:group.map(b=>b.text).join('\n\n'),visibility});group=[];}};
- for(const b of blocks){if(b.type==='heading'){flush();parent=b.text;}group.push(b);}flush();return groups;
+ for(const b of blocks){if(b.type==='heading'){flush();parent=b.text;}if(group.reduce((n,x)=>n+x.text.length,0)>6000&&b.type!=='heading')flush();group.push(b);}flush();return groups;
 }
 export async function importDocument(store,actor,input,buffer){
  requireValue(sourceRoles.includes(input.role),'Rôle de source invalide.');requireValue(typeof input.filename==='string'&&input.filename.length<=200,'Nom de fichier requis.');
  const contentHash=digest(buffer),identity=input.sourceKey||input.filename;
- const existing=(await store.list('pedagogical_sources',actor.classId)).find(s=>s.sourceKey===identity&&s.contentHash===contentHash&&s.role===input.role);if(existing)return existing;
+ requireValue(actor.role==='teacher','Import réservé au professeur.');
+ const existing=(await store.list('pedagogical_sources',actor.classId)).find(s=>s.sourceKey===identity&&s.contentHash===contentHash&&s.role===input.role&&(!s.ownerId||s.ownerId===actor.id));if(existing){await authorizedSource(store,existing.id,actor);if(existing.segments.length)await buildDocumentIndex(store,actor,existing.id);return await store.get('pedagogical_sources',existing.id);}
  const extraction=await extractDocument(buffer,input.filename);
- return store.transaction(async tx=>{
-  const versions=(await tx.list('pedagogical_sources',actor.classId)).filter(s=>s.sourceKey===identity),duplicate=versions.find(s=>s.contentHash===contentHash&&s.role===input.role);if(duplicate)return duplicate;
-  const id=uid('source'),visibility=input.role==='solution'?'teacher':'student',version=versions.length+1;
-  const record=await tx.insert('pedagogical_sources',{id,classId:actor.classId,version,sourceKey:identity,title:input.title||input.filename,filename:input.filename,role:input.role,visibility,author:input.author||null,sourceURL:input.sourceURL||null,declaredVersion:input.declaredVersion||null,consultedAt:now(),contentHash,originalBase64:buffer.toString('base64'),status:extraction.status,warnings:extraction.warnings,segments:semanticSegments(extraction.blocks,id,visibility),supersedes:versions.at(-1)?.id||null,analysisStatus:'not_analyzed'});
+ const original=await preserveOriginal(store,buffer);
+ const record=await store.transaction(async tx=>{
+  const versions=(await tx.list('pedagogical_sources',actor.classId)).filter(s=>s.sourceKey===identity&&(!s.ownerId||s.ownerId===actor.id)),duplicate=versions.find(s=>s.contentHash===contentHash&&s.role===input.role);if(duplicate)return duplicate;
+  const id=uid('source'),visibility='teacher',version=versions.length+1;
+  const record=await tx.insert('pedagogical_sources',{id,classId:actor.classId,documentId:versions.at(-1)?.documentId||uid('document'),ownerId:actor.id,access:{teacherIds:[actor.id],revoked:false},extractionId:`${id}:extraction:1`,extractionVersion:'structure-1',version,sourceKey:identity,title:input.title||input.filename,filename:input.filename,role:input.role,visibility,author:input.author||null,sourceURL:input.sourceURL||null,git:input.git||null,declaredVersion:input.declaredVersion||null,consultedAt:now(),contentHash,original,status:extraction.status,warnings:extraction.warnings,segments:semanticSegments(extraction.blocks,id,visibility),supersedes:versions.at(-1)?.id||null,analysisStatus:'not_analyzed'});
+  record.classification=suggestClassification(record);record.annotationReview=versions.at(-1)?.annotationVersion?'Source modifiée : reprendre explicitement les annotations de la version précédente.':null;await tx.put('pedagogical_sources',record);
   for(const job of await tx.list('generation_jobs',actor.classId))if(job.sourceIds?.some(s=>versions.some(v=>v.id===s))&&!['cancelled','failed','blocked'].includes(job.status)){
-   job.sourceChanged=true;job.invalidationReason='Nouvelle version de source : régénérer le brouillon. Les publications gardent leur version.';await tx.put('generation_jobs',job);
+   job.sourceChanged=true;job.invalidationReason='Nouvelle version de source : adopter explicitement ses documents dans une révision. Les publications gardent leur version.';await tx.put('generation_jobs',job);
   }await tx.audit(actor,'source.imported',id,{version,contentHash});return record;
  });
+ if(record.segments.length)await buildDocumentIndex(store,actor,record.id);return await store.get('pedagogical_sources',record.id);
 }
-export const sourceSummary=({originalBase64,...source})=>source;
+export const sourceSummary=({originalBase64,original,...source})=>({...source,role:source.classification?.role||source.role});
+export const originalDocument=source=>source.original?artifactBuffer(source.original):Buffer.from(source.originalBase64,'base64');
 export async function sourceDossier(store,actor,ids){
  requireValue(Array.isArray(ids)&&ids.length<=12,'Sélectionner au plus 12 documents.');
- const sources=[];for(const id of ids){const source=await scoped(store,'pedagogical_sources',id,actor);requireValue(source.status==='extracted',`Source ${source.title} : extraction à vérifier avant génération.`);sources.push(sourceSummary(source));}
+ const sources=[];for(const id of ids){const source=await authorizedSource(store,id,actor);requireValue(source.status==='extracted',`Source ${source.title} : extraction à vérifier avant génération.`);sources.push(sourceSummary(source));}
  const keys=new Set();for(const s of sources){requireValue(!keys.has(s.sourceKey),`Versions contradictoires sélectionnées : ${s.title}.`);keys.add(s.sourceKey);}
  return sources;
 }

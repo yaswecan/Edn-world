@@ -1,0 +1,51 @@
+import {chromium,expect} from '@playwright/test';
+import assert from 'node:assert/strict';
+import {existsSync} from 'node:fs';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {pedagogyFixture,buildPilot,pilotDefinitions} from '../tests/fixtures/pedagogy.mjs';
+import {createApp} from '../server/app.mjs';
+
+const {store,actor}=await pedagogyFixture(),directory='test-results/teacher-preview';await mkdir(directory,{recursive:true});
+const jobs=[];for(const pilot of pilotDefinitions.slice(0,2))jobs.push(await buildPilot(store,actor,pilot));
+const lessons=await Promise.all(jobs.map(job=>store.get('lessons',job.lessonId))),specs=await Promise.all(lessons.map(async lesson=>(await store.get('lesson_versions',lesson.versionId)).spec));
+const protectedTables=['lessons','lesson_versions','learning_events','learning_progress','assessment_attempts','submissions','work_submissions'],before=await Promise.all(protectedTables.map(t=>store.list(t)));
+const server=createApp(store).listen(0,'127.0.0.1');await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject);});
+const base=`http://127.0.0.1:${server.address().port}`,chrome=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+let browser,page;const report={scope:'Teacher preview, real browser and HTTP, isolated fixtures, no AI calls',checks:[]},errors=[],writes=[];
+try{
+ browser=await chromium.launch({headless:true,...existsSync(chrome)?{executablePath:chrome}:{}});
+ const context=await browser.newContext({viewport:{width:1440,height:1050}});page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ await context.route('**/*',route=>new URL(route.request().url()).origin===base?route.continue():route.abort());
+ page.on('request',r=>{if(r.method()==='POST')writes.push(new URL(r.url()).pathname);});
+ await context.request.post(base+'/api/login',{data:{role:'teacher',username:'professeur',password:'quality-preview-only'}});
+ await page.goto(base);await page.locator('.nav [data-id=lessons]').click();
+ await page.locator(`[data-action=open-lesson][data-id="${lessons[0].id}"]`).click();
+ await page.getByRole('button',{name:'Aperçu élève',exact:true}).click();await expect(page.getByRole('heading',{name:'Aperçu élève interactif',exact:true})).toBeVisible();
+ await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();
+ const css=specs[0].activities.find(a=>a.id==='guided'),editor=page.locator('#preview-body [data-answer=guided]');
+ await expect(editor).toBeEnabled();await editor.fill(css.reference+'\n.carte { color: rgb(120, 10, 30); }');
+ await page.locator('#preview-body [data-workshop-preview=guided]').click();
+ const frame=page.frameLocator('#preview-body [data-workshop-frame=guided]');await expect(frame.locator('.carte')).toHaveCSS('color','rgb(120, 10, 30)');
+ await page.locator('#preview-body [data-activity=guided]').getByRole('button',{name:'Vérifier mon code'}).click();await expect(page.locator('#preview-body #console-guided')).toContainText('Exécution terminée');
+ const code=await editor.inputValue(),step=await page.locator('#preview-step').inputValue();
+ await page.getByRole('button',{name:'Étape précédente',exact:true}).click();await page.getByRole('button',{name:'Étape suivante',exact:true}).click();await expect(editor).toHaveValue(code);
+ await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();await expect(editor).toBeInViewport();await expect(page.getByRole('button',{name:'Fermer',exact:true})).toBeInViewport();await page.screenshot({path:directory+'/css-desktop.png'});
+ await page.locator('#preview-step').selectOption('1');const diagnostic=page.locator('#preview-body [data-answer=diag-practice]');await diagnostic.fill('.carte { color: blue; }');
+ await page.locator('#preview-body [data-workshop-preview=diag-practice]').click();await expect(page.frameLocator('#preview-body [data-workshop-frame=diag-practice]').locator('.carte')).toHaveCSS('color','rgb(0, 0, 255)');
+ await page.locator('#preview-body [data-activity=diag-practice]').getByRole('button',{name:'Vérifier mon code'}).click();await expect(page.locator('#console-diag-practice')).toContainText('Exécution terminée');
+ await expect(page.locator('#preview-body [data-action=submit-answers]')).toHaveCount(0);await expect(page.locator('#preview-body [data-action=complete-activity]')).toHaveCount(0);
+ await page.locator('#preview-step').selectOption(step);await expect(editor).toHaveValue(code);
+ await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();await expect(editor).toBeInViewport();assert.equal(await page.locator('#dialog').evaluate(node=>node.scrollWidth>node.clientWidth+2),false);await page.screenshot({path:directory+'/css-mobile.png'});
+ await page.getByRole('button',{name:'Fermer',exact:true}).click();await page.setViewportSize({width:1440,height:1050});
+ await page.getByRole('button',{name:'Vue élève',exact:true}).click();await expect(page.locator('#preview-step')).toBeVisible();await page.getByRole('button',{name:'Fermer',exact:true}).click();
+ report.checks.push('direct-editor-access','editable-code-with-real-css-preview','exercise-and-diagnostic-tests','answers-survive-navigation','student-submit-controls-absent','mobile-no-overflow','topbar-opens-current-lesson-preview');
+ await page.getByRole('button',{name:'Retour aux séances',exact:true}).click();await page.locator(`[data-action=open-lesson][data-id="${lessons[1].id}"]`).click();
+ await page.getByRole('button',{name:'Aperçu élève',exact:true}).click();await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();
+ const js=specs[1].activities.find(a=>a.id==='guided');await editor.fill(js.reference);await page.locator('#preview-body [data-activity=guided]').getByRole('button',{name:'Vérifier mon code'}).click();await expect(page.locator('#console-guided')).toContainText('Exécution terminée');
+ await expect(page.locator('#preview-body [data-debug=start]')).toBeEnabled();await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();await page.screenshot({path:directory+'/javascript-desktop.png'});
+ assert.ok(writes.every(path=>/\/preview(?:\/test)?$/.test(path)),JSON.stringify(writes));
+ assert.deepEqual(await Promise.all(protectedTables.map(t=>store.list(t))),before);assert.deepEqual(errors,[]);
+ report.checks.push('javascript-code-tests-and-debugger-enabled','no-student-writes-no-publication-no-lesson-mutation','no-browser-errors');report.status='PASS';
+}catch(error){report.status='FAIL';report.error=error.stack;await page?.screenshot({path:directory+'/failure.png',fullPage:true});throw error;}
+finally{await writeFile(directory+'/report.json',JSON.stringify(report,null,2)+'\n');await browser?.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));await store.close();}
+console.log(JSON.stringify(report,null,2));

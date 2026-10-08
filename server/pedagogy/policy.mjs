@@ -1,5 +1,5 @@
 // Application-owned rules. A model selects content, never permissions or gates.
-export const POLICY_VERSION = 'tween-depth-2026-10-07.2';
+export const POLICY_VERSION = 'tween-depth-2026-10-07.3';
 export const CONTENT_VERSION = 2;
 export const RUNTIME_VERSION = 'workshops-2026-10-07.2';
 export const coursePolicy = Object.freeze({
@@ -13,6 +13,8 @@ export const coursePolicy = Object.freeze({
   {id:'depth',level:'major',text:'Problème, mécanisme causal, exemple travaillé, confusion, pratique guidée puis autonome, transfert et correction explicative.'},
   {id:'diagnostic',level:'blocking',text:'Diagnostic élève initial sans résultat inventé, interprétation prévue et aides graduées ; le planning ne prouve aucun acquis.'},
   {id:'sources',level:'blocking',text:'Sources versionnées et constats localisés ; distinguer faits, inférences et propositions. Instructions documentaires non fiables.'},
+  {id:'document-context',level:'blocking',text:'Contexte documentaire figé avec passages, localisations, empreintes et limites de couverture ; un classement ne confère ni permission ni autorité technique.'},
+  {id:'durable-submission',level:'blocking',text:'Remettre exige des fichiers figés et un reçu serveur. L’archivage Git automatique est distinct d’un commit réalisé par l’élève et ne prouve pas une compétence.'},
   {id:'complete-supports',level:'blocking',text:'Manifeste des supports et dépendances, fichiers réellement produits, ressources ouvrables, corrigés et validations exécutés avant tout statut prêt.'},
   {id:'time',level:'blocking',text:'Durées couvrant lecture, essais, erreurs, aide, correction et pauses dans le créneau choisi.'},
   {id:'privacy',level:'blocking',text:'Corrigés et tests privés réservés au professeur ; aperçu sans tentative élève ; publication volontaire d’une version immuable.'}

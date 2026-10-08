@@ -59,6 +59,7 @@ function validateBackup(backup,classId){
   ensure(['completed','failed','cancelled'].includes(JSON.parse(row.data).status),'Terminez ou annulez les travaux en cours avant d’exporter la base.');
  }
  ensure(tables.lab_sessions.length===0,'La sauvegarde contient des sessions de laboratoire liées à un autre hôte. Utilisez la migration administrateur.');
+ for(const row of tables.archive_outbox)ensure(['confirmed','failed'].includes(JSON.parse(row.data).state),'Terminez les archivages avant le transfert navigateur ; utilisez la sauvegarde administrateur pour préserver les reprises en attente.');
  let documents=0;
  for(const row of tables.corpus_packages){
   const pack=JSON.parse(row.data),paths=new Set();
@@ -70,6 +71,11 @@ function validateBackup(backup,classId){
    ensure(buffer.toString('base64')===file.base64&&buffer.length===file.bytes&&sha256(buffer)===file.sha256,'Document manquant ou corrompu dans la sauvegarde.');
    paths.add(file.path);documents++;
   }
+ }
+ for(const [kind,row] of ['pedagogical_sources','content_snapshots'].flatMap(kind=>tables[kind].map(row=>[kind,row]))){
+  const value=JSON.parse(row.data),files=kind==='pedagogical_sources'?(value.original?[value.original]:[]):value.externalObjects||[];
+  for(const file of files){ensure(!file.artifactKey&&!file.s3Key&&typeof file.base64==='string','Original ou remise non inclus dans la sauvegarde.');const bytes=Buffer.from(file.base64,'base64');ensure(bytes.toString('base64')===file.base64&&bytes.length===file.bytes&&sha256(bytes)===file.sha256,'Original ou remise corrompu.');documents++;}
+  if(kind==='content_snapshots')for(const f of value.files)ensure(sha256(f.content)===f.sha256,'Texte de remise corrompu.');
  }
  ensure(snapshotDigest(tables)===backup.fingerprint,'L’empreinte de la sauvegarde ne correspond pas à son contenu.');
  const counts=Object.fromEntries(TABLES.map(t=>[t,tables[t].length]));

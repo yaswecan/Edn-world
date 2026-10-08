@@ -29,5 +29,5 @@ export async function inspectCandidate(spec,job,{directory=process.env.EDEN_QUAL
   }}
   return {status:errors.length?'FAIL':'PASS',evidence:JSON.stringify({hash,scope:'Rendu Chrome à 1280 et 390 px : blocs, images et débordements. Inspection pédagogique humaine des captures distincte.',captures,directory:destination,errors})};
  }catch(error){return {status:'NOT RUN',evidence:`Navigateur indisponible : ${error.message}`};}
- finally{await browser?.close();if(server)await new Promise(r=>server.close(r));}
+ finally{await browser?.close();if(server){server.closeAllConnections();await new Promise(r=>server.close(r));}}
 }

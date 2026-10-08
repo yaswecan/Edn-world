@@ -250,6 +250,26 @@
         "alternative"
       ],
       "additionalProperties": false
+    },
+    "observation": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "output": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "code",
+        "output"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

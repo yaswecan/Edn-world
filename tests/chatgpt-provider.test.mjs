@@ -101,7 +101,8 @@ test('SSE without Content-Type still requires a successful terminal event',async
  assert.equal(response.headers.get('content-type'),null);
  const result=await readResponsesStream(response,{onEvent:event=>events.push(event)});
  assert.equal(result.text,'préparé');assert.equal(result.status,'completed');assert.equal(result.model,'account-model');
- assert.deepEqual(events,[{type:'response.output_text.delta'},{type:'response.completed',responseId:'resp',status:'completed'}]);
+ assert.deepEqual(events.map(({activity,model,...event})=>event),[{type:'response.output_text.delta'},{type:'response.completed',responseId:'resp',status:'completed'}]);
+ assert.equal(events[0].activity.outputCharacters,7);assert.equal(events[1].activity.phase,'completed');
  await assert.rejects(readResponsesStream(sse([{type:'response.output_text.delta',delta:'brouillon'}],{contentType:null})),error=>error.details.kind==='uncertain'&&error.partialOutput==='brouillon');
  await assert.rejects(readResponsesStream(sse([{type:'response.failed',response:{error:{code:'subscription_sharing_usage_limit_exceeded'}}}],{contentType:null})),error=>error.details.kind==='usage_limit');
  // A complete JSON response or an HTML page cannot stand in for SSE completion.
@@ -115,6 +116,31 @@ test('SSE media types are case insensitive and incompatible bodies are cancelled
  const response=new Response(new ReadableStream({cancel(){cancelled=true;}}),{headers:{'content-type':'text/html'}});
  await assert.rejects(readResponsesStream(response),error=>error.details.kind==='uncertain');
  assert.equal(cancelled,true);
+});
+test('live activity exposes only public summaries and lifecycle signals, with bounded deduplicated UTF8 text',async()=>{
+ const events=[],done=completed('réponse');
+ done.response.output.unshift({id:'reason',type:'reasoning',content:[{type:'reasoning_text',text:'private content'}],encrypted_content:'private encrypted',summary:[{type:'summary_text',text:'Je compare les objectifs.'}]});
+ await readResponsesStream(sse([
+  {type:'response.created',response:{id:'resp',status:'in_progress',model:'account-model',private:'not forwarded'}},
+  {type:'response.output_item.added',output_index:0,item:{id:'reason',type:'reasoning',content:['private item'],encrypted_content:'private encrypted'}},
+  {type:'response.reasoning_text.delta',delta:'private reasoning'},
+  {type:'response.reasoning_text.done',text:'private reasoning'},
+  {type:'response.reasoning_summary_text.delta',item_id:'reason',summary_index:0,delta:'Je compare '},
+  {type:'response.reasoning_summary_text.delta',item_id:'reason',summary_index:0,delta:'les objectifs.'},
+  {type:'response.reasoning_summary_text.done',item_id:'reason',summary_index:0,text:'Je compare les objectifs.'},
+  {type:'response.reasoning_summary_part.done',item_id:'reason',summary_index:0,part:{type:'summary_text',text:'Je compare les objectifs.'}},
+  {type:'response.output_text.delta',delta:'réponse'},done
+ ],{split:true}),{onEvent:e=>events.push(e)});
+ assert.equal(events[0].model,'account-model');assert.equal(events[1].activity.phase,'reasoning');
+ assert.equal(events[3].activity.summary,'Je compare les objectifs.');
+ assert.equal(events.at(-2).activity.outputCharacters,7);assert.equal(events.at(-2).activity.phase,'writing');
+ assert.equal(events.at(-1).activity.summary,'Je compare les objectifs.');assert.equal(events.at(-1).activity.phase,'completed');
+ assert.doesNotMatch(JSON.stringify(events),/private|not forwarded|reasoning_text/);
+ assert.ok(events.every(e=>Number.isFinite(Date.parse(e.activity.lastSignalAt))));
+ const bounded=[];await readResponsesStream(sse([
+  ...Array.from({length:20},(_,i)=>({type:'response.reasoning_summary_text.delta',item_id:'reason-'+i,summary_index:0,delta:'é'.repeat(7000)})),completed('ok')
+ ]),{onEvent:e=>bounded.push(e)});
+ assert.ok(bounded.every(e=>e.activity.summary.length<=6000));assert.equal(bounded.at(-1).activity.summaryTruncated,true);
 });
 test('normalized plan call validates JSON, retains unknown cost, and cannot use the API key fallback',async()=>{
  let credentials=0,requests=0,noted=0;

@@ -1,8 +1,9 @@
 import {orderAndTime} from '../lesson-structure.mjs';
-export function prepareScaffold(spec,{diagnosticMinutes=8}={}){
+export function prepareScaffold(spec,{diagnosticMinutes=spec.diagnostic.duration}={}){
  const result=structuredClone(spec),tasks=result.diagnostic.tasks;
- const duration=Math.max(5,Math.min(20,Number(diagnosticMinutes)||8));
- tasks.forEach((t,i)=>t.duration=Math.floor(duration/tasks.length)+(i<duration%tasks.length?1:0));result.diagnostic.duration=duration;
+ // A practical diagnostic must retain the time authored for its code and tests.
+ const duration=Math.max(result.diagnostic.policyVersion?result.diagnostic.duration:5,Math.min(20,Number(diagnosticMinutes)||result.diagnostic.duration));
+ if(duration!==result.diagnostic.duration)tasks.forEach((t,i)=>t.duration=Math.floor(duration/tasks.length)+(i<duration%tasks.length?1:0));result.diagnostic.duration=duration;
  for(const a of result.activities){
   if(a.workshop?.language)a.workshop.profile={html:'html-css',css:'html-css',javascript:'algorithm',sql:'algorithm',text:'concepts'}[a.workshop.language];
   const terminalSkill=a.skills.find(c=>['BC02-C3-1','BC09-C2-1','BC10-C3-1'].includes(c));

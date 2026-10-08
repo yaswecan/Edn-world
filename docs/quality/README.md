@@ -26,7 +26,7 @@ Les brouillons issus de ce parcours portent `qualityRequired`. Modifier un texte
 
 ## Parcours élève
 
-L’annonce des objectifs précède le diagnostic, première activité pédagogique. Les nouveaux squelettes réservent huit minutes par défaut (`EDEN_DIAGNOSTIC_MINUTES`, 5–20). Les anciens diagnostics restent lisibles. Première réponse enregistrée, dernier essai et remise restent distincts. Un résultat non observable ou un incident n’est pas transformé en maîtrise ou en échec avéré.
+L’annonce des objectifs précède le diagnostic, première activité pédagogique. Les diagnostics pratiques comportent des éditeurs ou des situations présentées dans un écran de code. Le point de départ comprend quatre tâches sur 20 minutes : observation (3 points), correction (5), transfert (6) et justification (6). A2 reste à 15/20 ; la correction de base seule ne suffit pas, et la justification exige une relecture. Les diagnostics de rappel reprennent uniquement le travail réalisé et réservent 6 points aux tests et au transfert. `EDEN_DIAGNOSTIC_MINUTES` ne peut plus comprimer un diagnostic pratique sous sa durée prévue. Les anciens diagnostics restent lisibles ; « Renforcer le diagnostic » crée une nouvelle version d’un brouillon sans tentative élève ni génération active. Les séances publiées, copies et anciennes versions restent figées. Première réponse enregistrée, dernier essai et remise restent distincts. Un résultat non observable ou un incident n’est pas transformé en maîtrise ou en échec avéré.
 
 Les difficultés identifiées dans les items déclenchent des rappels dans les blocs concernés, avec le même objectif commun. Les réponses ouvertes non relues restent non évaluées. Le bouton « Synthèse du diagnostic » dans la préparation affiche chaque élève, son observation et la suite proposée, y compris les diagnostics non commencés. L’endpoint professeur est `/api/preparation/diagnostic/:lessonId`.
 
@@ -57,3 +57,6 @@ Les URLs exigent une liste exacte `EDEN_SOURCE_HOSTS`, HTTPS, aucune information
 ## Retour arrière
 
 `EDEN_QUALITY_PIPELINE=0` rétablit le chemin historique de génération. Le drapeau est activé par défaut en développement et désactivé par défaut en production. Il ne supprime ni versions, ni sources, ni preuves. Garder les nouvelles tables lors d’un retour arrière ; ne pas publier avec un ancien binaire un brouillon marqué `qualityRequired`. Les données historiques ne nécessitent aucune réécriture. Aucun schéma de production n’a été migré pendant cette mission.
+# Extension documentaire, remises et Git
+
+`npm run preview:documentary` ouvre une recette séparée sur le port 4184. Recherche avec passages citables, classement durable, contexte figé par génération, reçus de remise et archivage Git reprenable. [Architecture, essais, limites et exploitation](documentary-storage.md). Les rapports V2 restent des preuves historiques ; ils ne certifient pas les nouvelles modifications.

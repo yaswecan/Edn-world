@@ -1,0 +1,178 @@
+{
+  "scope": "Real HTTP, Chromium, SQLite, Git; authored fixture AI responses, synthetic student publication only",
+  "checks": [],
+  "pilots": [
+    {
+      "id": "box",
+      "status": "fixture",
+      "stage": "complete",
+      "calls": 7,
+      "sourceContext": "context_e36da202fff0250b475e19f8318535082ad7eb641a4e643c7eebb58e8e3560c8",
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS"
+        },
+        {
+          "id": "schema",
+          "status": "PASS"
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS"
+        },
+        {
+          "id": "depth:BC04-C2-1",
+          "status": "PASS"
+        },
+        {
+          "id": "complete",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:guided",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:diag-practice",
+          "status": "PASS"
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS"
+        },
+        {
+          "id": "render-components",
+          "status": "PASS"
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS"
+        },
+        {
+          "id": "sources",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "logic",
+      "status": "fixture",
+      "stage": "complete",
+      "calls": 7,
+      "sourceContext": "context_5757e5757872a4ad652b0fe637ee74707162d639fdbb61adae51bfe084efc0d8",
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS"
+        },
+        {
+          "id": "schema",
+          "status": "PASS"
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS"
+        },
+        {
+          "id": "depth:BC05-C1-2",
+          "status": "PASS"
+        },
+        {
+          "id": "complete",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:guided",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:transfer",
+          "status": "PASS"
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS"
+        },
+        {
+          "id": "render-components",
+          "status": "PASS"
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS"
+        },
+        {
+          "id": "sources",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "shell",
+      "status": "blocked",
+      "stage": "review",
+      "calls": 7,
+      "sourceContext": "context_7ef03d25f9f590d5b89d75f8964fc1898b83c10419703491797008d2e10e49ea",
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS"
+        },
+        {
+          "id": "schema",
+          "status": "PASS"
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS"
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS"
+        },
+        {
+          "id": "complete",
+          "status": "PASS"
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN"
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN"
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN"
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS"
+        },
+        {
+          "id": "render-components",
+          "status": "PASS"
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS"
+        },
+        {
+          "id": "sources",
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "error": "page.goto: Target page, context or browser has been closed\n    at /Users/eden/workspace/TwinTeache/scripts/documentary-browser-check.mjs:23:13"
+}

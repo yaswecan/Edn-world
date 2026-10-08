@@ -18,6 +18,8 @@ import {runtimeManifest} from './policy.mjs';
 import {designContext,analysisInputHash,validateDocumentary,validateDesignContract} from './design.mjs';
 import {preparationContext} from './context.mjs';
 import {prepareVisualReferences,visualAssets} from './visuals.mjs';
+import {freezeDocumentContext,verifyContextAccess} from './documentary-index.mjs';
+import {freezeContent,canonical} from '../content-snapshots.mjs';
 
 export const qualityEnabled=()=>process.env.EDEN_QUALITY_PIPELINE==='1'||process.env.NODE_ENV!=='production'&&process.env.EDEN_QUALITY_PIPELINE!=='0';
 const pending=['queued','running','retry_wait'];
@@ -39,7 +41,7 @@ export const jobSummary=job=>{
   workerState:active?'active':job.status==='running'?'lease_expired':'idle',attemptState:job.attemptState||job.recovery||null,
   canCancel:[...pending,'blocked'].includes(job.status),canReconcile:['running','blocked','retry_wait'].includes(job.status),
   budgetReason,canResume:job.status==='blocked'&&!!recoveryReason(job)&&!job.sourceChanged&&!budgetReason,
-  canRevise:!!job.workingSpec&&!job.sourceChanged&&job.status!=='cancelled',policyVersion:job.policyVersion||'legacy'};
+  canRevise:!!job.workingSpec&&job.status!=='cancelled',policyVersion:job.policyVersion||'legacy'};
 };
 export async function enqueueGeneration(store,actor,input,{config=null,simulation=false,chatgpt}={}){
  requireValue(qualityEnabled(),'Préparation approfondie désactivée sur cette instance.');
@@ -110,16 +112,18 @@ export async function resumeGeneration(store,id,actor,input={},options={}){
   j.inflight=null;j.reason=null;j.recovery=null;j.providerError=null;j.finishedAt=null;j.status='queued';j.availableAt=now();j.leaseToken=null;await tx.put('generation_jobs',j);return j;
  });
 }
-export async function reviseGeneration(store,id,actor,{expectedRevision}={}) {
+export async function reviseGeneration(store,id,actor,{expectedRevision,sourceIds}={}) {
+ const replacement=sourceIds?await sourceDossier(store,actor,sourceIds):null;
  return store.transaction(async tx=>{
   const job=await ownedJob(tx,id,actor),revision=job.revision||1;
   requireValue(Number.isInteger(expectedRevision),'Révision attendue requise.');
-  if(revision===expectedRevision+1&&job.policyVersion===CHARTER_VERSION)return job;
+  if(revision===expectedRevision+1&&job.policyVersion===CHARTER_VERSION){requireValue(!replacement||digest(job.sourceIds)===digest(replacement.map(s=>s.id)),'Cette révision a déjà adopté un autre périmètre documentaire.');return job;}
   requireValue(revision===expectedRevision,'La préparation a changé ; rechargez son état.');
-  requireValue(job.workingSpec&&!job.sourceChanged&&job.status!=='cancelled','Contexte ou sources à revoir avant une nouvelle conception.');
+  requireValue(job.workingSpec&&(!job.sourceChanged||replacement)&&job.status!=='cancelled','Contexte ou sources à revoir avant une nouvelle conception.');
   const lesson=await tx.get('lessons',job.lessonId);requireValue(lesson?.status==='draft','Une préparation ne remplace jamais une séance publiée.');
   await tx.insert('generation_revisions',{id:`${id}:r${revision}`,classId:job.classId,jobId:id,revision,snapshot:job,reason:'Activation des règles de cours et révision ciblée de la conception.'});
   job.revision=revision+1;job.policyVersion=CHARTER_VERSION;job.capabilities=runtimeManifest();job.leaseToken=null;job.leaseUntil=null;job.inflight=null;
+  if(replacement){job.sources=[...replacement,...job.sources.filter(s=>!job.sourceIds.includes(s.id))];job.sourceIds=replacement.map(s=>s.id);job.sourceChanged=false;job.invalidationReason=null;job.documentContext=null;}
   job.documentary=job.documentary?.inputHash===analysisInputHash(job)?job.documentary:null;
   job.plan=null;job.designContract=null;job.planReview=null;job.decision=null;job.checks=null;job.reports=[];job.planRevisions=0;job.unitIndex=0;job.unitResponses=[];
   job.workingSpec=prepareScaffold(job.baseline);job.stage=job.documentary?'design':'analysis';job.candidateVersionId=null;
@@ -147,6 +151,8 @@ async function claim(store){return store.transaction(async tx=>{
 });}
 async function checkpoint(store,job){return store.transaction(async tx=>{const current=await tx.get('generation_jobs',job.id);if(!hasLease(current,job))fail(409,'Travail annulé ou repris par un autre worker.');job.leaseUntil=current.leaseUntil;job.spentUSD=current.spentUSD;if(current.sourceChanged){job.sourceChanged=true;job.invalidationReason=current.invalidationReason;}await tx.put('generation_jobs',job);return job;});}
 async function invoke(store,job,role,input,schema,call,images=[]){
+ await verifyContextAccess(store,job);
+ if(job.documentContext)input={...input,documentContext:job.documentContext};
  return invokeAttempt(store,job,role,input,schema,call,images,{checkpoint});
 }
 async function saveCandidate(store,job){
@@ -159,6 +165,7 @@ async function saveCandidate(store,job){
   const version=lesson.version+1,versionId=`${lesson.id}:v${version}`;job.workingSpec.lessonVersion=version;
   await tx.insert('lesson_versions',{id:versionId,classId:job.classId,version,lessonId:lesson.id,spec:job.workingSpec,authorId:job.actor.id,qualityJobId:job.id,preparationRevision:job.revision||1,designContract:job.designContract});
   await tx.insert('generation_candidates',{id:candidateId,classId:job.classId,jobId:job.id,revision:job.revision||1,lessonVersionId:versionId,iteration:job.iteration,spec:job.workingSpec,contentHash:candidateHash(job.workingSpec,job.sources),unitResponses:job.unitResponses||[],simulation:job.simulation});
+  await freezeContent(tx,{classId:job.classId,event:job.iteration?'lesson.corrected':'lesson.candidate',eventId:versionId,subject:{kind:'lesson',lessonId:lesson.id,lessonVersionId:versionId},versions:{policy:job.policyVersion,contentSchema:job.workingSpec.version||1,documentContext:job.documentContext?.id||null,sourceVersions:job.sources.map(s=>({id:s.id,sha256:s.contentHash}))},files:[{path:'lesson.json',content:canonical(job.workingSpec),audience:'teacher'}]});
   Object.assign(lesson,{version,versionId,title:job.workingSpec.title,provider:job.simulation?'fixture':job.config.provider==='chatgpt_plan'?'chatgpt_plan':'openai',preparationState:'reviewing'});await tx.put('lessons',lesson);job.lessonVersionId=versionId;job.candidateVersionId=versionId;job.candidateCount=(job.candidateCount||0)+1;
  });
 }
@@ -172,7 +179,7 @@ export async function runGenerationStep(store,{call=callStructured,inspect=null,
   if(job.stage==='assemble'){
    let lesson=(await store.list('lessons',job.classId)).find(l=>l.qualityJobId===job.id);
    if(!lesson)lesson=await generateLesson(store,{classId:job.classId,intent:job.brief.intent,mode:'prepare',constraints:job.brief.constraints},job.actor,{entryId:job.entryId,localOnly:true,qualityJobId:job.id});
-   const version=await store.get('lesson_versions',lesson.versionId);job.lessonId=lesson.id;job.lessonVersionId=lesson.versionId;job.baseline=version.spec;job.workingSpec=prepareScaffold(version.spec,{diagnosticMinutes:process.env.EDEN_DIAGNOSTIC_MINUTES||8});
+   const version=await store.get('lesson_versions',lesson.versionId);job.lessonId=lesson.id;job.lessonVersionId=lesson.versionId;job.baseline=version.spec;job.workingSpec=prepareScaffold(version.spec,{diagnosticMinutes:process.env.EDEN_DIAGNOSTIC_MINUTES||version.spec.diagnostic.duration});
    if(!job.simulation){
     const required=new Set(job.workingSpec.activities.map(a=>a.workshop?.profile).filter(p=>['dom','shell-git'].includes(p)));
     for(const profile of required){const image=process.env[profile==='dom'?'EDEN_LAB_DOM_IMAGE':'EDEN_LAB_SHELL_IMAGE'];requireValue(process.env.EDEN_LAB_URL&&process.env.EDEN_LAB_TOKEN&&/^(?:sha256:|[^\s]+@sha256:)[a-f0-9]{64}$/.test(image||''),`Cette séance exige le laboratoire ${profile==='dom'?'frontend interactif':'shell/Git'} existant. Configurez-le avant les appels IA. Aucun atelier ne sera retiré.`);}
@@ -181,6 +188,7 @@ export async function runGenerationStep(store,{call=callStructured,inspect=null,
    job.sources.push(...references.filter(r=>version.spec.skills.includes(r.resourceId)).map(r=>({id:r.id,title:r.title,role:'reference',contentHash:r.sourceVersion,status:'extracted',warnings:['Bibliothèque locale ; qualité technique à examiner, non validée par le professeur.'],segments:[{id:`${r.id}:full`,parent:r.title,location:`NEXUS/${r.resourceId}`,text:JSON.stringify(r.resource),visibility:'teacher'}]})));
    job.brief.previousSource=version.spec.sourceVersions.previousLessonRunId;job.stage='analysis';
   }else if(job.stage==='analysis'){
+   if(!job.documentContext){const context=await freezeDocumentContext(store,job.actor,job.sources,{queries:[job.brief.entry.objective,job.brief.intent,...job.workingSpec.skills]});job.sources=context.sources;job.documentContext=context.manifest;await checkpoint(store,job);}
    const content=validateDocumentary(await invoke(store,job,'analysis',{brief:job.brief,sources:job.sources},documentarySchema,withSignal),job.sources);
    job.documentary={inputHash:analysisInputHash(job),content,at:now(),callId:job.lastCallId};job.stage='design';
    if(job.brief.resolvedContext?.sessions.length>1&&!job.brief.resolvedContext.selection){job.stage='context';job.status='blocked';job.reason='Analyse documentaire conservée. Plusieurs lignes de fiche correspondent à cette date : choisissez la séance avant la conception.';}
@@ -194,6 +202,7 @@ export async function runGenerationStep(store,{call=callStructured,inspect=null,
   }else if(job.stage==='planReview'){
    job.planReview=await invoke(store,job,'planReview',{brief:job.brief,sources:job.sources,documentary:job.documentary,context:designContext(job),plan:job.plan,skeleton:applyPlanOrder(job.workingSpec,job.plan),productionStage:'Conception avant rédaction : les identifiants, profils et diagnostic sont figés. Les textes et fichiers hérités sont des emplacements à réécrire selon le contrat. Les durées des blocs sont celles du contrat validé.'},planReviewSchema,withSignal);
    if(job.planReview.decision==='accept'&&!job.planReview.issues.length){
+    await store.transaction(async tx=>{requireValue(hasLease(await tx.get('generation_jobs',job.id),job),'Révision remplacée.');await freezeContent(tx,{classId:job.classId,event:'plan.validated',eventId:`${job.id}:r${job.revision||1}`,subject:{kind:'plan',lessonId:job.lessonId},versions:{policy:job.policyVersion,documentContext:job.documentContext?.id||null},files:[{path:'plan.json',content:canonical(job.plan),audience:'teacher'}]});});
     job.workingSpec=applyPlanOrder(job.workingSpec,job.plan);job.stage='write';job.unitIndex=0;job.unitResponses=[];
     for(const id of job.sourceIds){const source=await store.get('pedagogical_sources',id);if(source){source.analysisStatus=job.simulation?'fixture_analysis':'analyzed';source.analyses=[...(source.analyses||[]).filter(a=>a.jobId!==job.id),{jobId:job.id,planHash:digest(job.plan),at:now(),simulation:job.simulation,concepts:job.plan.analysis.filter(c=>c.citations.some(s=>s.sourceId===id))}];await store.put('pedagogical_sources',source);}}
    }

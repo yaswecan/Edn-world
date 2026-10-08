@@ -7,7 +7,7 @@ if(process.env.VERCEL||process.env.NODE_ENV==='production')throw Error('Le parco
 process.umask(0o077);
 // Deliberately ignore .env.local, inherited API keys, databases and storage providers.
 let local={};try{local=parseEnv(await readFile('.env.chatgpt.local','utf8'));}catch(e){if(e.code!=='ENOENT')throw e;}
-const allowed=/^(OPENAI_(API_KEY|MODEL|GRADING_MODEL)|EDEN_AI_[A-Z_]+|EDEN_(SOURCE_HOSTS|DIAGNOSTIC_MINUTES|CHATGPT_PORT|LAB_URL|LAB_TOKEN|LAB_SHELL_IMAGE|LAB_DOM_IMAGE)|PLAYWRIGHT_CHROMIUM_EXECUTABLE)$/;
+const allowed=/^(OPENAI_(API_KEY|MODEL|GRADING_MODEL)|EDEN_AI_[A-Z_]+|EDEN_ARCHIVE_(REPOSITORY|ID|REMOTE)|EDEN_(SOURCE_HOSTS|DIAGNOSTIC_MINUTES|CHATGPT_PORT|LAB_URL|LAB_TOKEN|LAB_SHELL_IMAGE|LAB_DOM_IMAGE)|PLAYWRIGHT_CHROMIUM_EXECUTABLE)$/;
 for(const key of Object.keys(local))if(!allowed.test(key))throw Error(`Variable non autorisée dans .env.chatgpt.local : ${key}`);
 const port=Number(local.EDEN_CHATGPT_PORT||4181);if(!Number.isInteger(port)||port<1024||port>65535)throw Error('EDEN_CHATGPT_PORT invalide.');
 const root=resolve('.data/chatgpt-personal');await mkdir(root,{recursive:true,mode:0o700});await chmod(root,0o700);
@@ -17,7 +17,11 @@ let stopping=false,workerStarted=false;const children=new Map(),restarts=new Map
 function start(name,path){
  const child=fork(path,[],{env,execArgv:['--import','tsx'],stdio:['inherit','inherit','inherit','ipc']});children.set(name,child);
  child.on('message',m=>{if(name==='web'&&m?.type==='ready'&&!workerStarted){workerStarted=true;start('worker','scripts/ai-worker.mjs');}});
- child.on('exit',()=>{children.delete(name);if(stopping)return;const count=(restarts.get(name)||0)+1;restarts.set(name,count);if(count>5){console.error(`${name} : arrêts répétés. Relancez après vérification ; les jobs restent en base.`);shutdown();return;}console.error(`${name} interrompu ; redémarrage dans 2 s. Les étapes incertaines seront conservées.`);setTimeout(()=>{if(!stopping)start(name,path);},2000);});
+ child.on('exit',code=>{children.delete(name);if(stopping)return;
+  // EX_CONFIG: a port conflict or forbidden bind requires intervention, not retries.
+  if(name==='web'&&code===78){process.exitCode=1;shutdown();return;}
+  const count=(restarts.get(name)||0)+1;restarts.set(name,count);if(count>5){console.error(`${name} : arrêts répétés. Relancez après vérification ; les jobs restent en base.`);process.exitCode=1;shutdown();return;}console.error(`${name} interrompu ; redémarrage dans 2 s. Les étapes incertaines seront conservées.`);setTimeout(()=>{if(!stopping)start(name,path);},2000);
+ });
 }
 function shutdown(){if(stopping)return;stopping=true;for(const child of children.values())child.kill('SIGTERM');setTimeout(()=>{for(const child of children.values())child.kill('SIGKILL');},5000).unref();}
 for(const signal of ['SIGTERM','SIGINT'])process.on(signal,shutdown);

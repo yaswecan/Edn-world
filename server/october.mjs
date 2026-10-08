@@ -1,6 +1,12 @@
 import {LESSON} from '../legacy/eden-october/docs/app/content.js';
 import {EXERCISES} from '../legacy/eden-october/docs/app/exercises.js';
 import {block as lessonBlock,teaching} from './lesson-structure.mjs';
+const functionReferences={
+ major:'function estMajeur(age) { return age >= 18; }',
+ play:'function peutJouer(age, accord) { return age >= 14 && accord; }',
+ entry:'function peutEntrer(ticket, invitation, ferme) { return (ticket || invitation) && !ferme; }',
+ advanced:'function accesParc(age, ticket, accompagne, ferme) { return ticket && !ferme && (age >= 14 || accompagne); }'
+};
 export function octoberContent(entry){
  if(entry.resourcePack!==LESSON.id||!LESSON.skills.every(c=>entry.skills.includes(c))||entry.duration<175)return null;
  const activities=[],blocks=[];
@@ -19,6 +25,10 @@ export function octoberContent(entry){
   blocks.push({id:block.id,type:block.id==='pause'?'Pause':'Activity',title:block.title,content:steps.map(s=>s.takeaway).filter(Boolean).join('\n'),minutes:block.minutes,activityIds:ids,skills:block.id==='pause'?[]:LESSON.skills});
  }
  for(const step of LESSON.steps.filter(s=>s.optional)){const exercise=EXERCISES[step.exercise],a=make(step,{type:step.kind==='function-code'?'CodeEditor':'WriteResponse',...(exercise?{correctionMode:'javascript',tests:exercise.cases.map(c=>({invoke:exercise.fn,argsJSON:JSON.stringify(c.args),expectedJSON:JSON.stringify(c.want)}))}:{})});if(!activities.some(a=>a.id===step.id)){activities.push(a);blocks.find(b=>b.id==='pm09').activityIds.push(a.id);}}
+ for(const a of activities)if(a.correctionMode==='javascript'){
+  const step=LESSON.steps.find(s=>s.id===a.id),solution=functionReferences[step?.exercise];
+  if(solution)a.reference=solution+'\n'+a.reference.split('\n').map(line=>'// '+line).join('\n');
+ }
  const phaseById={diagnostic:'diagnostic',retour:'understand',pause:'pause',entrainement:'autonomy',pm09:'extend',bilan:'summary'};
  for(const b of blocks){
   const steps=LESSON.steps.filter(s=>s.block===b.id);

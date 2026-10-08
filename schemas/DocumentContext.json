@@ -1,0 +1,118 @@
+{
+  "$id": "EDEN.DocumentContext.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "taxonomyVersion",
+    "strategy",
+    "scope",
+    "searches",
+    "passages",
+    "omitted",
+    "maxCharacters",
+    "characters"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "taxonomyVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "strategy": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sourceId",
+          "sourceHash",
+          "version",
+          "buildId",
+          "annotationVersion"
+        ],
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "buildId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "annotationVersion": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "searches": {
+      "type": "array"
+    },
+    "passages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "sourceId",
+          "sourceHash",
+          "segmentId",
+          "location",
+          "sha256",
+          "text"
+        ],
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceHash": {
+            "type": "string",
+            "minLength": 1
+          },
+          "segmentId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "omitted": {
+      "type": "array"
+    },
+    "maxCharacters": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "characters": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

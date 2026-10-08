@@ -21,88 +21,131 @@
     "kind": "baseline",
     "sourceLessonRunId": null,
     "sourceLessonVersion": null,
-    "duration": 15,
+    "duration": 20,
     "criteria": [],
     "tasks": [
       {
+        "id": "baseline-observation",
+        "type": "FillBlank",
+        "title": "Repérer ce que le rendu ne prouve pas",
+        "instruction": "Observe le code reçu. Quel élément porte actuellement le titre « Mon projet » ? Le lien contient-il une destination ? Réponds avec le nom de la balise puis oui ou non.",
+        "objective": "Repérer ce que le rendu ne prouve pas",
+        "skills": [],
+        "expectedEvidence": "Deux constats exacts tirés du code.",
+        "duration": 3,
+        "required": true,
+        "correctionMode": "structured",
+        "starter": "",
+        "options": [
+          "Balise du titre dans le code reçu",
+          "Destination présente : oui ou non"
+        ],
+        "observation": {
+          "title": "index.html · code reçu",
+          "code": "<div class=\"carte\">\n  <span>Mon projet</span>\n  <div>Première version</div>\n  <a>Lire le projet</a>\n</div>",
+          "output": ""
+        }
+      },
+      {
         "id": "baseline-html",
         "type": "CodeEditor",
-        "title": "Retrouve la structure HTML",
-        "instruction": "La carte doit contenir un titre principal « Mon projet » et un paragraphe « Première version ». Remplace les deux div par les balises adaptées.",
-        "objective": "Retrouve la structure HTML",
+        "title": "Réparer la structure et le lien",
+        "instruction": "Dans la carte, utilise un h1 « Mon projet », un paragraphe « Première version » et un lien « Lire le projet » vers /projet.html. Conserve la classe carte. Le rendu visuel seul ne suffit pas : vérifie aussi la structure.",
+        "objective": "Réparer la structure et le lien",
         "skills": [],
-        "expectedEvidence": "Un titre h1 et un paragraphe p contenant les textes demandés.",
+        "expectedEvidence": "Un titre, un paragraphe et un lien utilisable dans la carte.",
         "duration": 5,
         "required": true,
         "correctionMode": "html",
-        "starter": "<div>Mon projet</div>\n<div>Première version</div>",
+        "starter": "<div class=\"carte\">\n  <span>Mon projet</span>\n  <div>Première version</div>\n  <a>Lire le projet</a>\n</div>",
         "options": [],
         "workshop": {
-          "language": "html"
+          "language": "html",
+          "profile": "html-css"
         }
       },
       {
         "id": "baseline-css",
         "type": "CodeEditor",
-        "title": "Cible la bonne carte",
-        "instruction": "Le HTML contient <article class=\"carte\">Mon projet</article>. Écris une règle CSS qui colore uniquement les éléments de classe carte en bleu (blue).",
-        "objective": "Cible la bonne carte",
+        "title": "A2 · Cibler sans modifier le reste",
+        "instruction": "Écris le CSS pour que le texte de .carte soit bleu (blue), que le lien situé dans .carte soit vert (green), et que la carte occupe 100% de la largeur disponible. Le paragraphe et le lien extérieurs doivent conserver leur apparence. Vérifie le rendu à 360 px.",
+        "objective": "A2 · Cibler sans modifier le reste",
         "skills": [],
-        "expectedEvidence": "Un sélecteur de classe et une déclaration de couleur valides.",
-        "duration": 5,
+        "expectedEvidence": "Des sélecteurs ciblés, les trois règles demandées et un contrôle du contenu extérieur.",
+        "duration": 6,
         "required": true,
         "correctionMode": "css",
-        "starter": "/* Écris ta règle ici. */",
+        "starter": "/* Choisis les sélecteurs et les propriétés. */",
         "options": [],
         "workshop": {
           "language": "css",
-          "document": "<article class=\"carte\">Mon projet</article><p>Autre texte</p>"
+          "profile": "html-css",
+          "document": "<article class=\"carte\"><h1>Mon projet</h1><p>Première version</p><a href=\"/projet.html\">Lire le projet</a></article><p>Texte extérieur à préserver.</p><a href=\"/aide.html\">Lien extérieur</a>"
         }
       },
       {
         "id": "baseline-verification",
         "type": "WriteResponse",
-        "title": "Prépare un test de ta page",
-        "instruction": "La carte semble correcte sur un grand écran. Propose deux essais pour vérifier qu’elle reste lisible : indique ce que tu changes et ce que tu observes.",
-        "objective": "Prépare un test de ta page",
+        "title": "A2 · Vérifier au-delà de l’apparence",
+        "instruction": "Explique pourquoi une règle « a { color: green; } » modifierait trop d’éléments. Propose deux essais précis : un écran étroit et un texte de carte plus long. Pour chacun, indique le résultat attendu et l’erreur détectée. Décris aussi comment vérifier que le lien extérieur n’a pas changé.",
+        "objective": "A2 · Vérifier au-delà de l’apparence",
         "skills": [],
-        "expectedEvidence": "Deux essais distincts, avec une modification et un résultat à observer.",
-        "duration": 5,
+        "expectedEvidence": "Deux contrôles reproductibles, leurs résultats attendus et une explication d’un défaut non détecté par un simple coup d’œil.",
+        "duration": 6,
         "required": true,
         "correctionMode": "manual",
         "starter": "",
-        "options": []
+        "options": [],
+        "observation": {
+          "title": "style.css · proposition à discuter",
+          "code": "a { color: green; }\n.carte { width: 900px; }",
+          "output": ""
+        }
       }
     ],
     "rubric": [
       {
         "id": "item-0-0",
-        "taskId": "baseline-html",
+        "taskId": "baseline-observation",
         "criterion": "baseline",
-        "label": "Un titre h1 et un paragraphe p contenant les textes demandés.",
-        "max": 6.67,
-        "a1": 3.335,
-        "a2": 5.0024999999999995
+        "label": "Deux constats exacts tirés du code.",
+        "max": 3,
+        "a1": 1.5,
+        "a2": 2.25
       },
       {
         "id": "item-1-0",
-        "taskId": "baseline-css",
+        "taskId": "baseline-html",
         "criterion": "baseline",
-        "label": "Un sélecteur de classe et une déclaration de couleur valides.",
-        "max": 6.67,
-        "a1": 3.335,
-        "a2": 5.0024999999999995
+        "label": "Un titre, un paragraphe et un lien utilisable dans la carte.",
+        "max": 5,
+        "a1": 2.5,
+        "a2": 3.75
       },
       {
         "id": "item-2-0",
+        "taskId": "baseline-css",
+        "criterion": "baseline",
+        "label": "Des sélecteurs ciblés, les trois règles demandées et un contrôle du contenu extérieur.",
+        "max": 6,
+        "a1": 3,
+        "a2": 4.5
+      },
+      {
+        "id": "item-3-0",
         "taskId": "baseline-verification",
         "criterion": "baseline",
-        "label": "Deux essais distincts, avec une modification et un résultat à observer.",
-        "max": 6.66,
-        "a1": 3.33,
-        "a2": 4.995
+        "label": "Deux contrôles reproductibles, leurs résultats attendus et une explication d’un défaut non détecté par un simple coup d’œil.",
+        "max": 6,
+        "a1": 3,
+        "a2": 4.5
       }
-    ]
+    ],
+    "policyVersion": "diagnostic-practice-1",
+    "expectations": {
+      "a1": "Comprendre le cas courant et corriger une erreur localisée avec une production cohérente.",
+      "a2": "Adapter la solution sans modèle complet, traiter un cas limite et justifier des tests précis. La démarche est relue par le professeur."
+    }
   },
   "timeline": [
     {
@@ -111,15 +154,15 @@
     },
     {
       "blockId": "diagnostic",
-      "minutes": 15
+      "minutes": 20
     },
     {
       "blockId": "concept-0",
-      "minutes": 17
+      "minutes": 16
     },
     {
       "blockId": "demo-0",
-      "minutes": 25
+      "minutes": 24
     },
     {
       "blockId": "board-0",
@@ -135,7 +178,7 @@
     },
     {
       "blockId": "practice-0-2",
-      "minutes": 11
+      "minutes": 10
     },
     {
       "blockId": "pause",
@@ -143,7 +186,7 @@
     },
     {
       "blockId": "autonomy",
-      "minutes": 34
+      "minutes": 33
     },
     {
       "blockId": "extension",
@@ -151,7 +194,7 @@
     },
     {
       "blockId": "exit",
-      "minutes": 11
+      "minutes": 10
     }
   ],
   "blocks": [
@@ -180,7 +223,7 @@
       "phase": "diagnostic",
       "title": "Évaluation",
       "content": "Réponds sans aide, puis rends ton travail. Tu peux rendre une réponse incomplète.",
-      "minutes": 15,
+      "minutes": 20,
       "activityIds": [],
       "skills": [],
       "teaching": {
@@ -197,7 +240,7 @@
       "phase": "understand",
       "title": "Le parent organise. Les cartes suivent.",
       "content": "Flexbox organise les enfants directs d’un même parent. La déclaration display: flex s’écrit sur ce parent : elle ne s’applique pas à tous ses descendants.\n\nflex-direction choisit l’axe principal. Dans notre page en français, row va de gauche à droite et column de haut en bas. justify-content répartit l’espace sur cet axe ; align-items agit sur l’axe transversal. Les noms des propriétés restent identiques quand la direction change.\n\ngap crée l’espace entre les cartes ; padding crée l’espace à l’intérieur d’une boîte. flex-wrap: wrap autorise un retour à la ligne quand les cartes ne tiennent plus. Grid permet, lui, d’organiser simultanément des lignes et des colonnes.",
-      "minutes": 17,
+      "minutes": 16,
       "activityIds": [],
       "skills": [
         "BC04-C2-2"
@@ -228,7 +271,7 @@
       "phase": "observe",
       "title": "Prévois. Change. Observe.",
       "content": ".groupe {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n  gap: 16px;\n}",
-      "minutes": 25,
+      "minutes": 24,
       "activityIds": [
         "lab-0"
       ],
@@ -329,7 +372,7 @@
       "phase": "guided",
       "title": "03 · Change de direction",
       "content": "Des clubs à présenter, des cartes qui s’empilent. Repère leur parent, expérimente les axes, puis construis une page qui reste lisible sur un petit écran.",
-      "minutes": 11,
+      "minutes": 10,
       "activityIds": [
         "direction-0"
       ],
@@ -371,7 +414,7 @@
       "phase": "autonomy",
       "title": "À toi de construire",
       "content": "Produis une solution dans ce nouveau cas, sans le modèle. Garde un essai qui t’a aidé à comprendre.",
-      "minutes": 34,
+      "minutes": 33,
       "activityIds": [
         "transfer"
       ],
@@ -413,7 +456,7 @@
       "phase": "summary",
       "title": "Bilan",
       "content": "Reviens à la question de départ. Explique ta démarche avec un exemple.",
-      "minutes": 11,
+      "minutes": 10,
       "activityIds": [
         "exit"
       ],
@@ -443,7 +486,7 @@
         "BC04-C2-2"
       ],
       "expectedEvidence": "Deux essais comparés, leurs prévisions et une explication du changement d’axe.",
-      "duration": 25,
+      "duration": 24,
       "required": true,
       "correctionMode": "manual",
       "starter": "{\"preset\":\"flexbox\"}",
@@ -544,7 +587,7 @@
         "BC04-C2-2"
       ],
       "expectedEvidence": "Le CSS, le rendu comparé à ta prévision et les tests de vérification.",
-      "duration": 11,
+      "duration": 10,
       "required": true,
       "correctionMode": "css",
       "starter": ".groupe {\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: flex-start;\n  gap: 0;\n}",
@@ -577,7 +620,7 @@
         "BC04-C2-2"
       ],
       "expectedEvidence": "Le CSS, le rendu comparé à ta prévision et les tests de vérification.",
-      "duration": 34,
+      "duration": 33,
       "required": true,
       "correctionMode": "css",
       "starter": ".clubs {\n  /* Organise les quatre cartes. */\n}\n.club {\n  /* Organise le contenu de chaque carte. */\n}",
@@ -643,7 +686,7 @@
         "BC04-C2-2"
       ],
       "expectedEvidence": "Une règle, un exemple et ton prochain pas.",
-      "duration": 11,
+      "duration": 10,
       "required": true,
       "correctionMode": "none",
       "starter": "",

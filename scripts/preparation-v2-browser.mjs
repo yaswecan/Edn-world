@@ -19,9 +19,9 @@ try{
  const pilot=pilotDefinitions[1],job=await buildPilot(store,actor,pilot);
  await page.goto(base+'/preparation.html?job='+job.id);
  await expect(page.locator('#job')).toContainText('2 version(s) candidate(s) enregistrée(s)');
- await page.getByRole('button',{name:'Aperçu élève du brouillon',exact:true}).click();
+ await page.locator('#open-preview').click();
  await expect(page.locator('#preview')).toContainText('Les réponses ne sont pas remises.');
- await page.locator('#preview .lesson-desktop-nav [data-action=demo-step][data-id="4"]').click();
+ await page.locator('#preview [data-preview-editors]').click();await expect(page.locator('#preview [data-workbench=guided] textarea')).toBeInViewport();
  const root=page.locator('[data-workbench=guided]'),editor=root.locator('textarea[data-answer]');
  await editor.fill('function decide(age) {\n const allowed = age >= 18;\n return allowed;\n}');
  await root.getByText('Exécuter et déboguer',{exact:true}).click();
@@ -37,7 +37,7 @@ try{
  const cssJob=await buildPilot(store,actor,pilotDefinitions[0]),cssVersion=await store.get('lesson_versions',cssJob.lessonVersionId);
  await prepareVisualReferences(store,cssVersion.spec,cssJob);await store.put('lesson_versions',cssVersion);
  const assets=await visualAssets(store,cssVersion.spec);assert.ok(assets.length);const anonymous=await browser.newContext();assert.equal((await anonymous.request.get(base+'/api/lesson-assets/'+assets[0].id)).status(),401);await anonymous.close();
- await page.setViewportSize({width:1280,height:900});await page.goto(base+'/preparation.html?job='+cssJob.id);await page.getByRole('button',{name:'Aperçu élève du brouillon',exact:true}).click();
+ await page.setViewportSize({width:1280,height:900});await page.goto(base+'/preparation.html?job='+cssJob.id);await page.locator('#open-preview').click();
  await page.locator('#preview .lesson-desktop-nav [data-action=demo-step][data-id="4"]').click();
  await page.setViewportSize({width:390,height:844});const visual=page.locator('[data-enlarge-board] img[src^="/api/lesson-assets/"]').first();await expect(visual).toBeVisible();assert.equal(await visual.evaluate(image=>image.complete&&image.naturalWidth>0),true);
  await visual.click();await expect(page.locator('dialog img')).toBeVisible();await page.getByRole('button',{name:'Fermer le tableau',exact:true}).click();
@@ -48,7 +48,7 @@ try{
  let started,finish,count=0;const ready=new Promise(r=>started=r),wait=new Promise(r=>finish=r),respond=fixtureResponder(pilotDefinitions[0]);
  const running=runGenerationStep(store,{call:async args=>{count++;started();await wait;return respond(args);}});await ready;
  await page.goto(base+'/preparation.html?job='+pending.id);await expect(page.locator('#job')).toContainText('0 version(s) candidate(s)');
- await page.getByRole('button',{name:'Vérifier l’avancement',exact:true}).click();assert.equal(count,1);
+ await page.locator('#refresh-job').click();assert.equal(count,1);
  const pattern=`**/api/preparation/jobs/${pending.id}`;await context.route(pattern,route=>route.abort());await expect(page.locator('#message')).toContainText('Connexion au suivi interrompue',{timeout:10000});assert.equal(count,1);
  await context.unroute(pattern);finish();await running;
  await page.reload();await expect(page.locator('#job')).toContainText('Analyse des sources enregistrée');assert.equal(count,1);

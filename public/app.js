@@ -1,10 +1,12 @@
-import {installTerminalLabs} from './terminal-lab.js';
+import {installTerminalLabs,flushTerminalFiles} from './terminal-lab.js';
 import {installDOMLabs} from './dom-lab.js';
 import { edenLogo } from "./brand.js";
 import { sandboxDocument, terminalSimulation } from "./components.js";
 import { renderLessonBlock, renderLessonPage, renderStudentResult } from "./lesson-renderer.js";
 import { installWorkshopInteractions } from "./workshop-runtime.js";
 import { studentCopy, studentError } from "./student-copy.js";
+import {previewExercises,previewEditorStep,focusPreviewEditor} from './preview-navigation.js';
+import {revisionEditor,revisionComparison,javascriptRevisionPrompt} from './lesson-revision.js';
 const $ = (s, r = document) => r.querySelector(s),
   $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (v) =>
@@ -134,10 +136,16 @@ function toast(message) {
   toast.timer = setTimeout(() => $("#toast").classList.remove("show"), 5000);
 }
 function modal(title, body) {
+  $("#dialog").classList.remove('lesson-preview-dialog');
   $("#dialog").innerHTML =
     `<div class="modal-head"><h2 id="dialog-title">${title}</h2>${btn("Fermer", "close-modal", "", "subtle", "close")}</div><div class="modal-body">${body}</div>`;
   $("#dialog").setAttribute("aria-labelledby", "dialog-title");
   if (!$("#dialog").open) $("#dialog").showModal();
+}
+function showRevision(proposal){
+  if(!proposal||S.lesson?.id!==proposal.lessonId||S.lesson.version!==proposal.version){toast('Proposition conservée. Retrouvez-la dans la séance concernée.');return;}
+  S.revisionProposal=proposal;
+  modal('Relire les modifications',revisionComparison(proposal,S.lesson.spec)+`<p>La version ${proposal.version} reste disponible dans l’historique. Enregistrer crée un nouveau brouillon.</p><div class="modal-actions">${btn('Garder le brouillon actuel','close-modal')}${btn('Enregistrer cette version','revision-apply',proposal.id,'primary','check')}</div>`);
 }
 function closeModal() {
   $("#dialog").close();
@@ -310,8 +318,9 @@ function lessonView() {
       esc(s.title),
       `${dateText(s.date)} · ${s.sequence} · version ${s.lessonVersion}`,
       btn("Retour aux séances", "nav", "lessons", "", "arrow"),
-    ) +
-    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${l.status === "draft" ? btn("Modifier le contenu", "edit-lesson", l.id, "", "settings") + btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Avant de publier</h2>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}<p class="section-note">La publication vérifie à nouveau le plan et la dernière séance clôturée.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
+    ) + revisionEditor(l) +
+    (l.status==='draft'&&s.diagnostic.policyVersion!=='diagnostic-practice-1'?`<div class="card pad spaced"><h2>Un diagnostic plus pratique</h2><p>Ajoutez des éditeurs, des écrans à analyser et des preuves d’autonomie pour A2. Une nouvelle version du brouillon sera créée ; les anciennes versions restent conservées.</p>${btn('Renforcer le diagnostic','revise-diagnostic',l.id,'','code')}</div>`:'')+
+    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${l.status === "draft" ? btn("Modifier le contenu", "edit-lesson", l.id, "", "settings") + btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Avant de publier</h2>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}<p class="section-note">La publication vérifie à nouveau le plan et la dernière séance clôturée.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
   );
 }
 function correctionsView() {
@@ -500,7 +509,9 @@ function editPlanDialog(id, prepareAfter = false) {
   );
 }
 async function startStudent(date) {
-  const result = await api("/api/today" + (date ? "?date=" + enc(date) : ""));
+  const selected=new URLSearchParams(location.search).get('lesson');
+  const result = await api("/api/today" + (selected?"?lesson="+enc(selected):date ? "?date=" + enc(date) : ""));
+  S.availableLessons=result.availableLessons||[];
   S.student = result.lesson;
   S.studentEvents = result.events || [];
   S.completed = result.progress?.completed || [];
@@ -528,11 +539,12 @@ async function startStudent(date) {
     if (saved) {
       const localActivities = Object.fromEntries(
         Object.entries(saved.answers || {}).filter(([id]) =>
-          S.student.spec.activities.some((a) => a.id === id),
+          S.student.spec.activities.some((a) => a.id === id) &&
+          (!Object.hasOwn(result.progress?.answers || {},id) ||
+           saved.at > (result.progress?.answerSavedAt?.[id] || result.progress?.savedAt || '')),
         ),
       );
-      if (!result.progress?.savedAt || saved.at > result.progress.savedAt)
-        S.answers = { ...S.answers, ...localActivities };
+      S.answers = { ...S.answers, ...localActivities };
       if (!S.attempt.submissionId)
         S.answers = {
           ...S.answers,
@@ -554,16 +566,24 @@ async function startStudent(date) {
 function studentBlock(spec, index, preview = false) {
   return renderLessonBlock(spec, index, {
     preview,
-    answers: preview ? {} : S.answers,
+    interactivePreview: preview,
+    answers: preview ? S.previewAnswers : S.answers,
     submitted: !preview && !!S.attempt?.submissionId,
   });
+}
+function drawTeacherPreview(){
+  const spec=S.previewSpec,index=S.previewStep;
+  $('#preview-body').innerHTML=studentBlock(spec,index,true);
+  $('#preview-step').value=String(index);
+  $('[data-action=preview-prev]').disabled=index===0;
+  $('[data-action=preview-next]').disabled=index===spec.blocks.length-1;
 }
 function renderStudent() {
   document.title = "EDEN · Aujourd’hui";
   const l = S.student;
   if (!l) {
     $("#app").innerHTML =
-      `<main id="main" class="student-shell"><div class="student-header"><div class="brand">${edenLogo}</div>${S.session.worldArcadeEnabled ? '<a class="btn" href="/arcade">World Arcade</a>' : ""}${btn("Se déconnecter", "logout")}</div><div class="card">${empty(studentCopy.empty, "calendar")}</div></main>`;
+      `<main id="main" class="student-shell"><div class="student-header"><div class="brand">${edenLogo}</div>${S.session.worldArcadeEnabled ? '<a class="btn" href="/arcade">World Arcade</a>' : ""}${btn("Se déconnecter", "logout")}</div><div class="card">${empty(studentCopy.empty, "calendar")}</div>${studentLessonLinks()}</main>`;
     return;
   }
   $("#app").innerHTML = renderLessonPage(l.spec, S.step, {
@@ -574,6 +594,15 @@ function renderStudent() {
     support: S.diagnosticSupport || [],
   });
   if (S.session.worldArcadeEnabled) $(".lesson-topbar > div")?.insertAdjacentHTML("beforeend", '<a class="btn small" href="/arcade">World Arcade</a>');
+  if(S.availableLessons.length>1) $('.lesson-topbar')?.insertAdjacentHTML('afterend',`<details class="card pad spaced"><summary>Mes séances disponibles</summary>${studentLessonLinks()}</details>`);
+}
+function studentLessonLinks(){
+ return S.availableLessons?.length?`<section class="card pad spaced"><h2>Séances disponibles</h2>${S.availableLessons.map(l=>`<div class="list-row"><div style="flex:1"><strong>${esc(l.title)}</strong><p>${dateText(l.date)}</p></div><a class="btn" href="/today?lesson=${enc(l.id)}">Ouvrir la séance</a></div>`).join('')}</section>`:'';
+}
+function showStudentAccess(lesson){
+ const url=new URL('/today?lesson='+enc(lesson.id),location.origin).href;
+ const local=['localhost','127.0.0.1','::1','[::1]'].includes(location.hostname)||location.hostname.endsWith('.localhost');
+ modal('Accès élèves',`<h3>${esc(lesson.title)}</h3><p>Cette séance publiée est accessible aux élèves de votre classe après connexion avec leur identifiant et leur mot de passe.</p><div class="field"><label for="student-link">Lien de la séance</label><input id="student-link" value="${esc(url)}" readonly></div>${local?'<p class="section-note">Ce lien fonctionne uniquement sur cet ordinateur. Pour que les élèves se connectent depuis leur appareil, l’application doit être hébergée sur une adresse accessible à la classe.</p>':''}<div class="modal-actions">${btn('Copier le lien','copy-student-link','','primary','copy')}${btn('Fermer','close-modal')}</div>`);
 }
 function focusStudentStage() {
   requestAnimationFrame(() =>
@@ -658,6 +687,7 @@ const actions = {
     renderLogin();
   },
   "student-view": () => {
+    if(S.lesson)return actions.preview(S.lesson.id);
     modal(
       "L’espace élève",
       `<p>Chaque élève se connecte avec son identifiant et son mot de passe à <a href="/today" target="_blank">/today</a>. Pour examiner une séance avant publication, utilisez son aperçu élève.</p>${btn("Ouvrir mes séances", "modal-lessons", "", "primary", "arrow")}`,
@@ -687,6 +717,11 @@ const actions = {
   },
   "generate-entry": (id) => generateEntry(id),
   "open-lesson": (id) => openLesson(id),
+  "revise-diagnostic":async id=>{
+    const result=await post(`/api/lessons/${enc(id)}/diagnostic/revise`,{version:S.lesson.version});
+    await openLesson(id);toast(result.changed?'Diagnostic renforcé. Relisez cette nouvelle version avant publication.':'Le diagnostic utilise déjà cette version.');
+    await actions.preview(id);S.previewStep=S.previewSpec.blocks.findIndex(b=>b.type==='Diagnostic');drawTeacherPreview();
+  },
   "edit-plan": (id) => editPlanDialog(id),
   "apply-change": async (id) => {
     const change = await post(`/api/plans/A1/changes/${enc(id)}/apply`, {
@@ -745,32 +780,40 @@ const actions = {
   },
   "import-report": (id) => showImport(S.data.imports.find((r) => r.id === id)),
   preview: async (id) => {
-    const spec = await post(`/api/lessons/${enc(id)}/preview`);
+    const lesson=S.lesson?.id===id?S.lesson:await api('/api/lessons/'+enc(id));
+    const spec = await post(`/api/lessons/${enc(id)}/preview`,{lessonVersionId:lesson.versionId});
     S.previewSpec = spec;
+    S.previewLesson={id:lesson.id,versionId:lesson.versionId,qualityJobId:lesson.qualityJobId};
+    S.previewAnswers={};
     S.previewStep = 0;
+    const editorStep=previewEditorStep(spec);
     modal(
-      "Aperçu élève",
-      `<div id="preview-body" class="lesson-view">${studentBlock(spec, 0, true)}</div><div class="modal-actions">${btn("Étape précédente", "preview-prev")}${btn("Étape suivante", "preview-next", "", "primary", "arrow")}</div>`,
+      "Aperçu élève interactif",
+      `<p class="preview-notice">Essayez les activités comme un élève. Vos réponses d’essai restent dans cet aperçu et ne sont pas remises.</p><div class="preview-toolbar"><label for="preview-step">Étape à consulter<select id="preview-step">${spec.blocks.map((block,index)=>{const tasks=previewExercises(spec,block),web=tasks.some(a=>['html','css'].includes(a.workshop?.language)),code=tasks.some(a=>['CodeEditor','TestRunner'].includes(a.type)),terminal=tasks.some(a=>a.type==='Terminal');return `<option value="${index}">${index+1}. ${esc(block.title)}${web?' · Code et rendu':code?' · Éditeur de code':terminal?' · Terminal':''}</option>`;}).join('')}</select></label>${editorStep>=0?btn('Aller aux éditeurs','preview-editors','','primary','code'):'<p>Cette version ne contient pas encore d’exercice avec éditeur de code.</p>'}</div><div id="preview-body" class="lesson-view"></div><div class="modal-actions">${btn("Étape précédente", "preview-prev")}${btn("Étape suivante", "preview-next", "", "primary", "arrow")}</div>`,
     );
+    $('#dialog').classList.add('lesson-preview-dialog');drawTeacherPreview();
+  },
+  "preview-editors":()=>{
+    S.previewStep=previewEditorStep(S.previewSpec);drawTeacherPreview();
+    focusPreviewEditor($('#preview-body'));
   },
   "preview-prev": () => {
     S.previewStep = Math.max(0, S.previewStep - 1);
-    $("#preview-body").innerHTML = studentBlock(
-      S.previewSpec,
-      S.previewStep,
-      true,
-    );
+    drawTeacherPreview();
   },
   "preview-next": () => {
     S.previewStep = Math.min(
       S.previewSpec.blocks.length - 1,
       S.previewStep + 1,
     );
-    $("#preview-body").innerHTML = studentBlock(
-      S.previewSpec,
-      S.previewStep,
-      true,
-    );
+    drawTeacherPreview();
+  },
+  "preview-run-code":async id=>{
+    const area=$(`[data-answer="${CSS.escape(id)}"]`,$('#preview-body')),consoleNode=$(`[id="console-${CSS.escape(id)}"]`,$('#preview-body'));
+    S.previewAnswers[id]=area.value;
+    const result=await post(`/api/lessons/${enc(S.previewLesson.id)}/preview/test`,{lessonVersionId:S.previewLesson.versionId,taskId:id,code:area.value});
+    if(!consoleNode.isConnected)return;
+    consoleNode.hidden=false;consoleNode.textContent=[...(result.logs||[]),result.error||'',result.ok?'Exécution terminée.':''].filter(Boolean).join('\n')||'(Aucune sortie console)';
   },
   diagnostic: () => {
     const d = S.lesson.spec.diagnostic;
@@ -779,18 +822,41 @@ const actions = {
       `${d.tasks.map((a) => `<div class="block-card"><h3>${esc(a.title)}</h3><p class="block-content">${esc(a.instruction)}</p><details><summary>Référence professeur</summary><p class="block-content">${esc(a.reference)}<br>${esc(a.expectedAnswer)}</p></details></div>`).join("")}<table><thead><tr><th>Critère</th><th>Max</th><th>A1</th><th>A2</th></tr></thead><tbody>${d.rubric.map((i) => `<tr><td>${esc(i.criterion)}</td><td>${i.max}</td><td>${i.a1}</td><td>${i.a2}</td></tr>`).join("")}</tbody></table>`,
     );
   },
+  'revision-js':()=>{const area=$('#revision-prompt');area.value=javascriptRevisionPrompt;area.focus();},
+  'revision-focus':()=>{closeModal();$('#revision-editor')?.scrollIntoView({behavior:'smooth',block:'center'});$('#revision-prompt')?.focus();},
+  'revision-history':async id=>{
+    const proposals=await api(`/api/lessons/${enc(id)}/revisions`);
+    S.revisionHistory=proposals;
+    modal('Mes propositions',proposals.length?proposals.slice().reverse().map(p=>`<div class="block-card"><p>${esc(p.prompt)}</p><p>${esc(p.status==='ready'?'Proposition à relire':p.status==='applied'?'Enregistrée dans le brouillon':p.status==='running'?'Demande en cours':p.error||'Demande interrompue')}</p>${p.status==='ready'&&p.version===S.lesson.version?btn('Relire cette proposition','revision-review',p.id,'primary'):''}</div>`).join(''):'<p>Aucune proposition pour cette séance.</p>');
+  },
+  'revision-review':id=>showRevision(S.revisionHistory.find(p=>p.id===id)),
+  'revision-apply':async id=>{
+    const p=S.revisionProposal;
+    if(!p||p.id!==id)throw Error('Proposition indisponible. Rechargez-la.');
+    await post(`/api/lessons/${enc(p.lessonId)}/revisions/apply`,{proposalId:p.id,version:p.version,confirmed:true});
+    closeModal();await openLesson(p.lessonId);
+    toast('Nouvelle version enregistrée. Vous pouvez la relire ou préparer sa publication.');
+  },
+  'take-over-draft':()=>{
+    const l=S.lesson;
+    modal('Reprendre en brouillon professeur',`<p>Vous reprenez la relecture pédagogique de « ${esc(l.title)} ». La préparation IA reste dans l’historique et une nouvelle version du brouillon sera créée.</p><p>La publication exigera toujours des consignes complètes, des corrigés valides, les supports et une planification cohérente.</p><form data-form="take-over-draft" data-id="${esc(l.id)}" data-version="${l.version}"><div class="field"><label>Raison de la reprise<textarea name="reason" required maxlength="4000">Je reprends ce cours pour le relire et le corriger avant publication.</textarea></label></div><label class="check-label"><input type="checkbox" name="confirmed" required>Je prends en charge la validation pédagogique de cette version.</label><div class="modal-actions">${btn('Annuler','close-modal')}<button type="submit" class="btn primary">Créer mon brouillon professeur</button></div></form>`);
+  },
   publish: async (id) => {
     const l = await api("/api/lessons/" + enc(id));
     S.lesson = l;
-    if (!l.quality.publishable) {
+    let readiness;
+    await busy(async()=>{readiness=await post(`/api/lessons/${enc(id)}/publication/prepare`,{version:l.version});},'Vérification de la séance et préparation des supports…');
+    l.quality=readiness.quality;
+    if (!readiness.quality.publishable) {
       render();
-      throw Error(
-        "Résolvez les contrôles signalés avant la publication. Si le plan a changé, régénérez la séance.",
-      );
+      const preparation=readiness.blockers.some(c=>c.action==='preparation');
+      const regenerate=readiness.blockers.some(c=>c.action==='regenerate');
+      modal('Ce qu’il reste avant de publier',`<h3>${esc(l.title)}</h3><ul>${readiness.blockers.map(c=>`<li>${esc(c.detail)}</li>`).join('')}</ul><div class="modal-actions">${readiness.canTakeOver?btn('Reprendre en brouillon professeur','take-over-draft',id,'primary','check'):''}${preparation&&readiness.preparationId?`<a class="btn" href="/preparation.html?job=${enc(readiness.preparationId)}">Ouvrir la préparation</a>`:''}${preparation||regenerate?btn('Préparer une nouvelle version','regenerate-publication',readiness.planEntryId,'','spark'):btn('Modifier la séance','edit-lesson','','','settings')}${btn('Modifier avec une consigne','revision-focus',id,'','spark')}${btn('Fermer','close-modal')}</div>`);
+      return;
     }
     modal(
       "Publier cette séance ?",
-      `<h3>${esc(l.title)}</h3><p>La version ${l.version} sera visible aux élèves pour le ${dateText(l.date)}. Le diagnostic, sa grille et le corpus sont liés à cette version.</p><div class="modal-actions">${btn("Relire encore", "close-modal")}${btn("Valider et publier", "confirm-publish", id, "primary", "check")}</div>`,
+      `<h3>${esc(l.title)}</h3><p>La version ${l.version}, prévue le ${dateText(l.date)}, sera accessible aux élèves de votre classe dans leurs séances disponibles et par son lien direct. Le diagnostic, sa grille et les supports sont liés à cette version.</p><div class="modal-actions">${btn("Relire encore", "close-modal")}${btn("Valider et publier", "confirm-publish", id, "primary", "check")}</div>`,
     );
   },
   "confirm-publish": async (id) => {
@@ -802,7 +868,11 @@ const actions = {
     await loadDashboard();
     await openLesson(id);
     toast("Séance publiée. Le cahier de texte est ouvert.");
+    showStudentAccess(S.lesson);
   },
+  "student-access":async id=>showStudentAccess(S.lesson?.id===id?S.lesson:await api('/api/lessons/'+enc(id))),
+  "regenerate-publication":id=>{sessionStorage.removeItem('tween-main-preparation-action');return generateEntry(id);},
+  "copy-student-link":async()=>{const field=$('#student-link');try{await navigator.clipboard.writeText(field.value);toast('Lien copié.');}catch{field.focus();field.select();toast('Le lien est sélectionné : copiez-le.');}},
   "edit-lesson": () => {
     const s = S.lesson.spec;
     modal(
@@ -956,6 +1026,7 @@ const actions = {
     showDriveReport(report);
   },
   "student-step": async (id) => {
+    await flushTerminalFiles();
     const target = Number(id),
       diagnostic = S.student.spec.blocks.findIndex(
         (b) => b.type === "Diagnostic",
@@ -970,22 +1041,38 @@ const actions = {
     renderStudent();
     focusStudentStage();
   },
-  "student-prev": () => {
+  "student-prev": async () => {
+    await flushTerminalFiles();
     S.step = Math.max(0, S.step - 1);
     persistLocal();
     renderStudent();
     focusStudentStage();
   },
   "student-next": async () => {
+    if(S.workSubmitting)return;
+    await flushTerminalFiles();
     const b = S.student.spec.blocks[S.step];
     if (b.type === "Diagnostic" && !S.attempt?.submissionId)
       throw Error(studentCopy.diagnosticGate);
     await studentEvent("step_completed", b.id);
     S.completed = [...new Set([...(S.completed || []), b.id])];
     if (S.step === S.student.spec.blocks.length - 1) {
-      await studentEvent("lesson_submitted", b.id, { answers: S.answers });
-      renderStudent();
-      toast("Bilan envoyé.");
+      if(S.workSubmitting)return;
+      S.workSubmitting=true;
+      try {
+        const key=`eden-remise:${S.user.id}:${S.student.versionId}`;
+        let pending;try{pending=JSON.parse(localStorage.getItem(key));}catch{}
+        // Persist the logical operation before transport. An uncertain HTTP
+        // response retries the exact same files, including after page reload.
+        pending??={requestId:crypto.randomUUID(),lessonVersionId:S.student.versionId,answers:structuredClone(S.answers)};
+        localStorage.setItem(key,JSON.stringify(pending));
+        const receipt=await post(`/api/lessons/${enc(S.student.id)}/work/submit`,pending);
+        localStorage.setItem(key+':receipt',JSON.stringify(receipt));localStorage.removeItem(key);
+        await studentEvent("lesson_submitted", b.id, { submissionId:receipt.id });
+        renderStudent();
+        $(".lesson-navigation").insertAdjacentHTML('afterend',`<p role="status">Travail remis le ${esc(new Date(receipt.receivedAt).toLocaleString('fr-FR'))}. <a href="/work-receipt.html?id=${enc(receipt.id)}">Consulter le reçu et les fichiers</a></p>`);
+        toast("Travail remis et conservé.");
+      } finally {S.workSubmitting=false;}
       return;
     }
     S.step++;
@@ -1129,6 +1216,23 @@ const forms = {
       "L’impact de votre modification",
       `<p><strong>${esc(change.oldValue.date)} → ${esc(change.newValue.date)}</strong> · ${change.newValue.duration} minutes</p><p class="block-content">${esc(change.newValue.objective)}</p><div class="alert info">${icon("shield")}${change.impact.warnings.length ? change.impact.warnings.map(esc).join("<br>") : "Aucune dépendance explicite bloquante détectée."}</div><p class="section-note">${change.impact.assessments.length} évaluation(s) concernée(s). Le plan passera de la version ${change.baseVersion} à ${change.baseVersion + 1}.</p><div class="modal-actions">${btn("Annuler", "close-modal")}${btn("Valider cette modification", "apply-change", change.id, "primary", "check")}</div>`,
     );
+  },
+  'revise-lesson':async(f,data)=>{
+    const error=$('[data-revision-error]',f),progress=$('[data-revision-progress]',f),area=$('textarea',f),preset=$('[data-action=revision-js]',f);
+    error.hidden=true;progress.hidden=false;progress.textContent='Modification en cours… Vous pouvez retrouver la proposition ici après son traitement.';
+    if(f.dataset.lastPrompt!==data.prompt){f.dataset.requestId=crypto.randomUUID();f.dataset.lastPrompt=data.prompt;}
+    area.readOnly=true;preset.disabled=true;
+    try{
+      const proposal=await post(`/api/lessons/${enc(f.dataset.id)}/revisions/propose`,{version:Number(f.dataset.version),prompt:data.prompt,requestId:f.dataset.requestId});
+      delete f.dataset.lastPrompt;showRevision(proposal);
+    }catch(e){
+      if(e.status&&e.status!==409)delete f.dataset.lastPrompt;
+      error.textContent=e.message+' Votre brouillon est conservé.';error.hidden=false;
+    }finally{progress.hidden=true;area.readOnly=false;preset.disabled=false;}
+  },
+  'take-over-draft':async(f,data)=>{
+    await post(`/api/lessons/${enc(f.dataset.id)}/take-over`,{version:Number(f.dataset.version),reason:data.reason,confirmed:data.confirmed==='on'});
+    closeModal();await openLesson(f.dataset.id);toast('Brouillon professeur créé. Relisez-le puis publiez cette version.');
   },
   "edit-lesson": async (f, data) => {
     const spec = structuredClone(S.lesson.spec);
@@ -1630,26 +1734,30 @@ function autosaveActivity(id) {
   );
 }
 function activeActivity(id) {
+  const preview=$('#dialog').open&&$('#dialog').classList.contains('lesson-preview-dialog');
   return [
+    ...(preview?S.previewSpec?.activities||[]:[]),
+    ...(preview?S.previewSpec?.diagnostic.tasks||[]:[]),
     ...(S.student?.spec.activities || []),
     ...(S.student?.spec.diagnostic.tasks || []),
-    ...(S.previewSpec?.activities || []),
   ].find((a) => a.id === id);
 }
 installWorkshopInteractions({ getActivity: activeActivity });
 function reorder(id, from, to) {
   const a = activeActivity(id);
   if (!a) return;
+  const preview=S.user.role==='teacher'&&$('#preview-body'),answers=preview?S.previewAnswers:S.answers;
   let order;
   try {
-    order = JSON.parse(S.answers[id]);
+    order = JSON.parse(answers[id]);
   } catch {
     order = [...a.options];
   }
   if (!Array.isArray(order)) order = [...a.options];
   if (to < 0 || to >= order.length) return;
   order.splice(to, 0, order.splice(from, 1)[0]);
-  S.answers[id] = JSON.stringify(order);
+  answers[id] = JSON.stringify(order);
+  if(preview){drawTeacherPreview();return;}
   persistLocal();
   autosaveActivity(id);
   if (S.user.role === "student") renderStudent();
@@ -1667,15 +1775,16 @@ document.addEventListener("click", (e) => {
   const preview = e.target.closest("[data-preview-html]");
   if (preview) {
     const id = preview.dataset.previewHtml;
+    const answers=preview.closest('#preview-body')?S.previewAnswers:S.answers;
     document.querySelector(`[data-preview-frame="${CSS.escape(id)}"]`).srcdoc =
-      sandboxDocument(S.answers[id] || activeActivity(id)?.starter || "");
+      sandboxDocument(answers[id] ?? activeActivity(id)?.starter ?? "");
   }
   const terminal = e.target.closest("[data-terminal]");
   if (terminal) {
     const id = terminal.dataset.terminal;
     document.querySelector(
       `[data-terminal-output="${CSS.escape(id)}"]`,
-    ).textContent = terminalSimulation(S.answers[id] || "");
+    ).textContent = terminalSimulation((terminal.closest('#preview-body')?S.previewAnswers:S.answers)[id] || "");
   }
 });
 let draggedPlanEntry;
@@ -1731,19 +1840,20 @@ document.addEventListener("drop", (e) => {
 document.addEventListener("input", (e) => {
   const id = e.target.dataset.answerPart;
   if (!id) return;
+  const preview=!!e.target.closest('#preview-body'),answers=preview?S.previewAnswers:S.answers;
   let value;
   try {
-    value = JSON.parse(S.answers[id] || "{}");
+    value = JSON.parse(answers[id] || "{}");
   } catch {
     value = {};
   }
   value[e.target.dataset.part] = e.target.value;
-  S.answers[id] = JSON.stringify(value);
-  persistLocal();
-  autosaveActivity(id);
+  answers[id] = JSON.stringify(value);
+  if(!preview){persistLocal();autosaveActivity(id);}
   const output = e.target.closest("[data-simulator]")?.querySelector("output");
   if (output) output.textContent = JSON.stringify(value);
 });
+document.addEventListener('change',event=>{if(event.target.id==='preview-step'){S.previewStep=Number(event.target.value);drawTeacherPreview();}});
 document.addEventListener("click", async (e) => {
   const button = e.target.closest("[data-action]");
   if (!button) return;
@@ -1776,9 +1886,8 @@ let searchTimer;
 document.addEventListener("input", (e) => {
   const a = e.target.dataset.answer;
   if (a) {
-    S.answers[a] = e.target.value;
-    persistLocal();
-    autosaveActivity(a);
+    if(e.target.closest('#preview-body'))S.previewAnswers[a]=e.target.value;
+    else {S.answers[a] = e.target.value;persistLocal();autosaveActivity(a);}
   }
   if (e.target.id === "plan-search") {
     const pos = e.target.selectionStart;
@@ -1829,9 +1938,11 @@ async function boot() {
     return;
   }
   await loadDashboard();
+  const editLessonId=new URLSearchParams(location.search).get('editLesson');
+  if(editLessonId){await openLesson(editLessonId);return;}
   render();
 }
 boot().catch(showError);
 
-installTerminalLabs({getLesson:()=>S.student});
-installDOMLabs({getLesson:()=>S.student});
+installTerminalLabs({getLesson:()=>S.user?.role==='teacher'?S.previewLesson:S.student,getJob:()=>S.user?.role==='teacher'?S.previewLesson?.qualityJobId:null});
+installDOMLabs({getLesson:()=>S.user?.role==='teacher'?S.previewLesson:S.student,getJob:()=>S.user?.role==='teacher'?S.previewLesson?.qualityJobId:null});

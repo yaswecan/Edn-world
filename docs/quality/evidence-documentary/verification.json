@@ -1,0 +1,59 @@
+{
+  "checkedAt": "2026-10-07T14:43:50.886945+00:00",
+  "completeSuite": {
+    "tests": 227,
+    "pass": 227,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "focusedOrchestration": {
+    "tests": 36,
+    "pass": 36,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "finalStorage": {
+    "tests": 29,
+    "pass": 29,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "syntaxSchemasDDL": "PASS",
+  "browser": "PASS",
+  "dockerShell": "PASS",
+  "search": "PASS",
+  "preview": {
+    "url": "http://127.0.0.1:4184/preparation.html",
+    "health": "PASS",
+    "data": "isolated authored fixtures"
+  },
+  "applicationInferenceCalls": 0,
+  "vectorEnabled": false,
+  "implementation": "partial against full requested scope",
+  "realAIPilots": "NOT RUN for new pipeline; prior pilots blocked by expired budgets",
+  "productionDeployed": false,
+  "realStudentPublication": false,
+  "finalResume": {
+    "tests": 27,
+    "pass": 27,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "finalAPI": {
+    "tests": 5,
+    "pass": 5,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "browserInterruptedRun": "Retained separately; final sequential rerun passed."
+}

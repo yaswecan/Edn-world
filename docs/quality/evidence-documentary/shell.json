@@ -1,0 +1,20 @@
+{
+  "simulation": false,
+  "scope": "Dedicated local Docker broker, real shell/Git files, durable submission, Git archive, reset",
+  "runtime": "sha256:4e65bd33f7ed9a09c9f176f2f8d8538f994eba24d6aced637a4307f25c28a8a4",
+  "checks": [
+    {
+      "id": "real-shell-bytes-and-student-git-evidence",
+      "status": "PASS"
+    },
+    {
+      "id": "archive-outage-keeps-receipt-and-duplicate-is-idempotent",
+      "status": "PASS"
+    },
+    {
+      "id": "reset-preserves-submission-and-archive",
+      "status": "PASS",
+      "commit": "19d0212898b9807f2b6265347518af3bfdf62ff2"
+    }
+  ]
+}

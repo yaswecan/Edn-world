@@ -14,7 +14,9 @@ export async function preparationContext(store,actor,entry,plan){
   curriculum:(curriculum?.criteria||[]).filter(c=>entry.skills.includes(c.n3_code)),sequences:sequences.map(s=>({id:s.id,title:s.title,objectives:s.objectives,prerequisites:s.prerequisites,tools:s.tools,source:s.source})),
   completedLearning:evidence,diagnosticResults:null,uncertainties:[]};
  if(sequenceIds.length&&!sequences.length)result.uncertainties.push('Fiche de séquence non retrouvée dans la version active ; aucun rapprochement par titre approchant.');
- result.sessions=sequences.flatMap(s=>(s.source?.rows||[]).flatMap((row,index)=>row.some(v=>v===entry.date||v?.date===entry.date||v?.value===entry.date)?[{id:digest([s.id,s.source.name,index+1,entry.date]),sequenceId:s.id,sheet:s.source.name,row:index+1,cells:row}]:[]));
+ // Older imports persist empty Excel rows as null. Skip them without compacting
+ // the array: citations and session identities must keep the workbook row number.
+ result.sessions=sequences.flatMap(s=>(s.source?.rows||[]).flatMap((row,index)=>Array.isArray(row)&&row.some(v=>v===entry.date||v?.date===entry.date||v?.value===entry.date)?[{id:digest([s.id,s.source.name,index+1,entry.date]),sequenceId:s.id,sheet:s.source.name,row:index+1,cells:row}]:[]));
  if(result.sessions.length>1)result.uncertainties.push('Plusieurs lignes de fiche à la même date : conserver toutes les activités et demander le choix du créneau si leurs acquis divergent.');
  if(sequences.length&&!result.sessions.length)result.uncertainties.push('La fiche ne comporte pas de ligne à cette date exacte ; la séance reste celle du créneau explicitement choisi.');
  return {...result,hash:digest(result)};

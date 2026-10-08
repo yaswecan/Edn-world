@@ -7,7 +7,7 @@ export function designContext(job) {
  const entry=job.brief.entry;
  return {version:CONTENT_VERSION,policy:coursePolicy,capabilities:job.capabilities||runtimeManifest(),
   session:{classId:job.classId,entryId:entry.id,entryVersion:entry.version||null,date:entry.date,timezone:'Europe/Paris',planningType:entry.category||null,sequence:entry.sequence||null,planVersion:job.brief.planVersion,duration:entry.duration,sourceRow:entry.sourceRow||null},
-  resolvedContextHash:job.brief.resolvedContext?.hash||null,sourceVersions:job.sources.map(s=>({id:s.id,hash:s.contentHash})),revision:job.revision||1};
+  resolvedContextHash:job.brief.resolvedContext?.hash||null,documentContext:job.documentContext||null,sourceVersions:job.sources.map(s=>({id:s.id,hash:s.contentHash})),revision:job.revision||1};
 }
 export function validateDocumentary(value,sources) {
  validate(documentarySchema,value);
@@ -17,7 +17,7 @@ export function validateDocumentary(value,sources) {
  if(new Set(value.concepts.map(c=>c.id)).size!==value.concepts.length)fail(400,'Analyse des sources : identifiants dupliqués.');
  return value;
 }
-export const analysisInputHash=job=>digest({sources:job.sources.map(s=>[s.id,s.contentHash]),session:job.brief.entry.id,version:1});
+export const analysisInputHash=job=>digest({sources:job.sources.map(s=>[s.id,s.contentHash]),session:job.brief.entry.id,version:1,...(job.documentContext?{context:job.documentContext.sha256}:{})});
 
 export function contractIssues(plan,spec,context) {
  const issues=[],c=plan.contract;

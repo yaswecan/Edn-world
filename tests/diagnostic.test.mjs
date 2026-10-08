@@ -10,6 +10,9 @@ import {diagnosticSchema,validate} from '../server/contracts.mjs';
 import {parseWorkbook} from '../server/importer.mjs';
 import {gradeTask,correct} from '../server/assessment.mjs';
 import {testActivityCode} from '../server/workshop-testing.mjs';
+import {DIAGNOSTIC_POLICY} from '../server/diagnostic-practice.mjs';
+import {prepareScaffold} from '../server/pedagogy/scaffold.mjs';
+import {renderActivity,DiagnosticIntro} from '../public/lesson-renderer.js';
 
 const previous={id:'real-run',lessonVersionId:'real:v2',date:'2026-10-01',coveredSkills:['A','B'],coveredContent:'Une fonction et ses cas de test.',coveredActivityIds:[],reactivatedPrerequisites:[]};
 const sourceTask=(id,skills,extra={})=>activity(id,id,'Écris une réponse et vérifie un exemple.',skills,extra);
@@ -27,6 +30,9 @@ test('every planned pedagogical session has a complete, timed baseline and a /20
   validate(diagnosticSchema,d);
   assert.deepEqual(diagnosticChecks(withDiagnostic(d)).filter(c=>!c.ok),[],entry.id);
   assert.equal(d.sourceLessonRunId,null);
+  assert.equal(d.policyVersion,DIAGNOSTIC_POLICY);
+  assert.equal(d.tasks.length,4);assert.equal(d.duration,20);
+  assert.ok(d.tasks.every(t=>t.type==='CodeEditor'||t.observation?.code));
   assert.ok(Math.abs(d.rubric.reduce((n,r)=>n+r.max,0)-20)<1e-9);
   assert.ok(d.rubric.every(r=>r.criterion==='baseline'));
   assert.ok(d.tasks.some(t=>['structured','exact','html'].includes(t.correctionMode)));
@@ -35,7 +41,7 @@ test('every planned pedagogical session has a complete, timed baseline and a /20
 
 test('Flexbox starts with concrete HTML and CSS prerequisites, without layout solutions',async()=>{
  const d=demoFlexbox().diagnostic;
- assert.equal(d.duration,15);
+ assert.equal(d.duration,20);
  for(const mode of ['html','css']){
   const task=d.tasks.find(t=>t.correctionMode===mode);
   assert.ok(task);
@@ -50,16 +56,21 @@ test('Flexbox starts with concrete HTML and CSS prerequisites, without layout so
 
 test('explicit prerequisites take precedence over topic defaults',()=>{
  const d=diagnosticFrom(null,null,[{n3_code:'BC04-C2-2',prerequisiteCodes:['BC04-C1-1']}],'prerequisites');
- assert.equal(d.tasks.length,2);
- assert.equal(d.tasks[0].type,'Quiz');
- assert.match(d.tasks[0].instruction,/span/);
+ assert.equal(d.tasks.length,4);
+ assert.equal(d.tasks[0].type,'FillBlank');
+ assert.match(d.tasks[0].observation.code,/<span>/);
+ assert.equal(d.tasks.filter(t=>t.correctionMode==='html').length,2);
+ assert.ok(d.tasks.every(t=>t.correctionMode!=='css'));
  assert.ok(d.tasks.every(t=>t.skills.length===0));
 });
 
 test('programming baseline checks values, boundary cases and debugging',()=>{
  const d=diagnosticFrom(null,null,[{n3_code:'BC05-C1-3'}],'loops');
- assert.equal(d.tasks.length,3);
+ assert.equal(d.tasks.length,4);
  for(const task of d.tasks.filter(t=>t.correctionMode==='structured'))assert.equal(gradeTask(task,task.expectedAnswer).ratio,1);
+ for(const task of d.tasks.filter(t=>t.correctionMode==='javascript')){assert.equal(gradeTask(task,task.reference).ratio,1);assert.notEqual(gradeTask(task,task.starter).ratio,1);}
+ const transfer=d.tasks.find(t=>t.id==='baseline-transfert');
+ assert.ok(gradeTask(transfer,'function reserve(age, places) { return age >= 12 || places > 0; }').ratio<0.75);
  assert.equal(correct(d,Object.fromEntries(d.tasks.map(t=>[t.id,t.expectedAnswer||'Une hypothèse à relire.']))).score,null);
 });
 
@@ -93,11 +104,32 @@ test('a reconciled run without source activities still produces a complete diagn
 
 test('rubric covers every skill of a task and distributes exactly twenty points',()=>{
  const d=diagnosticFrom(previous,{activities:[sourceTask('both',['A','B'],{correctionMode:'exact',expectedAnswer:'oui'}),sourceTask('a',['A'],{correctionMode:'exact',expectedAnswer:'oui'}),sourceTask('b',['B'],{correctionMode:'exact',expectedAnswer:'oui'})]},[],'next');
- assert.equal(d.tasks.length,3);
+ assert.equal(d.tasks.length,4);
  const correction=correct(d,Object.fromEntries(d.tasks.map(t=>[t.id,'oui'])));
- assert.equal(correction.score,20);
+ assert.equal(correction.score,null);
+ assert.equal(correct(d,Object.fromEntries(d.tasks.slice(0,-1).map(t=>[t.id,'oui']))).score,14);
  assert.deepEqual(correction.criteria.map(c=>c.criterion),['A','B']);
  assert.deepEqual(diagnosticChecks(withDiagnostic(d)).filter(c=>!c.ok),[]);
+});
+
+test('A2 requires reviewed evidence beyond passing automatic code tests',()=>{
+ for(const d of [demoFlexbox().diagnostic,diagnosticFrom(null,null,[{n3_code:'BC05-C1-3'}],'logic')]){
+  const answers=Object.fromEntries(d.tasks.filter(t=>t.correctionMode!=='manual').map(t=>[t.id,t.expectedAnswer||t.reference]));
+  const automatic=correct(d,answers);assert.equal(automatic.score,14);assert.equal(automatic.level,'A1');
+  answers[d.tasks.at(-1).id]='J’ai testé.';
+  const pending=correct(d,answers);assert.equal(pending.score,null);assert.equal(pending.status,'review_required');
+  assert.equal(pending.items.find(i=>i.taskId===d.tasks.at(-1).id).max,6);
+ }
+});
+
+test('practical diagnostics preserve authored time and safely display code observations',()=>{
+ const spec=demoFlexbox(),total=spec.blocks.reduce((n,b)=>n+b.minutes,0),scaffold=prepareScaffold(spec,{diagnosticMinutes:8});
+ assert.equal(scaffold.diagnostic.duration,20);
+ assert.deepEqual(scaffold.diagnostic.tasks.map(t=>t.duration),[3,5,6,6]);
+ assert.equal(scaffold.blocks.reduce((n,b)=>n+b.minutes,0),total);
+ assert.match(DiagnosticIntro(spec),/A2 · Autonomie et vérification/);
+ const t=structuredClone(studentSpec(spec).diagnostic.tasks[0]);t.observation={title:'<img src=x onerror=alert(1)>',code:'<script>alert(1)</script>',output:'<svg onload=alert(1)>'};
+ const html=renderActivity(t,{diagnostic:true});assert.match(html,/diagnostic-observation/);assert.match(html,/&lt;script&gt;/);assert.doesNotMatch(html,/<script>|<svg onload|<img src=x/);
 });
 
 test('publication rejects missing, optional, untimed, unreachable or ungraded diagnostics',()=>{

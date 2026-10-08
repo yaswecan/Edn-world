@@ -1,0 +1,107 @@
+{
+  "strategy": "lexical-context-1 plus direct reading of short central sources",
+  "vector": {
+    "enabled": false,
+    "comparison": "NOT RUN",
+    "reason": "Small available corpus; no external embedding call needed to meet the fixed retrieval checks."
+  },
+  "criteria": {
+    "top3SourceRecall": 1,
+    "exactCitations": 1,
+    "unauthorizedPassages": 0,
+    "missingSourceGap": true,
+    "p95LatencyMs": 1000
+  },
+  "scope": "Three original pilot sources available in the repository; synthetic incompatible-version and private-source controls, not a production-scale benchmark",
+  "checks": [
+    {
+      "id": "short-central-documents-fully-read-and-cited",
+      "status": "PASS"
+    },
+    {
+      "id": "missing-source-explicit-gap",
+      "status": "PASS"
+    },
+    {
+      "id": "student-default-deny",
+      "status": "PASS"
+    },
+    {
+      "id": "session-identity-resolved-structurally",
+      "status": "PASS"
+    },
+    {
+      "id": "explicit-technical-version-filter",
+      "status": "PASS"
+    }
+  ],
+  "queries": [
+    {
+      "query": "modèle de boîte",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 0.75,
+      "externalCalls": 0
+    },
+    {
+      "query": "dimensions padding",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 0.63,
+      "externalCalls": 0
+    },
+    {
+      "query": "box-sizing",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 0.36,
+      "externalCalls": 0
+    },
+    {
+      "query": "conditions booléennes",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 20.87,
+      "externalCalls": 0
+    },
+    {
+      "query": "&&",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 0.44,
+      "externalCalls": 0
+    },
+    {
+      "query": "git status",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 0.34,
+      "externalCalls": 0
+    },
+    {
+      "query": "répertoire courant",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 0.34,
+      "externalCalls": 0
+    },
+    {
+      "query": "git add",
+      "hit": true,
+      "citations": true,
+      "latencyMs": 0.46,
+      "externalCalls": 0
+    }
+  ],
+  "sourceCount": 3,
+  "sourceCharacters": 2024,
+  "sourceSegments": 13,
+  "measured": {
+    "top3SourceRecall": 1,
+    "exactCitations": 1,
+    "p95LatencyMs": 20.87,
+    "externalCalls": 0,
+    "providerCost": 0
+  },
+  "status": "PASS"
+}

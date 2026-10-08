@@ -1,5 +1,7 @@
 # EDEN Teacher Twin
 
+La recherche dans les documents importés, les classements professeur et la remise de fichiers avec reçu durable sont raccordés au parcours existant. Recette isolée : `npm run preview:documentary`, puis **http://127.0.0.1:4184/preparation.html** (`professeur` / `quality-preview-only`). Cette recette utilise des fixtures signalées, un stockage distinct et un dépôt Git privé local ; aucun appel IA réel ni publication élève. Voir le [rapport du lot documentaire et stockage](docs/quality/documentary-storage.md).
+
 Application locale fonctionnelle construite à partir de la spécification v1.1, du classeur A1 et des quatre projets fournis. L’interface est en français. EDEN conserve le plan versionné, les séances, le cahier de texte, les copies et les preuves ; les corpus et Google Drive sont des exports.
 
 ## Accès IA avec ChatGPT
@@ -94,6 +96,20 @@ npm run import -- "/chemin/planification.xlsx" --apply
 - Primitives Drive Distributor conservées à l’identique : compte de service, délégation Workspace, Shared Drives, raccourcis et arborescences. Distribution sélective des ressources élèves, du corpus professeur et des dossiers individuels validés depuis le serveur. File de travaux persistante, réservation exclusive avec bail et heartbeat, reprise après interruption, rapport par destinataire et retries. Upload résumable au-delà de 5 Mio. Aucun transit du corpus via une requête navigateur limitée à 4 Mo.
 
 ## Configuration externe
+
+### Publier une séance et l’ouvrir côté élèves
+
+Dans une séance en brouillon, **Modifier avec une consigne** propose une révision ciblée avec votre accès IA configuré. Le raccourci **JavaScript · sans dessins** demande de remplacer les dessins par du code et du débogage, tout en conservant les tableaux JavaScript. La comparaison avant/après précède l’enregistrement ; chaque modification crée une version, et les propositions restent accessibles après rechargement. Le diagnostic et la planification sont conservés. Une préparation en cours ou une version modifiée entre-temps empêche l’écrasement du brouillon.
+
+Une préparation interrompue ou annulée peut être **reprise en brouillon professeur**, depuis les blocages de publication : le professeur confirme qu’il prend en charge la validation pédagogique. Cette action crée une nouvelle version et conserve la préparation d’origine ; elle ne publie pas la séance. Les contrôles du contenu, du plan, du diagnostic, des corrigés exécutables et des supports restent obligatoires. Les simulations ne peuvent pas emprunter ce parcours.
+
+Recette de l’édition : `node --import tsx --test tests/lesson-revision.test.mjs`, puis `node --import tsx scripts/lesson-revision-browser-check.mjs` (base isolée et IA simulée). Un serveur déjà lancé doit être redémarré pour charger les nouvelles routes.
+
+Dans **Mes séances → Ouvrir la séance → Publier cette version**, l’application vérifie les dépendances de cette séance et les corrigés exécutables, puis compile les supports manquants si la préparation est complète. Modifier un autre créneau ne bloque plus une séance dont le créneau et le référentiel sont inchangés. Une modification de ses propres dépendances exige toujours une nouvelle préparation. Une préparation annulée ou non relue reste un brouillon ; le dialogue indique la cause et propose une nouvelle préparation, sans réutiliser la demande annulée.
+
+Après **Valider et publier**, **Accès élèves** donne un lien `/today?lesson=…`, accessible après connexion par les élèves de la classe. La liste **Séances disponibles** permet aussi d’ouvrir une séance publiée à une autre date. Les corrections restent privées avant la remise du diagnostic. Publier dans l’application ne configure pas l’hébergement : un lien `127.0.0.1` reste limité au poste local, ce que le dialogue de partage signale.
+
+Recette isolée : `node --import tsx --test tests/publication.test.mjs`, puis `node --import tsx scripts/publication-browser-check.mjs`. Ces vérifications ne publient aucun cours réel et ne lancent aucun appel IA.
 
 Copier `.env.example` en `.env.local`, puis renseigner uniquement les services souhaités.
 

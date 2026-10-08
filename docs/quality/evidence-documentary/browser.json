@@ -1,0 +1,203 @@
+{
+  "scope": "Real HTTP, Chromium, SQLite, Git; authored fixture AI responses, synthetic student publication only",
+  "checks": [
+    {
+      "id": "search-citation-classification-reload-mobile",
+      "status": "PASS"
+    },
+    {
+      "id": "latest-browser-bytes-durable-receipt-lost-response-reload-single-adoption",
+      "status": "PASS"
+    },
+    {
+      "id": "student-retrieval-denied-receipt-readable",
+      "status": "PASS"
+    },
+    {
+      "id": "student-readable-receipt-and-current-files",
+      "status": "PASS"
+    },
+    {
+      "id": "real-git-archive-does-not-change-submission",
+      "status": "PASS",
+      "commit": "7ad23276641526daf739fde8451cd66cfa506e2c"
+    },
+    {
+      "id": "browser-errors",
+      "status": "PASS"
+    }
+  ],
+  "pilots": [
+    {
+      "id": "box",
+      "status": "fixture",
+      "stage": "complete",
+      "calls": 7,
+      "sourceContext": "context_b8d5cfa699790bdebef0f8e1016a8cc34972cd1a4e7d9dcb6da1467dfa91ac3f",
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS"
+        },
+        {
+          "id": "schema",
+          "status": "PASS"
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS"
+        },
+        {
+          "id": "depth:BC04-C2-1",
+          "status": "PASS"
+        },
+        {
+          "id": "complete",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:guided",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:diag-practice",
+          "status": "PASS"
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS"
+        },
+        {
+          "id": "render-components",
+          "status": "PASS"
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS"
+        },
+        {
+          "id": "sources",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "logic",
+      "status": "fixture",
+      "stage": "complete",
+      "calls": 7,
+      "sourceContext": "context_d6840c1ac82ef29ba315064191e488f9d107b14339acd830603a11dddc0e3ed9",
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS"
+        },
+        {
+          "id": "schema",
+          "status": "PASS"
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS"
+        },
+        {
+          "id": "depth:BC05-C1-2",
+          "status": "PASS"
+        },
+        {
+          "id": "complete",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:guided",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:autonomous",
+          "status": "PASS"
+        },
+        {
+          "id": "reference:transfer",
+          "status": "PASS"
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS"
+        },
+        {
+          "id": "render-components",
+          "status": "PASS"
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS"
+        },
+        {
+          "id": "sources",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "shell",
+      "status": "blocked",
+      "stage": "review",
+      "calls": 7,
+      "sourceContext": "context_091399da6ee584c1f5531398cd88dea326c5bb2a070d15724772d18b30d0af86",
+      "checks": [
+        {
+          "id": "design-contract",
+          "status": "PASS"
+        },
+        {
+          "id": "schema",
+          "status": "PASS"
+        },
+        {
+          "id": "diagnostic-first",
+          "status": "PASS"
+        },
+        {
+          "id": "depth:BC02-C3-1",
+          "status": "PASS"
+        },
+        {
+          "id": "complete",
+          "status": "PASS"
+        },
+        {
+          "id": "lab:guided",
+          "status": "NOT RUN"
+        },
+        {
+          "id": "lab:autonomous",
+          "status": "NOT RUN"
+        },
+        {
+          "id": "lab:transfer",
+          "status": "NOT RUN"
+        },
+        {
+          "id": "preserved-activities",
+          "status": "PASS"
+        },
+        {
+          "id": "render-components",
+          "status": "PASS"
+        },
+        {
+          "id": "browser-render",
+          "status": "PASS"
+        },
+        {
+          "id": "sources",
+          "status": "PASS"
+        }
+      ]
+    }
+  ]
+}

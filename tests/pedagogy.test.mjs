@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import JSZip from 'jszip';
 import PDFDocument from 'pdfkit';
 import {pedagogyFixture,pilotDefinitions,buildPilot,fixtureResponder,pilotSpec} from './fixtures/pedagogy.mjs';
-import {extractDocument,importDocument,semanticSegments,publicAddress,fetchAllowedURL,sourceDossier} from '../server/pedagogy/documents.mjs';
+import {extractDocument,importDocument,originalDocument,semanticSegments,publicAddress,fetchAllowedURL,sourceDossier} from '../server/pedagogy/documents.mjs';
 import {qualityConfig,callStructured} from '../server/pedagogy/provider.mjs';
 import {enqueueGeneration,runGenerationStep,cancelGeneration} from '../server/pedagogy/jobs.mjs';
 import {candidateHash,decideQuality,publicationGate,validatePlan,softwareChecks,applyPlanOrder} from '../server/pedagogy/quality.mjs';
@@ -27,7 +27,7 @@ test('PDF records text and detects a blank or scanned page without inventing OCR
 });
 test('imports are idempotent, class scoped, preserve originals and separate solutions',async()=>{
  const {store,actor}=await pedagogyFixture();try{
- const input={filename:'source.md',role:'solution'},bytes=Buffer.from('# Solution\nPrivée.');const a=await importDocument(store,actor,input,bytes),b=await importDocument(store,actor,input,bytes);assert.equal(a.id,b.id);assert.equal(a.visibility,'teacher');assert.equal(Buffer.from(a.originalBase64,'base64').toString(),bytes.toString());
+ const input={filename:'source.md',role:'solution'},bytes=Buffer.from('# Solution\nPrivée.');const a=await importDocument(store,actor,input,bytes),b=await importDocument(store,actor,input,bytes);assert.equal(a.id,b.id);assert.equal(a.visibility,'teacher');assert.equal((await originalDocument(a)).toString(),bytes.toString());
  await assert.rejects(sourceDossier(store,{...actor,classId:'OTHER'},[a.id]),/introuvable/);
  const c=await importDocument(store,actor,input,Buffer.from('# Solution\nVersion différente.'));assert.equal(c.version,2);await assert.rejects(sourceDossier(store,actor,[a.id,c.id]),/Versions contradictoires/);
  }finally{await store.close();}

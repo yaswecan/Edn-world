@@ -17,7 +17,7 @@ let browser;const report={date:'2026-10-07',ai:'NOT RUN',lab:'NOT RUN',browser:'
 try{
  browser=await chromium.launch(options);const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];page.on('pageerror',e=>{errors.push(e.message);console.log('Browser error:',e.message);});
  await page.goto(base);await page.locator('#password').fill('quality-preview-only');await page.getByRole('button',{name:'Se connecter',exact:true}).click();await page.locator('.nav').waitFor();
- await page.goto(base+'/preparation.html');await page.locator('#generate').waitFor();
+ await page.goto(base+'/preparation.html');await page.locator('#generate').waitFor();await page.locator('.preparation-nav [data-view=library]').click();
  await page.locator('#import input[type=file]').setInputFiles({name:'box.md',mimeType:'text/markdown',buffer:Buffer.from(pilotDefinitions[0].source)});await page.locator('#import select').selectOption('technical');await page.getByRole('button',{name:'Importer le document',exact:true}).click();await page.getByText('Document conservé et extraction terminée. Vérifiez les limites signalées.',{exact:true}).waitFor();
  report.checks.push({id:'browser-upload-original-structure',status:'PASS'});
  for(const pilot of pilotDefinitions){
@@ -29,7 +29,7 @@ try{
   await writeFile(resolve(directory,'comparison.json'),JSON.stringify({kind:'authored-fixture-comparison-not-live-AI',before:(job.referenceBaseline||job.baseline).blocks.find(b=>b.type==='ConceptCard'),beforeActivity:(job.referenceBaseline||job.baseline).activities.find(a=>a.required&&a.type==='CodeEditor'),after:version.spec.blocks.find(b=>b.id==='concept'),activity:version.spec.activities.find(a=>a.id==='guided'),correction:version.spec.activities.find(a=>a.id==='guided')?.reference},null,2)+'\n');
   const render=job.checks.find(c=>c.id==='browser-render');if(render?.status==='PASS'){const proof=JSON.parse(render.evidence);for(const width of [1280,390])await copyFile(resolve(proof.directory,`2-${width}.png`),resolve(directory,`concept-${width}.png`));}
   report.pilots.push({id:pilot.id,version:lesson.version,jobStatus:job.status,ai:'NOT RUN',review:'SIMULATED',render:render?.status||'NOT RUN',referenceChecks:job.checks.filter(c=>c.id.startsWith('reference:')),blockers:job.decision?.blockers||[],contentHash:job.decision?.contentHash,files:`docs/quality/evidence/${pilot.id}`});
-  await page.goto(base+'/preparation.html?job='+encodeURIComponent(job.id));await page.getByRole('button',{name:'Aperçu élève du brouillon',exact:true}).click();await page.locator('#preview .lesson-stage').waitFor();
+  await page.goto(base+'/preparation.html?job='+encodeURIComponent(job.id));await page.locator('#open-preview').click();await page.locator('#preview .lesson-stage').waitFor();
   await page.locator('#preview .lesson-desktop-nav [data-action=demo-step][data-id="2"]').click();assert.match(await page.locator('#preview .lesson-stage').innerText(),new RegExp(pilot.id==='box'?'344':pilot.id==='logic'?'prioritaire':'position courante'));
   if(pilot.id==='box'||pilot.id==='logic'){
    await page.locator('#preview .lesson-desktop-nav [data-action=demo-step][data-id="4"]').click();const a=version.spec.activities.find(a=>a.id==='guided');await page.locator('#preview textarea[data-answer=guided]').fill(a.reference);await page.locator('#preview [data-action=run-code][data-id=guided]').click();await page.locator('#console-guided').waitFor({state:'visible'});assert.match(await page.locator('#console-guided').innerText(),/✓/);

@@ -49,7 +49,11 @@ export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}
  }
  const boardIds=new Set([...s.blocks.flatMap(b=>b.boards||[]),...s.activities.map(a=>a.workshop?.board).filter(Boolean)]);
  for(const id of boardIds)for(const suffix of ['', '-a-completer'])add(`01_ELEVE/tableaux/${id}${suffix}.svg`,await readFile(new URL(`../public/assets/boards/${id}${suffix}.svg`,import.meta.url)),'student');
- add('02_DIAGNOSTIC/diagnostic-eleve.pdf',await pdf('Évaluation · Note sur 20',s.diagnostic.tasks.map(a=>({title:a.title,body:a.instruction}))),'student');
+ add('02_DIAGNOSTIC/diagnostic-eleve.pdf',await pdf('Évaluation · Note sur 20',[
+  ...(s.diagnostic.expectations?[{title:`Repères · ${s.diagnostic.duration} minutes`,body:`A1 : ${s.diagnostic.expectations.a1}\nA2 : ${s.diagnostic.expectations.a2}`}]:[]),
+  ...s.diagnostic.tasks.map(a=>({title:a.title,body:[a.observation?[a.observation.title,a.observation.code,a.observation.output].filter(Boolean).join('\n'):'',a.instruction,a.starter?`Code de départ :\n${a.starter}`:'',a.options?.length?`Réponses à compléter :\n${a.options.join('\n')}`:'',`À rendre : ${a.expectedEvidence}`].filter(Boolean).join('\n\n')}))
+ ]),'student');
+ for(const a of s.diagnostic.tasks)if(a.starter)add(`02_DIAGNOSTIC/fichiers-depart/${a.id}.txt`,Buffer.from(a.starter),'student');
  add('02_DIAGNOSTIC/diagnostic-spec.json',json(s.diagnostic));add('02_DIAGNOSTIC/grille.json',json(s.diagnostic.rubric));
  add('02_DIAGNOSTIC/correction-reference.pdf',await pdf('Correction de référence',s.diagnostic.tasks.map(a=>({title:a.title,body:a.reference+'\n'+a.expectedAnswer}))));
  for(const a of s.diagnostic.tasks)add(`02_DIAGNOSTIC/fichiers-reference/${a.id}.txt`,Buffer.from(a.reference+'\n'+a.expectedAnswer));

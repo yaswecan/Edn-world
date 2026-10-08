@@ -1,3 +1,15 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EDEN · Préparation approfondie</title><link rel="stylesheet" href="/brand.css"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/lesson.css"><link rel="stylesheet" href="/workshops.css"><link rel="stylesheet" href="/preparation.css"></head>
-<body><main class="preparation"><header><a href="/">← Espace professeur</a><h1>Préparer une séance approfondie</h1><p>Sources, conception, rédaction et revue. Vous pouvez quitter cette page et retrouver la préparation ici.</p></header><p id="message" role="status" aria-live="polite"></p><div id="workspace"></div><section id="job" aria-live="polite"></section><section id="preview"></section></main><script type="module" src="/preparation.js"></script></body></html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EDEN · Préparer une séance</title><link rel="stylesheet" href="/brand.css"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/lesson.css"><link rel="stylesheet" href="/workshops.css"><link rel="stylesheet" href="/preparation.css"></head>
+<body><main class="preparation">
+ <header class="preparation-header"><a href="/">← Espace professeur</a><p class="eyebrow">CONCEPTION PÉDAGOGIQUE</p><h1 id="page-title">Préparer une séance</h1><p id="page-description">Choisissez votre séance, ajoutez vos consignes, puis lancez la préparation.</p></header>
+ <nav class="preparation-nav" aria-label="Préparation de séance" hidden>
+  <button type="button" data-view="current" id="current-tab" hidden>Ma préparation</button>
+  <button type="button" data-view="new">Nouvelle séance</button>
+  <button type="button" data-view="history">Historique <span id="jobs-count"></span></button>
+  <button type="button" data-view="library">Bibliothèque</button>
+ </nav>
+ <p id="message" role="status" aria-live="polite"></p>
+ <section id="job" class="preparation-panel" aria-label="Préparation en cours" hidden></section>
+ <section id="preview" hidden></section>
+ <div id="workspace"></div>
+</main><script type="module" src="/preparation.js"></script></body></html>

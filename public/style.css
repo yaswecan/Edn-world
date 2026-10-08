@@ -176,7 +176,8 @@ dialog::backdrop{background:#162b3270;backdrop-filter:blur(4px)}
 .modal-head{padding:23px 27px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:15px}
 .modal-head h2{margin:0}
 .modal-body{padding:25px 27px}
-.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+.modal-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:24px}
+.modal-actions .btn{max-width:100%;white-space:normal}
 .danger-note{color:#bd6d69;font-size:12px}
 .file-list{font-size:11px}
 .file-list div{display:flex;justify-content:space-between;padding:9px;border-bottom:1px solid var(--line)}
@@ -274,4 +275,3 @@ dialog{width:calc(100vw - 20px)}
 .block-card [data-sort-list]{padding-left:0}
 .block-card [data-sort]{padding:8px 14px}
 .block-card input,.block-card select{max-width:100%}
-

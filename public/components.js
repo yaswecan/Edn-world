@@ -4,7 +4,7 @@ import {workshopInput} from './workshop-ui.js';
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const parse=value=>{try{return JSON.parse(value);}catch{return {};}};
 export function componentInput(activity,answer,{disabled=false}={}){
- if(activity.workshop?.profile==='dom')return domInput(activity,{disabled});
+ if(activity.workshop?.profile==='dom')return domInput(activity,{disabled,answer});
  const workshop=workshopInput(activity,answer,{disabled});if(workshop!==null)return workshop;
  const a=activity,id=escape(a.id),value=answer??a.starter??'',attrs=`data-answer="${id}" ${disabled?'disabled':''}`,field=(label,index,choices=null)=>`<label class="field">${escape(label)}${choices?`<select data-answer-part="${id}" data-part="${index}" ${disabled?'disabled':''}><option value="">Choisir…</option>${choices.map(o=>`<option value="${escape(o)}" ${parse(answer)[index]===o?'selected':''}>${escape(o)}</option>`).join('')}</select>`:`<input data-answer-part="${id}" data-part="${index}" value="${escape(parse(answer)[index]||'')}" ${disabled?'disabled':''}>`}</label>`;
  if(a.type==='Quiz'||a.type==='MasteryCheck')return `<fieldset><legend>${a.type==='MasteryCheck'?'Évalue ta démarche':'Choisis une réponse'}</legend>${a.options.map(o=>`<label class="check-label"><input type="radio" name="${id}" ${attrs} value="${escape(o)}" ${answer===o?'checked':''}>${escape(o)}</label>`).join('')}</fieldset>`;

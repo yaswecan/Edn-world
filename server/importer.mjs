@@ -21,7 +21,7 @@ export async function parseWorkbook(buffer) {
   zip.file(file.name,normalized);
  }
  const wb=new ExcelJS.Workbook();await wb.xlsx.load(await zip.generateAsync({type:'nodebuffer'}));
- const sheets=wb.worksheets.map(s=>({name:s.name,merges:[...(s.model.merges||[])],cells:s.getRows(1,s.rowCount)?.flatMap(row=>{const cells=[];row.eachCell({includeEmpty:false},cell=>cells.push({address:cell.address,value:cell.value instanceof Date?{date:cell.value.toISOString().slice(0,10)}:cell.value,hyperlink:cell.hyperlink||null,master:cell.isMerged?cell.master.address:null}));return cells;})||[],rows:s.getSheetValues().slice(1).map(r=>(r||[]).slice(1).map(v=>v?.formula?{formula:v.formula,value:text(v.result)}:text(v)))}));
+ const sheets=wb.worksheets.map(s=>({name:s.name,merges:[...(s.model.merges||[])],cells:s.getRows(1,s.rowCount)?.flatMap(row=>{const cells=[];row.eachCell({includeEmpty:false},cell=>cells.push({address:cell.address,value:cell.value instanceof Date?{date:cell.value.toISOString().slice(0,10)}:cell.value,hyperlink:cell.hyperlink||null,master:cell.isMerged?cell.master.address:null}));return cells;})||[],rows:Array.from(s.getSheetValues().slice(1),r=>(r||[]).slice(1).map(v=>v?.formula?{formula:v.formula,value:text(v.result)}:text(v)))}));
  const sheet=prefix=>requireValue(wb.worksheets.find(s=>s.name.startsWith(prefix)),`Feuille ${prefix} manquante.`);
  const warnings=[], criteria=[],entries=[],sequences=[],evaluations=[],resources=[],learners=[],journal=[],history=[];
  sheet('02 ').eachRow((r,n)=>{const a=r.values;const code=text(a[3]);if(!/^BCT?\d{2}-C\d+-\d+$/.test(code))return;

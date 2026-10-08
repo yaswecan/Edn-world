@@ -11,7 +11,7 @@
     },
     "charterVersion": {
       "type": "string",
-      "const": "tween-depth-2026-10-07.2"
+      "const": "tween-depth-2026-10-07.3"
     },
     "decision": {
       "type": "string",

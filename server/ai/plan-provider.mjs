@@ -23,6 +23,20 @@ export async function readResponsesStream(response,{signal,onEvent,timeoutMs}={}
   throw aiError('uncertain','Le fournisseur n’a pas ouvert le flux attendu. Aucun résultat validé.');
  }
  const reader=response.body.getReader(),decoder=new TextDecoder();let buffer='',text='',bytes=0,savedCharacters=0;
+ // Only public summaries and allowlisted lifecycle signals leave this parser.
+ // Raw reasoning text, reasoning content and encrypted content are never copied.
+ const summaries=new Map();let phase='accepted',summaryTruncated=false;
+ const rememberSummary=(item,index,value,append=false)=>{
+  if(typeof value!=='string')return;
+  const key=`${item??0}:${index??0}`;
+  if(!summaries.has(key)&&summaries.size>=16){summaryTruncated=true;return;}
+  const full=(append?summaries.get(key)||'':'')+value;
+  summaries.set(key,full.slice(0,6000));if(full.length>6000)summaryTruncated=true;
+ };
+ const activity=()=>{
+  const summary=[...summaries.values()].join('\n\n');
+  return {phase,lastSignalAt:new Date().toISOString(),outputCharacters:text.length,summary:summary.slice(0,6000),summaryTruncated:summaryTruncated||summary.length>6000};
+ };
  const onAbort=()=>{reader.cancel(signal.reason).catch(()=>{});};
  signal?.addEventListener('abort',onAbort,{once:true});
  try{
@@ -37,11 +51,19 @@ export async function readResponsesStream(response,{signal,onEvent,timeoutMs}={}
     const raw=frame.split('\n').filter(l=>l.startsWith('data:')).map(l=>l.slice(5).replace(/^ /,'')).join('\n');
     if(!raw||raw==='[DONE]')continue;
     let event;try{event=JSON.parse(raw);}catch{throw aiError('uncertain','Flux illisible. Le brouillon est conservé.');}
-    if(event.type==='response.output_text.delta'&&typeof event.delta==='string')text+=event.delta;
-    // Never forward or persist raw reasoning events.
-    if(['response.created','response.completed'].includes(event.type))await onEvent?.({type:event.type,responseId:event.response?.id,status:event.response?.status});
-    // Persist useful text, never reasoning events. Throttle deltas by size.
-    if(event.type==='response.output_text.delta'){const persist=text.length-savedCharacters>4096;await onEvent?.({type:event.type,...persist?{partialOutput:text}:{}});if(persist)savedCharacters=text.length;}
+    if(['response.created','response.in_progress'].includes(event.type))await onEvent?.({type:event.type,responseId:event.response?.id,status:event.response?.status,model:event.response?.model,activity:activity()});
+    if(event.type==='response.output_item.added'&&event.item?.type==='reasoning'){
+     phase='reasoning';await onEvent?.({type:'response.output_item.added',activity:activity()});
+    }
+    if(['response.reasoning_summary_text.delta','response.reasoning_summary_text.done','response.reasoning_summary_part.done'].includes(event.type)){
+     const delta=event.type.endsWith('.delta');
+     rememberSummary(event.item_id??event.output_index,event.summary_index,delta?event.delta:event.type==='response.reasoning_summary_part.done'?(event.part?.type==='summary_text'?event.part.text:null):event.text,delta);
+     phase='reasoning';await onEvent?.({type:event.type,activity:activity()});
+    }
+    if(event.type==='response.output_text.delta'&&typeof event.delta==='string'){
+     text+=event.delta;phase='writing';const persist=text.length-savedCharacters>4096;
+     await onEvent?.({type:event.type,activity:activity(),...persist?{partialOutput:text}:{}});if(persist)savedCharacters=text.length;
+    }
     if(event.type==='response.failed'||event.type==='error')throw planError(event.response||event,response.status,response.headers,{stream:true});
     if(event.type==='response.incomplete')throw aiError('incomplete','La réponse ChatGPT est incomplète. Votre brouillon est conservé.');
     if(event.type==='response.completed'){
@@ -51,6 +73,9 @@ export async function readResponsesStream(response,{signal,onEvent,timeoutMs}={}
      if(content.some(x=>x.type==='refusal'))throw aiError('failed','Le fournisseur a refusé cette demande.');
      const complete=content.filter(x=>x.type==='output_text').map(x=>x.text).join('')||text;
      if(!complete)throw aiError('incomplete','La réponse ChatGPT est vide.');
+     for(const [index,item] of (result.output||[]).entries())if(item.type==='reasoning')for(const [partIndex,part] of (item.summary||[]).entries())if(part.type==='summary_text')rememberSummary(item.id??index,partIndex,part.text);
+     text=complete;phase='completed';
+     await onEvent?.({type:event.type,responseId:result.id,status:result.status,model:result.model,activity:activity()});
      return {id:result.id,model:result.model,status:result.status,usage:result.usage||null,text:complete};
     }
    }

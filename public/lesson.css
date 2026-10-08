@@ -1,4 +1,24 @@
 @import url("./workshops.css");
+.diagnostic-targets{margin:18px 0;padding:16px 20px;background:var(--wash);border-left:3px solid var(--eden-strong);border-radius:8px}
+.diagnostic-targets strong{display:block;margin-bottom:5px}
+.diagnostic-targets small{display:block;color:var(--muted);line-height:1.6}
+.diagnostic-observation{margin:22px 0;min-width:0}
+.diagnostic-observation figcaption{font-size:13px;font-weight:650;margin:0 0 10px}
+.diagnostic-observed-output{padding:14px 18px;background:#eef3f4;font-size:13px;border-radius:8px}
+.diagnostic-observed-output pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0 0}
+dialog.lesson-preview-dialog{width:calc(100vw - 32px);max-width:1320px;height:90vh;overflow:hidden}
+dialog.lesson-preview-dialog[open]{display:flex;flex-direction:column}
+.lesson-preview-dialog .modal-head{flex:none}
+.lesson-preview-dialog .modal-body{overflow:auto;min-height:0;flex:1}
+.lesson-preview-dialog #preview-body{min-height:0;padding:20px 0}
+.lesson-preview-dialog :is(.lesson-workbench,[data-dom-lab],[data-real-lab],textarea.code){scroll-margin-top:125px}
+.lesson-preview-dialog .preview-notice{font-size:14px;color:var(--muted);line-height:1.6}
+.preview-toolbar{display:flex;align-items:end;gap:18px;flex-wrap:wrap;padding:16px 0;border-bottom:1px solid var(--line)}
+.preview-toolbar label{display:block;flex:1;min-width:0;font-size:13px;font-weight:600}
+.preview-toolbar select{display:block;width:100%;margin-top:8px;min-width:0}
+.preview-toolbar .btn{flex:none}
+.lesson-preview-dialog .preview-toolbar{position:sticky;top:-26px;background:#fff;z-index:2}
+@media(max-width:600px){.preview-toolbar{display:block}.preview-toolbar .btn{margin-top:12px;width:100%}}
 /* EDEN lesson system. Scoped so teacher tools and PédagoLab keep their contracts. */
 .lesson-view{--lesson-ink:var(--ink);--lesson-muted:var(--muted);--lesson-line:var(--line);--lesson-accent:var(--eden-strong);--lesson-wash:var(--wash);--lesson-dark:var(--ink);color:var(--lesson-ink);background:var(--bg);font:16px/1.65 Inter,Arial,sans-serif;min-height:100vh;font-synthesis:none}
 

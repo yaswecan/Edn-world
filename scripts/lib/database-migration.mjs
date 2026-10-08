@@ -35,11 +35,12 @@ export async function prepareSnapshot({source='.data/eden.sqlite',artifactDirect
 
  const cache=new Map();
  const artifacts={files:0,localFiles:0,uniqueLocalFiles:0,bytes:0,externalS3Files:0};
- for(const row of tables.corpus_packages){
+ for(const [kind,row] of ['corpus_packages','pedagogical_sources','content_snapshots'].flatMap(kind=>tables[kind].map(row=>[kind,row]))){
   const pack=JSON.parse(row.data);
-  ensure(Array.isArray(pack.files),'Corpus sans liste de documents.');
+  const files=kind==='corpus_packages'?pack.files:kind==='pedagogical_sources'?(pack.original?[pack.original]:[]):pack.externalObjects||[];
+  ensure(Array.isArray(files),'Objet sans liste de documents.');
   let changed=false;
-  for(const file of pack.files){
+  for(const file of files){
    artifacts.files++;
    if(file.s3Key){
     ensure(!file.artifactKey,'Document avec deux références de stockage incompatibles.');

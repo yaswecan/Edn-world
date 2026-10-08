@@ -345,6 +345,26 @@
                   "alternative"
                 ],
                 "additionalProperties": false
+              },
+              "observation": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "code": {
+                    "type": "string"
+                  },
+                  "output": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title",
+                  "code",
+                  "output"
+                ],
+                "additionalProperties": false
               }
             },
             "required": [
@@ -409,6 +429,25 @@
             "additionalProperties": false
           },
           "minItems": 1
+        },
+        "policyVersion": {
+          "type": "string"
+        },
+        "expectations": {
+          "type": "object",
+          "properties": {
+            "a1": {
+              "type": "string"
+            },
+            "a2": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "a1",
+            "a2"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
@@ -900,6 +939,26 @@
               "wrong",
               "wrongExplanation",
               "alternative"
+            ],
+            "additionalProperties": false
+          },
+          "observation": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "output": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "code",
+              "output"
             ],
             "additionalProperties": false
           }

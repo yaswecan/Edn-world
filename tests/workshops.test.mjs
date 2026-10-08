@@ -22,11 +22,11 @@ test('Flexbox uses the real generator: laboratory, drawing, three coding steps, 
  const slots=contentSlots(s);assert.ok(!slots.activities.some(a=>a.id==='transfer'));
  slots.title='Une nouvelle formulation';const merged=mergeContent(s,slots);assert.deepEqual(merged.activities,s.activities);
 });
-test('all programming resources yield real code starters and autonomous editors; reference JS solutions pass',()=>{
+test('all programming resources yield real code starters and autonomous editors; reference JS, HTML and CSS solutions pass',()=>{
  for(const r of library.filter(r=>['html','code'].includes(r.mode))){
   const s=make([r]),tasks=s.activities.filter(a=>a.type==='CodeEditor');assert.ok(tasks.length>=2,r.code);
   assert.ok(tasks.every(a=>a.starter.length>15),r.code);
-  for(const a of tasks.filter(a=>a.correctionMode==='javascript'))assert.equal(gradeTask(a,a.reference).ratio,1,`${r.code} ${a.id}`);
+  for(const a of tasks.filter(a=>['javascript','html','css'].includes(a.correctionMode)&&a.tests.length))assert.equal(gradeTask(a,a.reference).ratio,1,`${r.code} ${a.id}`);
  }
  const s=make(library.filter(r=>['BC05-C1-3','BC04-C2-2'].includes(r.code)));
  for(const skill of ['BC05-C1-3','BC04-C2-2'])assert.ok(s.activities.some(a=>a.id.startsWith('transfer')&&a.skills.includes(skill)&&a.type==='CodeEditor'));
@@ -44,6 +44,13 @@ test('code testing checks the authored task and CSS cascade, without disclosing 
  const good=await testActivityCode(task,'.groupe { display: flex; }');assert.equal(good.ok,true);assert.equal(good.expectedAnswer,undefined);assert.equal(good.reference,undefined);
  for(const code of ['.groupe { display: flex; display: block; }','@media (min-width: 9000px) { .groupe { display: flex; } }'])assert.equal((await testActivityCode(task,code)).ok,false,code);
  assert.equal((await testActivityCode(task,'.groupe { display: flex !important; display: block; }')).ok,true);
+});
+test('Flexbox correction exports contain executable CSS that passes every authored exercise',async()=>{
+ for(const task of demoFlexbox().activities.filter(a=>a.correctionMode==='css')){
+  assert.match(task.reference,/display: flex/);
+  assert.equal((await testActivityCode(task,task.reference)).ok,true,task.id);
+  assert.notEqual((await testActivityCode(task,task.starter)).ok,true,task.id);
+ }
 });
 test('extended interpreter remains bounded and prevents prototype, host and constructor access',()=>{
  for(const code of [

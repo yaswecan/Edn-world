@@ -1,4 +1,5 @@
 import {activity} from './activity.mjs';
+import {practicalBaseline,DIAGNOSTIC_POLICY,diagnosticExpectations} from './diagnostic-practice.mjs';
 
 const task=(id,title,instruction,extra={})=>activity(id,title,instruction,[],{duration:5,...extra});
 
@@ -41,25 +42,29 @@ function startingTasks(nodes,library){
 export function buildDiagnostic(previous,sourceLesson,nodes,lessonId,library=[]){
  const baseline=!previous;
  let tasks;
- if(baseline)tasks=startingTasks(nodes,library);
+ if(baseline)tasks=practicalBaseline(nodes,library,()=>startingTasks(nodes,library));
  else{
   const allowed=new Set([...previous.coveredSkills,...(previous.reactivatedPrerequisites||[])]);
-  const candidates=(sourceLesson?.activities||[]).filter(a=>a.skills.length&&a.skills.every(c=>allowed.has(c))&&(!previous.coveredActivityIds?.length||previous.coveredActivityIds.includes(a.id))&&a.correctionMode!=='none');
+  const candidates=(sourceLesson?.activities||[]).filter(a=>a.skills.length&&a.skills.every(c=>allowed.has(c))&&(!previous.coveredActivityIds?.length||previous.coveredActivityIds.includes(a.id))&&a.correctionMode!=='none').sort((a,b)=>Number(['CodeEditor','TestRunner','Terminal','Preview'].includes(b.type))-Number(['CodeEditor','TestRunner','Terminal','Preview'].includes(a.type)));
   // Cover distinct worked criteria before taking another task for the same one.
   const selected=[],covered=new Set();
-  for(const a of candidates)if(selected.length<4&&a.skills.some(c=>!covered.has(c))){selected.push(a);a.skills.forEach(c=>covered.add(c));}
-  for(const a of candidates)if(selected.length<4&&!selected.includes(a))selected.push(a);
+  for(const a of candidates)if(selected.length<3&&a.skills.some(c=>!covered.has(c))){selected.push(a);a.skills.forEach(c=>covered.add(c));}
+  for(const a of candidates)if(selected.length<3&&!selected.includes(a))selected.push(a);
   tasks=selected.map((a,i)=>({...structuredClone(a),id:`diag-${i}`,duration:5,required:true}));
   if(!tasks.length)for(const [i,c] of previous.coveredSkills.slice(0,3).entries())tasks.push(task(`diag-${i}`,library.find(r=>r.code===c)?.skillLabel||`Exercice ${i+1}`,`Reproduis une partie de la production réellement travaillée : ${previous.coveredContent}. Explique ta démarche.`,{skills:[c],reference:`Relire selon le critère ${c} et le contenu réalisé le ${previous.date} : ${previous.coveredContent}.`,expectedEvidence:'Une production issue de la séance réalisée et une démarche expliquée.'}));
-  if(tasks.length===1)tasks.push(task('diag-verification','Vérifie ta démarche',`À partir de la production travaillée lors de la séance précédente (${previous.coveredContent}), décris un test : situation de départ, résultat attendu et erreur qu’il permettrait de repérer.`,{skills:[tasks[0].skills[0]],reference:`Vérifier que le test porte sur le contenu réellement travaillé : ${previous.coveredContent}, avec une entrée et un résultat cohérents.`,expectedEvidence:'Un test précis du travail précédent et une erreur qu’il permet de détecter.'}));
+  const model=tasks.find(t=>t.starter?.trim())||tasks[0],screen={title:'Travail précédent à examiner',code:model.starter||model.instruction,output:''};
+  for(const t of tasks)if(!['CodeEditor','TestRunner','Terminal','Preview'].includes(t.type))t.observation??={title:'Situation travaillée',code:t.starter||t.instruction,output:''};
+  tasks.push(task('diag-verification','A2 · Vérifier et transférer la démarche',`À partir de la production réellement travaillée (${previous.coveredContent}), propose un cas courant et un cas limite : entrée, résultat attendu et défaut détecté. Modifie ensuite une contrainte déjà travaillée, adapte ta réponse et justifie cette adaptation.`,{skills:[...new Set(tasks.flatMap(t=>t.skills))],observation:screen,reference:`Vérifier les deux tests et l’adaptation uniquement sur le contenu réellement travaillé : ${previous.coveredContent}. Exiger des entrées et sorties précises, un défaut détectable et une justification de la modification. Ne pas exiger une notion nouvelle.`,expectedEvidence:'Deux tests justifiés dont un cas limite, une production adaptée et une explication de ce qui change.'}));
  }
  const criteria=[...new Set(tasks.flatMap(a=>a.skills))];
  const share=(total,count,index)=>Math.floor(total/count)+(index<total%count?1:0);
+ // Without the independently reviewed transfer/justification, A2 is unreachable.
+ const weights=baseline?[300,500,600,600]:tasks.length===2?[1400,600]:tasks.length===3?[700,700,600]:[400,500,500,600];
  const rubric=tasks.flatMap((t,i)=>{
   const skills=t.skills.length?[...new Set(t.skills)]:['baseline'];
-  return skills.map((criterion,j)=>{const max=share(share(2000,tasks.length,i),skills.length,j)/100;return {id:`item-${i}-${j}`,taskId:t.id,criterion,label:t.expectedEvidence,max,a1:max/2,a2:max*0.75};});
+  return skills.map((criterion,j)=>{const max=share(weights[i],skills.length,j)/100;return {id:`item-${i}-${j}`,taskId:t.id,criterion,label:t.expectedEvidence,max,a1:max/2,a2:max*0.75};});
  });
- return {id:`${lessonId}:diagnostic`,kind:baseline?'baseline':'previous_lesson',sourceLessonRunId:previous?.id||null,sourceLessonVersion:previous?.lessonVersionId||null,duration:tasks.reduce((n,t)=>n+t.duration,0),criteria,tasks,rubric};
+ return {id:`${lessonId}:diagnostic`,kind:baseline?'baseline':'previous_lesson',sourceLessonRunId:previous?.id||null,sourceLessonVersion:previous?.lessonVersionId||null,duration:tasks.reduce((n,t)=>n+t.duration,0),criteria,tasks,rubric,policyVersion:DIAGNOSTIC_POLICY,expectations:diagnosticExpectations};
 }
 
 export function diagnosticChecks(spec){
