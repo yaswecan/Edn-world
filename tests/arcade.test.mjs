@@ -77,18 +77,38 @@ test('launch authorizes real assignment and is idempotent across concurrent fres
  assert.equal((await fixture.store.list('game_runs','A1')).length,1);
  const context=(await call(`/api/game/runs/${runId}/context`)).data;assert.deepEqual(context.progress,fixture.save);assert.equal(context.worldId,fixture.mission.world);assert.equal(context.missionId,fixture.mission.localId);
  assert.equal(context.worlds[fixture.mission.world].missions.length,1);
- for(const actor of ['guest','teacher-a','student-b','student-other','external'])assert.ok((await call('/api/arcade/launch',{method:'POST',body,actor})).status>=400,actor);
+ for(const actor of ['guest','teacher-a','student-other','external'])assert.ok((await call('/api/arcade/launch',{method:'POST',body,actor})).status>=400,actor);
+ const second=await call('/api/arcade/launch',{method:'POST',body,actor:'student-b'});assert.equal(second.status,200);assert.notEqual(second.data.runId,runId);
+ const secondContext=await call(`/api/game/runs/${second.data.runId}/context`,{actor:'student-b'});assert.equal(secondContext.status,200);assert.equal(secondContext.data.progress,null);
+ assert.equal((await fixture.store.list('learning_events','A1')).filter(e=>e.learnerId==='student-b').length,0);
+});
+test('Code Station opens a prerequisite world for every class student without invented progress',async()=>{
+ const original=await fixture.store.get('lesson_versions','arcade-lesson:v1');
+ const mission=(await fixture.store.list('game_missions','A1')).find(m=>m.world==='assault');
+ const before=Object.fromEntries(await Promise.all(['learning_events','game_evidence','evidence','game_teacher_overrides'].map(async t=>[t,await fixture.store.list(t)])));
+ try {
+  await fixture.store.put('lesson_versions',{...original,spec:{...original.spec,codeStation:{missionId:mission.id,worldId:mission.world,unlockAfter:'transfer'}}});
+  for(const actor of ['student-a','student-b']){
+   const games=(await call('/api/arcade/bootstrap',{actor})).data.games;assert.equal(games[0].state,'available');assert.equal(games[0].missions[0].state,'available');
+   const launched=await call('/api/arcade/launch',{method:'POST',actor,body:{gameId:'code-station',lessonId:'arcade-lesson',missionId:mission.id}});assert.equal(launched.status,200);
+   const context=await call(`/api/game/runs/${launched.data.runId}/context`,{actor});assert.equal(context.status,200);assert.equal(context.data.worldId,mission.world);
+  }
+  const direct=await call('/api/game/runs',{method:'POST',actor:'student-b',body:{lessonId:'arcade-lesson',missionId:mission.id}});assert.equal(direct.status,200);
+  for(const [table,rows] of Object.entries(before))assert.deepEqual(await fixture.store.list(table),rows);
+ } finally {await fixture.store.put('lesson_versions',original);}
 });
 test('forged destinations, unknown bindings and foreign saves are refused',async()=>{
  const body={gameId:'code-station',lessonId:'arcade-lesson',missionId:fixture.mission.id};
  for(const extra of [{gameId:'unknown'},{gameId:'toString'},{gameId:'cyber-funk'},{url:'https://evil.invalid'},{returnTo:'//evil.invalid'},{playerId:'student-b'},{missionId:'B1:code-station:missing:v1'}])assert.ok((await call('/api/arcade/launch',{method:'POST',body:{...body,...extra}})).status>=400);
  for(const actor of ['student-b','student-other'])for(const [method,path,body] of [['GET',`/api/game/runs/${runId}/context`],['POST',`/api/game/runs/${runId}/progress`,{progress:{}}],['POST',`/api/game/runs/${runId}/complete`,{eventId:'fake',payload:{}}]])assert.ok((await call(path,{method,body,actor})).status>=400);
 });
-test('existing runs cannot bypass changed assignment, autonomy or publication locks',async()=>{
+test('existing runs stay open without autonomy but enforce assignment and publication',async()=>{
  const e=await fixture.store.get('learning_events','unlocked-a');await fixture.store.remove('learning_events',e.id);
- assert.equal((await call(`/api/game/runs/${runId}/context`)).status,409);
- assert.equal((await call(`/api/game/runs/${runId}/progress`,{method:'POST',body:{progress:{}}})).status,409);
+ assert.equal((await call(`/api/game/runs/${runId}/context`)).status,200);
+ assert.equal((await call(`/api/game/runs/${runId}/progress`,{method:'POST',body:{progress:fixture.save}})).status,200);
  await fixture.store.insert('learning_events',e);
+ const version=await fixture.store.get('lesson_versions','arcade-lesson:v1');await fixture.store.put('lesson_versions',{...version,spec:{...version.spec,codeStation:null}});
+ assert.equal((await call(`/api/game/runs/${runId}/context`)).status,400);await fixture.store.put('lesson_versions',version);
  const lesson=await fixture.store.get('lessons','arcade-lesson');await fixture.store.put('lessons',{...lesson,status:'closed'});
  assert.equal((await call(`/api/game/runs/${runId}/context`)).status,409);await fixture.store.put('lessons',lesson);
 });

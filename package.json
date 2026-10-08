@@ -25,6 +25,7 @@
     "check": "node scripts/check.mjs",
     "build": "npm run check",
     "test:browser": "node --import tsx scripts/browser-check.mjs",
+    "test:console:browser": "node --import tsx scripts/code-runner-browser-check.mjs",
     "demo:lesson": "node scripts/lesson-demo.mjs",
     "demo:serve": "node scripts/lesson-preview-server.mjs",
     "test:visual": "playwright test --config playwright.lesson.config.mjs",

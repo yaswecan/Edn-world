@@ -38,6 +38,12 @@ import {workSubmissionRoutes} from './work-submissions.mjs';
 export function createApp(store,{chatgpt,lessonRevision={}}={}){
  const app=express();app.disable('x-powered-by');
  app.use((req,res,next)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','same-origin');res.setHeader('Cache-Control','no-store');res.setHeader('Content-Security-Policy',req.path.startsWith('/game/')?"default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src data:; worker-src blob:; connect-src 'none'; frame-ancestors 'self'":"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'self'");next();});
+ // Only the opaque execution frame may create Blob workers. The application
+ // retains its original CSP; student code has no network or origin storage.
+ app.get('/code-runner-frame.html',(_req,res)=>{
+  res.setHeader('Content-Security-Policy',"sandbox allow-scripts; default-src 'none'; script-src 'self'; worker-src blob:; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'self'");
+  res.sendFile(resolve('public/code-runner-frame.html'));
+ });
  app.use(protectOrigin,authentication(store));app.use(express.json({limit:'2mb'}));
  databaseRoutes(app,store);
  demoRoutes(app);

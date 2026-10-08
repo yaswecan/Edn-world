@@ -4,19 +4,20 @@ import {existsSync} from 'node:fs';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {diagnosticRevisionFixture} from '../tests/fixtures/diagnostic-revision.mjs';
 import {createApp} from '../server/app.mjs';
+import {revisionSchema} from '../server/lesson-revision.mjs';
+import {validate} from '../server/contracts.mjs';
 
 const directory='test-results/lesson-revision';await mkdir(directory,{recursive:true});
 const {store,actor,lesson,spec}=await diagnosticRevisionFixture();
 await store.put('lessons',{...lesson,qualityRequired:true,qualityJobId:'cancelled'});
 await store.insert('generation_jobs',{id:'cancelled',classId:actor.classId,lessonId:lesson.id,status:'cancelled',stage:'analysis',sources:[]});
-const original=await store.get('lesson_versions',lesson.versionId),patch=(path,value)=>({op:'replace',path,valueJSON:JSON.stringify(value)});
+const original=await store.get('lesson_versions',lesson.versionId),patch=(path,value)=>({op:'replace',path,value});
 let calls=0;
 const server=createApp(store,{lessonRevision:{configure:async()=>({provider:'chatgpt_plan',roles:{write:{model:'fixture',billing:'chatgpt_plan'}}}),call:async()=>{
  calls++;if(calls===1)throw Object.assign(Error('Connexion de recette interrompue.'),{status:503});
  const index=spec.activities.findIndex(a=>a.type==='Blackboard');
- const task={...spec.activities[index],type:'FillBlank',title:'Expliquer un cas limite',instruction:'Complète : pour parcourir tous les indices, la condition i ___ valeurs.length exclut la borne finale.',options:['<'],expectedAnswer:'<',reference:'La condition i < valeurs.length exclut l’indice égal à la longueur.',correctionMode:'exact'};
- delete task.workshop;
- return {value:{summary:'Le dessin est remplacé par une condition à compléter et à justifier en JavaScript.',changes:[patch(`/activities/${index}`,task),patch('/teacherGuide','Faire justifier la borne finale de la boucle JavaScript et tester le cas vide.')]}};
+ const task={publicTests:null,validationVariants:null,observation:null,...spec.activities[index],workshop:null,type:'FillBlank',title:'Expliquer un cas limite',instruction:'Complète : pour parcourir tous les indices, la condition i ___ valeurs.length exclut la borne finale.',options:['<'],expectedAnswer:'<',reference:'La condition i < valeurs.length exclut l’indice égal à la longueur.',correctionMode:'exact'};
+ return {value:validate(revisionSchema,{summary:'Le dessin est remplacé par une condition à compléter et à justifier en JavaScript.',changes:[patch(`/activities/${index}`,task),patch('/teacherGuide','Faire justifier la borne finale de la boucle JavaScript.\nTester le cas "vide" et expliquer i < valeurs.length.')]})};
 }}}).listen(0,'127.0.0.1');await new Promise((resolve,reject)=>{server.once('listening',resolve);server.once('error',reject);});
 const base=`http://127.0.0.1:${server.address().port}`,chrome=process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 let browser,page;const errors=[],report={scope:'Isolated real HTTP/browser flow with simulated AI; no real course modified or published',checks:[]};

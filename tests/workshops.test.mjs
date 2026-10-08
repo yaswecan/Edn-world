@@ -10,6 +10,19 @@ import {testActivityCode} from '../server/workshop-testing.mjs';
 import {runSafe} from '../server/safe-js.mjs';
 import {lessonSchema,validate} from '../server/contracts.mjs';
 import {drawingPaths,previewDocument,workshopInput} from '../public/workshop-ui.js';
+import {componentInput} from '../public/components.js';
+
+test('JavaScript editors share the visible execution console, including legacy tasks and TestRunner',()=>{
+ for(const type of ['CodeEditor','TestRunner'])for(const workshop of [undefined,{language:'javascript',profile:'algorithm'}]){
+  const task={id:'shared-js',type,correctionMode:'javascript',starter:'console.log("départ");',workshop};
+  const before=structuredClone(task),html=componentInput(task,'console.log("modifié");');
+  assert.match(html,/data-code-execute[^>]*>Exécuter</);assert.match(html,/aria-label="Console"/);
+  assert.match(html,/console.log\(&quot;modifié&quot;\);/);assert.doesNotMatch(html,/data-debug|Débog|Pas à pas|Points d’arrêt/);
+  assert.deepEqual(task,before,'Rendering must not mutate the activity');
+  assert.match(componentInput(task,undefined,{disabled:true}),/data-code-execute disabled/);
+ }
+ for(const language of ['html','css','sql','text'])assert.doesNotMatch(componentInput({id:language,type:'CodeEditor',workshop:{language},starter:''}),/data-code-execute/);
+});
 
 const make=resources=>localContent({duration:180,objective:resources[0].title,activity:resources[0].task,skills:resources.map(r=>r.code)},resources.map(r=>({n3_code:r.code,n3_label:r.skillLabel,notions_tools:r.lesson,observable_criterion:r.proof,expected_trace:r.proof,scaffolding_rule:r.questions[0]?.feedback})),library);
 test('Flexbox uses the real generator: laboratory, drawing, three coding steps, production and debugging',async()=>{

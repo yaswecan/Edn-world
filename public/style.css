@@ -186,7 +186,8 @@ dialog::backdrop{background:#162b3270;backdrop-filter:blur(4px)}
 .skip{position:fixed;top:-100px;left:20px;z-index:999;background:white;padding:10px}
 .skip:focus{top:10px}
 .student-shell{max-width:1040px;margin:auto;padding:30px 35px}
-.student-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.student-header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:25px}
+.student-header-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .student-header .brand{padding:0}
 .progress{height:5px;background:var(--line);border-radius:5px;overflow:hidden;margin:25px 0}
 .progress i{display:block;height:100%;background:var(--eden-strong)}

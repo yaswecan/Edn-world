@@ -10,7 +10,7 @@ import {prepareVisualReferences,visualAssets} from '../server/pedagogy/visuals.m
 
 const {store,actor}=await pedagogyFixture(),server=createApp(store).listen(0,'127.0.0.1');
 await new Promise((r,j)=>{server.once('listening',r);server.once('error',j);});
-const base=`http://127.0.0.1:${server.address().port}`,directory='docs/quality/evidence-v2/browser';await mkdir(directory,{recursive:true});
+const base=`http://127.0.0.1:${server.address().port}`,directory=process.env.PREPARATION_BROWSER_REPORT_DIRECTORY||'docs/quality/evidence-v2/browser';await mkdir(directory,{recursive:true});
 const options={headless:true},chrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';if(existsSync(chrome))options.executablePath=chrome;
 const browser=await chromium.launch(options),report={simulation:'AI responses only; real HTTP, Chromium and interpreter',checks:[]};
 try{
@@ -23,23 +23,22 @@ try{
  await expect(page.locator('#preview')).toContainText('Les réponses ne sont pas remises.');
  await page.locator('#preview [data-preview-editors]').click();await expect(page.locator('#preview [data-workbench=guided] textarea')).toBeInViewport();
  const root=page.locator('[data-workbench=guided]'),editor=root.locator('textarea[data-answer]');
- await editor.fill('function decide(age) {\n const allowed = age >= 18;\n return allowed;\n}');
- await root.getByText('Exécuter et déboguer',{exact:true}).click();
- await root.locator('[data-debug-function]').fill('decide');await root.locator('[data-debug-args]').fill('[16]');await root.locator('[data-debug-breakpoints]').fill('2');
- await root.locator('[data-debug=start]').click();await expect(root.locator('[data-debug-output]')).toContainText('Arrêt avant la ligne 2');await expect(root.locator('[data-debug-output]')).toContainText('"age": 16');
- await root.locator('[data-debug=step]').click();await expect(root.locator('[data-debug-output]')).toContainText('"allowed": false');
- await editor.fill('function decide(age) {\n const allowed = age >= 15;\n return allowed;\n}');await root.locator('[data-debug-breakpoints]').fill('3');await root.locator('[data-debug=start]').click();await expect(root.locator('[data-debug-output]')).toContainText('"allowed": true');
- await root.screenshot({path:directory+'/debugger-desktop.png'});
- await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2),false);await root.screenshot({path:directory+'/debugger-mobile.png'});
- await page.locator('#preview [data-action=demo-next]').click();await page.locator('#preview [data-action=demo-prev]').click();await expect(editor).toContainText('age >= 15');
+ await editor.fill('function decide(age) {\n const allowed = age >= 18;\n return allowed;\n}\nconsole.log(decide(16));');
+ await expect(root.locator('[data-code-output]')).toBeVisible();
+ await root.getByRole('button',{name:'Exécuter',exact:true}).click();await expect(root.locator('[data-code-output]')).toHaveText('false');
+ await editor.fill('function decide(age) {\n const allowed = age >= 15;\n return allowed;\n}\nconsole.log(decide(16));');
+ await root.getByRole('button',{name:'Exécuter',exact:true}).click();await expect(root.locator('[data-code-output]')).toHaveText('true');
+ await root.screenshot({path:directory+'/console-desktop.png'});
+ await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2),false);await root.screenshot({path:directory+'/console-mobile.png'});
+ await page.locator('#preview [data-action=demo-next]').click();await page.locator('#preview [data-action=demo-prev]').click();await expect(editor).toHaveValue(/age >= 15/);
  assert.equal((await store.list('assessment_attempts',actor.classId)).length,0);assert.equal((await store.list('learning_events',actor.classId)).length,0);
- report.checks.push({id:'real-worker-debugging-and-code-change',status:'PASS'},{id:'teacher-preview-no-student-progress',status:'PASS'},{id:'mobile-no-overflow',status:'PASS'});
+ report.checks.push({id:'real-worker-execution-and-code-change',status:'PASS'},{id:'teacher-preview-no-student-progress',status:'PASS'},{id:'mobile-no-overflow',status:'PASS'});
  const cssJob=await buildPilot(store,actor,pilotDefinitions[0]),cssVersion=await store.get('lesson_versions',cssJob.lessonVersionId);
  await prepareVisualReferences(store,cssVersion.spec,cssJob);await store.put('lesson_versions',cssVersion);
  const assets=await visualAssets(store,cssVersion.spec);assert.ok(assets.length);const anonymous=await browser.newContext();assert.equal((await anonymous.request.get(base+'/api/lesson-assets/'+assets[0].id)).status(),401);await anonymous.close();
  await page.setViewportSize({width:1280,height:900});await page.goto(base+'/preparation.html?job='+cssJob.id);await page.locator('#open-preview').click();
  await page.locator('#preview .lesson-desktop-nav [data-action=demo-step][data-id="4"]').click();
- await page.setViewportSize({width:390,height:844});const visual=page.locator('[data-enlarge-board] img[src^="/api/lesson-assets/"]').first();await expect(visual).toBeVisible();assert.equal(await visual.evaluate(image=>image.complete&&image.naturalWidth>0),true);
+ await page.setViewportSize({width:390,height:844});const visual=page.locator('[data-enlarge-board] img[src^="/api/lesson-assets/"]').first();await expect(visual).toBeVisible();await expect.poll(()=>visual.evaluate(image=>image.complete&&image.naturalWidth>0)).toBe(true);
  await visual.click();await expect(page.locator('dialog img')).toBeVisible();await page.getByRole('button',{name:'Fermer le tableau',exact:true}).click();
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+2),false);await page.locator('#preview').screenshot({path:directory+'/design-reference-mobile.png'});
  const preview=await (await context.request.get(base+'/api/preparation/jobs/'+cssJob.id+'/preview')).json();assert.equal(preview.spec.activities.some(a=>a.reference||a.tests||a.validationVariants),false);

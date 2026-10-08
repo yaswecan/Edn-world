@@ -36,6 +36,7 @@ test('published lesson saves workshop answers and restores them after a submitte
   if(path==='/api/session')result={setupRequired:false,user:{id:'learner',role:'student',classId:'DEMO',displayName:'Élève démo'}};
   else if(path==='/api/today')result={lesson,attempt,progress,events:[]};
   else if(path.endsWith('/start'))result=attempt;
+  else if(path==='/api/preparation/remediation/flex-demo')result={support:[]};
   else if(path==='/api/events'){const event=route.request().postDataJSON();if(event.type==='answer_saved'){progress.answers[event.activityId]=event.payload.answer;progress.savedAt=new Date().toISOString();}}
   else throw Error('Unexpected route '+path);
   await route.fulfill({json:result});

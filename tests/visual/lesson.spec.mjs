@@ -48,6 +48,7 @@ test('Today uses the production renderer, gates the diagnostic, saves and resume
   else if(path.endsWith('/save')){attempt.answers=route.request().postDataJSON().answers;result={receivedAt:'2026-10-04T08:00:00Z'};}
   else if(path.endsWith('/submit')){attempt.submissionId='submitted';result={submissionId:'submitted',sha256:'0123456789abcdef'};}
   else if(path==='/api/events')events.push(route.request().postDataJSON());
+  else if(path==='/api/preparation/remediation/demo')result={support:[]};
   else throw Error(`Unexpected API call ${path}`);
   await route.fulfill({json:result});
  });

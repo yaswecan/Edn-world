@@ -1,3 +1,4 @@
+import {isDeepStrictEqual} from 'node:util';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 import {validate,lessonSchema} from './contracts.mjs';
 import {object,array,digest} from './pedagogy/contracts.mjs';
@@ -7,10 +8,47 @@ import {editLesson} from './domain.mjs';
 import {qualityCheck,previousCompleted} from './generator.mjs';
 import {publicationCodeChecks} from './publication-code.mjs';
 
-const text={type:'string'};
-export const revisionSchema=object({summary:{type:'string',minLength:1,maxLength:4000},changes:{...array(object({op:{type:'string',enum:['add','replace','remove']},path:{type:'string',minLength:1},valueJSON:text})),minItems:1,maxItems:200}});
 const editable=new Set(['title','objectives','reactivation','blocks','activities','teacherGuide','studentFlow']);
 const active=['queued','running','retry_wait'];
+const summary={type:'string',minLength:1,maxLength:4000},path={type:'string',minLength:1};
+// Patch values are native JSON. The old string-within-JSON contract could pass
+// structured-output validation while containing an unparseable valueJSON.
+// Reuse the lesson's value types; optional object fields are nullable on the
+// wire so every object also satisfies the provider's strict output contract.
+const definitions={},valueTypes=new Map();
+function valueType(schema){
+ const key=JSON.stringify(schema);if(valueTypes.has(key))return valueTypes.get(key);
+ const name=`value${valueTypes.size}`,ref={$ref:`#/$defs/${name}`};valueTypes.set(key,ref);
+ const type=schema.type||typeof (schema.enum?.[0]??schema.const),wire={...schema,type};
+ if(type==='object'){
+  wire.properties=Object.fromEntries(Object.entries(schema.properties).map(([key,child])=>[key,(schema.required||[]).includes(key)?valueType(child):{anyOf:[valueType(child),{type:'null'}]}]));
+  wire.required=Object.keys(wire.properties);wire.additionalProperties=false;
+ }else if(type==='array')wire.items=valueType(schema.items);
+ definitions[name]=wire;return ref;
+}
+for(const field of editable)valueType(lessonSchema.properties[field]);
+const nativeChange={anyOf:[
+ object({op:{type:'string',enum:['add','replace']},path,value:{anyOf:[...valueTypes.values()]}}),
+ object({op:{type:'string',enum:['remove']},path,value:{type:'null'}})
+]};
+export const revisionSchema={...object({summary,changes:{...array(nativeChange),minItems:1,maxItems:200}}),$defs:definitions};
+// Keep already generated and in-flight proposals readable, without asking the
+// model to produce the legacy encoding in new requests.
+const legacyChange=object({op:{type:'string',enum:['add','replace','remove']},path,valueJSON:{type:'string'}});
+const acceptedRevisionSchema={...revisionSchema,properties:{...revisionSchema.properties,changes:{...revisionSchema.properties.changes,items:{anyOf:[...nativeChange.anyOf,legacyChange]}}}};
+
+function lessonValueSchema(keys){
+ let schema=lessonSchema;
+ for(const key of keys)schema=schema?.type==='array'?schema.items:schema?.properties?.[key];
+ return schema;
+}
+function lessonValue(value,schema){
+ if(Array.isArray(value))return value.map(item=>lessonValue(item,schema?.items));
+ if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value)
+  .filter(([key,item])=>!(item===null&&schema?.properties?.[key]&&!(schema.required||[]).includes(key)))
+  .map(([key,item])=>[key,lessonValue(item,schema?.properties?.[key])]));
+ return value;
+}
 
 export async function editableDraft(store,id,version,actor){
  requireValue(actor.role==='teacher','Action réservée au professeur.');
@@ -24,7 +62,7 @@ export async function editableDraft(store,id,version,actor){
 // Only course content is editable. Identity, source history, assessment and
 // publication permissions never come from the model. All patches are atomic.
 export function applyRevisionPatch(original,result){
- validate(revisionSchema,result);
+ validate(acceptedRevisionSchema,result);
  const spec=structuredClone(original);
  for(const change of result.changes){
   const keys=change.path.split('/').slice(1).map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~'));
@@ -35,7 +73,10 @@ export function applyRevisionPatch(original,result){
   }
   requireValue(parent&&typeof parent==='object','Emplacement de modification invalide.');
   const key=keys.at(-1);let value;
-  if(change.op!=='remove'){try{value=JSON.parse(change.valueJSON);}catch{fail(422,'La proposition contient une valeur JSON invalide.');}}
+  if(change.op!=='remove'){
+   if(Object.hasOwn(change,'value'))value=lessonValue(change.value,lessonValueSchema(keys));
+   else try{value=JSON.parse(change.valueJSON);}catch{fail(422,'La proposition contient une valeur JSON invalide.');}
+  }
   if(Array.isArray(parent)){
    const index=key==='-'&&change.op==='add'?parent.length:/^(0|[1-9]\d*)$/.test(key)?Number(key):-1;
    requireValue(index>=0&&index<parent.length+(change.op==='add'?1:0),'Indice de modification invalide.');
@@ -46,7 +87,7 @@ export function applyRevisionPatch(original,result){
   }
  }
  validate(lessonSchema,spec);
- requireValue(JSON.stringify(spec.blocks.filter(b=>b.type==='Diagnostic'))===JSON.stringify(original.blocks.filter(b=>b.type==='Diagnostic')),'Le bloc diagnostic reste lié à sa version source.');
+ requireValue(isDeepStrictEqual(spec.blocks.filter(b=>b.type==='Diagnostic'),original.blocks.filter(b=>b.type==='Diagnostic')),'Le bloc diagnostic reste lié à sa version source.');
  const activities=new Set(spec.activities.map(a=>a.id)),blocks=new Set(spec.blocks.map(b=>b.id));
  requireValue(activities.size===spec.activities.length&&blocks.size===spec.blocks.length&&!spec.activities.some(a=>spec.diagnostic.tasks.some(t=>t.id===a.id)),'Identifiants dupliqués dans la proposition.');
  requireValue(spec.blocks.every(b=>b.activityIds.every(id=>activities.has(id)))&&spec.studentFlow.every(id=>blocks.has(id)),'Reliez les exercices et les étapes restants après les suppressions.');

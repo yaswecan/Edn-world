@@ -1,8 +1,8 @@
 import {parseState,previewDocument,labSettings,labProperties,labStage,drawingPaths} from './workshop-ui.js';
-import {installDebugger} from './debugger.js';
+import {installCodeRunner} from './code-runner.js';
 
 export function installWorkshopInteractions({getActivity}){
- installDebugger();
+ installCodeRunner();
  const fieldOf=node=>node.querySelector('input[type="hidden"][data-answer]');
  const save=(node,state)=>{const field=fieldOf(node);if(!field||field.disabled)return;field.value=JSON.stringify(state);field.dispatchEvent(new Event('input',{bubbles:true}));};
  const read=node=>{const state=parseState(fieldOf(node)?.value);if(node.matches('[data-drawing]'))state.strokes=Array.isArray(state.strokes)?state.strokes:[];return state;};

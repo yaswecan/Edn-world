@@ -41,6 +41,7 @@ const paths = {
   shield: "m12 2 9 4v6c0 5-9 10-9 10S3 17 3 12V6z M8 12l3 3 5-6",
   search: "M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14 m5 12 6 6",
   code: "m8 5-7 7 7 7 M16 5l7 7-7 7 M14 2l-4 20",
+  game: "M7 7h10l4 10c.8 2-1.4 3-2.5 1.6L16 16H8l-2.5 2.6C4.2 20 2.2 19 3 17L7 7Z M7 11h4 M9 9v4 M16 11h.01 M18 13h.01",
   close: "m5 5 14 14 M19 5 5 19",
   refresh: "M20 7a9 9 0 1 0 1 9 M20 2v6h-6",
   mail: "M3 5h18v14H3z m0 0 9 8 9-8",
@@ -578,12 +579,17 @@ function drawTeacherPreview(){
   $('[data-action=preview-prev]').disabled=index===0;
   $('[data-action=preview-next]').disabled=index===spec.blocks.length-1;
 }
+function studentArcadeLink() {
+  if (!S.session.worldArcadeEnabled) return "";
+  const query = S.student ? "?lesson=" + enc(S.student.id) : "";
+  return `<a class="btn primary lesson-arcade-link" href="/arcade${query}#arcade">${icon("game")}Mode arcade</a>`;
+}
 function renderStudent() {
   document.title = "EDEN · Aujourd’hui";
   const l = S.student;
   if (!l) {
     $("#app").innerHTML =
-      `<main id="main" class="student-shell"><div class="student-header"><div class="brand">${edenLogo}</div>${S.session.worldArcadeEnabled ? '<a class="btn" href="/arcade">World Arcade</a>' : ""}${btn("Se déconnecter", "logout")}</div><div class="card">${empty(studentCopy.empty, "calendar")}</div>${studentLessonLinks()}</main>`;
+      `<main id="main" class="student-shell"><div class="student-header"><div class="brand">${edenLogo}</div><div class="student-header-actions">${studentArcadeLink()}${btn("Se déconnecter", "logout")}</div></div><h1>Séance du jour</h1><div class="card">${empty(studentCopy.empty, "calendar")}</div>${studentLessonLinks()}</main>`;
     return;
   }
   $("#app").innerHTML = renderLessonPage(l.spec, S.step, {
@@ -593,7 +599,7 @@ function renderStudent() {
     completed: S.completed || [],
     support: S.diagnosticSupport || [],
   });
-  if (S.session.worldArcadeEnabled) $(".lesson-topbar > div")?.insertAdjacentHTML("beforeend", '<a class="btn small" href="/arcade">World Arcade</a>');
+  $(".lesson-topbar > div")?.insertAdjacentHTML("afterbegin", studentArcadeLink());
   if(S.availableLessons.length>1) $('.lesson-topbar')?.insertAdjacentHTML('afterend',`<details class="card pad spaced"><summary>Mes séances disponibles</summary>${studentLessonLinks()}</details>`);
 }
 function studentLessonLinks(){

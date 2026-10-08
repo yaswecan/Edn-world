@@ -42,10 +42,10 @@ try{
  await page.getByRole('button',{name:'Retour aux séances',exact:true}).click();await page.locator(`[data-action=open-lesson][data-id="${lessons[1].id}"]`).click();
  await page.getByRole('button',{name:'Aperçu élève',exact:true}).click();await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();
  const js=specs[1].activities.find(a=>a.id==='guided');await editor.fill(js.reference);await page.locator('#preview-body [data-activity=guided]').getByRole('button',{name:'Vérifier mon code'}).click();await expect(page.locator('#console-guided')).toContainText('Exécution terminée');
- await expect(page.locator('#preview-body [data-debug=start]')).toBeEnabled();await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();await page.screenshot({path:directory+'/javascript-desktop.png'});
+ await expect(page.locator('#preview-body [data-code-execute]')).toBeEnabled();await page.getByRole('button',{name:'Aller aux éditeurs',exact:true}).click();await page.screenshot({path:directory+'/javascript-desktop.png'});
  assert.ok(writes.every(path=>/\/preview(?:\/test)?$/.test(path)),JSON.stringify(writes));
  assert.deepEqual(await Promise.all(protectedTables.map(t=>store.list(t))),before);assert.deepEqual(errors,[]);
- report.checks.push('javascript-code-tests-and-debugger-enabled','no-student-writes-no-publication-no-lesson-mutation','no-browser-errors');report.status='PASS';
+ report.checks.push('javascript-code-tests-and-console-enabled','no-student-writes-no-publication-no-lesson-mutation','no-browser-errors');report.status='PASS';
 }catch(error){report.status='FAIL';report.error=error.stack;await page?.screenshot({path:directory+'/failure.png',fullPage:true});throw error;}
 finally{await writeFile(directory+'/report.json',JSON.stringify(report,null,2)+'\n');await browser?.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));await store.close();}
 console.log(JSON.stringify(report,null,2));

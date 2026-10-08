@@ -20,13 +20,23 @@ Voir [le démarrage et les limites](docs/quality/README.md), [l’audit causal](
 
 ## World Arcade
 
-Le module intégré est disponible à `/arcade` sur une instance de recette autorisée avec `EDEN_WORLD_ARCADE=1` (désactivé par défaut). Il réutilise les comptes scolaires, les missions PédagoLab affectées, leurs verrous et leurs sauvegardes. Les profils arcade permettent de choisir un pseudo et un avatar ; la galerie respecte les permissions de classe et la visibilité choisie. Le thème reste limité à l’arcade.
+Le module intégré est disponible à `/arcade` sur une instance de recette autorisée avec `EDEN_WORLD_ARCADE=1` (désactivé par défaut). Il réutilise les comptes scolaires, les missions PédagoLab affectées et leurs sauvegardes. Les missions Code Station des séances publiées sont accessibles à tous les élèves de la classe dès la connexion, sans prérequis de monde ou d’activité autonome. Chaque élève conserve sa propre partie ; cette ouverture ne valide aucune compétence. Les profils arcade permettent de choisir un pseudo et un avatar ; la galerie respecte les permissions de classe et la visibilité choisie. Le thème reste limité à l’arcade.
 
 Cyber Funk reste indisponible faute de moteur hôte. Les points, le Top 5, les grades et l’inscription externe restent fermés en l’absence de règles métier ou de services validés. Aucun joueur fictif ni score de démonstration n’est importé. Le drapeau du module n’ouvre pas ces fonctions publiques.
 
 Recette isolée, sans charger `.env.local` et sans base réelle : `node --import tsx scripts/arcade-browser-check.mjs`. Ce script utilise Chrome/Chromium et une base en mémoire, puis ferme son serveur local. Tests API : `node --import tsx --test tests/arcade.test.mjs`. Voir le [rapport d’intégration](TWEEN_TEACH_WORLD_ARCADE/SUIVI/RAPPORT_INTEGRATION.md), la [matrice de recette](TWEEN_TEACH_WORLD_ARCADE/SUIVI/RECETTE.json) et la [revue](TWEEN_TEACH_WORLD_ARCADE/SUIVI/REVIEW.md) pour les preuves, les dépendances et le retour arrière. Aucun changement de schéma ni déploiement n’a été exécuté.
 
-Pour essayer soi-même en élève : `npm run preview:student`, puis ouvrir `http://arcade.localhost:4179/arcade`. Utiliser le compte de test `student-a`, classe `A1`, avec le mot de passe de la fixture locale `synthetic-test-password`. La séance de test est accessible sur `/today`. L’instance utilise l’application réelle avec une base en mémoire, ne charge pas `.env.local` et reste ouverte jusqu’à Ctrl+C. Le serveur redémarre automatiquement lorsque son code change pour garder l’API à jour avec l’interface. Les modifications de test et les sessions disparaissent à chaque redémarrage : reconnectez-vous avec le compte de test. Le nom d’hôte dédié sépare ses cookies de ceux de l’application locale habituelle. Si un ancien aperçu lancé sans surveillance affiche « Route API inconnue. » dans Mon espace, arrêtez-le puis relancez-le avec cette commande.
+Pour essayer soi-même en élève : `npm run preview:student`, puis ouvrir `http://arcade.localhost:4179/today`. Utiliser le compte de test `student-a`, classe `A1`, avec le mot de passe de la fixture locale `synthetic-test-password`. La connexion ouvre la séance du jour. Le bouton **Mode arcade** ouvre les jeux avec la même session ; **Retour à ma séance** conserve le lien de la séance et permet de reprendre le parcours. L’instance utilise l’application réelle avec une base en mémoire, ne charge pas `.env.local` et reste ouverte jusqu’à Ctrl+C. Le serveur redémarre automatiquement lorsque son code change pour garder l’API à jour avec l’interface. Les modifications de test et les sessions disparaissent à chaque redémarrage : reconnectez-vous avec le compte de test. Le nom d’hôte dédié sépare ses cookies de ceux de l’application locale habituelle.
+
+Pour tester une copie de votre séance locale du jour : `npm run preview:student -- --source .data/chatgpt-personal/courses.sqlite`. Ajouter `--date AAAA-MM-JJ` ou `--lesson IDENTIFIANT` pour choisir une autre séance ; le terminal donne aussi son lien direct. La source SQLite est ouverte en lecture seule. Seuls le contenu de la séance et sa mission sont copiés : les comptes et réponses réels restent dans la source. Un brouillon est accessible dans cet aperçu en mémoire, sans publication dans la base originale. Code Station est accessible à tous les comptes élèves de test, comme pour les missions des séances publiées. Recette navigateur : `node --import tsx scripts/student-access-browser-check.mjs` (ou avec `--source` pour vérifier une copie locale). Sur une instance destinée aux élèves, activer `EDEN_WORLD_ARCADE=1` pour afficher le bouton ; la séance doit être publiée par le professeur.
+
+Pour vous connecter dans cet aperçu avec les **comptes élèves et mots de passe existants**, ajouter `--school-accounts` :
+
+```sh
+npm run preview:student -- --source .data/chatgpt-personal/courses.sqlite --school-accounts
+```
+
+Les comptes élèves de la classe remplacent le répertoire fictif ; leurs mots de passe ne sont pas changés. Les identifiants et empreintes de mots de passe sont lus dans la base locale, jamais les sessions ni les comptes professeur. Les réponses de cet aperçu restent en mémoire et ne sont pas remontées dans la base originale. Relancer l’aperçu après une modification des comptes dans la source.
 
 ### Compte joueur
 
@@ -50,6 +60,8 @@ npm run dev
 Ouvrir **http://127.0.0.1:3000**. À la première ouverture, créer le mot de passe professeur (12 caractères minimum). L’identifiant est `professeur`. Il n’existe aucun mot de passe prédéfini.
 
 ### Renderer élève EDEN
+
+Les éditeurs JavaScript partagent un bouton **Exécuter** et une **Console** visible. `console.log()` affiche ses arguments dans l’ordre ; chaque lancement vide la console et crée un contexte neuf sans effacer le code. Les erreurs indiquent leur ligne lorsque le navigateur la fournit. L’exécution isolée s’arrête après 1,5 seconde, 100 messages ou 64 000 caractères de sortie. **Vérifier mon code** reste une action pédagogique distincte. Recette navigateur : `npm run test:console:browser` (données de test en mémoire, captures dans `test-results/code-runner/`).
 
 Le générateur compose des ateliers selon les compétences : éditeurs HTML/CSS avec aperçu à plusieurs largeurs, exercices JavaScript testés, manipulations, classements, tableaux à dessiner et productions autonomes. Le profil Flexbox propose un laboratoire « prévoir → modifier une propriété → observer », trois exercices progressifs, les schémas feutre de la référence du 5 octobre, une production de quatre cartes et une mission de débogage. Les dessins, légendes et essais du laboratoire sont sauvegardés comme les autres réponses.
 

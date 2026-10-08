@@ -51,7 +51,7 @@ export function contractIssues(plan,spec,context) {
   if(!p||!p.available||a.capabilities.some(cap=>!p.capabilities.includes(cap)))add(`contract/activities/${a.activityId}/runtime`,'Capacité requise indisponible dans le manifeste applicatif.');
   if(target.workshop?.profile&&target.workshop.profile!==a.runtimeProfile)add(`contract/activities/${a.activityId}/runtime`,'Le profil conçu ne correspond pas à l’atelier fourni.');
   if(['CodeEditor','Terminal','TestRunner'].includes(target.type)&&!a.capabilities.length)add(`contract/activities/${a.activityId}/capabilities`,'Capacités exécutables non spécifiées.');
-  if(a.runtimeProfile==='algorithm'&&target.correctionMode==='javascript'&&['guided','autonomy'].includes(phases.get(a.activityId))&&!a.capabilities.includes('debugger'))add(`contract/activities/${a.activityId}/debugger`,'Programmation : prévoir inspection des variables et pas à pas.');
+  if(a.runtimeProfile==='algorithm'&&target.correctionMode==='javascript'&&['guided','autonomy'].includes(phases.get(a.activityId))&&!['editor','execution','console'].every(cap=>a.capabilities.includes(cap)))add(`contract/activities/${a.activityId}/execution`,'Programmation : prévoir un éditeur, le bouton Exécuter et une console pour console.log().');
   if(a.runtimeProfile==='html-css'&&target.type==='CodeEditor'&&!a.capabilities.includes('web-preview'))add(`contract/activities/${a.activityId}/preview`,'Design : aperçu réel requis.');
   if(a.runtimeProfile==='shell-git'&&!a.capabilities.includes('shell'))add(`contract/activities/${a.activityId}/shell`,'Commandes : shell réel requis.');
   if(a.files.some(f=>!f.path.trim()||f.path.startsWith('/')||f.path.split('/').includes('..')))add(`contract/activities/${a.activityId}/files`,'Chemin de fichier invalide.');

@@ -11,8 +11,9 @@ export function initialCatalog(classId='A1'){
 }
 export async function seedCatalog(store,classId='A1'){return store.transaction(async tx=>{for(const [table,rows]of Object.entries(initialCatalog(classId)))for(const row of rows)if(!await tx.get(table,row.id))await tx.insert(table,row);});}
 export async function authorizeGame(store,input,actor){const mission=await scoped(store,'game_missions',input.missionId,actor),lesson=await scoped(store,'lessons',input.lessonId,actor);if(lesson.status!=='published')fail(409,'Séance non ouverte.');const spec=(await store.get('lesson_versions',lesson.versionId)).spec;requireValue(spec.codeStation?.missionId===mission.id,'Mission non affectée à cette séance.');
- const access=await worldAccess(store,actor,mission.world);if(!access.unlocked)fail(409,'Monde verrouillé : terminer le monde préalable ou demander une ouverture au professeur.',access);
- const progress=(await store.list('learning_events',actor.classId)).filter(e=>e.learnerId===actor.id&&e.lessonRunId===lesson.runId&&e.type==='step_completed');const unlock=spec.codeStation.unlockAfter;if(unlock&&!progress.some(e=>e.activityId===unlock))fail(409,'Terminez l’activité autonome avant de lancer la mission.');
+ // Assigned Code Station missions are open to every student in the class.
+ // World progression and legacy unlockAfter fields do not gate play or create
+ // completion evidence. Publication, assignment and per-student saves still apply.
  return {mission,lesson};}
 export async function authorizeRun(store,id,actor){const run=await scoped(store,'game_runs',id,actor);if(run.learnerId!==actor.id)fail(403,'Mission d’un autre élève.');const {mission,lesson}=await authorizeGame(store,run,actor);if(run.missionVersion!==mission.version||run.lessonRunId!==lesson.runId)fail(409,'La mission a changé. Revenez à la salle.');return run;}
 export async function startGame(store,input,actor){const {mission,lesson}=await authorizeGame(store,input,actor);

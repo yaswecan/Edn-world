@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {diagnosticRevisionFixture} from './fixtures/diagnostic-revision.mjs';
-import {applyRevisionPatch,proposeLessonRevision,applyLessonRevision} from '../server/lesson-revision.mjs';
+import {applyRevisionPatch,proposeLessonRevision,applyLessonRevision,revisionSchema} from '../server/lesson-revision.mjs';
+import {lessonSchema,validate} from '../server/contracts.mjs';
 import {preparePublication,takeOverDraft} from '../server/publication-readiness.mjs';
 import {publishLesson,editLesson} from '../server/domain.mjs';
 import {createApp} from '../server/app.mjs';
@@ -12,6 +13,72 @@ const input={version:1,prompt:'JavaScript seulement, retire les dessins.',reques
 const patch=(path,value)=>({op:'replace',path,valueJSON:JSON.stringify(value)});
 const response=(changes=[patch('/teacherGuide','Faire justifier les cas limites en JavaScript.')])=>({summary:'Cours recentré sur JavaScript.',changes});
 const fake=changes=>({...revisionOptions,call:async()=>({value:response(changes),trace:{provider:'fixture'}})});
+const nativePatch=(path,value)=>({op:'replace',path,value});
+const wireValue=(schema,value)=>schema.type==='array'?value.map(item=>wireValue(schema.items,item)):schema.type==='object'?Object.fromEntries(Object.entries(schema.properties).map(([key,child])=>[key,Object.hasOwn(value,key)?wireValue(child,value[key]):null])):value;
+
+test('native revision values preserve multiline prose, quoted code and JSON-looking text without a second parse',async()=>{
+ const {store,spec}=await diagnosticRevisionFixture();try{
+  const guide='Retirer les exercices "dessins".\nTester les tableaux JavaScript.\tExpliquer le cas vide.',code='function lire(texte) {\n  return texte.replace(/\\s+/g, " ").split("\\n");\n}',before=structuredClone(spec);
+  for(const title of ['Un titre "cité"','true','null','42','[tableau]','']){
+   const value=response([nativePatch('/title',title),nativePatch('/teacherGuide',guide),nativePatch('/activities/0/reference',code),nativePatch('/activities/0/required',false)]);
+   validate(revisionSchema,JSON.parse(JSON.stringify(value)));
+   const revised=applyRevisionPatch(spec,value);
+   assert.equal(revised.title,title);assert.equal(revised.teacherGuide,guide);assert.equal(revised.activities[0].reference,code);assert.equal(revised.activities[0].required,false);
+  }
+  assert.deepEqual(spec,before);
+ }finally{await store.close();}
+});
+
+test('native object and array replacements remove drawings and normalize only optional null fields',async()=>{
+ const {store,spec}=await diagnosticRevisionFixture();try{
+  spec.reactivation=['Lire une condition de boucle.'];
+  const activities=spec.activities.filter(a=>a.type!=='Blackboard'),ids=new Set(activities.map(a=>a.id)),blocks=spec.blocks.map(b=>({...b,activityIds:b.activityIds.filter(id=>ids.has(id))}));
+  assert.ok(activities.length<spec.activities.length);
+  const value=response([nativePatch('/activities',wireValue(lessonSchema.properties.activities,activities)),nativePatch('/blocks',wireValue(lessonSchema.properties.blocks,blocks)),nativePatch('/objectives',['Justifier le code "sans dessin".']),{op:'remove',path:'/reactivation/0',value:null}]);
+  assert.ok(spec.reactivation.length);validate(revisionSchema,value);
+  const revised=applyRevisionPatch(spec,value);
+  assert.deepEqual(revised.activities,activities);assert.deepEqual(revised.blocks,blocks);assert.deepEqual(revised.objectives,['Justifier le code "sans dessin".']);assert.deepEqual(revised.reactivation,spec.reactivation.slice(1));
+  assert.deepEqual(revised.diagnostic,spec.diagnostic);assert.ok(spec.activities.some(a=>a.type==='Blackboard'));
+  const activity=wireValue(lessonSchema.properties.activities.items,activities[0]);
+  assert.deepEqual(applyRevisionPatch(spec,response([nativePatch('/activities/0',activity)])).activities[0],activities[0]);
+  assert.deepEqual(applyRevisionPatch(spec,response([{op:'add',path:'/activities/-',value:{...activity,id:'new-activity'}}])).activities.at(-1),{...activities[0],id:'new-activity'});
+ }finally{await store.close();}
+});
+
+test('native values still reject malformed, protected and inconsistent changes atomically; legacy patches remain readable',async()=>{
+ const {store,spec}=await diagnosticRevisionFixture();try{
+  const before=structuredClone(spec),cases=[
+   [nativePatch('/title',42)],[nativePatch('/title',null)],[nativePatch('/classId','OTHER')],
+   [nativePatch('/blocks/__proto__/polluted',true)],[nativePatch('/blocks/0/minutes',1.5)],
+   [nativePatch('/blocks/0',{})],[nativePatch('/studentFlow',['missing-block'])],
+   [{...nativePatch('/title','Direct'),valueJSON:'"Legacy"'}],
+   [{op:'replace',path:'/teacherGuide',valueJSON:'Texte non sérialisé'}],
+   [{op:'replace',path:'/activities',valueJSON:'[{"id":"incomplete"'}]
+  ];
+  for(const changes of cases){assert.throws(()=>applyRevisionPatch(spec,response([nativePatch('/teacherGuide','Première modification'),...changes])));assert.deepEqual(spec,before);}
+  const diagnosticIndex=spec.blocks.findIndex(b=>b.type==='Diagnostic');assert.throws(()=>applyRevisionPatch(spec,response([nativePatch(`/blocks/${diagnosticIndex}/minutes`,1)])),/diagnostic/);
+  const legacy=response([patch('/teacherGuide','Ancienne proposition valide.')]);
+  assert.equal(applyRevisionPatch(spec,legacy).teacherGuide,'Ancienne proposition valide.');assert.throws(()=>validate(revisionSchema,legacy));
+  assert.equal({}.polluted,undefined);
+ }finally{await store.close();}
+});
+
+test('revision requests use native structured output and retain the draft until the proposal is confirmed',async()=>{
+ const {store,actor,lesson,spec}=await diagnosticRevisionFixture();try{
+  const guide='Tester "sans dessin".\nConserver les tableaux JavaScript.',value=response([nativePatch('/teacherGuide',guide)]);let calls=0;
+  const chatgpt={request:async(_owner,_id,body)=>{
+   calls++;validate(body.text.format.schema,value);assert.equal(body.text.format.strict,true);
+   assert.throws(()=>validate(body.text.format.schema,response()));
+   const event={type:'response.completed',response:{id:'native-revision',status:'completed',model:'fixture',output:[{type:'message',content:[{type:'output_text',text:JSON.stringify(value)}]}]}};
+   return new Response('data: '+JSON.stringify(event)+'\n\n',{headers:{'content-type':'text/event-stream'}});
+  },noteError:async()=>assert.fail('Native revision should pass the provider contract')};
+  const proposal=await proposeLessonRevision(store,lesson.id,input,actor,{chatgpt,configure:async()=>({provider:'chatgpt_plan',timeoutMs:10000,roles:{write:{model:'fixture',billing:'chatgpt_plan'}}})});
+  assert.equal(calls,1);assert.equal(proposal.status,'ready');assert.equal(proposal.spec.teacherGuide,guide);
+  assert.equal((await store.get('lessons',lesson.id)).version,1);assert.deepEqual((await store.get('lesson_versions',lesson.versionId)).spec,spec);
+  const revised=await applyLessonRevision(store,lesson.id,{proposalId:proposal.id,version:1,confirmed:true},actor);
+  assert.equal((await store.get('lesson_versions',revised.versionId)).spec.teacherGuide,guide);assert.equal(revised.version,2);
+ }finally{await store.close();}
+});
 
 test('prompt revision proposes, persists and applies a new draft exactly once; old version and diagnostic stay intact',async()=>{
  const {store,actor,lesson,spec}=await diagnosticRevisionFixture();try{

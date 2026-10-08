@@ -7,6 +7,7 @@ import {prompts} from '../server/pedagogy/prompts.mjs';
 import {planSchema,planReviewSchema,unitSchema,reviewSchema,CHARTER_VERSION} from '../server/pedagogy/contracts.mjs';
 import {validate} from '../server/contracts.mjs';
 import {planProfiles} from '../server/ai/settings.mjs';
+import {revisionSchema} from '../server/lesson-revision.mjs';
 export function sse(events,{split=false,contentType='text/event-stream'}={}){
  const bytes=new TextEncoder().encode(events.map(e=>'data: '+JSON.stringify(e)+'\r\n\r\n').join(''));
  return new Response(new ReadableStream({start(controller){if(split){for(let i=0;i<bytes.length;i+=7)controller.enqueue(bytes.slice(i,i+7));}else controller.enqueue(bytes);controller.close();}}),{headers:{...(contentType===null?{}:{'content-type':contentType}),'x-request-id':'req-stream'}});
@@ -69,16 +70,18 @@ test('high effort is sent only when the account catalogue confirms it, with an e
  assert.equal(planProfiles({slug:'old-model'}).design.effort,null);assert.equal(sent.max_output_tokens,undefined);
 });
 test('every pedagogical response schema declares types, including nested constants and enums',()=>{
- const visit=(schema,path)=>{
+ const visit=(schema,path,root=schema)=>{
+  if(schema.$ref){const name=schema.$ref.replace(/^#\/\$defs\//,'');assert.ok(root.$defs?.[name],path);return visit(root.$defs[name],path,root);}
+  if(schema.anyOf){for(const branch of schema.anyOf)visit(branch,path,root);return;}
   assert.ok(['object','array','string','integer','number','boolean','null'].includes(schema.type),`${path}: missing or unsupported type`);
   if(schema.type==='object'){
    assert.equal(schema.additionalProperties,false,path);
    assert.deepEqual([...schema.required].sort(),Object.keys(schema.properties).sort(),path);
-   for(const [key,value] of Object.entries(schema.properties))visit(value,`${path}.${key}`);
+   for(const [key,value] of Object.entries(schema.properties))visit(value,`${path}.${key}`,root);
   }
-  if(schema.type==='array')visit(schema.items,`${path}[]`);
+  if(schema.type==='array')visit(schema.items,`${path}[]`,root);
  };
- for(const [role,schema] of Object.entries({design:planSchema,planReview:planReviewSchema,write:unitSchema,review:reviewSchema,repair:unitSchema})){
+ for(const [role,schema] of Object.entries({design:planSchema,planReview:planReviewSchema,write:unitSchema,review:reviewSchema,repair:unitSchema,revision:revisionSchema})){
   const body=planRequest({role,input:{},schema,config:{...config,roles:{[role]:{model:'account-model',effort:null}}}});
   visit(body.text.format.schema,role);
  }

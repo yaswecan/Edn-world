@@ -14,7 +14,7 @@ import {runtimeManifest} from '../../server/pedagogy/policy.mjs';
 export const fixtureCapabilities=()=>({...runtimeManifest(),profiles:runtimeManifest().profiles.map(p=>({...p,available:true,scope:'Simulated availability for contract tests only.'}))});
 export function fixtureContract(pilot,spec,plan) {
  const profile=a=>a.workshop?.profile||'concepts';
- const capabilities=a=>a.type==='CodeEditor'?profile(a)==='algorithm'?['editor','execution','console','behavior-tests','debugger']:profile(a)==='dom'?['files','editor','web-preview','dom-events']:['editor','web-preview','responsive']:profile(a)==='shell-git'?['shell','files','state-validation']:['annotations'];
+ const capabilities=a=>a.type==='CodeEditor'?profile(a)==='algorithm'?['editor','execution','console','behavior-tests']:profile(a)==='dom'?['files','editor','web-preview','dom-events']:['editor','web-preview','responsive']:profile(a)==='shell-git'?['shell','files','state-validation']:['annotations'];
  return {family:{'html-css':'Design',algorithm:'Programmation','shell-git':'Savoir',dom:'Programmation'}[pilot.runtime],familyReason:'Famille déterminée par la production autonome évaluée.',
   outcomes:[{skill:pilot.skill,observable:pilot.depth.transfer,criteria:['Production conforme et choix expliqué.'],activityIds:plan.coverage[0].activityIds,proof:pilot.depth.transfer}],
   finalTask:{activityId:'autonomous',production:pilot.depth.transfer,requiredConceptIds:plan.selectedOrder,criteria:['Résultat et justification vérifiables.'],transferActivityId:'transfer',transferVariation:pilot.depth.transfer},

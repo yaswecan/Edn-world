@@ -1,7 +1,7 @@
 // Application-owned rules. A model selects content, never permissions or gates.
 export const POLICY_VERSION = 'tween-depth-2026-10-07.3';
 export const CONTENT_VERSION = 2;
-export const RUNTIME_VERSION = 'workshops-2026-10-07.2';
+export const RUNTIME_VERSION = 'workshops-2026-10-08.1';
 export const coursePolicy = Object.freeze({
  version: POLICY_VERSION,
  families: ['Design', 'Programmation', 'Savoir'],
@@ -23,7 +23,7 @@ export const coursePolicy = Object.freeze({
 
 const profiles = [
  {id:'html-css',families:['Design'],capabilities:['files','editor','web-preview','responsive','annotations'],available:true},
- {id:'algorithm',families:['Programmation'],capabilities:['editor','execution','console','behavior-tests','debugger'],available:true,scope:'Sous-ensemble JavaScript de l’interpréteur EDEN ; trace de son exécution bornée.'},
+ {id:'algorithm',families:['Programmation'],capabilities:['editor','execution','console','behavior-tests'],available:true,scope:'JavaScript exécuté dans un contexte isolé neuf, console.log() dans une console visible, durée et sortie bornées. Validation pédagogique distincte avec le sous-ensemble JavaScript de l’interpréteur EDEN.'},
  {id:'dom',families:['Design','Programmation'],capabilities:['files','editor','web-preview','console','dom-events','behavior-tests'],lab:'DOM'},
  {id:'shell-git',families:['Savoir'],capabilities:['files','editor','shell','git','state-validation'],lab:'SHELL'},
  {id:'concepts',families:['Savoir','Design'],capabilities:['annotations','diagrams','comparison'],available:true}

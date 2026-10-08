@@ -85,7 +85,7 @@ try{
   const spec=JSON.parse(await readFile('public/demo-lesson.json','utf8'));spec.codeStation={...version.spec.codeStation};
   await fixture.store.put('lesson_versions',{...version,spec});await fixture.store.put('lessons',{...lesson,date:parisDate()});
   await page.setViewportSize({width:1440,height:1050});
-  for(let i=0;i<10;i++){await page.goto(fixture.base+'/today');await expect(page.locator('.lesson-stage')).toBeVisible();assert.equal(await page.locator('link[href*="world-arcade"],.game-frame').count(),0);await page.locator('a[href="/arcade"]').click();await expect(page.locator('#start-button')).toBeVisible();}
+  for(let i=0;i<10;i++){await page.goto(fixture.base+'/today');await expect(page.locator('.lesson-stage')).toBeVisible();assert.equal(await page.locator('link[href*="world-arcade"],.game-frame').count(),0);await page.getByRole('link',{name:'Mode arcade',exact:true}).click();await expect(page.locator('.cabinets')).toBeVisible();}
   await page.goto(fixture.base+'/today');await expect(page.locator('.lesson-stage')).toBeVisible();await shot('14-cours-eleve');
   await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await shot('14-cours-eleve-mobile');
   const teacherContext=await browser.newContext({viewport:{width:1440,height:1050}});await login('teacher','teacher-a',teacherContext);const teacher=await teacherContext.newPage();teacher.on('pageerror',e=>errors.push(e.message));await teacher.goto(fixture.base+'/teacher');await expect(teacher.getByRole('heading',{name:'Chaque séance fait avancer la classe.'})).toBeVisible();await shot('15-professeur','teacher',teacher);
