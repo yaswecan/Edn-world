@@ -1,3 +1,4 @@
+import {enterAssignedTerminal} from '../tests/fixtures/exploration.mjs';
 import {chromium,expect} from '@playwright/test';
 import {existsSync} from 'node:fs';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
@@ -28,7 +29,7 @@ try{
  });
  await check('real host login is required; profile persists with no credential storage',async()=>{
   await page.locator('[data-game=code-station]').click();await page.getByLabel('Identifiant',{exact:true}).fill('student-a');await page.getByLabel('Mot de passe',{exact:true}).fill('incorrect');await page.locator('[data-form=login] [type=submit]').click();await expect(page.locator('.form-status')).toContainText('Identifiants incorrects');
-  await page.getByLabel('Mot de passe',{exact:true}).fill(fixture.password);await page.locator('[data-form=login] [type=submit]').click();await expect(page.getByRole('heading',{name:'Choisis ton joueur',exact:true})).toBeVisible();await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await expect(page.locator('#game-modal')).toBeVisible();await expect(page.frameLocator('.game-frame').locator('#missionCode')).toBeVisible();
+  await page.getByLabel('Mot de passe',{exact:true}).fill(fixture.password);await page.locator('[data-form=login] [type=submit]').click();await expect(page.getByRole('heading',{name:'Choisis ton joueur',exact:true})).toBeVisible();await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await expect(page.locator('#game-modal')).toBeVisible();await enterAssignedTerminal(page,fixture.mission);
   await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await expect(page.locator('#game-modal')).not.toBeVisible();
   await page.locator('.main-nav [data-route=profil]').click();await page.getByRole('link',{name:'Personnaliser',exact:true}).click();await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('radio',{name:'Choisir cet avatar — Avatar 4',exact:true}).check();await page.getByLabel('Visibilité du profil').selectOption('class');await page.locator('[data-form=profile] [type=submit]').click();await expect(page.locator('.form-status')).toHaveText('Modifications enregistrées.');await page.reload();await expect(page.getByLabel('AKA — ton pseudo',{exact:true})).toHaveValue('Aster');await shot('04-profil');
   const storage=await page.evaluate(()=>({...localStorage}));assert.deepEqual(Object.keys(storage),['eden.world-arcade.preferences.v1']);assert.doesNotMatch(JSON.stringify(storage),/Aster|password|token|grade|xp/);
@@ -44,12 +45,12 @@ try{
  });
  await check('true runtime, deep link, persistent save and retry after network failure',async()=>{
   await page.locator('.main-nav [data-route=arcade]').click();await expect(page.locator('[data-game=code-station]')).toContainText('Reprendre');
-  await page.locator('[data-game=code-station]').dblclick();await expect(page.frameLocator('.game-frame').locator('#missionCode')).toBeVisible();
+  await page.locator('[data-game=code-station]').dblclick();await enterAssignedTerminal(page,fixture.mission);
   const frame=page.frameLocator('.game-frame');await frame.locator('#missionCode').fill('return 42;');
   await page.route('**/api/game/runs/*/progress',route=>route.fulfill({status:503,json:{error:'PRIVATE trace'}}));
   await frame.locator('#saveDraft').click();await expect(page.locator('#game-save')).toContainText('n’a pas encore été enregistrée');assert.doesNotMatch(await page.locator('body').innerText(),/PRIVATE trace/);await shot('08-sauvegarde-erreur');
   await page.unroute('**/api/game/runs/*/progress');await page.locator('[data-action=retry-save]').click();await expect(page.locator('#game-save')).toHaveText('Partie enregistrée.');
-  const url=page.url();await shot('09-jeu');await page.reload();await expect(page.frameLocator('.game-frame').locator('#missionCode')).toHaveValue('return 42;');assert.equal(page.url(),url);
+  const url=page.url();await shot('09-jeu');await page.reload();await enterAssignedTerminal(page,fixture.mission);await expect(page.frameLocator('.game-frame').locator('#missionCode')).toHaveValue('return 42;');assert.equal(page.url(),url);
   await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await expect(page.locator('[data-game=code-station]')).toBeFocused();assert.equal(new URL(page.url()).hash,'#arcade');
   assert.equal((await fixture.store.list('game_runs','A1')).length,1);
  });
@@ -100,5 +101,5 @@ try{
 }catch(e){results.push({name:'Failure',status:'failed',error:e.message});await page.screenshot({path:`${directory}/captures/erreur-test.png`}).catch(()=>{});console.error(e);process.exitCode=1;}
 finally{
  await writeFile(`${directory}/navigateur.json`,JSON.stringify({results,captures,errors,browser:browser.version(),database:'SQLite memory only'},null,2)+'\n');
- await browser.close();await fixture.close();
+ await browser.close();fixture.server.closeAllConnections();await fixture.close();
 }

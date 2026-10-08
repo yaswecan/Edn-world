@@ -190,6 +190,7 @@ async function openGame(encodedId, revision) {
   const context = await request(`/api/game/runs/${encodeURIComponent(decodeURIComponent(encodedId))}/context`);
   if(revision!==state.revision)return;
   if(state.game)await closeGame(false);
+  if(revision!==state.revision)return;
   const frame = document.createElement('iframe'); frame.className='game-frame'; frame.title='Mission Code Station — PédagoLab'; frame.setAttribute('sandbox','allow-scripts');
   // The existing code execution sandbox has an opaque origin. Only the handshake
   // uses '*'; private context travels on a transferred MessagePort to this frame.
@@ -200,6 +201,7 @@ async function openGame(encodedId, revision) {
 }
 async function gameMessage(game, message) {
   if(state.game!==game || !message || typeof message!=='object' || game.closing)return;
+  if(message.type==='eden:flushed'){game.flushed?.();return;}
   if(message.type==='eden:close'){await closeGame();return;}
   if(!['eden:event','eden:progress'].includes(message.type))return;
   const body = message.type==='eden:progress' ? {progress:message.progress} : {eventId:randomUUID(), type:message.eventType, payload:message.payload};
@@ -222,11 +224,19 @@ async function gameMessage(game, message) {
 }
 async function closeGame(navigate = true) {
   const game = state.game;
-  if(game) {game.closing=true;await game.queue;game.port?.close();game.frame.remove();state.game=null;}
-  if(document.fullscreenElement)await document.exitFullscreen().catch(()=>{});
-  $('#game-modal').close(); $('#game-host').replaceChildren();
-  if(game?.failedProgress)notify('La dernière modification n’a pas été enregistrée.');
-  if(navigate){history.replaceState(null,'','#arcade');await renderRoute({refresh:true});$('[data-game="code-station"]')?.focus();}
+  if(game?.closePromise)return game.closePromise;
+  const closingHash=location.hash;
+  const close=async()=>{
+   if(game) {
+    if(game.port)await new Promise(resolve=>{const timer=setTimeout(resolve,800);game.flushed=()=>{clearTimeout(timer);resolve();};game.port.postMessage({type:'eden:flush'});});
+    game.closing=true;await game.queue;game.port?.close();game.frame.remove();state.game=null;
+   }
+   if(document.fullscreenElement)await document.exitFullscreen().catch(()=>{});
+   $('#game-modal').close(); $('#game-host').replaceChildren();
+   if(game?.failedProgress)notify('La dernière modification n’a pas été enregistrée.');
+   if(navigate&&location.hash===closingHash){history.replaceState(null,'','#arcade');await renderRoute({refresh:true});$('[data-game="code-station"]')?.focus();}
+  };
+  const pending=close();if(game)game.closePromise=pending;return pending;
 }
 root.addEventListener('click', async event=>{
   const target = event.target.closest('[data-action],.sound-toggle'); if(!target || target.disabled)return;

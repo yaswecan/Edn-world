@@ -5,7 +5,8 @@ import assert from 'node:assert/strict';
 import {arcadeFixture} from '../tests/fixtures/arcade.mjs';
 process.env.EDEN_WORLD_ARCADE='1';
 const fixture=await arcadeFixture();
-const directory='TWEEN_TEACH_WORLD_ARCADE/SUIVI/COMPTE_JOUEUR_CAPTURES';
+const reportDirectory=process.env.ARCADE_REPORT_DIRECTORY||'TWEEN_TEACH_WORLD_ARCADE/SUIVI';
+const directory=`${reportDirectory}/COMPTE_JOUEUR_CAPTURES`;
 await mkdir(directory,{recursive:true});
 const systemChrome='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE||(existsSync(systemChrome)?systemChrome:undefined)});
@@ -27,7 +28,7 @@ try {
   await page.locator('[data-game=code-station]').click();await page.getByLabel('Identifiant',{exact:true}).fill('student-a');await page.getByLabel('Mot de passe',{exact:true}).fill('incorrect');await page.locator('[data-form=login] [type=submit]').click();await expect(page.locator('.form-status')).toContainText('Identifiants incorrects');
   await page.getByLabel('Mot de passe',{exact:true}).fill(fixture.password);await page.locator('[data-form=login] [type=submit]').click();await expect(page.getByRole('heading',{name:'Choisis ton joueur',exact:true})).toBeVisible();
   await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('radio',{name:'Choisir cet avatar — Avatar 1',exact:true}).focus();await page.keyboard.press('ArrowRight');await expect(page.getByRole('radio',{name:'Choisir cet avatar — Avatar 2',exact:true})).toBeChecked();await expect(page.locator('#identity-preview h2')).toHaveText('Aster');await shot('02-choisis-ton-joueur');
-  await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await expect(page.frameLocator('.game-frame').locator('#missionCode')).toBeVisible();runId=decodeURIComponent(new URL(page.url()).hash.slice(5));
+  await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await expect(page.frameLocator('.game-frame').locator('#worldCanvas')).toBeVisible();runId=decodeURIComponent(new URL(page.url()).hash.slice(5));
   await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await expect(page.locator('#game-modal')).not.toBeVisible();
  });
  await check('aperçu local, annulation, erreur de sauvegarde et persistance après reconnexion',async()=>{
@@ -46,7 +47,7 @@ try {
  await check('Mon espace : identité réelle, aucune récompense inventée, carte privée et reprise autorisée',async()=>{
   await visit('#profil');await expect(page.locator('.identity-handle')).toHaveText('Aster_Nova');await expect(page.getByText('Aucun badge pour le moment.',{exact:true})).toBeVisible();await expect(page.getByText(/Les paliers de progression ne sont pas disponibles/)).toBeVisible();assert.doesNotMatch(await page.locator('#main-content').innerText(),/Identité privée|example.invalid|Rookie|\b0 XP\b/);
   await page.getByRole('button',{name:'Voir ma carte',exact:true}).click();await expect(page.locator('#modal')).toContainText('Cet aperçu ne publie pas ton profil.');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Voir ma carte',exact:true})).toBeFocused();
-  await page.locator('[data-action=resume]').click();await expect(page.frameLocator('.game-frame').locator('#missionCode')).toBeVisible();await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();
+  await page.locator('[data-action=resume]').click();await expect(page.frameLocator('.game-frame').locator('#worldCanvas')).toBeVisible();await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();
  });
  await check('badge obtenu par la vraie validation professeur, mise en avant, retrait et dialogue clavier',async()=>{
   await visit('#collection');await expect(page.getByText('Aucun badge pour le moment.',{exact:true})).toBeVisible();await page.locator('.badge-card').focus();await page.keyboard.press('Enter');await expect(page.locator('#modal')).toContainText('À débloquer');await expect(page.getByRole('button',{name:'Mettre en avant',exact:true})).toHaveCount(0);await page.keyboard.press('Escape');await expect(page.locator('.badge-card')).toBeFocused();
@@ -94,6 +95,6 @@ try {
  let message=e.message;for(const secret of [fixture.password,newPassword])message=message.replaceAll(secret,'[secret de test masqué]');
  results.push({name:'Failure',status:'FAIL',message});console.error(message);await shot('incident-test').catch(()=>{});process.exitCode=1;
 } finally {
- await writeFile('TWEEN_TEACH_WORLD_ARCADE/SUIVI/COMPTE_JOUEUR_NAVIGATEUR.json',JSON.stringify({results,captures,errors,browser:browser.version(),database:'SQLite :memory:',identities:'synthetic only'},null,2)+'\n');
- await context.close();await browser.close();await fixture.close();
+ await writeFile(`${reportDirectory}/COMPTE_JOUEUR_NAVIGATEUR.json`,JSON.stringify({results,captures,errors,browser:browser.version(),database:'SQLite :memory:',identities:'synthetic only'},null,2)+'\n');
+ await context.close();await browser.close();fixture.server.closeAllConnections();await fixture.close();
 }

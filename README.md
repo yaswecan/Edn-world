@@ -38,6 +38,10 @@ Voir [le démarrage et les limites](docs/quality/README.md), [l’audit causal](
 
 ## World Arcade
 
+Les 20 missions du catalogue Code Station, Assault, Bunker, Rocket et Infiltration utilisent désormais un personnage, cinq cartes navigables, des postes physiques et une action finale dans le monde. Le jeu affecté à une séance et sa reprise utilisent le même moteur. Les essais JavaScript s’exécutent dans un Worker borné ; les commandes du bunker restent une simulation locale explicitement indiquée.
+
+Recette des cinq mondes : `npm run preview:exploration`, puis `http://arcade.localhost:4187/arcade#arcade`. Compte synthétique : `student-a`, classe `A1`, mot de passe `synthetic-test-password`. Pour inclure une copie en lecture seule de la séance du 8 octobre : `npm run preview:exploration -- --source .data/chatgpt-personal/courses.sqlite --date 2026-10-08`. Le sélecteur Code Station propose toutes les missions ; les écritures restent en mémoire. Flèches / ZQSD / WASD, clic sur le sol, E pour interagir. Voir le [rapport d’exploration et la matrice des 20 missions](TWEEN_TEACH_WORLD_ARCADE/SUIVI/EXPLORATION_RECETTE.md). Aucun déploiement de cette évolution n’a été réalisé.
+
 Le module intégré est disponible à `/arcade` sur une instance de recette autorisée avec `EDEN_WORLD_ARCADE=1` (désactivé par défaut). Il réutilise les comptes scolaires, les missions PédagoLab affectées et leurs sauvegardes. Les missions Code Station des séances publiées sont accessibles à tous les élèves de la classe dès la connexion, sans prérequis de monde ou d’activité autonome. Chaque élève conserve sa propre partie ; cette ouverture ne valide aucune compétence. Les profils arcade permettent de choisir un pseudo et un avatar ; la galerie respecte les permissions de classe et la visibilité choisie. Le thème reste limité à l’arcade.
 
 Cyber Funk reste indisponible faute de moteur hôte. Les points, le Top 5, les grades et l’inscription externe restent fermés en l’absence de règles métier ou de services validés. Aucun joueur fictif ni score de démonstration n’est importé. Le drapeau du module n’ouvre pas ces fonctions publiques.

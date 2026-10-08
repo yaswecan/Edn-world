@@ -1,0 +1,19 @@
+{
+  "scope": "Local student login, daily lesson and arcade round trip; disposable in-memory database",
+  "checks": [
+    "student-login-opens-daily-lesson",
+    "arcade-button-visible",
+    "no-teacher-dashboard",
+    "code-station-launches-before-diagnostic-completion",
+    "real-game-editor-and-save-available",
+    "mobile-without-overflow",
+    "arcade-reuses-student-session",
+    "return-preserves-lesson-step-and-answer",
+    "single-diagnostic-attempt",
+    "arcade-available-without-daily-lesson",
+    "direct-lesson-link-survives-arcade-on-another-date",
+    "disabled-arcade-has-no-dead-link",
+    "no-browser-errors"
+  ],
+  "status": "PASS"
+}

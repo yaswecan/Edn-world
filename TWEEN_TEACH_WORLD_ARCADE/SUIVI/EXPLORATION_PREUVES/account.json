@@ -1,0 +1,186 @@
+{
+  "results": [
+    {
+      "name": "visiteur : Commencer, deux mondes, inscription fermée et récupération scolaire",
+      "status": "PASS"
+    },
+    {
+      "name": "connexion hôte puis AKA/avatar clavier et reprise de l’intention Code Station",
+      "status": "PASS"
+    },
+    {
+      "name": "aperçu local, annulation, erreur de sauvegarde et persistance après reconnexion",
+      "status": "PASS"
+    },
+    {
+      "name": "avatar indisponible : repli explicite sans modifier le profil enregistré",
+      "status": "PASS"
+    },
+    {
+      "name": "Mon espace : identité réelle, aucune récompense inventée, carte privée et reprise autorisée",
+      "status": "PASS"
+    },
+    {
+      "name": "badge obtenu par la vraie validation professeur, mise en avant, retrait et dialogue clavier",
+      "status": "PASS"
+    },
+    {
+      "name": "1440, 1024 et 390 px : espace, personnalisation, badges et compte sans débordement",
+      "status": "PASS"
+    },
+    {
+      "name": "mot de passe : collage, afficher/masquer, confirmation, secret actuel et toutes les sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "réponse personnelle tardive, déconnexion, autre compte et bouton Retour",
+      "status": "PASS"
+    },
+    {
+      "name": "expiration de session et autre onglet : effacement immédiat des données privées",
+      "status": "PASS"
+    }
+  ],
+  "captures": [
+    {
+      "file": "01-inscription-fermee.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#arcade"
+    },
+    {
+      "file": "02-choisis-ton-joueur.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#personnaliser"
+    },
+    {
+      "file": "03-erreur-sauvegarde.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#personnaliser"
+    },
+    {
+      "file": "03-avatar-indisponible.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#personnaliser"
+    },
+    {
+      "file": "04-badge-obtenu.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#collection"
+    },
+    {
+      "file": "05-profil-1440.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#profil"
+    },
+    {
+      "file": "05-personnaliser-1440.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#personnaliser"
+    },
+    {
+      "file": "05-collection-1440.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#collection"
+    },
+    {
+      "file": "05-compte-1440.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "route": "#compte"
+    },
+    {
+      "file": "05-profil-1024.png",
+      "viewport": {
+        "width": 1024,
+        "height": 1050
+      },
+      "route": "#profil"
+    },
+    {
+      "file": "05-personnaliser-1024.png",
+      "viewport": {
+        "width": 1024,
+        "height": 1050
+      },
+      "route": "#personnaliser"
+    },
+    {
+      "file": "05-collection-1024.png",
+      "viewport": {
+        "width": 1024,
+        "height": 1050
+      },
+      "route": "#collection"
+    },
+    {
+      "file": "05-compte-1024.png",
+      "viewport": {
+        "width": 1024,
+        "height": 1050
+      },
+      "route": "#compte"
+    },
+    {
+      "file": "05-profil-390.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "#profil"
+    },
+    {
+      "file": "05-personnaliser-390.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "#personnaliser"
+    },
+    {
+      "file": "05-collection-390.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "#collection"
+    },
+    {
+      "file": "05-compte-390.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "route": "#compte"
+    }
+  ],
+  "errors": [],
+  "browser": "154.0.8037.98",
+  "database": "SQLite :memory:",
+  "identities": "synthetic only"
+}

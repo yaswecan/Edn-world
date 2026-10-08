@@ -1,3 +1,4 @@
+import {explorationForMission} from './game.mjs';
 import {aiPreferences} from './ai/settings.mjs';
 import {retrieveResources} from './retrieval.mjs';
 import {octoberContent} from './october.mjs';
@@ -75,9 +76,12 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  const lessonId=qualityJobId?`${baseLessonId}-${qualityJobId}`:baseLessonId,id=`${actor.classId}:${lessonId}`;
  const diagnostic=diagnosticFrom(previous,source?.spec,nodes,lessonId);
  const missions=await store.list('game_missions',actor.classId),eligible=missions.filter(m=>m.status!=='draft'&&m.competencies.every(c=>entry.skills.includes(c)||previous?.coveredSkills.includes(c))&&m.competencies.some(c=>entry.skills.includes(c)));
- const mission=dense?null:eligible.sort((a,b)=>b.competencies.filter(c=>entry.skills.includes(c)).length-a.competencies.filter(c=>entry.skills.includes(c)).length)[0];
- const codeStation=mission?{missionId:mission.id,missionVersion:mission.version,worldId:mission.world,duration:25,required:true,unlockAfter:'transfer',completionRule:'Tous les scénarios de la mission réussissent avec la même production.'}:null;
- if(codeStation){content.teacherGuide+=`\nMission ${mission.world} : vérifier les prérequis de monde pour chaque élève ; une ouverture professeur autorise l’accès sans valider de maîtrise.`;const b=content.blocks.find(b=>b.id==='autonomy');if(b&&b.minutes>35)b.minutes-=25;content.blocks.splice(-1,0,block('game','CodeStationLauncher','extend',mission.title,mission.brief,25,[],mission.competencies));}
+ const invalidMissions=[];const playable=eligible.filter(m=>{try{explorationForMission(m);return true;}catch(error){invalidMissions.push({title:m.title,reason:error.message});return false;}});
+ const mission=dense?null:playable.sort((a,b)=>b.competencies.filter(c=>entry.skills.includes(c)).length-a.competencies.filter(c=>entry.skills.includes(c)).length)[0];
+ const exploration=mission?explorationForMission(mission):null;
+ if(invalidMissions.length)content.teacherGuide+='\nMissions écartées : '+invalidMissions.map(m=>m.title+' — '+m.reason).join('; ')+(mission?' Mission compatible retenue : '+mission.title+'.':' Aucune mission compatible disponible.');
+ const codeStation=mission?{mapId:exploration.map.id,missionSignature:exploration.signature,missionId:mission.id,missionVersion:mission.version,worldId:mission.world,duration:25,required:true,unlockAfter:'transfer',completionRule:'Rétablir la liaison, valider les scénarios avec la même production, puis atteindre la destination finale dans la carte.'}:null;
+ if(codeStation){content.teacherGuide+=`\nMission ${mission.world} · carte ${exploration.map.id} : ${exploration.brief} La victoire demande une validation des scénarios puis une action finale dans le monde. L’accès et la victoire ne valident pas une maîtrise pédagogique.`;const b=content.blocks.find(b=>b.id==='autonomy');if(b&&b.minutes>35)b.minutes-=25;content.blocks.splice(-1,0,block('game','CodeStationLauncher','extend',mission.title,mission.brief,25,[],mission.competencies));}
  orderAndTime(content,entry.duration,diagnostic.duration);
  if(codeStation)codeStation.duration=content.blocks.find(b=>b.id==='game').minutes;
  return await store.transaction(async tx=>{

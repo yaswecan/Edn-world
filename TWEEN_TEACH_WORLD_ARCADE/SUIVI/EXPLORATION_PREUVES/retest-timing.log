@@ -1,0 +1,44 @@
+TAP version 13
+# Subtest: occupied personal port fails once, preserves its listener and never announces a ready server
+ok 1 - occupied personal port fails once, preserves its listener and never announces a ready server
+  ---
+  duration_ms: 3052.486041
+  ...
+# (node:15656) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: LAN students use persistent courses while personal setup and AI connections remain local
+ok 2 - LAN students use persistent courses while personal setup and AI connections remain local
+  ---
+  duration_ms: 4496.341958
+  ...
+# Subtest: an occupied LAN address closes the local listener without announcing success
+ok 3 - an occupied LAN address closes the local listener without announcing success
+  ---
+  duration_ms: 2631.527
+  ...
+# Subtest: personal launcher starts, rejects a duplicate and releases its port on shutdown for a fresh launch
+ok 4 - personal launcher starts, rejects a duplicate and releases its port on shutdown for a fresh launch
+  ---
+  duration_ms: 29236.611791
+  ...
+# Subtest: two separate processes refresh one connection exactly once under the filesystem lock
+ok 5 - two separate processes refresh one connection exactly once under the filesystem lock
+  ---
+  duration_ms: 923.599792
+  ...
+# (node:15804) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SIGKILL during a provider operation leaves a durable uncertain job that is never blindly retried
+ok 6 - SIGKILL during a provider operation leaves a durable uncertain job that is never blindly retried
+  ---
+  duration_ms: 1979.560833
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 46617.136834

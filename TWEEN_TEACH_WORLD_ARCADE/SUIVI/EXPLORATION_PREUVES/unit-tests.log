@@ -1,0 +1,1564 @@
+
+> eden-teacher-twin@1.1.0 test
+> node --import tsx --test tests/*.test.mjs
+
+TAP version 13
+# (node:13723) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: teacher auth and student class boundaries
+ok 1 - teacher auth and student class boundaries
+  ---
+  duration_ms: 8549.192792
+  ...
+# Subtest: cross-origin mutations rejected
+ok 2 - cross-origin mutations rejected
+  ---
+  duration_ms: 21.557291
+  ...
+# Subtest: API lifecycle: prepare, compile, preview, explicit publish
+ok 3 - API lifecycle: prepare, compile, preview, explicit publish
+  ---
+  duration_ms: 12270.727042
+  ...
+# Subtest: student APIs expose no answers before submission; submit is immutable and owned
+ok 4 - student APIs expose no answers before submission; submit is immutable and owned
+  ---
+  duration_ms: 404.929167
+  ...
+# Subtest: teacher corpus never downloadable by students
+ok 5 - teacher corpus never downloadable by students
+  ---
+  duration_ms: 532.057125
+  ...
+# Subtest: unsupported code remains bounded and never executes host access
+ok 6 - unsupported code remains bounded and never executes host access
+  ---
+  duration_ms: 52.383542
+  ...
+# Subtest: Drive returns a configuration error rather than fake success
+ok 7 - Drive returns a configuration error rather than fake success
+  ---
+  duration_ms: 5.775792
+  ...
+# Subtest: live adaptation keeps submitted diagnostic attempts across the version switch
+ok 8 - live adaptation keeps submitted diagnostic attempts across the version switch
+  ---
+  duration_ms: 8526.833292
+  ...
+# Subtest: worker endpoint rejects anonymous and teacher-session requests without its secret
+ok 9 - worker endpoint rejects anonymous and teacher-session requests without its secret
+  ---
+  duration_ms: 91.069458
+  ...
+# Subtest: workshop tests use the published task, preserve the attempt and reject stale or foreign versions
+ok 10 - workshop tests use the published task, preserve the attempt and reject stale or foreign versions
+  ---
+  duration_ms: 111.635708
+  ...
+# Subtest: HTML and CSS diagnostic attempts use their frozen exercises and record tests without exposing solutions
+ok 11 - HTML and CSS diagnostic attempts use their frozen exercises and record tests without exposing solutions
+  ---
+  duration_ms: 898.140167
+  ...
+# (node:13724) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: idempotent initial profile has no civil AKA, is private, and does not duplicate host account
+ok 12 - idempotent initial profile has no civil AKA, is private, and does not duplicate host account
+  ---
+  duration_ms: 3597.529542
+  ...
+# Subtest: concurrent AKA reservation is canonical and class scoped, with no owner information
+ok 13 - concurrent AKA reservation is canonical and class scoped, with no owner information
+  ---
+  duration_ms: 150.555708
+  ...
+# Subtest: format, reserved identities, avatar catalogue, mass assignment and origin are enforced
+ok 14 - format, reserved identities, avatar catalogue, mass assignment and origin are enforced
+  ---
+  duration_ms: 240.381208
+  ...
+# Subtest: AKA and avatar survive a fresh session without changing identity, saves or rewards
+ok 15 - AKA and avatar survive a fresh session without changing identity, saves or rewards
+  ---
+  duration_ms: 141.936667
+  ...
+# Subtest: space distinguishes no badges and missing progression, resumes only an authorized saved mission
+ok 16 - space distinguishes no badges and missing progression, resumes only an authorized saved mission
+  ---
+  duration_ms: 1465.038041
+  ...
+# Subtest: only teacher-approved host evidence grants one stable badge across concurrent requests
+ok 17 - only teacher-approved host evidence grants one stable badge across concurrent requests
+  ---
+  duration_ms: 602.13
+  ...
+# Subtest: featured badge is owned, persistent, removable and projected without its private proof
+ok 18 - featured badge is owned, persistent, removable and projected without its private proof
+  ---
+  duration_ms: 442.732541
+  ...
+# Subtest: three-slot ordering and fourth replacement use synthetic unit inputs, never production awards
+ok 19 - three-slot ordering and fourth replacement use synthetic unit inputs, never production awards
+  ---
+  duration_ms: 2.915709
+  ...
+# Subtest: all personal routes deny guests/external accounts, resource forgery and private caching
+ok 20 - all personal routes deny guests/external accounts, resource forgery and private caching
+  ---
+  duration_ms: 67.196042
+  ...
+# Subtest: password change rejects missing session, mismatch, forged fields, wrong secret and CSRF
+ok 21 - password change rejects missing session, mismatch, forged fields, wrong secret and CSRF
+  ---
+  duration_ms: 644.522417
+  ...
+# Subtest: successful password change revokes all sessions and old secret, and retains profile and saves
+ok 22 - successful password change revokes all sessions and old secret, and retains profile and saves
+  ---
+  duration_ms: 2370.835542
+  ...
+# Subtest: existing teacher assistance is scoped and now actually revokes student sessions
+ok 23 - existing teacher assistance is scoped and now actually revokes student sessions
+  ---
+  duration_ms: 1105.743916
+  ...
+# Subtest: accounts without local credentials cannot acquire a local secret through this flow
+ok 24 - accounts without local credentials cannot acquire a local secret through this flow
+  ---
+  duration_ms: 127.5865
+  ...
+# Subtest: unavailable public lifecycle is uniform, never mutates accounts or claims mail delivery
+ok 25 - unavailable public lifecycle is uniform, never mutates accounts or claims mail delivery
+  ---
+  duration_ms: 393.467792
+  ...
+# Subtest: simultaneous password changes cannot reuse a revoked session or the old credential
+ok 26 - simultaneous password changes cannot reuse a revoked session or the old credential
+  ---
+  duration_ms: 403.772583
+  ...
+# Subtest: password abuse limit applies before repeated credential verification
+ok 27 - password abuse limit applies before repeated credential verification
+  ---
+  duration_ms: 4184.583917
+  ...
+# (node:13725) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: arcade flag protects HTML, assets and APIs; rollback keeps legacy login
+ok 28 - arcade flag protects HTML, assets and APIs; rollback keeps legacy login
+  ---
+  duration_ms: 4310.121583
+  ...
+# Subtest: catalogue is public, real session is reused, Cyber Funk absent and no fictitious rewards
+ok 29 - catalogue is public, real session is reused, Cyber Funk absent and no fictitious rewards
+  ---
+  duration_ms: 824.252417
+  ...
+# Subtest: visitor and external directory denial covers pagination, search, detail, profile and top
+ok 30 - visitor and external directory denial covers pagination, search, detail, profile and top
+  ---
+  duration_ms: 65.6855
+  ...
+# Subtest: scoping precedes count, search and pagination; teachers are confined to own class
+ok 31 - scoping precedes count, search and pagination; teachers are confined to own class
+  ---
+  duration_ms: 176.355042
+  ...
+# Subtest: profile is persisted on existing account; identity fields and school data are preserved
+ok 32 - profile is persisted on existing account; identity fields and school data are preserved
+  ---
+  duration_ms: 48.918542
+  ...
+# Subtest: profile rejects roles, rewards, public visibility, XSS and origin forgery
+ok 33 - profile rejects roles, rewards, public visibility, XSS and origin forgery
+  ---
+  duration_ms: 75.959584
+  ...
+# Subtest: public registration and email operations stay closed including malicious role requests
+ok 34 - public registration and email operations stay closed including malicious role requests
+  ---
+  duration_ms: 221.370167
+  ...
+# Subtest: launch authorizes real assignment and is idempotent across concurrent fresh requests
+ok 35 - launch authorizes real assignment and is idempotent across concurrent fresh requests
+  ---
+  duration_ms: 2001.201208
+  ...
+# Subtest: Code Station opens a prerequisite world for every class student without invented progress
+ok 36 - Code Station opens a prerequisite world for every class student without invented progress
+  ---
+  duration_ms: 1214.988584
+  ...
+# Subtest: forged destinations, unknown bindings and foreign saves are refused
+ok 37 - forged destinations, unknown bindings and foreign saves are refused
+  ---
+  duration_ms: 293.344333
+  ...
+# Subtest: existing runs stay open without autonomy but enforce assignment and publication
+ok 38 - existing runs stay open without autonomy but enforce assignment and publication
+  ---
+  duration_ms: 700.261125
+  ...
+# Subtest: save round trip preserves existing format, rejects invalid data, confirms only persistence
+ok 39 - save round trip preserves existing format, rejects invalid data, confirms only persistence
+  ---
+  duration_ms: 405.451584
+  ...
+# Subtest: client completions never award verified points or grades, even with new event IDs
+ok 40 - client completions never award verified points or grades, even with new event IDs
+  ---
+  duration_ms: 583.846708
+  ...
+# Subtest: private responses are not cached and logout invalidates the host session
+ok 41 - private responses are not cached and logout invalidates the host session
+  ---
+  duration_ms: 171.968167
+  ...
+# Subtest: production serves no integration documents or prototype; styles and scripts stay confined
+ok 42 - production serves no integration documents or prototype; styles and scripts stay confined
+  ---
+  duration_ms: 650.014
+  ...
+# Subtest: arcade leaves original identities, lesson versions, missions, unlocks and school records intact
+ok 43 - arcade leaves original identities, lesson versions, missions, unlocks and school records intact
+  ---
+  duration_ms: 54.847083
+  ...
+# (node:13726) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: teacher/student and same-class teacher isolation apply to settings, callbacks, connections and jobs
+ok 44 - teacher/student and same-class teacher isolation apply to settings, callbacks, connections and jobs
+  ---
+  duration_ms: 5391.456083
+  ...
+# Subtest: local routes reject remote origins, DNS rebinding and forwarded requests; callback binds a live teacher session
+ok 45 - local routes reject remote origins, DNS rebinding and forwarded requests; callback binds a live teacher session
+  ---
+  duration_ms: 3726.221167
+  ...
+# Subtest: connection verification consumes real SSE even when the upstream omits Content-Type
+ok 46 - connection verification consumes real SSE even when the upstream omits Content-Type
+  ---
+  duration_ms: 4064.51925
+  ...
+# Subtest: hosted flags never authorize a local runtime
+ok 47 - hosted flags never authorize a local runtime
+  ---
+  duration_ms: 2.033083
+  ...
+# Subtest: PKCE, callback, cryptographic identity and grant validation; registration/host reused after logout
+ok 48 - PKCE, callback, cryptographic identity and grant validation; registration/host reused after logout
+  ---
+  duration_ms: 5626.582583
+  ...
+# Subtest: denial, state mismatch, wrong browser, replay and revoked teacher session never exchange a code
+ok 49 - denial, state mismatch, wrong browser, replay and revoked teacher session never exchange a code
+  ---
+  duration_ms: 538.034666
+  ...
+# Subtest: tampered signature, nonce, issuer, audience, expiration and identity are rejected
+ok 50 - tampered signature, nonce, issuer, audience, expiration and identity are rejected
+  ---
+  duration_ms: 8471.562334
+  ...
+# Subtest: identity without granted plan scopes remains connected without inference or model discovery
+ok 51 - identity without granted plan scopes remains connected without inference or model discovery
+  ---
+  duration_ms: 6179.224583
+  ...
+# Subtest: same email registrations stay distinct, owner isolation and returning client ID survive a failed exchange
+ok 52 - same email registrations stay distinct, owner isolation and returning client ID survive a failed exchange
+  ---
+  duration_ms: 2765.797334
+  ...
+# Subtest: concurrent refresh is serialized and atomic; revoked and uncertain rotations do not replay tokens
+ok 53 - concurrent refresh is serialized and atomic; revoked and uncertain rotations do not replay tokens
+  ---
+  duration_ms: 2087.796042
+  ...
+# Subtest: temporary network and revocation failures retain connection appropriately; interrupted refresh is fenced
+ok 54 - temporary network and revocation failures retain connection appropriately; interrupted refresh is fenced
+  ---
+  duration_ms: 2158.147916
+  ...
+# (node:13728) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: explicit ChatGPT resume updates an old call timeout without resetting frozen identity, progress or budgets
+ok 55 - explicit ChatGPT resume updates an old call timeout without resetting frozen identity, progress or budgets
+  ---
+  duration_ms: 6331.089042
+  ...
+# Subtest: an individual call cannot run beyond the remaining preparation time budget
+ok 56 - an individual call cannot run beyond the remaining preparation time budget
+  ---
+  duration_ms: 1075.04075
+  ...
+# Subtest: schema rejection stays blocked until explicit recovery, including jobs saved with no recovery field
+ok 57 - schema rejection stays blocked until explicit recovery, including jobs saved with no recovery field
+  ---
+  duration_ms: 449.427625
+  ...
+# Subtest: owner-scoped idempotence freezes provider, connection and model; another teacher cannot read or cancel
+ok 58 - owner-scoped idempotence freezes provider, connection and model; another teacher cannot read or cancel
+  ---
+  duration_ms: 1357.689542
+  ...
+# Subtest: all pedagogical stages share the same plan provider and retain frontend/programming/shell contracts
+ok 59 - all pedagogical stages share the same plan provider and retain frontend/programming/shell contracts
+  ---
+  duration_ms: 42254.594292
+  ...
+# Subtest: API side paths are blocked before network use when ChatGPT is selected
+ok 60 - API side paths are blocked before network use when ChatGPT is selected
+  ---
+  duration_ms: 1243.11
+  ...
+# Subtest: one active generation per connection; lease loss and expired worker cannot install results
+ok 61 - one active generation per connection; lease loss and expired worker cannot install results
+  ---
+  duration_ms: 22823.553042
+  ...
+# Subtest: temporary retries persist schedule, respect Retry-After and stop after three attempts
+ok 62 - temporary retries persist schedule, respect Retry-After and stop after three attempts
+  ---
+  duration_ms: 5947.114416
+  ...
+# Subtest: incomplete and unknown outcomes keep fragments and require explicit resumption; cancellation aborts transport
+ok 63 - incomplete and unknown outcomes keep fragments and require explicit resumption; cancellation aborts transport
+  ---
+  duration_ms: 3819.007459
+  ...
+# Subtest: a late candidate never overwrites a newer teacher revision
+ok 64 - a late candidate never overwrites a newer teacher revision
+  ---
+  duration_ms: 7958.518375
+  ...
+# Subtest: occupied personal port fails once, preserves its listener and never announces a ready server
+not ok 65 - occupied personal port fails once, preserves its listener and never announces a ready server
+  ---
+  duration_ms: 20181.148375
+  location: '/Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:46:1'
+  failureType: 'testTimeoutFailure'
+  error: 'test timed out after 20000ms'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# (node:13729) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: LAN students use persistent courses while personal setup and AI connections remain local
+not ok 66 - LAN students use persistent courses while personal setup and AI connections remain local
+  ---
+  duration_ms: 18220.604292
+  location: '/Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:59:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Le serveur n’a pas démarré : Tween Teach personnel → http://127.0.0.1:50772/
+    Base séparée .data/chatgpt-personal. Créez votre mot de passe professeur, importez votre planification, puis ouvrez Ma classe & réglages → Réglages IA.
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    ready (file:///Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:43:9)
+    async TestContext.<anonymous> (file:///Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:74:57)
+    async Test.run (node:internal/test_runner/test:980:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+# Subtest: an occupied LAN address closes the local listener without announcing success
+not ok 67 - an occupied LAN address closes the local listener without announcing success
+  ---
+  duration_ms: 20639.198542
+  location: '/Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:95:1'
+  failureType: 'testTimeoutFailure'
+  error: 'test timed out after 20000ms'
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: personal launcher starts, rejects a duplicate and releases its port on shutdown for a fresh launch
+not ok 68 - personal launcher starts, rejects a duplicate and releases its port on shutdown for a fresh launch
+  ---
+  duration_ms: 21790.664334
+  location: '/Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:107:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Le serveur n’a pas démarré : Tween Teach personnel → http://127.0.0.1:50838/
+    Base séparée .data/chatgpt-personal. Créez votre mot de passe professeur, importez votre planification, puis ouvrez Ma classe & réglages → Réglages IA.
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  operator: 'fail'
+  stack: |-
+    ready (file:///Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:43:9)
+    async TestContext.<anonymous> (file:///Users/eden/workspace/TwinTeache/tests/chatgpt-launcher.test.mjs:111:26)
+    async Test.run (node:internal/test_runner/test:980:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+# Subtest: two separate processes refresh one connection exactly once under the filesystem lock
+ok 69 - two separate processes refresh one connection exactly once under the filesystem lock
+  ---
+  duration_ms: 3838.643834
+  ...
+# (node:13978) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SIGKILL during a provider operation leaves a durable uncertain job that is never blindly retried
+not ok 70 - SIGKILL during a provider operation leaves a durable uncertain job that is never blindly retried
+  ---
+  duration_ms: 10249.911333
+  location: '/Users/eden/workspace/TwinTeache/tests/chatgpt-process.test.mjs:21:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    false !== true
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///Users/eden/workspace/TwinTeache/tests/chatgpt-process.test.mjs:26:143)
+    async Test.run (node:internal/test_runner/test:980:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+# Subtest: ChatGPT calls allow long generations while API and explicit timeout settings keep their limits
+ok 71 - ChatGPT calls allow long generations while API and explicit timeout settings keep their limits
+  ---
+  duration_ms: 3.985167
+  ...
+# Subtest: a ChatGPT generation can complete after the old 180 second deadline without a retry
+ok 72 - a ChatGPT generation can complete after the old 180 second deadline without a retry
+  ---
+  duration_ms: 435.331083
+  ...
+# Subtest: a local deadline cancels a stalled read, retains partial output and records a non-retryable timeout
+ok 73 - a local deadline cancels a stalled read, retains partial output and records a non-retryable timeout
+  ---
+  duration_ms: 45.008916
+  ...
+# Subtest: timeouts before response headers, cancellations and network cuts have distinct safe diagnostics
+ok 74 - timeouts before response headers, cancellations and network cuts have distinct safe diagnostics
+  ---
+  duration_ms: 1.661667
+  ...
+# Subtest: SIWC serializer preserves the shared prompt and schema with an explicit small allowlist
+ok 75 - SIWC serializer preserves the shared prompt and schema with an explicit small allowlist
+  ---
+  duration_ms: 12.337583
+  ...
+# Subtest: high effort is sent only when the account catalogue confirms it, with an explicit trace
+ok 76 - high effort is sent only when the account catalogue confirms it, with an explicit trace
+  ---
+  duration_ms: 3.910583
+  ...
+# Subtest: every pedagogical response schema declares types, including nested constants and enums
+ok 77 - every pedagogical response schema declares types, including nested constants and enums
+  ---
+  duration_ms: 4.594833
+  ...
+# Subtest: fragmented UTF8 SSE completes only at response.completed; reasoning is never forwarded
+ok 78 - fragmented UTF8 SSE completes only at response.completed; reasoning is never forwarded
+  ---
+  duration_ms: 28.786
+  ...
+# Subtest: SSE without Content-Type still requires a successful terminal event
+ok 79 - SSE without Content-Type still requires a successful terminal event
+  ---
+  duration_ms: 7.827416
+  ...
+# Subtest: SSE media types are case insensitive and incompatible bodies are cancelled
+ok 80 - SSE media types are case insensitive and incompatible bodies are cancelled
+  ---
+  duration_ms: 1.090875
+  ...
+# Subtest: live activity exposes only public summaries and lifecycle signals, with bounded deduplicated UTF8 text
+ok 81 - live activity exposes only public summaries and lifecycle signals, with bounded deduplicated UTF8 text
+  ---
+  duration_ms: 10.407583
+  ...
+# Subtest: normalized plan call validates JSON, retains unknown cost, and cannot use the API key fallback
+ok 82 - normalized plan call validates JSON, retains unknown cost, and cannot use the API key fallback
+  ---
+  duration_ms: 3.468792
+  ...
+# Subtest: SIWC admission errors and all documented recovery codes are classified without leaking payloads
+ok 83 - SIWC admission errors and all documented recovery codes are classified without leaking payloads
+  ---
+  duration_ms: 6.553459
+  ...
+# Subtest: explicit API selection keeps the existing JSON HTTP serialization
+ok 84 - explicit API selection keeps the existing JSON HTTP serialization
+  ---
+  duration_ms: 6.490333
+  ...
+# (node:14035) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: snapshot is read-only, preserves metadata and embeds verified local documents
+ok 85 - snapshot is read-only, preserves metadata and embeds verified local documents
+  ---
+  duration_ms: 730.894666
+  ...
+# Subtest: missing or corrupt documents and unknown source tables stop preparation
+ok 86 - missing or corrupt documents and unknown source tables stop preparation
+  ---
+  duration_ms: 565.435417
+  ...
+# Subtest: published corpus references embed verified documents without rewriting their archived manifest
+ok 87 - published corpus references embed verified documents without rewriting their archived manifest
+  ---
+  duration_ms: 1617.011541
+  ...
+# Subtest: PostgreSQL transfer preserves identities, lesson versions, dates and documents; retry is idempotent
+ok 88 - PostgreSQL transfer preserves identities, lesson versions, dates and documents; retry is idempotent
+  ---
+  duration_ms: 77895.0035
+  ...
+# Subtest: existing target data is not overwritten and schema creation rolls back on conflict
+ok 89 - existing target data is not overwritten and schema creation rolls back on conflict
+  ---
+  duration_ms: 9471.723875
+  ...
+# Subtest: an insertion failure rolls back every preceding table and a retry can finish
+ok 90 - an insertion failure rolls back every preceding table and a retry can finish
+  ---
+  duration_ms: 8218.97025
+  ...
+# Subtest: read-back verification rejects database triggers that alter copied data
+ok 91 - read-back verification rejects database triggers that alter copied data
+  ---
+  duration_ms: 7291.066542
+  ...
+# (node:14047) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: portable backup embeds verified documents, keeps accounts and excludes sessions
+ok 92 - portable backup embeds verified documents, keeps accounts and excludes sessions
+  ---
+  duration_ms: 3252.430625
+  ...
+# Subtest: corrupt documents, fingerprints, unknown tables and decompression bombs are rejected
+ok 93 - corrupt documents, fingerprints, unknown tables and decompression bombs are rejected
+  ---
+  duration_ms: 12117.895917
+  ...
+# Subtest: preview does not write; restore is exact and an identical retry is a no-op
+ok 94 - preview does not write; restore is exact and an identical retry is a no-op
+  ---
+  duration_ms: 2905.089666
+  ...
+# Subtest: existing class data, a changed catalog or another class block the initial import
+ok 95 - existing class data, a changed catalog or another class block the initial import
+  ---
+  duration_ms: 1311.089333
+  ...
+# Subtest: restore rolls back removed bootstrap accounts and all inserts if a write fails
+ok 96 - restore rolls back removed bootstrap accounts and all inserts if a write fails
+  ---
+  duration_ms: 1648.657583
+  ...
+# Subtest: PostgreSQL replaces populated data with original metadata and rolls back a failed replacement
+ok 97 - PostgreSQL replaces populated data with original metadata and rolls back a failed replacement
+  ---
+  duration_ms: 14660.43525
+  ...
+# Subtest: HTTP upload requires teacher auth, same origin and confirmation; restored login works
+ok 98 - HTTP upload requires teacher auth, same origin and confirmation; restored login works
+  ---
+  duration_ms: 1652.709084
+  ...
+# Subtest: replacement previews both databases and requires the unchanged target before deleting anything
+ok 99 - replacement previews both databases and requires the unchanged target before deleting anything
+  ---
+  duration_ms: 363.975584
+  ...
+# Subtest: replacement preserves other classes and blocks external work, including changes after preview
+    # Subtest: plan_entries {"classId":"B1"}
+    ok 1 - plan_entries {"classId":"B1"}
+      ---
+      duration_ms: 225.888208
+      ...
+    # Subtest: sessions {"classId":"B1","role":"student"}
+    ok 2 - sessions {"classId":"B1","role":"student"}
+      ---
+      duration_ms: 204.236791
+      ...
+    # Subtest: publication_jobs {"status":"running"}
+    ok 3 - publication_jobs {"status":"running"}
+      ---
+      duration_ms: 486.460583
+      ...
+    # Subtest: generation_jobs {"status":"queued"}
+    ok 4 - generation_jobs {"status":"queued"}
+      ---
+      duration_ms: 345.261416
+      ...
+    # Subtest: generation_jobs {"status":"cancelled","leaseUntil":"2026-10-08T18:24:18.007Z"}
+    ok 5 - generation_jobs {"status":"cancelled","leaseUntil":"2026-10-08T18:24:18.007Z"}
+      ---
+      duration_ms: 267.876084
+      ...
+    # Subtest: archive_outbox {"state":"running"}
+    ok 6 - archive_outbox {"state":"running"}
+      ---
+      duration_ms: 219.788209
+      ...
+    # Subtest: lab_sessions {}
+    ok 7 - lab_sessions {}
+      ---
+      duration_ms: 240.829
+      ...
+    1..7
+ok 100 - replacement preserves other classes and blocks external work, including changes after preview
+  ---
+  duration_ms: 2234.900458
+  ...
+# Subtest: SQLite replacement rolls back all deleted data and sessions on insertion or read-back failure
+ok 101 - SQLite replacement rolls back all deleted data and sessions on insertion or read-back failure
+  ---
+  duration_ms: 256.803791
+  ...
+# Subtest: replacement rechecks teacher credentials and session within the transaction
+ok 102 - replacement rechecks teacher credentials and session within the transaction
+  ---
+  duration_ms: 216.906042
+  ...
+# Subtest: HTTP replacement wipes old records, revokes all sessions and preserves imported student access
+ok 103 - HTTP replacement wipes old records, revokes all sessions and preserves imported student access
+  ---
+  duration_ms: 1096.515417
+  ...
+# (node:14114) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: reinforcing a draft creates an immutable version with the same lesson duration, without approving or publishing it
+ok 104 - reinforcing a draft creates an immutable version with the same lesson duration, without approving or publishing it
+  ---
+  duration_ms: 16029.59625
+  ...
+# Subtest: reinforcement rejects stale versions, another class, active preparation, published lessons and existing learner work
+ok 105 - reinforcement rejects stale versions, another class, active preparation, published lessons and existing learner work
+  ---
+  duration_ms: 935.784333
+  ...
+# Subtest: reinforcement preserves the exact previously taught source and excludes untaught tasks
+ok 106 - reinforcement preserves the exact previously taught source and excludes untaught tasks
+  ---
+  duration_ms: 1385.518
+  ...
+# Subtest: every planned pedagogical session has a complete, timed baseline and a /20 rubric
+ok 107 - every planned pedagogical session has a complete, timed baseline and a /20 rubric
+  ---
+  duration_ms: 17068.172625
+  ...
+# Subtest: Flexbox starts with concrete HTML and CSS prerequisites, without layout solutions
+ok 108 - Flexbox starts with concrete HTML and CSS prerequisites, without layout solutions
+  ---
+  duration_ms: 1007.982458
+  ...
+# Subtest: explicit prerequisites take precedence over topic defaults
+ok 109 - explicit prerequisites take precedence over topic defaults
+  ---
+  duration_ms: 0.772042
+  ...
+# Subtest: programming baseline checks values, boundary cases and debugging
+ok 110 - programming baseline checks values, boundary cases and debugging
+  ---
+  duration_ms: 534.485583
+  ...
+# Subtest: previous session tasks cover distinct worked criteria and become mandatory
+ok 111 - previous session tasks cover distinct worked criteria and become mandatory
+  ---
+  duration_ms: 31.014667
+  ...
+# Subtest: a partial session includes only covered activities and still has two mini-tasks
+ok 112 - a partial session includes only covered activities and still has two mini-tasks
+  ---
+  duration_ms: 0.339334
+  ...
+# Subtest: a reconciled run without source activities still produces a complete diagnostic
+ok 113 - a reconciled run without source activities still produces a complete diagnostic
+  ---
+  duration_ms: 223.9365
+  ...
+# Subtest: rubric covers every skill of a task and distributes exactly twenty points
+ok 114 - rubric covers every skill of a task and distributes exactly twenty points
+  ---
+  duration_ms: 171.653834
+  ...
+# Subtest: A2 requires reviewed evidence beyond passing automatic code tests
+ok 115 - A2 requires reviewed evidence beyond passing automatic code tests
+  ---
+  duration_ms: 179.227375
+  ...
+# Subtest: practical diagnostics preserve authored time and safely display code observations
+ok 116 - practical diagnostics preserve authored time and safely display code observations
+  ---
+  duration_ms: 238.255625
+  ...
+# Subtest: publication rejects missing, optional, untimed, unreachable or ungraded diagnostics
+ok 117 - publication rejects missing, optional, untimed, unreachable or ungraded diagnostics
+  ---
+  duration_ms: 4160.830209
+  ...
+# Subtest: student diagnostics conceal workshop hints and model boards until submission
+ok 118 - student diagnostics conceal workshop hints and model boards until submission
+  ---
+  duration_ms: 1.978417
+  ...
+# (node:14184) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: original bytes, immutable extraction, idempotent reimport and index activation
+ok 119 - original bytes, immutable extraction, idempotent reimport and index activation
+  ---
+  duration_ms: 1225.6915
+  ...
+# Subtest: literal identifiers, synonyms, code and table context retain verifiable anchors
+ok 120 - literal identifiers, synonyms, code and table context retain verifiable anchors
+  ---
+  duration_ms: 39.558083
+  ...
+# Subtest: annotations survive rebuild, a changed source requests review, classification cannot grant rights
+ok 121 - annotations survive rebuild, a changed source requests review, classification cannot grant rights
+  ---
+  duration_ms: 94.540375
+  ...
+# Subtest: permissions apply before retrieval and neighbor expansion, including historical context reuse
+ok 122 - permissions apply before retrieval and neighbor expansion, including historical context reuse
+  ---
+  duration_ms: 549.718167
+  ...
+# Subtest: bounded context keeps code intact, explicitly lists uncovered sections and fixes source versions
+ok 123 - bounded context keeps code intact, explicitly lists uncovered sections and fixes source versions
+  ---
+  duration_ms: 503.505958
+  ...
+# Subtest: incomplete rebuild cannot replace active index and an index loss can be reconstructed
+ok 124 - incomplete rebuild cannot replace active index and an index loss can be reconstructed
+  ---
+  duration_ms: 103.872625
+  ...
+# Subtest: receipt snapshot and outbox share a transaction; duplicate identities reject changed bytes
+ok 125 - receipt snapshot and outbox share a transaction; duplicate identities reject changed bytes
+  ---
+  duration_ms: 312.870083
+  ...
+# Subtest: real Git push reconciles a lost acknowledgement without a duplicate commit or overwritten work
+ok 126 - real Git push reconciles a lost acknowledgement without a duplicate commit or overwritten work
+  ---
+  duration_ms: 7367.322333
+  ...
+# Subtest: archive outage preserves files; bounded retry and concurrent workers adopt one operation
+ok 127 - archive outage preserves files; bounded retry and concurrent workers adopt one operation
+  ---
+  duration_ms: 1291.649958
+  ...
+# Subtest: Design and Programming submit explicit current bytes; late saves and intentional resubmission retain old files
+ok 128 - Design and Programming submit explicit current bytes; late saves and intentional resubmission retain old files
+  ---
+  duration_ms: 6101.588625
+  ...
+# Subtest: shell submission requires actual snapshot bytes, excludes Git configuration and survives reset
+ok 129 - shell submission requires actual snapshot bytes, excludes Git configuration and survives reset
+  ---
+  duration_ms: 2224.990875
+  ...
+# Subtest: real pipeline fixture freezes documentary context per call and archives plans and candidate versions
+ok 130 - real pipeline fixture freezes documentary context per call and archives plans and candidate versions
+  ---
+  duration_ms: 2738.078875
+  ...
+# Subtest: DOM submission freezes all three current files and rejects a missing editor revision
+ok 131 - DOM submission freezes all three current files and rejects a missing editor revision
+  ---
+  duration_ms: 11.127042
+  ...
+# Subtest: Git imports require a confirmed ancestor and the same class file allowlist
+ok 132 - Git imports require a confirmed ancestor and the same class file allowlist
+  ---
+  duration_ms: 1827.146875
+  ...
+# Subtest: SQLite/object/Git restoration into PostgreSQL preserves manifests and rebuilds indexes with teacher annotations
+ok 133 - SQLite/object/Git restoration into PostgreSQL preserves manifests and rebuilds indexes with teacher annotations
+  ---
+  duration_ms: 9468.917709
+  ...
+# Subtest: real workbook: all 28 sheets, 14 sequences, N3 fields and plan entries preserved
+ok 134 - real workbook: all 28 sheets, 14 sequences, N3 fields and plan entries preserved
+  ---
+  duration_ms: 4.940583
+  ...
+# (node:14229) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: import is idempotent; plan != realised; SHA source unchanged
+ok 135 - import is idempotent; plan != realised; SHA source unchanged
+  ---
+  duration_ms: 4243.169792
+  ...
+# Subtest: last real lesson skips cancelled, postponed, non-evaluable and future runs
+ok 136 - last real lesson skips cancelled, postponed, non-evaluable and future runs
+  ---
+  duration_ms: 1.438583
+  ...
+# Subtest: French weekday resolution uses the next relevant date
+ok 137 - French weekday resolution uses the next relevant date
+  ---
+  duration_ms: 1.747875
+  ...
+# Subtest: level boundaries and NE
+ok 138 - level boundaries and NE
+  ---
+  duration_ms: 2.849792
+  ...
+# Subtest: one A2 proof never establishes mastery; two spaced autonomous proofs including transfer do
+ok 139 - one A2 proof never establishes mastery; two spaced autonomous proofs including transfer do
+  ---
+  duration_ms: 1.087125
+  ...
+# Subtest: revisions replace their source evidence and do not multiply proof count
+ok 140 - revisions replace their source evidence and do not multiply proof count
+  ---
+  duration_ms: 0.185875
+  ...
+# Subtest: unverified game declarations and future evidence cannot establish mastery
+ok 141 - unverified game declarations and future evidence cannot establish mastery
+  ---
+  duration_ms: 0.101916
+  ...
+# Subtest: bounded JS correction gives NE for unsupported syntax and runaway recursion
+ok 142 - bounded JS correction gives NE for unsupported syntax and runaway recursion
+  ---
+  duration_ms: 41.133708
+  ...
+# Subtest: library draft validates strict spec, redacts solutions, produces genuine export formats
+ok 143 - library draft validates strict spec, redacts solutions, produces genuine export formats
+  ---
+  duration_ms: 4817.982625
+  ...
+# Subtest: publish requires explicit current-version approval and complete corpus
+ok 144 - publish requires explicit current-version approval and complete corpus
+  ---
+  duration_ms: 4834.9615
+  ...
+# Subtest: close lesson creates actual source; cancellation never counts as covered
+ok 145 - close lesson creates actual source; cancellation never counts as covered
+  ---
+  duration_ms: 6600.610125
+  ...
+# Subtest: plan proposals do not mutate; stale proposals cannot apply
+ok 146 - plan proposals do not mutate; stale proposals cannot apply
+  ---
+  duration_ms: 2032.063375
+  ...
+# Subtest: duplicate submit freezes one original; manual correction records revision and baseline creates no mastery evidence
+ok 147 - duplicate submit freezes one original; manual correction records revision and baseline creates no mastery evidence
+  ---
+  duration_ms: 1889.641084
+  ...
+# Subtest: unobserved learners remain NE instead of G0 or mastered
+ok 148 - unobserved learners remain NE instead of G0 or mastered
+  ---
+  duration_ms: 949.481833
+  ...
+# Subtest: changed workbook reports a conflict instead of replacing an EDEN edit
+ok 149 - changed workbook reports a conflict instead of replacing an EDEN edit
+  ---
+  duration_ms: 2664.16075
+  ...
+# Subtest: newly closed lesson invalidates a draft diagnostic at publish time
+ok 150 - newly closed lesson invalidates a draft diagnostic at publish time
+  ---
+  duration_ms: 2048.772708
+  ...
+# Subtest: practice adaptation preserves diagnostic and total duration; stale approval rejected
+ok 151 - practice adaptation preserves diagnostic and total duration; stale approval rejected
+  ---
+  duration_ms: 521.336
+  ...
+# Subtest: dense October lesson uses migrated questions and truth tables with source-aware diagnostic
+ok 152 - dense October lesson uses migrated questions and truth tables with source-aware diagnostic
+  ---
+  duration_ms: 470.706417
+  ...
+# Subtest: live adaptation atomically switches only future content and pins original diagnostic attempts
+ok 153 - live adaptation atomically switches only future content and pins original diagnostic attempts
+  ---
+  duration_ms: 992.529875
+  ...
+# Subtest: live adaptation refuses approval if a learner starts an affected block during review
+ok 154 - live adaptation refuses approval if a learner starts an affected block during review
+  ---
+  duration_ms: 961.984125
+  ...
+# Subtest: mission templates are immutable, reviewed and assigned only to compatible drafts
+ok 155 - mission templates are immutable, reviewed and assigned only to compatible drafts
+  ---
+  duration_ms: 510.760125
+  ...
+# Subtest: large Drive upload uses backend chunks with exact ranges
+ok 156 - large Drive upload uses backend chunks with exact ranges
+  ---
+  duration_ms: 6.163583
+  ...
+# Subtest: resume probes received range after interruption without skipping bytes
+ok 157 - resume probes received range after interruption without skipping bytes
+  ---
+  duration_ms: 1.174917
+  ...
+# Subtest: resumable response cannot redirect credentials to a foreign host
+ok 158 - resumable response cannot redirect credentials to a foreign host
+  ---
+  duration_ms: 0.538583
+  ...
+# (node:14256) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every launcher refuses broken missions and late events from a replaced assignment
+ok 159 - every launcher refuses broken missions and late events from a replaced assignment
+  ---
+  duration_ms: 1262.913667
+  ...
+# Subtest: all twenty catalogue missions have reachable staged maps and explicit victory
+ok 160 - all twenty catalogue missions have reachable staged maps and explicit victory
+  ---
+  duration_ms: 5723.521708
+  ...
+# Subtest: unreachable objects, missing challenges, circular dependencies and unsupported effects fail closed
+ok 161 - unreachable objects, missing challenges, circular dependencies and unsupported effects fail closed
+  ---
+  duration_ms: 389.471
+  ...
+# Subtest: closed doors actually separate the next required area; opening the relay cannot finish the mission
+ok 162 - closed doors actually separate the next required area; opening the relay cannot finish the mission
+  ---
+  duration_ms: 2336.297541
+  ...
+# Subtest: saved state replays allowed effects, rejects cross-mission results and repairs invalid positions
+ok 163 - saved state replays allowed effects, rejects cross-mission results and repairs invalid positions
+  ---
+  duration_ms: 370.964708
+  ...
+# Subtest: movement substeps cannot cross walls, doors or obstacles during a stalled frame
+ok 164 - movement substeps cannot cross walls, doors or obstacles during a stalled frame
+  ---
+  duration_ms: 134.345042
+  ...
+# Subtest: HTML structural checks parse DOM and never run scripts
+ok 165 - HTML structural checks parse DOM and never run scripts
+  ---
+  duration_ms: 7.470542
+  ...
+# Subtest: CSS tests inspect parsed selectors and declarations
+ok 166 - CSS tests inspect parsed selectors and declarations
+  ---
+  duration_ms: 8.485333
+  ...
+# Subtest: structured partial credit is per response and malformed input stays NE
+ok 167 - structured partial credit is per response and malformed input stays NE
+  ---
+  duration_ms: 0.699
+  ...
+# Subtest: SQL runs in an ephemeral database and rejects filesystem and unbounded queries
+ok 168 - SQL runs in an ephemeral database and rejects filesystem and unbounded queries
+  ---
+  duration_ms: 2248.051208
+  ...
+# Subtest: rubric model proposals require confidence, exact quoted evidence and bounded points
+ok 169 - rubric model proposals require confidence, exact quoted evidence and bounded points
+  ---
+  duration_ms: 91.947792
+  ...
+# Subtest: reusable components escape content and HTML preview is sandboxed
+ok 170 - reusable components escape content and HTML preview is sandboxed
+  ---
+  duration_ms: 1.673583
+  ...
+# (node:14914) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: cleanup preserves the selected lessons, provenance, shared context and unrelated data; replay is inert
+ok 171 - cleanup preserves the selected lessons, provenance, shared context and unrelated data; replay is inert
+  ---
+  duration_ms: 207.055208
+  ...
+# Subtest: missing/current version mismatch and active generation refuse the cleanup
+ok 172 - missing/current version mismatch and active generation refuse the cleanup
+  ---
+  duration_ms: 92.789666
+  ...
+# Subtest: stale or tampered plans cannot delete data
+ok 173 - stale or tampered plans cannot delete data
+  ---
+  duration_ms: 162.00925
+  ...
+# (node:14916) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: native revision values preserve multiline prose, quoted code and JSON-looking text without a second parse
+ok 174 - native revision values preserve multiline prose, quoted code and JSON-looking text without a second parse
+  ---
+  duration_ms: 938.119041
+  ...
+# Subtest: native object and array replacements remove drawings and normalize only optional null fields
+ok 175 - native object and array replacements remove drawings and normalize only optional null fields
+  ---
+  duration_ms: 194.667209
+  ...
+# Subtest: native values still reject malformed, protected and inconsistent changes atomically; legacy patches remain readable
+ok 176 - native values still reject malformed, protected and inconsistent changes atomically; legacy patches remain readable
+  ---
+  duration_ms: 116.720541
+  ...
+# Subtest: revision requests use native structured output and retain the draft until the proposal is confirmed
+ok 177 - revision requests use native structured output and retain the draft until the proposal is confirmed
+  ---
+  duration_ms: 191.563208
+  ...
+# Subtest: prompt revision proposes, persists and applies a new draft exactly once; old version and diagnostic stay intact
+ok 178 - prompt revision proposes, persists and applies a new draft exactly once; old version and diagnostic stay intact
+  ---
+  duration_ms: 1853.99425
+  ...
+# Subtest: drawing removals update links and exports; protected fields, invalid schemas and dangling references are rejected atomically
+ok 179 - drawing removals update links and exports; protected fields, invalid schemas and dangling references are rejected atomically
+  ---
+  duration_ms: 119.130792
+  ...
+# Subtest: late model output, stale application, provider errors and concurrent requests cannot overwrite drafts
+ok 180 - late model output, stale application, provider errors and concurrent requests cannot overwrite drafts
+  ---
+  duration_ms: 353.598875
+  ...
+# Subtest: active preparation, published content, foreign class and another teacher cannot use a revision
+ok 181 - active preparation, published content, foreign class and another teacher cannot use a revision
+  ---
+  duration_ms: 445.917209
+  ...
+# Subtest: teacher takeover is explicit and versioned; technical checks still block publication and simulations remain barred
+ok 182 - teacher takeover is explicit and versioned; technical checks still block publication and simulations remain barred
+  ---
+  duration_ms: 311.959708
+  ...
+# Subtest: revision HTTP routes enforce teacher authorization and recover the persisted proposal
+ok 183 - revision HTTP routes enforce teacher authorization and recover the persisted proposal
+  ---
+  duration_ms: 1067.5025
+  ...
+# Subtest: demo is a complete strict lesson with pedagogical minima and exact timing
+ok 184 - demo is a complete strict lesson with pedagogical minima and exact timing
+  ---
+  duration_ms: 213.682
+  ...
+# Subtest: LLM contract cannot select presentation, timing, assessment or game; merging preserves them
+ok 185 - LLM contract cannot select presentation, timing, assessment or game; merging preserves them
+  ---
+  duration_ms: 14.405459
+  ...
+# Subtest: publication checks reject removed, shuffled or hollow pedagogical sections
+ok 186 - publication checks reject removed, shuffled or hollow pedagogical sections
+  ---
+  duration_ms: 12.392
+  ...
+# Subtest: every NEXUS unit gets notion, observation, scaffolding and transfer in fixed slots
+ok 187 - every NEXUS unit gets notion, observation, scaffolding and transfer in fixed slots
+  ---
+  duration_ms: 27.747208
+  ...
+# Subtest: timing refuses invalid numbers and does not inflate a short slot silently
+ok 188 - timing refuses invalid numbers and does not inflate a short slot silently
+  ---
+  duration_ms: 0.39025
+  ...
+# Subtest: public demo is reproducible and contains no corrections or private teacher fields
+ok 189 - public demo is reproducible and contains no corrections or private teacher fields
+  ---
+  duration_ms: 21.11825
+  ...
+# Subtest: renderer escapes untrusted prose, code, labels and diagrams and reads legacy blocks
+ok 190 - renderer escapes untrusted prose, code, labels and diagrams and reads legacy blocks
+  ---
+  duration_ms: 46.183292
+  ...
+# Subtest: component snapshots cover key learning states and the requested component registry
+ok 191 - component snapshots cover key learning states and the requested component registry
+  ---
+  duration_ms: 100.082792
+  ...
+# Subtest: LAN selection uses an attached private address and excludes automatic tunnel selection
+ok 192 - LAN selection uses an attached private address and excludes automatic tunnel selection
+  ---
+  duration_ms: 2.926209
+  ...
+# Subtest: quota errors explain credits or the specific limit, never a temporary retry
+ok 193 - quota errors explain credits or the specific limit, never a temporary retry
+  ---
+  duration_ms: 49.855167
+  ...
+# Subtest: temporary limits preserve the minimum wait and specific codes override the broad type
+ok 194 - temporary limits preserve the minimum wait and specific codes override the broad type
+  ---
+  duration_ms: 5.188083
+  ...
+# Subtest: Retry-After accepts HTTP dates and handles missing or invalid values
+ok 195 - Retry-After accepts HTTP dates and handles missing or invalid values
+  ---
+  duration_ms: 7.228334
+  ...
+# Subtest: unknown and non-JSON errors remain actionable without exposing upstream payloads
+ok 196 - unknown and non-JSON errors remain actionable without exposing upstream payloads
+  ---
+  duration_ms: 1.479666
+  ...
+# Subtest: lesson generation reports exhausted credits and makes only one provider call
+ok 197 - lesson generation reports exhausted credits and makes only one provider call
+  ---
+  duration_ms: 3.883208
+  ...
+# Subtest: preparation retains safe error details in its trace without retrying or creating content
+ok 198 - preparation retains safe error details in its trace without retrying or creating content
+  ---
+  duration_ms: 4.432583
+  ...
+# (node:14934) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: documentary citations open the exact transmitted source or library passage and enforce current rights
+ok 199 - documentary citations open the exact transmitted source or library passage and enforce current rights
+  ---
+  duration_ms: 4494.616208
+  ...
+# Subtest: teacher import is connected, originals private, jobs report missing AI and cannot be opened cross-role
+ok 200 - teacher import is connected, originals private, jobs report missing AI and cannot be opened cross-role
+  ---
+  duration_ms: 1153.41875
+  ...
+# Subtest: live provider activity is durable and owner-only; private reasoning and incomplete output never reach the API
+ok 201 - live provider activity is durable and owner-only; private reasoning and incomplete output never reach the API
+  ---
+  duration_ms: 1999.786042
+  ...
+# Subtest: preparation API accepts an imported sequence with persisted blank rows instead of returning 500
+ok 202 - preparation API accepts an imported sequence with persisted blank rows instead of returning 500
+  ---
+  duration_ms: 1141.290125
+  ...
+# Subtest: teacher preview tests the pinned exercise without creating student work or disclosing its answer
+ok 203 - teacher preview tests the pinned exercise without creating student work or disclosing its answer
+  ---
+  duration_ms: 2043.0105
+  ...
+# Subtest: fixture and stale validation block publication; learner APIs never leak reviewer metadata
+ok 204 - fixture and stale validation block publication; learner APIs never leak reviewer metadata
+  ---
+  duration_ms: 1774.299542
+  ...
+# Subtest: real lab route requires publication, diagnostic, ownership and configured service
+ok 205 - real lab route requires publication, diagnostic, ownership and configured service
+  ---
+  duration_ms: 1514.248167
+  ...
+# Subtest: cancellation while a provider call is running keeps its trace without installing its result
+ok 206 - cancellation while a provider call is running keeps its trace without installing its result
+  ---
+  duration_ms: 223.598792
+  ...
+# Subtest: markdown keeps code, table, hostile instructions and source locations as inert data
+ok 207 - markdown keeps code, table, hostile instructions and source locations as inert data
+  ---
+  duration_ms: 6.090417
+  ...
+# Subtest: DOCX preserves heading, table and code-like text; archive formats are explicit
+ok 208 - DOCX preserves heading, table and code-like text; archive formats are explicit
+  ---
+  duration_ms: 31.12275
+  ...
+# Warning: UnknownErrorException: Ensure that the `standardFontDataUrl` API parameter is provided.
+# Subtest: PDF records text and detects a blank or scanned page without inventing OCR
+ok 209 - PDF records text and detects a blank or scanned page without inventing OCR
+  ---
+  duration_ms: 3907.280917
+  ...
+# (node:14948) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: imports are idempotent, class scoped, preserve originals and separate solutions
+ok 210 - imports are idempotent, class scoped, preserve originals and separate solutions
+  ---
+  duration_ms: 109.113375
+  ...
+# Subtest: URL imports reject private addresses, credentials and unapproved domains before request
+ok 211 - URL imports reject private addresses, credentials and unapproved domains before request
+  ---
+  duration_ms: 9.593584
+  ...
+# Subtest: provider sends actual reasoning and output budget; rejects incomplete, empty and invalid JSON
+ok 212 - provider sends actual reasoning and output budget; rejects incomplete, empty and invalid JSON
+  ---
+  duration_ms: 106.637917
+  ...
+# Subtest: real orchestration preserves depth through SQLite and learner rendering; fixture never publishes
+ok 213 - real orchestration preserves depth through SQLite and learner rendering; fixture never publishes
+  ---
+  duration_ms: 4335.60425
+  ...
+# Subtest: changed source invalidates a dependent candidate without rewriting its lesson
+ok 214 - changed source invalidates a dependent candidate without rewriting its lesson
+  ---
+  duration_ms: 2121.440708
+  ...
+# Subtest: budget, cancellation, interrupted call and explicit local failure stop without blind retries
+ok 215 - budget, cancellation, interrupted call and explicit local failure stop without blind retries
+  ---
+  duration_ms: 401.337583
+  ...
+# Subtest: strict decision cannot accept a wrong hash, fabricated proof or high score with major fault
+ok 216 - strict decision cannot accept a wrong hash, fabricated proof or high score with major fault
+  ---
+  duration_ms: 142.857834
+  ...
+# Subtest: plan rejects missing prerequisites, cycles and invented source segments
+ok 217 - plan rejects missing prerequisites, cycles and invented source segments
+  ---
+  duration_ms: 8.026208
+  ...
+# Subtest: selected dependency order changes units and explanatory blocks instead of copying document order
+ok 218 - selected dependency order changes units and explanatory blocks instead of copying document order
+  ---
+  duration_ms: 6.895333
+  ...
+# Subtest: saved provider response is replayed after interruption without another charge
+ok 219 - saved provider response is replayed after interruption without another charge
+  ---
+  duration_ms: 515.606917
+  ...
+# Subtest: four candidate limit and repeated major issue stop rewriting
+ok 220 - four candidate limit and repeated major issue stop rewriting
+  ---
+  duration_ms: 3049.5285
+  ...
+# Subtest: live activity separates confirmed signals, silence, lost tracking and terminal states
+ok 221 - live activity separates confirmed signals, silence, lost tracking and terminal states
+  ---
+  duration_ms: 43.996417
+  ...
+# Subtest: old attempts, no signal, missing telemetry and public summary HTML remain safe to display
+ok 222 - old attempts, no signal, missing telemetry and public summary HTML remain safe to display
+  ---
+  duration_ms: 5.441583
+  ...
+# (node:15298) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: persisted blank sequence rows allow preparation and preserve exact session positions and ambiguity
+ok 223 - persisted blank sequence rows allow preparation and preserve exact session positions and ambiguity
+  ---
+  duration_ms: 183.2975
+  ...
+# Subtest: new workbook imports retain blank rows as empty arrays across storage without shifting dates
+ok 224 - new workbook imports retain blank rows as empty arrays across storage without shifting dates
+  ---
+  duration_ms: 449.463417
+  ...
+# (node:15346) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: submission is durable before transport, with revision, input hash, policy and reservation
+ok 225 - submission is durable before transport, with revision, input hash, policy and reservation
+  ---
+  duration_ms: 903.640208
+  ...
+# Subtest: a changed context never turns saved-response reconciliation into a new paid call
+ok 226 - a changed context never turns saved-response reconciliation into a new paid call
+  ---
+  duration_ms: 753.973292
+  ...
+# Subtest: a local design error gets one bounded correction before writing, then remains blocked
+ok 227 - a local design error gets one bounded correction before writing, then remains blocked
+  ---
+  duration_ms: 752.792042
+  ...
+# Subtest: the provider response schema constrains curriculum and activity identities before generation
+ok 228 - the provider response schema constrains curriculum and activity identities before generation
+  ---
+  duration_ms: 381.548375
+  ...
+# Subtest: a corrected local validator can reuse a complete plan without another inference or budget reset
+ok 229 - a corrected local validator can reuse a complete plan without another inference or budget reset
+  ---
+  duration_ms: 360.403167
+  ...
+# Subtest: public examples show actual results without exposing private tests or validation variants
+ok 230 - public examples show actual results without exposing private tests or validation variants
+  ---
+  duration_ms: 13.760708
+  ...
+# Subtest: ambiguous sequence rows preserve documentary work but require an explicit choice before design
+ok 231 - ambiguous sequence rows preserve documentary work but require an explicit choice before design
+  ---
+  duration_ms: 1302.269584
+  ...
+# Subtest: partial exports stay pinned and missing or corrupted files stop the download
+ok 232 - partial exports stay pinned and missing or corrupted files stop the download
+  ---
+  duration_ms: 1171.273125
+  ...
+# Subtest: reconnecting while the worker runs submits no duplicate request
+ok 233 - reconnecting while the worker runs submits no duplicate request
+  ---
+  duration_ms: 295.591834
+  ...
+# Subtest: independent jobs can progress concurrently while sharing one atomic call ceiling
+ok 234 - independent jobs can progress concurrently while sharing one atomic call ceiling
+  ---
+  duration_ms: 217.025416
+  ...
+# Subtest: complete output survives a worker crash and is adopted without another call, even after the call budget
+ok 235 - complete output survives a worker crash and is adopted without another call, even after the call budget
+  ---
+  duration_ms: 348.214708
+  ...
+# Subtest: unknown outcomes keep provisions; double retry authorizes only one new attempt
+ok 236 - unknown outcomes keep provisions; double retry authorizes only one new attempt
+  ---
+  duration_ms: 278.094875
+  ...
+# Subtest: remote recovery queries once and adopts once; lookup failures do not release budget
+ok 237 - remote recovery queries once and adopts once; lookup failures do not release budget
+  ---
+  duration_ms: 228.577542
+  ...
+# Subtest: cancellation retains a late response without reactivation or publication
+ok 238 - cancellation retains a late response without reactivation or publication
+  ---
+  duration_ms: 185.485583
+  ...
+# Subtest: background cancellation records the local stop before contacting the provider and keeps its provision
+ok 239 - background cancellation records the local stop before contacting the provider and keeps its provision
+  ---
+  duration_ms: 201.095875
+  ...
+# Subtest: new rules fence an in-flight revision, preserve analysis and shared budgets, and retain old output
+ok 240 - new rules fence an in-flight revision, preserve analysis and shared budgets, and retain old output
+  ---
+  duration_ms: 303.475667
+  ...
+# Subtest: plan gates reject missing proof, unsupported tools, impossible time and unprepared final task before writing
+ok 241 - plan gates reject missing proof, unsupported tools, impossible time and unprepared final task before writing
+  ---
+  duration_ms: 289.95975
+  ...
+# Subtest: plan review receives the current diagnostic and planned timing, never the obsolete baseline
+ok 242 - plan review receives the current diagnostic and planned timing, never the obsolete baseline
+  ---
+  duration_ms: 272.9355
+  ...
+# Subtest: one candidate allows independent review but rejects a second corpus without increasing the ceiling
+ok 243 - one candidate allows independent review but rejects a second corpus without increasing the ceiling
+  ---
+  duration_ms: 722.609542
+  ...
+# Subtest: background API uses one submission then retrieves by id; ChatGPT retrieval stays disabled
+ok 244 - background API uses one submission then retrieves by id; ChatGPT retrieval stays disabled
+  ---
+  duration_ms: 1.530917
+  ...
+# Subtest: debugger stops on executed student lines, exposes actual local variables and advances deterministically
+ok 245 - debugger stops on executed student lines, exposes actual local variables and advances deterministically
+  ---
+  duration_ms: 3.597458
+  ...
+# Subtest: another timetable change does not block publication; changed lesson or curriculum still does
+ok 246 - another timetable change does not block publication; changed lesson or curriculum still does
+  ---
+  duration_ms: 3.206708
+  ...
+# Subtest: a duration-only planning change accepts an already retimed lesson without rewriting its source
+ok 247 - a duration-only planning change accepts an already retimed lesson without rewriting its source
+  ---
+  duration_ms: 1.27025
+  ...
+# (node:15350) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: publication preparation compiles missing supports once and leaves final publication explicit
+ok 248 - publication preparation compiles missing supports once and leaves final publication explicit
+  ---
+  duration_ms: 1329.084625
+  ...
+# Subtest: an unfinished cancelled preparation cannot become ready by compiling an export
+ok 249 - an unfinished cancelled preparation cannot become ready by compiling an export
+  ---
+  duration_ms: 92.551875
+  ...
+# Subtest: a broken executable correction is a blocker in preparation and on direct publication
+ok 250 - a broken executable correction is a blocker in preparation and on direct publication
+  ---
+  duration_ms: 878.86675
+  ...
+# Subtest: published lessons have authenticated class-scoped links independent of today, with no draft or answer leaks
+ok 251 - published lessons have authenticated class-scoped links independent of today, with no draft or answer leaks
+  ---
+  duration_ms: 1376.933541
+  ...
+# Subtest: serverless startup and PowerPoint export work with CommonJS as the default package type
+ok 252 - serverless startup and PowerPoint export work with CommonJS as the default package type
+  ---
+  duration_ms: 3792.081083
+  ...
+# Subtest: student shell selects presentation, preserves lesson data and meaningful programming terms
+ok 253 - student shell selects presentation, preserves lesson data and meaningful programming terms
+  ---
+  duration_ms: 104.474333
+  ...
+# Subtest: preview and published lesson share titles, instructions and optional blank introductions
+ok 254 - preview and published lesson share titles, instructions and optional blank introductions
+  ---
+  duration_ms: 25.160208
+  ...
+# Subtest: old remediation transitions omit group metadata but retain exercises
+ok 255 - old remediation transitions omit group metadata but retain exercises
+  ---
+  duration_ms: 2.015583
+  ...
+# Subtest: results distinguish missing work, pending grading, zero and established assessment levels
+ok 256 - results distinguish missing work, pending grading, zero and established assessment levels
+  ---
+  duration_ms: 1.641833
+  ...
+# Subtest: errors expose useful actions without provider traces or false send confirmation
+ok 257 - errors expose useful actions without provider traces or false send confirmation
+  ---
+  duration_ms: 0.501333
+  ...
+# Subtest: authoring guard targets titles and opening transitions, never programming content
+ok 258 - authoring guard targets titles and opening transitions, never programming content
+  ---
+  duration_ms: 60.823625
+  ...
+# (node:15383) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: new generated lesson with simulated provider keeps metadata in teacher guide; remediation uses same presentation
+ok 259 - new generated lesson with simulated provider keeps metadata in teacher guide; remediation uses same presentation
+  ---
+  duration_ms: 367.369417
+  ...
+# Subtest: individual student documents use exercise titles and assessment status, preserving raw archives
+ok 260 - individual student documents use exercise titles and assessment status, preserving raw archives
+  ---
+  duration_ms: 281.48675
+  ...
+# (node:15388) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: school preview reuses individual passwords, isolates the class and leaves the source untouched
+ok 261 - school preview reuses individual passwords, isolates the class and leaves the source untouched
+  ---
+  duration_ms: 580.081125
+  ...
+# Subtest: school account preview requires an explicit source
+ok 262 - school account preview requires an explicit source
+  ---
+  duration_ms: 0.746958
+  ...
+# (node:15389) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: split and merge are reviewable atomic versions; historical sources retained
+ok 263 - split and merge are reviewable atomic versions; historical sources retained
+  ---
+  duration_ms: 50.941084
+  ...
+# Subtest: invalid batch rolls back; cross-class IDs and invalid dates rejected
+ok 264 - invalid batch rolls back; cross-class IDs and invalid dates rejected
+  ---
+  duration_ms: 14.990125
+  ...
+# Subtest: concurrent approvals accept only one base version
+ok 265 - concurrent approvals accept only one base version
+  ---
+  duration_ms: 8.163291
+  ...
+# Subtest: unplanned intent returns a draft without silently inserting; ambiguous dates request choice
+ok 266 - unplanned intent returns a draft without silently inserting; ambiguous dates request choice
+  ---
+  duration_ms: 10.053583
+  ...
+# Subtest: criterion adjustments preserve unrelated memberships and survive recalculation
+ok 267 - criterion adjustments preserve unrelated memberships and survive recalculation
+  ---
+  duration_ms: 11.226166
+  ...
+# Subtest: weekly stabilization preserves groups but refreshes proof metrics; next week reconsiders
+ok 268 - weekly stabilization preserves groups but refreshes proof metrics; next week reconsiders
+  ---
+  duration_ms: 9.161667
+  ...
+# Subtest: teacher observation informs grouping but creates no mastery evidence
+ok 269 - teacher observation informs grouping but creates no mastery evidence
+  ---
+  duration_ms: 6.067459
+  ...
+# Subtest: durable jobs are claimed once and expired leases resume with frozen version
+ok 270 - durable jobs are claimed once and expired leases resume with frozen version
+  ---
+  duration_ms: 5.718334
+  ...
+# Subtest: content-addressed artifacts deduplicate and verify bytes without unsafe paths
+ok 271 - content-addressed artifacts deduplicate and verify bytes without unsafe paths
+  ---
+  duration_ms: 5.612334
+  ...
+# Subtest: historical reconciliation is explicit, idempotent and does not infer autonomy
+ok 272 - historical reconciliation is explicit, idempotent and does not infer autonomy
+  ---
+  duration_ms: 8.9725
+  ...
+# Subtest: learning progress is identity-bound, durable and event-idempotent
+ok 273 - learning progress is identity-bound, durable and event-idempotent
+  ---
+  duration_ms: 6.926166
+  ...
+# Subtest: world overrides open access without creating mastery evidence
+ok 274 - world overrides open access without creating mastery evidence
+  ---
+  duration_ms: 8.200833
+  ...
+# Subtest: JavaScript editors share the visible execution console, including legacy tasks and TestRunner
+ok 275 - JavaScript editors share the visible execution console, including legacy tasks and TestRunner
+  ---
+  duration_ms: 5.764041
+  ...
+# Subtest: Flexbox uses the real generator: laboratory, drawing, three coding steps, production and debugging
+ok 276 - Flexbox uses the real generator: laboratory, drawing, three coding steps, production and debugging
+  ---
+  duration_ms: 173.007167
+  ...
+# Subtest: all programming resources yield real code starters and autonomous editors; reference JS, HTML and CSS solutions pass
+ok 277 - all programming resources yield real code starters and autonomous editors; reference JS, HTML and CSS solutions pass
+  ---
+  duration_ms: 87.005375
+  ...
+# Subtest: publication rejects question-only lessons, absent code pathways and placeholder diagrams
+ok 278 - publication rejects question-only lessons, absent code pathways and placeholder diagrams
+  ---
+  duration_ms: 12.72125
+  ...
+# Subtest: activity variety includes the required diagnostic while keeping variety outside it
+ok 279 - activity variety includes the required diagnostic while keeping variety outside it
+  ---
+  duration_ms: 4.30375
+  ...
+# Subtest: code testing checks the authored task and CSS cascade, without disclosing the answer key
+ok 280 - code testing checks the authored task and CSS cascade, without disclosing the answer key
+  ---
+  duration_ms: 5.617333
+  ...
+# Subtest: Flexbox correction exports contain executable CSS that passes every authored exercise
+ok 281 - Flexbox correction exports contain executable CSS that passes every authored exercise
+  ---
+  duration_ms: 6.309334
+  ...
+# Subtest: extended interpreter remains bounded and prevents prototype, host and constructor access
+ok 282 - extended interpreter remains bounded and prevents prototype, host and constructor access
+  ---
+  duration_ms: 16.480334
+  ...
+# Subtest: drawing and preview rendering reject injected markup and tolerate malformed stored shapes
+ok 283 - drawing and preview rendering reject injected markup and tolerate malformed stored shapes
+  ---
+  duration_ms: 8.972375
+  ...
+1..283
+# tests 290
+# suites 0
+# pass 285
+# fail 3
+# cancelled 2
+# skipped 0
+# todo 0
+# duration_ms 162751.235333

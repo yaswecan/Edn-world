@@ -202,6 +202,11 @@ dialog::backdrop{background:#162b3270;backdrop-filter:blur(4px)}
 .resource-card .pill{margin-bottom:14px}
 .resource-card p{font-size:12px;color:var(--muted);line-height:1.8}
 .game-frame{border:0;width:100%;height:80vh;border-radius:12px;background:#111925}
+dialog.game-dialog{width:calc(100vw - 32px);max-width:1440px;height:94dvh;max-height:94dvh;overflow:hidden}
+dialog.game-dialog[open]{display:flex;flex-direction:column}
+.game-dialog .modal-head{flex:none;padding:16px 22px}
+.game-dialog .modal-body{padding:0;flex:1;min-height:0;display:flex;overflow:hidden}
+.game-dialog .game-frame{height:100%;border-radius:0}
 .loading{padding:100px;text-align:center;color:var(--muted)}
 .busy-screen{position:fixed;inset:0;background:#f4f7f7cc;z-index:50;display:grid;place-items:center;backdrop-filter:blur(5px)}
 .busy-screen>div{background:white;padding:30px 45px;text-align:center;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow)}

@@ -1,0 +1,219 @@
+{
+  "scope": "Real app, disposable database, browser keyboard traversal; no production changes",
+  "games": [
+    {
+      "world": "code-station",
+      "mission": "battery",
+      "name": "Énergie critique",
+      "map": "station-deck-01",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Rétablir la réserve du sas",
+      "victory": "Sas de transit",
+      "status": "PASS"
+    },
+    {
+      "world": "code-station",
+      "mission": "motors",
+      "name": "Relancer les moteurs",
+      "map": "station-deck-01",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Relancer les modules de propulsion",
+      "victory": "Sas de transit",
+      "status": "PASS"
+    },
+    {
+      "world": "code-station",
+      "mission": "access-card",
+      "name": "Badge d’accès",
+      "map": "station-deck-01",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Réparer le badge du sas",
+      "victory": "Sas de transit",
+      "status": "PASS"
+    },
+    {
+      "world": "code-station",
+      "mission": "station-final",
+      "name": "Évaluation · Réparer la station",
+      "map": "station-deck-01",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Remettre la propulsion en service",
+      "victory": "Sas de transit",
+      "status": "PASS"
+    },
+    {
+      "world": "assault",
+      "mission": "array",
+      "name": "Inventaire drones",
+      "map": "assault-recovery",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Recenser les drones de secours",
+      "victory": "Sécuriser le secteur",
+      "status": "PASS"
+    },
+    {
+      "world": "assault",
+      "mission": "energy",
+      "name": "Décision énergie",
+      "map": "assault-recovery",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Rétablir la recharge des drones",
+      "victory": "Sécuriser le secteur",
+      "status": "PASS"
+    },
+    {
+      "world": "assault",
+      "mission": "formation",
+      "name": "Formation",
+      "map": "assault-recovery",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Organiser la sortie des drones",
+      "victory": "Sécuriser le secteur",
+      "status": "PASS"
+    },
+    {
+      "world": "assault",
+      "mission": "assault-final",
+      "name": "Évaluation · Contrôleur d’escouade",
+      "map": "assault-recovery",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Reprendre le secteur des drones",
+      "victory": "Sécuriser le secteur",
+      "status": "PASS"
+    },
+    {
+      "world": "bunker",
+      "mission": "shell",
+      "name": "SHELL MAZE",
+      "map": "bunker-services",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Localiser la console du bunker",
+      "victory": "Remontée en surface",
+      "status": "PASS"
+    },
+    {
+      "world": "bunker",
+      "mission": "service",
+      "name": "Service vital",
+      "map": "bunker-services",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Diagnostiquer les services du bunker",
+      "victory": "Remontée en surface",
+      "status": "PASS"
+    },
+    {
+      "world": "bunker",
+      "mission": "network",
+      "name": "Liaison interne",
+      "map": "bunker-services",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Diagnostiquer les services du bunker",
+      "victory": "Remontée en surface",
+      "status": "PASS"
+    },
+    {
+      "world": "bunker",
+      "mission": "bunker-final",
+      "name": "Évaluation · Healthcheck",
+      "map": "bunker-services",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Réparer la surveillance du bunker",
+      "victory": "Remontée en surface",
+      "status": "PASS"
+    },
+    {
+      "world": "rocket",
+      "mission": "pythagore",
+      "name": "La diagonale oubliée",
+      "map": "rocket-launch",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Calibrer la trajectoire",
+      "victory": "Autorisation de décollage",
+      "status": "PASS"
+    },
+    {
+      "world": "rocket",
+      "mission": "sequence",
+      "name": "Séquence de lancement",
+      "map": "rocket-launch",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Rétablir la séquence de lancement",
+      "victory": "Autorisation de décollage",
+      "status": "PASS"
+    },
+    {
+      "world": "rocket",
+      "mission": "countdown",
+      "name": "Compte à rebours",
+      "map": "rocket-launch",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Synchroniser le compte à rebours",
+      "victory": "Autorisation de décollage",
+      "status": "PASS"
+    },
+    {
+      "world": "rocket",
+      "mission": "rocket-final",
+      "name": "Évaluation · Contrôleur de lancement",
+      "map": "rocket-launch",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Préparer le contrôleur de lancement",
+      "victory": "Autorisation de décollage",
+      "status": "PASS"
+    },
+    {
+      "world": "infiltration",
+      "mission": "http",
+      "name": "Trace HTTP",
+      "map": "infiltration-trace",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Identifier la trace HTTP",
+      "victory": "Sceller l’incident",
+      "status": "PASS"
+    },
+    {
+      "world": "infiltration",
+      "mission": "logs",
+      "name": "Journal d’événements",
+      "map": "infiltration-trace",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Retrouver les erreurs du réseau",
+      "victory": "Sceller l’incident",
+      "status": "PASS"
+    },
+    {
+      "world": "infiltration",
+      "mission": "anomaly",
+      "name": "Anomalie de session",
+      "map": "infiltration-trace",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Détecter les sessions suspectes",
+      "victory": "Sceller l’incident",
+      "status": "PASS"
+    },
+    {
+      "world": "infiltration",
+      "mission": "infiltration-final",
+      "name": "Évaluation · Rapport incident",
+      "map": "infiltration-trace",
+      "engine": "StationRenderer / Expedition",
+      "objective": "Reconstituer l’incident",
+      "victory": "Sceller l’incident",
+      "status": "PASS"
+    }
+  ],
+  "checks": [
+    "infinite-loop-terminated",
+    "logs-bounded",
+    "editor-keyboard-does-not-move-player",
+    "direct-link-and-refresh-restore-mission-and-open-doors",
+    "all-worlds-open-from-cabinet",
+    "all-variants-walked-to-victory",
+    "failure-does-not-unlock",
+    "run-is-not-validation",
+    "repeated-validation-is-idempotent",
+    "no-automatic-reopen",
+    "no-browser-errors"
+  ],
+  "status": "PASS"
+}

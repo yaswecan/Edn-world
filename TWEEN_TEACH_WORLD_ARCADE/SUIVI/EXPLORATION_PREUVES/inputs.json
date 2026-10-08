@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": [
+    "keyboard-collides-with-hall-wall",
+    "blur-clears-held-keys",
+    "student-worker-cannot-forge-world-validation",
+    "late-worker-result-cancelled-on-close",
+    "editing-invalidates-inflight-validation",
+    "outer-close-flushes-latest-edit-and-removes-frame"
+  ]
+}

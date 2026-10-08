@@ -1,0 +1,80 @@
+(node:17367) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+BROWSER Failed to load resource: the server responded with a status of 404 (Not Found)
+PAGE ← Espace professeur
+
+CONCEPTION PÉDAGOGIQUE
+
+Votre préparation
+
+Retrouvez ici son avancement, le contenu disponible et la prochaine action.
+
+Ma préparation
+Nouvelle séance
+Historique 1
+Bibliothèque
+8 octobre 2026 · 2 h 55 min · S04
+À reprendre
+Boucles : consolider puis introduire les tableaux
+
+Parcourir une série de valeurs et comprendre l’intérêt d’une collection.
+
+1
+Documents
+À reprendre
+2
+Parcours
+À venir
+3
+Rédaction
+À venir
+4
+Vérifications
+À venir
+
+PROCHAINE ACTION
+
+La préparation ne peut pas continuer
+
+Modèle IA non configuré. Aucun modèle de secours ne sera appelé.
+
+Revoir ma demande
+Enregistrée automatiquement · avancement actualisé automatiquement
+Actualiser l’état
+Activité de l’IA
+Préparation interrompue
+
+Aucun nouvel appel n’est lancé. Suivez l’action proposée ci-dessus pour reprendre la préparation.
+
+Modèle demandé
+Non configuré
+Temps de cet appel
+—
+Caractères de réponse reçus
+—
+
+Aucun signal du fournisseur enregistré.
+
+Les résumés éventuellement fournis par le modèle apparaîtront ici. Le raisonnement interne n’est pas affiché.
+
+Suivi vérifié à 20:33:31 · actualisation toutes les 3 s.
+
+Retrouver mes consignes et documents
+Détails de conception et journal
+Annuler la préparation
+Le travail enregistré sera conservé.
+node:internal/modules/run_main:122
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('heading', { name: 'Avant de publier' }) to be visible[22m
+[2m    - waiting for navigation to finish...[22m
+[2m    - navigated to "http://127.0.0.1:51652/preparation.html?job=prep_0e6ceacb-ddd1-4bdd-8db7-a7f9bf320342"[22m
+
+    at /Users/eden/workspace/TwinTeache/scripts/browser-check.mjs:24:551 {
+  name: 'TimeoutError'
+}
+
+Node.js v22.14.0

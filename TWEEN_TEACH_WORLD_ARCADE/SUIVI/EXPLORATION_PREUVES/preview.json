@@ -1,0 +1,9 @@
+{
+  "preview": "http://arcade.localhost:4187/arcade#arcade",
+  "status": "PASS",
+  "missions": 21,
+  "catalogue": 20,
+  "copiedDailyLesson": 1,
+  "launch": "world briefing",
+  "close": "frame removed"
+}

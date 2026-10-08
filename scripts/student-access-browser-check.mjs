@@ -1,3 +1,4 @@
+import {enterAssignedTerminal} from '../tests/fixtures/exploration.mjs';
 import assert from 'node:assert/strict';
 import {parseArgs} from 'node:util';
 import {existsSync} from 'node:fs';
@@ -51,6 +52,8 @@ try {
  const play=page.locator('[data-game="code-station"]');
  await expect(play).toBeEnabled();
  await play.click();
+ const assigned=(await store.get('lesson_versions',lesson.versionId)).spec.codeStation.missionId;
+ await enterAssignedTerminal(page,await store.get('game_missions',assigned));
  const game=page.frameLocator('.game-frame');
  await expect(game.locator('#missionCode')).toBeVisible();
  const draft=await game.locator('#missionCode').inputValue();

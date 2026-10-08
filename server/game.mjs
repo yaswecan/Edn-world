@@ -1,5 +1,10 @@
 import {readFileSync} from 'node:fs';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
+import '../public/game/mission-model.js';
+export function explorationForMission(mission){
+ try{return globalThis.StationModel.compile(mission);}
+ catch(error){fail(409,`Mission explorable indisponible : ${error.message}`);}
+}
 export const catalog=JSON.parse(readFileSync(new URL('../data/game-catalog.json',import.meta.url)));
 export function initialCatalog(classId='A1'){
  const rows={game_worlds:[],game_missions:[]};
@@ -11,6 +16,7 @@ export function initialCatalog(classId='A1'){
 }
 export async function seedCatalog(store,classId='A1'){return store.transaction(async tx=>{for(const [table,rows]of Object.entries(initialCatalog(classId)))for(const row of rows)if(!await tx.get(table,row.id))await tx.insert(table,row);});}
 export async function authorizeGame(store,input,actor){const mission=await scoped(store,'game_missions',input.missionId,actor),lesson=await scoped(store,'lessons',input.lessonId,actor);if(lesson.status!=='published')fail(409,'Séance non ouverte.');const spec=(await store.get('lesson_versions',lesson.versionId)).spec;requireValue(spec.codeStation?.missionId===mission.id,'Mission non affectée à cette séance.');
+ explorationForMission(mission);
  // Assigned Code Station missions are open to every student in the class.
  // World progression and legacy unlockAfter fields do not gate play or create
  // completion evidence. Publication, assignment and per-student saves still apply.

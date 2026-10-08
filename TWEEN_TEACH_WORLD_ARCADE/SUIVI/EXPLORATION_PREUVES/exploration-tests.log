@@ -1,0 +1,42 @@
+TAP version 13
+# (node:17806) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every launcher refuses broken missions and late events from a replaced assignment
+ok 1 - every launcher refuses broken missions and late events from a replaced assignment
+  ---
+  duration_ms: 291.886459
+  ...
+# Subtest: all twenty catalogue missions have reachable staged maps and explicit victory
+ok 2 - all twenty catalogue missions have reachable staged maps and explicit victory
+  ---
+  duration_ms: 566.384042
+  ...
+# Subtest: unreachable objects, missing challenges, circular dependencies and unsupported effects fail closed
+ok 3 - unreachable objects, missing challenges, circular dependencies and unsupported effects fail closed
+  ---
+  duration_ms: 113.378083
+  ...
+# Subtest: closed doors actually separate the next required area; opening the relay cannot finish the mission
+ok 4 - closed doors actually separate the next required area; opening the relay cannot finish the mission
+  ---
+  duration_ms: 720.754125
+  ...
+# Subtest: saved state replays allowed effects, rejects cross-mission results and repairs invalid positions
+ok 5 - saved state replays allowed effects, rejects cross-mission results and repairs invalid positions
+  ---
+  duration_ms: 58.821416
+  ...
+# Subtest: movement substeps cannot cross walls, doors or obstacles during a stalled frame
+ok 6 - movement substeps cannot cross walls, doors or obstacles during a stalled frame
+  ---
+  duration_ms: 13.654625
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2048.023584

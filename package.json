@@ -38,7 +38,10 @@
     "preview:documentary": "node --import tsx scripts/documentary-preview.mjs",
     "test:documentary": "node --import tsx --test tests/documentary-storage.test.mjs",
     "test:documentary:browser": "node --import tsx scripts/documentary-browser-check.mjs",
-    "test:documentary:search": "node --import tsx scripts/documentary-search-check.mjs"
+    "test:documentary:search": "node --import tsx scripts/documentary-search-check.mjs",
+    "preview:exploration": "node --import tsx scripts/exploration-preview.mjs",
+    "test:exploration": "node --import tsx --test tests/exploration*.test.mjs",
+    "test:exploration:browser": "node --import tsx scripts/exploration-browser-check.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1146.0",

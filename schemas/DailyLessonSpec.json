@@ -1036,6 +1036,12 @@
             },
             "completionRule": {
               "type": "string"
+            },
+            "mapId": {
+              "type": "string"
+            },
+            "missionSignature": {
+              "type": "string"
             }
           },
           "required": [

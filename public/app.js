@@ -138,6 +138,7 @@ function toast(message) {
   toast.timer = setTimeout(() => $("#toast").classList.remove("show"), 5000);
 }
 function modal(title, body) {
+  $("#dialog").classList.remove('game-dialog');
   $("#dialog").classList.remove('lesson-preview-dialog');
   $("#dialog").innerHTML =
     `<div class="modal-head"><h2 id="dialog-title">${title}</h2>${btn("Fermer", "close-modal", "", "subtle", "close")}</div><div class="modal-body">${body}</div>`;
@@ -149,9 +150,27 @@ function showRevision(proposal){
   S.revisionProposal=proposal;
   modal('Relire les modifications',revisionComparison(proposal,S.lesson.spec)+`<p>La version ${proposal.version} reste disponible dans l’historique. Enregistrer crée un nouveau brouillon.</p><div class="modal-actions">${btn('Garder le brouillon actuel','close-modal')}${btn('Enregistrer cette version','revision-apply',proposal.id,'primary','check')}</div>`);
 }
-function closeModal() {
+async function closeModal() {
+  const frame = $(".game-frame"), run = S.gameRun;
+  if (frame && run) {
+    if (S.gameClosing) return S.gameClosing;
+    S.gameClosing = (async () => {
+      await new Promise(resolve => {
+        const timer = setTimeout(resolve, 800);
+        S.gameFlushed = () => { clearTimeout(timer); resolve(); };
+        frame.contentWindow?.postMessage({type:'eden:flush'}, '*');
+      });
+      await S.gameQueue;
+      frame.remove(); S.gameRun = null; S.gameContext = null;
+      $("#dialog").close(); S.gameClosing = null;
+    })();
+    return S.gameClosing;
+  }
   $("#dialog").close();
 }
+$("#dialog").addEventListener('cancel', event => {
+  if ($(".game-frame")) {event.preventDefault(); closeModal();}
+});
 async function busy(fn, message = "Préparation de votre séance…") {
   const div = document.createElement("div");
   div.className = "busy-screen";
@@ -1177,12 +1196,14 @@ const actions = {
       missionId: mission.missionId,
     });
     S.gameRun = run;
+    S.gameQueue = Promise.resolve();
     const ctx = await api(`/api/game/runs/${enc(run.id)}/context`);
     S.gameContext = ctx;
     modal(
       "EDEN · " + ctx.worlds[ctx.worldId].title,
       `<iframe class="game-frame" title="Mission PédagoLab" sandbox="allow-scripts" src="/game/index.html"></iframe>`,
     );
+    $("#dialog").classList.add('game-dialog');
   },
 };
 function showDriveReport(r) {
@@ -1930,28 +1951,20 @@ document.addEventListener("input", (e) => {
     );
   }
 });
-window.addEventListener("message", async (e) => {
+window.addEventListener("message", (e) => {
   const frame = $(".game-frame");
   if (!frame || e.source !== frame.contentWindow || !S.gameRun) return;
-  try {
-    if (e.data?.type === "eden:ready")
-      frame.contentWindow.postMessage(S.gameContext, "*");
-    if (e.data?.type === "eden:close") closeModal();
-    if (e.data?.type === "eden:event")
-      await post(`/api/game/runs/${enc(S.gameRun.id)}/events`, {
-        eventId: randomUUID(),
-        type: e.data.eventType,
-        payload: e.data.payload,
-      });
-    if (e.data?.type === "eden:progress") {
-      await post(`/api/game/runs/${enc(S.gameRun.id)}/progress`, {
-        progress: e.data.progress,
-      });
-      toast("Progression enregistrée.");
-    }
-  } catch (err) {
-    toast(studentError(err));
-  }
+  if (e.data?.type === "eden:ready") {frame.contentWindow.postMessage(S.gameContext, "*");return;}
+  if (e.data?.type === "eden:flushed") {S.gameFlushed?.();return;}
+  if (e.data?.type === "eden:close") {closeModal();return;}
+  if (!["eden:event", "eden:progress"].includes(e.data?.type)) return;
+  const runId = S.gameRun.id, message = e.data;
+  S.gameQueue = (S.gameQueue || Promise.resolve()).then(async () => {
+    try {
+      if (message.type === "eden:event") await post(`/api/game/runs/${enc(runId)}/events`, {eventId:randomUUID(),type:message.eventType,payload:message.payload});
+      else {await post(`/api/game/runs/${enc(runId)}/progress`, {progress:message.progress});toast("Progression enregistrée.");}
+    } catch (err) {toast(studentError(err));}
+  });
 });
 async function boot() {
   S.session = await api("/api/session");

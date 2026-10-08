@@ -1,0 +1,538 @@
+{
+  "scope": "pack_integrity_and_corpus_only_not_host_integration",
+  "passed": 103,
+  "failed": 2,
+  "not_run": 1,
+  "checks": [
+    {
+      "check": "required:00_LIRE_DABORD.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:DEMARRER_DANS_CODEX.txt",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:01_PROMPT_CODEX_INTEGRATION.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:02_SPECIFICATION_COMPLETE.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:03_PLAN_IMPLEMENTATION_ET_RECETTE.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:04_AUDIT_FRONT_FOURNI.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:05_SOURCES_ET_PROVENANCE.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:06_PROMPT_CODEX_REVIEW.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:AGENTS.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:CONTRATS/arcade-host-contract.ts",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:CONTRATS/launcher-bridge.mjs",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "required:FRONT_REFERENCE/WORLD_ARCADE_AUTONOME.html",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:entryPrompt",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:specification",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:recipe",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:sourceAudit",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:reviewPrompt",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:corpus",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:corpusSchema",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:assetManifest",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:referenceSourceManifest",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:referenceEntry",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "manifest-link:standalonePreview",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "contract-link:CONTRATS/arcade-host-contract.ts",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "contract-link:CONTRATS/launcher-bridge.mjs",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "corpus is explicitly not runtime config",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "host inspection not claimed",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "two exact game ids",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "routes not guessed",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "production demo fallback prohibited",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "reference grade proposal labeled",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "nine distinct reference grades",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "Rookie and Explorer present",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "no invented thresholds",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "no automatic grade promotion",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "leaderboard limited to five",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "public school directory prohibited",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "public opening not automatic",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "demo not production mode",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "ten unique screens",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "all screen actions resolve to UI labels",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "eighteen distinct WebP assets",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "fifteen illustrated avatars",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "game asset references resolve",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-02",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-03",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-04",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-05",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-06",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-07",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-08",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-09",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-10",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-11",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-12",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-13",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-14",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:avatar-15",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:city-panorama",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:code-station-screen",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "asset:cyber-funk-screen",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/README.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/01.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/02.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/03.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/04.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/05.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/06.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/07.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/08.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/09.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/10.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/11.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/12.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/13.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/14.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/avatars/15.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/city.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/code-station.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/assets/cyber-funk.webp",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/build_standalone.py",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/css/styles.css",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/index.html",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/integration/PROMPT_INTEGRATION_TWEENTWEACH.md",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/integration/launcher-example.js",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/js/app.js",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/js/data.js",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/js/games.js",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/01_accueil_desktop.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/02_arcade_desktop.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/03_joueurs_desktop.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/04_grades_desktop.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/05_inscription_desktop.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/06_code_station_demo.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/07_cyber_funk_demo.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/08_accueil_mobile.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/09_arcade_mobile.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/previews/10_jeu_mobile.png",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/tests/results.json",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/World_Arcade_Frontend/tests/smoke_test.py",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "original-copy:FRONT_REFERENCE/WORLD_ARCADE_AUTONOME.html",
+      "status": "failed",
+      "detail": ""
+    },
+    {
+      "check": "no font binaries",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "no node_modules or .git bundled",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "check": "complete JSON Schema validation",
+      "status": "not_run",
+      "detail": "jsonschema unavailable; standard-library integrity checks executed."
+    },
+    {
+      "check": "delivery inventory hashes",
+      "status": "failed",
+      "detail": "FRONT_REFERENCE/WORLD_ARCADE_AUTONOME.html"
+    }
+  ]
+}

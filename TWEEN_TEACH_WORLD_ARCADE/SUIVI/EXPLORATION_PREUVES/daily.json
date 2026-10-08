@@ -1,0 +1,15 @@
+{
+  "scope": "Read-only copy of the selected local lesson; synthetic accounts, in-memory writes",
+  "date": "2026-10-08",
+  "lesson": "Ne laisser aucun secteur",
+  "mission": "Inventaire drones",
+  "map": "assault-recovery",
+  "checks": [
+    "original-daily-launch-is-flat-editor",
+    "lesson-launch-through-real-Jouer-button",
+    "daily-mission-walked-to-victory",
+    "lesson-save-resumes-from-arcade",
+    "mobile-world-without-horizontal-overflow"
+  ],
+  "status": "PASS"
+}
