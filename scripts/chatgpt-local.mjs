@@ -7,7 +7,7 @@ if(process.env.VERCEL||process.env.NODE_ENV==='production')throw Error('Le parco
 process.umask(0o077);
 // Deliberately ignore .env.local, inherited API keys, databases and storage providers.
 let local={};try{local=parseEnv(await readFile('.env.chatgpt.local','utf8'));}catch(e){if(e.code!=='ENOENT')throw e;}
-const allowed=/^(OPENAI_(API_KEY|MODEL|GRADING_MODEL)|EDEN_AI_[A-Z_]+|EDEN_ARCHIVE_(REPOSITORY|ID|REMOTE)|EDEN_(SOURCE_HOSTS|DIAGNOSTIC_MINUTES|CHATGPT_PORT|LAB_URL|LAB_TOKEN|LAB_SHELL_IMAGE|LAB_DOM_IMAGE)|PLAYWRIGHT_CHROMIUM_EXECUTABLE)$/;
+const allowed=/^(OPENAI_(API_KEY|MODEL|GRADING_MODEL)|EDEN_AI_[A-Z_]+|EDEN_ARCHIVE_(REPOSITORY|ID|REMOTE)|EDEN_(SOURCE_HOSTS|DIAGNOSTIC_MINUTES|CHATGPT_PORT|WORLD_ARCADE|LAB_URL|LAB_TOKEN|LAB_SHELL_IMAGE|LAB_DOM_IMAGE)|PLAYWRIGHT_CHROMIUM_EXECUTABLE)$/;
 for(const key of Object.keys(local))if(!allowed.test(key))throw Error(`Variable non autorisée dans .env.chatgpt.local : ${key}`);
 const port=Number(local.EDEN_CHATGPT_PORT||4181);if(!Number.isInteger(port)||port<1024||port>65535)throw Error('EDEN_CHATGPT_PORT invalide.');
 const root=resolve('.data/chatgpt-personal');await mkdir(root,{recursive:true,mode:0o700});await chmod(root,0o700);

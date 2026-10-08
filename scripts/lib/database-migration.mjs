@@ -34,6 +34,7 @@ export async function prepareSnapshot({source='.data/eden.sqlite',artifactDirect
  }finally{db.close();}
 
  const cache=new Map();
+ const corpora=new Map(tables.corpus_packages.map(row=>{const pack=JSON.parse(row.data);return [pack.id,pack];}));
  const artifacts={files:0,localFiles:0,uniqueLocalFiles:0,bytes:0,externalS3Files:0};
  for(const [kind,row] of ['corpus_packages','pedagogical_sources','content_snapshots'].flatMap(kind=>tables[kind].map(row=>[kind,row]))){
   const pack=JSON.parse(row.data);
@@ -42,6 +43,15 @@ export async function prepareSnapshot({source='.data/eden.sqlite',artifactDirect
   let changed=false;
   for(const file of files){
    artifacts.files++;
+   // Publication snapshots pin documents by corpus ID, path and hash. Resolve
+   // those immutable references before embedding bytes, without changing the
+   // archived manifest or the local database.
+   if(kind==='content_snapshots'&&file.corpusId&&!file.artifactKey&&!file.s3Key&&typeof file.base64!=='string'){
+    const corpus=corpora.get(file.corpusId),document=corpus?.files?.find(item=>item.path===file.path);
+    ensure(corpus?.classId===pack.classId&&document&&document.sha256===file.sha256&&document.bytes===file.bytes,'Référence de publication absente ou différente du corpus figé.');
+    for(const key of ['artifactKey','s3Key','base64'])if(Object.hasOwn(document,key))file[key]=document[key];
+    changed=true;
+   }
    if(file.s3Key){
     ensure(!file.artifactKey,'Document avec deux références de stockage incompatibles.');
     artifacts.externalS3Files++;

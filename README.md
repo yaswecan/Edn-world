@@ -161,6 +161,7 @@ Configurer les variables suivantes dans Vercel, pour **Production** et **Preview
 | `EDEN_TEACHER_USERNAME` | Identifiant initial du professeur, par exemple `professeur` |
 | `EDEN_TEACHER_PASSWORD` | Mot de passe initial unique d’au moins 12 caractères |
 | `EDEN_QUALITY_PIPELINE` | `0` jusqu’à la mise en service du worker de génération externe |
+| `EDEN_WORLD_ARCADE` | `1` pour afficher le bouton Mode arcade et ouvrir Code Station aux élèves connectés |
 | `CRON_SECRET` | Secret partagé avec l’appelant du worker HTTP, si utilisé |
 
 Le handler refuse l’initialisation sans `DATABASE_URL`. Aucun secret n’est enregistré dans `vercel.json`. Ajouter les variables OpenAI, Google Drive et S3 de `.env.example` pour les intégrations utilisées. Les artefacts S3 restent privés et ne sont servis qu’après contrôle d’accès EDEN. La limite Vercel de 4,5 Mo par requête s’applique aussi aux imports de fichiers, même lorsque l’application accepte une taille supérieure en local.

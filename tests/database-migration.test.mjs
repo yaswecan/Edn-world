@@ -6,7 +6,8 @@ import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {PGlite} from '@electric-sql/pglite';
-import {schemaSQL} from '../server/store.mjs';
+import {schemaSQL,openStore} from '../server/store.mjs';
+import {freezeContent,canonical,sha256} from '../server/content-snapshots.mjs';
 import {prepareSnapshot,inspectTarget,applySnapshot} from '../scripts/lib/database-migration.mjs';
 
 const digest=value=>createHash('sha256').update(value).digest('hex');
@@ -73,6 +74,28 @@ test('missing or corrupt documents and unknown source tables stop preparation',a
  await writeFile(f.artifactPath,f.bytes);
  const db=new DatabaseSync(f.source);db.exec('CREATE TABLE future_records (id TEXT)');db.close();
  await assert.rejects(prepareSnapshot(f),/tables inconnues/);
+});
+
+test('published corpus references embed verified documents without rewriting their archived manifest',async t=>{
+ const f=await fixture(t),store=await openStore({url:'',path:f.source});
+ const pack=await store.get('corpus_packages','corpus-test');
+ const frozen=await store.transaction(tx=>freezeContent(tx,{classId:'A1',event:'lesson.publication_selected',eventId:'publication-test',subject:{kind:'lesson',lessonId:lesson.id,lessonVersionId:'version-test'},files:[{path:'lesson.json',content:'{}',audience:'teacher'}],external:pack.files.map(({path,sha256,bytes})=>({path,sha256,bytes,corpusId:pack.id}))}));
+ await store.close();
+ const before=digest(await readFile(f.source)),snapshot=await prepareSnapshot(f),copied=JSON.parse(snapshot.tables.content_snapshots[0].data);
+ assert.equal(digest(await readFile(f.source)),before);
+ assert.deepEqual(copied.manifest,frozen.manifest);
+ assert.equal(sha256(canonical(copied.manifest)),frozen.sha256);
+ for(const file of copied.externalObjects){assert.deepEqual(Buffer.from(file.base64,'base64'),f.bytes);assert.equal(file.artifactKey,undefined);}
+ const db=new DatabaseSync(f.source);
+ for(const change of [{files:[]},{classId:'OTHER'}]){
+  db.prepare('UPDATE corpus_packages SET data=? WHERE id=?').run(JSON.stringify({...pack,...change}),pack.id);
+  await assert.rejects(prepareSnapshot(f),/Référence de publication/);
+ }
+ db.prepare('UPDATE corpus_packages SET data=? WHERE id=?').run(JSON.stringify(pack),pack.id);
+ const changed={...frozen,externalObjects:frozen.externalObjects.map(f=>({...f,sha256:'0'.repeat(64)}))};
+ db.prepare('UPDATE content_snapshots SET data=? WHERE id=?').run(JSON.stringify(changed),frozen.id);
+ await assert.rejects(prepareSnapshot(f),/Référence de publication/);
+ db.close();
 });
 
 test('PostgreSQL transfer preserves identities, lesson versions, dates and documents; retry is idempotent',async t=>{
