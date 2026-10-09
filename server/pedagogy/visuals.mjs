@@ -39,7 +39,7 @@ export function visualRoutes(app,store){
  app.get('/api/lesson-assets/:id',loggedIn,async(req,res)=>{
   const asset=await store.get('lesson_assets',req.params.id);if(!asset||asset.classId!==req.user.classId)fail(404,'Ressource introuvable.');
   const versions=await store.list('lesson_versions',req.user.classId),lessons=await store.list('lessons',req.user.classId);
-  const allowed=versions.some(v=>v.spec.activities.some(a=>a.workshop?.visual?.id===asset.id)&&(req.user.role==='teacher'||lessons.some(l=>l.status==='published'&&l.versionId===v.id)));
+  const allowed=versions.some(v=>[...v.spec.activities,...(v.spec.diagnostic?.tasks||[])].some(a=>a.workshop?.visual?.id===asset.id)&&(req.user.role==='teacher'||lessons.some(l=>l.status==='published'&&l.versionId===v.id)));
   if(!allowed)fail(404,'Ressource introuvable.');
   const bytes=Buffer.from(asset.base64,'base64');requireValue(digest(bytes)===asset.sha256,'Ressource altérée.');res.type('png').send(bytes);
  });

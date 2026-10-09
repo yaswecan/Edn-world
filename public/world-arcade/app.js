@@ -1,3 +1,4 @@
+import {cabinet, journeyView} from './game-views.js';
 import {randomUUID} from '../random-id.js';
 import {pixelText} from './identity.js';
 import {profileForm, personalSpace, playerIdentity, accountView, passwordField, collectionView, badgeDialog, nextFeatured} from './account-views.js';
@@ -9,7 +10,7 @@ const icon = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}
 const button = (label, action, extra = '') => `<button class="button" data-action="${action}" ${extra}>${label}</button>`;
 const avatar = p => `<img class="avatar" src="/world-arcade/assets/avatars/${/^(0[1-9]|1[0-5])$/.test(p.avatarId) ? p.avatarId : '01'}.webp" alt="" width="50" height="55">`;
 const labels = {arcade:'World Arcade', joueurs:'Joueurs', classement:'Classement', profil:'Mon espace', personnaliser:'Personnaliser', compte:'Mon compte', collection:'Mes badges', badges:'Grades', reglages:'Réglages'};
-const state = {account:null, bootstrap:null, route:'', revision:0, pending:false, selection:'', search:'', page:1, pendingGame:null, game:null, space:null, collection:null, savedProfile:null, avatars:[], authEpoch:0, authBusy:false};
+const state = {account:null, bootstrap:null, route:'', revision:0, pending:false, search:'', page:1, pendingGame:null, game:null, space:null, collection:null, savedProfile:null, avatars:[], authEpoch:0, authBusy:false};
 const prefKey = 'eden.world-arcade.preferences.v1';
 let stored = {};
 try { stored = JSON.parse(localStorage.getItem(prefKey) || '{}') || {}; } catch { /* Local preferences are optional. */ }
@@ -19,7 +20,7 @@ let privateRequests = new AbortController();
 const sessionChannel = typeof BroadcastChannel === 'function' ? new BroadcastChannel('tween-teach-session') : null;
 function clearPrivate() {
   privateRequests.abort(); privateRequests = new AbortController(); state.authEpoch++; state.revision++;
-  Object.assign(state, {account:null, bootstrap:null, space:null, collection:null, savedProfile:null, avatars:[], selection:'', search:'', page:1, pendingGame:null, pending:false});
+  Object.assign(state, {account:null, bootstrap:null, space:null, collection:null, savedProfile:null, avatars:[], search:'', page:1, pendingGame:null, pending:false});
   state.game?.port?.close(); state.game?.frame.remove(); state.game=null;
   $('#game-modal').close(); $('#game-host').replaceChildren(); $('#modal').close();
   $('#main-content').replaceChildren(); $('#toasts').replaceChildren(); modalFocus=null; accountSlots();
@@ -80,16 +81,8 @@ function accountSlots() {
 }
 function notice(text, retry = false) { return `<div class="notice">${icon('info')}<p>${escape(text)}</p>${retry ? button('Réessayer', 'retry') : ''}</div>`; }
 function hero(title, text = '') {return `<header class="page-hero"><p class="eyebrow">WORLD ARCADE</p><h1 class="display">${title}</h1>${text ? `<p>${escape(text)}</p>` : ''}</header>`;}
-function cabinet(game) {
-  const selected = game.missions.find(m => m.lessonId === state.selection) || game.missions.find(m => m.state === 'available') || game.missions[0];
-  if (selected) state.selection = selected.lessonId;
-  const status = selected?.state || game.state;
-  const label = status === 'auth_required' ? 'Se connecter' : status === 'available' ? (selected?.hasSave ? 'Reprendre' : 'Jouer') : status === 'locked' ? 'Verrouillé' : 'Indisponible';
-  const code = game.id === 'code-station';
-  return `<article class="cabinet ${code ? '' : 'pink'}" aria-labelledby="title-${game.id}"><div class="cabinet-housing"><div class="cabinet-marquee"><span class="marquee-name">${escape(game.title.toUpperCase())}</span></div><div class="speaker-strip" aria-hidden="true"></div><div class="screen-frame"><img class="game-art" src="/world-arcade/assets/${game.id}.webp" alt="${code ? 'Un équipage pixel art dans la station spatiale' : 'La ville futuriste éclairée de néons'}"><div class="screen-info"><p class="eyebrow">${code ? '01 / CODE STATION' : '02 / NEO EDEN'}</p><h2 class="screen-game-title" id="title-${game.id}">${escape(game.title.toUpperCase())}</h2></div></div>${game.missions.length > 1 ? `<label class="mission-choice">Mission ouverte<select id="mission-choice">${game.missions.map(m => `<option value="${escape(m.lessonId)}" ${m.lessonId === selected?.lessonId ? 'selected' : ''}>${escape(m.title)}${m.state === 'locked' ? ' · Verrouillé' : ''}</option>`).join('')}</select></label>` : ''}<div class="cabinet-console"><div class="console-decoration" aria-hidden="true"><span class="mini-buttons"><i></i><i></i><i></i></span></div><button class="arcade-play" data-action="play" data-game="${game.id}" ${['locked','unavailable'].includes(status) || state.pending ? 'disabled' : ''}>${state.pending && code ? 'Ouverture…' : label} ${icon('chevron')}</button></div><div class="cabinet-base"><p class="cabinet-description">${code ? 'Le signal est perdu. À toi de rallumer la station.' : 'La ville ne dort jamais. Trouve ton propre chemin.'}</p><p class="cabinet-keys">${escape(selected?.message || (selected ? selected.title : game.message))}</p><div class="coin-slot" aria-hidden="true"></div></div></div><div class="cabinet-foot" aria-hidden="true"></div><div class="cabinet-reflection" aria-hidden="true"></div></article>`;
-}
 function lobby() {
-  return `<div class="arcade-grid"><div class="arcade-main"><div class="city-banner" role="img" aria-label="Ville futuriste éclairée de néons"><span class="banner-tag">WORLD ARCADE / 3026</span></div><div class="arcade-heading"><div><h1 class="display">Choisis ton monde</h1><p>Code Station · Cyber Funk 3026</p></div><div class="heading-mark" aria-hidden="true"><i></i><i></i><i></i></div></div><div class="cabinets">${state.bootstrap.games.map(cabinet).join('')}</div><div class="arcade-bottomline"><a class="text-button host-return" href="${hostReturnPath()}">${state.account?.role === 'teacher' ? 'Retour à mon espace' : 'Retour à ma séance'} ${icon('arrow')}</a></div></div><aside class="side-panels"><section class="panel leaderboard-panel"><h2>TOP 5</h2><div id="top-slot" aria-live="polite">${notice(state.account ? 'Chargement du classement…' : 'Connecte-toi pour consulter ton espace.')}</div></section><section class="panel players-panel"><div class="section-head"><h2>JOUEURS</h2><a class="text-button" href="#joueurs">Voir les joueurs ${icon('arrow')}</a></div><div id="players-slot" aria-live="polite">${notice(state.account ? 'Chargement des joueurs…' : 'Cette liste n’est pas accessible aux visiteurs.')}</div></section><a class="side-promo" href="#badges">${icon('badge')}<span>Grades</span>${icon('chevron')}</a></aside></div>`;
+  return `<div class="arcade-grid"><div class="arcade-main"><div class="city-banner" role="img" aria-label="Ville futuriste éclairée de néons"><span class="banner-tag">WORLD ARCADE / 3026</span></div><div class="arcade-heading"><div><h1 class="display">Choisis ton monde</h1><p>${state.bootstrap.games.length} jeux · Retrouve tes aventures et ta progression</p></div><div class="heading-mark" aria-hidden="true"><i></i><i></i><i></i></div></div><div class="cabinets">${state.bootstrap.games.map(cabinet).join('')}</div><div class="arcade-bottomline"><a class="text-button host-return" href="${hostReturnPath()}">${state.account?.role === 'teacher' ? 'Retour à mon espace' : 'Retour à ma séance'} ${icon('arrow')}</a></div></div><aside class="side-panels"><section class="panel leaderboard-panel"><h2>TOP 5</h2><div id="top-slot" aria-live="polite">${notice(state.account ? 'Chargement du classement…' : 'Connecte-toi pour consulter ton espace.')}</div></section><section class="panel players-panel"><div class="section-head"><h2>JOUEURS</h2><a class="text-button" href="#joueurs">Voir les joueurs ${icon('arrow')}</a></div><div id="players-slot" aria-live="polite">${notice(state.account ? 'Chargement des joueurs…' : 'Cette liste n’est pas accessible aux visiteurs.')}</div></section><a class="side-promo" href="#badges">${icon('badge')}<span>Grades</span>${icon('chevron')}</a></aside></div>`;
 }
 function playerCard(p, mini = false) { return `<button class="${mini ? 'avatar-tile' : 'player-card'}" data-action="player" data-id="${escape(p.publicId)}">${avatar(p)}${mini ? `<span>${escape(p.handle)}</span>` : `<h2>${escape(p.handle)}</h2><p>${escape(p.grade?.label || 'Grade non disponible')}</p><span class="featured-badges">${(p.featuredBadges||[]).map(b=>`<span class="featured-badge">${escape(b.name)}</span>`).join('')}</span>`}</button>`; }
 function topContent(result) {
@@ -111,7 +104,8 @@ async function renderRoute({refresh = false} = {}) {
   state.pending = false;
   const hash = location.hash.slice(1);
   const gameId = hash.startsWith('jeu/') ? hash.slice(4) : null;
-  state.route = gameId ? 'arcade' : (labels[hash] ? hash : '');
+  const journeyId = hash.startsWith('parcours/') ? hash.slice(9) : null;
+  state.route = gameId || journeyId ? 'arcade' : (labels[hash] ? hash : '');
   if ($('#modal').open) $('#modal').close();
   $$('.account-menu').forEach(menu=>menu.open=false);
   if (!gameId && state.game) await closeGame(false);
@@ -123,11 +117,20 @@ async function renderRoute({refresh = false} = {}) {
   const main = $('#main-content'); main.innerHTML = notice('Chargement…'); main.focus({preventScroll:true});
   try {
     const privateRoute = ['profil','personnaliser','compte','collection','joueurs','classement'].includes(state.route);
-    if (!state.bootstrap || refresh || privateRoute) await bootstrap();
+    if (!state.bootstrap || refresh || privateRoute || journeyId) await bootstrap();
     if (revision !== state.revision) return;
     if (privateRoute && !state.account) throw Object.assign(new Error('Connecte-toi pour accéder à ton espace.'), {status:401});
     switch(state.route) {
-      case 'arcade': main.innerHTML = lobby(); sidePanels(revision); if(gameId) await openGame(gameId, revision); break;
+      case 'arcade': {
+        if (journeyId) {
+          const game = state.bootstrap.games.find(g => g.id === journeyId && g.state !== 'unavailable');
+          if (!game) throw Object.assign(new Error('Ce parcours n’est pas disponible.'), {status:404});
+          main.innerHTML = journeyView(game, state.account);
+          document.title = `${game.title} · Mon parcours — World Arcade`;
+          $('#route-label').textContent = game.title;
+        } else { main.innerHTML = lobby(); sidePanels(revision); if(gameId) await openGame(gameId, revision); }
+        break;
+      }
       case 'reglages': main.innerHTML = settings(); break;
       case 'badges': {const data = await request('/api/arcade/ranks'); if(revision===state.revision)main.innerHTML = hero('Grades', 'Le grade et la place au classement sont différents.')+`<section class="panel">${notice(data.message)}</section>`; break;}
       case 'classement': {const data = await request('/api/arcade/leaderboard'); if(revision===state.revision)main.innerHTML = hero('Top 5')+`<section class="panel">${topContent(data)}</section>`; break;}
@@ -169,12 +172,12 @@ function auth() {
   if(state.authBusy)return;
   modal('Connexion', `<form class="wa-form" data-form="login"><label>Compte<select name="role"><option value="student">Élève</option><option value="teacher">Professeur</option></select></label><label>Classe<input name="classId" value="A1" required autocomplete="off"></label><label>Identifiant<input name="username" required autocomplete="username"></label>${passwordField('password','Mot de passe','current-password')}<button class="button primary" type="submit">Se connecter</button><p class="form-status" role="status"></p></form><div class="pagination">${button('Créer un compte', 'register')}${button('Mot de passe oublié ?', 'recovery')}</div>`);
 }
-async function launch(gameId) {
+async function launch(gameId, lessonId = '') {
   if(state.pending)return;
-  if(!state.account){state.pendingGame=gameId;auth();return;}
-  if(state.account.profile.needsPersonalization){state.pendingGame=gameId;location.hash='personnaliser';return;}
+  if(!state.account){state.pendingGame={gameId, lessonId};auth();return;}
+  if(state.account.profile.needsPersonalization){state.pendingGame={gameId, lessonId};location.hash='personnaliser';return;}
   const game = state.bootstrap?.games.find(g=>g.id===gameId);
-  const mission = game?.missions.find(m=>m.lessonId===state.selection) || game?.missions.find(m=>m.state==='available');
+  const mission = game?.missions.find(m=>m.lessonId===lessonId) || game?.missions.find(m=>m.state==='available');
   if(!mission || mission.state!=='available')return;
   const revision = state.revision; state.pending = true;
   $$('[data-action=play]').forEach(b=>{b.disabled=true;if(b.dataset.game===gameId)b.textContent='Ouverture…';});
@@ -191,11 +194,12 @@ async function openGame(encodedId, revision) {
   if(revision!==state.revision)return;
   if(state.game)await closeGame(false);
   if(revision!==state.revision)return;
-  const frame = document.createElement('iframe'); frame.className='game-frame'; frame.title='Mission Code Station — PédagoLab'; frame.setAttribute('sandbox','allow-scripts');
+  const frame = document.createElement('iframe'); frame.className='game-frame'; frame.title=`Mission ${state.bootstrap.games.find(g=>g.id===context.worldId)?.title || context.worldId} — PédagoLab`; frame.setAttribute('sandbox','allow-scripts');
   // The existing code execution sandbox has an opaque origin. Only the handshake
   // uses '*'; private context travels on a transferred MessagePort to this frame.
   const minimalContext = {...context, user:{displayName:state.account?.profile.handle || 'Joueur'}};
   state.game = {id:encodedId, frame, context:minimalContext, port:null, queue:Promise.resolve(), failedProgress:null, closing:false};
+  $('#game-dialog-title').textContent = state.bootstrap.games.find(g=>g.id===context.worldId)?.title || 'Mission';
   $('#game-save').textContent = 'Les modifications sont enregistrées après confirmation du serveur.';
   $('#game-host').replaceChildren(frame); $('#game-modal').showModal(); frame.src='/game/index.html';
 }
@@ -234,7 +238,7 @@ async function closeGame(navigate = true) {
    if(document.fullscreenElement)await document.exitFullscreen().catch(()=>{});
    $('#game-modal').close(); $('#game-host').replaceChildren();
    if(game?.failedProgress)notify('La dernière modification n’a pas été enregistrée.');
-   if(navigate&&location.hash===closingHash){history.replaceState(null,'','#arcade');await renderRoute({refresh:true});$('[data-game="code-station"]')?.focus();}
+   if(navigate&&location.hash===closingHash){history.replaceState(null,'',`#parcours/${game?.context.worldId || 'code-station'}`);await renderRoute({refresh:true});$('[data-action=play]')?.focus();}
   };
   const pending=close();if(game)game.closePromise=pending;return pending;
 }
@@ -251,8 +255,7 @@ root.addEventListener('click', async event=>{
       }
       case 'cancel-profile': $('#main-content').innerHTML=profileForm(state.savedProfile,state.avatars);$('#aka').focus();break;
       case 'preview-card': modal('Ma carte',`<div class="identity-card">${playerIdentity(state.account.profile)}<p>Cet aperçu ne publie pas ton profil.</p></div>`);break;
-      case 'resume': if(state.space?.resume){state.selection=state.space.resume.lessonId;await launch(state.space.resume.gameId);}break;
-      case 'space-play': state.selection=target.dataset.lesson;await launch(target.dataset.game);break;
+      case 'resume': if(state.space?.resume){await launch(state.space.resume.gameId, state.space.resume.lessonId);}break;
       case 'badge': {const b=state.collection?.badges.find(b=>b.id===target.dataset.id);if(b)modal(b.name,badgeDialog(b,state.account.profile));break;}
       case 'badge-add': case 'badge-remove': case 'badge-replace': case 'badge-up': case 'badge-down': {
         const revision=state.revision, badgeIds=nextFeatured(state.account.profile.featuredBadgeIds,target.dataset.id,action,target.dataset.replace);
@@ -263,7 +266,7 @@ root.addEventListener('click', async event=>{
       }
       case 'close-modal': $('#modal').close(); break;
       case 'retry': await renderRoute({refresh:true}); break;
-      case 'play': await launch(target.dataset.game); break;
+      case 'play': await launch(target.dataset.game, target.dataset.lesson); break;
       case 'next': state.page++; await renderRoute(); break;
       case 'previous': state.page=Math.max(1,state.page-1); await renderRoute(); break;
       case 'player': {
@@ -296,12 +299,12 @@ root.addEventListener('submit', async event=>{
         await request('/api/login',{method:'POST',body:data});const pending=state.pendingGame;form.reset();clearPrivate();announceSession();await bootstrap();
         state.pendingGame=pending;
         if(state.account.profile.needsPersonalization){location.hash='personnaliser';if(state.route==='personnaliser')await renderRoute();}
-        else{history.replaceState(null,'','#arcade');await renderRoute();if(pending){state.pendingGame=null;await launch(pending);}}break;
+        else{history.replaceState(null,'','#arcade');await renderRoute();if(pending){state.pendingGame=null;await launch(pending.gameId, pending.lessonId);}}break;
       }
       case 'profile': {
         status.textContent='Enregistrement…';const result=await request('/api/arcade/profile',{method:'PUT',body:data});if(revision!==state.revision)return;
         const initial=state.savedProfile.needsPersonalization;state.savedProfile=result;state.account.profile=result;accountSlots();form.elements.handle.value=result.handle;$('#identity-preview').innerHTML=playerIdentity(result);status.textContent='Modifications enregistrées.';
-        if(initial){const pending=state.pendingGame;state.pendingGame=null;await bootstrap();history.replaceState(null,'','#arcade');await renderRoute();if(pending)await launch(pending);}break;
+        if(initial){const pending=state.pendingGame;state.pendingGame=null;await bootstrap();history.replaceState(null,'','#arcade');await renderRoute();if(pending)await launch(pending.gameId, pending.lessonId);}break;
       }
       case 'password': {
         if(data.newPassword!==data.confirmation){status.textContent='Les mots de passe ne correspondent pas.';break;}
@@ -329,7 +332,6 @@ root.addEventListener('input',event=>{
   $('.form-status',event.target.form).textContent='Changements non enregistrés.';
 });
 root.addEventListener('change',event=>{
-  if(event.target.id==='mission-choice'){state.selection=event.target.value;renderRoute();}
   const key=event.target.dataset.pref;if(!Object.hasOwn(preferences,key))return;
   preferences[key]=event.target.checked;applyPreferences();if(key==='sound')beep();
 });

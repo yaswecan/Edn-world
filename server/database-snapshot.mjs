@@ -12,9 +12,9 @@ const ensure=(condition,message)=>{if(!condition)fail(400,message);};
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 const identifier=value=>typeof value==='string'&&value.length>0&&value.length<=500&&!value.includes('\0');
 
-export function snapshotDigest(tables){
+export function snapshotDigest(tables,tableNames=TABLES){
  const hash=createHash('sha256');
- for(const table of TABLES){
+ for(const table of tableNames){
   hash.update(JSON.stringify(table));
   const rows=[...tables[table]].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
   for(const row of rows)hash.update(JSON.stringify(columns.map(column=>row[column])));
@@ -100,6 +100,14 @@ export async function decodeBackup(buffer,classId){
  let backup;
  try{backup=JSON.parse((await promisify(gunzip)(buffer,{maxOutputLength:MAX_SNAPSHOT_BYTES})).toString('utf8'));}
  catch{fail(400,'Sauvegarde compressée illisible ou trop volumineuse. Utilisez le fichier .eden-db.gz.');}
+ // Optional transfer tables were added without changing business rows. Verify
+ // the original digest before extending an older v1 backup with empty tables.
+ const additions=['lesson_transfers','lesson_transfer_chunks','lesson_transfer_links','lesson_transfer_receipts'],legacy=TABLES.filter(t=>!additions.includes(t));
+ if(object(backup?.tables)&&Object.keys(backup.tables).length===legacy.length&&legacy.every(t=>Array.isArray(backup.tables[t]))){
+  ensure(snapshotDigest(backup.tables,legacy)===backup.fingerprint,'L’empreinte de la sauvegarde ne correspond pas à son contenu.');
+  for(const table of additions)backup.tables[table]=[];
+  backup.fingerprint=snapshotDigest(backup.tables);
+ }
  const report=validateBackup(backup,classId);
  return {tables:backup.tables,report};
 }

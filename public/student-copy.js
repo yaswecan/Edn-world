@@ -13,7 +13,7 @@ const legacyTitles = new Map([
   ['Maintenant, construis sans le modèle.', 'À toi de construire'],
   ['Ce que tu emportes aujourd’hui.', 'Bilan'],
 ]);
-export const studentBlockTitle = b => b.type === 'Diagnostic' ? 'Évaluation'
+export const studentBlockTitle = b => b.editor ? b.title : b.type === 'Diagnostic' ? 'Évaluation'
   : b.type === 'Pause' ? 'Pause' : legacyTitles.get(b.title) || b.title;
 // Old remediation bundles put group IDs and criterion codes in the transition.
 // The actual exercises, instructions and evidence remain rendered below it.

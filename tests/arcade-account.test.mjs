@@ -55,8 +55,8 @@ test('AKA and avatar survive a fresh session without changing identity, saves or
  assert.equal((await call(`/api/arcade/players/${profileId}`,{actor:'student-b'})).data.handle,'Étoile bleue');
  assert.equal((await login()).status,200);assert.equal((await call('/api/arcade/profile')).data.avatarId,'12');
 });
-test('space distinguishes no badges and missing progression, resumes only an authorized saved mission',async()=>{
- const space=(await call('/api/arcade/space')).data;assert.equal(space.profile.handle,'Étoile bleue');assert.equal(space.progression.status,'unavailable');assert.equal(space.badges.status,'ready');assert.equal(space.badges.badges.filter(b=>b.earned).length,0);
+test('space distinguishes no badges and saved game progression, resumes only an authorized saved mission',async()=>{
+ const space=(await call('/api/arcade/space')).data;assert.equal(space.profile.handle,'Étoile bleue');assert.equal(space.progression.status,'ready');assert.equal(space.badges.status,'ready');assert.equal(space.badges.badges.filter(b=>b.earned).length,0);
  assert.equal(space.resume.missionId,fixture.mission.id);assert.equal((await call('/api/arcade/space',{actor:'student-b'})).data.resume,null);
  const result=await call('/api/arcade/launch',{method:'POST',body:space.resume});assert.equal(result.status,200);runId=result.data.runId;
  const lesson=await fixture.store.get('lessons','arcade-lesson');await fixture.store.put('lessons',{...lesson,status:'closed'});

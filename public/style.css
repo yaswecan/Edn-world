@@ -281,3 +281,15 @@ dialog{width:calc(100vw - 20px)}
 .block-card [data-sort-list]{padding-left:0}
 .block-card [data-sort]{padding:8px 14px}
 .block-card input,.block-card select{max-width:100%}
+
+.transfer-drop { display: grid; gap: 16px; padding: 28px; border: 2px dashed var(--border, #ccd8d8); border-radius: 12px; }
+.transfer-drop.dragging { background: #eaf7f7; }
+.transfer-controls { display: grid; grid-template-columns: 1fr 2fr 2fr; gap: 12px; }
+.transfer-controls label { min-width: 0; }
+.transfer-controls select { width: 100%; }
+.transfer-blockers { color: #9b2929; }
+[data-lesson-export], [data-transfer-review] { width: auto; }
+.student-version-notice { margin: 16px auto; max-width: 1120px; }
+@media(max-width: 700px) { .transfer-controls { grid-template-columns: 1fr; } }
+.transfer-rows p, .transfer-rows li { overflow-wrap: anywhere; }
+.transfer-drop input { max-width: 100%; }

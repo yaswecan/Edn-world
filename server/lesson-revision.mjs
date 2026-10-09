@@ -1,3 +1,4 @@
+import {validateEditorContent} from './lesson-editor-validation.mjs';
 import {isDeepStrictEqual} from 'node:util';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 import {validate,lessonSchema} from './contracts.mjs';
@@ -21,7 +22,7 @@ function valueType(schema){
  const name=`value${valueTypes.size}`,ref={$ref:`#/$defs/${name}`};valueTypes.set(key,ref);
  const type=schema.type||typeof (schema.enum?.[0]??schema.const),wire={...schema,type};
  if(type==='object'){
-  wire.properties=Object.fromEntries(Object.entries(schema.properties).map(([key,child])=>[key,(schema.required||[]).includes(key)?valueType(child):{anyOf:[valueType(child),{type:'null'}]}]));
+  wire.properties=Object.fromEntries(Object.entries(schema.properties).map(([key,child])=>[key,['editor','richText'].includes(key)?{type:'null'}:(schema.required||[]).includes(key)?valueType(child):{anyOf:[valueType(child),{type:'null'}]}]));
   wire.required=Object.keys(wire.properties);wire.additionalProperties=false;
  }else if(type==='array')wire.items=valueType(schema.items);
  definitions[name]=wire;return ref;
@@ -87,6 +88,8 @@ export function applyRevisionPatch(original,result){
   }
  }
  validate(lessonSchema,spec);
+ for(const previous of original.blocks.filter(b=>b.editor)){const next=spec.blocks.find(b=>b.id===previous.id);requireValue(!next||next.editor,'Cette proposition retirerait la mise en forme riche. Modifiez ce contenu dans l’éditeur.');}
+ for(const previous of original.activities.filter(a=>a.richText)){const next=spec.activities.find(a=>a.id===previous.id);requireValue(!next||next.richText,'Cette proposition retirerait la mise en forme d’une activité. Utilisez l’éditeur.');}
  requireValue(isDeepStrictEqual(spec.blocks.filter(b=>b.type==='Diagnostic'),original.blocks.filter(b=>b.type==='Diagnostic')),'Le bloc diagnostic reste lié à sa version source.');
  const activities=new Set(spec.activities.map(a=>a.id)),blocks=new Set(spec.blocks.map(b=>b.id));
  requireValue(activities.size===spec.activities.length&&blocks.size===spec.blocks.length&&!spec.activities.some(a=>spec.diagnostic.tasks.some(t=>t.id===a.id)),'Identifiants dupliqués dans la proposition.');
@@ -95,7 +98,7 @@ export function applyRevisionPatch(original,result){
  spec.timeline=spec.blocks.map(b=>({blockId:b.id,minutes:b.minutes}));
  spec.slides=spec.blocks.filter(b=>!['Diagnostic','Pause'].includes(b.type)).map(b=>({title:b.title,body:b.content}));
  if(spec.sourceNotes)spec.sourceNotes=spec.sourceNotes.filter(n=>blocks.has(n.blockId));
- validate(lessonSchema,spec);return spec;
+ validate(lessonSchema,spec);validateEditorContent(spec);return spec;
 }
 
 export async function proposeLessonRevision(store,id,input,actor,{chatgpt,call=callStructured,configure=freezeProvider}={}){

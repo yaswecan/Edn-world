@@ -1,3 +1,4 @@
+import {renderLessonBlock} from '../public/lesson-renderer.js';
 import {storeArtifact,artifactBuffer} from './artifacts.mjs';
 import PDFDocument from 'pdfkit';
 import ExcelJS from 'exceljs';
@@ -27,11 +28,16 @@ export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}
  const existing=(await store.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id);if(existing)return existing;
  const files=[];const add=(path,buffer,audience='teacher')=>files.push({path,buffer,audience});
  const student=studentSpec(s),activities=s.activities.map(a=>({title:a.title,body:a.instruction+'\nÀ rendre : '+a.expectedEvidence})),guide=[{title:'Objectifs',body:s.objectives.join('\n')},{title:'Animation',body:s.teacherGuide},...s.blocks.map(b=>({title:`${b.minutes} min · ${b.title}`,body:b.content}))];
+ if(s.editorVersion===1){
+  let body=student.blocks.map((b,i)=>`<article>${renderLessonBlock(student,i,{preview:true})}</article>`).join('');
+  for(const url of new Set(body.match(/\/api\/(?:lesson-assets|lesson-transfer-files)\/[a-f0-9]{64}/g)||[])){const asset=await scoped(store,'lesson_assets',url.split('/').at(-1),actor);body=body.split(url).join(`data:${asset.mimeType};base64,${asset.base64}`);}
+  add('01_ELEVE/cours.html',html(s.title,body),'student');add('01_ELEVE/seance.json',json(student),'student');
+ }
  add('01_ELEVE/carnet-eleve.pdf',await pdf(s.title,activities),'student');
  add('01_ELEVE/fiche-recap.pdf',await pdf('Repères · '+s.title,s.blocks.filter(b=>['ConceptCard','LiveCode'].includes(b.type)).map(b=>({title:b.title,body:b.content}))),'student');
  add('01_ELEVE/exercices.pdf',await pdf('Exercices',activities),'student');
  for(const asset of await visualAssets(store,s))add(`01_ELEVE/references-visuelles/${asset.id}.png`,Buffer.from(asset.base64,'base64'),'student');
- for(const a of s.activities)if(a.starter)add(`01_ELEVE/fichiers-depart/${a.id}.txt`,Buffer.from(a.starter),'student');
+ for(const a of s.activities)if(typeof a.starter==='string')add(`01_ELEVE/fichiers-depart/${a.id}.txt`,Buffer.from(a.starter),'student');
  for(const a of s.activities)for(const f of a.workshop?.files||[]){
   if(!/^[a-zA-Z0-9_./ -]+$/.test(f.path)||f.path.startsWith('/')||f.path.split('/').includes('..'))fail(400,'Chemin de support invalide.');
   add(`01_ELEVE/projets/${a.id}/${f.path}`,Buffer.from(f.content),'student');
@@ -53,7 +59,7 @@ export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}
   ...(s.diagnostic.expectations?[{title:`Repères · ${s.diagnostic.duration} minutes`,body:`A1 : ${s.diagnostic.expectations.a1}\nA2 : ${s.diagnostic.expectations.a2}`}]:[]),
   ...s.diagnostic.tasks.map(a=>({title:a.title,body:[a.observation?[a.observation.title,a.observation.code,a.observation.output].filter(Boolean).join('\n'):'',a.instruction,a.starter?`Code de départ :\n${a.starter}`:'',a.options?.length?`Réponses à compléter :\n${a.options.join('\n')}`:'',`À rendre : ${a.expectedEvidence}`].filter(Boolean).join('\n\n')}))
  ]),'student');
- for(const a of s.diagnostic.tasks)if(a.starter)add(`02_DIAGNOSTIC/fichiers-depart/${a.id}.txt`,Buffer.from(a.starter),'student');
+ for(const a of s.diagnostic.tasks)if(typeof a.starter==='string')add(`02_DIAGNOSTIC/fichiers-depart/${a.id}.txt`,Buffer.from(a.starter),'student');
  add('02_DIAGNOSTIC/diagnostic-spec.json',json(s.diagnostic));add('02_DIAGNOSTIC/grille.json',json(s.diagnostic.rubric));
  add('02_DIAGNOSTIC/correction-reference.pdf',await pdf('Correction de référence',s.diagnostic.tasks.map(a=>({title:a.title,body:a.reference+'\n'+a.expectedAnswer}))));
  for(const a of s.diagnostic.tasks)add(`02_DIAGNOSTIC/fichiers-reference/${a.id}.txt`,Buffer.from(a.reference+'\n'+a.expectedAnswer));

@@ -29,7 +29,7 @@ test('arcade flag protects HTML, assets and APIs; rollback keeps legacy login',a
  assert.equal((await call('/api/session')).status,200);process.env.EDEN_WORLD_ARCADE='1';
 });
 test('catalogue is public, real session is reused, Cyber Funk absent and no fictitious rewards',async()=>{
- const guest=(await call('/api/arcade/bootstrap',{actor:'guest'})).data;assert.equal(guest.account,null);assert.equal(guest.games[0].state,'auth_required');assert.equal(guest.games[1].state,'unavailable');
+ const guest=(await call('/api/arcade/bootstrap',{actor:'guest'})).data;assert.deepEqual(guest.games.map(g=>g.id),['code-station','cyber-funk','bunker','rocket','infiltration','assault']);assert.equal(guest.account,null);assert.equal(guest.games[0].state,'auth_required');assert.equal(guest.games[1].state,'unavailable');
  const data=(await call('/api/arcade/bootstrap')).data;assert.equal(data.account.role,'student');assert.equal(data.games[0].missions[0].hasSave,true);assert.equal(data.account.profile.grade,null);
  for(const value of Object.values(data.capabilities))assert.equal(value,false);
  assert.doesNotMatch(JSON.stringify(data),/Identité privée|example.invalid|passwordHash|username|classId/);
@@ -82,15 +82,15 @@ test('launch authorizes real assignment and is idempotent across concurrent fres
  const secondContext=await call(`/api/game/runs/${second.data.runId}/context`,{actor:'student-b'});assert.equal(secondContext.status,200);assert.equal(secondContext.data.progress,null);
  assert.equal((await fixture.store.list('learning_events','A1')).filter(e=>e.learnerId==='student-b').length,0);
 });
-test('Code Station opens a prerequisite world for every class student without invented progress',async()=>{
+test('Each game opens its assigned world for every class student without invented progress',async()=>{
  const original=await fixture.store.get('lesson_versions','arcade-lesson:v1');
  const mission=(await fixture.store.list('game_missions','A1')).find(m=>m.world==='assault');
  const before=Object.fromEntries(await Promise.all(['learning_events','game_evidence','evidence','game_teacher_overrides'].map(async t=>[t,await fixture.store.list(t)])));
  try {
   await fixture.store.put('lesson_versions',{...original,spec:{...original.spec,codeStation:{missionId:mission.id,worldId:mission.world,unlockAfter:'transfer'}}});
   for(const actor of ['student-a','student-b']){
-   const games=(await call('/api/arcade/bootstrap',{actor})).data.games;assert.equal(games[0].state,'available');assert.equal(games[0].missions[0].state,'available');
-   const launched=await call('/api/arcade/launch',{method:'POST',actor,body:{gameId:'code-station',lessonId:'arcade-lesson',missionId:mission.id}});assert.equal(launched.status,200);
+   const games=(await call('/api/arcade/bootstrap',{actor})).data.games;assert.equal(games[0].missions.length,0);assert.equal(games.find(g=>g.id==='assault').missions[0].state,'available');
+   const launched=await call('/api/arcade/launch',{method:'POST',actor,body:{gameId:'assault',lessonId:'arcade-lesson',missionId:mission.id}});assert.equal(launched.status,200);
    const context=await call(`/api/game/runs/${launched.data.runId}/context`,{actor});assert.equal(context.status,200);assert.equal(context.data.worldId,mission.world);
   }
   const direct=await call('/api/game/runs',{method:'POST',actor:'student-b',body:{lessonId:'arcade-lesson',missionId:mission.id}});assert.equal(direct.status,200);
@@ -99,7 +99,7 @@ test('Code Station opens a prerequisite world for every class student without in
 });
 test('forged destinations, unknown bindings and foreign saves are refused',async()=>{
  const body={gameId:'code-station',lessonId:'arcade-lesson',missionId:fixture.mission.id};
- for(const extra of [{gameId:'unknown'},{gameId:'toString'},{gameId:'cyber-funk'},{url:'https://evil.invalid'},{returnTo:'//evil.invalid'},{playerId:'student-b'},{missionId:'B1:code-station:missing:v1'}])assert.ok((await call('/api/arcade/launch',{method:'POST',body:{...body,...extra}})).status>=400);
+ for(const extra of [{gameId:'unknown'},{gameId:'bunker'},{gameId:'toString'},{gameId:'cyber-funk'},{url:'https://evil.invalid'},{returnTo:'//evil.invalid'},{playerId:'student-b'},{missionId:'B1:code-station:missing:v1'}])assert.ok((await call('/api/arcade/launch',{method:'POST',body:{...body,...extra}})).status>=400);
  for(const actor of ['student-b','student-other'])for(const [method,path,body] of [['GET',`/api/game/runs/${runId}/context`],['POST',`/api/game/runs/${runId}/progress`,{progress:{}}],['POST',`/api/game/runs/${runId}/complete`,{eventId:'fake',payload:{}}]])assert.ok((await call(path,{method,body,actor})).status>=400);
 });
 test('existing runs stay open without autonomy but enforce assignment and publication',async()=>{

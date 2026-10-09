@@ -4,7 +4,7 @@ import {lessonQuality} from './domain.mjs';
 import {publicationCodeChecks} from './publication-code.mjs';
 import {freezeContent,canonical} from './content-snapshots.mjs';
 
-const canTakeOver=(lesson,job)=>lesson.status==='draft'&&lesson.qualityRequired===true&&!!job&&['cancelled','blocked','completed'].includes(job.status)&&!job.simulation&&lesson.provider!=='fixture';
+const canTakeOver=(lesson,job)=>lesson.status==='draft'&&lesson.qualityRequired===true&&(lesson.provider==='transfer'||!!job&&['cancelled','blocked','completed'].includes(job.status)&&!job.simulation&&lesson.provider!=='fixture');
 
 export async function takeOverDraft(store,id,input,actor){
  requireValue(actor.role==='teacher'&&input.confirmed===true,'Confirmez la reprise et votre relecture du brouillon.');
@@ -18,11 +18,12 @@ export async function takeOverDraft(store,id,input,actor){
   lesson.version++;lesson.versionId=`${id}:v${lesson.version}`;spec.lessonVersion=lesson.version;
   const reason=input.reason.trim();
   await tx.insert('lesson_versions',{id:lesson.versionId,lessonId:id,classId:actor.classId,version:lesson.version,spec,previousVersionId,reason,authorId:actor.id});
-  lesson.teacherReview={sourceJobId:job.id,previousVersionId,versionId:lesson.versionId,reason,at:now(),authorId:actor.id};
+  lesson.teacherReview={sourceJobId:job?.id||null,previousVersionId,versionId:lesson.versionId,reason,at:now(),authorId:actor.id};
   lesson.qualityRequired=false;lesson.pedagogicalValidation=null;lesson.preparationState='teacher_draft';
+  if(lesson.transferPreparation)lesson.transferPreparation={requiresReview:false,incomplete:false,state:'teacher_draft'};
   lesson.quality=(await lessonQuality(tx,lesson)).quality;await tx.put('lessons',lesson);
-  await freezeContent(tx,{classId:actor.classId,event:'lesson.teacher_takeover',eventId:lesson.versionId,subject:{kind:'lesson',lessonId:id,lessonVersionId:lesson.versionId},versions:{previousVersionId,sourceJobId:job.id},files:[{path:'lesson.json',content:canonical(spec),audience:'teacher'}]});
-  await tx.audit(actor,'lesson.teacher_takeover',id,{previousVersionId,versionId:lesson.versionId,sourceJobId:job.id,reason});return lesson;
+  await freezeContent(tx,{classId:actor.classId,event:'lesson.teacher_takeover',eventId:lesson.versionId,subject:{kind:'lesson',lessonId:id,lessonVersionId:lesson.versionId},versions:{previousVersionId,sourceJobId:job?.id||null},files:[{path:'lesson.json',content:canonical(spec),audience:'teacher'}]});
+  await tx.audit(actor,'lesson.teacher_takeover',id,{previousVersionId,versionId:lesson.versionId,sourceJobId:job?.id||null,reason});return lesson;
  });
 }
 

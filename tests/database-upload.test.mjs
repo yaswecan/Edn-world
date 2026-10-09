@@ -238,3 +238,15 @@ test('HTTP replacement wipes old records, revokes all sessions and preserves imp
  const student=await login('student','student','local-student-password');assert.equal(student.status,200);
  assert.equal((await student.json()).user.id,'learner');
 });
+
+test('v1 backups made before lesson-transfer tables remain importable without trusting a new digest',async()=>{
+ const backup=JSON.parse(gunzipSync((await backupFixture()).buffer));
+ const oldTables=TABLES.filter(t=>!t.startsWith('lesson_transfer'));
+ for(const t of TABLES.filter(t=>!oldTables.includes(t)))delete backup.tables[t];
+ backup.fingerprint=snapshotDigest(backup.tables,oldTables);
+ const restored=await decodeBackup(gzipSync(JSON.stringify(backup)),'A1');
+ assert.deepEqual(restored.tables.lesson_transfers,[]);assert.deepEqual(restored.tables.lessons,backup.tables.lessons);
+ assert.equal(restored.report.fingerprint,snapshotDigest(restored.tables));
+ backup.tables.lessons[0].data=backup.tables.lessons[0].data.replace('Quatre','Deux');
+ await assert.rejects(decodeBackup(gzipSync(JSON.stringify(backup)),'A1'),/empreinte/);
+});

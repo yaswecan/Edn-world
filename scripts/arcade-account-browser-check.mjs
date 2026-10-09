@@ -19,16 +19,16 @@ async function shot(name){const secrets=page.locator('input[autocomplete$="passw
 async function menu(){await page.locator('#account-slot summary').click();}
 async function loginAPI(ctx,username='student-a',password=fixture.password,role='student') {const r=await ctx.request.post(fixture.base+'/api/login',{data:{role,username,password,classId:'A1'}});assert.equal(r.status(),200);}
 try {
- await check('visiteur : Commencer, deux mondes, inscription fermée et récupération scolaire',async()=>{
-  await page.goto(fixture.base+'/arcade');await page.locator('#start-button').focus();await page.keyboard.press('Enter');await expect(page.locator('.cabinet')).toHaveCount(2);
+ await check('visiteur : Commencer, six jeux, inscription fermée et récupération scolaire',async()=>{
+  await page.goto(fixture.base+'/arcade');await page.locator('#start-button').focus();await page.keyboard.press('Enter');await expect(page.locator('.cabinet')).toHaveCount(6);
   await page.locator('#account-slot [data-action=auth]').click();await page.getByRole('button',{name:'Créer un compte',exact:true}).click();await expect(page.getByText('Les inscriptions ne sont pas ouvertes pour le moment.')).toBeVisible();await expect(page.getByLabel('Confirmer le mot de passe',{exact:true})).toBeDisabled();await shot('01-inscription-fermee');
   await page.getByRole('button',{name:'J’ai déjà un compte',exact:true}).click();await page.getByRole('button',{name:'Mot de passe oublié ?',exact:true}).click();await expect(page.locator('#modal')).toContainText('contacte ton professeur');await page.keyboard.press('Escape');
  });
  await check('connexion hôte puis AKA/avatar clavier et reprise de l’intention Code Station',async()=>{
-  await page.locator('[data-game=code-station]').click();await page.getByLabel('Identifiant',{exact:true}).fill('student-a');await page.getByLabel('Mot de passe',{exact:true}).fill('incorrect');await page.locator('[data-form=login] [type=submit]').click();await expect(page.locator('.form-status')).toContainText('Identifiants incorrects');
+  await page.locator('[data-game=code-station]').click();await page.locator('#main-content [data-action=auth]').click();await page.getByLabel('Identifiant',{exact:true}).fill('student-a');await page.getByLabel('Mot de passe',{exact:true}).fill('incorrect');await page.locator('[data-form=login] [type=submit]').click();await expect(page.locator('.form-status')).toContainText('Identifiants incorrects');
   await page.getByLabel('Mot de passe',{exact:true}).fill(fixture.password);await page.locator('[data-form=login] [type=submit]').click();await expect(page.getByRole('heading',{name:'Choisis ton joueur',exact:true})).toBeVisible();
   await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('radio',{name:'Choisir cet avatar — Avatar 1',exact:true}).focus();await page.keyboard.press('ArrowRight');await expect(page.getByRole('radio',{name:'Choisir cet avatar — Avatar 2',exact:true})).toBeChecked();await expect(page.locator('#identity-preview h2')).toHaveText('Aster');await shot('02-choisis-ton-joueur');
-  await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await expect(page.frameLocator('.game-frame').locator('#worldCanvas')).toBeVisible();runId=decodeURIComponent(new URL(page.url()).hash.slice(5));
+  await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await page.locator('[data-game=code-station]').click();await page.locator('[data-action=play]').first().click();await expect(page.frameLocator('.game-frame').locator('#worldCanvas')).toBeVisible();runId=decodeURIComponent(new URL(page.url()).hash.slice(5));
   await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await expect(page.locator('#game-modal')).not.toBeVisible();
  });
  await check('aperçu local, annulation, erreur de sauvegarde et persistance après reconnexion',async()=>{
@@ -45,7 +45,7 @@ try {
   await shot('03-avatar-indisponible');await page.unroute('**/assets/avatars/04.webp');await page.reload();await expect(page.getByRole('radio',{name:'Choisir cet avatar — Avatar 4',exact:true})).toBeEnabled();
  });
  await check('Mon espace : identité réelle, aucune récompense inventée, carte privée et reprise autorisée',async()=>{
-  await visit('#profil');await expect(page.locator('.identity-handle')).toHaveText('Aster_Nova');await expect(page.getByText('Aucun badge pour le moment.',{exact:true})).toBeVisible();await expect(page.getByText(/Les paliers de progression ne sont pas disponibles/)).toBeVisible();assert.doesNotMatch(await page.locator('#main-content').innerText(),/Identité privée|example.invalid|Rookie|\b0 XP\b/);
+  await visit('#profil');await expect(page.locator('.identity-handle')).toHaveText('Aster_Nova');await expect(page.getByText('Aucun badge pour le moment.',{exact:true})).toBeVisible();await expect(page.getByText(/Retrouve le détail de ton parcours dans chaque jeu/)).toBeVisible();assert.doesNotMatch(await page.locator('#main-content').innerText(),/Identité privée|example.invalid|Rookie|\b0 XP\b/);
   await page.getByRole('button',{name:'Voir ma carte',exact:true}).click();await expect(page.locator('#modal')).toContainText('Cet aperçu ne publie pas ton profil.');await page.keyboard.press('Escape');await expect(page.getByRole('button',{name:'Voir ma carte',exact:true})).toBeFocused();
   await page.locator('[data-action=resume]').click();await expect(page.frameLocator('.game-frame').locator('#worldCanvas')).toBeVisible();await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();
  });

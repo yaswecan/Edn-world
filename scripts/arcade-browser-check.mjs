@@ -24,12 +24,12 @@ try{
   await page.locator('#splash-account [data-action=auth]').click();await page.getByLabel('Identifiant',{exact:true}).fill('x');await page.keyboard.press('Enter');assert.equal(new URL(page.url()).hash,'');
   await page.getByRole('button',{name:'Créer un compte',exact:true}).click();await expect(page.getByText('Les inscriptions ne sont pas ouvertes pour le moment.')).toBeVisible();await shot('02-inscription-fermee','guest');
   await page.keyboard.press('Escape');await expect(page.locator('#modal')).not.toBeVisible();await expect(page.locator('#splash-account [data-action=auth]')).toBeFocused();
-  await page.locator('#start-button').focus();await page.keyboard.press('Enter');await expect(page.locator('.cabinet')).toHaveCount(2);await expect(page.locator('[data-game=cyber-funk]')).toBeDisabled();await shot('03-salle-visiteur','guest');
+  await page.locator('#start-button').focus();await page.keyboard.press('Enter');await expect(page.locator('.cabinet')).toHaveCount(6);await expect(page.locator('[data-game=cyber-funk]')).toBeDisabled();await shot('03-salle-visiteur','guest');
   await page.goto(fixture.base+'/arcade');await page.locator('body').click({position:{x:5,y:5}});await page.keyboard.press('Enter');await expect(page.locator('.cabinets')).toBeVisible();
  });
  await check('real host login is required; profile persists with no credential storage',async()=>{
-  await page.locator('[data-game=code-station]').click();await page.getByLabel('Identifiant',{exact:true}).fill('student-a');await page.getByLabel('Mot de passe',{exact:true}).fill('incorrect');await page.locator('[data-form=login] [type=submit]').click();await expect(page.locator('.form-status')).toContainText('Identifiants incorrects');
-  await page.getByLabel('Mot de passe',{exact:true}).fill(fixture.password);await page.locator('[data-form=login] [type=submit]').click();await expect(page.getByRole('heading',{name:'Choisis ton joueur',exact:true})).toBeVisible();await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await expect(page.locator('#game-modal')).toBeVisible();await enterAssignedTerminal(page,fixture.mission);
+  await page.locator('[data-game=code-station]').click();await expect(page.locator('.journey-step')).toHaveCount(4);await page.locator('#main-content [data-action=auth]').click();await page.getByLabel('Identifiant',{exact:true}).fill('student-a');await page.getByLabel('Mot de passe',{exact:true}).fill('incorrect');await page.locator('[data-form=login] [type=submit]').click();await expect(page.locator('.form-status')).toContainText('Identifiants incorrects');
+  await page.getByLabel('Mot de passe',{exact:true}).fill(fixture.password);await page.locator('[data-form=login] [type=submit]').click();await expect(page.getByRole('heading',{name:'Choisis ton joueur',exact:true})).toBeVisible();await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('button',{name:'Entrer dans l’arcade',exact:true}).click();await page.locator('[data-game=code-station]').click();await page.locator('[data-action=play]').first().click();await expect(page.locator('#game-modal')).toBeVisible();await enterAssignedTerminal(page,fixture.mission);
   await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await expect(page.locator('#game-modal')).not.toBeVisible();
   await page.locator('.main-nav [data-route=profil]').click();await page.getByRole('link',{name:'Personnaliser',exact:true}).click();await page.getByLabel('AKA — ton pseudo',{exact:true}).fill('Aster');await page.getByRole('radio',{name:'Choisir cet avatar — Avatar 4',exact:true}).check();await page.getByLabel('Visibilité du profil').selectOption('class');await page.locator('[data-form=profile] [type=submit]').click();await expect(page.locator('.form-status')).toHaveText('Modifications enregistrées.');await page.reload();await expect(page.getByLabel('AKA — ton pseudo',{exact:true})).toHaveValue('Aster');await shot('04-profil');
   const storage=await page.evaluate(()=>({...localStorage}));assert.deepEqual(Object.keys(storage),['eden.world-arcade.preferences.v1']);assert.doesNotMatch(JSON.stringify(storage),/Aster|password|token|grade|xp/);
@@ -44,20 +44,20 @@ try{
   await page.locator('.main-nav [data-route=badges]').click();await expect(page.locator('#main-content')).toContainText('Les grades ne sont pas disponibles');await shot('07-grades-indisponibles');
  });
  await check('true runtime, deep link, persistent save and retry after network failure',async()=>{
-  await page.locator('.main-nav [data-route=arcade]').click();await expect(page.locator('[data-game=code-station]')).toContainText('Reprendre');
-  await page.locator('[data-game=code-station]').dblclick();await enterAssignedTerminal(page,fixture.mission);
+  await page.locator('.main-nav [data-route=arcade]').click();await expect(page.locator('[data-game=code-station]')).toContainText('Voir mon parcours');
+  await page.locator('[data-game=code-station]').click();await expect(page.locator('.journey-step.is-started')).toHaveCount(1);await page.locator('[data-action=play]').first().dblclick();await enterAssignedTerminal(page,fixture.mission);
   const frame=page.frameLocator('.game-frame');await frame.locator('#missionCode').fill('return 42;');
   await page.route('**/api/game/runs/*/progress',route=>route.fulfill({status:503,json:{error:'PRIVATE trace'}}));
   await frame.locator('#saveDraft').click();await expect(page.locator('#game-save')).toContainText('n’a pas encore été enregistrée');assert.doesNotMatch(await page.locator('body').innerText(),/PRIVATE trace/);await shot('08-sauvegarde-erreur');
   await page.unroute('**/api/game/runs/*/progress');await page.locator('[data-action=retry-save]').click();await expect(page.locator('#game-save')).toHaveText('Partie enregistrée.');
   const url=page.url();await shot('09-jeu');await page.reload();await enterAssignedTerminal(page,fixture.mission);await expect(page.frameLocator('.game-frame').locator('#missionCode')).toHaveValue('return 42;');assert.equal(page.url(),url);
-  await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await expect(page.locator('[data-game=code-station]')).toBeFocused();assert.equal(new URL(page.url()).hash,'#arcade');
+  await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await expect(page.locator('[data-action=play]').first()).toBeFocused();assert.equal(new URL(page.url()).hash,'#parcours/code-station');await expect(page.locator('.journey-step-progress')).toContainText('1 / 3');await shot('09-parcours-progression');
   assert.equal((await fixture.store.list('game_runs','A1')).length,1);
  });
  await check('slow launch ignores late response after navigation and never launches a demo',async()=>{
   let release,finished;const hold=new Promise(r=>release=r),continued=new Promise(r=>finished=r);
   await page.route('**/api/arcade/launch',async route=>{await hold;await route.continue();finished();});
-  await page.locator('[data-game=code-station]').click();await page.locator('.main-nav [data-route=badges]').click();release();await continued;await page.unroute('**/api/arcade/launch');await expect(page.locator('#main-content')).toContainText('Les grades');
+  await page.locator('[data-action=play]').first().click();await page.locator('.main-nav [data-route=badges]').click();release();await continued;await page.unroute('**/api/arcade/launch');await expect(page.locator('#main-content')).toContainText('Les grades');
   await page.waitForTimeout(200);assert.equal(new URL(page.url()).hash,'#badges');assert.equal(await page.locator('canvas,.game-frame').count(),0);
  });
  await check('500, forbidden, empty and offline have distinct UI states',async()=>{
@@ -68,10 +68,12 @@ try{
  });
  await check('desktop, compact desktop, tablet and stacked mobile without page overflow',async()=>{
   for(const [width,height] of [[1440,1050],[1280,720],[768,1024],[390,844],[360,800]]){
-   await page.setViewportSize({width,height});await visit('#arcade');await expect(page.locator('.cabinet')).toHaveCount(2);await expect(page.locator('#players-slot .avatar-tile').first()).toBeVisible();
+   await page.setViewportSize({width,height});await visit('#arcade');await expect(page.locator('.cabinet')).toHaveCount(6);await expect(page.locator('#players-slot .avatar-tile').first()).toBeVisible();
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`${width} overflow`);
    if(width<=390){const boxes=await page.locator('.cabinet').evaluateAll(nodes=>nodes.map(n=>({top:n.getBoundingClientRect().top,bottom:n.getBoundingClientRect().bottom})));assert.ok(boxes[1].top>boxes[0].bottom);}
    await shot(`11-salle-${width}x${height}`);
+   for (const game of ['code-station','bunker','rocket','infiltration','assault']) {await visit(`#parcours/${game}`);await expect(page.locator('.journey-step')).toHaveCount(4);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false,`${game} ${width} overflow`);}
+   await visit('#parcours/code-station');await shot(`11-parcours-${width}x${height}`);
   }
  });
  await check('200 percent equivalent viewport, focus visibility, CRT and reduced motion',async()=>{
@@ -93,7 +95,7 @@ try{
   assert.equal(await teacher.locator('link[href*="world-arcade"]').count(),0);await teacher.setViewportSize({width:390,height:844});assert.equal(await teacher.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await shot('15-professeur-mobile','teacher',teacher);await teacherContext.close();
  });
  await check('logout clears host session and no profile is reused for the next account',async()=>{
-  await visit('#reglages');await page.getByRole('button',{name:'Se déconnecter',exact:true}).click();await expect(page.locator('#account-slot [data-action=auth]')).toBeEnabled();await expect(page.locator('.cabinet')).toHaveCount(2);
+  await visit('#reglages');await page.getByRole('button',{name:'Se déconnecter',exact:true}).click();await expect(page.locator('#account-slot [data-action=auth]')).toBeEnabled();await expect(page.locator('.cabinet')).toHaveCount(6);
   const result=await context.request.get(fixture.base+'/api/arcade/profile');assert.equal(result.status(),401);
   await login('student','student-b');await visit('#profil');await expect(page.getByLabel('AKA — ton pseudo',{exact:true})).toHaveValue('');
  });

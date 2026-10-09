@@ -273,3 +273,6 @@ dialog:has(#preview-body.lesson-view){width:1100px;max-width:96vw}
 .lesson-view,.lesson-view .lesson-stage{background:white;border:0;box-shadow:none;padding:0}
 .lesson-exercise,.lesson-blackboard{break-inside:avoid}
 }
+
+/* Rich lesson documents use the same constrained formatting in editor previews and student pages. */
+.rich-content{line-height:1.75;overflow-wrap:anywhere;margin:20px 0}.rich-content img{max-width:100%;height:auto}.rich-content pre{white-space:pre-wrap;tab-size:2;background:#f1edf9;padding:18px;border-radius:10px}.rich-content table{border-collapse:collapse;width:100%;margin:16px 0}.rich-content td,.rich-content th{border:1px solid #bbb3ce;padding:10px}.rich-content blockquote{margin:18px 0;padding:14px 20px;border-left:4px solid #8b75d6;background:#f4f0ff}.rich-content figcaption{font-size:14px;color:#665d75;text-align:center}.rich-content a{text-decoration:underline;color:#5940b1}

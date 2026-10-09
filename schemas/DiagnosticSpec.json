@@ -307,6 +307,72 @@
               "output"
             ],
             "additionalProperties": false
+          },
+          "richText": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "instruction": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "const": "doc"
+                  },
+                  "content": {
+                    "type": "array"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "objective": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "const": "doc"
+                  },
+                  "content": {
+                    "type": "array"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "expectedEvidence": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "const": "doc"
+                  },
+                  "content": {
+                    "type": "array"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "reference": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "const": "doc"
+                  },
+                  "content": {
+                    "type": "array"
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
           }
         },
         "required": [
@@ -328,8 +394,8 @@
         ],
         "additionalProperties": false
       },
-      "minItems": 2,
-      "maxItems": 4
+      "minItems": 0,
+      "maxItems": 100
     },
     "rubric": {
       "type": "array",
@@ -370,7 +436,7 @@
         ],
         "additionalProperties": false
       },
-      "minItems": 1
+      "minItems": 0
     },
     "policyVersion": {
       "type": "string"

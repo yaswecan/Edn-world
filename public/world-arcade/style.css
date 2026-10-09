@@ -979,3 +979,65 @@ to{opacity:1;transform:translateY(0)}
 .world-arcade .avatar-unavailable{display:inline-grid;place-items:center;min-width:50px;min-height:55px;border:1px dashed #9692a9;background:#171722;color:#9692a9}
 .world-arcade .avatar-unavailable .icon{width:32px;height:32px}
 .world-arcade .avatar-picker label:has(:disabled){opacity:.7;cursor:not-allowed}
+
+/* Game catalogue and saved mission journeys. */
+.world-arcade .cabinet-screen{display:block}
+.world-arcade a.arcade-play{display:flex;align-items:center;justify-content:center;gap:16px}
+.world-arcade .cabinet-base .journey-meter{margin-top:12px}
+.world-arcade .cabinets{row-gap:35px}
+.world-arcade .splash-game-names{flex-wrap:wrap;justify-content:center;max-width:650px}
+.world-arcade .splash-game-names>span:last-child{line-height:1.8}
+.world-arcade .journey-back{margin:6px 0 20px}
+.world-arcade .journey-hero{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.4fr);gap:32px;padding:26px;overflow:hidden}
+.world-arcade .journey-cover{align-self:stretch;min-height:260px;border:1px solid var(--wa-line);border-radius:8px;overflow:hidden;background:#101522}
+.world-arcade .journey-cover .game-art{width:100%;height:100%;min-height:260px;object-fit:cover}
+.world-arcade .journey-intro{min-width:0;align-self:center}
+.world-arcade .journey-intro h1{font-size:clamp(38px,4vw,64px);margin:12px 0 16px}
+.world-arcade .journey-intro>p{line-height:1.7;color:#bcb6ce}
+.world-arcade .journey-progress{margin:24px 0}
+.world-arcade .journey-progress>div{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px}
+.world-arcade .journey-progress>div>span{color:var(--wa-cyan);white-space:nowrap}
+.world-arcade .journey-progress>p{margin-top:10px;font-size:12px;color:var(--wa-muted)}
+.world-arcade .journey-meter{display:block;width:100%;height:7px;border:0;border-radius:20px;overflow:hidden;background:#2b293b;accent-color:var(--wa-cyan)}
+.world-arcade .journey-meter::-webkit-progress-bar{background:#2b293b;border-radius:20px}
+.world-arcade .journey-meter::-webkit-progress-value{background:var(--wa-cyan);border-radius:20px}
+.world-arcade .journey-meter::-moz-progress-bar{background:var(--wa-cyan);border-radius:20px}
+.world-arcade .journey-continue{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.world-arcade .journey-continue>span{color:var(--wa-muted);font-size:12px}
+.world-arcade .journey-heading{margin:34px 0 24px}
+.world-arcade .journey-heading h2{font:700 28px var(--wa-display);text-transform:uppercase}
+.world-arcade .journey-heading p{margin-top:8px;color:var(--wa-muted);line-height:1.6}
+.world-arcade .journey-list{list-style:none;margin:0;padding:0}
+.world-arcade .journey-step{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr);gap:22px;padding-bottom:20px}
+.world-arcade .journey-step:not(:last-child)::before{content:'';position:absolute;width:2px;left:23px;top:48px;bottom:0;background:var(--wa-line)}
+.world-arcade .journey-node{position:relative;display:grid;place-items:center;align-self:start;width:48px;height:48px;background:#171722;border:1px solid #454052;border-radius:50%;font:14px var(--wa-pixel);color:var(--wa-muted)}
+.world-arcade .is-complete .journey-node{background:#173835;border-color:#83ebbc;color:#83ebbc}
+.world-arcade .is-started .journey-node{border-color:var(--wa-cyan);color:var(--wa-cyan);box-shadow:0 0 22px #60dcf51a}
+.world-arcade .journey-mission{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px}
+.world-arcade .journey-step[aria-current] .journey-mission{border-color:#46747c;background:linear-gradient(110deg,#14252e,#11111d 75%)}
+.world-arcade .journey-meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:11px;color:var(--wa-muted);margin-bottom:12px}
+.world-arcade .journey-status{border:1px solid var(--wa-line);border-radius:4px;padding:4px 8px;color:#cac4d6}
+.world-arcade .is-complete .journey-status{color:#83ebbc;border-color:#33594f}
+.world-arcade .is-started .journey-status{color:var(--wa-cyan);border-color:#46747c}
+.world-arcade .journey-mission h3{font-size:19px;line-height:1.4;margin-bottom:8px}
+.world-arcade .journey-mission p{font-size:13px;line-height:1.7;color:#b6afc7}
+.world-arcade .journey-mission .journey-step-progress{margin-top:12px;color:var(--wa-cyan)}
+.world-arcade .journey-mission .journey-lock{margin-top:12px;color:var(--wa-muted);font-size:12px}
+.world-arcade .journey-mission-action{flex-shrink:0;font-size:12px}
+.world-arcade .personal-game>.game-art{width:100%;height:150px;object-fit:cover;object-position:center 40%;border-bottom:2px solid var(--wa-cyan)}
+@media(max-width:900px){
+.world-arcade .journey-hero{gap:22px;padding:20px;grid-template-columns:minmax(160px,.65fr) minmax(0,1fr)}
+.world-arcade .journey-mission{gap:16px;padding:20px}
+}
+@media(max-width:640px){
+.world-arcade .journey-hero{grid-template-columns:1fr;padding:16px;gap:20px}
+.world-arcade .journey-cover{min-height:0;height:180px}
+.world-arcade .journey-cover .game-art{min-height:0;height:180px;object-position:center 40%}
+.world-arcade .journey-intro h1{font-size:40px}
+.world-arcade .journey-step{grid-template-columns:34px minmax(0,1fr);gap:12px}
+.world-arcade .journey-node{width:34px;height:34px;font-size:11px}
+.world-arcade .journey-step:not(:last-child)::before{left:16px;top:34px}
+.world-arcade .journey-mission{align-items:flex-start;flex-direction:column;padding:16px;gap:16px}
+.world-arcade .journey-mission-action,.world-arcade .journey-mission-action .button{width:100%}
+.world-arcade .journey-progress>div{font-size:12px}
+}

@@ -32,5 +32,14 @@ export const lessonSchema=obj({schemaVersion:{const:'1.0'},lessonId:identifier,l
 Object.assign(lessonSchema.properties.codeStation.anyOf[1].properties,{mapId:str,missionSignature:str});
 export const intentSchema=obj({classId:str,intent:{type:'string',minLength:1,maxLength:4000},targetDate:{type:['string','null']},constraints:strings,requestedChanges:{type:'array',items:obj({entryId:str,date:str,reason:str})},mode:{enum:['prepare','remediation','change_plan']}});
 lessonSchema.properties.sourceNotes={type:'array',items:obj({blockId:str,title:str,location:str,note:str,url:{type:['string','null']}})};
+// Optional rich authoring contract; legacy sections remain readable without conversion.
+lessonSchema.properties.editorVersion={const:1};
+const richDoc={type:'object',required:['type'],properties:{type:{const:'doc'},content:{type:'array'}},additionalProperties:false};
+blockSchema.properties.editor=obj({version:{const:1},items:{type:'array',maxItems:500,items:{type:'object',required:['id','kind'],additionalProperties:false,properties:{id:identifier,kind:{enum:['rich','activity','diagnosticActivity','board','objectives','timeline','diagnostic','mission']},role:{enum:['content','steps','hint','check','takeaways','diagram']},doc:richDoc,activityId:identifier,board:str}}}});
+activitySchema.properties.richText={type:'object',additionalProperties:false,properties:Object.fromEntries(['instruction','objective','expectedEvidence','reference'].map(k=>[k,richDoc]))};
+// Drafts may be incomplete. Publication still checks diagnostic and rubric requirements.
+diagnosticSchema.properties.tasks.minItems=0;
+diagnosticSchema.properties.tasks.maxItems=100;
+diagnosticSchema.properties.rubric.minItems=0;
 const ajv=new Ajv({allErrors:true});const validators=new Map();
 export function validate(schema,value){let validator=validators.get(schema);if(!validator){validator=ajv.compile(schema);validators.set(schema,validator);}if(!validator(value))fail(422,'Le document ne respecte pas le schéma.',validator.errors);return value;}

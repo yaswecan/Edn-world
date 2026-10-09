@@ -19,7 +19,7 @@ try{
  page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
  // Preserve evidence of the original daily launch without reverting work files.
  for(const name of ['index.html','runtime.js','style.css'])await page.route('**/game/'+name,route=>route.fulfill({body:execFileSync('git',['show','HEAD:public/game/'+name]),contentType:name.endsWith('.js')?'text/javascript':name.endsWith('.css')?'text/css':'text/html'}));
- await page.goto(f.base+'/today?lesson='+encodeURIComponent(f.lesson.id));await page.getByRole('link',{name:'Mode arcade',exact:true}).click();await page.locator('[data-game="code-station"]').click();
+ await page.goto(f.base+'/today?lesson='+encodeURIComponent(f.lesson.id));await page.getByRole('link',{name:'Mode arcade',exact:true}).click();await page.locator(`[data-game="${m.world}"]`).click();await page.locator('[data-action=play]').first().click();
  await expect(page.frameLocator('.game-frame').locator('#missionCode')).toBeVisible({timeout:20000});await page.screenshot({path:directory+'/before.png'});report.checks.push('original-daily-launch-is-flat-editor');
  await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();await page.unrouteAll({behavior:'wait'});
  await page.locator('.topbar .host-return').click();
@@ -32,7 +32,7 @@ try{
   await expect(page.locator('#dialog')).not.toBeVisible();
   await page.locator(`[data-action="student-step"][data-id="${index}"]:visible`).click();await page.getByRole('button',{name:'Jouer',exact:true}).click();
  }
- else{await page.getByRole('link',{name:'Mode arcade',exact:true}).click();await page.locator('[data-game="code-station"]').click();}
+ else{await page.getByRole('link',{name:'Mode arcade',exact:true}).click();await page.locator(`[data-game="${m.world}"]`).click();await page.locator('[data-action=play]').first().click();}
  await page.frameLocator('.game-frame').locator('#startMission').click();const frame=page.frames().find(f=>f.url().includes('/game/index.html'));
  await page.screenshot({path:directory+'/world.png'});
  await walkTo(frame,def,def.map.objects.find(o=>o.id==='relay').nav);await frame.locator('#worldCanvas').press('e');
@@ -44,9 +44,9 @@ try{
  await walkTo(frame,def,def.map.objects.find(o=>o.id==='exit').nav,def.map.doors.map(d=>d.id));await frame.locator('#worldCanvas').press('e');await expect(frame.locator('#briefTitle')).toHaveText('Mission accomplie');await page.screenshot({path:directory+'/victory.png'});
  report.checks.push(index>=0?'lesson-launch-through-real-Jouer-button':'arcade-launch-through-daily-lesson','daily-mission-walked-to-victory');
  await frame.locator('#finishMission').click();await expect(page.locator('.game-frame')).toHaveCount(0);
- await page.getByRole('link',{name:'Mode arcade',exact:true}).click();await page.locator('[data-game="code-station"]').click();await expect(page.frameLocator('.game-frame').locator('#app')).toHaveAttribute('data-stage','won');report.checks.push('lesson-save-resumes-from-arcade');
+ await page.getByRole('link',{name:'Mode arcade',exact:true}).click();await page.locator(`[data-game="${m.world}"]`).click();await page.locator('[data-action=play]').first().click();await expect(page.frameLocator('.game-frame').locator('#app')).toHaveAttribute('data-stage','won');report.checks.push('lesson-save-resumes-from-arcade');
  await page.getByRole('button',{name:'Quitter le jeu',exact:true}).click();
- await page.setViewportSize({width:390,height:844});await page.locator('[data-game="code-station"]').click();
+ await page.setViewportSize({width:390,height:844});await page.locator('[data-action=play]').first().click();
  const mobile=page.frameLocator('.game-frame');await expect(mobile.locator('#worldCanvas')).toBeVisible();await page.screenshot({path:directory+'/mobile.png'});
  assert.equal(await mobile.locator('html').evaluate(el=>el.scrollWidth<=innerWidth+1),true);report.checks.push('mobile-world-without-horizontal-overflow');
  assert.deepEqual(errors,[]);report.status='PASS';console.log(JSON.stringify(report,null,2));

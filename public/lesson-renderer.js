@@ -1,3 +1,4 @@
+import {renderRich} from './rich-document.js';
 import {edenLogo} from './brand.js';
 import {componentInput} from './components.js';
 import {subjectBoard} from './workshop-ui.js';
@@ -22,7 +23,8 @@ const heroTitle=title=>{const words=String(title||'').trim().split(/\s+/),last=w
 export function ObjectiveCard(objectives){if(!objectives?.length)return '';return `<section class="lesson-objectives" data-component="ObjectiveCard"><div><h2>Objectifs</h2></div><ol>${objectives.map((o,i)=>`<li><span>${String(i+1).padStart(2,'0')}</span><p>${escape(o.replace(/^[A-Z]/,c=>c.toLowerCase()))}</p></li>`).join('')}</ol></section>`;}
 export function LessonHero(spec,b){return `<div data-component="LessonHero"><div class="lesson-hero"><div><h1 tabindex="-1">${heroTitle(spec.title)}</h1>${studentBlockContent(b)?.trim()?`<p class="lesson-lead">${escape(studentBlockContent(b))}</p>`:''}</div>${STEMIllustration()}</div>${ObjectiveCard(spec.objectives)}</div>`;}
 export function SessionTimeline(spec,index,{preview=false,completed=[]}={}){
- const current=spec.blocks[index],phase=phaseOf(current);
+ if(spec.editorVersion===1)return `<nav class="lesson-timeline" aria-label="Étapes de la séance"><div class="lesson-kicker">TON PARCOURS</div>${spec.blocks.map((b,n)=>`<div class="lesson-phase ${n===index?'is-active':''}"><button type="button" data-action="${preview?'demo-step':'student-step'}" data-id="${n}" ${n===index?'aria-current="step"':''}><span>${String(n+1).padStart(2,'0')}</span> ${escape(b.title)}</button></div>`).join('')}</nav>`;
+ const current=spec.blocks[index];if(!current)return '<p>Aucune section.</p>';const phase=phaseOf(current);
  return `<nav class="lesson-timeline" data-component="SessionTimeline" aria-label="Étapes de la séance"><div class="lesson-kicker">TON PARCOURS</div>${PHASES.map(([key,label],i)=>{const blocks=spec.blocks.map((b,index)=>({b,index})).filter(({b})=>phaseOf(b)===key);if(!blocks.length)return '';return `<div class="lesson-phase ${key===phase?'is-active':''}"><div class="lesson-phase-label"><span>${String(i+1).padStart(2,'0')}</span><strong>${label}</strong></div>${blocks.map(({b,index:n})=>`<button type="button" data-action="${preview?'demo-step':'student-step'}" data-id="${n}" ${n===index?'aria-current="step"':''}><span class="lesson-step-dot" aria-hidden="true">${completed.includes(b.id)?'✓':''}</span>${escape(studentBlockTitle(b))}</button>`).join('')}</div>`;}).join('')}</nav>`;
 }
 export function BlackboardSchema(rows,title='Le schéma à garder en tête'){if(!rows?.length)return '';return `<figure class="lesson-blackboard" data-component="BlackboardSchema"><figcaption><span aria-hidden="true">↳</span> ${escape(title)}</figcaption>${rows.map(row=>`<div class="lesson-diagram-row">${row.split(/\s*→\s*|\s*->\s*/).map((node,i)=>`${i?'<span class="lesson-diagram-arrow" aria-hidden="true">→</span>':''}<span class="lesson-diagram-node">${escape(node)}</span>`).join('')}</div>`).join('')}</figure>`;}
@@ -35,7 +37,7 @@ function exercise(a,ctx,component,kind=''){
  const {answers={},diagnostic=false,preview=false,submitted=false,completed=[]}=ctx;
  const disabled=(preview&&!ctx.interactivePreview)||(diagnostic&&submitted);
  const controls=[['CodeEditor','TestRunner'].includes(a.type)&&a.workshop?.profile!=='dom'&&a.workshop?.language!=='text'&&(!preview||ctx.interactivePreview)?action('Vérifier mon code',preview?'preview-run-code':'run-code',a.id):'',!diagnostic&&!preview?action(completed.includes(a.id)?'Activité terminée ✓':'Terminer l’activité','complete-activity',a.id):''].join('');
- return `<article class="lesson-exercise ${kind}" data-component="${component}" data-activity="${escape(a.id)}"><header><div><span class="lesson-kicker">${diagnostic||a.required?'EXERCICE':'FACULTATIF'}</span><h3>${escape(a.title)}</h3></div></header>${a.observation?`<figure class="diagnostic-observation"><figcaption>${escape(a.observation.title)}</figcaption>${LiveCodeBlock(a.observation.code)}${a.observation.output?`<div class="diagnostic-observed-output"><strong>Sortie observée</strong><pre>${escape(a.observation.output)}</pre></div>`:''}</figure>`:''}<div class="lesson-instruction">${paragraphs(a.instruction)}</div><div class="lesson-input">${componentInput(a,answers[a.id],{disabled})}</div>${a.expectedEvidence?`<div class="lesson-evidence"><span aria-hidden="true">↳</span><p><strong>À rendre</strong> ${escape(a.expectedEvidence)}</p></div>`:''}${controls?`<div class="lesson-exercise-actions">${controls}</div>`:''}<pre class="console" id="console-${escape(a.id)}" hidden></pre></article>`;
+ return `<article class="lesson-exercise ${kind}" data-component="${component}" data-activity="${escape(a.id)}"><header><div><span class="lesson-kicker">${diagnostic||a.required?'EXERCICE':'FACULTATIF'}</span><h3>${escape(a.title)}</h3></div></header>${a.observation?`<figure class="diagnostic-observation"><figcaption>${escape(a.observation.title)}</figcaption>${LiveCodeBlock(a.observation.code)}${a.observation.output?`<div class="diagnostic-observed-output"><strong>Sortie observée</strong><pre>${escape(a.observation.output)}</pre></div>`:''}</figure>`:''}<div class="lesson-instruction">${a.richText?.instruction?renderRich(a.richText.instruction):paragraphs(a.instruction)}</div><div class="lesson-input">${componentInput(a,answers[a.id],{disabled})}</div>${a.expectedEvidence?`<div class="lesson-evidence"><span aria-hidden="true">↳</span><p><strong>À rendre</strong> ${a.richText?.expectedEvidence?renderRich(a.richText.expectedEvidence):escape(a.expectedEvidence)}</p></div>`:''}${controls?`<div class="lesson-exercise-actions">${controls}</div>`:''}<pre class="console" id="console-${escape(a.id)}" hidden></pre></article>`;
 }
 export const FillBlankBlock=(a,c={})=>exercise(a,c,'FillBlankBlock','lesson-fillblank');
 export const QuizBlock=(a,c={})=>exercise(a,c,'QuizBlock','lesson-quiz');
@@ -47,8 +49,26 @@ export function renderActivity(a,ctx={}){if(ctx.exit)return ExitTicketBlock(a,ct
 export function CodeStationLaunchBlock(spec,b,{preview=false}={}){return `<div class="lesson-mission" data-component="CodeStationLaunchBlock"><span class="lesson-kicker">PÉDAGOLAB</span>${paragraphs(b.content)}${spec.codeStation?.completionRule?`<div class="lesson-mission-rule"><strong>Pour réussir</strong><p>${escape(spec.codeStation.completionRule)}</p></div>`:''}${!preview&&spec.codeStation?action('Jouer','launch-game','',true):''}</div>`;}
 export function SummaryBlock(b){return `<section class="lesson-summary" data-component="SummaryBlock"><h2>À retenir</h2>${list(guide(b).takeaways.length?guide(b).takeaways:[b.content])}<p>Pour vérifier que tu as compris, explique une de ces idées avec ton propre exemple.</p></section>`;}
 
+
+function renderEditedSection(spec,b,ctx){
+ let html=`<header class="lesson-section-heading"><h1 tabindex="-1">${escape(b.type==='LessonHero'?spec.title:b.title)}</h1></header>`;
+ for(const i of b.editor.items){
+  if(i.kind==='rich')html+=`<div class="rich-content ${['hint','takeaways'].includes(i.role)?'lesson-flash':i.role==='check'?'lesson-check':''}">${renderRich(i.doc)}</div>`;
+  if(i.kind==='board')html+=subjectBoard(i.board);
+  if(i.kind==='objectives')html+=ObjectiveCard(spec.objectives);
+  if(i.kind==='timeline')html+=steps(spec.blocks.map(b=>b.title));
+  if(i.kind==='mission')html+=CodeStationLaunchBlock(spec,{...b,content:''},ctx);
+  if(i.kind==='diagnostic')html+=DiagnosticIntro(spec);
+  if(['activity','diagnosticActivity'].includes(i.kind)){const diagnostic=i.kind==='diagnosticActivity',a=(diagnostic?spec.diagnostic.tasks:spec.activities).find(a=>a.id===i.activityId);if(a&&!(diagnostic&&ctx.submitted&&!ctx.preview))html+=renderActivity(a,{...ctx,diagnostic});}
+ }
+ if(b.type==='Diagnostic'&&!ctx.preview)html+=ctx.submitted?`<div role="status">✓ ${studentCopy.submitted}</div>${action('Voir le résultat','student-result')}`:`<div class="lesson-submit">${action(studentCopy.save,'save-answers')}${action(studentCopy.submit,'submit-answers','',true)}<span id="save-status" role="status" aria-live="polite"></span></div>`;
+ const notes=spec.sourceNotes?.filter(n=>n.blockId===b.id)||[];if(notes.length)html+=`<details><summary>Sources</summary>${notes.map(n=>`<p>${escape(n.title)} · ${escape(n.location)}</p>${paragraphs(n.note)}`).join('')}</details>`;
+ return html;
+}
+
 export function renderLessonBlock(spec,index,ctx={}){
  const b=spec.blocks[index];if(!b)return '';
+ if(b.editor)return renderEditedSection(spec,b,ctx);
  if(b.type==='LessonHero')return LessonHero(spec,b);
  const g=guide(b),phase=phaseOf(b),label=PHASES.find(([id])=>id===phase)?.[1]||'Une pause';
  let html=`<header class="lesson-section-heading">${label===studentBlockTitle(b)?'':`<div>${stamp(label,'brand-tone')}</div>`}<h1 tabindex="-1">${escape(studentBlockTitle(b))}</h1></header>`;
@@ -80,6 +100,7 @@ export function renderLessonBlock(spec,index,ctx={}){
 }
 
 export function renderLessonPage(spec,index=0,ctx={}){
+ if(!spec.blocks.length)return '<main class="lesson-view"><p>Cette séance ne contient pas encore de section.</p></main>';
  const date=new Intl.DateTimeFormat('fr-FR',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Paris'}).format(new Date(`${spec.date}T12:00:00Z`)),completed=ctx.completed||[];
  const count=spec.blocks.filter(b=>completed.includes(b.id)).length;
  return `<main id="main" class="lesson-view"><header class="lesson-topbar"><a href="${ctx.demo?'/lesson-demo.html':'/today'}" class="lesson-brand" aria-label="EDEN School, aujourd’hui">${edenLogo}<span class="lesson-brand-meta"><time datetime="${escape(spec.date)}">${date}</time></span></a><div>${stamp(ctx.demo?'Aperçu':ctx.displayName||'Aujourd’hui','brand-tone')}${!ctx.demo?`${action('Actualiser','refresh-student')}${action('Se déconnecter','logout')}`:''}</div></header><div class="lesson-layout-student"><aside><details class="lesson-mobile-nav" ${ctx.navOpen?'open':''}><summary>Le parcours · ${index+1} / ${spec.blocks.length}</summary>${SessionTimeline(spec,index,{preview:ctx.demo,completed})}</details><div class="lesson-desktop-nav">${SessionTimeline(spec,index,{preview:ctx.demo,completed})}</div></aside><div class="lesson-main"><div class="lesson-breadcrumb"><span>Aujourd’hui</span><time datetime="${escape(spec.date)}">${date}</time></div><div class="lesson-progress-row"><span>ÉTAPE ${String(index+1).padStart(2,'0')} / ${String(spec.blocks.length).padStart(2,'0')}</span><span>${count} étape${count>1?'s':''} terminée${count>1?'s':''}</span></div><div class="lesson-progress" role="progressbar" aria-label="Étapes terminées" aria-valuemin="0" aria-valuemax="${spec.blocks.length}" aria-valuenow="${count}"><span style="width:${count/spec.blocks.length*100}%"></span></div><section class="student-stage lesson-stage" aria-label="Activité en cours">${renderLessonBlock(spec,index,ctx)}</section><footer class="lesson-navigation"><button type="button" class="btn" data-action="${ctx.demo?'demo-prev':'student-prev'}" ${index===0?'disabled':''}>← Étape précédente</button>${action(index===spec.blocks.length-1?(ctx.demo?'Terminer':'Remettre mon travail'):'Continuer',ctx.demo?'demo-next':'student-next','',true)}</footer>${ctx.demo?'<p class="lesson-storage-note">Les réponses de cet aperçu restent dans cet onglet.</p>':''}</div></div></main>`;

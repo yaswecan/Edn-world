@@ -31,7 +31,7 @@ try{
  for(const name of ['index.html','runtime.js','style.css'])await page.route('**/game/'+name,route=>route.fulfill({body:execFileSync('git',['show','HEAD:public/game/'+name]),contentType:name.endsWith('.js')?'text/javascript':name.endsWith('.css')?'text/css':'text/html'}));
  for(const world of ['code-station','assault']){
   const m=(await f.store.list('game_missions','A1')).find(m=>m.world===world&&m.localId===(world==='code-station'?'battery':'array'));const v=await f.store.get('lesson_versions','arcade-lesson:v1');await f.store.put('lesson_versions',{...v,spec:{...v.spec,codeStation:{missionId:m.id,worldId:world}}});
-  const launch=await c.request.post(f.base+'/api/arcade/launch',{data:{gameId:'code-station',missionId:m.id,lessonId:'arcade-lesson'}});
+  const launch=await c.request.post(f.base+'/api/arcade/launch',{data:{gameId:m.world,missionId:m.id,lessonId:'arcade-lesson'}});
   const run=await launch.json();await page.goto(f.base+'/arcade#jeu/'+encodeURIComponent(run.runId));
   await page.frameLocator('.game-frame').locator('#missionCode').waitFor();
   report[world]=await page.frameLocator('.game-frame').locator('body').innerText();await page.screenshot({path:`test-results/exploration/before/${world}.png`});

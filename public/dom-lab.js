@@ -14,11 +14,11 @@ export function installDOMLabs({getLesson,getJob=()=>null}){
   if(action==='reset'&&!confirm('Réinitialiser le projet ? Une sauvegarde des fichiers sera conservée.'))return;
   const controller=new AbortController();requests.set(root,controller);status.textContent='Exécution dans le laboratoire…';
   const lesson=getLesson(),job=getJob(),files=Array.from(root.querySelectorAll('[data-dom-file]')).map(f=>({path:f.dataset.domFile,content:f.value})),activityId=root.dataset.domLab;
-  const body={lessonId:lesson?.id,lessonVersionId:lesson?.versionId,activityId,action,confirmed:action==='reset',interaction};
+  const body={...(lesson?.editorSpec?{editorSpec:lesson.editorSpec,editorToken:lesson.editorToken}:{}),lessonId:lesson?.id,lessonVersionId:lesson?.versionId,activityId,action,confirmed:action==='reset',interaction};
   if(['render','check'].includes(action))body.files=files;
-  if(job){const actions=previewActions.get(root)||[];if(['render','reset'].includes(action))actions.length=0;if(interaction)actions.push(interaction);previewActions.set(root,actions);body.actions=actions;body.files=files;}
+  if(job||lesson.preview){const actions=previewActions.get(root)||[];if(['render','reset'].includes(action))actions.length=0;if(interaction)actions.push(interaction);previewActions.set(root,actions);body.actions=actions;body.files=files;}
   try{
-   const response=await fetch(job?`/api/preparation/jobs/${encodeURIComponent(job)}/dom`:'/api/dom/render',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:controller.signal}),result=await response.json();if(!response.ok)throw Error(result.error||'Laboratoire indisponible.');
+   const response=await fetch(job?`/api/preparation/jobs/${encodeURIComponent(job)}/dom`:lesson.preview?`/api/lessons/${encodeURIComponent(lesson.id)}/preview/dom`:'/api/dom/render',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:controller.signal}),result=await response.json();if(!response.ok)throw Error(result.error||'Laboratoire indisponible.');
    if(result.files)for(const file of result.files){const field=Array.from(root.querySelectorAll('[data-dom-file]')).find(f=>f.dataset.domFile===file.path);if(field)field.value=file.content;}
    saveFiles(root);const image=root.querySelector('[data-dom-image]');image.src='data:image/png;base64,'+result.screenshot;image.hidden=false;
    root.querySelector('[data-dom-console]').textContent=(result.logs||[]).join('\n');status.textContent=result.checks?.length?result.checks.map(c=>`${c.ok?'✓':'À reprendre'} ${c.label}`).join(' · '):'Aperçu prêt. Clique dans l’image pour interagir.';

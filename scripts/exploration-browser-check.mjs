@@ -24,7 +24,7 @@ try{
   const def=explorationForMission(m),entry={world:m.world,mission:m.localId,name:m.title,map:def.map.id,engine:'StationRenderer / Expedition',objective:def.title,victory:def.steps.at(-1).objective,status:'NOT RUN'};report.games.push(entry);
   const version=await fixture.store.get('lesson_versions','arcade-lesson:v1');await fixture.store.put('lesson_versions',{...version,spec:{...version.spec,codeStation:{missionId:m.id,worldId:m.world}}});
   await fixture.store.remove('player_progression',`student-a:${m.world}`);
-  await page.goto(fixture.base+'/arcade#arcade');await page.reload();await expect(page.locator('.cabinet-keys').first()).toHaveText(m.title);await page.locator('[data-game="code-station"]').click();
+  await page.goto(fixture.base+'/arcade#arcade');await page.reload();await page.locator(`[data-game="${m.world}"]`).click();await expect(page.locator('.journey-step')).toHaveCount(4);await page.locator('.journey-mission').filter({has:page.getByRole('heading',{name:m.title,exact:true})}).locator('[data-action=play]').click();
   let frame=page.frames().find(f=>f.url().includes('/game/index.html'));if(!frame){await page.frameLocator('.game-frame').locator('#startMission').waitFor();frame=page.frames().find(f=>f.url().includes('/game/index.html'));}
   await frame.locator('#startMission').click();await expect(frame.locator('#app')).toHaveAttribute('data-stage','relay');
   if(m.localId==='battery'||m.world==='assault')await page.screenshot({path:`${directory}/${m.world}-${m.localId}-world.png`});
@@ -59,7 +59,7 @@ try{
   await walkTo(frame,def,def.map.objects.find(o=>o.id==='exit').nav,def.map.doors.map(d=>d.id));await frame.locator('#worldCanvas').press('e');await expect(frame.locator('#app')).toHaveAttribute('data-stage','won');await expect(frame.locator('#briefTitle')).toHaveText('Mission accomplie');
   await expect(page.locator('#game-save')).toHaveText('Partie enregistrée.');
   const events=(await fixture.store.list('game_events','A1')).filter(e=>e.payload?.mission===m.id&&e.type==='mission_completed');assert.equal(events.length,1);
-  entry.status='PASS';console.log('PASS',m.world,m.localId);await frame.locator('#finishMission').click();await expect(page.locator('.game-frame')).toHaveCount(0);
+  entry.status='PASS';console.log('PASS',m.world,m.localId);await frame.locator('#finishMission').click();await expect(page.locator('.game-frame')).toHaveCount(0);await expect(page.locator('.journey-step.is-complete')).toHaveCount(1);await expect(page.locator('.journey-progress')).toContainText('1 / 4 missions terminées');
  }
  assert.deepEqual(errors,[]);report.status='PASS';report.checks.push(...process.env.EXPLORATION_FILTER?['selected-variants-open-from-cabinet','selected-variants-walked-to-victory']:['all-worlds-open-from-cabinet','all-variants-walked-to-victory'],'failure-does-not-unlock','run-is-not-validation','repeated-validation-is-idempotent','no-automatic-reopen','no-browser-errors');
 }catch(error){report.status='FAIL';report.error=error.stack;if(report.games.at(-1))report.games.at(-1).status='FAIL';await page?.screenshot({path:directory+'/failure.png',fullPage:true});throw error;}

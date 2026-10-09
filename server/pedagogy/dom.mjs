@@ -1,3 +1,4 @@
+import {editorCandidate} from '../lesson-editor.mjs';
 import {ownedJob} from './jobs.mjs';
 import {teacher,student} from '../auth.mjs';
 import {scoped,requireValue,fail,uid,now} from '../store.mjs';
@@ -38,8 +39,12 @@ export function domRoutes(app,store){
    res.json({...result,files:session.files});
   }finally{busy.delete(lock);}
  });
+ app.post('/api/lessons/:id/preview/dom',teacher,async(req,res)=>{
+  const key=`teacher:${req.user.id}`;if(busy.has(key))fail(409,'Un aperçu est déjà en cours.');busy.add(key);
+  try{const lesson=await scoped(store,'lessons',req.params.id,req.user);if(!req.body.editorSpec)requireValue(lesson.versionId===req.body.lessonVersionId,'Version d’aperçu modifiée.');const spec=req.body.editorSpec?(await editorCandidate(store,lesson,{spec:req.body.editorSpec,token:req.body.editorToken},req.user)).spec:(await scoped(store,'lesson_versions',lesson.versionId,req.user)).spec,task=[...spec.activities,...spec.diagnostic.tasks].find(a=>a.id===req.body.activityId&&a.workshop?.profile==='dom');requireValue(task,'Atelier inconnu.');res.json(await labService('/dom',{files:validateDOMFiles(req.body.action==='reset'?domFiles(task):req.body.files||domFiles(task)),actions:req.body.actions||[],...(req.body.action==='check'?{tests:task.tests}:{})}));}finally{busy.delete(key);}
+ });
  app.post('/api/preparation/jobs/:id/dom',teacher,async(req,res)=>{
   const key=`teacher:${req.user.id}`;if(busy.has(key))fail(409,'Un aperçu est déjà en cours.');busy.add(key);
-  try{const job=await ownedJob(store,req.params.id,req.user);requireValue(job.lessonId,'Brouillon absent.');const lesson=await store.get('lessons',job.lessonId),spec=(await store.get('lesson_versions',lesson.versionId)).spec,task=spec.activities.find(a=>a.id===req.body.activityId&&a.workshop?.profile==='dom');requireValue(task,'Atelier inconnu.');res.json(await labService('/dom',{files:validateDOMFiles(req.body.files||domFiles(task)),actions:req.body.actions||[],...(req.body.action==='check'?{tests:task.tests}:{})}));}finally{busy.delete(key);}
+  try{const job=await ownedJob(store,req.params.id,req.user);requireValue(job.lessonId,'Brouillon absent.');const lesson=await store.get('lessons',job.lessonId),spec=(await store.get('lesson_versions',lesson.versionId)).spec,task=spec.activities.find(a=>a.id===req.body.activityId&&a.workshop?.profile==='dom');requireValue(task,'Atelier inconnu.');res.json(await labService('/dom',{files:validateDOMFiles(req.body.action==='reset'?domFiles(task):req.body.files||domFiles(task)),actions:req.body.actions||[],...(req.body.action==='check'?{tests:task.tests}:{})}));}finally{busy.delete(key);}
  });
 }

@@ -52,7 +52,7 @@ export function pedagogyChecks(spec){
  const inPhase=phase=>spec.blocks.filter(b=>b.phase===phase),hasTask=phase=>inPhase(phase).some(b=>b.activityIds.some(id=>spec.activities.some(a=>a.id===id&&a.required&&a.instruction.trim())));
  const required=phases.filter(p=>p!=='pause');
  add('lesson_sections',required.every(p=>inPhase(p).length),'Hero, diagnostic, comprendre, observer, aide, autonomie, prolongement et bilan présents');
- add('lesson_order',spec.blocks.every((b,i)=>phases.includes(b.phase)&&(!i||phases.indexOf(b.phase)>=phases.indexOf(spec.blocks[i-1].phase))),'Ordre pédagogique fixe');
+ add('lesson_order',spec.editorVersion===1||spec.blocks.some(b=>b.editor)||spec.blocks.every((b,i)=>phases.includes(b.phase)&&(!i||phases.indexOf(b.phase)>=phases.indexOf(spec.blocks[i-1].phase))),'Ordre pédagogique fixe');
  add('lesson_objectives',spec.objectives.length>0&&spec.objectives.every(s=>s.trim().length>=12),'Objectifs explicites');
  add('lesson_concept',inPhase('understand').some(b=>b.content.trim().length>=100&&b.teaching?.takeaways.some(t=>t.trim().length>=20)),'Apport notionnel et reformulation présents');
  add('lesson_example',inPhase('observe').some(b=>b.content.trim().length>=30&&b.teaching?.steps.length>=2&&b.teaching.check.trim()),'Exemple commenté avec vérification');
@@ -70,6 +70,6 @@ export function pedagogyChecks(spec){
  const codeSkills=spec.skills.filter(c=>/^BC04-C[12]-|^BC04-C3-2$|^BC04-C4-2$|^BC05-C1-|^BC06-C2-[13]$|^BCT01-C2-1$|^BCT02-C3-1$|^BCT04-C2-1$|^BCT05-C3-2$|^BCT06-C1-2$/.test(c));
  const phaseTasks=phase=>inPhase(phase).flatMap(b=>b.activityIds.map(id=>tasks.find(a=>a.id===id)).filter(Boolean));
  add('lesson_code_path',codeSkills.every(skill=>['guided','autonomy'].every(phase=>phaseTasks(phase).some(a=>['CodeEditor','Preview','TestRunner'].includes(a.type)&&a.skills.includes(skill)))),'Pour chaque compétence de code : exercice guidé et production autonome dans un éditeur');
- add('lesson_code_contracts',tasks.filter(a=>['CodeEditor','TestRunner'].includes(a.type)).every(a=>a.starter.trim()&&(!['javascript','html','css','sql'].includes(a.correctionMode)||a.tests.length)),'Exercices de code avec point de départ et tests lorsqu’une correction automatique est annoncée');
+ add('lesson_code_contracts',tasks.filter(a=>['CodeEditor','TestRunner'].includes(a.type)).every(a=>typeof a.starter==='string'&&(!['javascript','html','css','sql'].includes(a.correctionMode)||a.tests.length)),'Exercices de code avec point de départ et tests lorsqu’une correction automatique est annoncée');
  return checks;
 }

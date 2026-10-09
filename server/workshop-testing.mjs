@@ -5,6 +5,12 @@ import {runSafe} from './safe-js.mjs';
 import {isDeepStrictEqual} from 'node:util';
 
 export async function testActivityCode(task,code){
+ if(['dom','shell-git'].includes(task.workshop?.profile)){
+  const {labService}=await import('./pedagogy/labs.mjs');let result;
+  if(task.workshop.profile==='dom'){const {domFiles,validateDOMFiles}=await import('./pedagogy/dom.mjs');result=await labService('/dom',{files:validateDOMFiles(domFiles({...task,starter:code})),actions:[],...(task.tests.length?{tests:task.tests}:{})});}
+  else result=await labService('/reference',{files:task.workshop.files||[],code,tests:task.tests});
+  return {ok:result.ok===true,pending:result.ok==null,checks:result.checks||[],logs:result.logs||[],runtime:result.runtime,error:null};
+ }
  if(task.tests?.length&&['javascript','html','css','sql'].includes(task.correctionMode)){
   const result=task.correctionMode==='sql'?await sqlGrade(task,code):gradeTask(task,code);
   const checks=result.observations.map((o,i)=>({label:task.correctionMode==='javascript'?`Cas ${i+1}`:task.tests[i]?.invoke||`Cas ${i+1}`,ok:o.ok===true}));

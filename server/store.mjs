@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto';
 export const TABLES = ['organizations','classes','teachers','learners','enrollments','sessions','imports','curriculum_versions','competency_n3','sequence_versions','teacher_policies','plan_versions','plan_entries','plan_changes','lessons','lesson_versions','lesson_runs','lesson_publications','assessment_specs','assessment_attempts','submissions','corrections','correction_revisions','evidence','remediation_snapshots','resources','corpus_packages','game_worlds','game_missions','game_runs','game_events','game_evidence','game_unlocks','game_teacher_overrides','player_progression','agent_runs','teacher_approvals','audit_log','drive_publications','learning_events','teacher_observations','lesson_adaptations','publication_jobs','import_reconciliations','learning_progress','resource_documents'];
 TABLES.push('pedagogical_sources','generation_jobs','generation_candidates','generation_calls','generation_revisions','lesson_assets','lab_sessions');
 TABLES.push('document_indexes','source_annotations','document_contexts','content_snapshots','archive_outbox','work_submissions');
+TABLES.push('lesson_transfers','lesson_transfer_chunks','lesson_transfer_links','lesson_transfer_receipts');
 export const uid = (prefix='id') => `${prefix}_${randomUUID()}`;
 export const now = () => new Date().toISOString();
 export function fail(status, message, details) { throw Object.assign(new Error(message), { status, details }); }
@@ -35,7 +36,13 @@ export async function openStore({url=process.env.DATABASE_URL,path=process.env.E
   };return api;
  }
  let tail=Promise.resolve();
- return {...context(), inlineArtifacts:path===':memory:'||!!url, kind:pool?'postgres':'sqlite',
+ // Serialize SQLite access on this connection: readers must never observe a
+ // partially applied async transaction. Transaction callbacks use their own context.
+ const outside=Object.fromEntries(Object.entries(context()).map(([name,fn])=>[name,(...args)=>{
+  if(pool)return fn(...args);
+  const op=tail.then(()=>fn(...args));tail=op.catch(()=>{});return op;
+ }]));
+ return {...outside, inlineArtifacts:path===':memory:'||!!url, kind:pool?'postgres':'sqlite',
   transaction(fn) {
    const op=tail.then(async()=>{ const client=pool?await pool.connect():null;
     try { if(client){await client.query('BEGIN');await client.query('SELECT pg_advisory_xact_lock(260104)');}else db.exec('BEGIN IMMEDIATE');

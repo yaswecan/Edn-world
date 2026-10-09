@@ -1,11 +1,11 @@
 import {resolve} from 'node:path';
-import {fail, requireValue, scoped} from './store.mjs';
+import {fail, requireValue} from './store.mjs';
 import {loggedIn, student, accountLimit, privateAccount, changePassword, cookie} from './auth.mjs';
 import {AVATARS, projection, ownProfile, ensureProfile, saveProfile, syncBadges, badgeCollection, saveFeatured} from './arcade-profile.mjs';
 import {authorizeGame, startGame} from './game.mjs';
+import {arcadeGames, GAME_BINDINGS} from './arcade-catalog.mjs';
+export {arcadeGames, GAME_BINDINGS} from './arcade-catalog.mjs';
 
-// This is a launcher identity, not a replacement for persisted PédagoLab world IDs.
-export const GAME_BINDINGS = Object.freeze({'code-station': 'pedagolab', 'cyber-funk': null});
 export const arcadeEnabled = () => process.env.EDEN_WORLD_ARCADE === '1';
 function school(req, _res, next) {
   if (!['teacher', 'student'].includes(req.user?.role) || !req.user.classId) fail(403, 'Cet espace n’est pas accessible.');
@@ -19,30 +19,6 @@ async function visiblePlayers(store, actor) {
 function ownScope(req) {
   if (Object.keys(req.query).some(k => !['q', 'page', 'limit', 'scope'].includes(k))) fail(400, 'Filtre non disponible.');
   if (req.query.scope && req.query.scope !== 'class') fail(403, 'Cette liste n’est pas accessible.');
-}
-
-export async function arcadeGames(store, actor) {
-  const code = {id: 'code-station', title: 'Code Station', state: 'auth_required', message: 'Connecte-toi pour jouer.', missions: []};
-  const cyber = {id: 'cyber-funk', title: 'Cyber Funk 3026', state: 'unavailable', message: 'Ce monde n’est pas disponible pour le moment.', missions: []};
-  if (!actor) return [code, cyber];
-  if (actor.role !== 'student') return [{...code, state: 'locked', message: actor.role === 'teacher' ? 'Les missions se jouent depuis un compte élève autorisé.' : 'Ce jeu n’est pas accessible à ce compte.'}, cyber];
-  for (const lesson of (await store.list('lessons', actor.classId)).filter(l => l.status === 'published').reverse()) {
-    const version = await store.get('lesson_versions', lesson.versionId);
-    const binding = version?.spec?.codeStation;
-    if (!binding?.missionId) continue;
-    const mission = await scoped(store, 'game_missions', binding.missionId, actor);
-    let state = 'available', message = '';
-    try { await authorizeGame(store, {missionId: mission.id, lessonId: lesson.id}, actor); }
-    catch (e) { if (![400, 404, 409].includes(e.status)) throw e; state = 'locked'; message = e.message; }
-    const progress = await store.get('player_progression', `${actor.id}:${mission.world}`);
-    const missionProgress = progress?.progress?.worldProgress?.[mission.world];
-    const saved = progress?.classId === actor.classId && progress?.learnerId === actor.id && !!(missionProgress?.drafts?.[mission.localId] || missionProgress?.completed?.[mission.localId]);
-    code.missions.push({lessonId: lesson.id, missionId: mission.id, title: mission.title, worldId: mission.world, state, message, hasSave: saved});
-  }
-  const available = code.missions.find(m => m.state === 'available');
-  code.state = available ? 'available' : 'locked';
-  code.message = available ? 'Retrouve les missions ouvertes par ton professeur.' : (code.missions[0]?.message || 'Ton professeur n’a pas encore ouvert de mission.');
-  return [code, cyber];
 }
 
 export function arcadeRoutes(app, store) {
@@ -88,13 +64,14 @@ export function arcadeRoutes(app, store) {
     requireValue(Object.keys(req.query).length === 0, 'Paramètre non autorisé.');
     const account = await store.transaction(tx => syncBadges(tx, req.user));
     const games = await arcadeGames(store, req.user);
-    const accessible = games[0].missions.filter(m => m.state === 'available' && m.hasSave);
+    const accessible = games.flatMap(g => g.missions.filter(m => m.state === 'available' && m.hasSave).map(m => ({...m, gameId:g.id})));
     const runs = (await store.list('game_runs', req.user.classId)).filter(r => r.learnerId === req.user.id)
       .sort((a,b) => (b.lastPlayedAt || b.startedAt).localeCompare(a.lastPlayedAt || a.startedAt));
     const resume = runs.map(r => accessible.find(m => m.missionId === r.missionId && m.lessonId === r.lessonId)).find(Boolean) || accessible[0];
+    const completed = games.reduce((sum, g) => sum + (g.progress?.completed || 0), 0);
     res.json({profile:ownProfile(account), games, badges:badgeCollection(account),
-      resume:resume ? {gameId:'code-station', lessonId:resume.lessonId, missionId:resume.missionId} : null,
-      progression:{status:'unavailable', message:'Les paliers de progression ne sont pas disponibles. Retrouve les sauvegardes disponibles dans Mes jeux.'}});
+      resume:resume ? {gameId:resume.gameId, lessonId:resume.lessonId, missionId:resume.missionId} : null,
+      progression:{status:req.user.role === 'student' ? 'ready' : 'unavailable', message:req.user.role === 'student' ? `${completed} mission${completed > 1 ? 's' : ''} terminée${completed > 1 ? 's' : ''}. Retrouve le détail de ton parcours dans chaque jeu.` : 'La progression est disponible depuis un compte élève.'}});
   });
   app.get('/api/arcade/badges', loggedIn, school, async (req,res) => {
     res.json(await store.transaction(async tx => badgeCollection(await syncBadges(tx, req.user))));
@@ -125,10 +102,11 @@ export function arcadeRoutes(app, store) {
     requireValue(typeof req.body.lessonId === 'string' && typeof req.body.missionId === 'string', 'Mission et séance requises.');
     const run = await store.transaction(async tx => {
       const {mission, lesson} = await authorizeGame(tx, req.body, req.user);
+      requireValue(mission.world === GAME_BINDINGS[req.body.gameId], 'Cette mission appartient à un autre jeu.');
       const existing = (await tx.list('game_runs', req.user.classId)).find(r => r.learnerId === req.user.id && r.lessonId === lesson.id && r.lessonRunId === lesson.runId && r.missionId === mission.id && r.missionVersion === mission.version);
       if (existing) {existing.lastPlayedAt = new Date().toISOString(); await tx.put('game_runs', existing); return existing;}
       return startGame(tx, req.body, req.user);
     });
-    res.json({runId: run.id, gameId: 'code-station'});
+    res.json({runId: run.id, gameId: run.world});
   });
 }

@@ -5,7 +5,7 @@
       "root": ".",
       "framework": "node",
       "entrypoint": "api/index.mjs",
-      "buildCommand": "npm run check",
+      "buildCommand": "npm run build",
       "devCommand": "node --import tsx scripts/vercel-dev.mjs",
       "functions": {
         "api/index.mjs": {

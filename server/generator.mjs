@@ -65,6 +65,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  const plan=(await store.list('plan_versions',actor.classId)).at(-1);requireValue(plan,'Importez une planification.');
  const curriculum=await store.get('curriculum_versions',plan.curriculumVersion),nodes=entry.skills.map(code=>curriculum.criteria.find(c=>c.n3_code===code)).filter(Boolean);
  requireValue(nodes.length,'Aucun critère pédagogique pour ce créneau.');
+ const initialBase=entry.resourcePack||`R-${entry.date.replaceAll('-','').slice(2)}`,initialId=`${actor.classId}:${qualityJobId?`${initialBase}-${qualityJobId}`:initialBase}`,initialVersionId=(await store.get('lessons',initialId))?.versionId||null;
  const runs=await store.list('lesson_runs',actor.classId),previous=previousCompleted(runs,entry.date),source=previous?await store.get('lesson_versions',previous.lessonVersionId):null;
  const agent=await store.insert('agent_runs',{id:uid('run'),classId:actor.classId,intent,status:'running',steps:[],startedAt:now()});
  try {
@@ -86,12 +87,13 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  if(codeStation)codeStation.duration=content.blocks.find(b=>b.id==='game').minutes;
  return await store.transaction(async tx=>{
  const old=await tx.get('lessons',id),version=(old?.version||0)+1;
+ if((old?.versionId||null)!==initialVersionId)fail(409,'Séance modifiée pendant la génération. Aucun remplacement effectué.');
  if(old&&['published','completed'].includes(old.status))fail(409,'Cette séance est publiée. Créez une révision explicite depuis l’éditeur.');
  const spec={schemaVersion:'1.0',lessonId,lessonVersion:version,classId:actor.classId,date:entry.date,planEntryId:entry.id,planVersion:plan.version,sequence:entry.sequence,title:content.title,skills:entry.skills,objectives:content.objectives,prerequisites:nodes.flatMap(c=>c.prerequisiteCodes),reactivation:previous?.coveredSkills||[],diagnostic,timeline:content.blocks.map(b=>({blockId:b.id,minutes:b.minutes})),blocks:content.blocks,activities:content.activities,slides:content.slides||content.blocks.filter(b=>!['Pause','Diagnostic'].includes(b.type)).map(b=>({title:b.title,body:b.content})),resources:nodes.map(c=>c.n3_code),codeStation,teacherGuide:content.teacherGuide,studentFlow:content.blocks.map(b=>b.id),sourceVersions:{curriculumVersion:curriculum.id,planVersion:plan.version,previousLessonRunId:previous?.id||null}};
  validate(lessonSchema,spec);
  const versionId=`${id}:v${version}`,quality=qualityCheck(spec,{entry,criteria:curriculum.criteria,previous});
  await tx.insert('lesson_versions',{id:versionId,classId:actor.classId,version,spec,authorId:actor.id});
- const lesson={id,planEntryId:entry.id,classId:actor.classId,version,versionId,date:entry.date,title:spec.title,status:'draft',quality,provider:enrichment.provider,agentRunId:agent.id,...(qualityJobId?{qualityJobId,qualityRequired:true,preparationState:'preparing'}:{})};if(old)await tx.put('lessons',lesson);else await tx.insert('lessons',lesson);
+ const lesson={...(old?.portableId?{portableId:old.portableId}:{}),id,planEntryId:entry.id,classId:actor.classId,version,versionId,date:entry.date,title:spec.title,status:'draft',quality,provider:enrichment.provider,agentRunId:agent.id,...(qualityJobId?{qualityJobId,qualityRequired:true,preparationState:'preparing'}:{})};if(old)await tx.put('lessons',lesson);else await tx.insert('lessons',lesson);
  agent.status='completed';agent.lessonId=id;agent.provider=enrichment.provider;agent.steps=['resolve_intent','load_plan','load_previous_completed','load_curriculum','assemble_resources','diagnostic','lesson','select_mission','quality'];agent.retrievalSources=references.map(r=>({id:r.id,sourceVersion:r.sourceVersion,score:r.score}));agent.completedAt=now();await tx.put('agent_runs',agent);
  await tx.audit(actor,'lesson.generated',id,{version,sourceRun:previous?.id||null});return {...lesson,spec};
  });
@@ -100,7 +102,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
 export function studentSpec(spec,{submitted=false}={}) {
  const result=structuredClone(spec);delete result.teacherGuide;
  result.blocks.forEach(b=>{delete b.depth;});
- const redact=a=>{delete a.expectedAnswer;delete a.reference;delete a.tests;delete a.validationVariants;};
+ const redact=a=>{delete a.expectedAnswer;delete a.reference;delete a.tests;delete a.validationVariants;if(a.richText)delete a.richText.reference;};
  result.activities.forEach(redact);if(!submitted)result.diagnostic.tasks.forEach(a=>{redact(a);if(a.workshop){delete a.workshop.hints;delete a.workshop.board;}});
  return result;
 }

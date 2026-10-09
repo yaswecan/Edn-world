@@ -1,3 +1,4 @@
+import {editorCandidate} from '../lesson-editor.mjs';
 import {student,teacher,loggedIn} from '../auth.mjs';
 import {ownedJob} from './jobs.mjs';
 import {resolve} from 'node:path';
@@ -11,7 +12,7 @@ export const labService=async(path,body)=>{
  if(!r.ok)fail(503,`Incident technique du laboratoire (${r.status}) ; résultat pédagogique non évalué.`);const result=await r.json();requireValue(JSON.stringify(result).length<=2000000,'Réponse du laboratoire trop volumineuse.');if(['/dom','/reference','/sessions'].includes(path)||path.endsWith('/check'))requireValue(typeof result.runtime==='string','Version du laboratoire absente de la preuve.');if(result.runtime)requireValue(result.runtime===expected||result.runtime.startsWith(expected+' '),'L’image active du laboratoire ne correspond pas à la version attendue.');return result;
 };
 const service=labService;
-async function owned(store,id,actor){const session=await scoped(store,'lab_sessions',id,actor);if(session.learnerId!==actor.id)fail(403,'Laboratoire d’un autre utilisateur.');if(session.preview){requireValue(actor.role==='teacher','Aperçu réservé au professeur.');await ownedJob(store,session.jobId,actor);}else{requireValue(actor.role==='student','Laboratoire élève requis.');const lesson=await scoped(store,'lessons',session.lessonId,actor);requireValue(lesson.status==='published'&&lesson.versionId===session.lessonVersionId,'Version de laboratoire non active.');}requireValue(session.runtime===process.env.EDEN_LAB_SHELL_IMAGE,'Le runtime a changé : reconnectez le laboratoire.');return session;}
+async function owned(store,id,actor){const session=await scoped(store,'lab_sessions',id,actor);if(session.learnerId!==actor.id)fail(403,'Laboratoire d’un autre utilisateur.');if(session.preview){requireValue(actor.role==='teacher','Aperçu réservé au professeur.');if(session.jobId)await ownedJob(store,session.jobId,actor);else{const lesson=await scoped(store,'lessons',session.lessonId,actor);requireValue(session.editorPreview||lesson.versionId===session.lessonVersionId,'La séance a changé. Rechargez l’aperçu.');}}else{requireValue(actor.role==='student','Laboratoire élève requis.');const lesson=await scoped(store,'lessons',session.lessonId,actor);requireValue(lesson.status==='published'&&lesson.versionId===session.lessonVersionId,'Version de laboratoire non active.');}requireValue(session.runtime===process.env.EDEN_LAB_SHELL_IMAGE,'Le runtime a changé : reconnectez le laboratoire.');return session;}
 export async function inspectLabReferences(spec){
  const evidence={};for(const task of spec.activities.filter(a=>['shell-git','dom'].includes(a.workshop?.profile))){
   if(task.workshop.profile==='dom'){const {inspectDOMReference}=await import('./dom.mjs');evidence[task.id]=await inspectDOMReference(task);continue;}
@@ -29,6 +30,12 @@ export function labRoutes(app,store){
   const key=digest(['teacher-preview',req.user.classId,req.user.id,job.id,job.lessonVersionId,task.id]),remote=await service('/sessions',{key,files:task.workshop.files||[],profile:'shell-git'});
   const session=await store.transaction(async tx=>{const old=(await tx.list('lab_sessions',req.user.classId)).find(s=>s.key===key);return old||tx.insert('lab_sessions',{id:uid('previewlab'),classId:req.user.classId,learnerId:req.user.id,preview:true,jobId:job.id,lessonId:job.lessonId,lessonVersionId:job.lessonVersionId,activityId:task.id,key,remoteId:remote.id,runtime:remote.runtime,snapshots:[],validations:[]});});res.json({id:session.id,status:'connected',preview:true});
  });
+ app.post('/api/lessons/:id/preview/lab',teacher,async(req,res)=>{
+  const lesson=await scoped(store,'lessons',req.params.id,req.user);if(!req.body.editorSpec)requireValue(req.body.lessonVersionId===lesson.versionId,'Version d’aperçu modifiée.');
+  const spec=req.body.editorSpec?(await editorCandidate(store,lesson,{spec:req.body.editorSpec,token:req.body.editorToken},req.user)).spec:(await scoped(store,'lesson_versions',lesson.versionId,req.user)).spec,task=[...spec.activities,...spec.diagnostic.tasks].find(a=>a.id===req.body.activityId&&a.workshop?.profile==='shell-git');requireValue(task,'Atelier inconnu.');
+  const key=digest(['teacher-preview',req.user.classId,req.user.id,lesson.versionId,task.id,...(req.body.editorSpec?[task]:[])]),remote=await service('/sessions',{key,files:task.workshop.files||[],profile:'shell-git'});
+  const session=await store.transaction(async tx=>{const current=await scoped(tx,'lessons',lesson.id,req.user);requireValue(req.body.editorSpec||current.versionId===lesson.versionId,'Version d’aperçu modifiée.');return (await tx.list('lab_sessions',req.user.classId)).find(s=>s.key===key)||tx.insert('lab_sessions',{id:uid('previewlab'),classId:req.user.classId,learnerId:req.user.id,preview:true,editorPreview:!!req.body.editorSpec,...(req.body.editorSpec?{editorTask:task}:{}),lessonId:lesson.id,lessonVersionId:lesson.versionId,activityId:task.id,key,remoteId:remote.id,runtime:remote.runtime,snapshots:[],validations:[]});});res.json({id:session.id,status:'connected',preview:true});
+ });
  app.post('/api/labs',student,async(req,res)=>{
   const lesson=await scoped(store,'lessons',req.body.lessonId,req.user);requireValue(lesson.status==='published'&&lesson.versionId===req.body.lessonVersionId,'Séance non active.');
   const spec=(await store.get('lesson_versions',lesson.versionId)).spec,task=spec.activities.find(a=>a.id===req.body.activityId&&a.workshop?.profile==='shell-git');requireValue(task,'Atelier terminal inconnu.');
@@ -42,7 +49,7 @@ export function labRoutes(app,store){
  });
  app.post('/api/labs/:id/files',loggedIn,async(req,res)=>{const session=await owned(store,req.params.id,req.user);requireValue(['list','write'].includes(req.body.action),'Action fichier invalide.');res.json(await service(`/sessions/${session.remoteId}/files`,{action:req.body.action,path:req.body.path,content:req.body.content}));});
  app.post('/api/labs/:id/check',loggedIn,async(req,res)=>{
-  const session=await owned(store,req.params.id,req.user),spec=(await store.get('lesson_versions',session.lessonVersionId)).spec,task=spec.activities.find(a=>a.id===session.activityId);
+  const session=await owned(store,req.params.id,req.user),spec=(await store.get('lesson_versions',session.lessonVersionId)).spec,task=session.editorTask||spec.activities.find(a=>a.id===session.activityId);
   const result=await service(`/sessions/${session.remoteId}/check`,{tests:task.tests});
   const evidence={id:uid('labproof'),at:now(),runtime:result.runtime,status:result.ok?'correct':'incorrect',checks:result.checks,snapshotHash:result.snapshotHash};
   session.validations.push(evidence);session.validations=session.validations.slice(-100);await store.put('lab_sessions',session);

@@ -87,6 +87,35 @@ def render_dom(data):
         result=json.loads(raw);result['runtime']=DOM_IMAGE+' '+result['runtime'];return result
     finally:
         subprocess.run(['docker','rm','-f',name],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=10)
+CAPABILITY_CACHE = {}
+def runtime_capabilities(requested):
+    if not isinstance(requested,list) or not requested or any(p not in ['shell-git','dom'] for p in requested):
+        raise ValueError('Unsupported capability')
+    result = {'probeVersion':1}
+    for profile in set(requested):
+        image = IMAGE if profile == 'shell-git' else DOM_IMAGE
+        cached = CAPABILITY_CACHE.get((profile,image))
+        if cached and time.time()-cached['at'] < 60:
+            if cached['ok']: result[profile] = image
+            continue
+        ok = False
+        try:
+            if profile == 'dom':
+                # Application-owned inert health document, never archive code.
+                render_dom({'files':[{'path':'index.html','content':'<!doctype html><p>Ready</p>'},{'path':'style.css','content':''},{'path':'main.js','content':''}]})
+            else:
+                name = 'tween-probe-' + hashlib.sha256(os.urandom(32)).hexdigest()
+                try:
+                    docker('run','--rm','--name',name,'--network=none','--read-only','--cap-drop=ALL','--security-opt=no-new-privileges','--pids-limit=64','--memory=192m','--memory-swap=192m','--cpus=0.5','--user','1000:1000',image,'/bin/bash','-c','git --version >/dev/null',timeout=10,discard=True)
+                finally:
+                    subprocess.run(['docker','rm','-f',name],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=10)
+            ok = True
+            result[profile] = image
+        except Exception:
+            pass
+        CAPABILITY_CACHE[(profile,image)] = {'at':time.time(),'ok':ok}
+    return result
+
 class Handler(http.server.BaseHTTPRequestHandler):
     def log_message(self,*args): pass
     def do_POST(self):
@@ -96,7 +125,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
             if not 0 < length <= 1000000: raise ValueError('Request too large')
             data=json.loads(self.rfile.read(length))
             with LOCK:
-                if self.path=='/dom': result=render_dom(data)
+                if self.path=='/capabilities':
+                    result=runtime_capabilities(data.get('profiles',['shell-git','dom']))
+                elif self.path=='/dom': result=render_dom(data)
                 elif self.path=='/reference':
                     identity=hashlib.sha256(os.urandom(32)).hexdigest()
                     session=provision(identity,data.get('files',[]))

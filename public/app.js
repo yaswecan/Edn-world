@@ -1,3 +1,4 @@
+import {lessonTransferUI} from './lesson-transfer.js';
 import {randomUUID} from './random-id.js';
 import {installTerminalLabs,flushTerminalFiles} from './terminal-lab.js';
 import {installDOMLabs} from './dom-lab.js';
@@ -246,7 +247,7 @@ function dashboard() {
     heading(
       "Chaque séance fait avancer la classe.",
       "Votre progression, vos élèves et la prochaine étape, au même endroit.",
-      btn("Préparer une séance", "prepare", "", "primary", "plus"),
+      btn("Importer des séances", "transfer-import", "", "", "download") + btn("Exporter les séances", "transfer-export") + btn("Tout sélectionner", "transfer-select-all") + btn("Préparer une séance", "prepare", "", "primary", "plus"),
     ) +
     `<div class="metrics">${[
       [
@@ -326,9 +327,9 @@ function lessonsView() {
     heading(
       "Vos séances, prêtes à prendre vie.",
       "Des versions relues, des ressources reliées, un seul espace élève.",
-      btn("Préparer une séance", "prepare", "", "primary", "plus"),
+      btn("Importer des séances", "transfer-import", "", "", "download") + btn("Exporter les séances", "transfer-export") + btn("Tout sélectionner", "transfer-select-all") + btn("Préparer une séance", "prepare", "", "primary", "plus"),
     ) +
-    `<div class="grid-two">${S.data.lessons.map((l) => `<article class="card pad"><div class="flex between">${pill(stateLabel(l.status), l.status === "completed" ? "green" : "brand-tone")}<small class="muted">${shortDate(l.date)} · v${l.version}</small></div><h2 style="margin-top:20px">${esc(l.title)}</h2><p class="subtitle">${l.provider === "openai" ? "Préparé avec le Teacher Twin" : "Composé depuis votre bibliothèque pédagogique"}</p><div class="flex between" style="margin-top:23px">${btn("Ouvrir la séance", "open-lesson", l.id, "primary", "arrow")}${l.status === "published" ? btn("Clôturer", "close-lesson", l.id, "small", "check") : ""}</div></article>`).join("")}</div>${S.data.lessons.length ? "" : `<div class="card">${empty("Votre première séance commence par une intention.", "spark")}</div>`}`
+    `<div class="grid-two">${S.data.lessons.map((l) => `<article class="card pad"><label class="flex"><input type="checkbox" data-lesson-export="${esc(l.id)}" ${transferUI.selected.has(l.id)?'checked':''} aria-label="Sélectionner ${esc(l.title)}">Sélectionner pour exporter</label><div class="flex between">${pill(stateLabel(l.status), l.status === "completed" ? "green" : "brand-tone")}<small class="muted">${shortDate(l.date)} · v${l.version}</small></div><h2 style="margin-top:20px">${esc(l.title)}</h2><p class="subtitle">${l.provider === "openai" ? "Préparé avec le Teacher Twin" : "Composé depuis votre bibliothèque pédagogique"}</p><div class="flex between" style="margin-top:23px">${btn("Ouvrir la séance", "open-lesson", l.id, "primary", "arrow")}${l.status === "published" ? btn("Clôturer", "close-lesson", l.id, "small", "check") : ""}</div></article>`).join("")}</div>${S.data.lessons.length ? "" : `<div class="card">${empty("Votre première séance commence par une intention.", "spark")}</div>`}`
   );
 }
 function lessonView() {
@@ -341,7 +342,7 @@ function lessonView() {
       btn("Retour aux séances", "nav", "lessons", "", "arrow"),
     ) + revisionEditor(l) +
     (l.status==='draft'&&s.diagnostic.policyVersion!=='diagnostic-practice-1'?`<div class="card pad spaced"><h2>Un diagnostic plus pratique</h2><p>Ajoutez des éditeurs, des écrans à analyser et des preuves d’autonomie pour A2. Une nouvelle version du brouillon sera créée ; les anciennes versions restent conservées.</p>${btn('Renforcer le diagnostic','revise-diagnostic',l.id,'','code')}</div>`:'')+
-    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${l.status === "draft" ? btn("Modifier le contenu", "edit-lesson", l.id, "", "settings") + btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Avant de publier</h2>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}<p class="section-note">La publication vérifie à nouveau le plan et la dernière séance clôturée.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
+    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${["draft","published"].includes(l.status)?btn("Modifier", "edit-lesson", l.id, "", "settings"):""}${btn("Exporter cette séance", "transfer-export", l.id)}${["draft","published"].includes(l.status)?btn("Remplacer depuis un fichier", "transfer-replace", l.id):""}${l.status === "draft" ? btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Avant de publier</h2>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}<p class="section-note">La publication vérifie à nouveau le plan et la dernière séance clôturée.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
   );
 }
 function correctionsView() {
@@ -549,6 +550,7 @@ async function startStudent(date) {
   const result = await api("/api/today" + (selected?"?lesson="+enc(selected):date ? "?date=" + enc(date) : ""));
   S.availableLessons=result.availableLessons||[];
   S.student = result.lesson;
+  S.newStudentVersion=null;
   S.studentEvents = result.events || [];
   S.completed = result.progress?.completed || [];
   S.attempt = result.attempt;
@@ -619,6 +621,14 @@ function studentArcadeLink() {
   const query = S.student ? "?lesson=" + enc(S.student.id) : "";
   return `<a class="btn primary lesson-arcade-link" href="/arcade${query}#arcade">${icon("game")}Mode arcade</a>`;
 }
+function showStudentVersionNotice(){
+ if(!S.newStudentVersion||document.querySelector('.student-version-notice'))return;
+ document.querySelector('.lesson-topbar')?.insertAdjacentHTML('afterend',`<div class="card pad student-version-notice" role="status"><strong>Le professeur a mis à jour cette séance.</strong><p>Votre saisie reste conservée dans cette version. Actualisez quand vous êtes prêt à ouvrir les nouveaux exercices.</p>${btn('Ouvrir la nouvelle version','refresh-student')}</div>`);
+}
+setInterval(async()=>{
+ if(S.user?.role!=='student'||!S.student)return;
+ try{const result=await api(`/api/lessons/${enc(S.student.id)}/current-version`);if(result.versionId!==S.student.versionId){S.newStudentVersion=result.versionId;showStudentVersionNotice();}}catch{/* Keep the editor and its saved draft during a network interruption. */}
+},15000);
 function renderStudent() {
   document.title = "EDEN · Aujourd’hui";
   const l = S.student;
@@ -635,6 +645,7 @@ function renderStudent() {
     support: S.diagnosticSupport || [],
   });
   $(".lesson-topbar > div")?.insertAdjacentHTML("afterbegin", studentArcadeLink());
+  showStudentVersionNotice();
   if(S.availableLessons.length>1) $('.lesson-topbar')?.insertAdjacentHTML('afterend',`<details class="card pad spaced"><summary>Mes séances disponibles</summary>${studentLessonLinks()}</details>`);
 }
 function studentLessonLinks(){
@@ -673,7 +684,9 @@ async function studentEvent(type, activityId, payload = {}) {
     payload,
   });
 }
+const transferUI=lessonTransferUI({api,post,modal,busy,esc,btn,closeModal,refresh:async()=>{await loadDashboard();S.lesson=null;render();},openLesson:id=>actions['open-lesson'](id),user:()=>S.user,toast});
 const actions = {
+  ...transferUI.actions,
   "database-import": () => {
     S.databaseFile = null;
     S.databasePreview = null;
@@ -828,7 +841,7 @@ const actions = {
     const lesson=S.lesson?.id===id?S.lesson:await api('/api/lessons/'+enc(id));
     const spec = await post(`/api/lessons/${enc(id)}/preview`,{lessonVersionId:lesson.versionId});
     S.previewSpec = spec;
-    S.previewLesson={id:lesson.id,versionId:lesson.versionId,qualityJobId:lesson.qualityJobId};
+    S.previewLesson={id:lesson.id,versionId:lesson.versionId,qualityJobId:lesson.qualityJobId,preview:true};
     S.previewAnswers={};
     S.previewStep = 0;
     const editorStep=previewEditorStep(spec);
@@ -918,21 +931,7 @@ const actions = {
   "student-access":async id=>showStudentAccess(S.lesson?.id===id?S.lesson:await api('/api/lessons/'+enc(id))),
   "regenerate-publication":id=>{sessionStorage.removeItem('tween-main-preparation-action');return generateEntry(id);},
   "copy-student-link":async()=>{const field=$('#student-link');try{await navigator.clipboard.writeText(field.value);toast('Lien copié.');}catch{field.focus();field.select();toast('Le lien est sélectionné : copiez-le.');}},
-  "edit-lesson": () => {
-    const s = S.lesson.spec;
-    modal(
-      "Ajuster le déroulé",
-      `<form data-form="edit-lesson"><div class="field"><label for="edit-title">Titre</label><input id="edit-title" name="title" value="${esc(s.title)}" required></div>${s.blocks
-        .filter((b) => b.type !== "Diagnostic")
-        .map(
-          (b) =>
-            `<details class="block-card"><summary>${esc(b.title)}</summary><div class="field" style="margin-top:16px"><label>Titre du bloc<input name="title:${esc(b.id)}" value="${esc(b.title)}" required></label></div><div class="field"><label>Contenu<textarea name="content:${esc(b.id)}">${esc(b.content)}</textarea></label></div><label>Durée (minutes)<input type="number" min="1" name="minutes:${esc(b.id)}" value="${b.minutes}" required></label></details>`,
-        )
-        .join(
-          "",
-        )}<h3>Consignes et productions</h3>${s.activities.map((a) => `<details class="block-card"><summary>${esc(a.title)}</summary><div class="field"><label>Consigne<textarea name="instruction:${esc(a.id)}">${esc(a.instruction)}</textarea></label></div><div class="field"><label>Production attendue<input name="evidence:${esc(a.id)}" value="${esc(a.expectedEvidence)}"></label></div><div class="field"><label>Support de départ<textarea name="starter:${esc(a.id)}">${esc(a.starter)}</textarea></label></div><div class="field"><label>Correction professeur<textarea name="reference:${esc(a.id)}">${esc(a.reference)}</textarea></label></div><div class="field"><label>Réponse attendue<textarea name="expected:${esc(a.id)}">${esc(a.expectedAnswer)}</textarea></label></div></details>`).join("")}<div class="field"><label for="edit-reason">Justification</label><input id="edit-reason" name="reason" required></div><div class="modal-actions"><button class="btn primary">Enregistrer une nouvelle version</button></div></form>`,
-    );
-  },
+  "edit-lesson": () => { location.href='/lesson-editor.html?lesson='+enc(S.lesson.id); },
   corpus: async (id) => {
     const manifest = await api(`/api/corpus/${enc(id)}/manifest`);
     modal(
@@ -1280,40 +1279,6 @@ const forms = {
   'take-over-draft':async(f,data)=>{
     await post(`/api/lessons/${enc(f.dataset.id)}/take-over`,{version:Number(f.dataset.version),reason:data.reason,confirmed:data.confirmed==='on'});
     closeModal();await openLesson(f.dataset.id);toast('Brouillon professeur créé. Relisez-le puis publiez cette version.');
-  },
-  "edit-lesson": async (f, data) => {
-    const spec = structuredClone(S.lesson.spec);
-    spec.title = data.title;
-    for (const b of spec.blocks) {
-      if (b.type === "Diagnostic") continue;
-      b.title = data["title:" + b.id];
-      b.content = data["content:" + b.id];
-      b.minutes = Number(data["minutes:" + b.id]);
-    }
-    for (const a of spec.activities) {
-      a.instruction = data["instruction:" + a.id];
-      a.expectedEvidence = data["evidence:" + a.id];
-      a.starter = data["starter:" + a.id];
-      a.reference = data["reference:" + a.id];
-      a.expectedAnswer = data["expected:" + a.id];
-    }
-    spec.timeline = spec.blocks.map((b) => ({
-      blockId: b.id,
-      minutes: b.minutes,
-    }));
-    spec.slides = spec.blocks
-      .filter((b) => !["Pause", "Diagnostic"].includes(b.type))
-      .map((b) => ({ title: b.title, body: b.content }));
-    await api("/api/lessons/" + enc(S.lesson.id), {
-      method: "PUT",
-      body: { version: S.lesson.version, spec, reason: data.reason },
-    });
-    await busy(
-      () => post(`/api/corpus/${enc(S.lesson.id)}/compile`),
-      "Compilation de la nouvelle version…",
-    );
-    closeModal();
-    await openLesson(S.lesson.id);
   },
   "close-lesson": async (f, data) => {
     await post(`/api/lessons/${enc(f.dataset.id)}/close`, {
