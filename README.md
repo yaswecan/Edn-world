@@ -28,6 +28,14 @@ Si un autre appareil n’arrive pas à ouvrir la page, vérifier qu’il est sur
 
 Recette isolée : `node --import tsx --test tests/local-network.test.mjs tests/chatgpt-launcher.test.mjs`, puis `node --import tsx scripts/student-access-browser-check.mjs --lan` et `node --import tsx scripts/code-runner-browser-check.mjs --lan`. Les contrôles navigateur utilisent des comptes synthétiques et vérifient les sauvegardes, l’arcade et l’exécution JavaScript sur une adresse HTTP du réseau. Les identifiants aléatoires utilisent `crypto.getRandomValues` lorsque `crypto.randomUUID` n’est pas disponible sur cette origine.
 
+## Choisir la séance à faire aujourd’hui
+
+Dans **Vue d’ensemble** ou **Mes séances**, la carte **Séance du jour** permet de choisir une séance déjà publiée, quelle que soit sa date prévue. Vous pouvez aussi cliquer sur **Faire aujourd’hui** dans la liste ou le détail d’une séance : par exemple, reprendre le 9 octobre les quatre cartes Flexbox prévues le 5 octobre.
+
+Les élèves ouvrent `/today` ou cliquent sur **Actualiser** pour retrouver ce choix. La date affichée est celle de la journée ; la planification, le contenu et les réponses déjà enregistrées sont conservés. Les liens vers une séance précise restent utilisables. Le choix est enregistré pour toute la classe, uniquement pour la journée en cours, selon l’heure de Paris. **Revenir au planning du jour** annule ce choix ; le lendemain, le planning reprend automatiquement. Une séance doit être publiée avant d’être choisie.
+
+Vérifications isolées : `node --import tsx --test tests/today-lesson.test.mjs`, puis `node --import tsx scripts/today-lesson-browser-check.mjs`. Redémarrer le serveur local après installation de cette évolution pour charger la nouvelle route.
+
 ## Modifier les séances et le code des exercices
 
 Dans **Mes séances → Ouvrir → Modifier**, l’éditeur charge les contenus existants : textes riches, images, sections, activités et vrais fichiers de départ. Les sections et blocs peuvent être déplacés, dupliqués ou supprimés, avec annulation. Le brouillon est enregistré automatiquement et par **Enregistrer**. **Aperçu élève** utilise le rendu partagé ; **Exporter** télécharge le brouillon confirmé. Une séance publiée garde sa version visible jusqu’à **Mettre à jour la séance**.
