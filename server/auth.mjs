@@ -8,7 +8,9 @@ export function cookie(res,token){res.setHeader('Set-Cookie',`eden_session=${tok
 export async function createSession(store,user,res){const token=randomBytes(32).toString('hex');await store.insert('sessions',{id:hash(token),classId:user.classId,userId:user.id,role:user.role,authVersion:user.authVersion||0,expiresAt:new Date(Date.now()+43200000).toISOString()});cookie(res,token);return safeUser(user);}
 export function authentication(store){return async(req,res,next)=>{
  const token=req.headers.cookie?.split(';').map(s=>s.trim()).find(s=>s.startsWith('eden_session='))?.slice(13);
- if(token){const session=await store.get('sessions',hash(token));if(session&&session.expiresAt>now()){const u=await store.get(session.role==='teacher'?'teachers':'learners',session.userId);if(u&&u.classId===session.classId&&(u.authVersion||0)===(session.authVersion||0)){req.user={...u,role:session.role};req.sessionId=session.id;}}}
+ if(token){const session=await store.get('sessions',hash(token));if(session&&session.expiresAt>now()){const u=await store.get(session.role==='teacher'?'teachers':'learners',session.userId);if(u&&!u.suspended&&u.classId===session.classId&&(u.authVersion||0)===(session.authVersion||0)){req.user={...u,role:session.role};req.sessionId=session.id;}}}
+ if(req.user)res.setHeader('X-Eden-Actor',req.user.id);
+ if(req.headers['x-eden-actor']&&req.headers['x-eden-actor']!==req.user?.id)fail(401,'Le compte connecté a changé. Reconnectez-vous.');
  next();
  };}
 export const loggedIn=(req,res,next)=>{if(!req.user)fail(401,'Connectez-vous pour continuer.');next();};

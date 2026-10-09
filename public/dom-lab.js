@@ -14,7 +14,7 @@ export function installDOMLabs({getLesson,getJob=()=>null}){
   if(action==='reset'&&!confirm('Réinitialiser le projet ? Une sauvegarde des fichiers sera conservée.'))return;
   const controller=new AbortController();requests.set(root,controller);status.textContent='Exécution dans le laboratoire…';
   const lesson=getLesson(),job=getJob(),files=Array.from(root.querySelectorAll('[data-dom-file]')).map(f=>({path:f.dataset.domFile,content:f.value})),activityId=root.dataset.domLab;
-  const body={...(lesson?.editorSpec?{editorSpec:lesson.editorSpec,editorToken:lesson.editorToken}:{}),lessonId:lesson?.id,lessonVersionId:lesson?.versionId,activityId,action,confirmed:action==='reset',interaction};
+  const body={...(lesson?.editorSpec?{editorSpec:lesson.editorSpec,editorToken:lesson.editorToken}:{}),lessonId:lesson?.id,lessonVersionId:lesson?.versionId,assignmentId:lesson?.assignmentId,activityId,action,confirmed:action==='reset',interaction};
   if(['render','check'].includes(action))body.files=files;
   if(job||lesson.preview){const actions=previewActions.get(root)||[];if(['render','reset'].includes(action))actions.length=0;if(interaction)actions.push(interaction);previewActions.set(root,actions);body.actions=actions;body.files=files;}
   try{

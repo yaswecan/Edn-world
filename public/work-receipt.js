@@ -1,5 +1,7 @@
+import {bindPrivateAccount} from './private-session.js';
 const status=document.querySelector('#receipt-status'),container=document.querySelector('#receipt-files');
 try{
+ const session=await (await fetch('/api/session')).json();bindPrivateAccount(session.user);
  const id=new URLSearchParams(location.search).get('id');if(!id)throw Error('Choisis un reçu depuis ta séance.');
  const response=await fetch('/api/work-submissions/'+encodeURIComponent(id)),data=await response.json();if(!response.ok)throw Error(data.error||'Connecte-toi pour consulter ton travail.');
  status.textContent='Travail reçu le '+new Date(data.receipt.receivedAt).toLocaleString('fr-FR',{timeZone:'Europe/Paris'})+'. Cet état reste conservé lorsque tu continues à travailler.';

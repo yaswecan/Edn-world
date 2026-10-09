@@ -65,7 +65,7 @@ test('teacher choice controls the class landing page, keeps saved work and direc
   assert.equal((await call('/api/today',teacher,'PUT',{date})).status,400);
   const attempt=(await call('/api/assessments/flexbox/start',student,'POST',{})).body;
   const answers={[demoFlexbox().diagnostic.tasks[0].id]:'Mon travail conservé'};
-  assert.equal((await call(`/api/assessments/${attempt.id}/save`,student,'POST',{answers})).status,200);
+  assert.equal((await call(`/api/assessments/${attempt.id}/save`,student,'POST',{answers,draftVersion:attempt.draftVersion})).status,200);
   await store.insert('learning_progress',{id:'student:flexbox:v1',classId:'A1',learnerId:'student',stepId:'opening',completed:['opening'],answers:{activity:'Brouillon conservé'}});
   const originalProgress=await store.get('learning_progress','student:flexbox:v1');
   assert.equal((await call('/api/today',teacher,'PUT',pick)).status,200);

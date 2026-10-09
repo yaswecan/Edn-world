@@ -6,6 +6,7 @@ export const TABLES = ['organizations','classes','teachers','learners','enrollme
 TABLES.push('pedagogical_sources','generation_jobs','generation_candidates','generation_calls','generation_revisions','lesson_assets','lab_sessions');
 TABLES.push('document_indexes','source_annotations','document_contexts','content_snapshots','archive_outbox','work_submissions');
 TABLES.push('lesson_transfers','lesson_transfer_chunks','lesson_transfer_links','lesson_transfer_receipts');
+TABLES.push('lesson_assignments','result_publications','learning_reprises','tracking_migrations');
 export const uid = (prefix='id') => `${prefix}_${randomUUID()}`;
 export const now = () => new Date().toISOString();
 export function fail(status, message, details) { throw Object.assign(new Error(message), { status, details }); }
@@ -30,7 +31,7 @@ export async function openStore({url=process.env.DATABASE_URL,path=process.env.E
    async get(t,id) { return parse((await query(`SELECT data FROM ${table(t)} WHERE id=$1`,[id]))[0]); },
    async list(t,classId) { const rows=await query(`SELECT data FROM ${table(t)}${classId?' WHERE class_id=$1':''} ORDER BY ${t.endsWith('_versions')||['teacher_policies','remediation_snapshots'].includes(t)?'version,':''}created_at,id`,classId?[classId]:[]);return rows.map(parse); },
    async insert(t,obj) { const data={...obj,id:obj.id||uid(t),createdAt:obj.createdAt||now()};await exec(`INSERT INTO ${table(t)} (id,class_id,version,data,created_at) VALUES ($1,$2,$3,$4,$5)`,[data.id,data.classId||'A1',data.version||1,JSON.stringify(data),data.createdAt]);return data; },
-   async put(t,obj) { await exec(`UPDATE ${table(t)} SET version=$1,data=$2 WHERE id=$3`,[obj.version||1,JSON.stringify(obj),obj.id]);return obj; },
+   async put(t,obj) { await exec(`UPDATE ${table(t)} SET version=$1,data=$2,class_id=$3 WHERE id=$4`,[obj.version||1,JSON.stringify(obj),obj.classId||'A1',obj.id]);return obj; },
    async remove(t,id) { await exec(`DELETE FROM ${table(t)} WHERE id=$1`,[id]); },
    async audit(actor,action,entityId,details={}) { return api.insert('audit_log',{actorId:actor.id,classId:actor.classId,action,entityId,details}); }
   };return api;

@@ -1,3 +1,4 @@
+import {availability} from '../student-tracking.mjs';
 import {existsSync} from 'node:fs';
 import {loggedIn} from '../auth.mjs';
 import {fail,requireValue} from '../store.mjs';
@@ -37,9 +38,10 @@ export async function visualAssets(store,spec){
 }
 export function visualRoutes(app,store){
  app.get('/api/lesson-assets/:id',loggedIn,async(req,res)=>{
-  const asset=await store.get('lesson_assets',req.params.id);if(!asset||asset.classId!==req.user.classId)fail(404,'Ressource introuvable.');
-  const versions=await store.list('lesson_versions',req.user.classId),lessons=await store.list('lessons',req.user.classId);
-  const allowed=versions.some(v=>[...v.spec.activities,...(v.spec.diagnostic?.tasks||[])].some(a=>a.workshop?.visual?.id===asset.id)&&(req.user.role==='teacher'||lessons.some(l=>l.status==='published'&&l.versionId===v.id)));
+  const asset=await store.get('lesson_assets',req.params.id);if(!asset||req.user.role==='teacher'&&asset.classId!==req.user.classId)fail(404,'Ressource introuvable.');
+  let allowed=false;const versions=req.user.role==='teacher'?await store.list('lesson_versions',req.user.classId):[];
+  if(req.user.role==='student')for(const a of (await store.list('lesson_assignments')).filter(a=>a.learnerId===req.user.id&&a.access==='allowed'))if(await availability(store,a)!=='revoked'){const v=await store.get('lesson_versions',a.lessonVersionId);if(v)versions.push(v);}
+  allowed=versions.some(v=>[...v.spec.activities,...(v.spec.diagnostic?.tasks||[])].some(a=>a.workshop?.visual?.id===asset.id));
   if(!allowed)fail(404,'Ressource introuvable.');
   const bytes=Buffer.from(asset.base64,'base64');requireValue(digest(bytes)===asset.sha256,'Ressource altérée.');res.type('png').send(bytes);
  });

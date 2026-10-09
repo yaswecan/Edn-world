@@ -1,3 +1,4 @@
+import {grantFixture} from './fixtures/tracking-assignment.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {pedagogyFixture,buildPilot,pilotDefinitions} from './fixtures/pedagogy.mjs';
@@ -97,7 +98,7 @@ test('fixture and stale validation block publication; learner APIs never leak re
  const f=await httpFixture();try{
  const job=await buildPilot(f.store,f.actor,pilotDefinitions[0]),lesson=await f.store.get('lessons',job.lessonId);
  const publish=await f.call(`/api/lessons/${encodeURIComponent(lesson.id)}/publish`,{method:'POST',body:{confirmed:true,version:lesson.version}});assert.equal(publish.status,422);
- lesson.status='published';lesson.runId='test-run';await f.store.put('lessons',lesson);
+ lesson.status='published';lesson.runId='test-run';await f.store.put('lessons',lesson);await grantFixture(f.store,lesson,await f.store.get('learners','private-student'));
  const today=await f.call('/api/today?date=2026-10-05',{cookie:f.student});assert.equal(today.status,200);for(const key of ['qualityJobId','pedagogicalValidation','quality','provider','agentRunId'])assert.equal(today.data.lesson[key],undefined,key);
  assert.equal(today.data.lesson.spec.blocks.find(b=>b.id==='concept').depth,undefined);
  }finally{await f.close();}
@@ -105,10 +106,11 @@ test('fixture and stale validation block publication; learner APIs never leak re
 test('real lab route requires publication, diagnostic, ownership and configured service',async()=>{
  const f=await httpFixture();try{
  const job=await buildPilot(f.store,f.actor,pilotDefinitions[2]),lesson=await f.store.get('lessons',job.lessonId),body={lessonId:lesson.id,lessonVersionId:lesson.versionId,activityId:'guided'};
- assert.equal((await f.call('/api/labs',{method:'POST',cookie:f.student,body})).status,400);
- lesson.status='published';await f.store.put('lessons',lesson);
+ assert.equal((await f.call('/api/labs',{method:'POST',cookie:f.student,body})).status,404);
+ lesson.status='published';await f.store.put('lessons',lesson);await grantFixture(f.store,lesson,await f.store.get('learners','private-student'));
  assert.equal((await f.call('/api/labs',{method:'POST',cookie:f.student,body})).status,400);
  await f.store.insert('assessment_attempts',{id:'done',classId:'A1',learnerId:'private-student',lessonVersionId:lesson.versionId,submissionId:'saved'});
+ await grantFixture(f.store,lesson,await f.store.get('learners','private-student'));
  const missing=await f.call('/api/labs',{method:'POST',cookie:f.student,body});assert.equal(missing.status,503);assert.match(missing.data.error,/Aucune commande/);
  assert.equal((await f.store.list('lab_sessions','A1')).length,0);
  }finally{await f.close();}

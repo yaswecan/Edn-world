@@ -18,6 +18,8 @@ import {passwordHash} from '../server/auth.mjs';
 import {importDocument} from '../server/pedagogy/documents.mjs';
 import {seedCatalog,explorationForMission} from '../server/game.mjs';
 import {PGlite} from '@electric-sql/pglite';
+import {lessonContext} from '../server/student-tracking.mjs';
+import {submitAttempt} from '../server/assessment.mjs';
 
 import {transferFixture as fixture,png} from './fixtures/lesson-transfer.mjs';
 async function exported(f,ids=[f.lesson.id]){const e=await exportLessons(f.store,ids,f.actor);return {...e,...await readTransfer(f.store,e.id,f.actor)};}
@@ -46,13 +48,19 @@ test('rich content, files, citations and private corrections round trip between 
 
 test('published replacement keeps link and attachments, removes old blocks, separates learner work',async()=>{
  const source=await fixture(),dest=await fixture();try{
+  const learner=await dest.store.insert('learners',{id:'student',classId:'A1',role:'student',displayName:'Élève de recette'});
   await preparePublication(dest.store,dest.lesson.id,{version:1},dest.actor);await publishLesson(dest.store,dest.lesson.id,dest.actor,{version:1,confirmed:true});
   const old=await dest.store.get('lessons',dest.lesson.id),v=await source.store.get('lesson_versions',source.lesson.versionId);v.spec.title='Version améliorée';v.spec.blocks=v.spec.blocks.map(b=>({...b,id:b.id==='opening'?'new-opening':b.id,activityIds:b.activityIds.map(id=>id==='transfer'?'new-transfer':id)}));v.spec.activities=v.spec.activities.map(a=>({...a,id:a.id==='transfer'?'new-transfer':a.id}));v.spec.timeline=v.spec.blocks.map(b=>({blockId:b.id,minutes:b.minutes}));v.spec.studentFlow=v.spec.blocks.map(b=>b.id);await source.store.put('lesson_versions',v);await source.store.put('lessons',{...source.lesson,title:v.spec.title});
-  await dest.store.insert('assessment_attempts',{id:'old-answer',classId:'A1',lessonVersionId:old.versionId,learnerId:'student',answers:{guided:'old code'}});await dest.store.insert('learning_progress',{id:'student:'+old.versionId,classId:'A1',answers:{guided:'old code'},completed:['guided']});
+  const assignment=(await dest.store.list('lesson_assignments')).find(a=>a.learnerId===learner.id);
+  await dest.store.insert('assessment_attempts',{id:'old-answer',classId:'A1',lessonId:old.id,lessonVersionId:old.versionId,runId:old.runId,assignmentId:assignment.id,learnerId:learner.id,answers:{},history:[],draftVersion:0});
+  const submission=await submitAttempt(dest.store,'old-answer',{[dest.spec.diagnostic.tasks[0].id]:'Réponse originale'},learner,{draftVersion:0});
+  await dest.store.insert('learning_progress',{id:assignment.progressId,classId:'A1',learnerId:learner.id,assignmentId:assignment.id,lessonVersionId:old.versionId,answers:{guided:'old code'},completed:['guided']});
   const beforeAttempts=await dest.store.list('assessment_attempts'),t=await upload(dest,(await exported(source)).bytes),p=await previewTransfer(dest.store,t.id,{targetId:old.id},dest.actor);assert.equal(p.canApply,true,JSON.stringify(p.rows));
   const r=await apply(dest,t,p),updated=await dest.store.get('lessons',old.id),spec=(await dest.store.get('lesson_versions',updated.versionId)).spec;
   assert.equal(r.lessons[0].id,old.id);assert.equal(updated.status,'published');assert.equal(updated.date,old.date);assert.equal(spec.planEntryId,dest.spec.planEntryId);assert.ok(!spec.activities.some(a=>a.id==='transfer'));assert.notEqual(updated.runId,old.runId);assert.equal(updated.diagnosticVersionId,undefined);assert.deepEqual(await dest.store.list('assessment_attempts'),beforeAttempts);assert.equal(await dest.store.get('learning_progress','student:'+updated.versionId),null);
   assert.equal((await preview(dest,t)).rows[0].status,'identical');
+  const context=await lessonContext(dest.store,learner,assignment);assert.equal(context.lesson.versionId,old.versionId);assert.ok(context.lesson.spec.activities.some(a=>a.id==='transfer'));assert.equal(context.progress.answers.guided,'old code');assert.equal(context.attempt.submissionId,submission.id);assert.deepEqual((await dest.store.get('submissions',submission.id)).diagnostic,submission.diagnostic);
+  const repeat=await preview(dest,t);await apply(dest,t,repeat);assert.equal((await dest.store.list('submissions')).length,1);assert.equal((await dest.store.list('assessment_attempts')).length,1);assert.equal((await dest.store.list('lesson_assignments')).filter(a=>a.learnerId===learner.id).length,2);
  }finally{await close(source,dest);}
 });
 

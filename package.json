@@ -7,6 +7,9 @@
     "node": ">=22.14 <23"
   },
   "scripts": {
+    "audit:tracking": "node scripts/student-tracking-audit.mjs",
+    "test:tracking": "node --import tsx --test tests/student-tracking.test.mjs tests/lesson-transfer.test.mjs tests/documentary-storage.test.mjs",
+    "test:tracking:browser": "node --import tsx scripts/student-tracking-browser-check.mjs",
     "preview:quality:v2": "node --import tsx scripts/quality-real.mjs",
     "test:quality:v2": "node --import tsx --test tests/preparation-v2.test.mjs",
     "test:quality:v2:browser": "node --import tsx scripts/preparation-v2-browser.mjs",

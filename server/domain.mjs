@@ -8,6 +8,7 @@ import {lessonPlanUnchanged} from './lesson-plan.mjs';
 import {publicationCodeChecks} from './publication-code.mjs';
 import {compileCorpus} from './corpus.mjs';
 import {chooseTodayLessonInTransaction} from './today-lesson.mjs';
+import {distributeRun} from './student-tracking.mjs';
 export async function lessonQuality(tx,lesson,corpus=true){const version=await tx.get('lesson_versions',lesson.versionId),spec=version.spec,entry=await tx.get('plan_entries',spec.planEntryId)||{id:'',date:spec.date,duration:lesson.transferContext?.entry?.duration||0,durationConfirmed:false,status:'planned'},curriculum=await tx.get('curriculum_versions',spec.sourceVersions.curriculumVersion)||{criteria:lesson.transferContext?.criteria||[]},previous=previousCompleted(await tx.list('lesson_runs',lesson.classId),spec.date),pack=(await tx.list('corpus_packages',lesson.classId)).find(p=>p.lessonVersionId===version.id);const quality=qualityCheck(spec,{entry,criteria:curriculum.criteria,previous,corpusComplete:corpus&&pack?.complete});const plans=await tx.list('plan_versions',lesson.classId);quality.checks.push({id:'plan_version',ok:lessonPlanUnchanged(spec,entry,plans),message:'Objectifs et référentiel inchangés, durée de la séance compatible avec le créneau confirmé'});quality.checks.push(...await publicationGate(tx,lesson,spec));quality.publishable=quality.checks.every(c=>c.ok);return {quality,version,pack};}
 export async function publishLesson(store,id,actor,input){
  requireValue(actor.role==='teacher'&&input.confirmed===true,'Validation professeur requise.');
@@ -39,6 +40,7 @@ export async function publishLesson(store,id,actor,input){
  const publication=await tx.insert('lesson_publications',{id:uid('publication'),classId:actor.classId,lessonId:id,lessonVersionId:lesson.versionId,version:lesson.version,publishedBy:actor.id,publishedAt:now(),corpusId:pack.id,validationMode});
  await freezeContent(tx,{classId:actor.classId,event:'lesson.publication_selected',eventId:publication.id,subject:{kind:'lesson',lessonId:id,lessonVersionId:lesson.versionId},files:[{path:'lesson.json',content:canonical(version.spec),audience:'teacher'}],external:pack.files.map(({path,sha256,bytes})=>({path,sha256,bytes,corpusId:pack.id})),versions:{corpusId:pack.id}});
  const run=await tx.insert('lesson_runs',{id:uid('lessonrun'),classId:actor.classId,lessonId:id,lessonVersionId:lesson.versionId,date:lesson.date,status:'planned',eligibleForDiagnostic:false,coveredSkills:[],coveredActivityIds:[],coveredContent:'',reactivatedPrerequisites:[],closedAt:null});
+ await distributeRun(tx,run);
  lesson.status='published';lesson.quality=quality;lesson.publicationId=publication.id;lesson.runId=run.id;await tx.put('lessons',lesson);
  await tx.insert('teacher_approvals',{id:uid('approval'),classId:actor.classId,entityId:id,version:lesson.version,actorId:actor.id,action:'publish',validationMode});await tx.audit(actor,'lesson.published',id,{version:lesson.version,validationMode});
  await selectToday(tx);

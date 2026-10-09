@@ -1,3 +1,4 @@
+import {availability} from './student-tracking.mjs';
 import express from 'express';
 import {teacher,loggedIn,accountLimit} from './auth.mjs';
 import {LIMITS} from './lesson-package.mjs';
@@ -16,9 +17,9 @@ export function lessonTransferRoutes(app,store){
  app.post('/api/lesson-transfers/:id/apply',teacher,limited,async(req,res)=>res.json(await applyTransfer(store,req.params.id,req.body,req.user)));
  app.delete('/api/lesson-transfers/:id',teacher,async(req,res)=>res.json(await removeTransfer(store,req.params.id,req.user)));
  app.get('/api/lesson-transfer-files/:id',loggedIn,async(req,res)=>{
-  const asset=await scoped(store,'lesson_assets',req.params.id,req.user);if(asset.kind!=='portable-file')fail(404,'Support introuvable.');
-  const needle=`/api/lesson-transfer-files/${asset.id}`,lessons=await store.list('lessons',req.user.classId);let allowed=req.user.role==='teacher';
-  for(const l of lessons){if(req.user.role!=='teacher'&&l.status!=='published')continue;const v=await store.get('lesson_versions',l.versionId),visible=req.user.role==='teacher'?v.spec:studentSpec(v.spec);if(JSON.stringify(visible).includes(needle)){allowed=true;break;}}
+  const asset=await store.get('lesson_assets',req.params.id);if(!asset||asset.kind!=='portable-file'||req.user.role==='teacher'&&asset.classId!==req.user.classId)fail(404,'Support introuvable.');
+  const needle=`/api/lesson-transfer-files/${asset.id}`;let allowed=req.user.role==='teacher';
+  if(!allowed)for(const a of (await store.list('lesson_assignments')).filter(a=>a.learnerId===req.user.id&&a.access==='allowed')){if(await availability(store,a)==='revoked')continue;const v=await store.get('lesson_versions',a.lessonVersionId);if(v&&JSON.stringify(studentSpec(v.spec)).includes(needle)){allowed=true;break;}}
   if(!allowed)fail(404,'Support inaccessible.');
   const bytes=Buffer.from(asset.base64,'base64');requireValue(sha256(bytes)===asset.sha256,'Support altéré.');
   res.setHeader('Content-Security-Policy',"sandbox; default-src 'none'; style-src 'unsafe-inline'");

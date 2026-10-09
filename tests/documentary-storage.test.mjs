@@ -1,3 +1,4 @@
+import {grantFixture} from './fixtures/tracking-assignment.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtemp,rm,writeFile,readFile,mkdir} from 'node:fs/promises';
@@ -76,24 +77,24 @@ test('archive outage preserves files; bounded retry and concurrent workers adopt
  let writes=0;await Promise.all([runArchiveJob(store,{config,project:async(...args)=>{writes++;return archiveSnapshot(...args);}}),runArchiveJob(store,{config,project:async(...args)=>{writes++;return archiveSnapshot(...args);}})]);assert.equal(writes,1);assert.equal((await store.get('archive_outbox',s.id)).state,'confirmed');
  assert.equal((await store.get('content_snapshots',s.id)).sha256,s.sha256);
 }finally{await store.close();await rm(directory,{recursive:true,force:true});}});
-async function learnerFixture(pilot=0){const f=await pedagogyFixture(),job=await buildPilot(f.store,f.actor,pilotDefinitions[pilot]),lesson=await f.store.get('lessons',job.lessonId);lesson.status='published';lesson.runId='synthetic-run';await f.store.put('lessons',lesson);const learner={id:'opaque-student',classId:'A1',role:'student'};await f.store.insert('assessment_attempts',{id:'done',classId:'A1',learnerId:learner.id,lessonVersionId:lesson.versionId,submissionId:'diagnostic-receipt'});return {...f,learner,lesson};}
-test('Design and Programming submit explicit current bytes; late saves and intentional resubmission retain old files',async()=>{
+async function learnerFixture(pilot=0){const f=await pedagogyFixture(),job=await buildPilot(f.store,f.actor,pilotDefinitions[pilot]),lesson=await f.store.get('lessons',job.lessonId);lesson.status='published';lesson.runId='synthetic-run';await f.store.put('lessons',lesson);const learner={id:'opaque-student',classId:'A1',role:'student'};await f.store.insert('assessment_attempts',{id:'done',classId:'A1',learnerId:learner.id,lessonVersionId:lesson.versionId,submissionId:'diagnostic-receipt'});await grantFixture(f.store,lesson,learner);return {...f,learner,lesson};}
+test('Design and Programming freeze current bytes; late saves are rejected and resubmission preserves the original',async()=>{
  for(const pilot of [0,1]){const f=await learnerFixture(pilot);try{
-  const input={requestId:'request-explicit-bytes',lessonId:f.lesson.id,lessonVersionId:f.lesson.versionId,answers:{guided:'LATEST EDIT BEFORE AUTOSAVE'}};
+  const input={requestId:'request-explicit-bytes',progressVersion:0,lessonId:f.lesson.id,lessonVersionId:f.lesson.versionId,answers:{guided:'LATEST EDIT BEFORE AUTOSAVE'}};
   const receipts=await Promise.all([submitWork(f.store,f.learner,input),submitWork(f.store,f.learner,input)]);assert.equal(receipts[0].id,receipts[1].id);
   const copy=await snapshotView(f.store,receipts[0].snapshotId,f.learner);assert.ok(copy.files.some(f=>/LATEST EDIT/.test(f.content)));assert.equal(copy.archival.state,'pending');
-  await saveLearningEvent(f.store,f.learner,{eventId:'later-save',lessonId:f.lesson.id,lessonVersionId:f.lesson.versionId,type:'answer_saved',activityId:'guided',payload:{answer:'NEXT EDIT'}});
+  await assert.rejects(saveLearningEvent(f.store,f.learner,{eventId:'later-save',lessonId:f.lesson.id,lessonVersionId:f.lesson.versionId,type:'answer_saved',activityId:'guided',payload:{answer:'NEXT EDIT'}}),/remis/);
   assert.equal((await snapshotView(f.store,copy.id,f.learner)).sha256,copy.sha256);
-  const next=await submitWork(f.store,f.learner,{...input,requestId:'intentional-new-submission',answers:{guided:'NEXT EDIT'}});assert.notEqual(next.id,receipts[0].id);assert.equal((await f.store.list('work_submissions')).length,2);
+  const next=await submitWork(f.store,f.learner,{...input,requestId:'intentional-new-submission',answers:{guided:'NEXT EDIT'}});assert.equal(next.id,receipts[0].id);assert.equal((await f.store.list('work_submissions')).length,1);
   await assert.rejects(submitWork(f.store,f.learner,{...input,answers:{guided:'CHANGED SAME REQUEST'}}),/autre état/);
   await assert.rejects(saveLearningEvent(f.store,f.learner,{eventId:'fake-submit',lessonId:f.lesson.id,type:'lesson_submitted',payload:{answers:{}}}),/reçu durable/);
  }finally{await f.store.close();}}
 });
 test('shell submission requires actual snapshot bytes, excludes Git configuration and survives reset',async()=>{const f=await learnerFixture(2);try{
- const input={requestId:'shell-submission',lessonId:f.lesson.id,lessonVersionId:f.lesson.versionId,answers:{guided:'J’ai déplacé le fichier.'}};
+ const input={requestId:'shell-submission',progressVersion:0,lessonId:f.lesson.id,lessonVersionId:f.lesson.versionId,answers:{guided:'J’ai déplacé le fichier.'}};
  await assert.rejects(submitWork(f.store,f.learner,input),/incomplète/);assert.equal((await f.store.list('work_submissions')).length,0);
  const spec=(await f.store.get('lesson_versions',f.lesson.versionId)).spec;
- for(const a of spec.activities.filter(a=>a.workshop?.profile==='shell-git'))await f.store.insert('lab_sessions',{id:a.id,classId:'A1',learnerId:f.learner.id,lessonVersionId:f.lesson.versionId,activityId:a.id,remoteId:a.id,runtime:'fixture-runtime'});
+ for(const a of spec.activities.filter(a=>a.workshop?.profile==='shell-git'))await f.store.insert('lab_sessions',{id:a.id,classId:'A1',assignmentId:(await f.store.list('lesson_assignments'))[0].id,learnerId:f.learner.id,lessonVersionId:f.lesson.versionId,activityId:a.id,remoteId:a.id,runtime:'fixture-runtime'});
  const laboratory=async()=>({files:[{path:'resultat.txt',base64:Buffer.from('Résultat exact').toString('base64')},{path:'.git/hooks/post-commit',base64:Buffer.from('untrusted hook').toString('base64')}],tracked:['resultat.txt'],committed:['resultat.txt']});
  const r=await submitWork(f.store,f.learner,input,{laboratory}),s=await snapshotView(f.store,r.snapshotId,f.learner);assert.ok(s.files.some(f=>f.content==='Résultat exact'));assert.ok(s.files.every(f=>!f.path.includes('.git')));assert.equal(s.manifest.versions.validation,'NOT RUN');
  for(const a of await f.store.list('lab_sessions'))await f.store.remove('lab_sessions',a.id);assert.equal((await snapshotView(f.store,s.id,f.learner)).sha256,s.sha256);
@@ -106,7 +107,8 @@ test('real pipeline fixture freezes documentary context per call and archives pl
 
 test('DOM submission freezes all three current files and rejects a missing editor revision',async()=>{const store=await fixture(),learner={id:'learner-dom',classId:'A1',role:'student'};try{
  await store.insert('lessons',{id:'dom-lesson',classId:'A1',status:'published',versionId:'dom-v1'});await store.insert('lesson_versions',{id:'dom-v1',classId:'A1',spec:{activities:[{id:'dom',title:'Interactions',required:true,type:'CodeEditor',workshop:{profile:'dom'}}],diagnostic:{tasks:[]}}});await store.insert('assessment_attempts',{id:'done',classId:'A1',learnerId:learner.id,lessonVersionId:'dom-v1',submissionId:'diagnostic'});
- const input={requestId:'dom-current-files',lessonId:'dom-lesson',lessonVersionId:'dom-v1',answers:{}};await assert.rejects(submitWork(store,learner,input),/fichiers actuels/);
+ await grantFixture(store,await store.get('lessons','dom-lesson'),learner);
+ const input={requestId:'dom-current-files',progressVersion:0,lessonId:'dom-lesson',lessonVersionId:'dom-v1',answers:{}};await assert.rejects(submitWork(store,learner,input),/fichiers actuels/);
  const files=[{path:'index.html',content:'<button>Essayer</button>'},{path:'style.css',content:'button { color: blue; }'},{path:'main.js',content:'document.querySelector("button").onclick = () => console.log("clic");'}];
  const receipt=await submitWork(store,learner,{...input,answers:{dom:JSON.stringify({files})}}),snapshot=await snapshotView(store,receipt.snapshotId,learner);for(const f of files)assert.ok(snapshot.files.some(saved=>saved.path.endsWith('/'+f.path)&&saved.content===f.content));
 }finally{await store.close();}});

@@ -1,3 +1,4 @@
+import {findAssignment,resultFor} from '../student-tracking.mjs';
 import express from 'express';
 import {teacher,student} from '../auth.mjs';
 import {requireValue,scoped} from '../store.mjs';
@@ -75,9 +76,9 @@ export function pedagogyRoutes(app,store,{chatgpt}={}){
   }res.json({lessonId:lesson.id,prerequisites:spec.prerequisites,observations});
  });
  app.get('/api/preparation/remediation/:lessonId',student,async(req,res)=>{
-  const lesson=await scoped(store,'lessons',req.params.lessonId,req.user);requireValue(lesson.status==='published','Séance non publiée.');
-  const attempt=(await store.list('assessment_attempts',req.user.classId)).filter(a=>a.learnerId===req.user.id&&a.lessonVersionId===(lesson.diagnosticVersionId||lesson.versionId)).at(-1);
-  const spec=(await store.get('lesson_versions',lesson.versionId)).spec,correction=attempt?.submissionId?await store.get('corrections',attempt.submissionId):null;
-  res.json({observation:diagnosticObservation(attempt,correction),support:diagnosticSupport(spec,correction),message:correction?.score==null?'Ton travail reste à relire. Poursuis la séance ; cette observation ne fixe pas ton niveau.':'Poursuis avec le même objectif ; utilise les rappels utiles.'});
+  const assigned=await findAssignment(store,req.user,{lessonId:req.params.lessonId,assignmentId:req.query.assignment});
+  const attempt=(await store.list('assessment_attempts',assigned.classId)).filter(a=>a.learnerId===req.user.id&&a.assignmentId===assigned.id).at(-1);
+  const spec=(await store.get('lesson_versions',assigned.lessonVersionId)).spec,result=await resultFor(store,attempt),correction=result.status==='published'?result:null;
+  res.json({observation:diagnosticObservation(attempt,correction),support:correction?diagnosticSupport(spec,correction):[],message:'Retrouve tes retours publiés dans Mes évaluations.'});
  });
 }

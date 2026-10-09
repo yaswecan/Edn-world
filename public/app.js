@@ -1,3 +1,4 @@
+import {bindPrivateAccount,invalidatePrivateSession,announceAccountChange,purgePrivateStorage} from './private-session.js';
 import {lessonTransferUI} from './lesson-transfer.js';
 import {randomUUID} from './random-id.js';
 import {installTerminalLabs,flushTerminalFiles} from './terminal-lab.js';
@@ -184,11 +185,12 @@ async function busy(fn, message = "Préparation de votre séance…") {
   }
 }
 function showError(e) {
+  if(e.name==='AbortError')return;
   console.error(e);
   const student = S.user?.role === "student" || (!S.user && S.loginRole === "student");
   if (e.status === 401 && S.user) {
     S.loginRole = S.user.role;
-    S.user = null;
+    invalidatePrivateSession();S.user = null;
     renderLogin();
   }
   modal(
@@ -201,6 +203,7 @@ const navItems = [
   ["ai", "spark", "ChatGPT & API"],
   ["plan", "calendar", "Planification"],
   ["lessons", "book", "Mes séances"],
+  ["students", "people", "Élèves"],
   ["corrections", "check", "Corrections"],
   ["remediation", "people", "Remédiation"],
   ["journal", "copy", "Cahier de texte"],
@@ -363,7 +366,7 @@ function lessonView() {
       btn("Retour aux séances", "nav", "lessons", "", "arrow"),
     ) + revisionEditor(l) +
     (l.status==='draft'&&s.diagnostic.policyVersion!=='diagnostic-practice-1'?`<div class="card pad spaced"><h2>Un diagnostic plus pratique</h2><p>Ajoutez des éditeurs, des écrans à analyser et des preuves d’autonomie pour A2. Une nouvelle version du brouillon sera créée ; les anciennes versions restent conservées.</p>${btn('Renforcer le diagnostic','revise-diagnostic',l.id,'','code')}</div>`:'')+
-    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${todayLessonAction(l)}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${["draft","published"].includes(l.status)?btn("Modifier", "edit-lesson", l.id, "", "settings"):""}${btn("Exporter cette séance", "transfer-export", l.id)}${["draft","published"].includes(l.status)?btn("Remplacer depuis un fichier", "transfer-replace", l.id):""}${l.status === "draft" ? btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Vérifications facultatives</h2><details><summary>Consulter les remarques</summary>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}</details><p class="section-note">Ces repères vous aident à relire. Vous pouvez publier la séance dès qu’elle vous convient.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
+    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${todayLessonAction(l)}${l.runId?`<a class="btn" href="/suivi.html?run=${enc(l.runId)}">Copies de la classe</a>`:""}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${["draft","published"].includes(l.status)?btn("Modifier", "edit-lesson", l.id, "", "settings"):""}${btn("Exporter cette séance", "transfer-export", l.id)}${["draft","published"].includes(l.status)?btn("Remplacer depuis un fichier", "transfer-replace", l.id):""}${l.status === "draft" ? btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Vérifications facultatives</h2><details><summary>Consulter les remarques</summary>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}</details><p class="section-note">Ces repères vous aident à relire. Vous pouvez publier la séance dès qu’elle vous convient.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
   );
 }
 function correctionsView() {
@@ -372,7 +375,7 @@ function correctionsView() {
       "Observer avant de conclure.",
       "Les productions sont figées. Votre validation transforme la correction en preuve.",
     ) +
-    `<div class="card table-wrap"><table><thead><tr><th>Élève</th><th>Séance</th><th>Note /20</th><th>Niveau</th><th>Statut</th><th></th></tr></thead><tbody>${S.data.corrections.map((c) => `<tr><td><strong>${esc(S.data.learners.find((l) => l.id === c.learnerId)?.displayName || c.learnerId)}</strong></td><td>${esc(S.data.lessons.find((l) => l.id === c.lessonId)?.title || c.lessonId)}</td><td>${c.score ?? "—"}</td><td>${pill(c.level, c.level === "NE" ? "amber" : "brand-tone")}</td><td>${pill(stateLabel(c.status), c.status === "approved" ? "green" : "amber")}</td><td>${(c.status !== "approved" && S.data.integrations.openai ? btn("Pré-corriger", "precorrect", c.id, "small") : "") + btn("Relire", "review", c.id, "small", "arrow")}</td></tr>`).join("")}</tbody></table>${S.data.corrections.length ? "" : empty("Les diagnostics remis par les élèves apparaîtront ici.", "check")}</div>`
+    `<p><a class="btn" href="/suivi.html?view=runs">Évaluations de classe et publication</a></p><div class="card table-wrap"><table><thead><tr><th>Élève</th><th>Séance</th><th>Note /20</th><th>Niveau</th><th>Statut</th><th></th></tr></thead><tbody>${S.data.corrections.map((c) => `<tr><td><strong>${esc(S.data.learners.find((l) => l.id === c.learnerId)?.displayName || c.learnerId)}</strong></td><td>${esc(S.data.lessons.find((l) => l.id === c.lessonId)?.title || c.lessonId)}</td><td>${c.score ?? "—"}</td><td>${pill(c.level, c.level === "NE" ? "amber" : "brand-tone")}</td><td>${pill(stateLabel(c.status), c.status === "approved" ? "green" : "amber")}</td><td>${(c.status !== "approved" && S.data.integrations.openai ? btn("Pré-corriger", "precorrect", c.id, "small") : "") + btn("Relire", "review", c.id, "small", "arrow")}</td></tr>`).join("")}</tbody></table>${S.data.corrections.length ? "" : empty("Les diagnostics remis par les élèves apparaîtront ici.", "check")}</div>`
   );
 }
 function gameReviews() {
@@ -567,63 +570,53 @@ function editPlanDialog(id, prepareAfter = false) {
   );
 }
 async function startStudent(date) {
-  const selected=new URLSearchParams(location.search).get('lesson');
-  const result = await api("/api/today" + (selected?"?lesson="+enc(selected):date ? "?date=" + enc(date) : ""));
-  S.availableLessons=result.availableLessons||[];
-  S.studentDisplayDate=result.displayDate;
-  S.studentTodayLesson=result.todayLesson;
-  S.student = result.lesson;
-  S.newStudentVersion=null;
-  S.studentEvents = result.events || [];
-  S.completed = result.progress?.completed || [];
-  S.attempt = result.attempt;
-  S.step = result.progress?.stepId
-    ? Math.max(
-        0,
-        result.lesson.spec.blocks.findIndex(
-          (b) => b.id === result.progress.stepId,
-        ),
-      )
-    : 0;
-  S.answers = {
-    ...(result.progress?.answers || {}),
-    ...(result.attempt?.answers || {}),
-  };
-  if (S.student && S.user.role === "student") {
-    S.attempt = await post("/api/assessments/" + enc(S.student.id) + "/start");
-    S.answers = {
-      ...(result.progress?.answers || {}),
-      ...(S.attempt.answers || {}),
-    };
-    const key = `eden:${S.user.id}:${S.student.versionId}`;
-    const saved = JSON.parse(localStorage.getItem(key) || "null");
-    if (saved) {
-      const localActivities = Object.fromEntries(
-        Object.entries(saved.answers || {}).filter(([id]) =>
-          S.student.spec.activities.some((a) => a.id === id) &&
-          (!Object.hasOwn(result.progress?.answers || {},id) ||
-           saved.at > (result.progress?.answerSavedAt?.[id] || result.progress?.savedAt || '')),
-        ),
-      );
-      S.answers = { ...S.answers, ...localActivities };
-      if (!S.attempt.submissionId)
-        S.answers = {
-          ...S.answers,
-          ...Object.fromEntries(
-            Object.entries(saved.answers || {}).filter(([id]) =>
-              S.student.spec.diagnostic.tasks.some((a) => a.id === id),
-            ),
-          ),
-        };
-      S.step = Math.min(saved.step || 0, S.student.spec.blocks.length - 1);
+  for(const timer of answerTimers.values())clearTimeout(timer);
+  const params=new URLSearchParams(location.search),selected=params.get('lesson'),assignment=params.get('assignment'),attempt=params.get('attempt');
+  const query=assignment?'?assignment='+enc(assignment)+(attempt?'&attempt='+enc(attempt):''):selected?'?lesson='+enc(selected):date?'?date='+enc(date):'';
+  const result=await api('/api/today'+query);
+  S.availableLessons=result.availableLessons||[];S.studentDisplayDate=result.displayDate;S.studentTodayLesson=result.todayLesson;
+  S.student=result.lesson;S.readOnly=!!result.readOnly;S.assignmentId=result.assignmentId;S.progressVersion=result.progress?.version||0;
+  S.newStudentVersion=null;S.studentEvents=result.events||[];S.completed=result.progress?.completed||[];S.attempt=result.attempt;
+  S.step=result.lesson&&result.progress?.stepId?Math.max(0,result.lesson.spec.blocks.findIndex(b=>b.id===result.progress.stepId)):0;
+  S.answers={...(result.progress?.answers||{}),...(result.attempt?.answers||{})};
+  S.writerQueue=Promise.resolve();S.eventQueue=Promise.resolve();S.pendingDiagnostic=null;S.workSaveMessage=result.progress?.savedAt?'Travail enregistré':'';
+  if(S.student&&!S.readOnly){
+    S.attempt=await post('/api/assessments/'+enc(S.student.id)+'/start',{assignmentId:S.assignmentId,attemptId:attempt||undefined});
+    S.answers={...(result.progress?.answers||{}),...(S.attempt.answers||{})};
+    let saved;try{saved=JSON.parse(localStorage.getItem(studentStorageKey())||'null');}catch{}
+    if(saved){
+      for(const [id,value] of Object.entries(saved.answers||{})){
+        const diagnostic=S.student.spec.diagnostic.tasks.some(t=>t.id===id);
+        if(diagnostic?!S.attempt.submissionId&&saved.draftVersion===S.attempt.draftVersion:saved.progressVersion===S.progressVersion)S.answers[id]=value;
+      }
+      S.step=Math.min(saved.step||0,S.student.spec.blocks.length-1);
     }
-    const diagnosticStep = S.student.spec.blocks.findIndex(b => b.type === "Diagnostic");
-    if (!S.attempt.submissionId && diagnosticStep >= 0 && S.step > diagnosticStep)
-      S.step = diagnosticStep;
+    const diagnostic=S.student.spec.blocks.findIndex(b=>b.type==='Diagnostic');
+    if(!S.attempt.submissionId&&!result.summary?.reprises?.length&&diagnostic>=0&&S.step>diagnostic)S.step=diagnostic;
   }
-  S.diagnosticSupport = S.attempt?.submissionId ? (await api('/api/preparation/remediation/'+enc(S.student.id))).support : [];
-  renderStudent();
+  const activity=params.get('activity');if(activity){const step=S.student?.spec.blocks.findIndex(b=>b.activityIds?.includes(activity));if(step>=0)S.step=step;}
+  S.reprise=!!result.summary?.reprises?.length;S.targeted=!!S.attempt?.targetedOpen;S.workReadOnly=result.summary?.availability!=='open';
+  if(attempt&&S.targeted)S.step=Math.max(0,S.student.spec.blocks.findIndex(b=>b.type==='Diagnostic'));
+  S.diagnosticSupport=[];renderStudent();
 }
+function studentStorageKey(){return `eden:${S.user.id}:${S.assignmentId}:${S.attempt?.id||'work'}`;}
+function studentTrackingNav(){return '<nav class="tracking-links" aria-label="Mon espace"><a class="btn" href="/today">Aujourd’hui</a><a class="btn" href="/suivi.html?view=lessons">Mes séances</a><a class="btn" href="/suivi.html?view=evaluations">Mes évaluations</a></nav>'+(!S.readOnly&&S.student?`<div class="tracking-links"><span id="work-save-status" role="status">${esc(S.workSaveMessage||'')}</span>${btn('Enregistrer mon travail','save-work')}</div>`:'');}
+async function saveDiagnostic(){
+ const attempt=S.attempt;if(!attempt||attempt.submissionId||S.readOnly)return;
+ const run=async()=>{
+  if(S.attempt!==attempt)return;
+  const values=()=>Object.fromEntries(S.student.spec.diagnostic.tasks.filter(t=>Object.hasOwn(S.answers,t.id)).map(t=>[t.id,S.answers[t.id]]));
+  const packet=S.pendingDiagnostic||{answers:values(),draftVersion:attempt.draftVersion,requestId:randomUUID()};S.pendingDiagnostic=packet;
+  const label=$('#save-status');if(label)label.textContent='Enregistrement en cours…';
+  try{const saved=await post(`/api/assessments/${enc(attempt.id)}/save`,packet);if(S.attempt!==attempt)return;
+   attempt.draftVersion=saved.draftVersion;S.pendingDiagnostic=null;persistLocal();
+   if(JSON.stringify(packet.answers)!==JSON.stringify(values()))return run();
+   if(label?.isConnected)label.textContent=JSON.stringify(packet.answers)===JSON.stringify(values())?'Enregistré':'Modifications en cours…';
+  }catch(error){if(label?.isConnected)label.textContent=error.status===409?'Conflit entre onglets — copie ta saisie puis recharge.':'Enregistrement non confirmé. Réessaie avec Enregistrer.';throw error;}
+ };
+ const work=(S.writerQueue||Promise.resolve()).catch(()=>{}).then(run);S.writerQueue=work;return work;
+}
+
 function studentBlock(spec, index, preview = false) {
   return renderLessonBlock(spec, index, {
     preview,
@@ -657,7 +650,7 @@ function renderStudent() {
   const l = S.student;
   if (!l) {
     $("#app").innerHTML =
-      `<main id="main" class="student-shell"><div class="student-header"><div class="brand">${edenLogo}</div><div class="student-header-actions">${studentArcadeLink()}${btn("Actualiser", "refresh-student")}${btn("Se déconnecter", "logout")}</div></div><h1>Séance du jour</h1><div class="card">${empty(studentCopy.empty, "calendar")}</div>${studentLessonLinks()}</main>`;
+      `<main id="main" class="student-shell"><div class="student-header"><div class="brand">${edenLogo}</div><div class="student-header-actions">${studentArcadeLink()}${btn("Actualiser", "refresh-student")}${btn("Se déconnecter", "logout")}</div></div><h1>Séance du jour</h1><div class="card">${empty(studentCopy.empty, "calendar")}</div>${studentTrackingNav()}${studentLessonLinks()}</main>`;
     return;
   }
   $("#app").innerHTML = renderLessonPage(l.spec, S.step, {
@@ -667,8 +660,11 @@ function renderStudent() {
     completed: S.completed || [],
     support: S.diagnosticSupport || [],
     displayDate: S.studentDisplayDate,
+    readOnly: S.readOnly||S.workReadOnly&&S.student.spec.blocks[S.step]?.type!=='Diagnostic',
   });
   $(".lesson-topbar > div")?.insertAdjacentHTML("afterbegin", studentArcadeLink());
+  $(".lesson-topbar")?.insertAdjacentHTML("afterend",studentTrackingNav());
+  if(S.readOnly)$(".lesson-stage")?.insertAdjacentHTML("afterbegin",'<p role="status">Consultation — les rendus sont fermés. Ton avancement est conservé.</p>');
   showStudentVersionNotice();
   if(S.availableLessons.length>1) $('.lesson-topbar')?.insertAdjacentHTML('afterend',`<details class="card pad spaced"><summary>Mes séances disponibles</summary>${studentLessonLinks()}</details>`);
 }
@@ -704,28 +700,31 @@ function focusStudentStage() {
   );
 }
 function persistLocal() {
-  if (!S.student) return;
+  if (!S.student||S.readOnly) return;
   localStorage.setItem(
-    `eden:${S.user.id}:${S.student.versionId}`,
+    studentStorageKey(),
     JSON.stringify({
       answers: S.answers,
+      draftVersion:S.attempt?.draftVersion,progressVersion:S.progressVersion,
       step: S.step,
       at: new Date().toISOString(),
     }),
   );
+  S.workSaveMessage='Modifications conservées sur cet appareil';const workStatus=$('#work-save-status');if(workStatus)workStatus.textContent=S.workSaveMessage;
   const el = $("#save-status");
   if (el) el.textContent = studentCopy.localSaved;
 }
-async function studentEvent(type, activityId, payload = {}) {
-  return post("/api/events", {
-    eventId: randomUUID(),
-    lessonId: S.student.id,
-    lessonVersionId: S.student.versionId,
-    type,
-    activityId,
-    payload,
-  });
+async function studentEvent(type,activityId,payload={}) {
+ if(S.readOnly||S.targeted&&['step_started','step_completed'].includes(type))return;
+ const assignmentId=S.assignmentId,lessonId=S.student.id,lessonVersionId=S.student.versionId;
+ const packet={eventId:randomUUID(),assignmentId,lessonId,lessonVersionId,type,activityId,payload};
+ const operation=(S.eventQueue||Promise.resolve()).catch(()=>{}).then(async()=>{
+  if(S.assignmentId!==assignmentId)return;
+  packet.progressVersion=S.progressVersion;
+  const result=await post('/api/events',packet);if(S.assignmentId===assignmentId)S.progressVersion=result.progressVersion??S.progressVersion;return result;
+ });S.eventQueue=operation;return operation;
 }
+
 const transferUI=lessonTransferUI({api,post,modal,busy,esc,btn,closeModal,refresh:async()=>{await loadDashboard();S.lesson=null;render();},openLesson:id=>actions['open-lesson'](id),user:()=>S.user,toast});
 const actions = {
   'choose-today-lesson': async () => {
@@ -784,12 +783,15 @@ const actions = {
   },
   "close-modal": () => closeModal(),
   nav: async (id) => {
+    if(id==='students'){location.href='/suivi.html';return;}
     S.lesson = null;
     await navigate(id);
   },
   logout: async () => {
+    for(const timer of answerTimers.values())clearTimeout(timer);
     await post("/api/logout");
-    location.href = "/";
+    invalidatePrivateSession();announceAccountChange();
+    location.href = "/today";
   },
   "login-role": (id) => {
     S.loginRole = id;
@@ -1000,7 +1002,7 @@ const actions = {
     const { submission: s, correction: c } = data;
     modal(
       "Relire la copie",
-      `<div class="flex between"><span>${esc(S.data.learners.find((l) => l.id === s.learnerId)?.displayName || s.learnerId)}</span>${pill(`${c.score ?? "NE"} /20 · ${c.level}`, "brand-tone")}<a class="btn small" href="/api/teacher/submissions/${enc(id)}/export">${icon("download")} Dossier élève</a></div><p class="section-note">Copie figée le ${new Date(s.submittedAt).toLocaleString("fr-FR")} · SHA ${s.sha256.slice(0, 16)}…</p><form data-form="correction" data-id="${esc(id)}">${c.items
+      `<div class="flex between"><span>${esc(S.data.learners.find((l) => l.id === s.learnerId)?.displayName || s.learnerId)}</span>${pill(c.score==null?"Non observé":`${c.score} / ${c.scoreMax??c.items.reduce((n,i)=>n+i.max,0)}${c.level?" · "+c.level:""}`, "brand-tone")}<a class="btn small" href="/api/teacher/submissions/${enc(id)}/export">${icon("download")} Dossier élève</a></div><p class="section-note">Copie figée le ${new Date(s.submittedAt).toLocaleString("fr-FR")} · SHA ${s.sha256.slice(0, 16)}…</p><p><a class="btn primary" href="/suivi.html?attempt=${enc(s.attemptId)}">Suivi, reprises et publication</a></p><form data-form="correction" data-id="${esc(id)}">${c.items
         .map((i) => {
           const task = s.diagnostic.tasks.find((t) => t.id === i.taskId);
           return `<div class="block-card"><h3>${esc(task.title)}</h3><p class="block-content">${esc(task.instruction)}</p><pre class="console">${esc(s.answers[i.taskId] || "(non répondu)")}</pre><details><summary>Référence et preuves attendues</summary><p class="block-content">${esc(task.reference)}<br>${esc(task.expectedAnswer)}</p></details><div class="form-grid" style="margin-top:17px"><label>Points / ${i.max}<input type="number" min="0" max="${i.max}" step="0.01" name="points:${i.id}" value="${i.points ?? ""}" required></label><label>Commentaire<input name="feedback:${i.id}" value="${esc(i.feedback)}"></label></div></div>`;
@@ -1115,7 +1117,7 @@ const actions = {
       diagnostic = S.student.spec.blocks.findIndex(
         (b) => b.type === "Diagnostic",
       );
-    if (target > diagnostic && !S.attempt?.submissionId)
+    if (!S.readOnly&&!S.reprise&&target > diagnostic && !S.attempt?.submissionId)
       throw Error(
         studentCopy.diagnosticGate,
       );
@@ -1134,9 +1136,11 @@ const actions = {
   },
   "student-next": async () => {
     if(S.workSubmitting)return;
+    if(S.targeted&&S.attempt?.submissionId){location.href='/suivi.html?attempt='+enc(S.attempt.id);return;}
+    if(S.readOnly){S.step=Math.min(S.step+1,S.student.spec.blocks.length-1);renderStudent();return;}
     await flushTerminalFiles();
     const b = S.student.spec.blocks[S.step];
-    if (b.type === "Diagnostic" && !S.attempt?.submissionId)
+    if (!S.reprise&&b.type === "Diagnostic" && !S.attempt?.submissionId)
       throw Error(studentCopy.diagnosticGate);
     await studentEvent("step_completed", b.id);
     S.completed = [...new Set([...(S.completed || []), b.id])];
@@ -1144,16 +1148,19 @@ const actions = {
       if(S.workSubmitting)return;
       S.workSubmitting=true;
       try {
+        for(const timer of answerTimers.values())clearTimeout(timer);
+        for(const a of S.student.spec.activities)if(Object.hasOwn(S.answers,a.id))await studentEvent('answer_saved',a.id,{answer:S.answers[a.id]});
+        await S.eventQueue;
         const key=`eden-remise:${S.user.id}:${S.student.versionId}`;
         let pending;try{pending=JSON.parse(localStorage.getItem(key));}catch{}
         // Persist the logical operation before transport. An uncertain HTTP
         // response retries the exact same files, including after page reload.
-        pending??={requestId:randomUUID(),lessonVersionId:S.student.versionId,answers:structuredClone(S.answers)};
+        pending??={requestId:randomUUID(),assignmentId:S.assignmentId,progressVersion:S.progressVersion,lessonVersionId:S.student.versionId,answers:structuredClone(S.answers)};
         localStorage.setItem(key,JSON.stringify(pending));
         const receipt=await post(`/api/lessons/${enc(S.student.id)}/work/submit`,pending);
         localStorage.setItem(key+':receipt',JSON.stringify(receipt));localStorage.removeItem(key);
         await studentEvent("lesson_submitted", b.id, { submissionId:receipt.id });
-        renderStudent();
+        S.readOnly=true;renderStudent();
         $(".lesson-navigation").insertAdjacentHTML('afterend',`<p role="status">Travail remis le ${esc(new Date(receipt.receivedAt).toLocaleString('fr-FR'))}. <a href="/work-receipt.html?id=${enc(receipt.id)}">Consulter le reçu et les fichiers</a></p>`);
         toast("Travail remis et conservé.");
       } finally {S.workSubmitting=false;}
@@ -1165,28 +1172,20 @@ const actions = {
     renderStudent();
     focusStudentStage();
   },
-  "save-answers": async () => {
-    const label = $("#save-status"), sentAnswers = JSON.stringify(S.answers);
-    label.textContent = "Enregistrement en cours…";
-    try {
-      await post(`/api/assessments/${enc(S.attempt.id)}/save`, { answers: S.answers });
-      label.textContent = sentAnswers === JSON.stringify(S.answers) ? studentCopy.saved : studentCopy.localSaved;
-    } catch (error) {
-      label.textContent = studentError(error);
-      throw error;
-    }
-  },
+  "save-work":async()=>{for(const timer of answerTimers.values())clearTimeout(timer);if(!S.attempt?.submissionId)await saveDiagnostic();if(!S.workReadOnly)for(const a of S.student.spec.activities)if(Object.hasOwn(S.answers,a.id))await studentEvent('answer_saved',a.id,{answer:S.answers[a.id]});S.workSaveMessage='Travail enregistré';const el=$('#work-save-status');if(el)el.textContent=S.workSaveMessage;},
+  "save-answers": () => saveDiagnostic(),
   "submit-answers": () =>
     modal(
       studentCopy.submit,
       `<p>Tu ne pourras plus modifier ce travail après l’envoi. Tu peux rendre une réponse incomplète.</p><div class="modal-actions">${btn("Continuer à travailler", "close-modal")}${btn("Confirmer l’envoi", "confirm-submit", "", "primary", "check")}</div>`,
     ),
   "confirm-submit": async () => {
+    clearTimeout(answerTimers.get('diagnostic'));await saveDiagnostic();await S.eventQueue;
     const r = await post(`/api/assessments/${enc(S.attempt.id)}/submit`, {
-      answers: S.answers,
+      answers: S.answers,draftVersion:S.attempt.draftVersion,
     });
     S.attempt.submissionId = r.submissionId;
-    S.diagnosticSupport = (await api('/api/preparation/remediation/'+enc(S.student.id))).support;
+    S.diagnosticSupport = [];
     closeModal();
     toast(studentCopy.submitted);
     renderStudent();
@@ -1212,7 +1211,7 @@ const actions = {
         code,
         taskId: id,
         lessonId: S.student.id,
-        lessonVersionId: S.student.versionId,
+        lessonVersionId: S.student.versionId,assignmentId:S.assignmentId,
       },
     );
     const el = $("#console-" + id);
@@ -1223,6 +1222,8 @@ const actions = {
         .join("\n") || "(Aucune sortie console)";
   },
   "complete-activity": async (id) => {
+    clearTimeout(answerTimers.get(id));
+    if(Object.hasOwn(S.answers,id))await studentEvent("answer_saved",id,{answer:S.answers[id]});
     await studentEvent("step_completed", id, { answer: S.answers[id] || "" });
     S.completed = [...new Set([...(S.completed || []), id])];
     renderStudent();
@@ -1263,6 +1264,7 @@ const forms = {
         classId: "A1",
       },
     );
+    purgePrivateStorage();announceAccountChange();bindPrivateAccount(result.user);
     S.user = result.user;
     S.session.setupRequired = false;
     await boot();
@@ -1756,36 +1758,18 @@ Object.assign(forms, {
 
 const answerTimers = new Map();
 function autosaveActivity(id) {
-  if (
-    !S.student ||
-    S.user.role !== "student" ||
-    !S.student.spec.activities.some((a) => a.id === id)
-  )
-    return;
-  clearTimeout(answerTimers.get(id));
-  const lessonId = S.student.id,
-    lessonVersionId = S.student.versionId,
-    answer = S.answers[id];
-  answerTimers.set(
-    id,
-    setTimeout(async () => {
-      const event = {
-        eventId: randomUUID(),
-        lessonId,
-        lessonVersionId,
-        type: "answer_saved",
-        activityId: id,
-        payload: { answer },
-      };
-      try {
-        await post("/api/events", event);
-        // This activity acknowledgement must not confirm a different, currently open evaluation.
-      } catch {
-        toast("L’enregistrement en ligne n’a pas pu être confirmé. Ta réponse reste sur cet appareil.");
-      }
-    }, 700),
-  );
+ if(!S.student||S.user?.role!=='student'||S.readOnly)return;
+ const diagnostic=S.student.spec.diagnostic.tasks.some(a=>a.id===id),key=diagnostic?'diagnostic':id;
+ clearTimeout(answerTimers.get(key));
+ if(diagnostic&&S.attempt?.submissionId||!diagnostic&&S.workReadOnly)return;
+ const assignmentId=S.assignmentId,answer=S.answers[id];
+ answerTimers.set(key,setTimeout(async()=>{
+  if(S.assignmentId!==assignmentId)return;
+  try{if(diagnostic)await saveDiagnostic();else{await studentEvent('answer_saved',id,{answer});persistLocal();S.workSaveMessage=answer===S.answers[id]?'Travail enregistré':'Modifications conservées sur cet appareil';const el=$('#work-save-status');if(el)el.textContent=S.workSaveMessage;}}
+  catch(e){if(e.name!=='AbortError'){S.workSaveMessage='Enregistrement non confirmé — réessaie avec Enregistrer mon travail';const el=$('#work-save-status');if(el)el.textContent=S.workSaveMessage;toast(e.status===409?'Ce travail a changé ou a été remis. Copie ta saisie avant de recharger.':'Enregistrement non confirmé. Ta saisie reste disponible sur cet appareil.');}}
+ },700));
 }
+
 function activeActivity(id) {
   const preview=$('#dialog').open&&$('#dialog').classList.contains('lesson-preview-dialog');
   return [
@@ -1974,7 +1958,7 @@ window.addEventListener("message", (e) => {
 });
 async function boot() {
   S.session = await api("/api/session");
-  S.user = S.session.user;
+  S.user = S.session.user;bindPrivateAccount(S.user);
   if (!S.user) return renderLogin();
   if (S.user.role === "student") return startStudent();
   // Only this fixed local destination is accepted after teacher sign-in.

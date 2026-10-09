@@ -84,7 +84,7 @@ test('LAN students use persistent courses while personal setup and AI connection
   assert.equal((await request(lan,'/api/today?lesson=lan-lesson')).status,401);
   const lesson=await (await request(lan,'/api/today?lesson=lan-lesson',{cookie:student})).json();
   assert.equal(lesson.lesson.id,'lan-lesson');assert.equal(lesson.lesson.spec.activities[0].reference,undefined);
-  const saved=await request(lan,'/api/events',{cookie:student,body:{lessonId:'lan-lesson',lessonVersionId:'lan-v1',eventId:'lan-answer',type:'answer_saved',activityId:'exercise',payload:{answer:'My saved answer'}}});assert.equal(saved.status,200);
+  const saved=await request(lan,'/api/events',{cookie:student,body:{lessonId:'lan-lesson',lessonVersionId:'lan-v1',eventId:'lan-answer',progressVersion:0,type:'answer_saved',activityId:'exercise',payload:{answer:'My saved answer'}}});assert.equal(saved.status,200);
   const shared=await (await request(local,'/api/today?lesson=lan-lesson',{cookie:student})).json();assert.equal(shared.progress.answers.exercise,'My saved answer');
   run.child.kill('SIGTERM');assert.equal((await run.closed)[0],0,run.output);
   const restarted=f.launch(['--lan',`--lan-host=${address}`]);await ready(restarted);

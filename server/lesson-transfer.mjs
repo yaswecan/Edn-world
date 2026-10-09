@@ -1,3 +1,4 @@
+import {distributeRun} from './student-tracking.mjs';
 import {randomUUID} from 'node:crypto';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 import {LIMITS,encodePackage,decodePackage,contentFingerprint,fingerprint} from './lesson-package.mjs';
@@ -165,7 +166,7 @@ export async function applyTransfer(store,id,input,actor){
    if(target?.status==='published'){
     const publication=await tx.insert('lesson_publications',{id:uid('publication'),classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,version,publishedBy:actor.id,publishedAt:now(),corpusId});lesson.publicationId=publication.id;
     // Version separation prevents old work and arcade saves crediting new tasks.
-    const run=await tx.insert('lesson_runs',{id:uid('lessonrun'),classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,date:lesson.date,status:'planned',eligibleForDiagnostic:false,coveredSkills:[],coveredActivityIds:[],coveredContent:'',reactivatedPrerequisites:[],closedAt:null,previousRunId:target.runId});lesson.runId=run.id;
+    const run=await tx.insert('lesson_runs',{id:uid('lessonrun'),classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,date:lesson.date,status:'planned',eligibleForDiagnostic:false,coveredSkills:[],coveredActivityIds:[],coveredContent:'',reactivatedPrerequisites:[],closedAt:null,previousRunId:target.runId});lesson.runId=run.id;await distributeRun(tx,run);
    }
    if(target)await tx.put('lessons',lesson);else await tx.insert('lessons',lesson);
    if(row.action==='replace'||!matched)await txPutLink(tx,actor,source.portableId,lesson.id);

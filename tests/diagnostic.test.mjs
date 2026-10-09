@@ -148,9 +148,9 @@ test('publication rejects missing, optional, untimed, unreachable or ungraded di
  for(const [check,change] of cases){const spec=demoLesson();change(spec);const result=quality(spec);assert.equal(result.publishable,false,check);assert.ok(result.checks.some(c=>c.id===check&&!c.ok),check);}
 });
 
-test('student diagnostics conceal workshop hints and model boards until submission',()=>{
+test('student diagnostics conceal workshop hints and model boards until publication',()=>{
  const d=diagnosticFrom(previous,{activities:[sourceTask('board',['A'],{workshop:{hints:['Solution privée'],board:'01-parent'}})]},[],'next');
- const spec=withDiagnostic(d),before=studentSpec(spec),after=studentSpec(spec,{submitted:true});
+ const spec=withDiagnostic(d),before=studentSpec(spec),after=studentSpec(spec,{published:true});
  assert.equal(before.diagnostic.tasks[0].workshop.hints,undefined);
  assert.equal(before.diagnostic.tasks[0].workshop.board,undefined);
  assert.deepEqual(after.diagnostic.tasks[0].workshop.hints,['Solution privée']);
