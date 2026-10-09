@@ -363,7 +363,7 @@ function lessonView() {
       btn("Retour aux séances", "nav", "lessons", "", "arrow"),
     ) + revisionEditor(l) +
     (l.status==='draft'&&s.diagnostic.policyVersion!=='diagnostic-practice-1'?`<div class="card pad spaced"><h2>Un diagnostic plus pratique</h2><p>Ajoutez des éditeurs, des écrans à analyser et des preuves d’autonomie pour A2. Une nouvelle version du brouillon sera créée ; les anciennes versions restent conservées.</p>${btn('Renforcer le diagnostic','revise-diagnostic',l.id,'','code')}</div>`:'')+
-    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${todayLessonAction(l)}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${["draft","published"].includes(l.status)?btn("Modifier", "edit-lesson", l.id, "", "settings"):""}${btn("Exporter cette séance", "transfer-export", l.id)}${["draft","published"].includes(l.status)?btn("Remplacer depuis un fichier", "transfer-replace", l.id):""}${l.status === "draft" ? btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Avant de publier</h2>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}<p class="section-note">La publication vérifie à nouveau le plan et la dernière séance clôturée.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
+    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${todayLessonAction(l)}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${["draft","published"].includes(l.status)?btn("Modifier", "edit-lesson", l.id, "", "settings"):""}${btn("Exporter cette séance", "transfer-export", l.id)}${["draft","published"].includes(l.status)?btn("Remplacer depuis un fichier", "transfer-replace", l.id):""}${l.status === "draft" ? btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul><div class="pills">${s.skills.map((c) => pill(c, "brand-tone")).join("")}</div></div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Vérifications facultatives</h2><details><summary>Consulter les remarques</summary>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}</details><p class="section-note">Ces repères vous aident à relire. Vous pouvez publier la séance dès qu’elle vous convient.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
   );
 }
 function correctionsView() {
@@ -675,10 +675,28 @@ function renderStudent() {
 function studentLessonLinks(){
  return S.availableLessons?.length?`<section class="card pad spaced"><h2>Séances disponibles</h2>${S.availableLessons.map(l=>`<div class="list-row"><div style="flex:1"><strong>${esc(l.title)}</strong>${S.studentTodayLesson?.lessonId===l.id ? pill("Séance du jour", "green") : ""}<p>Prévue le ${dateText(l.date)}</p></div><a class="btn" href="/today?lesson=${enc(l.id)}">Ouvrir la séance</a></div>`).join('')}</section>`:'';
 }
+function showPublicationDialog(){
+ const l=S.lesson,{readiness,date}=S.publication;
+ const report=readiness?`<details open><summary>${readiness.blockers.length?`${readiness.blockers.length} point(s) à relire · facultatif`:'Vérifications terminées'}</summary>${readiness.blockers.length?`<p>Ces remarques ne bloquent pas la publication. Vous décidez si la séance est prête.</p><ul>${readiness.blockers.map(c=>`<li>${esc(c.detail)}</li>`).join('')}</ul><div class="flex wrap">${readiness.canTakeOver?btn('Reprendre en brouillon professeur','take-over-draft',l.id):''}${btn('Modifier la séance','edit-lesson',l.id)}</div>`:'<p>Tous les contrôles automatiques sont satisfaits.</p>'}</details>`:'';
+ modal('Publier cette séance ?',`<h3>${esc(l.title)}</h3><p>Vous pouvez publier dès que cette séance vous convient. Les vérifications pédagogiques et les tests des corrigés sont facultatifs.</p><p><strong>Publier et faire aujourd’hui</strong> ouvrira cette séance à l’arrivée des élèves le ${dateText(date)}, même si elle était prévue à une autre date.</p><div class="modal-actions">${btn('Publier et faire aujourd’hui','confirm-publish-today',l.id,'primary','calendar')}${btn('Publier uniquement','confirm-publish',l.id,'','check')}</div>${report}<div class="modal-actions">${btn('Vérifier la séance (facultatif)','check-publication',l.id,'subtle')}${btn('Relire encore','close-modal')}</div>`);
+}
+async function confirmPublication(id,setToday=false){
+ if(S.publishing)return;
+ const publication=S.publication;
+ if(!publication||publication.lessonId!==id)throw Error('Rouvrez la publication de cette séance.');
+ S.publishing=true;
+ const buttons=[...$('#dialog').querySelectorAll('button')];buttons.forEach(b=>b.disabled=true);
+ try{
+  await busy(()=>post(`/api/lessons/${enc(id)}/publish`,{confirmed:true,version:publication.version,validationMode:'teacher',setToday,date:publication.date}),'Publication de la séance…');
+  closeModal();await loadDashboard();await openLesson(id);
+  toast(setToday?'Séance publiée et choisie pour aujourd’hui.':'Séance publiée. Le cahier de texte est ouvert.');
+  showStudentAccess(S.lesson);
+ }finally{S.publishing=false;buttons.forEach(b=>b.disabled=false);}
+}
 function showStudentAccess(lesson){
  const url=new URL('/today?lesson='+enc(lesson.id),location.origin).href;
  const local=['localhost','127.0.0.1','::1','[::1]'].includes(location.hostname)||location.hostname.endsWith('.localhost');
- modal('Accès élèves',`<h3>${esc(lesson.title)}</h3><p>Cette séance publiée est accessible aux élèves de votre classe après connexion avec leur identifiant et leur mot de passe.</p><div class="field"><label for="student-link">Lien de la séance</label><input id="student-link" value="${esc(url)}" readonly></div>${local?'<p class="section-note">Ce lien fonctionne uniquement sur cet ordinateur. Pour que les élèves se connectent depuis leur appareil, l’application doit être hébergée sur une adresse accessible à la classe.</p>':''}<div class="modal-actions">${btn('Copier le lien','copy-student-link','','primary','copy')}${btn('Fermer','close-modal')}</div>`);
+ modal('Accès élèves',`<h3>${esc(lesson.title)}</h3><p>Cette séance publiée est accessible aux élèves de votre classe après connexion avec leur identifiant et leur mot de passe.</p>${S.data.todayLesson?.lessonId===lesson.id?'<p><strong>Séance du jour</strong> · Elle s’ouvre à l’arrivée des élèves dans leur espace aujourd’hui.</p>':todayLessonAction(lesson)}<div class="field"><label for="student-link">Lien de la séance</label><input id="student-link" value="${esc(url)}" readonly></div>${local?'<p class="section-note">Ce lien fonctionne uniquement sur cet ordinateur. Pour que les élèves se connectent depuis leur appareil, l’application doit être hébergée sur une adresse accessible à la classe.</p>':''}<div class="modal-actions">${btn('Copier le lien','copy-student-link','','primary','copy')}${btn('Fermer','close-modal')}</div>`);
 }
 function focusStudentStage() {
   requestAnimationFrame(() =>
@@ -930,37 +948,26 @@ const actions = {
   },
   'take-over-draft':()=>{
     const l=S.lesson;
-    modal('Reprendre en brouillon professeur',`<p>Vous reprenez la relecture pédagogique de « ${esc(l.title)} ». La préparation IA reste dans l’historique et une nouvelle version du brouillon sera créée.</p><p>La publication exigera toujours des consignes complètes, des corrigés valides, les supports et une planification cohérente.</p><form data-form="take-over-draft" data-id="${esc(l.id)}" data-version="${l.version}"><div class="field"><label>Raison de la reprise<textarea name="reason" required maxlength="4000">Je reprends ce cours pour le relire et le corriger avant publication.</textarea></label></div><label class="check-label"><input type="checkbox" name="confirmed" required>Je prends en charge la validation pédagogique de cette version.</label><div class="modal-actions">${btn('Annuler','close-modal')}<button type="submit" class="btn primary">Créer mon brouillon professeur</button></div></form>`);
+    modal('Reprendre en brouillon professeur',`<p>Vous reprenez la relecture pédagogique de « ${esc(l.title)} ». La préparation IA reste dans l’historique et une nouvelle version du brouillon sera créée.</p><p>Vous pourrez publier dès que la séance vous convient, avec des vérifications facultatives.</p><form data-form="take-over-draft" data-id="${esc(l.id)}" data-version="${l.version}"><div class="field"><label>Raison de la reprise<textarea name="reason" required maxlength="4000">Je reprends ce cours pour le relire et le corriger avant publication.</textarea></label></div><label class="check-label"><input type="checkbox" name="confirmed" required>Je prends en charge la validation pédagogique de cette version.</label><div class="modal-actions">${btn('Annuler','close-modal')}<button type="submit" class="btn primary">Créer mon brouillon professeur</button></div></form>`);
   },
   publish: async (id) => {
     const l = await api("/api/lessons/" + enc(id));
     S.lesson = l;
-    let readiness;
-    await busy(async()=>{readiness=await post(`/api/lessons/${enc(id)}/publication/prepare`,{version:l.version});},'Vérification de la séance et préparation des supports…');
-    l.quality=readiness.quality;
-    if (!readiness.quality.publishable) {
-      render();
-      const preparation=readiness.blockers.some(c=>c.action==='preparation');
-      const regenerate=readiness.blockers.some(c=>c.action==='regenerate');
-      modal('Ce qu’il reste avant de publier',`<h3>${esc(l.title)}</h3><ul>${readiness.blockers.map(c=>`<li>${esc(c.detail)}</li>`).join('')}</ul><div class="modal-actions">${readiness.canTakeOver?btn('Reprendre en brouillon professeur','take-over-draft',id,'primary','check'):''}${preparation&&readiness.preparationId?`<a class="btn" href="/preparation.html?job=${enc(readiness.preparationId)}">Ouvrir la préparation</a>`:''}${preparation||regenerate?btn('Préparer une nouvelle version','regenerate-publication',readiness.planEntryId,'','spark'):btn('Modifier la séance','edit-lesson','','','settings')}${btn('Modifier avec une consigne','revision-focus',id,'','spark')}${btn('Fermer','close-modal')}</div>`);
-      return;
-    }
-    modal(
-      "Publier cette séance ?",
-      `<h3>${esc(l.title)}</h3><p>La version ${l.version}, prévue le ${dateText(l.date)}, sera accessible aux élèves de votre classe dans leurs séances disponibles et par son lien direct. Le diagnostic, sa grille et les supports sont liés à cette version.</p><div class="modal-actions">${btn("Relire encore", "close-modal")}${btn("Valider et publier", "confirm-publish", id, "primary", "check")}</div>`,
-    );
+    S.publication={lessonId:id,version:l.version,date:S.data.date,readiness:null};
+    showPublicationDialog();
   },
-  "confirm-publish": async (id) => {
-    await post(`/api/lessons/${enc(id)}/publish`, {
-      confirmed: true,
-      version: S.lesson.version,
-    });
-    closeModal();
-    await loadDashboard();
-    await openLesson(id);
-    toast("Séance publiée. Le cahier de texte est ouvert.");
-    showStudentAccess(S.lesson);
+  'check-publication':async id=>{
+    const publication=S.publication;
+    const buttons=[...$('#dialog').querySelectorAll('button')];buttons.forEach(b=>b.disabled=true);
+    try{
+      const readiness=await busy(()=>post(`/api/lessons/${enc(id)}/publication/prepare`,{version:publication.version}),'Vérification facultative de la séance…');
+      if(S.publication!==publication||!$('#dialog').open)return;
+      publication.readiness=readiness;S.lesson.quality=readiness.quality;
+      showPublicationDialog();
+    }finally{buttons.forEach(b=>b.disabled=false);}
   },
+  'confirm-publish':id=>confirmPublication(id),
+  'confirm-publish-today':id=>confirmPublication(id,true),
   "student-access":async id=>showStudentAccess(S.lesson?.id===id?S.lesson:await api('/api/lessons/'+enc(id))),
   "regenerate-publication":id=>{sessionStorage.removeItem('tween-main-preparation-action');return generateEntry(id);},
   "copy-student-link":async()=>{const field=$('#student-link');try{await navigator.clipboard.writeText(field.value);toast('Lien copié.');}catch{field.focus();field.select();toast('Le lien est sélectionné : copiez-le.');}},

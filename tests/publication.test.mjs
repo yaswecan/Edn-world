@@ -4,6 +4,8 @@ import {diagnosticRevisionFixture} from './fixtures/diagnostic-revision.mjs';
 import {lessonPlanUnchanged} from '../server/lesson-plan.mjs';
 import {preparePublication} from '../server/publication-readiness.mjs';
 import {publishLesson} from '../server/domain.mjs';
+import {parisDate} from '../server/generator.mjs';
+import {todayLesson,publishedLessons} from '../server/today-lesson.mjs';
 import {createApp} from '../server/app.mjs';
 import {passwordHash} from '../server/auth.mjs';
 
@@ -65,6 +67,64 @@ test('a broken executable correction is a blocker in preparation and on direct p
   const ready=await preparePublication(store,lesson.id,{version:1},actor);assert.equal(ready.quality.publishable,false);assert.ok(ready.blockers.some(c=>c.id===`reference:${task.id}`&&c.action==='edit'));
   await assert.rejects(publishLesson(store,lesson.id,actor,{version:1,confirmed:true}),{status:422});
   assert.equal((await store.list('lesson_publications')).length,0);
+ }finally{await store.close();}
+});
+
+test('teacher publication accepts pedagogical warnings and atomically selects today, preserving the planned date',async()=>{
+ const {store,actor,lesson}=await diagnosticRevisionFixture();try{
+  const version=await store.get('lesson_versions',lesson.versionId),entry=await store.get('plan_entries','box');
+  entry.status='cancelled';await store.put('plan_entries',entry);
+  version.spec.blocks=version.spec.blocks.filter(b=>!['summary','extend'].includes(b.phase));
+  version.spec.timeline=version.spec.timeline.filter(t=>version.spec.blocks.some(b=>b.id===t.blockId));
+  version.spec.studentFlow=version.spec.studentFlow.filter(id=>version.spec.blocks.some(b=>b.id===id));
+  for(const task of version.spec.activities.filter(a=>a.correctionMode==='css'))task.reference='Corrigé à relire';
+  await store.put('lesson_versions',version);
+  Object.assign(lesson,{qualityRequired:true,qualityJobId:'cancelled'});await store.put('lessons',lesson);
+  await store.insert('generation_jobs',{id:'cancelled',classId:actor.classId,lessonId:lesson.id,status:'cancelled',sources:[]});
+  await store.insert('lessons',{...lesson,id:'already-published',status:'published'});
+  await store.insert('classes',{id:actor.classId,classId:actor.classId,name:'Classe conservée',todayLesson:{date:parisDate(),lessonId:'already-published'}});
+  const report=await preparePublication(store,lesson.id,{version:1},actor);
+  for(const id of ['plan_identity','lesson_sections','lesson_summary','independent_review'])assert.ok(report.blockers.some(c=>c.id===id),id);
+  assert.ok(report.blockers.some(c=>c.id.startsWith('reference:')));
+  assert.equal((await store.list('corpus_packages')).length,0);
+  const input={version:1,confirmed:true,validationMode:'teacher',setToday:true,date:parisDate()};
+  const [published,retry]=await Promise.all([publishLesson(store,lesson.id,actor,input),publishLesson(store,lesson.id,actor,input)]);
+  assert.equal(published.status,'published');assert.equal(retry.publicationId,published.publicationId);
+  assert.equal(published.date,lesson.date);assert.deepEqual(await store.get('lesson_versions',lesson.versionId),version);
+  assert.equal(published.quality.publishable,false,'Automatic warnings are not marked as passed');
+  assert.equal((await store.get('lessons','already-published')).status,'published');
+  assert.deepEqual(await todayLesson(store,actor.classId,publishedLessons(await store.list('lessons',actor.classId))),{date:parisDate(),lessonId:lesson.id,selected:true});
+  assert.equal((await store.get('classes',actor.classId)).name,'Classe conservée');
+  const publications=await store.list('lesson_publications');assert.equal(publications.length,1);assert.equal(publications[0].validationMode,'teacher');
+  assert.equal((await store.list('teacher_approvals'))[0].validationMode,'teacher');
+  assert.equal((await store.list('lesson_runs')).length,1);assert.equal((await store.list('corpus_packages')).length,1);
+  assert.equal((await store.list('generation_calls')).length,0);
+ }finally{await store.close();}
+});
+
+test('manual publication keeps version, teacher, in-progress and day guards, and can publish without changing today',async()=>{
+ const {store,actor,lesson}=await diagnosticRevisionFixture();try{
+  const input={version:1,confirmed:true,validationMode:'teacher'};
+  for(const patch of [{version:0},{confirmed:false},{validationMode:'unknown'}])await assert.rejects(publishLesson(store,lesson.id,actor,{...input,...patch}));
+  await assert.rejects(publishLesson(store,lesson.id,{...actor,role:'student'},input));
+  await assert.rejects(publishLesson(store,lesson.id,{...actor,classId:'OTHER'},input),{status:404});
+  await store.insert('generation_jobs',{id:'running',classId:actor.classId,lessonId:lesson.id,status:'running'});
+  await assert.rejects(publishLesson(store,lesson.id,actor,input),{status:409});
+  assert.equal((await store.list('corpus_packages')).length,0);
+  await store.put('generation_jobs',{id:'running',classId:actor.classId,lessonId:lesson.id,status:'cancelled'});
+  const selection={date:parisDate(),lessonId:'existing'};
+  await store.insert('classes',{id:actor.classId,classId:actor.classId,todayLesson:selection});
+  await assert.rejects(publishLesson(store,lesson.id,actor,{...input,setToday:true,date:'2000-01-01'}),{status:409});
+  assert.equal((await store.get('lessons',lesson.id)).status,'draft');
+  for(const table of ['lesson_publications','lesson_runs','teacher_approvals'])assert.equal((await store.list(table)).length,0,table);
+  assert.deepEqual((await store.get('classes',actor.classId)).todayLesson,selection);
+  await publishLesson(store,lesson.id,actor,input);
+  assert.deepEqual((await store.get('classes',actor.classId)).todayLesson,selection);
+  await publishLesson(store,lesson.id,actor,{...input,setToday:true,date:parisDate()});
+  assert.equal((await store.get('classes',actor.classId)).todayLesson.lessonId,lesson.id);
+  assert.equal((await store.list('lesson_publications')).length,1);
+  await store.put('lessons',{...await store.get('lessons',lesson.id),status:'completed'});
+  await assert.rejects(publishLesson(store,lesson.id,actor,input),{status:409});
  }finally{await store.close();}
 });
 

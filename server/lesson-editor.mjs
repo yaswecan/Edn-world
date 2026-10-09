@@ -51,10 +51,10 @@ export async function publishEditor(store,id,input,actor){
   await tx.lockTables();const lesson=await scoped(tx,'lessons',id,actor);if(editorToken(lesson)!==input.token)fail(409,'Le brouillon a changé pendant la préparation.');await assertIdle(tx,lesson,actor);
   if(teacherReviewed){lesson.qualityRequired=false;lesson.pedagogicalValidation=null;if(lesson.transferPreparation)lesson.transferPreparation={requiresReview:false,incomplete:false,state:'teacher_draft'};lesson.teacherReview={authorId:actor.id,at:now(),versionId:view.versionId,reason:'Relecture et publication explicites depuis l’éditeur',sourceJobId:lesson.qualityJobId||null};await tx.put('lessons',lesson);}
   if(lesson.editorDraftVersionId){const v=await scoped(tx,'lesson_versions',lesson.editorDraftVersionId,actor);Object.assign(lesson,{versionId:v.id,version:v.version,title:v.spec.title});delete lesson.editorDraftVersionId;delete lesson.diagnosticVersionId;
-   const oldRun=lesson.runId;lesson.status='draft';await tx.put('lessons',lesson);const result=await publishLesson({...tx,transaction:fn=>fn(tx)},id,actor,{version:lesson.version,confirmed:true});
+   const oldRun=lesson.runId;lesson.status='draft';await tx.put('lessons',lesson);const result=await publishLesson({...tx,transaction:fn=>fn(tx)},id,actor,{version:lesson.version,confirmed:true,validationMode:input.validationMode});
    const run=await tx.get('lesson_runs',result.runId);run.previousRunId=oldRun;await tx.put('lesson_runs',run);return result;
   }
-  return publishLesson({...tx,transaction:fn=>fn(tx)},id,actor,{version:lesson.version,confirmed:true});
+  return publishLesson({...tx,transaction:fn=>fn(tx)},id,actor,{version:lesson.version,confirmed:true,validationMode:input.validationMode});
  });
 }
 export async function exportEditor(store,id,input,actor){

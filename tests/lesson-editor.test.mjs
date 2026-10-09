@@ -48,6 +48,18 @@ test('a rich draft survives closing and reopening a real SQLite file',async()=>{
 
 test('publication rejection leaves the published selection and editable draft intact',async()=>{const f=await transferFixture();try{await preparePublication(f.store,f.lesson.id,{version:1},f.actor);await publishLesson(f.store,f.lesson.id,f.actor,{version:1,confirmed:true});let v=await load(f),old=await f.store.get('lessons',f.lesson.id);for(const b of [...v.spec.blocks])removeSection(v.spec,b.id);v=await save(f,v);await assert.rejects(()=>publishEditor(f.store,f.lesson.id,{token:v.token,confirmed:true},f.actor),e=>e.status===422);const current=await f.store.get('lessons',f.lesson.id);assert.equal(current.versionId,old.versionId);assert.equal(current.status,'published');assert.equal((await load(f)).spec.blocks.length,0);}finally{await close(f);}});
 
+test('editor teacher validation publishes despite optional structure and correction warnings',async()=>{
+ const f=await transferFixture();try{
+  let v=await load(f);
+  for(const b of [...v.spec.blocks].filter(b=>b.phase==='summary'))removeSection(v.spec,b.id);
+  v.spec.activities.find(a=>a.correctionMode==='css').reference='Corrigé à relire';v=await save(f,v);
+  const result=await publishEditor(f.store,f.lesson.id,{token:v.token,confirmed:true,validationMode:'teacher'},f.actor);
+  assert.equal(result.status,'published');assert.equal(result.versionId,v.versionId);
+  assert.equal((await f.store.list('lesson_publications'))[0].validationMode,'teacher');
+  assert.equal(result.quality.publishable,false);
+ }finally{await close(f);}
+});
+
 test('code editing preserves original and pasted CRLF, mixed newlines, tabs and empty files',async()=>{const {applyCodeChanges}=await import('../public/code-source.js');const source='\r\n\tone\r\ntwo\n';assert.equal(applyCodeChanges(source,[{from:2,to:5,text:'ONE'}]),'\r\n\tONE\r\ntwo\n');assert.equal(applyCodeChanges('old',[{from:0,to:3,text:'\nnew\n'}],'\r\n\tnew\r\n'),'\r\n\tnew\r\n');assert.equal(applyCodeChanges(source,[{from:0,to:10,text:''}]),'');});
 
 test('remote replacement retires the draft pointer, retains its history and conflicts with the open editor',async()=>{const source=await transferFixture(),dest=await transferFixture();try{

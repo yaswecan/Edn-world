@@ -13,7 +13,10 @@ export async function todayLesson(store,classId,lessons,date=parisDate()){
 }
 
 export async function chooseTodayLesson(store,actor,input={}){
- return store.transaction(async tx=>{
+ return store.transaction(tx=>chooseTodayLessonInTransaction(tx,actor,input));
+}
+
+export async function chooseTodayLessonInTransaction(tx,actor,input={}){
   const date=parisDate();
   // A page left open overnight must not select a lesson for a different day.
   if(input.date!==date)fail(409,'Le jour a changé. Actualisez la page avant de choisir votre séance.');
@@ -28,5 +31,4 @@ export async function chooseTodayLesson(store,actor,input={}){
   if(existing)await tx.put('classes',classroom);else await tx.insert('classes',classroom);
   await tx.audit(actor,'lesson.today_selected',input.lessonId||actor.classId,{date,lessonId:input.lessonId});
   return todayLesson(tx,actor.classId,publishedLessons(await tx.list('lessons',actor.classId)),date);
- });
 }
