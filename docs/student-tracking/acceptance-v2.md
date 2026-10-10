@@ -70,3 +70,9 @@ Les artefacts de test sont ignorés par Git et régénérables. Les assertions d
 Aucun test sur PostgreSQL distant, charge à gros effectifs, laboratoires DOM/shell distants, Drive ou archivage externe. La compatibilité du schéma et les contrats locaux sont testés ; cela ne garantit pas le fonctionnement d’une infrastructure non configurée. La matrice lit encore des agrégats en mémoire.
 
 Aucune migration de production, publication du site, remise à zéro, invitation, mutation des comptes réels ou import automatique des fixtures. La source locale auditée ne contient aucune copie remise : les conclusions sur les parcours utilisent donc les fixtures isolées, sans prétendre avoir réconcilié des copies authentiques inexistantes dans cette source.
+
+## Complément — référentiel source par défaut
+
+Le classeur `Planification_A1_2026-2027_Yacine_FULL_DejeunersPro.xlsx`, onglet `02 Référentiel A1`, est intégré sans import manuel. Les tests `tests/default-framework.test.mjs` vérifient la source exacte, les 105 sous-compétences et 48 regroupements, les indications A1/A2, l’ajout concurrent et idempotent par classe, l’isolation des comptes, la conservation des grilles existantes et des métadonnées lors des transferts. La recette navigateur vérifie l’ouverture par défaut, la lecture des règles source, la présélection d’un critère sur code exact, l’absence de rattachement pour un code inconnu et l’affichage mobile (`default-framework-mobile.png`).
+
+Validation de ce complément : **371 tests réussis**, compilation et recette navigateur V2 **PASS**. Bases temporaires uniquement.

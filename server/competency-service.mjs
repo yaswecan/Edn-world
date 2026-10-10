@@ -26,12 +26,14 @@ export function validateFramework(input){
   const criteria=(n.criteria||[]).map(c=>{string(c.id,'Identité de critère attendue.',200);string(c.title,'Intitulé de critère attendu.');requireValue(['source','local'].includes(c.origin),'Précisez la provenance du critère.');requireValue(c.code==null||typeof c.code==='string','Code de critère invalide.');if(c.origin==='local')string(c.author,'Auteur du critère local attendu.',200);return {id:c.id,code:c.code??null,title:c.title,origin:c.origin,parentSourceId:c.parentSourceId||null,author:c.author||null,location:c.location||null};});
   requireValue(unique(criteria.map(c=>c.id)).length===criteria.length,'Critères dupliqués.');
   let criterionSet=null;if(n.criterionSet){const s=n.criterionSet;string(s.name,'Nom de l’ensemble de critères attendu.',200);string(s.version,'Version de l’ensemble attendue.',100);requireValue(Array.isArray(s.criterionIds)&&s.criterionIds.every(id=>criteria.some(c=>c.id===id&&c.origin==='source')),'L’ensemble officiel ne contient que des critères source.');criterionSet={name:s.name,version:s.version,exhaustive:s.exhaustive===true,criterionIds:unique(s.criterionIds)};}
-  return {id:n.id,code:n.code,title:n.title,kind:n.kind,parentId:n.parentId||null,studentLabel:n.studentLabel||null,expectedLevel:n.expectedLevel||null,location:n.location||null,criteria,criterionSet};
+  const pedagogy={};if(n.pedagogy){for(const key of ['typology','notionsTools','sequence','plannedDates','expectedTrace','status','prerequisites','masteryRule','scaffolding'])if(n.pedagogy[key]!==undefined){requireValue(typeof n.pedagogy[key]==='string'&&n.pedagogy[key].length<=10000,'Indication pédagogique source invalide.');pedagogy[key]=n.pedagogy[key];}}
+  return {id:n.id,code:n.code,title:n.title,kind:n.kind,parentId:n.parentId||null,studentLabel:n.studentLabel||null,expectedLevel:n.expectedLevel||null,location:n.location||null,criteria,criterionSet,...(n.pedagogy?{pedagogy}:{})};
  });
  requireValue(unique(nodes.map(n=>n.id)).length===nodes.length,'Identités de compétences dupliquées.');
  requireValue(unique(nodes.filter(n=>n.code!==null).map(n=>n.code)).length===nodes.filter(n=>n.code!==null).length,'Codes source dupliqués dans cette version.');
  for(const n of nodes){const seen=new Set([n.id]);let p=n.parentId;while(p){requireValue(!seen.has(p),'Hiérarchie circulaire.');seen.add(p);const parent=nodes.find(n=>n.id===p);requireValue(parent,'Parent introuvable.');p=parent.parentId;}}
- return {frameworkKey:input.frameworkKey,sourceVersion:input.sourceVersion,title:input.title,source:{document:input.source.document,location:input.source.location,sha256:input.source.sha256||null},nodes};
+ if(input.source.note!==undefined)string(input.source.note,'Note source invalide.',10000);
+ return {frameworkKey:input.frameworkKey,sourceVersion:input.sourceVersion,title:input.title,source:{document:input.source.document,location:input.source.location,sha256:input.source.sha256||null,...(input.source.note!==undefined?{note:input.source.note}:{})},nodes};
 }
 export async function importFramework(tx,actor,input){
  const content=validateFramework(input),id='framework_'+digest([actor.classId,content.frameworkKey,content.sourceVersion]),old=await tx.get('framework_versions',id);

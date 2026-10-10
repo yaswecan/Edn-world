@@ -10,6 +10,8 @@ La source `.data/chatgpt-personal/courses.sqlite` a été ouverte en **lecture s
 
 Le référentiel existant provient d’une version de classeur et comporte 105 entrées N3, avec codes N2/N3, intitulés, feuille, lignes source, critères observables et règles pédagogiques textuelles. Les codes exacts peuvent donc être repris par un import professeur explicite. Les colonnes ne constituent pas un ensemble officiel exhaustif de sous-critères ni une grille universelle de conversion en grades. Aucun attendu N2 n’a été converti en A1.
 
+Complément après désignation de la source par l’utilisateur : l’onglet `02 Référentiel A1` de `Planification_A1_2026-2027_Yacine_FULL_DejeunersPro.xlsx` est désormais embarqué comme référentiel par défaut. Son empreinte est `f2db14a110b726eb8b75adb20f1f8f8be39973b6aaec83f3e25bd35b54e6a880`. L’extraction comprend uniquement les 48 regroupements N2 et 105 entrées N3 de cet onglet (101 positionnées A1, 4 préfigurations A2). Elle conserve les indications pédagogiques et ne transforme pas les statuts de planification en grades. L’ajout par classe est automatique et relançable ; les anciennes grilles restent intactes.
+
 ## Écarts identifiés et intégration
 
 - Le catalogue `competency_n3` remplace ses lignes lors d’un nouvel import ; `curriculum_versions` conserve les sources. La V2 crée des versions immuables distinctes et autorise leur import depuis ces sources conservées.

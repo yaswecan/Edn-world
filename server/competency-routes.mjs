@@ -1,14 +1,17 @@
 import {teacher,student} from './auth.mjs';
+import {defaultFrameworkId,ensureDefaultFramework} from './default-framework.mjs';
 import {scoped,requireValue,fail,uid,now} from './store.mjs';
 import {assignmentAccess,pageRows} from './student-tracking.mjs';
 import {currentActor,learnerInScope,validateFramework,importFramework,curriculumFramework,activeGrid,saveGrid,saveMasteryRule,proposeMastery,validateDecision,publishDecision,competencyView,observationVisible,invalidateDerived,evidenceCurrent} from './competency-service.mjs';
 import {saveAdaptationRule,proposePath,applyAutomaticIfEnabled,configureAutomatic,activatePath,beginVerification,verifyPath,classReadiness} from './adaptive-paths.mjs';
 export function competencyRoutes(app,store){
+ app.use('/api/competencies',async(req,_res,next)=>{if(req.user?.role==='teacher')await ensureDefaultFramework(store,req.user);next();});
  const mutate=fn=>async(req,res)=>res.json(await store.transaction(async tx=>{await currentActor(tx,req.user);return fn(tx,req.user,req);}));
  app.get('/api/competencies/config',teacher,async(req,res)=>{
   const classId=req.user.classId,frameworks=await store.list('framework_versions',classId),rules=await store.list('mastery_rules',classId),runs=[];
-  for(const run of await store.list('lesson_runs',classId)){const v=await store.get('lesson_versions',run.lessonVersionId);if(v)runs.push({id:run.id,title:v.spec.title,date:run.date,lessonVersionId:v.id,activities:v.spec.activities.map(a=>({id:a.id,title:a.title})),rubric:v.spec.diagnostic.rubric.map(i=>({id:i.id,label:i.label,max:i.max,taskId:i.taskId})),grid:await activeGrid(store,v.id)});}
-  res.json({frameworks,rules,runs,adaptationRules:await store.list('adaptation_rules',classId),curricula:(await store.list('curriculum_versions',classId)).map(c=>({id:c.id,version:c.version,count:c.criteria.length,sha256:c.sha256})),unresolved:(await store.list('competency_grids',classId)).filter(g=>g.unresolved).map(g=>({id:g.id,lessonVersionId:g.lessonVersionId,reason:g.unresolved}))});
+  const defaultId=defaultFrameworkId(classId);frameworks.sort((a,b)=>Number(b.id===defaultId)-Number(a.id===defaultId));
+  for(const run of await store.list('lesson_runs',classId)){const v=await store.get('lesson_versions',run.lessonVersionId);if(v)runs.push({id:run.id,title:v.spec.title,date:run.date,lessonVersionId:v.id,activities:v.spec.activities.map(a=>({id:a.id,title:a.title})),rubric:v.spec.diagnostic.rubric.map(i=>({id:i.id,label:i.label,max:i.max,taskId:i.taskId,criterion:i.criterion})),grid:await activeGrid(store,v.id)});}
+  res.json({frameworks,defaultFrameworkId:defaultId,rules,runs,adaptationRules:await store.list('adaptation_rules',classId),curricula:(await store.list('curriculum_versions',classId)).map(c=>({id:c.id,version:c.version,count:c.criteria.length,sha256:c.sha256})),unresolved:(await store.list('competency_grids',classId)).filter(g=>g.unresolved).map(g=>({id:g.id,lessonVersionId:g.lessonVersionId,reason:g.unresolved}))});
  });
  app.post('/api/competencies/frameworks/preview',teacher,async(req,res)=>res.json({framework:req.body.curriculumId?await curriculumFramework(store,req.user,req.body.curriculumId):validateFramework(req.body),warnings:['Les critères sans ensemble exhaustif ne produisent pas de dénominateur officiel. Les correspondances de correction restent à configurer.']}));
  app.post('/api/competencies/frameworks',teacher,mutate((tx,a,r)=>importFramework(tx,a,r.body)));

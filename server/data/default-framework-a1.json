@@ -1,0 +1,4054 @@
+{
+  "frameworkKey": "tweenteach:referentiel-a1",
+  "sourceVersion": "2026-2027-f2db14a110b7",
+  "title": "02 Référentiel A1",
+  "source": {
+    "document": "Planification_A1_2026-2027_Yacine_FULL_DejeunersPro.xlsx",
+    "location": "02 Référentiel A1",
+    "sha256": "f2db14a110b726eb8b75adb20f1f8f8be39973b6aaec83f3e25bd35b54e6a880",
+    "note": "Chaque compétence A1 est reliée à une séquence principale et à ses dates de travail. Les lignes orange signalent des préfigurations A2 sans exigence de maîtrise A2."
+  },
+  "nodes": [
+    {
+      "id": "BC01-C1",
+      "code": "BC01-C1",
+      "title": "Comprendre le fonctionnement général d'un ordinateur",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A5:B5",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC01-C1-1",
+      "code": "BC01-C1-1",
+      "title": "Connaître les grandes étapes de l'histoire de l'informatique ",
+      "kind": "competency",
+      "parentId": "BC01-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C5:O5",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Connaître les grandes étapes de l'histoire de l'informatique ",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L5"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "Situer les grandes étapes de l'histoire de l'informatique pour contextualiser les choix techniques actuels\nLes composants essentiels d'un ordinateur (GPU, CPU, RAM, SSD, HDD)\nLe rôle de ces composants pour un développeur",
+        "sequence": "S01",
+        "plannedDates": "08/09, 15/09",
+        "expectedTrace": "Schéma annoté",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC01-C1-2",
+      "code": "BC01-C1-2",
+      "title": "Identifier les composants matériels d'un ordinateur et expliquer leur impact sur les performances d'une application",
+      "kind": "competency",
+      "parentId": "BC01-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C6:O6",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier les composants matériels d'un ordinateur et expliquer leur impact sur les performances d'une application",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L6"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir ",
+        "notionsTools": "Identifier les composants matériels d'un ordinateur (CPU, GPU, RAM, stockage)\nExpliquer leur impact sur les performances d'une application",
+        "sequence": "S01",
+        "plannedDates": "08/09, 11/09",
+        "expectedTrace": "Schéma annoté",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC01-C2",
+      "code": "BC01-C2",
+      "title": "Comprendre le fonctionnement du web",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A7:B7",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC01-C2-1",
+      "code": "BC01-C2-1",
+      "title": "Décrire le cycle complet d'une requête web et distinguer les rôles de chaque composant",
+      "kind": "competency",
+      "parentId": "BC01-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C7:O7",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Décrire le cycle complet d'une requête web et distinguer les rôles de chaque composant",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L7"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Le fonctionnement du web\n> La différence entre un ordinateur de bureau et un serveur informatique\n> HTTP, DNS\n> cycle complet d'une requête (requête → serveur → réponse → rendu navigateur)\n\n- Connaître le cycle d'une requête HTTP/HTTPS\n- Comprendre les notions d’hébergement, domaine, DNS, HTTPS\nOutils : DevTools",
+        "sequence": "S02",
+        "plannedDates": "22/09, 20/04, 11/05, 13/05",
+        "expectedTrace": "Schéma requête Web",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC01-C2-2",
+      "code": "BC01-C2-2",
+      "title": "Schématiser l'architecture d'une application web en identifiant les rôles et interactions entre navigateur, serveur et API",
+      "kind": "competency",
+      "parentId": "BC01-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C8:O8",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Schématiser l'architecture d'une application web en identifiant les rôles et interactions entre navigateur, serveur et API",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L8"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Les rôles et interactions : serveur, navigateur, API\n> Comprendre le rôle d'une API dans une architecture web\nOutils : Schémas d'architecture",
+        "sequence": "S02",
+        "plannedDates": "22/09, 30/03, 27/04, 11/05",
+        "expectedTrace": "Schéma requête Web",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC01-C2-3",
+      "code": "BC01-C2-3",
+      "title": "Distinguer les principaux protocoles d'échange ",
+      "kind": "competency",
+      "parentId": "BC01-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C9:O9",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Distinguer les principaux protocoles d'échange ",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L9"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> protocoles d'échanges : HTTP vs HTTPS, FTP, SSH  \n> comprendre les protocoles réseau LAN/WAN/VPN\n> expliquer le choix d'un protocole selon le contexte d'usage",
+        "sequence": "S02",
+        "plannedDates": "03/11 → 11/05 (6 occurrences)",
+        "expectedTrace": "Fiche diagnostic",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC01-C2-4",
+      "code": "BC01-C2-4",
+      "title": "Expliquer les fondamentaux réseau et les mobiliser pour diagnostiquer un problème de communication simple",
+      "kind": "competency",
+      "parentId": "BC01-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C10:O10",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Expliquer les fondamentaux réseau et les mobiliser pour diagnostiquer un problème de communication simple",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L10"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> IP / ports / DNS / Requêtes  \n> Architecture des réseaux (Routeur, Switch, appareils) \n> La commande ping\n> Encapsulation des données au travers de protocole (model OSI)\nOutils : Terminal",
+        "sequence": "S02",
+        "plannedDates": "03/11, 23/02, 02/03",
+        "expectedTrace": "Fiche diagnostic",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC01-C3",
+      "code": "BC01-C3",
+      "title": "Comprendre le cycle de vie d'un produit numérique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A11:B11",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC01-C3-1",
+      "code": "BC01-C3-1",
+      "title": "Décrire les phases du cycle de vie d'un produit numérique",
+      "kind": "competency",
+      "parentId": "BC01-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C11:O11",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Décrire les phases du cycle de vie d'un produit numérique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L11"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Connaître les grandes étapes de production d'un produit web  : brief / analyse du besoin -> conception (fonctionnelle et graphique) -> dev -> tests et recette -> déploiement -> maintenance et évolution\n> Identifier les livrables associés\n> Comprendre qu'un produit numérique évolue dans le temps",
+        "sequence": "S02",
+        "plannedDates": "06/10",
+        "expectedTrace": "Timeline annotée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC01-C3-2",
+      "code": "BC01-C3-2",
+      "title": "Positionner le rôle du développeur au sein d'une équipe projet ",
+      "kind": "competency",
+      "parentId": "BC01-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C12:O12",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Positionner le rôle du développeur au sein d'une équipe projet ",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L12"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Identifier les principaux métiers intervenant dans un projet numérique : développeur, designer, product manager, chef de projet, DevOps, testeur, QA\n> Comprendre les interactions entre les différents métiers : collaboration, communication, rôle de chacun dans un projet\n> Se positionner en tant que développeur au sein d'une équipe en identifiant les interactions avec les autres métiers du numérique.",
+        "sequence": "S02",
+        "plannedDates": "06/10",
+        "expectedTrace": "Timeline annotée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC02-C1",
+      "code": "BC02-C1",
+      "title": "Installer et configurer un poste de développement",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A13:B13",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC02-C1-1",
+      "code": "BC02-C1-1",
+      "title": "Installer un système d'exploitation (OS)",
+      "kind": "competency",
+      "parentId": "BC02-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C13:O13",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Installer un système d'exploitation (OS)",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L13"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Notions de dualboot — installation de Linux en parallèle (via VM virtualBox)\nOutils : Linux (dualboot) A1 \nWindows A2",
+        "sequence": "S01",
+        "plannedDates": "07/09",
+        "expectedTrace": "Checklist poste opérationnel",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC02-C2",
+      "code": "BC02-C2",
+      "title": "Versionner un projet",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A14:B14",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC02-C2-2",
+      "code": "BC02-C2-2",
+      "title": "Utiliser un gestionnaire de versionning en contexte collaboratif",
+      "kind": "competency",
+      "parentId": "BC02-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C14:O14",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser un gestionnaire de versionning en contexte collaboratif",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L14"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Branches / Merge / résolution de conflits simples\n> Pull Request, commentaires\nOutils : Git / GitHub",
+        "sequence": "S11",
+        "plannedDates": "01/03",
+        "expectedTrace": "URL de site + historique Git",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C1",
+      "code": "BC03-C1",
+      "title": "Recueillir un besoin et exploiter un cahier des charges",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A15:B15",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC03-C1-1",
+      "code": "BC03-C1-1",
+      "title": "Prendre des notes à partir d'un échange",
+      "kind": "competency",
+      "parentId": "BC03-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C15:O15",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Prendre des notes à partir d'un échange",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L15"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "> Identifier les données importantes à conserver lors d'un brief \n> Ecrire les données identifiées en même tant qu'un brief en autonomie",
+        "sequence": "S05",
+        "plannedDates": "28/09",
+        "expectedTrace": "Fiche de découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C1-2",
+      "code": "BC03-C1-2",
+      "title": "Comprendre et reformuler une tâche, un brief ou un besoin exprimé",
+      "kind": "competency",
+      "parentId": "BC03-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C16:O16",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Comprendre et reformuler une tâche, un brief ou un besoin exprimé",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L16"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "> Reformulation orale de la tâche \n> Vérifier sa compréhension avant de coder",
+        "sequence": "S05",
+        "plannedDates": "28/09",
+        "expectedTrace": "Fiche de découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C1-4",
+      "code": "BC03-C1-4",
+      "title": "Identifier le besoin utilisateur derrière une demande",
+      "kind": "competency",
+      "parentId": "BC03-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C17:O17",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier le besoin utilisateur derrière une demande",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L17"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Comprendre le lien : besoin -> demande -> objectif -> problématique -> contexte d'usage\n> Questionner avant de coder : pour qui ? pourquoi ? comment mesure-t-on le succès ?\n> Reformuler en termes d'impact utilisateur plutôt que de fonctionnalité technique",
+        "sequence": "S05",
+        "plannedDates": "16/11",
+        "expectedTrace": "Maquette + découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C2",
+      "code": "BC03-C2",
+      "title": "Comprendre les enjeux de conception UX/UI",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A18:B18",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC03-C2-1",
+      "code": "BC03-C2-1",
+      "title": "Connaître les principes fondamentaux de l'expérience utilisateur (UX) et le design d'interface (UI)",
+      "kind": "competency",
+      "parentId": "BC03-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C18:O18",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Connaître les principes fondamentaux de l'expérience utilisateur (UX) et le design d'interface (UI)",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L18"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Comprendre les enjeux UX (expérience) et UI (interface)\n> Connaître le principe de conception centrée utilisateur\n> Connaître les notions de cible et personna \n> Connaître les méthodologies d'étude de la cible\n> Comprendre le parcours utilisateur : en amont / pendant et après la visite de l'utilisateur\n> Vérifier l'accessibilité, la compréhension, la cohérence du parcours\n> Identifier les frictions dans le parcours utilisateur : ce qui bloque, ce qui surprend, ce qui décourage",
+        "sequence": "S05",
+        "plannedDates": "29/09, 13/10, 17/11",
+        "expectedTrace": "Grille d’analyse",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C2-2",
+      "code": "BC03-C2-2",
+      "title": "Connaître les bonnes pratiques UI",
+      "kind": "competency",
+      "parentId": "BC03-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C19:O19",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Connaître les bonnes pratiques UI",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L19"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Grille de lecture  \n> Base de l'ergonomie web \n> Connaître les design patterns de base en design (header, navigation, footer)",
+        "sequence": "S05",
+        "plannedDates": "29/09, 13/10, 17/11, 20/11",
+        "expectedTrace": "Grille d’analyse",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C2-3",
+      "code": "BC03-C2-3",
+      "title": "Analyser une interface ou un produit numérique existant",
+      "kind": "competency",
+      "parentId": "BC03-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C20:O20",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Analyser une interface ou un produit numérique existant",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L20"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "> Réaliser un benchmark\n> Identifier les bonnes pratiques et pistes d'amélioration\n> Proposer des corrections côté dev issues de l'analyse (UX, performance, accessibilité)\n> Relier l'analyse utilisateur à une décision technique concrète",
+        "sequence": "S05",
+        "plannedDates": "16/11",
+        "expectedTrace": "Maquette + découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C3",
+      "code": "BC03-C3",
+      "title": "Lire et interpréter des éléments de conception fonctionnelle",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A21:B21",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC03-C3-1",
+      "code": "BC03-C3-1",
+      "title": "Identifier le parcours utilisateur",
+      "kind": "competency",
+      "parentId": "BC03-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C21:O21",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier le parcours utilisateur",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L21"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Présentation et définition : storyboard / arborescence / page / zoning / wireframe / Landing Page\n> Lire et interpréter une arborescence\n> Notion de rubrique, de landing page\n> Lien entre les pages d'un site",
+        "sequence": "S05",
+        "plannedDates": "28/09, 16/11",
+        "expectedTrace": "Fiche de découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C3-2",
+      "code": "BC03-C3-2",
+      "title": "Identifier la structure d'une page, d'un wireframe",
+      "kind": "competency",
+      "parentId": "BC03-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C22:O22",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier la structure d'une page, d'un wireframe",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L22"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Présentation et définition d'un wireframe\n> Identifier de la struture de la page : Header, Menu, Hn, paragraphe...\n(lien compétence UI : lecture en grille)",
+        "sequence": "S05",
+        "plannedDates": "28/09, 16/11",
+        "expectedTrace": "Fiche de découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C3-4",
+      "code": "BC03-C3-4",
+      "title": "Connaître les diiférents médias et formats composant une page web",
+      "kind": "competency",
+      "parentId": "BC03-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C23:O23",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Connaître les diiférents médias et formats composant une page web",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L23"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Types de média : image / vidéo / Texte,...\n> Format des images : JPG, SVG, PNG...\n> Format des typographies : print, web...\n> Format des couleurs : RVB, CMJN\n> Format des vidéos\n> Format des audios",
+        "sequence": "S05",
+        "plannedDates": "13/10",
+        "expectedTrace": "Fiche charte → règles",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C4",
+      "code": "BC03-C4",
+      "title": "Comprendre l'identité de marque et traduire une charte graphique en interface",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A24:B24",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC03-C4-1",
+      "code": "BC03-C4-1",
+      "title": "Lire et interpréter une charte graphique, un guide de style",
+      "kind": "competency",
+      "parentId": "BC03-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C24:O24",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Lire et interpréter une charte graphique, un guide de style",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L24"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Connaître la notion d'identité de marque et ses enjeux : la charte traduit une intention de marque\n> Comprendre les composants d'une charte graphique : \n   - logo : usages, variantes (couleur, noir/blanc, favicon), zones d'exclusion \n   - typographie : familles, graisses, corp \n   - palette de couleurs : primaire, secondaire, neutre, accessibilité des contrastes \n   - ton éditorial : registre, vocabulaire, prise de parole (ce que la marque dit d'elle-même)\n   - guide de style Web (formulaire, boutons, H1,...)\n\n> Comprendre le rôle d'un graphiste / DA et savoir collaborer sans empiéter sur ses décisions\n> Lire et interpréter une charte gr…",
+        "sequence": "S05",
+        "plannedDates": "16/11",
+        "expectedTrace": "Maquette + découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C4-3",
+      "code": "BC03-C4-3",
+      "title": "Connaître les principes fondamentaux de conception visuelle d'une interface",
+      "kind": "competency",
+      "parentId": "BC03-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C25:O25",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Connaître les principes fondamentaux de conception visuelle d'une interface",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L25"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Comprende les enjeux de la conception graphique : transmettre un message (selon les cultures, les modes,... les codants graphiques contribuent à l'interprétation du message)\n> Grille de lecture et sens de lecture : hiérarchie visuelle / contraste / alignement / espaces / rythme visuel / lisibilité\n> Harmonie des couleurs",
+        "sequence": "S05",
+        "plannedDates": "29/09, 13/10, 17/11",
+        "expectedTrace": "Grille d’analyse",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC03-C4-2",
+      "code": "BC03-C4-2",
+      "title": "Utiliser un outil de maquettage",
+      "kind": "competency",
+      "parentId": "BC03-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C26:O26",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser un outil de maquettage",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L26"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Maîtriser l'interface de l'outil\n> Récupérer les paramètres de l'élément inspecté dans une maquette existante : taille typo, couleur...\n> Réaliser une interface simple à l'aide d'un outil de maquettage\nOutils : Figma",
+        "sequence": "S05",
+        "plannedDates": "28/09, 16/11, 20/11",
+        "expectedTrace": "Fiche de découpage",
+        "status": "A1 · positionnée",
+        "prerequisites": "Cycle de vie produit + premiers repères HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C1",
+      "code": "BC04-C1",
+      "title": "Structurer une page web en HTML sémantique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A27:B27",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC04-C1-1",
+      "code": "BC04-C1-1",
+      "title": "HTML5 - Comprendre la sémantique HTML",
+      "kind": "competency",
+      "parentId": "BC04-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C27:O27",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : HTML5 - Comprendre la sémantique HTML",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L27"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Balises sémantiques, attributs, data-attributs\n> Niveaux de texte, balises block/inline/orphelines\n> Produire un HTML valide (W3C)\nOutils : HTML5, W3C",
+        "sequence": "S03",
+        "plannedDates": "14/09 → 11/01 (8 occurrences)",
+        "expectedTrace": "Page HTML valide",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C1-2",
+      "code": "BC04-C1-2",
+      "title": "HTML5 - Organiser le squelette d'une page et son layout",
+      "kind": "competency",
+      "parentId": "BC04-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C28:O28",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : HTML5 - Organiser le squelette d'une page et son layout",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L28"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Squelette complet d'une page HTML5\n> Balises de layout : main, header, footer, section, article\n> Fluid layout — intégration Figma → HTML\nOutils : HTML5, Figma",
+        "sequence": "S03",
+        "plannedDates": "14/09, 18/09, 02/11, 09/11",
+        "expectedTrace": "Page HTML valide",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C1-3",
+      "code": "BC04-C1-3",
+      "title": "HTML5 - Formulaires et contenu interactif",
+      "kind": "competency",
+      "parentId": "BC04-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C29:O29",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : HTML5 - Formulaires et contenu interactif",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L29"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Boîtes de dialogue et modales\n> Formulaires HTML5 : datalist, option, input, select, textarea, label\n> Balises nouvelles générations : progress, meter\nOutils : HTML5",
+        "sequence": "S10",
+        "plannedDates": "01/02",
+        "expectedTrace": "Formulaire structuré",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C1-4",
+      "code": "BC04-C1-4",
+      "title": "HTML 5 - positionner /disposer des éléments sur une page / Garantir la cohérence structurelle d'une page",
+      "kind": "competency",
+      "parentId": "BC04-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C30:O30",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : HTML 5 - positionner /disposer des éléments sur une page / Garantir la cohérence structurelle d'une page",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L30"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Établir la liste des composants (header, footer, cartes...)\n> Respecter les normes W3C et conventions de nommage HTML\nOutils : Figma",
+        "sequence": "S03",
+        "plannedDates": "09/10, 12/10",
+        "expectedTrace": "Rendu comparé à la référence",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C2",
+      "code": "BC04-C2",
+      "title": "Mettre en forme une page web en CSS",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A31:B31",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC04-C2-1",
+      "code": "BC04-C2-1",
+      "title": "CSS3 - Appliquer un style au composant d'une interface",
+      "kind": "competency",
+      "parentId": "BC04-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C31:O31",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : CSS3 - Appliquer un style au composant d'une interface",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L31"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Lier CSS à HTML\n> Propriétés de base : couleur, taille, fond, bordure\n> Sélecteurs, cascade, unités de mesure\nOutils : CSS3",
+        "sequence": "S03",
+        "plannedDates": "21/09 → 09/11 (7 occurrences)",
+        "expectedTrace": "Carte stylisée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C2-2",
+      "code": "BC04-C2-2",
+      "title": "CSS3 - Mettre en forme une interface",
+      "kind": "competency",
+      "parentId": "BC04-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C32:O32",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : CSS3 - Mettre en forme une interface",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L32"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Flexbox : alignement, distribution, direction, wrap\n> Grid : grilles, colonnes, zones, gap\n> Cas d'usage : Flexbox pour composants, Grid pour layouts\nOutils : CSS3",
+        "sequence": "S07",
+        "plannedDates": "04/12 → 15/01 (5 occurrences)",
+        "expectedTrace": "Layouts corrigés",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C2-3",
+      "code": "BC04-C2-3",
+      "title": "CSS3 - Appliquer un système de design et respecter la charte graphique ",
+      "kind": "competency",
+      "parentId": "BC04-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C33:O33",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : CSS3 - Appliquer un système de design et respecter la charte graphique ",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L33"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Cohérence de la charte graphique sur l'ensemble du site\n> Respect de la maquette Figma fournie\n> Conventions CSS maintenues sur plusieurs pages\n> Cohérence nommage (BEM ou convention choisie)\nOutils : CSS3, Figma",
+        "sequence": "S07",
+        "plannedDates": "26/04, 10/05",
+        "expectedTrace": "Cartes dynamiques",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C3",
+      "code": "BC04-C3",
+      "title": "Produire une interface responsive (mobile first)",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A34:B34",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC04-C3-1",
+      "code": "BC04-C3-1",
+      "title": "Savoir expliquer le responsive design et le mobile first",
+      "kind": "competency",
+      "parentId": "BC04-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C34:O34",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Savoir expliquer le responsive design et le mobile first",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L34"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Types de devices et résolutions d'écran\n> Principe de responsivité\n> Concept \"mobile first\" et enrichissement progressif",
+        "sequence": "S07",
+        "plannedDates": "01/12",
+        "expectedTrace": "Analyse responsive",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C3-2",
+      "code": "BC04-C3-2",
+      "title": "Adapter une interface à tous les supports",
+      "kind": "competency",
+      "parentId": "BC04-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C35:O35",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Adapter une interface à tous les supports",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L35"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Media queries : syntaxe, breakpoints, mobile first\n> Viewport units : vw, vh, vmin, vmax\n> Flexbox et Grid en contexte responsive\n> Adapter des composants riches (cartes, tableaux) en responsive\n> Cohérence de l'expérience sur tous les breakpoints\n> Arbitrer les choix responsive et les justifier\nOutils : CSS3",
+        "sequence": "S07",
+        "plannedDates": "14/12 → 08/06 (5 occurrences)",
+        "expectedTrace": "Page responsive",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C4",
+      "code": "BC04-C4",
+      "title": "Optimiser le référencement d'une page web",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A36:B36",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC04-C4-1",
+      "code": "BC04-C4-1",
+      "title": "Comprendre les enjeux du référencement",
+      "kind": "competency",
+      "parentId": "BC04-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C36:O36",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Comprendre les enjeux du référencement",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L36"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Présentation des notions de SEO (Search Engine Optimization) et GEO (Generative Engine Optimization)\n> Enjeux du référencement naturel pour un site web\n> Savoir positionner le canal SEO vs les autres canaux (display, SEA,...)",
+        "sequence": "S08",
+        "plannedDates": "15/12",
+        "expectedTrace": "Carte SEO",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C4-2",
+      "code": "BC04-C4-2",
+      "title": "Appliquer les bonnes pratiques de référencement côté développeur",
+      "kind": "competency",
+      "parentId": "BC04-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C37:O37",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Appliquer les bonnes pratiques de référencement côté développeur",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L37"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Fonctionnement d'un Googlebot (crawl, indexation)\n> Mise en application des bonnes pratiques de base : Balises méta, structure Hn, attributs alt, optimisation images, lazy loading, minification CSS/JS\n> structure sémantique HTML\n> métadonnées\n> SEO technique\nOutils : VS Code",
+        "sequence": "S08",
+        "plannedDates": "04/01, 08/01, 11/01",
+        "expectedTrace": "Page accessible v1",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C4-3",
+      "code": "BC04-C4-3",
+      "title": "Auditer et optimiser une page pour le référencement",
+      "kind": "competency",
+      "parentId": "BC04-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C38:O38",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Auditer et optimiser une page pour le référencement",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L38"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Installer et utiliser Google Lighthouse\n> Interpréter les 4 scores : Performance, Accessibilité, SEO, Best practices\n> Identifier et corriger les points bloquants en autonomie\nOutils : Google Lighthouse",
+        "sequence": "S08",
+        "plannedDates": "18/01",
+        "expectedTrace": "Rapport Lighthouse avant/après",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C5",
+      "code": "BC04-C5",
+      "title": "Utiliser un CMS et ou outil nocode pour concevoir une interface ",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A39:B39",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC04-C5-1",
+      "code": "BC04-C5-1",
+      "title": "Savoir quand et pourqoi utiliser un CMS ou un outil No-code",
+      "kind": "competency",
+      "parentId": "BC04-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C39:O39",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Savoir quand et pourqoi utiliser un CMS ou un outil No-code",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L39"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> fonctionnement d'un CMS (back / front) et outil no-code\n> les différents types de CMS et outil no-code\n> les enjeux et usage\n> le coût",
+        "sequence": "S06",
+        "plannedDates": "24/11",
+        "expectedTrace": "Choix argumenté",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C5-2",
+      "code": "BC04-C5-2",
+      "title": "Créer une interface statique à l'aide d'un outil no-code ou d'un CMS ",
+      "kind": "competency",
+      "parentId": "BC04-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C40:O40",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Créer une interface statique à l'aide d'un outil no-code ou d'un CMS ",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L40"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> prise en main de l'interface de création de l'outil\n> création d'une page : structure, paramétrage de la page..\nOutils : Wordpress \n/ Framer",
+        "sequence": "S06",
+        "plannedDates": "23/11, 27/11, 30/11",
+        "expectedTrace": "Page CMS créée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC04-C5-3",
+      "code": "BC04-C5-3",
+      "title": "Créer une interface dynamique à l'aide d'un outil no-code ou d'un CMS ",
+      "kind": "competency",
+      "parentId": "BC04-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C41:O41",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Créer une interface dynamique à l'aide d'un outil no-code ou d'un CMS ",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L41"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> gestion des templates\n> gestion du bakc office du site pour créer des blog, actualités, .....et permettre une mise à jour à distance\nOutils : Wordpress \n/ Framer",
+        "sequence": "S06",
+        "plannedDates": "27/11, 30/11",
+        "expectedTrace": "Mini site corrigé",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C1",
+      "code": "BC05-C1",
+      "title": "Elaborer un algorithme pour résoudre une problématique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A42:B42",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC05-C1-1",
+      "code": "BC05-C1-1",
+      "title": "Comprendre la logique booléenne, portes logiques",
+      "kind": "competency",
+      "parentId": "BC05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C42:O42",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Comprendre la logique booléenne, portes logiques",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L42"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "Algèbre de Bool : portes OR / AND / XOR / NAND\nManipulation avec modules Arduino pré-câblés (sans composant électronique) — logique avant code\nOutils : Arduino (modules pré-câblés)",
+        "sequence": "S04",
+        "plannedDates": "01/10",
+        "expectedTrace": "Table de vérité + code",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C1-2",
+      "code": "BC05-C1-2",
+      "title": "Élaborer une condition",
+      "kind": "competency",
+      "parentId": "BC05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C43:O43",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Élaborer une condition",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L43"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Les opérateurs logiques (&&, ||, !)\nLes comparateurs (===, !=, >, >=, <, <=)\nLes structures conditionnelles : if / else / switch\nConditions imbriquées\nOutils : Python, puis JS",
+        "sequence": "S04",
+        "plannedDates": "17/09 → 14/01 (8 occurrences)",
+        "expectedTrace": "Fonctions/conditions validées",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C1-3",
+      "code": "BC05-C1-3",
+      "title": "Élaborer une boucle",
+      "kind": "competency",
+      "parentId": "BC05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C44:O44",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Élaborer une boucle",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L44"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "La répétition d'instructions au travers d'une boucle\nLes différents types de boucle : while et for\nLes termes d'incrémentation et décrémentation\nLes cas d'utilisation des boucles\nOutils : Python, puis JS",
+        "sequence": "S04",
+        "plannedDates": "08/10 → 14/01 (7 occurrences)",
+        "expectedTrace": "Programme boucle + tableau",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C1-4",
+      "code": "BC05-C1-4",
+      "title": "Utiliser des variables et constantes — types primitifs",
+      "kind": "competency",
+      "parentId": "BC05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C45:O45",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser des variables et constantes — types primitifs",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L45"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Les variables avec let et non var\nLes constantes avec const\nLes opérateurs assignants =, +=, -=, *=, /=\nLes types de données string, number, boolean\nLes opérateurs mathématiques +, -, *, /, %, **\nOutils : Python, puis JS",
+        "sequence": "S04",
+        "plannedDates": "10/09, 10/11",
+        "expectedTrace": "Fichier JS + tests manuels",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C1-5",
+      "code": "BC05-C1-5",
+      "title": "Utiliser des tableaux",
+      "kind": "competency",
+      "parentId": "BC05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C46:O46",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser des tableaux",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L46"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Parcours / recherche\nMéthodes de tableaux : map, filter, find, forEach\nOutils : Python, puis JS",
+        "sequence": "S04",
+        "plannedDates": "08/10 → 14/05 (10 occurrences)",
+        "expectedTrace": "Programme boucle + tableau",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C1-6",
+      "code": "BC05-C1-6",
+      "title": "Utiliser des objets littéraux",
+      "kind": "competency",
+      "parentId": "BC05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C47:O47",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser des objets littéraux",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L47"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Structures de données : objet littéral\n> Utiliser des clés valeurs\n> Destructuration des données\n> Accéder à une clé au travers de la syntaxe \".\"\nOutils : Python, puis JS",
+        "sequence": "S04",
+        "plannedDates": "19/11, 17/12, 01/04, 14/05",
+        "expectedTrace": "Objets manipulés",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C1-7",
+      "code": "BC05-C1-7",
+      "title": "Définir et manipuler une fonction",
+      "kind": "competency",
+      "parentId": "BC05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C48:O48",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Définir et manipuler une fonction",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L48"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Les fonctions en programmation\nLes différentes manières de créer une fonction (function, arrow functions)\nLes paramètres, arguments et valeurs de retour\nLe mot-clé return\nOutils : Python, puis JS",
+        "sequence": "S04",
+        "plannedDates": "24/09 → 08/06 (9 occurrences)",
+        "expectedTrace": "Fichier de fonctions testé",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C2",
+      "code": "BC05-C2",
+      "title": "Décomposer et résoudre une problématique algorithmique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A49:B49",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC05-C2-1",
+      "code": "BC05-C2-1",
+      "title": "Identifier le traitement entre les données en entrée et celles en sortie",
+      "kind": "competency",
+      "parentId": "BC05-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C49:O49",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier le traitement entre les données en entrée et celles en sortie",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L49"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Dégager et approfondir les éléments de règles métier : comprendre les règles métier\n> Identifier quelles transformations/traitement réaliser sur quelles données\n> Analyser un besoin fonctionnel\n> Identification des contraintes",
+        "sequence": "S04",
+        "plannedDates": "03/09, 04/09, 05/11, 03/12",
+        "expectedTrace": "Résultats console + explication orale",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C2-2",
+      "code": "BC05-C2-2",
+      "title": "Décomposer une problèmatique algorithmique en étape logique",
+      "kind": "competency",
+      "parentId": "BC05-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C50:O50",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Décomposer une problèmatique algorithmique en étape logique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L50"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "> Découpage logique d'un problème complexe en tâche et sous-tâche\n> Transcrire ses idées en règles (conditions) avant de débuter son code",
+        "sequence": "S04",
+        "plannedDates": "15/10, 26/11, 03/12, 01/04",
+        "expectedTrace": "Solutions commentées",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC05-C2-3",
+      "code": "BC05-C2-3",
+      "title": "Elaborer un algorithmes en pseudo-code ou logigramme",
+      "kind": "competency",
+      "parentId": "BC05-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C51:O51",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Elaborer un algorithmes en pseudo-code ou logigramme",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L51"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Écrire un algorithme à partir d'une spécification fonctionnelle\n> Abstraction et modélisation d'une solution\nOutils : Pseudocode / logigramme sur papier",
+        "sequence": "S04",
+        "plannedDates": "05/11, 10/12",
+        "expectedTrace": "Pseudo-code + JS",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC06-C1",
+      "code": "BC06-C1",
+      "title": "Manipuler le DOM et gérer les événements",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A52:B52",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC06-C1-1",
+      "code": "BC06-C1-1",
+      "title": "Manipuler le DOM avec le JavaScript",
+      "kind": "competency",
+      "parentId": "BC06-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C52:O52",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Manipuler le DOM avec le JavaScript",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L52"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Sélection, modification, suppression\n- La notion de DOM et d'arborescence de la page.\n- Ajouter, modifier un noeud (appendChild)\n- Les méthodes querySelector et querySelectorAll\n- Quelques méthodes de base de l'API du DOM (textContent, style, classList)\n> Click, submit, change\n> Ecouter et réagir des événements avec la méthode addEventListener\n> flux d'interaction utilisateur\n> cycle événement → traitement → mise à jour\nOutils : JavaScript (vanilla)",
+        "sequence": "S10",
+        "plannedDates": "21/01 → 08/06 (11 occurrences)",
+        "expectedTrace": "Page modifiée par JS",
+        "status": "A1 · positionnée",
+        "prerequisites": "Variables/conditions/fonctions + HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC06-C2",
+      "code": "BC06-C2",
+      "title": "Manipuler les données côté client",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A53:B53",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC06-C2-1",
+      "code": "BC06-C2-1",
+      "title": "Maîtriser les fondamentaux JavaScript",
+      "kind": "competency",
+      "parentId": "BC06-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C53:O53",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Maîtriser les fondamentaux JavaScript",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L53"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "- Les primitives (string, number et boolean)\n- Les variables et les constantes en JavaScript ;\n- Les fonctions en JavaScript ;\n- Les structures de données (tableaux et objets litéraux) ;\n- Les conditions ;\n- Les objets natifs (Math, etc.)\n- L'ES6 (const/var, arrow functions et méthodes dédiées au tableau)\nOutils : JavaScript (vanilla)",
+        "sequence": "S10",
+        "plannedDates": "25/03 → 21/05 (8 occurrences)",
+        "expectedTrace": "Mini app DOM",
+        "status": "A1 · positionnée",
+        "prerequisites": "Variables/conditions/fonctions + HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC06-C2-2",
+      "code": "BC06-C2-2",
+      "title": "Contrôler et valider un formulaire de données",
+      "kind": "competency",
+      "parentId": "BC06-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C54:O54",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Contrôler et valider un formulaire de données",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L54"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Validation, collecte de données\n> Attributs method et action, types de champs\n> Validation utilisateur\n> Gestion des erreurs utilisateur\n> Feedback utilisateur\nOutils : HTML / JS",
+        "sequence": "S10",
+        "plannedDates": "01/02, 04/03, 25/03, 02/04",
+        "expectedTrace": "Formulaire structuré",
+        "status": "A1 · positionnée",
+        "prerequisites": "Variables/conditions/fonctions + HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC06-C2-3",
+      "code": "BC06-C2-3",
+      "title": "Identifier et corriger les erreurs JavaScript",
+      "kind": "competency",
+      "parentId": "BC06-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C55:O55",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier et corriger les erreurs JavaScript",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L55"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Erreurs de syntaxe, runtime, logique\nMéthodologie de débogage : observer le bug, hypothèse, tester\nExécution de tests fournis (les élèves exécutent des tests déjà faits)\nOutils : DevTools",
+        "sequence": "S10",
+        "plannedDates": "11/03 → 03/06 (9 occurrences)",
+        "expectedTrace": "Fiche de bug corrigée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Variables/conditions/fonctions + HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC09-C1",
+      "code": "BC09-C1",
+      "title": "Déployer une application en production",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A56:B56",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC09-C1-1",
+      "code": "BC09-C1-1",
+      "title": "Déployer une application statique",
+      "kind": "competency",
+      "parentId": "BC09-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C56:O56",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Déployer une application statique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L56"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Premier déploiement : page statique avec LiveServer (dev local)\nMise en ligne réelle via GitHub Pages ou Netlify\nPremière confrontation avec la notion de 'mettre en production'\nOutils : LiveServer, GitHub Pages / Netlify",
+        "sequence": "S11",
+        "plannedDates": "02/11, 01/03, 05/03, 31/05",
+        "expectedTrace": "Mini site finalisé",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC09-C3",
+      "code": "BC09-C3",
+      "title": "Se connecter à un serveur distant",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A57:B57",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC09-C3-1",
+      "code": "BC09-C3-1",
+      "title": "Connexion SSH et transfert de fichiers (Raspberry Pi)",
+      "kind": "competency",
+      "parentId": "BC09-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C57:O57",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Connexion SSH et transfert de fichiers (Raspberry Pi)",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L57"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Connexion SSH et copie de fichiers vers une machine distante (Raspberry Pi)\nOutils : SSH, Raspberry Pi",
+        "sequence": "S11",
+        "plannedDates": "22/02, 26/02, 08/03",
+        "expectedTrace": "Journal de commandes",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC09-C3-2",
+      "code": "BC09-C3-2",
+      "title": "Connexion SSH en contexte serveur de production",
+      "kind": "competency",
+      "parentId": "BC09-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C58:O58",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Connexion SSH en contexte serveur de production",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L58"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Connexion SSH en contexte serveur de production (modification port de connexion)\nOutils : SSH",
+        "sequence": "S11",
+        "plannedDates": "08/03",
+        "expectedTrace": "Page distante accessible",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC09-C4",
+      "code": "BC09-C4",
+      "title": "Sécuriser un serveur à minima",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A59:B59",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC09-C4-1",
+      "code": "BC09-C4-1",
+      "title": "Sécurisation basique d'un serveur",
+      "kind": "competency",
+      "parentId": "BC09-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C59:O59",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Sécurisation basique d'un serveur",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L59"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Notions de base : pare-feu, accès SSH sécurisé (clé vs mot de passe)\nProtéger son système avec un pare-feu, modifier le port SSH, honeypot, fail2ban\nOutils : SSH / pare-feu basique",
+        "sequence": "S11",
+        "plannedDates": "08/03",
+        "expectedTrace": "Page distante accessible",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC09-C5",
+      "code": "BC09-C5",
+      "title": "Diagnostiquer une erreur de production",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A60:B60",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC09-C5-1",
+      "code": "BC09-C5-1",
+      "title": "Lire des logs serveur et corriger des erreurs de production",
+      "kind": "competency",
+      "parentId": "BC09-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C60:O60",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Lire des logs serveur et corriger des erreurs de production",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L60"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Lecture de logs serveur, erreurs 500/404 en prod\nIdentifier et catégoriser les erreurs (codes HTTP 200, 404, 500)\nOutils : Logs serveur (cPanel / SSH)",
+        "sequence": "S11",
+        "plannedDates": "15/03",
+        "expectedTrace": "Rapport de diagnostic",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C1",
+      "code": "BC10-C1",
+      "title": "Connaître les étapes et l'organisation d'un projet web",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A61:B61",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC10-C1-1",
+      "code": "BC10-C1-1",
+      "title": "Connaître la notion de projet web et les étapes de production",
+      "kind": "competency",
+      "parentId": "BC10-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C61:O61",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Connaître la notion de projet web et les étapes de production",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L61"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Connaître la définition de la gestion de projet \n> Connaître les grandes étapes de production d'un projet web / les grandes phases projet : brief / conception / créa / dev / recette / mise en production \n> Connaître les principaux métiers intervenants\n> réussir à se positionner en tant que développeur au sein d'une équipe",
+        "sequence": "S02",
+        "plannedDates": "06/10, 18/05",
+        "expectedTrace": "Timeline annotée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C1-2",
+      "code": "BC10-C1-2",
+      "title": "Lire et interpréter un planning (diagramme de Gantt)",
+      "kind": "competency",
+      "parentId": "BC10-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C62:O62",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Lire et interpréter un planning (diagramme de Gantt)",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L62"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Comprendre les enjeux du diagramme de gantt \n> Identifier la liste des tâches dans un DG \n> Identifier les délais et deadlines de chaque tâche dans un DG \n> Identifier le lien entre les tâches\n> Notion de chemin critique",
+        "sequence": "S14",
+        "plannedDates": "03/05",
+        "expectedTrace": "Backlog/planning",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C2",
+      "code": "BC10-C2",
+      "title": "Connaître et appliquer une méthodologie de gestion de projet ",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A63:B63",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC10-C2-1",
+      "code": "BC10-C2-1",
+      "title": "S'adapter à une démarche cascade",
+      "kind": "competency",
+      "parentId": "BC10-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C63:O63",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : S'adapter à une démarche cascade",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L63"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire organisationnel",
+        "notionsTools": "> définition de la méthode cascade",
+        "sequence": "S14",
+        "plannedDates": "03/05",
+        "expectedTrace": "Backlog/planning",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C2-4",
+      "code": "BC10-C2-4",
+      "title": "Estimer son temps ",
+      "kind": "competency",
+      "parentId": "BC10-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C64:O64",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Estimer son temps ",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L64"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire organisationnel",
+        "notionsTools": "",
+        "sequence": "S14",
+        "plannedDates": "03/05",
+        "expectedTrace": "Backlog/planning",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C2-5",
+      "code": "BC10-C2-5",
+      "title": "Suivre et respecter une deadline et une charge de travail",
+      "kind": "competency",
+      "parentId": "BC10-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C65:O65",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Suivre et respecter une deadline et une charge de travail",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L65"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire organisationnel",
+        "notionsTools": "> Se référer à son planning lors de son travail\n> Mesurer le temps réellement passé sur une tâche \n> Alerter lorsqu'un retard est constaté\n> Savoir s'adapter et reprioriser son MVP\n> Alerter en cas de retard, reprioriser son MVP",
+        "sequence": "S14",
+        "plannedDates": "03/05 → 28/05 (6 occurrences)",
+        "expectedTrace": "Backlog/planning",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C3",
+      "code": "BC10-C3",
+      "title": "Collaborer avec Git/GitHub et réaliser une revue de code",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A66:B66",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC10-C3-2",
+      "code": "BC10-C3-2",
+      "title": "Réaliser une revue de code",
+      "kind": "competency",
+      "parentId": "BC10-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C66:O66",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Réaliser une revue de code",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L66"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire",
+        "notionsTools": "Pull Request, commentaires\nREADME, documentation technique\nOutils : GitHub / Markdown",
+        "sequence": "S14",
+        "plannedDates": "31/05",
+        "expectedTrace": "URL + rapport audit",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C4",
+      "code": "BC10-C4",
+      "title": "Partager des ressources et collaborer à distance",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A67:B67",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC10-C4-1",
+      "code": "BC10-C4-1",
+      "title": "Utiliser des outils de partage de ressources",
+      "kind": "competency",
+      "parentId": "BC10-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C67:O67",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser des outils de partage de ressources",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L67"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire",
+        "notionsTools": "Utilisation du Drive pour partage de supports\nGestion des utilisateurs et des droits par dossier\nGestion du versionning des documents\nOutils : Google Drive",
+        "sequence": "S14",
+        "plannedDates": "07/09",
+        "expectedTrace": "Checklist poste opérationnel",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C4-2",
+      "code": "BC10-C4-2",
+      "title": "Travailler à distance",
+      "kind": "competency",
+      "parentId": "BC10-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C68:O68",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Travailler à distance",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L68"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-être",
+        "notionsTools": "> Travail à distance sur les projets en équipe ou individuel\n> Suivre un cours, une réunion ou un temps d'échange en visio",
+        "sequence": "S14",
+        "plannedDates": "25/05",
+        "expectedTrace": "Avancement + preuves de recette",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C5",
+      "code": "BC10-C5",
+      "title": "Adopter une posture professionnelle",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A69:B69",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC10-C5-1",
+      "code": "BC10-C5-1",
+      "title": "Faire un retour à un collaborateur",
+      "kind": "competency",
+      "parentId": "BC10-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C69:O69",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Faire un retour à un collaborateur",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L69"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-être relationnel",
+        "notionsTools": "> Application de la communication non violente (CNV)\n> Apporter des faits concrets (problèmes rencontrés, besoins)",
+        "sequence": "S14",
+        "plannedDates": "10/06",
+        "expectedTrace": "Bilan individuel",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C5-2",
+      "code": "BC10-C5-2",
+      "title": "Recevoir un feedback",
+      "kind": "competency",
+      "parentId": "BC10-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C70:O70",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Recevoir un feedback",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L70"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-être relationnel",
+        "notionsTools": "> Connaître la définition d'un feedback\n> Analyser les retours de ses collaborateurs pour les prendre en compte\n> Réagir de façon constructive",
+        "sequence": "S14",
+        "plannedDates": "01/06, 10/06",
+        "expectedTrace": "Trame de soutenance",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C5-3",
+      "code": "BC10-C5-3",
+      "title": "Adopter une posture professionnelle face à un intervenant pro",
+      "kind": "competency",
+      "parentId": "BC10-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C71:O71",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Adopter une posture professionnelle face à un intervenant pro",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L71"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-être relationnel",
+        "notionsTools": "> Ponctualité, écoute, respect de l'interlocuteur",
+        "sequence": "S14",
+        "plannedDates": "01/06",
+        "expectedTrace": "Trame de soutenance",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C5-4",
+      "code": "BC10-C5-4",
+      "title": "Prendre la parole en public",
+      "kind": "competency",
+      "parentId": "BC10-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C72:O72",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Prendre la parole en public",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L72"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-être ",
+        "notionsTools": "> Adapter son discours à son interlocuteur ;\n> Vulgariser un sujet technique ;\n> Justifier un choix réalisé ;\n> Présenter une démonstration produit.",
+        "sequence": "S14",
+        "plannedDates": "01/06, 04/06, 07/06",
+        "expectedTrace": "Trame de soutenance",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C6",
+      "code": "BC10-C6",
+      "title": "Respecter une démarche éthique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A73:B73",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC10-C6-1",
+      "code": "BC10-C6-1",
+      "title": "Respecter une démarche éthique",
+      "kind": "competency",
+      "parentId": "BC10-C6",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C73:O73",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Respecter une démarche éthique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L73"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Éthique numérique\n> IA responsable\n> protection des données\n> sobriété numérique\n> responsabilité du développeur\nOutils : Référentiels",
+        "sequence": "S09",
+        "plannedDates": "26/01, 02/02, 16/03, 18/05",
+        "expectedTrace": "Décision justifiée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C7",
+      "code": "BC10-C7",
+      "title": "Réaliser une veille technologique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A74:B74",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC10-C7-1",
+      "code": "BC10-C7-1",
+      "title": "Réaliser une veille technologique",
+      "kind": "competency",
+      "parentId": "BC10-C7",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C74:O74",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Réaliser une veille technologique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L74"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire",
+        "notionsTools": "> identifier des sources fiables\n> distinguer information, opinion et contenu promotionnel\n> rechercher une information technique en autonomie\n> suivre l'évolution d'un écosystème technologique\n> développer sa culture numérique professionnelle\n> actualiser ses connaissances\n>> objetof : apprendre à apprendre\nOutils : RSS / Blogs",
+        "sequence": "S09",
+        "plannedDates": "25/01",
+        "expectedTrace": "Trace prompt → vérification",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC10-C7-2",
+      "code": "BC10-C7-2",
+      "title": "Partager et valoriser sa veille",
+      "kind": "competency",
+      "parentId": "BC10-C7",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C75:O75",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Partager et valoriser sa veille",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L75"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire",
+        "notionsTools": "> synthétiser une information technique\n> vulgariser une information complexe\n> expliquer l'intérêt d'une technologie ou d'une pratique\n> partager ses apprentissages avec une équipe\n> développer une démarche d'amélioration continue",
+        "sequence": "S09",
+        "plannedDates": "10/06",
+        "expectedTrace": "Bilan individuel",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT01-C1",
+      "code": "BCT01-C1",
+      "title": "Utiliser et rédiger une documention technique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A76:B76",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT01-C1-3",
+      "code": "BCT01-C1-3",
+      "title": "Rechercher une information dans une documentation technique",
+      "kind": "competency",
+      "parentId": "BCT01-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C76:O76",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Rechercher une information dans une documentation technique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L76"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Navigation dans une documentation\n> Recherche d'information\n> Interprétation d'exemple",
+        "sequence": "S03",
+        "plannedDates": "12/10",
+        "expectedTrace": "HTML validé",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT01-C1-4",
+      "code": "BCT01-C1-4",
+      "title": "Exploiter une documentation pour installer ou utiliser un outil",
+      "kind": "competency",
+      "parentId": "BCT01-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C77:O77",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Exploiter une documentation pour installer ou utiliser un outil",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L77"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Suivre un guide d'installation\n> identifier les prérequis\n> Résoudre un problème simple à partir de la documentation",
+        "sequence": "S03",
+        "plannedDates": "07/09, 22/02",
+        "expectedTrace": "Checklist poste opérationnel",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT01-C2",
+      "code": "BCT01-C2",
+      "title": "Refactoriser un code",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A78:B78",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT01-C2-1",
+      "code": "BCT01-C2-1",
+      "title": "Refactoriser et améliorer la qualité du code",
+      "kind": "competency",
+      "parentId": "BCT01-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C78:O78",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Refactoriser et améliorer la qualité du code",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L78"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Maintenabilité, lisibilité, conventions de code\nReprendre un développement existant avec bugs à corriger et fonctionnalités à intégrer\nOutils : IDE",
+        "sequence": "S14",
+        "plannedDates": "10/05 → 28/05 (6 occurrences)",
+        "expectedTrace": "Version projet v1",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C1",
+      "code": "BCT02-C1",
+      "title": "Adopter une démarche de résolution de problème",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A79:B79",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT02-C1-1",
+      "code": "BCT02-C1-1",
+      "title": "Structurer sa démarche de stratégie de débogage",
+      "kind": "competency",
+      "parentId": "BCT02-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C79:O79",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Structurer sa démarche de stratégie de débogage",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L79"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Démarche : \n1. observer le bug\n2. formuler une hypothèse \n3. isoler la cause\n4. vérifier\n5. corriger \n\nMéthode appliquée au code, à la configuration et à l'environnement",
+        "sequence": "S04",
+        "plannedDates": "05/10 → 04/06 (7 occurrences)",
+        "expectedTrace": "Résultat + plan de remédiation",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C1-2",
+      "code": "BCT02-C1-2",
+      "title": "Identifier un problème technique rencontré",
+      "kind": "competency",
+      "parentId": "BCT02-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C80:O80",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier un problème technique rencontré",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L80"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "> Rechercher et comprendre l'origine des messages d'erreurs les plus courants\n> Manipuler un outils de débogage",
+        "sequence": "S04",
+        "plannedDates": "13/11, 18/03",
+        "expectedTrace": "Correction argumentée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C2",
+      "code": "BCT02-C2",
+      "title": "Participer à la recette fonctionnelle d'un projet",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A81:B81",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT02-C2-1",
+      "code": "BCT02-C2-1",
+      "title": "Connaître les différents types de recette et tests",
+      "kind": "competency",
+      "parentId": "BCT02-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C81:O81",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève explique / reconnaît : Connaître les différents types de recette et tests",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L81"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Connaître les différents types de recette \n> Recette fonctionnelle \n> Tests techniques \n> types (intégration, montée de charge, unitaire), criticité, PV de validation, tickets",
+        "sequence": "S14",
+        "plannedDates": "23/03",
+        "expectedTrace": "Cahier de recette",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C2-2",
+      "code": "BCT02-C2-2",
+      "title": "Contrôle de l'aspect fonctionnel du produit en suivant le plan de recette",
+      "kind": "competency",
+      "parentId": "BCT02-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C82:O82",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Contrôle de l'aspect fonctionnel du produit en suivant le plan de recette",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L82"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Suivre les étapes du plan de recette \n> Valider les fonctionnalités exprimées dans la tâche confiée et détaillées dans les spécifications",
+        "sequence": "S14",
+        "plannedDates": "24/05 → 07/06 (6 occurrences)",
+        "expectedTrace": "Avancement + preuves de recette",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C2-3",
+      "code": "BCT02-C2-3",
+      "title": "Gérer le flux d'un ticket en tant que développeur",
+      "kind": "competency",
+      "parentId": "BCT02-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C83:O83",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Gérer le flux d'un ticket en tant que développeur",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L83"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Comprendre les notions de criticité \n> Comprendre et gérer le flux d'un ticket en tant que développeur",
+        "sequence": "S14",
+        "plannedDates": "24/05",
+        "expectedTrace": "Avancement + preuves de recette",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C3",
+      "code": "BCT02-C3",
+      "title": "Réaliser des tests ",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A84:B84",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT02-C3-1",
+      "code": "BCT02-C3-1",
+      "title": "Exécuter des tests déjà fournis",
+      "kind": "competency",
+      "parentId": "BCT02-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C84:O84",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Exécuter des tests déjà fournis",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L84"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Exécution de tests unitaires déjà fournis pour vérifier son code (A1 — l'élève n'écrit pas encore les tests)\nOutils : Tests fournis",
+        "sequence": "S04",
+        "plannedDates": "18/03, 03/06",
+        "expectedTrace": "Tests au vert + note de correction",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C4",
+      "code": "BCT02-C4",
+      "title": "Déboguer une application et lire des logs",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A85:B85",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT02-C4-1",
+      "code": "BCT02-C4-1",
+      "title": "Déboguer du code",
+      "kind": "competency",
+      "parentId": "BCT02-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C85:O85",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Déboguer du code",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L85"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Console, breakpoints — première correction de bug avec méthode\nOutils : DevTools",
+        "sequence": "S10",
+        "plannedDates": "11/03, 22/04, 29/04",
+        "expectedTrace": "Fiche de bug corrigée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C4-2",
+      "code": "BCT02-C4-2",
+      "title": "Utiliser un debugger et lire des logs",
+      "kind": "competency",
+      "parentId": "BCT02-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C86:O86",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser un debugger et lire des logs",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L86"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Inspection pas à pas (IDE)\nDiagnostic via logs serveur (lien BC09 — logs production)\nOutils : IDE, Serveur",
+        "sequence": "S10",
+        "plannedDates": "15/03",
+        "expectedTrace": "Rapport de diagnostic",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT02-C5",
+      "code": "BCT02-C5",
+      "title": "Utiliser les outils d'inspection navigateur",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A87:B87",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC02-C5-1",
+      "code": "BC02-C5-1",
+      "title": "Utiliser l'inspecteur de code type DevTools",
+      "kind": "competency",
+      "parentId": "BCT02-C5",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C87:O87",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser l'inspecteur de code type DevTools",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L87"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Inspecter le DOM, les requêtes réseau, les erreurs console\n> Utiliser un outils d'inspection pour comprendre un comportement inconnu\n> Premier principe de résolution de problème : observation / hypothèse / investigation (en lien avec bloc Tst et débogage)\nOutils : DevTools",
+        "sequence": "S10",
+        "plannedDates": "21/09",
+        "expectedTrace": "Carte stylisée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT03-C1",
+      "code": "BCT03-C1",
+      "title": "Auditer et optimiser la performance d'une page",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A88:B88",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT03-C1-1",
+      "code": "BCT03-C1-1",
+      "title": "Auditer une page avec Lighthouse",
+      "kind": "competency",
+      "parentId": "BCT03-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C88:O88",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Auditer une page avec Lighthouse",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L88"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Scores performance / accessibilité / SEO / bonnes pratiques\nInstaller et utiliser Google Lighthouse\nOutils : Google Lighthouse",
+        "sequence": "S08",
+        "plannedDates": "18/01, 31/05",
+        "expectedTrace": "Rapport Lighthouse avant/après",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT03-C1-2",
+      "code": "BCT03-C1-2",
+      "title": "Optimiser les médias et ressources",
+      "kind": "competency",
+      "parentId": "BCT03-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C89:O89",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Optimiser les médias et ressources",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L89"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Compression d'images, lazy loading, minification CSS/JS",
+        "sequence": "S08",
+        "plannedDates": "18/01",
+        "expectedTrace": "Rapport Lighthouse avant/après",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT03-C3",
+      "code": "BCT03-C3",
+      "title": "Adopter une démarche d'éco-conception numérique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A90:B90",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT03-C3-1",
+      "code": "BCT03-C3-1",
+      "title": "Impact du numérique et de l'IA sur l'environnement",
+      "kind": "competency",
+      "parentId": "BCT03-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C90:O90",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Impact du numérique et de l'IA sur l'environnement",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L90"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "> Impact du numérique sur l'environnement — fresque du numérique\n> Impact de l'usage de l'IA sur l'environnement",
+        "sequence": "S08",
+        "plannedDates": "05/01, 04/05",
+        "expectedTrace": "Plan d’optimisation",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT03-C3-2",
+      "code": "BCT03-C3-2",
+      "title": "Identifier les leviers d'éco-conception",
+      "kind": "competency",
+      "parentId": "BCT03-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C91:O91",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier les leviers d'éco-conception",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L91"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Référentiel GR491 / bonnes pratiques (sélection)\nOutils : GR491",
+        "sequence": "S08",
+        "plannedDates": "18/01",
+        "expectedTrace": "Rapport Lighthouse avant/après",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT04-C1",
+      "code": "BCT04-C1",
+      "title": "Comprendre les enjeux de l'accessibilité numérique",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A92:B92",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT04-C1-1",
+      "code": "BCT04-C1-1",
+      "title": "Sensibilisation aux enjeux du handicap numérique",
+      "kind": "competency",
+      "parentId": "BCT04-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C92:O92",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Sensibilisation aux enjeux du handicap numérique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L92"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Atelier \nSavoir",
+        "notionsTools": "> Atelier sensibilisation aux handicaps\n> Leviers principaux par type de handicap\n> Existence et rôle du RGAA\nOutils : Atelier, RGAA",
+        "sequence": "S08",
+        "plannedDates": "08/12, 11/12",
+        "expectedTrace": "Liste d’obstacles/leviers",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT04-C2",
+      "code": "BCT04-C2",
+      "title": "Appliquer les règles d'accessibilité (RGAA, ARIA)",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A93:B93",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT04-C2-1",
+      "code": "BCT04-C2-1",
+      "title": "Appliquer les règles RGAA de base",
+      "kind": "competency",
+      "parentId": "BCT04-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C93:O93",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Appliquer les règles RGAA de base",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L93"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Contraste WCAG AA, alternatives textuelles, navigation clavier\n> Attributs ARIA sur composants interactifs\nOutils : HTML/ARIA, RGAA",
+        "sequence": "S08",
+        "plannedDates": "11/12 → 08/06 (5 occurrences)",
+        "expectedTrace": "Checklist corrigée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT04-C2-2",
+      "code": "BCT04-C2-2",
+      "title": "Réinvestir l'accessibilité sur tous les projets interface",
+      "kind": "competency",
+      "parentId": "BCT04-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C94:O94",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Réinvestir l'accessibilité sur tous les projets interface",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L94"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "BC06 : composants JS dynamiques, focus sur les modales\nBC07 : formulaires PHP accessibles, messages d'erreur\nOutils : HTML/ARIA",
+        "sequence": "S08",
+        "plannedDates": "04/01",
+        "expectedTrace": "Page accessible v1",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT04-C3",
+      "code": "BCT04-C3",
+      "title": "Vérifier l'accessibilité d'une interface",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A95:B95",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT04-C3-1",
+      "code": "BCT04-C3-1",
+      "title": "Auditer l'accessibilité avec Google Lighthouse",
+      "kind": "competency",
+      "parentId": "BCT04-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C95:O95",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Auditer l'accessibilité avec Google Lighthouse",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L95"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "> Interpréter le score accessibilité Lighthouse\n> Lien avec BCT03 (Lighthouse couvre aussi performance et SEO)\nOutils : Google Lighthouse",
+        "sequence": "S08",
+        "plannedDates": "18/01, 31/05",
+        "expectedTrace": "Rapport Lighthouse avant/après",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT04-C3-2",
+      "code": "BCT04-C3-2",
+      "title": "Corriger et justifier les choix d'accessibilité",
+      "kind": "competency",
+      "parentId": "BCT04-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C96:O96",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Corriger et justifier les choix d'accessibilité",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L96"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthodologique",
+        "notionsTools": "> Corriger les défauts d'accessibilité identifiés\n> Justifier les choix lors de la soutenance\n> Critère de recette fonctionnelle (BCT02)\nOutils : Lighthouse, cahier de recette",
+        "sequence": "S08",
+        "plannedDates": "18/01, 07/06",
+        "expectedTrace": "Rapport Lighthouse avant/après",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT05-C1",
+      "code": "BCT05-C1",
+      "title": "Comprendre le fonctionnement et les types d'IA",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A97:B97",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT05-C1-1",
+      "code": "BCT05-C1-1",
+      "title": "C'est quoi l'IA et les types d'IA",
+      "kind": "competency",
+      "parentId": "BCT05-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C97:O97",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : C'est quoi l'IA et les types d'IA",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L97"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "IA générative\nmodèle de langage\nprédiction statistique\ndonnées d'entraînement\nlimites des modèles\nhallucinations",
+        "sequence": "S09",
+        "plannedDates": "19/01, 02/02",
+        "expectedTrace": "Fiche esprit critique",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT05-C2",
+      "code": "BCT05-C2",
+      "title": "Utiliser l'IA comme assistant (prompting, génération)",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A98:B98",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT05-C2-1",
+      "code": "BCT05-C2-1",
+      "title": "Formuler une demande efficace",
+      "kind": "competency",
+      "parentId": "BCT05-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C98:O98",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Formuler une demande efficace",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L98"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "prompt\ncontexte\nprécision\nreformulation\nitération\nOutils : Outils IA générative",
+        "sequence": "S09",
+        "plannedDates": "25/01",
+        "expectedTrace": "Trace prompt → vérification",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT05-C2-2",
+      "code": "BCT05-C2-2",
+      "title": "Utiliser une IA pour assister une tâche technique",
+      "kind": "competency",
+      "parentId": "BCT05-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C99:O99",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser une IA pour assister une tâche technique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L99"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "génération de code\naide à la documentation\naide à la recherche d'information\naide à la compréhension d'un code existant\nOutils : Copilot / ChatGPT / Claude",
+        "sequence": "S09",
+        "plannedDates": "25/01",
+        "expectedTrace": "Trace prompt → vérification",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT05-C3",
+      "code": "BCT05-C3",
+      "title": "Exercer un regard critique sur les productions d'une IA",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A100:B100",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT05-C3-1",
+      "code": "BCT05-C3-1",
+      "title": "Vérifier les informations produites",
+      "kind": "competency",
+      "parentId": "BCT05-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C100:O100",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Vérifier les informations produites",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L100"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthologique",
+        "notionsTools": "vérification des sources\nvalidation des informations\ndétection d'erreurs\nesprit critique",
+        "sequence": "S09",
+        "plannedDates": "25/01",
+        "expectedTrace": "Trace prompt → vérification",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT05-C3-2",
+      "code": "BCT05-C3-2",
+      "title": "Auditer et corriger un code généré",
+      "kind": "competency",
+      "parentId": "BCT05-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C101:O101",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Auditer et corriger un code généré",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L101"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthologique",
+        "notionsTools": "lecture de code\ncompréhension d'un code non écrit par soi-même\ndétection de bugs\ncorrection\namélioration",
+        "sequence": "S09",
+        "plannedDates": "25/01",
+        "expectedTrace": "Trace prompt → vérification",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT05-C3-3",
+      "code": "BCT05-C3-3",
+      "title": "Identifier les limites d'une solution proposée par une IA",
+      "kind": "competency",
+      "parentId": "BCT05-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C102:O102",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Identifier les limites d'une solution proposée par une IA",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L102"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire méthologique",
+        "notionsTools": "> erreurs de raisonnement\n> solutions alternatives\n> remise en question",
+        "sequence": "S09",
+        "plannedDates": "25/01",
+        "expectedTrace": "Trace prompt → vérification",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT05-C4",
+      "code": "BCT05-C4",
+      "title": "Adopter un usage responsable et ethique de l'IA",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A103:B103",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT05-C4-1",
+      "code": "BCT05-C4-1",
+      "title": "Utiliser l'IA dans le respect du cadre pédagogique et professionnel",
+      "kind": "competency",
+      "parentId": "BCT05-C4",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C103:O103",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser l'IA dans le respect du cadre pédagogique et professionnel",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L103"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-être",
+        "notionsTools": "> Connaître l'IA Act\n> transparence d'usage\n> confidentialité / protection des données\n> propriété intellectuelle\n> impact de l'IA sur l'apprentissage",
+        "sequence": "S09",
+        "plannedDates": "26/01, 02/02",
+        "expectedTrace": "Décision justifiée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT06-C1",
+      "code": "BCT06-C1",
+      "title": "Hygiène numérique et sensibilisation",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A105:B105",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BCT06-C1-1",
+      "code": "BCT06-C1-1",
+      "title": "Hygiène numérique",
+      "kind": "competency",
+      "parentId": "BCT06-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C105:O105",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Hygiène numérique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L105"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir",
+        "notionsTools": "OSINT (Dox) — réception d'infos personnelles suite à fuite de données\nAuthentification à double facteur\nGestionnaire de mot de passe\nOutils : Atelier",
+        "sequence": "S12",
+        "plannedDates": "09/03, 12/03, 16/03, 19/04",
+        "expectedTrace": "Checklist hygiène",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BCT06-C1-2",
+      "code": "BCT06-C1-2",
+      "title": "Phishing — atelier pratique",
+      "kind": "competency",
+      "parentId": "BCT06-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C106:O106",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Phishing — atelier pratique",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L106"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "Création d'une page de phishing HTML/CSS\nUtilisation d'une API pour stocker les statistiques des personnes hackées\nSensibilisation aux dangers du phishing\nOutils : HTML/CSS, API",
+        "sequence": "S12",
+        "plannedDates": "19/03, 22/03, 19/04",
+        "expectedTrace": "Analyse argumentée",
+        "status": "A1 · positionnée",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC02-C1-2",
+      "code": "BC02-C1-2",
+      "title": "Installer et configurer des outils de développement",
+      "kind": "competency",
+      "parentId": "BC02-C1",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C107:O107",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Installer et configurer des outils de développement",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L107"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Navigateur, logiciel, IDE, extensions...\nOutils : VS Code",
+        "sequence": "S01",
+        "plannedDates": "Dans S01 · initiation",
+        "expectedTrace": "Poste opérationnel + fiche « ma machine de développeur » expliquant composants, OS, navigateur et IDE.",
+        "status": "Préfiguration A2",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC02-C2-1",
+      "code": "BC02-C2-1",
+      "title": "Utiliser un gestionnaire de versionning",
+      "kind": "competency",
+      "parentId": "BC02-C2",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C108:O108",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser un gestionnaire de versionning",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L108"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Présentation git / github\n> Usages : repo, commit, versionning, sauvegarde et publication du code en ligne\nOutils : Git / GitHub",
+        "sequence": "S11",
+        "plannedDates": "Dans S11 · initiation",
+        "expectedTrace": "Projet versionné, publié, puis copié sur une machine distante avec diagnostic d’une erreur volontaire.",
+        "status": "Préfiguration A2",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC02-C3",
+      "code": "BC02-C3",
+      "title": "Naviguer localement dans un terminal Linux ",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A109:B109",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC02-C3-1",
+      "code": "BC02-C3-1",
+      "title": "Utiliser les commandes Linux",
+      "kind": "competency",
+      "parentId": "BC02-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C109:O109",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Utiliser les commandes Linux",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L109"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "> Histoire de Linux\n> Navigation dans l'arborescence (ls, pwd, cd, mkdir, grep)\n> Créer / lire / éditer des fichiers\n> Installer et mettre à jour des packets\n> Créer et gérer un utilisateur\n> Réinvestissement des bases : navigation, gestion de fichiers, droits\nOutils : Linux (terminal)",
+        "sequence": "S11",
+        "plannedDates": "Dans S11 · initiation",
+        "expectedTrace": "Projet versionné, publié, puis copié sur une machine distante avec diagnostic d’une erreur volontaire.",
+        "status": "Préfiguration A2",
+        "prerequisites": "Voir séquence associée",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    },
+    {
+      "id": "BC06-C3",
+      "code": "BC06-C3",
+      "title": "Utiliser un service distant comme source de données",
+      "kind": "block",
+      "parentId": null,
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!A110:B110",
+      "criteria": [],
+      "criterionSet": null
+    },
+    {
+      "id": "BC06-C3-1",
+      "code": "BC06-C3-1",
+      "title": "Exploiter des données depuis une API tierse",
+      "kind": "competency",
+      "parentId": "BC06-C3",
+      "studentLabel": null,
+      "expectedLevel": null,
+      "location": "02 Référentiel A1!C110:O110",
+      "criteria": [
+        {
+          "id": "observable",
+          "code": null,
+          "title": "L’élève réalise sans aide majeure : Exploiter des données depuis une API tierse",
+          "origin": "source",
+          "parentSourceId": null,
+          "author": null,
+          "location": "02 Référentiel A1!L110"
+        }
+      ],
+      "criterionSet": null,
+      "pedagogy": {
+        "typology": "Savoir-faire technique",
+        "notionsTools": "- Maîtriser l'outil de requetage Postman\n- Définir et manipuler les objets litéraux\n- Utiliser l'asynchrone en JavaScript ( async et syntaxe await)\n- Comprendre les promesses\n- S'identifier à l'aide de token\n- Envoyer des requetes et recevoir la réponse via fetch\n- Comprendre les fondamteaux de l'API REST\n- Les différentes méthodes CRUD (GET, POST, PUT, DEL)\n- interprétation des données reçues\n- gestion des cas d'erreur\n- validation d'une réponsew\n> Flux de données dans une application\n> Entrée → Validation → Traitement → Persistance → Restitution\n> Communication frontend ↔ backend ↔ base de données\n> Appels asynchrones vers une API\n> JSON…",
+        "sequence": "S13",
+        "plannedDates": "Dans S13 · initiation",
+        "expectedTrace": "Mini interface consommant une API publique fournie, avec affichage, chargement, erreur et filtrage simple.",
+        "status": "Préfiguration A2",
+        "prerequisites": "Variables/conditions/fonctions + HTML/CSS",
+        "masteryRule": "2 preuves autonomes espacées, dont une en transfert.",
+        "scaffolding": "Modèle → guidé → réactivation → transfert"
+      }
+    }
+  ]
+}
