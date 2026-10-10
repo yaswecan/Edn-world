@@ -1,5 +1,7 @@
 # EDEN Teacher Twin
 
+Le suivi V2 ajoute le **Référentiel**, les grades explicites, les observations par compétence, la validation des niveaux et les activités adaptées. [Utilisation et règles V2](docs/student-tracking/v2.md), [audit](docs/student-tracking/audit-v2.md), [recette AC01–AC40](docs/student-tracking/acceptance-v2.md). Vérifications : `npm run test:tracking:v2` et `npm run test:tracking:v2:browser`.
+
 Le suivi V1 est accessible par **Élèves** côté professeur et **Mes séances / Mes évaluations** côté élève. Il conserve les versions suivies, les brouillons, les copies remises et les révisions publiées. Voir le [guide d’utilisation et les droits](docs/student-tracking/README.md), l’[audit](docs/student-tracking/audit.md) et la [recette AC01–AC20](docs/student-tracking/acceptance.md). Vérifications isolées : `npm run test:tracking` et `npm run test:tracking:browser`.
 
 La recherche dans les documents importés, les classements professeur et la remise de fichiers avec reçu durable sont raccordés au parcours existant. Recette isolée : `npm run preview:documentary`, puis **http://127.0.0.1:4184/preparation.html** (`professeur` / `quality-preview-only`). Cette recette utilise des fixtures signalées, un stockage distinct et un dépôt Git privé local ; aucun appel IA réel ni publication élève. Voir le [rapport du lot documentaire et stockage](docs/quality/documentary-storage.md).

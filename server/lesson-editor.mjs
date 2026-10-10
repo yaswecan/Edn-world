@@ -1,3 +1,4 @@
+import {inheritGrid} from './competency-transfer.mjs';
 import express from 'express';
 import {teacher} from './auth.mjs';
 import {scoped,fail,requireValue,uid,now} from './store.mjs';
@@ -36,6 +37,7 @@ export async function saveEditor(store,id,input,actor){return store.transaction(
  const unchanged={...spec,lessonVersion:old.spec.lessonVersion};if(canonical(unchanged)===canonical(old.spec))return readEditor(tx,id,actor);
  const versionId=lesson.status==='published'?`${id}:edit:${uid('v')}`:`${id}:v${spec.lessonVersion}`;
  await tx.insert('lesson_versions',{...old,id:versionId,version:spec.lessonVersion,spec,previousVersionId:old.id,baseVersionId:lesson.versionId,authorId:actor.id,reason:'Modification dans l’éditeur professeur',createdAt:now()});
+ await inheritGrid(tx,actor,old,await tx.get('lesson_versions',versionId));
  if(lesson.status==='published')lesson.editorDraftVersionId=versionId;
  else Object.assign(lesson,{version:spec.lessonVersion,versionId,title:spec.title,pedagogicalValidation:null});
  lesson.editorModifiedAt=now();await tx.put('lessons',lesson);

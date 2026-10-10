@@ -51,7 +51,9 @@
     "build:editor": "node scripts/build-lesson-editor.mjs",
     "test:editor": "node --import tsx --test tests/lesson-editor.test.mjs",
     "test:editor:browser": "node --import tsx scripts/lesson-editor-browser-check.mjs",
-    "test:editor:labs": "node --import tsx scripts/lesson-editor-labs-check.mjs"
+    "test:editor:labs": "node --import tsx scripts/lesson-editor-labs-check.mjs",
+    "test:tracking:v2": "node --import tsx --test tests/competency-v2.test.mjs",
+    "test:tracking:v2:browser": "node --import tsx scripts/competency-v2-browser-check.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1146.0",

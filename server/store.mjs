@@ -7,6 +7,7 @@ TABLES.push('pedagogical_sources','generation_jobs','generation_candidates','gen
 TABLES.push('document_indexes','source_annotations','document_contexts','content_snapshots','archive_outbox','work_submissions');
 TABLES.push('lesson_transfers','lesson_transfer_chunks','lesson_transfer_links','lesson_transfer_receipts');
 TABLES.push('lesson_assignments','result_publications','learning_reprises','tracking_migrations');
+TABLES.push('framework_versions','competency_grids','competency_observations','mastery_rules','mastery_decisions','framework_mappings','adaptation_rules','adaptation_proposals','adaptation_authorizations');
 export const uid = (prefix='id') => `${prefix}_${randomUUID()}`;
 export const now = () => new Date().toISOString();
 export function fail(status, message, details) { throw Object.assign(new Error(message), { status, details }); }

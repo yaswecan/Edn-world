@@ -1,3 +1,4 @@
+import {exportPedagogy,validatePortablePedagogy} from './competency-transfer.mjs';
 import {readFile,realpath} from 'node:fs/promises';
 import {resolve,sep,extname} from 'node:path';
 import {randomUUID} from 'node:crypto';
@@ -107,11 +108,13 @@ export async function captureLesson(tx,lesson,actor,files,{identity=true}={}){
  const context=lesson.transferContext||{entry:pick(entry,['duration','durationConfirmed','objective','activity']),criteria:(curriculum?.criteria||[]).filter(c=>codes.has(c.n3_code)),diagnosticSource:previousLesson?{portableId:identity?await ensurePortable(tx,previousLesson):previousLesson.portableId||'unmapped',title:previousLesson.title,date:previousLesson.date}:null};
  const gate=await publicationGate(tx,lesson,original);
  const preparation=lesson.transferPreparation||{requiresReview:!!lesson.qualityRequired,incomplete:lesson.qualityRequired===true&&(gate.some(c=>!c.ok)||!pack?.complete),state:lesson.preparationState||'teacher_draft'};
- const payload={spec,context,assets:assets.sort((a,b)=>a.sha256.localeCompare(b.sha256)),documents:documents.sort((a,b)=>a.key.localeCompare(b.key)),mission,corpus,preparation,designContract:version.designContract||null,external:[]};
+ const pedagogy=await exportPedagogy(tx,actor,version);
+ const payload={...(pedagogy?{pedagogy}:{}),spec,context,assets:assets.sort((a,b)=>a.sha256.localeCompare(b.sha256)),documents:documents.sort((a,b)=>a.key.localeCompare(b.key)),mission,corpus,preparation,designContract:version.designContract||null,external:[]};
  const portable=await portableLinks(payload,tx,actor,files,external);portable.external=[...external].sort();
  return {portableId,date:lesson.date,sequence:original.sequence,payload:portable};
 }
 export function validatePayload(payload,files){
+ validatePortablePedagogy(payload.pedagogy);
  assertKeys(payload.context,['entry','criteria','diagnosticSource']);assertKeys(payload.context.entry,['duration','durationConfirmed','objective','activity']);
  requireValue(Array.isArray(payload.context.criteria)&&Array.isArray(payload.assets)&&Array.isArray(payload.documents)&&Array.isArray(payload.external),'Contexte ou ressources invalides.');
  assertKeys(payload.preparation,['requiresReview','incomplete','state']);requireValue(typeof payload.preparation.requiresReview==='boolean'&&typeof payload.preparation.incomplete==='boolean'&&typeof payload.preparation.state==='string','État de préparation invalide.');

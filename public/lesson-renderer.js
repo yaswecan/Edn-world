@@ -112,6 +112,6 @@ export function renderStudentResult(result){
  if(result.status==='results_pending')return '<p>Résultats en préparation. Ils seront disponibles après publication par ton professeur.</p>';
  if(result.status==='not_submitted')return '<p>Aucun travail rendu.</p>';
  const feedback=studentFeedback(result.feedback),status=studentResultStatus(result);
- const label=result.score==null?'Non évalué':`${result.score} / ${result.scoreMax??20}${result.level?' · '+result.level:''}`;
- return `${stamp(label,'brand-tone')}${status?`<p>${escape(status)}</p>`:''}${feedback&&feedback!==status?`<p>${escape(feedback)}</p>`:''}${(result.items||[]).map(item=>{const detail=studentFeedback(item.feedback);return `<div class="list-row"><div><div class="row-title">${escape(item.label)}</div>${detail?`<p class="row-sub">${escape(detail)}</p>`:''}</div>${stamp(item.points==null?'Non évalué':`${item.points} / ${item.max}`)}</div>`;}).join('')}`;
+ const label=result.score==null?(result.grade||'Non évalué'):`${result.score} / ${result.scoreMax??20}${result.level?' · '+result.level:''}`;
+ return `${stamp(label,'brand-tone')}${status?`<p>${escape(status)}</p>`:''}${feedback&&feedback!==status?`<p>${escape(feedback)}</p>`:''}${(result.items||[]).map(item=>{const detail=studentFeedback(item.feedback);return `<div class="list-row"><div><div class="row-title">${escape(item.label)}</div>${detail?`<p class="row-sub">${escape(detail)}</p>`:''}</div>${stamp(item.exempt?'Dispensé':item.observedGrade|| (item.points==null?'Non évalué':`${item.points} / ${item.max}${item.coefficient&&item.coefficient!==1?' · coef. '+item.coefficient:''}`))}</div>`;}).join('')}`;
 }

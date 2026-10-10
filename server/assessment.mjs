@@ -1,3 +1,4 @@
+import {evaluateCorrection,currentActor,invalidateDerived} from './competency-service.mjs';
 import {ownedAttempt,checkDraftVersion} from './student-tracking.mjs';
 import {aiPreferences} from './ai/settings.mjs';
 import {structuralGrade} from './structural-grading.mjs';
@@ -51,15 +52,16 @@ export async function submitAttempt(store,attemptId,answers,actor,input) {
  actor={...actor,classId:attempt.classId};
  attempt.firstAttempt??={};attempt.lastAttempt??={};
  for(const [taskId,answer] of Object.entries(frozen)){const event={timestamp:submittedAt,type:'answer_submitted',payload:{answer}};attempt.firstAttempt[taskId]??=event;attempt.lastAttempt[taskId]=event;}
- const submission=await tx.insert('submissions',{id:uid('submission'),classId:actor.classId,learnerId:actor.id,attemptId:attempt.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,diagnostic:lv.spec.diagnostic,answers:frozen,history:attempt.history||[],submittedAt,sha256:hash(JSON.stringify(frozen))});
+ const submission=await tx.insert('submissions',{id:uid('submission'),classId:actor.classId,learnerId:actor.id,attemptId:attempt.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,diagnostic:lv.spec.diagnostic,competencyGrid:attempt.competencyGridId?await tx.get('competency_grids',attempt.competencyGridId):null,answers:frozen,history:attempt.history||[],submittedAt,sha256:hash(JSON.stringify(frozen))});
  const snapshot=await freezeContent(tx,{classId:actor.classId,event:'diagnostic.submitted',eventId:submission.id,acceptedAt:submittedAt,subject:{kind:'diagnostic',learnerId:actor.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,attemptId:attempt.id},versions:{criteria:hash(canonical(lv.spec.diagnostic)),validator:'eden-assessment-1'},files:[{path:'answers.json',content:canonical(frozen),audience:'student'}]});submission.snapshotId=snapshot.id;await tx.put('submissions',submission);
- const correction=await correctAsync(lv.spec.diagnostic,frozen);await tx.insert('corrections',{...correction,id:submission.id,classId:actor.classId,learnerId:actor.id,lessonId:attempt.lessonId,submissionId:submission.id,version:1});
+ const correction=await correctAsync(lv.spec.diagnostic,frozen);await evaluateCorrection(tx,submission,correction);await tx.insert('corrections',{...correction,id:submission.id,classId:actor.classId,learnerId:actor.id,lessonId:attempt.lessonId,submissionId:submission.id,version:1});
  attempt.answers=frozen;attempt.draftVersion=(attempt.draftVersion||0)+1;attempt.submissionId=submission.id;attempt.status='submitted';await tx.put('assessment_attempts',attempt);await tx.audit(actor,'diagnostic.submitted',submission.id,{sha256:submission.sha256});
  return submission;
  });
 }
 export async function reviseCorrection(store,id,input,actor) {
  return store.transaction(async tx=>{
+ await currentActor(tx,actor);
  const submission=await scoped(tx,'submissions',id,actor),old=await scoped(tx,'corrections',id,actor);
  requireValue(input.reason?.trim(),'Une justification est obligatoire.');if(input.version!==old.version)fail(409,'La correction a changé. Rechargez-la.');
  requireValue(Array.isArray(input.items)&&input.items.length===old.items.length,'Chaque item doit être relu.');
@@ -67,9 +69,10 @@ export async function reviseCorrection(store,id,input,actor) {
  const criteria=[...new Set(items.map(i=>i.criterion))].map(criterion=>{const group=items.filter(i=>i.criterion===criterion),points=group.some(i=>i.points==null)?null:group.reduce((s,i)=>s+i.points,0),max=group.reduce((s,i)=>s+i.max,0);return {criterion,points,max,level:points==null?'NE':points>=group.reduce((s,i)=>s+i.a2,0)?'A2':points>=group.reduce((s,i)=>s+i.a1,0)?'A1':points>0?'EC':'NA'};});
  const score=!items.length||items.some(i=>i.points==null)?null:Math.round(items.reduce((s,i)=>s+i.points,0)*100)/100,revision=old.version+1;
  const updated={...old,version:revision,items,criteria,score,scoreMax:items.reduce((n,i)=>n+i.max,0)||null,level:items.reduce((n,i)=>n+i.max,0)===20?level(score):null,status:'approved',feedback:String(input.feedback||old.feedback),approvedBy:actor.id,approvedAt:now(),autonomous:input.autonomous===true,transfer:input.transfer===true};
- await tx.insert('correction_revisions',{id:uid('revision'),classId:actor.classId,submissionId:id,version:revision,oldValue:old,newValue:updated,authorId:actor.id,reason:input.reason});await tx.put('corrections',updated);
+ await evaluateCorrection(tx,submission,updated,input);
+ await tx.insert('correction_revisions',{id:uid('revision'),classId:actor.classId,submissionId:id,version:revision,oldValue:old,newValue:updated,authorId:actor.id,reason:input.reason});await tx.put('corrections',updated);await invalidateDerived(tx,actor.classId);
  const attempt=await tx.get('assessment_attempts',submission.attemptId);
- for(const c of criteria.filter(c=>c.criterion!=='baseline'&&c.level!=='NE'&&attempt?.mode!=='practice'))await tx.insert('evidence',{id:uid('evidence'),classId:actor.classId,learnerId:submission.learnerId,criterion:c.criterion,sourceId:id,revision,date:submission.submittedAt.slice(0,10),level:c.level,approved:true,autonomous:updated.autonomous,transfer:updated.transfer,correctionVersion:revision,lessonVersionId:submission.lessonVersionId});
+ for(const c of criteria.filter(c=>!submission.competencyGrid&&c.criterion!=='baseline'&&c.level!=='NE'&&attempt?.mode!=='practice'))await tx.insert('evidence',{id:uid('evidence'),classId:actor.classId,learnerId:submission.learnerId,criterion:c.criterion,sourceId:id,revision,date:submission.submittedAt.slice(0,10),level:c.level,approved:true,autonomous:updated.autonomous,transfer:updated.transfer,correctionVersion:revision,lessonVersionId:submission.lessonVersionId});
  await tx.audit(actor,'correction.approved',id,{revision,reason:input.reason});return updated;
  });
 }

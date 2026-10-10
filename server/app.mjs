@@ -1,3 +1,4 @@
+import {competencyRoutes} from './competency-routes.mjs';
 import {trackingRoutes} from './student-tracking-routes.mjs';
 import {findAssignment,lessonContext,ownedAttempt,assertWritable,availability} from './student-tracking.mjs';
 import {lessonEditorRoutes} from './lesson-editor.mjs';
@@ -52,6 +53,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  });
  app.use(protectOrigin,authentication(store));app.use(express.json({limit:'2mb'}));
  trackingRoutes(app,store);
+ competencyRoutes(app,store);
  databaseRoutes(app,store);
  lessonTransferRoutes(app,store);
  lessonEditorRoutes(app,store);

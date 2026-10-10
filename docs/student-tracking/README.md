@@ -1,4 +1,6 @@
-# Élèves et suivi des apprentissages — V1
+# Élèves et suivi des apprentissages
+
+Le socle décrit ci-dessous est complété par la [V2 : référentiel, grades, consolidation et progression adaptée](v2.md). Voir aussi la [recette V2 AC01–AC40](acceptance-v2.md).
 
 L’entrée **Élèves** de l’espace professeur ouvre `/suivi.html`. L’espace élève conserve **Aujourd’hui** et ajoute **Mes séances** et **Mes évaluations**. Ces écrans utilisent les comptes et les travaux du serveur ; les fixtures sont limitées aux tests.
 

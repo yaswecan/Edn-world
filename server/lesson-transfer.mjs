@@ -1,3 +1,4 @@
+import {checkPedagogy,importPedagogy} from './competency-transfer.mjs';
 import {distributeRun} from './student-tracking.mjs';
 import {randomUUID} from 'node:crypto';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
@@ -99,6 +100,7 @@ async function analyze(tx,pack,actor,choicesInput,{forcedTarget=null,capabilityI
   let target=choice.action==='replace'?await scoped(tx,'lessons',choice.targetId,actor):null;
   const blockers=[],warnings=[];let current=null,proposal=null,identical=false;
   try{
+   warnings.push(...await checkPedagogy(tx,actor,source.payload.pedagogy));
    const caps=validatePayload(source.payload,pack.files);warnings.push(...source.payload.external.map(u=>`Lien externe conservé : ${u}`));blockers.push(...capabilityIssues.filter(i=>caps.includes(i.capability)).map(i=>i.message));
    if(target){
     if(target.editorDraftVersionId)warnings.push('Un brouillon de modification existe. Le remplacement sélectionnera le contenu importé ; l’ancien brouillon restera dans l’historique.');
@@ -161,6 +163,7 @@ export async function applyTransfer(store,id,input,actor){
    const lesson={...target,id:proposal.id,classId:actor.classId,authorId:target?.authorId||actor.id,portableId,version,versionId,date:proposal.date,title:content.spec.title,planEntryId:proposal.entry?.id||'',status:target?.status||'draft',provider:'transfer',quality:proposal.quality,qualityRequired:source.payload.preparation.incomplete||source.payload.preparation.requiresReview&&!choice.reviewed,preparationState:source.payload.preparation.incomplete?'incomplete':'teacher_draft',transferContext:source.payload.context,transferPreparation:source.payload.preparation,transferReview:choice.reviewed?{actorId:actor.id,at:now()}:null};
    delete lesson.editorDraftVersionId;delete lesson.qualityJobId;delete lesson.pedagogicalValidation;delete lesson.diagnosticVersionId;delete lesson.teacherReview;delete lesson.agentRunId;
    await tx.insert('lesson_versions',{id:versionId,classId:actor.classId,lessonId:lesson.id,version,spec:content.spec,designContract:source.payload.designContract,transferSourceIds:content.documents.map(d=>d.id),previousVersionId:target?.versionId||null,authorId:actor.id,reason:'Import de préparation professeur'});
+   await importPedagogy(tx,actor,await tx.get('lesson_versions',versionId),source.payload.pedagogy);
    const files=source.payload.corpus.files.map(file=>({...file,base64:pack.files.get(file.sha256).toString('base64')})),corpusId=uid('corpus');
    if(files.length)await tx.insert('corpus_packages',{id:corpusId,classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,version,complete:source.payload.corpus.complete,files,manifest:{schemaVersion:2,lessonId:content.spec.lessonId,lessonVersionId:versionId,lessonVersion:version,classId:actor.classId,generatedAt:now(),completeness:source.payload.corpus.complete?'complete':'partial',missing:source.payload.corpus.complete?[]:['Préparation source incomplète.'],files:source.payload.corpus.files}});
    if(target?.status==='published'){
