@@ -1,3 +1,4 @@
+import {StudentHubLayout,StudentHubState} from './student-hub.js';
 import {SessionIdentity,competencyBadges,mountCompetencyPicker,competencyKey} from './session-identity.js';
 import {bindPrivateAccount,invalidatePrivateSession,announceAccountChange,purgePrivateStorage} from './private-session.js';
 import {lessonTransferUI} from './lesson-transfer.js';
@@ -574,7 +575,8 @@ async function startStudent(date) {
   for(const timer of answerTimers.values())clearTimeout(timer);
   const params=new URLSearchParams(location.search),selected=params.get('lesson'),assignment=params.get('assignment'),attempt=params.get('attempt');
   const query=assignment?'?assignment='+enc(assignment)+(attempt?'&attempt='+enc(attempt):''):selected?'?lesson='+enc(selected):date?'?date='+enc(date):'';
-  const result=await api('/api/today'+query);
+  $('#app').innerHTML=StudentHubLayout({session:S.session,url:location.href,content:StudentHubState({kind:'loading'})});
+  let result;try{result=await api('/api/today'+query);}catch(error){if(error.name==='AbortError')return;$('#app').innerHTML=StudentHubLayout({session:S.session,url:location.href,title:'Ma séance',content:StudentHubState({kind:error.status===403?'forbidden':'error',message:studentError(error),action:btn('Réessayer','refresh-student')})});return;}
   S.availableLessons=result.availableLessons||[];S.studentDisplayDate=result.displayDate;S.studentTodayLesson=result.todayLesson;
   S.student=result.lesson;S.readOnly=!!result.readOnly;S.assignmentId=result.assignmentId;S.progressVersion=result.progress?.version||0;
   S.newStudentVersion=null;S.studentEvents=result.events||[];S.completed=result.progress?.completed||[];S.attempt=result.attempt;
@@ -601,7 +603,8 @@ async function startStudent(date) {
   S.diagnosticSupport=[];renderStudent();
 }
 function studentStorageKey(){return `eden:${S.user.id}:${S.assignmentId}:${S.attempt?.id||'work'}`;}
-function studentTrackingNav(){return '<nav class="tracking-links" aria-label="Mon espace"><a class="btn" href="/today">Aujourd’hui</a><a class="btn" href="/suivi.html?view=lessons">Mes séances</a><a class="btn" href="/suivi.html?view=evaluations">Mes évaluations</a></nav>'+(!S.readOnly&&S.student?`<div class="tracking-links"><span id="work-save-status" role="status">${esc(S.workSaveMessage||'')}</span>${btn('Enregistrer mon travail','save-work')}</div>`:'');}
+function studentWorkActions(){return !S.readOnly&&S.student?`<div class="student-work-actions"><span id="work-save-status" role="status">${esc(S.workSaveMessage||'')}</span>${btn('Enregistrer mon travail','save-work')}</div>`:'';}
+
 async function saveDiagnostic(){
  const attempt=S.attempt;if(!attempt||attempt.submissionId||S.readOnly)return;
  const run=async()=>{
@@ -633,14 +636,9 @@ function drawTeacherPreview(){
   $('[data-action=preview-prev]').disabled=index===0;
   $('[data-action=preview-next]').disabled=index===spec.blocks.length-1;
 }
-function studentArcadeLink() {
-  if (!S.session.worldArcadeEnabled) return "";
-  const query = S.student ? "?lesson=" + enc(S.student.id) : "";
-  return `<a class="btn primary lesson-arcade-link" href="/arcade${query}#arcade">${icon("game")}Mode arcade</a>`;
-}
 function showStudentVersionNotice(){
  if(!S.newStudentVersion||document.querySelector('.student-version-notice'))return;
- document.querySelector('.lesson-topbar')?.insertAdjacentHTML('afterend',`<div class="card pad student-version-notice" role="status"><strong>Le professeur a mis à jour cette séance.</strong><p>Votre saisie reste conservée dans cette version. Actualisez quand vous êtes prêt à ouvrir les nouveaux exercices.</p>${btn('Ouvrir la nouvelle version','refresh-student')}</div>`);
+ document.querySelector('.student-hub-workspace')?.insertAdjacentHTML('afterbegin',`<div class="card pad student-version-notice" role="status"><strong>Le professeur a mis à jour cette séance.</strong><p>Votre saisie reste conservée dans cette version. Actualisez quand vous êtes prêt à ouvrir les nouveaux exercices.</p>${btn('Ouvrir la nouvelle version','refresh-student')}</div>`);
 }
 setInterval(async()=>{
  if(S.user?.role!=='student'||!S.student)return;
@@ -651,10 +649,11 @@ function renderStudent() {
   const l = S.student;
   if (!l) {
     $("#app").innerHTML =
-      `<main id="main" class="student-shell"><div class="student-header"><div class="brand">${edenLogo}</div><div class="student-header-actions">${studentArcadeLink()}${btn("Actualiser", "refresh-student")}${btn("Se déconnecter", "logout")}</div></div><h1>Séance du jour</h1><div class="card">${empty(studentCopy.empty, "calendar")}</div>${studentTrackingNav()}${studentLessonLinks()}</main>`;
+      StudentHubLayout({session:S.session,url:location.href,title:'Séance du jour',content:StudentHubState({message:studentCopy.empty})+studentLessonLinks()});
     return;
   }
   $("#app").innerHTML = renderLessonPage(l.spec, S.step, {
+    session:{...S.session,lessonId:l.id}, url:location.href,
     answers: S.answers,
     submitted: !!S.attempt?.submissionId,
     displayName: S.user.displayName,
@@ -663,11 +662,10 @@ function renderStudent() {
     displayDate: S.studentDisplayDate,
     readOnly: S.readOnly||S.workReadOnly&&S.student.spec.blocks[S.step]?.type!=='Diagnostic',
   });
-  $(".lesson-topbar > div")?.insertAdjacentHTML("afterbegin", studentArcadeLink());
-  $(".lesson-topbar")?.insertAdjacentHTML("afterend",studentTrackingNav());
+  $(".student-hub-workspace")?.insertAdjacentHTML("afterbegin",studentWorkActions());
   if(S.readOnly)$(".lesson-stage")?.insertAdjacentHTML("afterbegin",'<p role="status">Consultation — les rendus sont fermés. Ton avancement est conservé.</p>');
   showStudentVersionNotice();
-  if(S.availableLessons.length>1) $('.lesson-topbar')?.insertAdjacentHTML('afterend',`<details class="card pad spaced"><summary>Mes séances disponibles</summary>${studentLessonLinks()}</details>`);
+  if(S.availableLessons.length>1) $('.student-hub-workspace')?.insertAdjacentHTML('afterbegin',`<details class="student-available-lessons"><summary>Mes séances disponibles</summary>${studentLessonLinks()}</details>`);
 }
 function studentLessonLinks(){
  return S.availableLessons?.length?`<section class="card pad spaced"><h2>Séances disponibles</h2>${S.availableLessons.map(l=>`<div class="list-row"><div style="flex:1">${SessionIdentity(l,{level:3})}${S.studentTodayLesson?.lessonId===l.id ? pill("Séance du jour", "green") : ""}<p>Prévue le ${dateText(l.date)}</p></div><a class="btn" href="/today?lesson=${enc(l.id)}">Ouvrir la séance</a></div>`).join('')}</section>`:'';

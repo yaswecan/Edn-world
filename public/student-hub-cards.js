@@ -1,0 +1,15 @@
+import {SessionIdentity,competencyBadges} from './session-identity.js';
+import {renderStudentResult} from './lesson-renderer.js';
+import {hubEscape as esc,StudentHubState} from './student-hub.js';
+const enc=encodeURIComponent;
+const link=(label,href,primary=false)=>`<a class="btn${primary?' primary':''}" href="${esc(href)}">${esc(label)}</a>`;
+const when=d=>d?new Intl.DateTimeFormat('fr-FR',{dateStyle:'long',timeZone:'Europe/Paris'}).format(new Date(d.length===10?d+'T12:00:00Z':d)):'';
+export const studentAttemptLabel=a=>a.mode==='practice'?'Entraînement':a.mode==='retake'?`Reprise ${a.number}${a.afterCorrection?' après corrigé':''}`:'Premier diagnostic';
+export function StudentSessionCard(row,{evaluation=false}={}){
+ const copies=[...(row.attempts||[]).map(a=>link(studentAttemptLabel(a),'/suivi.html?attempt='+enc(a.id))),...(row.workSubmissions||[]).map(s=>link('Copie de séance','/work-receipt.html?id='+enc(s.id)))].join('');
+ return `<article class="card pad student-session-card"><div class="student-card-heading"><div>${SessionIdentity(row)}<div class="student-card-meta">${row.date?`<time datetime="${esc(row.date)}">${esc(when(row.date))}</time>`:''}<span class="pill">${esc(evaluation?row.status:row.state)}</span>${!evaluation&&row.availability!=='open'?`<span class="pill">${esc(row.status)}</span>`:''}</div></div>${link(row.action,'/today?assignment='+enc(row.id),true)}</div>${evaluation?`<p class="muted">${row.result?.status==='formative'?'Évaluation formative':'Évaluation diagnostique'}</p>`:''}${copies?`<div class="student-card-links">${copies}</div>`:''}${evaluation?(row.result?`<div class="student-card-result">${renderStudentResult(row.result)}</div>`:(row.attempts||[]).some(a=>a.submissionId)?StudentHubState({kind:'unpublished'}):'<p class="muted">Aucun résultat disponible pour le moment.</p>'):''}${(row.reprises||[]).map(r=>`<div class="notice"><strong>${r.status==='completed'?'Reprise réalisée':'À reprendre'}</strong><p>${esc(r.reason)}</p>${link('Ouvrir l’activité','/today?assignment='+enc(row.id)+'&activity='+enc(r.activityId))}</div>`).join('')}</article>`;
+}
+export const StudentEvaluationCard=row=>StudentSessionCard(row,{evaluation:true});
+export function StudentCompetencyCard(c,{observations='',history='',coverage=''}={}){
+ return `<article class="card pad student-competency-card"><p class="section-note">${esc(c.frameworkTitle)}${c.sourceVersion?' · '+esc(c.sourceVersion):''}</p>${competencyBadges({competencies:[{code:c.code,label:c.title}]})}<h2>${esc(c.title)}</h2>${c.expectedLevel?`<p>Attendu dans le référentiel : ${esc(c.expectedLevel)}</p>`:''}<div class="competency-summary"><p>Dernière observation<br><strong>${esc(c.latest?.grade||'Non observé')}</strong>${c.latest?` · ${esc(when(c.latest.workedAt))}`:''}</p><p>Niveau retenu<br><strong>${esc(c.retained?.grade||'Aucun niveau publié')}</strong></p></div>${c.retained?`<p>${esc(c.retained.reason)}</p>`:''}${coverage?`<p>${esc(coverage)}</p>`:''}${observations}${history}</article>`;
+}

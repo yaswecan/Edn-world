@@ -67,6 +67,8 @@ export function studentError(error, path = error.path || '') {
 export const testSummary = (passed,total) => `${passed} test${passed>1?'s':''} réussi${passed>1?'s':''} sur ${total}.`;
 
 export function studentResultStatus(result) {
+  if (result.status === 'published') return 'Résultat publié.';
+  if (result.status === 'formative') return 'Retour formatif disponible.';
   if (result.status === 'approved') return 'Correction validée.';
   if (result.score == null) return 'Correction en attente.';
   return result.status ? 'Résultat provisoire, à confirmer par le professeur.' : '';

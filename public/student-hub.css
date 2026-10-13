@@ -1,0 +1,62 @@
+/* Shell dimensions extend the existing lesson/brand tokens, including in Arcade. */
+:root{--hub-max:1440px;--hub-content:1120px;--hub-gap:24px}
+.student-hub-chrome{color-scheme:light;background:var(--bg);color:var(--ink);font:16px/1.65 Inter,Arial,sans-serif}
+.student-hub-chrome *{box-sizing:border-box}
+.student-hub-chrome .student-hub-header{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:80px;background:var(--paper);border-bottom:1px solid var(--line);padding:16px max(36px,calc((100vw - 1368px)/2))}
+.student-hub-chrome .lesson-brand{display:flex;align-items:center;gap:20px;min-width:0;text-decoration:none;color:var(--ink)}
+.student-hub-chrome .eden-logo{width:112px;height:auto;flex:none}
+.student-hub-chrome .lesson-brand-meta{display:grid;font-size:12px;line-height:1.5}
+.student-hub-chrome .student-hub-header>div{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-width:0}
+.student-hub-chrome .lesson-stamp{display:inline-flex;border-radius:7px;padding:6px 10px;background:var(--wash);color:var(--eden-strong);font-size:10px;font-weight:700;letter-spacing:.6px;line-height:1.5;overflow-wrap:anywhere}
+.student-hub-chrome .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid var(--line);border-radius:10px;min-height:48px;padding:12px 20px;background:var(--wash);color:var(--ink);font:600 14px/1.65 Inter,Arial,sans-serif;text-decoration:none;white-space:normal;cursor:pointer}
+.student-hub-chrome .student-hub-header .btn{font-size:11px;padding:8px 12px}
+.student-hub-chrome .student-hub-nav{display:flex;flex-wrap:wrap;gap:8px;max-width:var(--hub-max);margin:0 auto;padding:16px 28px}
+.student-hub-chrome .student-hub-nav .is-active{border-color:var(--eden-strong);color:var(--eden-strong);box-shadow:inset 0 -2px var(--eden-strong)}
+.student-hub-chrome .btn:hover{background:var(--paper)}
+.student-hub-chrome :is(a,button):focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.student-hub-content.tracking-page{max-width:var(--hub-content);padding:16px 28px 64px;min-width:0}
+.student-hub .student-hub-back{max-width:var(--hub-max);margin:0 auto;padding:0 28px 12px;font-size:13px}
+.student-hub-content>.student-hub-back{padding:0 0 12px}
+.student-hub .student-hub-content h1{margin:12px 0 24px}
+.student-hub .student-hub-content h2{margin:0 0 16px}
+.student-hub .student-hub-content h3{margin:16px 0 12px}
+.student-hub .card{min-width:0;overflow-wrap:anywhere}
+.student-hub .card.pad{padding:var(--hub-gap);border-radius:13px}
+.student-hub .session-identity{margin:0}
+.student-hub .session-identity h2{font-size:24px}
+.student-hub .session-competencies:empty{display:none}
+.student-hub .pill{font-size:12px;line-height:1.5;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.student-hub .student-card-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:var(--hub-gap);flex-wrap:wrap}
+.student-hub .student-card-heading>div{flex:1;min-width:0;flex-basis:280px}
+.student-hub .student-card-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0;color:var(--muted);font-size:13px}
+.student-hub .student-card-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.student-hub .student-hub-state p:last-child{margin-bottom:0}
+.student-hub .tracking-toolbar{background:var(--paper);border:1px solid var(--line);border-radius:13px;padding:var(--hub-gap);margin:0 0 24px}
+.student-hub .tracking-toolbar label{min-width:0;flex-basis:200px;font-size:13px}
+.student-hub .tracking-toolbar :is(input,select){min-height:48px;min-width:0}
+.student-hub .tracking-links{padding:0;margin:16px 0}
+.student-hub pre{max-width:100%;white-space:pre-wrap;overflow-wrap:anywhere}
+.student-hub .competency-summary{gap:24px;font-size:14px}
+.student-hub .competency-detail{border-color:var(--line)}
+.student-hub .student-work-actions,.student-hub .student-available-lessons,.student-hub .student-version-notice{max-width:var(--hub-max);margin:0 auto;padding:0 28px 16px}
+.student-hub .student-work-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px}
+.student-hub .student-version-notice{padding:20px 28px}
+@media(max-width:900px){.student-hub-chrome .student-hub-header{padding:16px 20px}.student-hub-chrome .student-hub-nav{padding:16px 20px}}
+@media(max-width:600px){
+ .student-hub-chrome .student-hub-header{padding:16px;gap:12px;flex-wrap:wrap}
+ .student-hub-chrome .lesson-brand{gap:12px}.student-hub-chrome .lesson-brand-meta{font-size:10px}
+ .student-hub-chrome .student-hub-nav{padding:12px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .student-hub-chrome .student-hub-nav .btn{padding:10px 8px;font-size:12px}
+ .student-hub-content.tracking-page{padding:12px 16px 40px}
+ .student-hub{--hub-gap:20px}.student-hub .student-hub-content h1{font-size:30px}.student-hub .session-identity h2{font-size:22px}
+ .student-hub .student-card-heading>.btn{width:100%}
+ .student-hub .student-work-actions,.student-hub .student-available-lessons,.student-hub .student-hub-workspace>.student-hub-back{padding-left:16px;padding-right:16px}
+}
+@media print{.student-hub-chrome,.student-hub-back,.student-work-actions{display:none}}
+
+@media(min-width:641px){
+ .world-arcade.has-student-hub .app{display:grid;grid-template-columns:var(--wa-sidebar) minmax(0,1fr)}
+ .world-arcade.has-student-hub .sidebar{position:sticky;top:0;height:100svh;grid-column:1;grid-row:1}
+ .world-arcade.has-student-hub .app-surface{margin-left:0;min-width:0;grid-column:2;grid-row:1}
+}
+.student-hub .student-card-result{margin-top:20px}.student-hub .student-session-card+p{margin-top:20px}

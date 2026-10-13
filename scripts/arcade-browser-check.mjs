@@ -95,7 +95,7 @@ try{
   assert.equal(await teacher.locator('link[href*="world-arcade"]').count(),0);await teacher.setViewportSize({width:390,height:844});assert.equal(await teacher.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await shot('15-professeur-mobile','teacher',teacher);await teacherContext.close();
  });
  await check('logout clears host session and no profile is reused for the next account',async()=>{
-  await visit('#reglages');await page.getByRole('button',{name:'Se déconnecter',exact:true}).click();await expect(page.locator('#account-slot [data-action=auth]')).toBeEnabled();await expect(page.locator('.cabinet')).toHaveCount(6);
+  await visit('#reglages');await page.locator('.student-hub-header').getByRole('button',{name:'Se déconnecter',exact:true}).click();await expect(page.locator('#account-slot [data-action=auth]')).toBeEnabled();await expect(page.locator('.cabinet')).toHaveCount(6);
   const result=await context.request.get(fixture.base+'/api/arcade/profile');assert.equal(result.status(),401);
   await login('student','student-b');await visit('#profil');await expect(page.getByLabel('AKA — ton pseudo',{exact:true})).toHaveValue('');
  });

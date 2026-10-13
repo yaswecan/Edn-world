@@ -1,3 +1,4 @@
+import {StudentHubHeader} from '../student-hub.js';
 import {cabinet, journeyView} from './game-views.js';
 import {randomUUID} from '../random-id.js';
 import {pixelText} from './identity.js';
@@ -10,7 +11,7 @@ const icon = name => `<svg class="icon" aria-hidden="true"><use href="#i-${name}
 const button = (label, action, extra = '') => `<button class="button" data-action="${action}" ${extra}>${label}</button>`;
 const avatar = p => `<img class="avatar" src="/world-arcade/assets/avatars/${/^(0[1-9]|1[0-5])$/.test(p.avatarId) ? p.avatarId : '01'}.webp" alt="" width="50" height="55">`;
 const labels = {arcade:'World Arcade', joueurs:'Joueurs', classement:'Classement', profil:'Mon espace', personnaliser:'Personnaliser', compte:'Mon compte', collection:'Mes badges', badges:'Grades', reglages:'Réglages'};
-const state = {account:null, bootstrap:null, route:'', revision:0, pending:false, search:'', page:1, pendingGame:null, game:null, space:null, collection:null, savedProfile:null, avatars:[], authEpoch:0, authBusy:false};
+const state = {account:null, hubSession:null, bootstrap:null, route:'', revision:0, pending:false, search:'', page:1, pendingGame:null, game:null, space:null, collection:null, savedProfile:null, avatars:[], authEpoch:0, authBusy:false};
 const prefKey = 'eden.world-arcade.preferences.v1';
 let stored = {};
 try { stored = JSON.parse(localStorage.getItem(prefKey) || '{}') || {}; } catch { /* Local preferences are optional. */ }
@@ -20,7 +21,7 @@ let privateRequests = new AbortController();
 const sessionChannel = typeof BroadcastChannel === 'function' ? new BroadcastChannel('tween-teach-session') : null;
 function clearPrivate() {
   privateRequests.abort(); privateRequests = new AbortController(); state.authEpoch++; state.revision++;
-  Object.assign(state, {account:null, bootstrap:null, space:null, collection:null, savedProfile:null, avatars:[], search:'', page:1, pendingGame:null, pending:false});
+  Object.assign(state, {account:null, hubSession:null, bootstrap:null, space:null, collection:null, savedProfile:null, avatars:[], search:'', page:1, pendingGame:null, pending:false});
   state.game?.port?.close(); state.game?.frame.remove(); state.game=null;
   $('#game-modal').close(); $('#game-host').replaceChildren(); $('#modal').close();
   $('#main-content').replaceChildren(); $('#toasts').replaceChildren(); modalFocus=null; accountSlots();
@@ -62,7 +63,7 @@ async function request(path, {method = 'GET', body} = {}) {
 }
 async function bootstrap() {
   state.bootstrap = null;
-  const data = await request('/api/arcade/bootstrap'); state.bootstrap = data; state.account = data.account; accountSlots();
+  const data = await request('/api/arcade/bootstrap'); state.bootstrap = data; state.account = data.account; state.hubSession=state.account?.role==='student'?await request('/api/session'):null; accountSlots();
 }
 function hostReturnPath() {
   if (state.account?.role === 'teacher') return '/teacher';
@@ -70,6 +71,8 @@ function hostReturnPath() {
   return lessonId && lessonId.length <= 500 ? '/today?lesson=' + encodeURIComponent(lessonId) : '/today';
 }
 function accountSlots() {
+  root.classList.toggle('has-student-hub',state.account?.role==='student');
+  $('#student-hub-host').innerHTML=state.account?.role==='student'?StudentHubHeader({session:state.hubSession||{user:state.account,worldArcadeEnabled:true},url:location.href}):'';
   const link = state.account ? `<details class="account-menu"><summary class="account-button" aria-label="Menu du compte">${avatar(state.account.profile)}<span class="account-name">${escape(state.account.profile.handle || 'Mon espace')}</span></summary><nav aria-label="Mon compte"><a href="#profil">Mon espace</a><a href="#personnaliser">Personnaliser</a><a href="#compte">Mon compte</a><button data-action="logout">Se déconnecter</button></nav></details>` : button('Se connecter', 'auth',state.authBusy?'disabled':'');
   $('#account-slot').innerHTML = link;
   $('#splash-account').innerHTML = `<button class="icon-button sound-toggle" data-action="sound" aria-label="Activer le son"></button>${link}`;
@@ -265,6 +268,7 @@ root.addEventListener('click', async event=>{
         catch(e){if(!e.stale){$('#modal .form-status').textContent=e.message;$$('#modal [data-action^="badge-"]').forEach(b=>b.disabled=false);}}break;
       }
       case 'close-modal': $('#modal').close(); break;
+      case 'refresh-student':
       case 'retry': await renderRoute({refresh:true}); break;
       case 'play': await launch(target.dataset.game, target.dataset.lesson); break;
       case 'next': state.page++; await renderRoute(); break;

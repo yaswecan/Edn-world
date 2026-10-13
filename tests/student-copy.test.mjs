@@ -48,6 +48,8 @@ test('results distinguish missing work, pending grading, zero and established as
   assert.ok(visible(renderStudentResult(result)).includes(`${score} / 20 · ${level}`));assert.deepEqual(result,copy);
  }
  assert.match(visible(renderStudentResult({score:15,level:'A2',status:'auto_corrected_to_review',feedback:'Teste aussi la limite.'})),/Résultat provisoire.*Teste aussi la limite/);
+ const published=visible(renderStudentResult({score:15,scoreMax:20,status:'published',feedback:'Tes conditions sont justes.'}));assert.match(published,/Résultat publié/);assert.doesNotMatch(published,/provisoire|Correction en attente/);assert.match(published,/15 \/ 20.*Tes conditions sont justes/);
+ assert.match(visible(renderStudentResult({score:null,grade:'EC',status:'formative'})),/Retour formatif disponible/);
  const missing=studentFeedback('Production absente dans la copie remise.');assert.equal(missing,'Aucune réponse rendue pour cet exercice.');
  assert.equal(studentFeedback('Explique ton schéma JSON et les tests du serveur.'),'Explique ton schéma JSON et les tests du serveur.');
 });
