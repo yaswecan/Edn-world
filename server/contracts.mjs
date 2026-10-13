@@ -28,6 +28,12 @@ diagnosticSchema.properties.rubric.minItems=1;
 diagnosticSchema.properties.policyVersion=str;
 diagnosticSchema.properties.expectations=obj({a1:str,a2:str});
 export const lessonSchema=obj({schemaVersion:{const:'1.0'},lessonId:identifier,lessonVersion:{type:'integer',minimum:1},classId:str,date:str,planEntryId:str,planVersion:{type:'integer'},sequence:str,title:str,skills:strings,objectives:strings,prerequisites:strings,reactivation:strings,diagnostic:diagnosticSchema,timeline:{type:'array',items:obj({blockId:str,minutes:num})},blocks:{type:'array',items:blockSchema},activities:{type:'array',items:activitySchema},slides:{type:'array',items:obj({title:str,body:str})},resources:strings,codeStation:{anyOf:[{type:'null'},obj({missionId:str,missionVersion:{type:'integer'},worldId:str,duration:num,required:bool,unlockAfter:str,completionRule:str})]},teacherGuide:str,studentFlow:strings,sourceVersions:obj({curriculumVersion:str,planVersion:{type:'integer'},previousLessonRunId:{type:['string','null']}})});
+for(const key of ['pedagogicalTitle','titleValidatedBy','titleValidatedAt'])lessonSchema.properties[key]={type:'string'};
+lessonSchema.properties.missionTitle={type:['string','null']};
+lessonSchema.properties.titleSource={enum:['generated','imported','validated']};
+lessonSchema.properties.identityRevision={type:'integer',minimum:0};
+lessonSchema.properties.identityNeedsReview={type:'boolean'};
+lessonSchema.properties.competencyRefs={type:'array',maxItems:100,items:{type:'object',additionalProperties:false,required:['competencyId'],properties:{competencyId:{type:'string'},frameworkVersionId:{type:'string'}}}};
 // Optional on saved lessons; generated deterministically from the approved catalogue.
 Object.assign(lessonSchema.properties.codeStation.anyOf[1].properties,{mapId:str,missionSignature:str});
 export const intentSchema=obj({classId:str,intent:{type:'string',minLength:1,maxLength:4000},targetDate:{type:['string','null']},constraints:strings,requestedChanges:{type:'array',items:obj({entryId:str,date:str,reason:str})},mode:{enum:['prepare','remediation','change_plan']}});

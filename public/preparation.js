@@ -1,3 +1,4 @@
+import {SessionIdentity} from './session-identity.js';
 import {randomUUID} from './random-id.js';
 import {escape as esc,renderLessonPage} from './lesson-renderer.js';
 import {installWorkshopInteractions} from './workshop-runtime.js';
@@ -147,7 +148,7 @@ async function showJob(){
  const review=job.decision,partial=job.preview?.completeness!=='candidate',guidance=preparationGuidance(job);
  const calls=job.callsTrace||[],detailStates=[...document.querySelectorAll('#job details[data-detail]')].map(d=>[d.dataset.detail,d.open]),choice=$('#session-choice')?.value,focused=$('#job').contains(document.activeElement)?document.activeElement.id:null,focusedDetail=$('#job').contains(document.activeElement)&&document.activeElement.matches('summary')?document.activeElement.closest('details[data-detail]')?.dataset.detail:null;
  const activity=renderPreparationActivity(job,activityOptions()),live=['running','retry_wait'].includes(job.status);
- $('#job').innerHTML=renderPreparationHeader(job,{activity:live?activity:''})+(live?'':activity)+`
+ $('#job').innerHTML=(job.identity?`<section class="card pad">${SessionIdentity(job.identity,{teacher:true})}</section>`:'')+renderPreparationHeader(job,{activity:live?activity:''})+(live?'':activity)+`
  ${job.lessonId&&!['queued','running','retry_wait','fixture'].includes(job.status)?`<section class="card pad preparation-output"><h3>Modifier et publier le brouillon</h3><p>Demandez des ajustements par consigne, relisez les changements puis préparez la publication.</p><a class="btn primary" href="/?editLesson=${encodeURIComponent(job.lessonId)}">Ouvrir l’éditeur du brouillon</a></section>`:''}
  ${job.lessonId&&guidance.action!=='open-preview'?`<section class="card pad preparation-output"><h3>${partial?'Un premier aperçu est disponible':'Votre brouillon est disponible'}</h3><p>${partial?'Ce contenu est encore incomplet. Il ne constitue pas une séance validée.':'Vous pouvez essayer les activités avant de publier la séance.'}</p><div class="actions"><button type="button" class="btn" id="open-preview">${partial?'Voir l’aperçu partiel':'Relire la séance'}</button></div></section>`:''}
  ${job.corpus?.available?`<div class="preparation-download"><a class="btn" href="/api/corpus/${encodeURIComponent(job.lessonId)}/download?versionId=${encodeURIComponent(job.corpus.versionId)}">Télécharger les supports${job.corpus.complete?'':' partiels'}</a>${job.corpus.complete?'':'<span>Le cours complet et ses vérifications ne sont pas encore terminés.</span>'}</div>`:''}

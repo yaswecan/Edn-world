@@ -1,3 +1,4 @@
+import {SessionIdentity,mountCompetencyPicker,competencyKey} from '../public/session-identity.js';
 import {Editor} from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
@@ -29,7 +30,8 @@ async function request(path,body,method='POST'){const response=await fetch(path,
 const current=()=>spec.blocks.find(b=>b.id===selected);
 function status(message,error){$('#save-state').textContent=message;$('#editor-error').textContent=error?.message||'';$('#conflict-actions').hidden=!writer?.conflict;}
 function checkpoint(key='structure'){const time=Date.now();if(key!==lastEdit||time-lastAt>600||key==='structure'){history.push(clone(spec));if(history.length>100)history.shift();future=[];}lastEdit=key;lastAt=time;}
-function changed(){spec.editorVersion=1;synchronizeSpec(spec);writer.changed();$('#undo').disabled=!history.length;$('#redo').disabled=!future.length;}
+function identityPreview(){const catalog=view.competencyCatalog||[];$('#editor-identity-preview').innerHTML=SessionIdentity({...spec,pedagogicalTitle:spec.title,competencies:catalog.filter(c=>(spec.competencyRefs||[]).some(r=>competencyKey(r)===competencyKey(c.ref)))},{metadata:true});}
+function changed(){identityPreview();spec.editorVersion=1;synchronizeSpec(spec);writer.changed();$('#undo').disabled=!history.length;$('#redo').disabled=!future.length;}
 function mutate(fn){checkpoint();fn();changed();draw();}
 function destroy(){for(const e of editors)e.destroy();editors=[];activeRich=null;}
 function nav(){
@@ -138,6 +140,7 @@ async function start(){
  view=await request(base+'/editor',undefined,'GET');spec=clone(view.spec);selected=spec.blocks[0]?.id;
  writer=new DraftWriter({read:()=>spec,token:view.token,write:(spec,token)=>request(base+'/editor',{spec,token},'PUT'),onState:(message,result,error)=>{if(result)view={...view,...result};status(message,error);}});
  $('#lesson-title').value=spec.title;$('#lesson-objectives').value=spec.objectives.join('\n');$('#teacher-guide').value=spec.teacherGuide;
+ $('#mission-title').textContent=spec.missionTitle?'Mission : '+spec.missionTitle:'';mountCompetencyPicker($('#editor-competencies'),{catalog:view.competencyCatalog||[],refs:spec.competencyRefs||[],onChange:refs=>{checkpoint('competencies');spec.competencyRefs=refs;changed();}});identityPreview();
  $('#back').href='/?editLesson='+encodeURIComponent(id);$('#publish').textContent=view.status==='published'?'Mettre à jour la séance':'Publier la séance';$('#published-note').hidden=view.status!=='published';
  bindText($('#lesson-title'),()=>spec.title,v=>spec.title=v,'title');bindText($('#lesson-objectives'),()=>spec.objectives.join('\n'),v=>spec.objectives=v.split('\n').filter(Boolean),'objectives');bindText($('#teacher-guide'),()=>spec.teacherGuide,v=>spec.teacherGuide=v,'guide');
  document.addEventListener('click',event=>{const selection=event.target.closest('[data-select]');if(selection){selected=selection.dataset.select;lastEdit='';draw();focusSection();return;}const el=event.target.closest('[data-edit]');if(el){event.preventDefault();Promise.resolve(action(el.dataset.edit,el)).catch(e=>status(writer.dirty?'Échec de l’enregistrement':'Action interrompue',e));}});

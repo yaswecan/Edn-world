@@ -314,3 +314,83 @@ Les baselines sont dans `tests/visual/baselines/darwin/`. La configuration utili
 - Les réponses ouvertes et les résultats des jeux restent soumis à validation professeur. Le moteur SQL utilise SQLite, pas tous les dialectes ; les tests HTML/CSS vérifient la structure, pas un rendu pixel à pixel. Les formules JavaScript non comprises gardent le statut de relecture.
 
 Préparation pédagogique V2 : [recette et limites](docs/quality/acceptance-v2.md), [audit du cas interrompu](docs/quality/audit-v2.md), [décision d’architecture](docs/quality/architecture-v2.md). `npm run preview:quality:v2` ouvre la base de recette isolée sur le port 4182 sans appel IA automatique.
+
+## Intitulés pédagogiques et compétences des séances
+
+L’identité officielle est portée par l’agrégat `lessons` : `pedagogicalTitle`, `missionTitle`, `titleSource` (`generated`, `imported`, `validated`), `titleValidatedBy`, `titleValidatedAt`, `identityRevision`, `identityNeedsReview` et `competencyRefs`. `title` reste un alias de compatibilité. Les champs sont des ajouts au JSON existant ; aucune table ni colonne SQL supplémentaire. Le contrat `DailyLessonSpec` accepte ces champs optionnels pour les snapshots, sans invalider les anciennes versions.
+
+L’audit a identifié `lessons.title` et `lesson_versions.spec.title` comme sources concurrentes. Les missions possèdent déjà leurs propres titres dans `game_missions` et les activités. Les liens d’évaluation restent `lessonId`, `lessonVersionId`, `runId` et `assignmentId` ; aucune copie de titre n’est ajoutée aux résultats. Les versions, exercices, copies, notes et progressions restent inchangés lors d’une correction d’identité. Les projections relisent l’identité courante même lorsque l’élève consulte une ancienne version de contenu.
+
+Les compétences sont résolues depuis `competency_n3` par identifiant, ou depuis `framework_versions` par couple `{frameworkVersionId, competencyId}`. Les codes, libellés, parents et critères proviennent du référentiel enregistré. Les anciennes valeurs `spec.skills` servent seulement à retrouver une référence existante exacte ; les associations choisies par le professeur, y compris une sélection vide, font ensuite autorité pour les pastilles. Les grilles d’évaluation historiques restent indépendantes.
+
+Le titre est construit depuis le créneau, les objectifs et notions du contenu, le cahier de texte à la date choisie et la fiche préparatoire. Le cahier de texte est désormais conservé dans `curriculum_versions.journal` ; les anciens imports restent lisibles depuis leur contexte sauvegardé. Les titres professeur sont protégés lors des régénérations, adaptations et imports. La préparation IA reçoit une règle explicite de rédaction et de relecture du titre. Une proposition sans éléments pédagogiques suffisants reste signalée « à valider ».
+
+Dans le détail d’une séance, **Intitulé et compétences** permet de modifier et valider le titre, consulter la mission, rechercher et associer des compétences, et prévisualiser la carte élève. Cette action reste disponible pour une séance terminée. L’éditeur de contenu propose le même sélecteur et le même aperçu. L’enregistrement de l’identité est immédiatement commun aux vues ; la publication séparée du contenu conserve son fonctionnement. Les contrôles de rôle, classe et révision empêchent les modifications non autorisées et les écrasements concurrents.
+
+`SessionIdentity` et `competencyBadges` servent les cartes professeur, Mes séances, les évaluations, les vues de suivi, la préparation et la séance du jour. Le bouton `+N` déplie les autres compétences au clavier ou au toucher. Le professeur accède au libellé, au parent et aux critères ; l’élève voit une présentation compacte. L’API conserve `Cache-Control: no-store`, les recherches utilisent l’identité actuelle et les corpus sont recompilés si l’identité a changé.
+
+Les archives `.tweenteach.zip` conservent le format v1 avec un champ optionnel `sessionIdentity` : titre, mission, provenance et définitions de compétences nécessaires à leur résolution dans la destination. Le lecteur accepte les anciens paquets sans ce champ. Un conflit de référentiel bloque le transfert ; un titre et des associations validés dans la destination sont conservés, avec avertissement dans l’aperçu. Les applications expéditrice et destinataire doivent utiliser cette version pour échanger la nouvelle extension.
+
+Fichiers concernés :
+
+| Ensemble | Fichiers |
+| --- | --- |
+| Identité et migration | `server/session-identity.mjs`, `server/session-identity-migration.mjs`, `server/session-identity-transfer.mjs`, `scripts/migrate-session-identity.mjs` |
+| API et suivi | `server/app.mjs`, `server/student-tracking.mjs`, `server/student-tracking-routes.mjs`, `server/competency-routes.mjs`, `server/publication-readiness.mjs` |
+| Édition et génération | `server/lesson-editor.mjs`, `server/domain.mjs`, `server/generator.mjs`, `server/adaptation.mjs`, `server/lesson-revision.mjs`, `server/importer.mjs`, `server/contracts.mjs`, `schemas/DailyLessonSpec.json` |
+| Préparation IA | `server/pedagogy/context.mjs`, `server/pedagogy/jobs.mjs`, `server/pedagogy/prompts.mjs`, `server/pedagogy/routes.mjs` |
+| Exports | `server/corpus.mjs`, `server/lesson-package.mjs`, `server/lesson-transfer.mjs`, `server/lesson-transfer-content.mjs` |
+| Interface | `public/session-identity.js`, `public/app.js`, `public/student-tracking.js`, `public/preparation.js`, `public/lesson-renderer.js`, `public/style.css`, `public/lesson-editor.html`, `editor/lesson-editor-entry.js`, `public/lesson-editor.bundle.js` |
+| Vérifications et commandes | `tests/session-identity.test.mjs`, `tests/lesson-editor.test.mjs`, `tests/lesson-transfer.test.mjs`, `scripts/session-identity-browser-check.mjs`, `package.json`, `README.md` |
+
+### Migration contrôlée
+
+La simulation est en lecture seule, y compris sur une ancienne base sans les dernières tables. Le plan enregistre les valeurs avant/après et une empreinte de chaque séance. L’application du plan est transactionnelle, ne traite que les lignes `ready`, refuse une séance modifiée depuis la simulation et inscrit un audit. Une nouvelle exécution ne modifie pas les séances déjà traitées. Les sauvegardes contiennent des données privées et restent dans `.data`, hors Git.
+
+```sh
+# Simulation locale, puis inspection du fichier avant application.
+npm run migrate:identity -- --db .data/eden.sqlite --report .data/identity-plan.json
+npm run migrate:identity -- --db .data/eden.sqlite --apply-plan .data/identity-plan.json
+
+# Retour arrière des seuls champs d’identité ; refuse les éditions ultérieures.
+npm run migrate:identity -- --db .data/eden.sqlite --rollback .data/identity-plan.json
+```
+
+Une sauvegarde SQLite complète est produite par `VACUUM INTO` avant toute écriture. PostgreSQL produit une sauvegarde JSON des lignes dans une transaction de lecture cohérente ; un snapshot natif de l’hébergeur peut aussi être conservé. Le retour arrière normal utilise le plan, sans restaurer toute la base ni supprimer les travaux créés depuis la migration. Une restauration complète de sauvegarde doit être effectuée hors ligne selon la procédure de l’établissement.
+
+Le 13 octobre 2026, les deux bases locales utilisées par les lanceurs ont été auditées puis migrées :
+
+- `.data/eden.sqlite` : simulation de 2 séances, 2 appliquées, 0 à valider ; seconde simulation vide. Plan : `.data/session-identity-preview.json`, résultat : `.data/session-identity-apply-result.json`, sauvegarde : `.data/session-identity-before.sqlite`.
+- `.data/chatgpt-personal/courses.sqlite` : simulation de 5 séances, 4 appliquées, 1 titre professeur conservé. Plan : `.data/chatgpt-personal/session-identity-plan.json`, résultat : `.data/chatgpt-personal/session-identity-result.json`, sauvegarde : `.data/chatgpt-personal/session-identity-before.sqlite`.
+- Préservation vérifiée sur les 61 et 74 tables existantes autres que `lessons` et `audit_log`, avec conservation des identifiants. Rapports : `.data/session-identity-preservation.json` et `.data/chatgpt-personal/session-identity-preservation.json`.
+- Retour arrière exécuté sur une copie isolée : `.data/session-identity-rollback-result.json`. Les bases actives restent migrées. Les bases de démonstration et les anciennes sauvegardes ne sont pas migrées.
+
+Le titre à valider est **« Sélecteurs CSS : atteindre la bonne cible »**, séance `A1:R-260914-prep_26fd8740-9397-4753-a7a1-d7ca3c222237` dans la base personnelle. Son édition professeur a été retrouvée dans l’historique et conservée. Proposition à examiner : **« CSS : sélecteurs de type, de classe et d’identifiant, combinaisons et descendance, pseudo-classes de position, cascade »**. La séance « Vise la bonne carte » n’existe pas dans ces bases ; son renommage depuis le contenu est couvert par un test dédié.
+
+### Vérification et livraison
+
+```sh
+npm ci
+npm test
+npm run test:identity:browser
+npm run build
+```
+
+Résultat de la recette du 13 octobre 2026 : **381 tests réussis, 2 ignorés, aucun échec** sur la suite complète ; build et contrôles de syntaxe réussis ; recette Chrome réussie.
+
+La recette Chrome utilise exclusivement une base en mémoire et des comptes synthétiques. Elle couvre les pastilles, le détail des compétences, le retrait et l’ajout d’associations, les aperçus, l’éditeur et les vues élève sur mobile. Rapport et captures : `test-results/session-identity/`. La suite couvre aussi la génération, les rôles et classes, les éditions concurrentes, l’import Excel, les archives v1, les transferts entre classes, les titres protégés, la migration et le retour arrière.
+
+Pour la base déployée, après validation explicite et configuration de `EDEN_MIGRATION_DATABASE_URL` dans `.env.migration.local` :
+
+```sh
+# Simulation uniquement ; inspecter le plan et les lignes à valider.
+node --env-file=.env.migration.local scripts/migrate-session-identity.mjs --postgres --report .data/identity-production-plan.json
+
+# Après validation du plan : sauvegarde automatique, puis application.
+node --env-file=.env.migration.local scripts/migrate-session-identity.mjs --postgres --apply-plan .data/identity-production-plan.json
+
+# Déploiement, uniquement après validation explicite.
+npx vercel@62.4.0 --prod
+```
+
+Aucune connexion de migration PostgreSQL, génération IA payante ou publication en production n’a été effectuée pour cette évolution.

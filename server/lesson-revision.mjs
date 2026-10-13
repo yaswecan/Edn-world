@@ -143,7 +143,7 @@ export async function applyLessonRevision(store,id,input,actor){
   if(proposal.status==='applied'&&lesson.versionId===proposal.appliedVersionId)return lesson;
   requireValue(proposal.status==='ready'&&proposal.version===input.version,'Proposition indisponible ou obsolète.');
   await editableDraft(tx,id,input.version,actor);
-  const edited=await editLesson({transaction:fn=>fn(tx)},id,{version:input.version,spec:proposal.spec,reason:proposal.prompt},actor);
+  const edited=await editLesson({transaction:fn=>fn(tx)},id,{version:input.version,spec:proposal.spec,reason:proposal.prompt,generated:true},actor);
   proposal.status='applied';proposal.appliedVersionId=edited.versionId;proposal.appliedAt=now();await tx.put('lesson_adaptations',proposal);
   return edited;
  });

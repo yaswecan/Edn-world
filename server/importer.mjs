@@ -55,7 +55,7 @@ export async function applyImport(store,importId,actor,{confirmed=false}={}) {
  if((current?.version||0)!==report.baseVersion)fail(409,'La planification a changé. Refaire la prévisualisation.');
  if(report.conflicts.length)fail(409,'Conflits avec des modifications EDEN : corrigez le fichier avant réimport.',report.conflicts);
  const p=report.parsed,version=(current?.version||0)+1,cv=uid('curriculum');
- await tx.insert('curriculum_versions',{id:cv,classId:actor.classId,version,sha256:p.sha256,criteria:p.criteria,sequences:p.sequences,sheets:p.sheets});
+ await tx.insert('curriculum_versions',{id:cv,classId:actor.classId,version,sha256:p.sha256,criteria:p.criteria,sequences:p.sequences,journal:p.journal,sheets:p.sheets});
  for(const c of p.criteria) {const row={...c,id:`${actor.classId}:${c.id}`,classId:actor.classId,version,curriculumVersion:cv};if(await tx.get('competency_n3',row.id))await tx.put('competency_n3',row);else await tx.insert('competency_n3',row);}
  for(const s of p.sequences)await tx.insert('sequence_versions',{...s,id:`${actor.classId}:${s.id}:v${version}`,sequenceId:s.id,classId:actor.classId,version});
  for(const id of report.diff.removed)await tx.remove('plan_entries',`${actor.classId}:${id}`);

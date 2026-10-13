@@ -1,3 +1,4 @@
+import {importSessionIdentity,checkSessionIdentity} from './session-identity-transfer.mjs';
 import {checkPedagogy,importPedagogy} from './competency-transfer.mjs';
 import {distributeRun} from './student-tracking.mjs';
 import {randomUUID} from 'node:crypto';
@@ -36,13 +37,15 @@ export async function readTransfer(store,id,actor){
 export async function exportLessons(store,ids,actor){
  authorize(actor);requireValue(Array.isArray(ids)&&ids.length>0&&ids.length<=LIMITS.lessons&&new Set(ids).size===ids.length,'Sélectionnez de 1 à 50 séances différentes.');
  const versions=new Map();
- for(const id of ids){const lesson=await scoped(store,'lessons',id,actor);versions.set(id,lesson.versionId);if(!(await store.list('corpus_packages',actor.classId)).some(p=>p.lessonVersionId===lesson.versionId))await compileCorpus(store,id,actor);}
+ for(const id of ids){const lesson=await scoped(store,'lessons',id,actor);versions.set(id,{versionId:lesson.versionId,identityRevision:lesson.identityRevision||0});await compileCorpus(store,id,actor);}
  const files=new Map();
- const lessons=await store.transaction(async tx=>{await tx.lockTables();const rows=[];for(const id of ids){const lesson=await scoped(tx,'lessons',id,actor);if(lesson.versionId!==versions.get(id))fail(409,'Une séance a changé pendant la préparation de l’archive. Relancez l’export.');rows.push(await captureLesson(tx,lesson,actor,files));}return rows;});
+ const lessons=await store.transaction(async tx=>{await tx.lockTables();const rows=[];for(const id of ids){const lesson=await scoped(tx,'lessons',id,actor);if(lesson.versionId!==versions.get(id).versionId||(lesson.identityRevision||0)!==versions.get(id).identityRevision)fail(409,'Une séance a changé pendant la préparation de l’archive. Relancez l’export.');rows.push(await captureLesson(tx,lesson,actor,files));}return rows;});
  for(const l of lessons)validatePayload(l.payload,files);
  const {bytes,manifest}=await encodePackage(lessons,files);
  return store.transaction(async tx=>{await cleanup(tx,actor);const t=await tx.insert('lesson_transfers',{id:uid('export'),classId:actor.classId,actorId:actor.id,kind:'export',bytes:bytes.length,sha256:sha256(bytes),chunks:Math.ceil(bytes.length/LIMITS.chunk),expiresAt:ttl(),sealed:true});for(let i=0;i<t.chunks;i++){const chunk=bytes.subarray(i*LIMITS.chunk,(i+1)*LIMITS.chunk);await tx.insert('lesson_transfer_chunks',{id:`${t.id}:${i}`,classId:actor.classId,transferId:t.id,index:i,sha256:sha256(chunk),base64:chunk.toString('base64')});}return {...transferSummary(t),filename:`seances-${manifest.packageId.slice(0,8)}.tweenteach.zip`,external:[...new Set(lessons.flatMap(l=>l.payload.external))],count:lessons.length};});
 }
+// Generated PDFs and manifests can be rebuilt after an identity change.
+const transferredRevision=payload=>contentFingerprint({...payload,corpus:null});
 const linkId=(classId,portableId)=>fingerprint([classId,portableId]);
 async function matchLesson(tx,source,actor){
  const mapping=await tx.get('lesson_transfer_links',linkId(actor.classId,source.portableId));
@@ -100,6 +103,8 @@ async function analyze(tx,pack,actor,choicesInput,{forcedTarget=null,capabilityI
   let target=choice.action==='replace'?await scoped(tx,'lessons',choice.targetId,actor):null;
   const blockers=[],warnings=[];let current=null,proposal=null,identical=false;
   try{
+   await checkSessionIdentity(tx,actor,source.payload.sessionIdentity);
+   if(target?.titleSource==='validated')warnings.push('L’intitulé et les compétences validés localement seront conservés.');
    warnings.push(...await checkPedagogy(tx,actor,source.payload.pedagogy));
    const caps=validatePayload(source.payload,pack.files);warnings.push(...source.payload.external.map(u=>`Lien externe conservé : ${u}`));blockers.push(...capabilityIssues.filter(i=>caps.includes(i.capability)).map(i=>i.message));
    if(target){
@@ -108,7 +113,8 @@ async function analyze(tx,pack,actor,choicesInput,{forcedTarget=null,capabilityI
     if(!['draft','published'].includes(target.status))blockers.push('Cette séance est clôturée. Ajoutez une préparation distincte.');
     await assertIdle(tx,target,actor);
     current=(await captureLesson(tx,target,actor,new Map(),{identity:false})).payload;
-    identical=contentFingerprint(current)===source.revision;
+    const currentRevision=contentFingerprint(current),link=await tx.get('lesson_transfer_links',linkId(actor.classId,source.portableId));
+    identical=currentRevision===source.revision||link?.lessonId===target.id&&link.sourceRevision===source.revision&&link.destinationRevision===transferredRevision(current);
    }
    proposal=await proposedLesson(tx,source,choice,target,actor,pack.files);
    if(target?.status==='published'&&!identical)blockers.push(...proposal.quality.checks.filter(c=>!c.ok).map(c=>c.message));
@@ -161,23 +167,24 @@ export async function applyTransfer(store,id,input,actor){
    if(content.mission&&!await tx.get('game_missions',content.mission.id))await tx.insert('game_missions',content.mission);
    const matched=await matchLesson(tx,source,actor),portableId=target?.portableId||(row.action==='add'&&matched?randomUUID():source.portableId);
    const lesson={...target,id:proposal.id,classId:actor.classId,authorId:target?.authorId||actor.id,portableId,version,versionId,date:proposal.date,title:content.spec.title,planEntryId:proposal.entry?.id||'',status:target?.status||'draft',provider:'transfer',quality:proposal.quality,qualityRequired:source.payload.preparation.incomplete||source.payload.preparation.requiresReview&&!choice.reviewed,preparationState:source.payload.preparation.incomplete?'incomplete':'teacher_draft',transferContext:source.payload.context,transferPreparation:source.payload.preparation,transferReview:choice.reviewed?{actorId:actor.id,at:now()}:null};
+   const identity=await importSessionIdentity(tx,actor,source.payload.sessionIdentity,lesson,content.spec,target);Object.assign(lesson,identity,{title:identity.pedagogicalTitle});Object.assign(content.spec,identity,{title:identity.pedagogicalTitle});
    delete lesson.editorDraftVersionId;delete lesson.qualityJobId;delete lesson.pedagogicalValidation;delete lesson.diagnosticVersionId;delete lesson.teacherReview;delete lesson.agentRunId;
    await tx.insert('lesson_versions',{id:versionId,classId:actor.classId,lessonId:lesson.id,version,spec:content.spec,designContract:source.payload.designContract,transferSourceIds:content.documents.map(d=>d.id),previousVersionId:target?.versionId||null,authorId:actor.id,reason:'Import de préparation professeur'});
    await importPedagogy(tx,actor,await tx.get('lesson_versions',versionId),source.payload.pedagogy);
    const files=source.payload.corpus.files.map(file=>({...file,base64:pack.files.get(file.sha256).toString('base64')})),corpusId=uid('corpus');
-   if(files.length)await tx.insert('corpus_packages',{id:corpusId,classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,version,complete:source.payload.corpus.complete,files,manifest:{schemaVersion:2,lessonId:content.spec.lessonId,lessonVersionId:versionId,lessonVersion:version,classId:actor.classId,generatedAt:now(),completeness:source.payload.corpus.complete?'complete':'partial',missing:source.payload.corpus.complete?[]:['Préparation source incomplète.'],files:source.payload.corpus.files}});
+   if(files.length)await tx.insert('corpus_packages',{id:corpusId,identityTitle:source.payload.sessionIdentity?.pedagogicalTitle||source.payload.spec.title,identityRevision:lesson.identityRevision||0,classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,version,complete:source.payload.corpus.complete,files,manifest:{schemaVersion:2,lessonId:content.spec.lessonId,lessonVersionId:versionId,lessonVersion:version,classId:actor.classId,generatedAt:now(),completeness:source.payload.corpus.complete?'complete':'partial',missing:source.payload.corpus.complete?[]:['Préparation source incomplète.'],files:source.payload.corpus.files}});
    if(target?.status==='published'){
     const publication=await tx.insert('lesson_publications',{id:uid('publication'),classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,version,publishedBy:actor.id,publishedAt:now(),corpusId});lesson.publicationId=publication.id;
     // Version separation prevents old work and arcade saves crediting new tasks.
     const run=await tx.insert('lesson_runs',{id:uid('lessonrun'),classId:actor.classId,lessonId:lesson.id,lessonVersionId:versionId,date:lesson.date,status:'planned',eligibleForDiagnostic:false,coveredSkills:[],coveredActivityIds:[],coveredContent:'',reactivatedPrerequisites:[],closedAt:null,previousRunId:target.runId});lesson.runId=run.id;await distributeRun(tx,run);
    }
    if(target)await tx.put('lessons',lesson);else await tx.insert('lessons',lesson);
-   if(row.action==='replace'||!matched)await txPutLink(tx,actor,source.portableId,lesson.id);
+   if(row.action==='replace'||!matched)await txPutLink(tx,actor,source.portableId,lesson.id,{sourceRevision:source.revision,destinationRevision:transferredRevision((await captureLesson(tx,lesson,actor,new Map(),{identity:false})).payload)});
    await tx.audit(actor,'lesson.transferred',lesson.id,{packageId:pack.manifest.packageId,version,action:row.action,revision:source.revision});
    result.lessons.push({id:lesson.id,title:lesson.title,status:row.action==='add'?'added':'replaced',version,publication:lesson.status});
   }
   await tx.insert('lesson_transfer_receipts',{id:receiptId,classId:actor.classId,actorId:actor.id,operationId,result});return result;
  });
 }
-async function txPutLink(tx,actor,portableId,lessonId){const id=linkId(actor.classId,portableId),record={id,classId:actor.classId,portableId,lessonId};if(await tx.get('lesson_transfer_links',id))await tx.put('lesson_transfer_links',record);else await tx.insert('lesson_transfer_links',record);}
+async function txPutLink(tx,actor,portableId,lessonId,revisions={}){const id=linkId(actor.classId,portableId),old=await tx.get('lesson_transfer_links',id),record={...(old?.lessonId===lessonId?old:{}),id,classId:actor.classId,portableId,lessonId,...revisions};if(old)await tx.put('lesson_transfer_links',record);else await tx.insert('lesson_transfer_links',record);}
 export async function removeTransfer(store,id,actor){return store.transaction(async tx=>{await ownedTransfer(tx,id,actor);for(const c of await tx.list('lesson_transfer_chunks',actor.classId))if(c.transferId===id)await tx.remove('lesson_transfer_chunks',c.id);await tx.remove('lesson_transfers',id);return {removed:true};});}

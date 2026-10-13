@@ -1,3 +1,4 @@
+import {exportSessionIdentity,validateSessionIdentity} from './session-identity-transfer.mjs';
 import {exportPedagogy,validatePortablePedagogy} from './competency-transfer.mjs';
 import {readFile,realpath} from 'node:fs/promises';
 import {resolve,sep,extname} from 'node:path';
@@ -66,6 +67,7 @@ async function portableLinks(value,tx,actor,files,external){
 }
 export async function captureLesson(tx,lesson,actor,files,{identity=true}={}){
  const version=await scoped(tx,'lesson_versions',lesson.versionId,actor),original=structuredClone(version.spec);
+ const sessionIdentity=await exportSessionIdentity(tx,lesson,original);original.title=sessionIdentity.pedagogicalTitle;
  validateReferences(original);
  const portableId=identity?await ensurePortable(tx,lesson):lesson.portableId;
  const spec=normalizedSpec(original),assets=[],documents=[],external=new Set();
@@ -88,7 +90,7 @@ export async function captureLesson(tx,lesson,actor,files,{identity=true}={}){
  const storedMission=original.codeStation?await scoped(tx,'game_missions',original.codeStation.missionId,actor):null;
  const mission=storedMission?pick(storedMission,missionFields):null;
  if(mission){const compiled=explorationForMission({...mission,id:'portable-mission',localId:storedMission.portableLocalId||storedMission.localId,version:1});mission.localId=storedMission.portableLocalId||storedMission.localId;requireValue(!original.codeStation.mapId||compiled.map.id===original.codeStation.mapId,'Carte de mission incohérente.');}
- const pack=(await tx.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===lesson.versionId);
+ const pack=(await tx.list('corpus_packages',actor.classId)).filter(c=>c.lessonVersionId===lesson.versionId).at(-1);
  const corpus={complete:!!pack?.complete,files:[]};
  if(pack)for(const file of pack.files){
   // This derived workbook contains learner identities and is never portable.
@@ -109,11 +111,12 @@ export async function captureLesson(tx,lesson,actor,files,{identity=true}={}){
  const gate=await publicationGate(tx,lesson,original);
  const preparation=lesson.transferPreparation||{requiresReview:!!lesson.qualityRequired,incomplete:lesson.qualityRequired===true&&(gate.some(c=>!c.ok)||!pack?.complete),state:lesson.preparationState||'teacher_draft'};
  const pedagogy=await exportPedagogy(tx,actor,version);
- const payload={...(pedagogy?{pedagogy}:{}),spec,context,assets:assets.sort((a,b)=>a.sha256.localeCompare(b.sha256)),documents:documents.sort((a,b)=>a.key.localeCompare(b.key)),mission,corpus,preparation,designContract:version.designContract||null,external:[]};
+ const payload={sessionIdentity,...(pedagogy?{pedagogy}:{}),spec,context,assets:assets.sort((a,b)=>a.sha256.localeCompare(b.sha256)),documents:documents.sort((a,b)=>a.key.localeCompare(b.key)),mission,corpus,preparation,designContract:version.designContract||null,external:[]};
  const portable=await portableLinks(payload,tx,actor,files,external);portable.external=[...external].sort();
  return {portableId,date:lesson.date,sequence:original.sequence,payload:portable};
 }
 export function validatePayload(payload,files){
+ validateSessionIdentity(payload.sessionIdentity);
  validatePortablePedagogy(payload.pedagogy);
  assertKeys(payload.context,['entry','criteria','diagnosticSource']);assertKeys(payload.context.entry,['duration','durationConfirmed','objective','activity']);
  requireValue(Array.isArray(payload.context.criteria)&&Array.isArray(payload.assets)&&Array.isArray(payload.documents)&&Array.isArray(payload.external),'Contexte ou ressources invalides.');

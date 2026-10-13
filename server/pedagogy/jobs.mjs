@@ -1,3 +1,4 @@
+import {deriveIdentity} from '../session-identity.mjs';
 import {uid,now,fail,requireValue,scoped} from '../store.mjs';
 import {generateLesson,resolveEntry} from '../generator.mjs';
 import {retrieveResources} from '../retrieval.mjs';
@@ -163,6 +164,7 @@ async function saveCandidate(store,job){
   requireValue(!job.lessonVersionId||lesson.versionId===job.lessonVersionId,'Le brouillon a été modifié depuis cette préparation. Aucun remplacement effectué.');
   requireValue((await tx.list('generation_candidates',job.classId)).filter(c=>c.jobId===job.id).length<1+job.config.maxRewrites,'Plafond de versions candidates atteint : une correction demande une nouvelle version, sans dépassement silencieux.');
   const version=lesson.version+1,versionId=`${lesson.id}:v${version}`;job.workingSpec.lessonVersion=version;
+  const identity=await deriveIdentity(tx,lesson,job.workingSpec);Object.assign(lesson,identity);Object.assign(job.workingSpec,identity,{title:identity.pedagogicalTitle});
   await tx.insert('lesson_versions',{id:versionId,classId:job.classId,version,lessonId:lesson.id,spec:job.workingSpec,authorId:job.actor.id,qualityJobId:job.id,preparationRevision:job.revision||1,designContract:job.designContract});
   await tx.insert('generation_candidates',{id:candidateId,classId:job.classId,jobId:job.id,revision:job.revision||1,lessonVersionId:versionId,iteration:job.iteration,spec:job.workingSpec,contentHash:candidateHash(job.workingSpec,job.sources),unitResponses:job.unitResponses||[],simulation:job.simulation});
   await freezeContent(tx,{classId:job.classId,event:job.iteration?'lesson.corrected':'lesson.candidate',eventId:versionId,subject:{kind:'lesson',lessonId:lesson.id,lessonVersionId:versionId},versions:{policy:job.policyVersion,contentSchema:job.workingSpec.version||1,documentContext:job.documentContext?.id||null,sourceVersions:job.sources.map(s=>({id:s.id,sha256:s.contentHash}))},files:[{path:'lesson.json',content:canonical(job.workingSpec),audience:'teacher'}]});

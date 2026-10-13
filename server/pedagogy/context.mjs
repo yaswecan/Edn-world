@@ -12,7 +12,7 @@ export async function preparationContext(store,actor,entry,plan){
  const evidence=(await store.list('lesson_runs',actor.classId)).filter(r=>['completed','partially_completed'].includes(r.status)&&r.closedAt&&r.date<entry.date).map(r=>({id:r.id,date:r.date,status:r.status,coveredSkills:r.coveredSkills||[],lessonVersionId:r.lessonVersionId}));
  const result={version:1,classId:actor.classId,date:entry.date,entryId:entry.id,planVersion:plan.version,workbookHash:curriculum?.sha256||null,planningSource:entry.workbookSource||{row:entry.sourceRow||null,limitation:'Ancien import sans adresses et liens détaillés ; réimport requis pour les reconstruire.'},
   curriculum:(curriculum?.criteria||[]).filter(c=>entry.skills.includes(c.n3_code)),sequences:sequences.map(s=>({id:s.id,title:s.title,objectives:s.objectives,prerequisites:s.prerequisites,tools:s.tools,source:s.source})),
-  completedLearning:evidence,diagnosticResults:null,uncertainties:[]};
+  journal:(curriculum?.journal||[]).filter(j=>j.date===entry.date),completedLearning:evidence,diagnosticResults:null,uncertainties:[]};
  if(sequenceIds.length&&!sequences.length)result.uncertainties.push('Fiche de séquence non retrouvée dans la version active ; aucun rapprochement par titre approchant.');
  // Older imports persist empty Excel rows as null. Skip them without compacting
  // the array: citations and session identities must keep the workbook row number.

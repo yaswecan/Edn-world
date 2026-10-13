@@ -1,3 +1,4 @@
+import {competencyBadges} from './session-identity.js';
 import {renderRich} from './rich-document.js';
 import {edenLogo} from './brand.js';
 import {componentInput} from './components.js';
@@ -21,7 +22,7 @@ function STEMIllustration(){return `<div class="lesson-illustration" aria-hidden
 const heroTitle=title=>{const words=String(title||'').trim().split(/\s+/),last=words.pop();return `${words.length?escape(words.join(' '))+' ':''}<span class="lesson-underlined">${escape(last)}</span>`;};
 
 export function ObjectiveCard(objectives){if(!objectives?.length)return '';return `<section class="lesson-objectives" data-component="ObjectiveCard"><div><h2>Objectifs</h2></div><ol>${objectives.map((o,i)=>`<li><span>${String(i+1).padStart(2,'0')}</span><p>${escape(o.replace(/^[A-Z]/,c=>c.toLowerCase()))}</p></li>`).join('')}</ol></section>`;}
-export function LessonHero(spec,b){return `<div data-component="LessonHero"><div class="lesson-hero"><div><h1 tabindex="-1">${heroTitle(spec.title)}</h1>${studentBlockContent(b)?.trim()?`<p class="lesson-lead">${escape(studentBlockContent(b))}</p>`:''}</div>${STEMIllustration()}</div>${ObjectiveCard(spec.objectives)}</div>`;}
+export function LessonHero(spec,b){return `<div data-component="LessonHero"><div class="lesson-hero"><div><h1 tabindex="-1">${heroTitle(spec.pedagogicalTitle||spec.title)}</h1>${spec.competencies?competencyBadges(spec):''}${studentBlockContent(b)?.trim()?`<p class="lesson-lead">${escape(studentBlockContent(b))}</p>`:''}</div>${STEMIllustration()}</div>${ObjectiveCard(spec.objectives)}</div>`;}
 export function SessionTimeline(spec,index,{preview=false,completed=[]}={}){
  if(spec.editorVersion===1)return `<nav class="lesson-timeline" aria-label="Étapes de la séance"><div class="lesson-kicker">TON PARCOURS</div>${spec.blocks.map((b,n)=>`<div class="lesson-phase ${n===index?'is-active':''}"><button type="button" data-action="${preview?'demo-step':'student-step'}" data-id="${n}" ${n===index?'aria-current="step"':''}><span>${String(n+1).padStart(2,'0')}</span> ${escape(b.title)}</button></div>`).join('')}</nav>`;
  const current=spec.blocks[index];if(!current)return '<p>Aucune section.</p>';const phase=phaseOf(current);
@@ -51,7 +52,7 @@ export function SummaryBlock(b){return `<section class="lesson-summary" data-com
 
 
 function renderEditedSection(spec,b,ctx){
- let html=`<header class="lesson-section-heading"><h1 tabindex="-1">${escape(b.type==='LessonHero'?spec.title:b.title)}</h1></header>`;
+ let html=`<header class="lesson-section-heading"><h1 tabindex="-1">${escape(b.type==='LessonHero'?(spec.pedagogicalTitle||spec.title):b.title)}</h1>${b.type==='LessonHero'&&spec.competencies?competencyBadges(spec):''}</header>`;
  for(const i of b.editor.items){
   if(i.kind==='rich')html+=`<div class="rich-content ${['hint','takeaways'].includes(i.role)?'lesson-flash':i.role==='check'?'lesson-check':''}">${renderRich(i.doc)}</div>`;
   if(i.kind==='board')html+=subjectBoard(i.board);

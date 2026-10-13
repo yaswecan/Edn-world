@@ -1,3 +1,4 @@
+import {sessionIdentity,presentSpec} from './session-identity.mjs';
 import {activeGrid} from './competency-service.mjs';
 import {assertPathStart,adaptiveAccessAllowed,refreshPublishedPaths} from './adaptive-paths.mjs';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
@@ -146,7 +147,8 @@ export async function assignmentSummary(tx,a,{teacher=false}={}){
  const status=initial?.submissionId?(['published','formative'].includes(result.status)?'Résultats disponibles':result.status==='results_pending'?'Résultats en préparation':teacher?'À corriger':'Rendu'):available!=='open'?(significant?'Fermée — travail non remis':'Fermée — aucun rendu'):teacher?'Aucun rendu':significant?'En cours':'À faire';
  const reprises=(await tx.list('learning_reprises',a.classId)).filter(r=>r.assignmentId===a.id&&r.learnerId===a.learnerId);
  const attemptRows=[];for(const t of attempts){const c=teacher&&t.submissionId?await tx.get('corrections',t.submissionId):null;attemptRows.push({id:t.id,number:t.number||1,mode:t.mode||'diagnostic',afterCorrection:!!t.afterCorrection,submissionId:t.submissionId||null,targetedOpen:!!t.targetedOpen,closedAt:t.closedAt||null,...(teacher?{correctionVersion:c?.version,correctionStatus:c?.status,grade:c?.grade??null,competencyResults:c?.competencyResults||[]}: {})});}
- return {id:a.id,learnerId:a.learnerId,lessonId:a.lessonId,runId:a.runId,title:v?.spec.title||'Contexte historique incomplet',date:a.date,notion:(v?.spec.skills||[]).join(' · '),state,status,availability:available,action:available!=='open'||done||works.length?'Revoir':significant?'Reprendre':'Commencer',provenance:teacher?a.provenance:undefined,attempts:attemptRows,pendingCount:teacher?attemptRows.filter(t=>t.submissionId&&t.correctionStatus!=='approved').length:undefined,reprises:reprises.map(r=>({id:r.id,activityId:r.activityId,reason:r.reason,status:p?.completed?.includes(r.activityId)?'completed':'open'})),workSubmissions:works.map(w=>({id:w.id,acceptedAt:w.acceptedAt})),result:['published','formative'].includes(result.status)?result:null};
+ const identity=await sessionIdentity(tx,await tx.get('lessons',a.lessonId),v?.spec);
+ return {id:a.id,learnerId:a.learnerId,lessonId:a.lessonId,runId:a.runId,...identity,date:a.date,notion:identity.competencies.map(c=>[c.code,c.label].filter(Boolean).join(' ')).join(' · '),state,status,availability:available,action:available!=='open'||done||works.length?'Revoir':significant?'Reprendre':'Commencer',provenance:teacher?a.provenance:undefined,attempts:attemptRows,pendingCount:teacher?attemptRows.filter(t=>t.submissionId&&t.correctionStatus!=='approved').length:undefined,reprises:reprises.map(r=>({id:r.id,activityId:r.activityId,reason:r.reason,status:p?.completed?.includes(r.activityId)?'completed':'open'})),workSubmissions:works.map(w=>({id:w.id,acceptedAt:w.acceptedAt})),result:['published','formative'].includes(result.status)?result:null};
 }
 export async function lessonContext(tx,actor,a,{attemptId}={}){
  const summary=await assignmentSummary(tx,a),v=await tx.get('lesson_versions',a.lessonVersionId);if(!v)fail(409,'Le contexte historique est incomplet. Contacte ton professeur.');
@@ -154,7 +156,7 @@ export async function lessonContext(tx,actor,a,{attemptId}={}){
  if(attemptId&&!attempt)fail(404,'Tentative introuvable.');
  const published=attempt?await resultFor(tx,attempt):null;
  const selectedVersion=attempt?await tx.get('lesson_versions',attempt.lessonVersionId):v;
- const spec=studentSpec(v.spec,{published:published?.status==='published'});if(attempt)spec.diagnostic=studentSpec(selectedVersion.spec,{published:published?.status==='published'}).diagnostic;
+ const spec=studentSpec(await presentSpec(tx,await tx.get('lessons',a.lessonId),v.spec),{published:published?.status==='published'});if(attempt)spec.diagnostic=studentSpec(selectedVersion.spec,{published:published?.status==='published'}).diagnostic;
  const path=a.adaptationProposalId?await tx.get('adaptation_proposals',a.adaptationProposalId):null;
  const writable=path?.state!=='reconsider'&&(summary.availability==='open'&&!summary.workSubmissions.length||attempt?.targetedOpen&&!attempt.closedAt)&&a.access==='allowed';
  return {assignmentId:a.id,readOnly:!writable,summary,lesson:{id:a.lessonId,title:spec.title,date:a.date,version:v.version,versionId:a.lessonVersionId,runId:a.runId,status:writable?'published':'completed',assignmentId:a.id,spec},attempt:safeAttempt(attempt),progress:await tx.get('learning_progress',a.progressId||`${actor.id}:${a.lessonVersionId}`),events:[],date:a.date,displayDate:a.date};

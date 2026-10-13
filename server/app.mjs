@@ -1,3 +1,4 @@
+import {identityRoutes,presentLesson,presentSpec} from './session-identity.mjs';
 import {competencyRoutes} from './competency-routes.mjs';
 import {trackingRoutes} from './student-tracking-routes.mjs';
 import {findAssignment,lessonContext,ownedAttempt,assertWritable,availability} from './student-tracking.mjs';
@@ -53,6 +54,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  });
  app.use(protectOrigin,authentication(store));app.use(express.json({limit:'2mb'}));
  trackingRoutes(app,store);
+ identityRoutes(app,store,teacher);
  competencyRoutes(app,store);
  databaseRoutes(app,store);
  lessonTransferRoutes(app,store);
@@ -71,7 +73,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  app.post('/api/setup',limitLogin,async(req,res)=>{if(process.env.NODE_ENV==='production')fail(403,'Configurez EDEN_TEACHER_PASSWORD côté serveur.');if(!['127.0.0.1','::1','::ffff:127.0.0.1'].includes(req.socket.remoteAddress))fail(403,'Initialisation locale uniquement.');const input=req.body;requireValue(typeof input.password==='string'&&input.password.length>=12,'Mot de passe : au moins 12 caractères.');const user=await store.transaction(async tx=>{if((await tx.list('teachers')).length)fail(409,'Installation déjà initialisée.');return tx.insert('teachers',{id:uid('teacher'),classId:'A1',role:'teacher',displayName:'Professeur',username:'professeur',passwordHash:passwordHash(input.password)});});res.json({user:await createSession(store,user,res)});});
  app.post('/api/login',limitLogin,async(req,res)=>{requireValue(['teacher','student'].includes(req.body.role),'Rôle invalide.');const role=req.body.role;const result=await store.transaction(async tx=>{const user=(await tx.list(role==='teacher'?'teachers':'learners')).find(u=>u.username===req.body.username&&u.classId===(req.body.classId||'A1'));if(!user||user.suspended||!passwordMatches(req.body.password,user.passwordHash))fail(401,'Identifiants incorrects.');return createSession(tx,{...user,role},res);});res.json({user:result});});
  app.post('/api/logout',loggedIn,async(req,res)=>{if(req.sessionId)await store.remove('sessions',req.sessionId);cookie(res,'');res.json({ok:true});});
- app.get('/api/dashboard',teacher,async(req,res)=>{const tables=['plan_entries','plan_versions','lessons','lesson_runs','learners','corrections','remediation_snapshots','competency_n3','evidence','imports','game_evidence'];const values=await Promise.all(tables.map(t=>store.list(t,req.user.classId)));const data=Object.fromEntries(tables.map((t,i)=>[t,values[i]]));const date=parisDate();res.json({date,todayLesson:await todayLesson(store,req.user.classId,publishedLessons(data.lessons),date),entries:data.plan_entries,planVersion:data.plan_versions.at(-1)?.version||0,lessons:data.lessons,runs:data.lesson_runs,learners:data.learners.map(l=>({...safeUser(l),hasAccess:!!l.passwordHash,driveFolderId:l.driveFolderId||null})),corrections:data.corrections,remediation:data.remediation_snapshots.at(-1)||null,criteria:data.competency_n3,evidence:data.evidence,gameEvidence:data.game_evidence,imports:data.imports.map(({parsed,...r})=>r),integrations:{openai:!!(process.env.OPENAI_API_KEY&&process.env.OPENAI_MODEL),drive:driveConfigured(),storage:store.kind}});});
+ app.get('/api/dashboard',teacher,async(req,res)=>{const tables=['plan_entries','plan_versions','lessons','lesson_runs','learners','corrections','remediation_snapshots','competency_n3','evidence','imports','game_evidence'];const values=await Promise.all(tables.map(t=>store.list(t,req.user.classId)));const data=Object.fromEntries(tables.map((t,i)=>[t,values[i]]));data.lessons=await Promise.all(data.lessons.map(l=>presentLesson(store,l)));const date=parisDate();res.json({date,todayLesson:await todayLesson(store,req.user.classId,publishedLessons(data.lessons),date),entries:data.plan_entries,planVersion:data.plan_versions.at(-1)?.version||0,lessons:data.lessons,runs:data.lesson_runs,learners:data.learners.map(l=>({...safeUser(l),hasAccess:!!l.passwordHash,driveFolderId:l.driveFolderId||null})),corrections:data.corrections,remediation:data.remediation_snapshots.at(-1)||null,criteria:data.competency_n3,evidence:data.evidence,gameEvidence:data.game_evidence,imports:data.imports.map(({parsed,...r})=>r),integrations:{openai:!!(process.env.OPENAI_API_KEY&&process.env.OPENAI_MODEL),drive:driveConfigured(),storage:store.kind}});});
  const reportSummary=report=>{const {parsed,...summary}=report;return {...summary,counts:parsed?{criteria:parsed.criteria.length,entries:parsed.entries.length,sequences:parsed.sequences.length,learners:parsed.learners.length}:null};};
  app.post('/api/imports/planning',teacher,express.raw({type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',limit:'20mb'}),async(req,res)=>{requireValue(Buffer.isBuffer(req.body),'Envoyez le fichier XLSX avec son type MIME.');res.json(reportSummary(await previewImport(store,req.body,req.user)));});
  app.post('/api/imports/planning/source',teacher,async(req,res)=>{const file=(await readdir('.')).find(n=>n.startsWith('Planification_A1_')&&n.endsWith('.xlsx'));requireValue(file,'Classeur source absent. Importez un fichier.');res.json(reportSummary(await previewImport(store,await readFile(file),req.user)));});
@@ -88,7 +90,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  app.post('/api/twin/intent',teacher,async(req,res)=>{const result=await interpretIntent(store,req.user,req.body);if(result.kind!=='prepare')return res.json(result);req.body={...req.body,entryId:result.entryId,mode:result.mode};return generate(req,res);});app.post('/api/lessons/generate',teacher,generate);
  app.get('/api/twin/runs/:id',teacher,async(req,res)=>res.json(await scoped(store,'agent_runs',req.params.id,req.user)));
  app.post('/api/twin/runs/:id/approve',teacher,async(req,res)=>{const run=await scoped(store,'agent_runs',req.params.id,req.user);res.json(await publishLesson(store,run.lessonId,req.user,req.body));});
- app.get('/api/lessons/:id',teacher,async(req,res)=>{const lesson=await scoped(store,'lessons',req.params.id,req.user);const {quality,version,pack}=await lessonQuality(store,lesson);res.json({...lesson,quality,spec:version.spec,corpusManifest:pack?.manifest||null});});
+ app.get('/api/lessons/:id',teacher,async(req,res)=>{const lesson=await scoped(store,'lessons',req.params.id,req.user);const {quality,version,pack}=await lessonQuality(store,lesson);res.json({...await presentLesson(store,lesson),quality,spec:await presentSpec(store,lesson,version.spec),corpusManifest:pack?.manifest||null});});
  app.put('/api/lessons/:id',teacher,async(req,res)=>res.json(await editLesson(store,req.params.id,req.body,req.user)));
  app.post('/api/lessons/:id/revisions/propose',teacher,async(req,res)=>res.json(await proposeLessonRevision(store,req.params.id,req.body||{},req.user,{...lessonRevision,chatgpt})));
  app.post('/api/lessons/:id/revisions/apply',teacher,async(req,res)=>res.json(await applyLessonRevision(store,req.params.id,req.body||{},req.user)));
@@ -97,7 +99,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  app.post('/api/lessons/:id/diagnostic/revise',teacher,async(req,res)=>res.json(await reviseDiagnostic(store,req.params.id,req.body||{},req.user)));
  app.post('/api/lessons/:id/adapt/propose',teacher,async(req,res)=>res.json(await proposeAdaptation(store,req.params.id,req.user,req.body)));
  app.post('/api/lessons/:id/adapt/apply',teacher,async(req,res)=>{const lesson=await applyAdaptation(store,req.params.id,req.user,req.body);await compileCorpus(store,lesson.id,req.user);res.json(lesson);});
- app.post('/api/lessons/:id/preview',teacher,async(req,res)=>{const lesson=await scoped(store,'lessons',req.params.id,req.user);requireValue(!req.body?.lessonVersionId||req.body.lessonVersionId===lesson.versionId,'La version de la séance a changé. Rechargez-la avant de l’essayer.');res.json(studentSpec((await store.get('lesson_versions',lesson.versionId)).spec));});
+ app.post('/api/lessons/:id/preview',teacher,async(req,res)=>{const lesson=await scoped(store,'lessons',req.params.id,req.user);requireValue(!req.body?.lessonVersionId||req.body.lessonVersionId===lesson.versionId,'La version de la séance a changé. Rechargez-la avant de l’essayer.');res.json(studentSpec(await presentSpec(store,lesson,(await store.get('lesson_versions',lesson.versionId)).spec)));});
  app.post('/api/lessons/:id/preview/test',teacher,async(req,res)=>{
   const lesson=await scoped(store,'lessons',req.params.id,req.user);requireValue(req.body?.lessonVersionId===lesson.versionId,'La version de la séance a changé. Rechargez l’aperçu.');
   const spec=(await scoped(store,'lesson_versions',lesson.versionId,req.user)).spec,task=[...spec.activities,...spec.diagnostic.tasks].find(a=>a.id===req.body.taskId&&['CodeEditor','TestRunner'].includes(a.type));
@@ -111,13 +113,13 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  app.get('/api/today',loggedIn,async(req,res)=>{
   if(req.user.role==='student'&&req.query.assignment){const context=await store.transaction(async tx=>lessonContext(tx,req.user,await findAssignment(tx,req.user,{assignmentId:req.query.assignment}),{attemptId:req.query.attempt}));return res.json({...context,availableLessons:[]});}
   const date=req.query.date||parisDate();requireValue(validDate(date),'Date invalide.');
-  let available=publishedLessons(await store.list('lessons',req.user.classId));
+  let available=await Promise.all(publishedLessons(await store.list('lessons',req.user.classId)).map(l=>presentLesson(store,l)));
   if(req.user.role==='student'){
    const assigned=new Set();for(const a of await store.list('lesson_assignments'))if(a.learnerId===req.user.id&&a.access==='allowed'&&await availability(store,a)!=='revoked')assigned.add(a.lessonId);
    available=available.filter(l=>assigned.has(l.id));
   }
   const current=await todayLesson(store,req.user.classId,available,date);
-  const availableLessons=available.map(({id,title,date})=>({id,title,date}));
+  const availableLessons=available.map(({id,title,pedagogicalTitle,competencies,date})=>({id,title,pedagogicalTitle,competencies,date}));
   const lesson=available.find(l=>l.id===(req.query.lesson||current.lessonId));
   if(req.query.lesson&&!lesson)fail(404,'Séance indisponible pour ta classe.');
   if(!lesson)return res.json({lesson:null,date,availableLessons,todayLesson:current});
@@ -125,7 +127,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
    const context=await store.transaction(async tx=>lessonContext(tx,req.user,await findAssignment(tx,req.user,{assignmentId:req.query.assignment,lessonId:lesson.id}),{attemptId:req.query.attempt}));
    return res.json({...context,displayDate:current.lessonId===lesson.id?date:context.date,todayLesson:current,availableLessons});
   }
-  res.json({lesson:{...lesson,spec:studentSpec((await store.get('lesson_versions',lesson.versionId)).spec)},availableLessons,todayLesson:current});
+  res.json({lesson:{...lesson,spec:studentSpec(await presentSpec(store,lesson,(await store.get('lesson_versions',lesson.versionId)).spec))},availableLessons,todayLesson:current});
  });
  app.post('/api/assessments/:id/test',student,async(req,res)=>{const code=req.body.code;requireValue(typeof code==='string'&&code.length<=10000,'Code limité à 10 000 caractères.');res.json(await store.transaction(async tx=>{const a=await ownedAttempt(tx,req.params.id,req.user,{write:true});requireValue(a.history.length<500,'Limite d’essais atteinte.');const spec=(await tx.get('lesson_versions',a.lessonVersionId)).spec,task=spec.diagnostic.tasks.find(t=>t.id===req.body.taskId&&['CodeEditor','TestRunner'].includes(t.type));requireValue(task,'Exercice diagnostique inconnu.');let result;try{result=await testActivityCode({...task,tests:task.publicTests||[]},code);}catch{result={ok:false,pending:true,status:'technical_incident',logs:['Incident technique : aucun niveau de compétence déduit.'],error:'Exécution indisponible.'};}const event={timestamp:now(),type:'code_run',payload:{taskId:req.body.taskId,code,result}};a.history.push(event);a.firstAttempt[req.body.taskId]??=event;a.lastAttempt[req.body.taskId]=event;a.executions++;await tx.put('assessment_attempts',a);return result;}));});
  app.get('/api/teacher/assessments/:id/submissions',teacher,async(req,res)=>res.json((await store.list('submissions',req.user.classId)).filter(s=>s.lessonId===req.params.id)));

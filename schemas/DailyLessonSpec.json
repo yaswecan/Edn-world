@@ -1300,6 +1300,54 @@
       ],
       "additionalProperties": false
     },
+    "pedagogicalTitle": {
+      "type": "string"
+    },
+    "titleValidatedBy": {
+      "type": "string"
+    },
+    "titleValidatedAt": {
+      "type": "string"
+    },
+    "missionTitle": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "titleSource": {
+      "enum": [
+        "generated",
+        "imported",
+        "validated"
+      ]
+    },
+    "identityRevision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "identityNeedsReview": {
+      "type": "boolean"
+    },
+    "competencyRefs": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "competencyId"
+        ],
+        "properties": {
+          "competencyId": {
+            "type": "string"
+          },
+          "frameworkVersionId": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "sourceNotes": {
       "type": "array",
       "items": {

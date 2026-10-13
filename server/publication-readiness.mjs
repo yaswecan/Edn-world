@@ -1,3 +1,4 @@
+import {sessionIdentity} from './session-identity.mjs';
 import {scoped,requireValue,fail,now} from './store.mjs';
 import {compileCorpus} from './corpus.mjs';
 import {lessonQuality} from './domain.mjs';
@@ -44,5 +45,5 @@ export async function preparePublication(store,id,input,actor){
   action:c.id==='independent_review'||c.id==='corpus'&&lesson.qualityRequired?'preparation':c.id==='plan_version'||c.id==='plan_identity'||c.id==='source'?'regenerate':'edit',
   detail:c.id==='independent_review'?(job?.status==='cancelled'?'Cette préparation a été annulée avant validation. Vous pouvez reprendre le brouillon sous votre responsabilité pédagogique ou lancer une nouvelle préparation.':job?.status==='blocked'?`La préparation est interrompue : ${job.reason||'relecture non terminée'}.`:'La relecture automatique de cette version n’est pas terminée. Vous pouvez publier après votre propre relecture.'):c.id==='plan_version'?'Le créneau ou le référentiel de cette séance a changé. Vérifiez que son contenu vous convient toujours.':c.id==='corpus'?'Les supports de cette version ne sont pas encore complets.':c.message
  }));
- return {lessonId:id,version:lesson.version,title:lesson.title,date:lesson.date,quality:result.quality,blockers,canTakeOver:canTakeOver(lesson,job),preparationId:job?.id||null,planEntryId:result.version.spec.planEntryId,studentPath:`/today?lesson=${encodeURIComponent(id)}`};
+ return {lessonId:id,version:lesson.version,...await sessionIdentity(store,lesson),date:lesson.date,quality:result.quality,blockers,canTakeOver:canTakeOver(lesson,job),preparationId:job?.id||null,planEntryId:result.version.spec.planEntryId,studentPath:`/today?lesson=${encodeURIComponent(id)}`};
 }

@@ -1,3 +1,5 @@
+import {identityKeys} from './session-identity.mjs';
+import {validateSessionIdentity} from './session-identity-transfer.mjs';
 import {validateEditorContent} from './lesson-editor-validation.mjs';
 import JSZip from 'jszip';
 import {inflateRawSync} from 'node:zlib';
@@ -30,7 +32,7 @@ export function validateReferences(spec){
 // Archive payloads contain portable placeholders. These destination properties
 // deliberately do not contribute to a pedagogical revision.
 export function normalizedSpec(original){
- const spec=structuredClone(original);
+ const spec=structuredClone(original);for(const key of identityKeys)delete spec[key];
  Object.assign(spec,{lessonId:'portable',lessonVersion:1,classId:'portable',date:'',planEntryId:'',planVersion:0,sequence:''});
  spec.sourceVersions={curriculumVersion:'',planVersion:0,previousLessonRunId:null};
  Object.assign(spec.diagnostic,{id:'portable-diagnostic',sourceLessonRunId:null,sourceLessonVersion:null});
@@ -102,7 +104,7 @@ export async function decodePackage(bytes){
   assertKeys(row,['portableId','title','date','sequence','path','sha256','revision','capabilities']);
   check(typeof row.portableId==='string'&&/^[a-zA-Z0-9_-]{16,100}$/.test(row.portableId)&&!identities.has(row.portableId),'Identité portable invalide ou dupliquée.');identities.add(row.portableId);
   check(row.path===`lessons/${row.portableId}.json`&&entries.has(row.path)&&sha256(entries.get(row.path))===row.sha256,'Séance absente ou altérée.');expected.add(row.path);
-  const payload=json(row.path);assertKeys(payload,['spec','context','assets','documents','mission','corpus','preparation','designContract','external','pedagogy']);validateReferences(payload.spec);
+  const payload=json(row.path);assertKeys(payload,['spec','context','assets','documents','mission','corpus','preparation','designContract','external','pedagogy','sessionIdentity']);validateSessionIdentity(payload.sessionIdentity);validateReferences(payload.spec);
   check(contentFingerprint(payload)===row.revision,'Empreinte pédagogique incohérente.');
   check(fingerprint(capabilities(payload.spec))===fingerprint(row.capabilities),'Capacités déclarées incohérentes.');
   check(typeof row.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(row.date)&&Number.isFinite(Date.parse(row.date+'T12:00:00Z'))&&new Date(row.date+'T12:00:00Z').toISOString().slice(0,10)===row.date,'Date pédagogique invalide.');

@@ -172,7 +172,20 @@ test('independent PostgreSQL engine atomically stores bytes, replacements and ro
 test('a fresh reviewed replacement can restore the same package after a later teacher edit',async()=>{
  const source=await fixture(),dest=await fixture();try{
   const t=await upload(dest,(await exported(source)).bytes),p=await preview(dest,t);const result=await apply(dest,t,p),id=result.lessons[0].id,lesson=await dest.store.get('lessons',id),spec=structuredClone((await dest.store.get('lesson_versions',lesson.versionId)).spec);spec.title='Later teacher edit';
-  await editLesson(dest.store,id,{version:1,spec,reason:'Amélioration après import'},dest.actor);const review=await preview(dest,t);assert.equal(review.rows[0].status,'matched');const replacement=await apply(dest,t,review);assert.equal(replacement.lessons[0].status,'replaced');assert.equal((await dest.store.get('lessons',id)).title,source.lesson.title);
+  await editLesson(dest.store,id,{version:1,spec,reason:'Amélioration après import'},dest.actor);const review=await preview(dest,t);assert.equal(review.rows[0].status,'matched');const replacement=await apply(dest,t,review);assert.equal(replacement.lessons[0].status,'replaced');assert.equal((await dest.store.get('lessons',id)).title,'Later teacher edit');
+ }finally{await close(source,dest);}
+});
+
+test('old v1 packages without session identity stay readable and repeated imports are idempotent',async()=>{
+ const source=await fixture(),dest=await fixture();try{
+  const decoded=await decodePackage((await exported(source)).bytes);
+  delete decoded.lessons[0].payload.sessionIdentity;
+  decoded.lessons[0].payload.spec.title='Vise la bonne carte';
+  const encoded=await encodePackage(decoded.lessons,decoded.files),t=await upload(dest,encoded.bytes),p=await preview(dest,t);
+  assert.equal(p.canApply,true);const result=await apply(dest,t,p),lesson=await dest.store.get('lessons',result.lessons[0].id);
+  assert.match(lesson.pedagogicalTitle,/^CSS :/);assert.equal(lesson.missionTitle,'Vise la bonne carte');
+  await exported(dest,[lesson.id]);
+  const again=await preview(dest,t);assert.equal(again.rows[0].status,'identical');const version=lesson.version;await apply(dest,t,again);assert.equal((await dest.store.get('lessons',lesson.id)).version,version);
  }finally{await close(source,dest);}
 });
 

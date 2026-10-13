@@ -1,3 +1,4 @@
+import {sessionIdentity,identityFields} from './session-identity.mjs';
 import {renderLessonBlock} from '../public/lesson-renderer.js';
 import {storeArtifact,artifactBuffer} from './artifacts.mjs';
 import PDFDocument from 'pdfkit';
@@ -23,9 +24,9 @@ export async function workbook(sheets){const book=new ExcelJS.Workbook();book.cr
 export async function zipFiles(files){return new Promise((resolve,reject)=>{const output=new PassThrough(),chunks=[],archive=archiver('zip',{zlib:{level:6}});output.on('data',c=>chunks.push(c));output.on('end',()=>resolve(Buffer.concat(chunks)));output.on('error',reject);archive.on('error',reject);archive.pipe(output);for(const f of files)archive.append(f.buffer,{name:f.path});archive.finalize();});}
 const mime=path=>path.endsWith('.png')?'image/png':path.endsWith('.html')?'text/html':path.endsWith('.css')?'text/css':path.endsWith('.js')?'text/javascript':path.endsWith('.svg')?'image/svg+xml':path.endsWith('.pdf')?'application/pdf':path.endsWith('.pptx')?'application/vnd.openxmlformats-officedocument.presentationml.presentation':path.endsWith('.xlsx')?'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':path.endsWith('.json')?'application/json':'text/plain';
 export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}) {
- const lesson=await scoped(store,'lessons',lessonId,actor),version=await scoped(store,'lesson_versions',candidateVersionId||lesson.versionId,actor),s=version.spec;
+ const lesson=await scoped(store,'lessons',lessonId,actor),version=await scoped(store,'lesson_versions',candidateVersionId||lesson.versionId,actor),identity=await sessionIdentity(store,lesson,version.spec),s={...version.spec,...identityFields(identity),title:identity.title};
  if(candidateVersionId&&version.lessonId!==lessonId)fail(400,'Version candidate liée à une autre séance.');
- const existing=(await store.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id);if(existing)return existing;
+ const existing=(await store.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id&&c.identityTitle===s.title&&c.identityRevision===(lesson.identityRevision||0));if(existing)return existing;
  const files=[];const add=(path,buffer,audience='teacher')=>files.push({path,buffer,audience});
  const student=studentSpec(s),activities=s.activities.map(a=>({title:a.title,body:a.instruction+'\nÀ rendre : '+a.expectedEvidence})),guide=[{title:'Objectifs',body:s.objectives.join('\n')},{title:'Animation',body:s.teacherGuide},...s.blocks.map(b=>({title:`${b.minutes} min · ${b.title}`,body:b.content}))];
  if(s.editorVersion===1){
@@ -82,13 +83,13 @@ export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}
  const complete=!lesson.qualityRequired||!!version.designContract;
  const manifest={schemaVersion:2,lessonId:s.lessonId,lessonVersionId:version.id,lessonVersion:s.lessonVersion,preparationRevision:version.preparationRevision||null,completeness:complete?'complete':'partial',missing:complete?[]:['Conception et rédaction approfondies non terminées pour cette version.'],classId:actor.classId,generatedAt:now(),planVersion:s.planVersion,curriculumVersion:s.sourceVersions.curriculumVersion,skills:s.skills,duration:s.blocks.reduce((a,b)=>a+b.minutes,0),status:'draft',files:files.map(f=>({path:f.path,sha256:hash(f.buffer),bytes:f.buffer.length,audience:f.audience,mimeType:mime(f.path)}))};
  add('00_MANIFEST/manifest.json',json(manifest));
- const pack={id:uid('corpus'),classId:actor.classId,lessonId,lessonVersionId:version.id,version:s.lessonVersion,manifest,files:await Promise.all(files.map(async f=>({path:f.path,audience:f.audience,mimeType:mime(f.path),...await storeArtifact(f.buffer,{inline:store.inlineArtifacts})}))),complete};
- return store.transaction(async tx=>{const current=await tx.get('lessons',lessonId);if(current.versionId!==version.id&&(!candidateVersionId||current.versionId!==version.baseVersionId))fail(409,'Séance modifiée pendant la compilation. Recompilez.');const duplicate=(await tx.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id);if(duplicate)return duplicate;await tx.insert('corpus_packages',pack);await tx.audit(actor,'corpus.compiled',pack.id,{lessonVersionId:version.id});return pack;});
+ const pack={id:uid('corpus'),identityTitle:s.title,identityRevision:lesson.identityRevision||0,classId:actor.classId,lessonId,lessonVersionId:version.id,version:s.lessonVersion,manifest,files:await Promise.all(files.map(async f=>({path:f.path,audience:f.audience,mimeType:mime(f.path),...await storeArtifact(f.buffer,{inline:store.inlineArtifacts})}))),complete};
+ return store.transaction(async tx=>{const current=await tx.get('lessons',lessonId);if((current.identityRevision||0)!==(lesson.identityRevision||0))fail(409,'Intitulé modifié pendant la compilation. Recompilez.');if(current.versionId!==version.id&&(!candidateVersionId||current.versionId!==version.baseVersionId))fail(409,'Séance modifiée pendant la compilation. Recompilez.');const duplicate=(await tx.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id&&c.identityTitle===s.title&&c.identityRevision===(lesson.identityRevision||0));if(duplicate)return duplicate;await tx.insert('corpus_packages',pack);await tx.audit(actor,'corpus.compiled',pack.id,{lessonVersionId:version.id});return pack;});
 }
 export async function downloadableCorpus(store,lesson,actor,versionId=lesson.versionId){
  const version=await scoped(store,'lesson_versions',versionId,actor);
  if(`${actor.classId}:${version.spec.lessonId}`!==lesson.id)fail(404,'Version d’une autre séance.');
- const pack=(await store.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===versionId);
+ const pack=versionId===lesson.versionId?await compileCorpus(store,lesson.id,actor):(await store.list('corpus_packages',actor.classId)).filter(c=>c.lessonVersionId===versionId).at(-1);
  if(!pack)fail(409,'Export de cette version non compilé. L’aperçu reste disponible.');
  if(pack.manifest.lessonVersion!==version.spec.lessonVersion||pack.manifest.lessonId!==version.spec.lessonId)fail(409,'Manifeste de corpus obsolète.');
  for(const item of pack.manifest.files){
