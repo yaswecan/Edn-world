@@ -18,7 +18,11 @@ export const schemaSQL = TABLES.map(t=>`CREATE TABLE IF NOT EXISTS ${t} (id TEXT
 // audit entries are append-only through the domain service, never overwritten.
 export async function openStore({url=process.env.DATABASE_URL,path=process.env.EDEN_DB_PATH||'.data/eden.sqlite'}={}) {
  let db, pool;
- if (url) { const { Pool }=await import('pg'); pool=new Pool({connectionString:url}); await pool.query(schemaSQL); }
+ if (url) {
+  const { Pool }=await import('pg');pool=new Pool({connectionString:url});
+  try{await pool.query(schemaSQL);}
+  catch(error){await pool.end().catch(()=>{});throw error;}
+ }
  else { const {DatabaseSync}=await import('node:sqlite'); if(path!==':memory:')mkdirSync(dirname(path),{recursive:true}); db=new DatabaseSync(path); db.exec('PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;'); db.exec(schemaSQL); }
  const table = t => { if(!TABLES.includes(t)) throw Error('Unknown table'); return t; };
  const parse = row => row ? JSON.parse(row.data) : null;
