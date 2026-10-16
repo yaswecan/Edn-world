@@ -1,5 +1,7 @@
 # EDEN Teacher Twin
 
+La V3 ajoute l’administration du référentiel, la planification par occurrences, le réalisé, le pilotage par critère, les constats hors plateforme et les demandes privées. [Guide V3](docs/tweenteach-v3/GUIDE_UTILISATION.md), [audit](docs/tweenteach-v3/AUDIT.md), [recette AC3](docs/tweenteach-v3/RECETTE.md), [migration](docs/tweenteach-v3/MIGRATION.md). Vérifications isolées : `npm run test:tracking:v3` et `npm run test:tracking:v3:browser`.
+
 Le suivi V2 ajoute le **Référentiel**, les grades explicites, les observations par compétence, la validation des niveaux et les activités adaptées. [Utilisation et règles V2](docs/student-tracking/v2.md), [audit](docs/student-tracking/audit-v2.md), [recette AC01–AC40](docs/student-tracking/acceptance-v2.md). Vérifications : `npm run test:tracking:v2` et `npm run test:tracking:v2:browser`.
 
 Le suivi V1 est accessible par **Élèves** côté professeur et **Mes séances / Mes évaluations** côté élève. Il conserve les versions suivies, les brouillons, les copies remises et les révisions publiées. Voir le [guide d’utilisation et les droits](docs/student-tracking/README.md), l’[audit](docs/student-tracking/audit.md) et la [recette AC01–AC20](docs/student-tracking/acceptance.md). Vérifications isolées : `npm run test:tracking` et `npm run test:tracking:browser`.

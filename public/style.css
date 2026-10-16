@@ -310,3 +310,14 @@ dialog{width:calc(100vw - 20px)}
 
 /* Shared session identity, including native keyboard-accessible disclosures. */
 .session-identity{min-width:0;margin:1rem 0}.session-identity h1,.session-identity h2,.session-identity h3{overflow-wrap:anywhere;margin:0 0 .65rem}.session-competencies{display:flex;flex-wrap:wrap;align-items:flex-start;gap:.45rem;margin:.55rem 0}.competency-detail,.competency-overflow{max-width:100%;min-width:0}.competency-detail summary,.competency-overflow>summary{cursor:pointer;list-style:none;white-space:normal;overflow-wrap:anywhere}.competency-detail summary:focus-visible,.competency-overflow summary:focus-visible{outline:2px solid currentColor;outline-offset:3px}.competency-popover{padding:.8rem;border:1px solid var(--line,#d8e3e2);border-radius:12px;max-width:32rem;background:var(--surface,#fff);overflow-wrap:anywhere}.competency-picker{max-height:17rem;overflow:auto;padding:.6rem 0}.competency-picker label{display:flex;align-items:flex-start;gap:.5rem;padding:.35rem 0}.competency-picker input{width:auto;flex:none}.competency-overflow[open]{flex-basis:100%}
+
+/* V3: shared hub forms and scrollable data tables. */
+.v3-tree { list-style:none; padding:0; }
+.v3-tree > li { padding:1rem 0; border-top:1px solid var(--line, #d9dfdc); }
+.v3-tree .btn { margin:.25rem; }
+.v3-objective { margin:1rem 0; }
+.tracking-page label, .modal-body label { overflow-wrap:anywhere; }
+.modal-body fieldset { min-width:0; }
+.modal-body input:not([type=checkbox]), .modal-body select, .modal-body textarea { max-width:100%; }
+[data-form-error] { border-left:4px solid #a63030; padding:.75rem; color:#862323; }
+:focus-visible { outline:3px solid #257559; outline-offset:3px; }

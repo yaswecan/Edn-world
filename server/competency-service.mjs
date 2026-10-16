@@ -6,6 +6,12 @@ import {unique,validateCategories,validateGradeRules,calculateGrid,consolidate,n
 export const digest=value=>sha256(canonical(value));
 const gradeRules=rules=>(rules||[]).map(r=>({grade:r.grade,conditions:r.conditions.map(c=>({itemIds:c.itemIds,metric:c.metric,op:c.op,value:c.value,...(typeof c.label==='string'?{label:c.label.slice(0,500)}:{})}))}));
 const string=(s,label,max=2000)=>requireValue(typeof s==='string'&&s.trim()&&s.length<=max,label);
+function referenceDetails(value,{criterion=false}={}){
+ const out={};for(const key of criterion?['studentLabel','observable','expectedEvidence','allowedHelp']:['description','origin'])if(value[key]!==undefined){requireValue(typeof value[key]==='string'&&value[key].length<=10000,'Détail de référentiel invalide.');out[key]=value[key];}
+ if(value.archived!==undefined){requireValue(typeof value.archived==='boolean','État d’archivage invalide.');out.archived=value.archived;}
+ if(criterion&&value.descriptors!==undefined){requireValue(value.descriptors&&typeof value.descriptors==='object'&&!Array.isArray(value.descriptors)&&Object.keys(value.descriptors).length<=12,'Descripteurs invalides.');out.descriptors={};for(const [key,label] of Object.entries(value.descriptors)){requireValue(key.length<=40&&typeof label==='string'&&label.length<=2000,'Descripteur invalide.');out.descriptors[key]=label;}}
+ return out;
+}
 export async function currentActor(tx,actor){
  const account=await tx.get(actor.role==='teacher'?'teachers':'learners',actor.id);
  if(!account||account.suspended||account.classId!==actor.classId||(account.authVersion||0)!==(actor.authVersion||0))fail(401,'Les droits de cette session ont changé. Reconnectez-vous.');
@@ -22,18 +28,19 @@ export function validateFramework(input){
  const nodes=input.nodes.map(n=>{
   string(n.id,'Identité interne de compétence attendue.',200);string(n.title,'Intitulé exact attendu.');
   requireValue(n.code===null||typeof n.code==='string'&&n.code.length>0&&n.code.length<=200,'Le code source doit être une chaîne ou null.');
-  requireValue(['block','competency'].includes(n.kind),'Type de compétence invalide.');
-  const criteria=(n.criteria||[]).map(c=>{string(c.id,'Identité de critère attendue.',200);string(c.title,'Intitulé de critère attendu.');requireValue(['source','local'].includes(c.origin),'Précisez la provenance du critère.');requireValue(c.code==null||typeof c.code==='string','Code de critère invalide.');if(c.origin==='local')string(c.author,'Auteur du critère local attendu.',200);return {id:c.id,code:c.code??null,title:c.title,origin:c.origin,parentSourceId:c.parentSourceId||null,author:c.author||null,location:c.location||null};});
+  requireValue(['block','competency','subcompetency'].includes(n.kind),'Type de compétence invalide.');
+  const criteria=(n.criteria||[]).map(c=>{string(c.id,'Identité de critère attendue.',200);string(c.title,'Intitulé de critère attendu.');requireValue(['source','local'].includes(c.origin),'Précisez la provenance du critère.');requireValue(c.code==null||typeof c.code==='string','Code de critère invalide.');if(c.origin==='local')string(c.author,'Auteur du critère local attendu.',200);return {id:c.id,code:c.code??null,title:c.title,origin:c.origin,parentSourceId:c.parentSourceId||null,author:c.author||null,location:c.location||null,...referenceDetails(c,{criterion:true})};});
   requireValue(unique(criteria.map(c=>c.id)).length===criteria.length,'Critères dupliqués.');
   let criterionSet=null;if(n.criterionSet){const s=n.criterionSet;string(s.name,'Nom de l’ensemble de critères attendu.',200);string(s.version,'Version de l’ensemble attendue.',100);requireValue(Array.isArray(s.criterionIds)&&s.criterionIds.every(id=>criteria.some(c=>c.id===id&&c.origin==='source')),'L’ensemble officiel ne contient que des critères source.');criterionSet={name:s.name,version:s.version,exhaustive:s.exhaustive===true,criterionIds:unique(s.criterionIds)};}
   const pedagogy={};if(n.pedagogy){for(const key of ['typology','notionsTools','sequence','plannedDates','expectedTrace','status','prerequisites','masteryRule','scaffolding'])if(n.pedagogy[key]!==undefined){requireValue(typeof n.pedagogy[key]==='string'&&n.pedagogy[key].length<=10000,'Indication pédagogique source invalide.');pedagogy[key]=n.pedagogy[key];}}
-  return {id:n.id,code:n.code,title:n.title,kind:n.kind,parentId:n.parentId||null,studentLabel:n.studentLabel||null,expectedLevel:n.expectedLevel||null,location:n.location||null,criteria,criterionSet,...(n.pedagogy?{pedagogy}:{})};
+  return {id:n.id,code:n.code,title:n.title,kind:n.kind,parentId:n.parentId||null,studentLabel:n.studentLabel||null,expectedLevel:n.expectedLevel||null,location:n.location||null,criteria,criterionSet,...referenceDetails(n),...(n.pedagogy?{pedagogy}:{})};
  });
  requireValue(unique(nodes.map(n=>n.id)).length===nodes.length,'Identités de compétences dupliquées.');
- requireValue(unique(nodes.filter(n=>n.code!==null).map(n=>n.code)).length===nodes.filter(n=>n.code!==null).length,'Codes source dupliqués dans cette version.');
+ requireValue(unique(nodes.filter(n=>n.code!==null).map(n=>JSON.stringify([n.parentId,n.code]))).length===nodes.filter(n=>n.code!==null).length,'Codes source ambigus dans la même branche.');
  for(const n of nodes){const seen=new Set([n.id]);let p=n.parentId;while(p){requireValue(!seen.has(p),'Hiérarchie circulaire.');seen.add(p);const parent=nodes.find(n=>n.id===p);requireValue(parent,'Parent introuvable.');p=parent.parentId;}}
+ let relations;if(input.relations!==undefined){requireValue(Array.isArray(input.relations)&&input.relations.length<=5000,'Relations invalides.');relations=input.relations.map(r=>{requireValue(['prerequisite','associated','replaces'].includes(r.type)&&nodes.some(n=>n.id===r.from)&&nodes.some(n=>n.id===r.to)&&r.from!==r.to,'Relation invalide.');return {from:r.from,to:r.to,type:r.type,mandatory:r.type==='prerequisite'&&r.mandatory===true,reason:String(r.reason||'').slice(0,2000)};});const edges=new Map(nodes.map(n=>[n.id,[]])),states=new Map();for(const r of relations)if(r.mandatory)edges.get(r.from).push(r.to);const visit=id=>{requireValue(states.get(id)!==1,'Cycle de prérequis obligatoires.');if(states.get(id)===2)return;states.set(id,1);for(const next of edges.get(id))visit(next);states.set(id,2);};for(const n of nodes)visit(n.id);}
  if(input.source.note!==undefined)string(input.source.note,'Note source invalide.',10000);
- return {frameworkKey:input.frameworkKey,sourceVersion:input.sourceVersion,title:input.title,source:{document:input.source.document,location:input.source.location,sha256:input.source.sha256||null,...(input.source.note!==undefined?{note:input.source.note}:{})},nodes};
+ return {frameworkKey:input.frameworkKey,sourceVersion:input.sourceVersion,title:input.title,source:{document:input.source.document,location:input.source.location,sha256:input.source.sha256||null,...(input.source.note!==undefined?{note:input.source.note}:{})},nodes,...(relations?{relations}:{})};
 }
 export async function importFramework(tx,actor,input){
  const content=validateFramework(input),id='framework_'+digest([actor.classId,content.frameworkKey,content.sourceVersion]),old=await tx.get('framework_versions',id);
@@ -67,10 +74,10 @@ export async function validateGrid(tx,actor,input,diagnostic){
  requireValue(Array.isArray(input.competencies)&&input.competencies.length<=100,'Rattachements de compétences attendus.');
  const competencies=[];
  for(const m of input.competencies){
-  const f=await scoped(tx,'framework_versions',m.frameworkVersionId,actor),n=f.nodes.find(n=>n.id===m.competencyId&&n.kind==='competency');requireValue(n,'Compétence inconnue dans cette version du référentiel.');
+  const f=await scoped(tx,'framework_versions',m.frameworkVersionId,actor);requireValue(!f.status||f.status==='published','Choisissez un référentiel publié.');const n=f.nodes.find(n=>n.id===m.competencyId&&!n.archived&&['competency','subcompetency'].includes(n.kind));requireValue(n,'Compétence inconnue dans cette version du référentiel.');
   requireValue(Array.isArray(m.criteria)&&m.criteria.length&&unique(m.criteria.map(c=>c.criterionId)).length===m.criteria.length,'Critères distincts attendus.');
   requireValue(input.categories.some(c=>c.id===m.maximumGrade),'Niveau de demande de la compétence attendu.');
-  const criteria=m.criteria.map(c=>{requireValue(n.criteria.some(k=>k.id===c.criterionId)&&Array.isArray(c.itemIds)&&c.itemIds.length&&unique(c.itemIds).length===c.itemIds.length&&c.itemIds.every(id=>ids.includes(id)),'Correspondance de critère invalide.');requireValue(input.categories.some(k=>k.id===c.maximumGrade)&&(!c.expectedGrade||input.categories.some(k=>k.id===c.expectedGrade)),'Niveaux du critère invalides.');validateGradeRules(c.rules||[],c.itemIds,input.categories);return {criterionId:c.criterionId,itemIds:c.itemIds,rules:gradeRules(c.rules),essential:c.essential===true,maximumGrade:c.maximumGrade,expectedGrade:c.expectedGrade||null};});
+  const criteria=m.criteria.map(c=>{requireValue(n.criteria.some(k=>k.id===c.criterionId&&!k.archived)&&Array.isArray(c.itemIds)&&c.itemIds.length&&unique(c.itemIds).length===c.itemIds.length&&c.itemIds.every(id=>ids.includes(id)),'Correspondance de critère invalide.');requireValue(input.categories.some(k=>k.id===c.maximumGrade)&&(!c.expectedGrade||input.categories.some(k=>k.id===c.expectedGrade)),'Niveaux du critère invalides.');validateGradeRules(c.rules||[],c.itemIds,input.categories);return {criterionId:c.criterionId,itemIds:c.itemIds,rules:gradeRules(c.rules),essential:c.essential===true,maximumGrade:c.maximumGrade,expectedGrade:c.expectedGrade||null};});
   validateGradeRules(m.rules||[],unique(criteria.flatMap(c=>c.itemIds)),input.categories);
   competencies.push({frameworkVersionId:f.id,competencyId:n.id,criteria,rules:gradeRules(m.rules),maximumGrade:m.maximumGrade});
  }
@@ -106,13 +113,14 @@ export async function observationVisible(tx,o,actor){
  if(actor.role==='teacher')return o.classId===actor.classId;
  if(o.learnerId!==actor.id)return false;
  try{await assignmentAccess(tx,o.assignmentId,actor);}catch{return false;}
- const p=await tx.get('result_publications',o.submissionId);return p?.version===o.correctionVersion||p?.publishedVersions?.includes(o.correctionVersion)||false;
+ if(o.teacherEvidenceId){const e=await tx.get('teacher_observations',o.teacherEvidenceId);return e?.publishedObservationIds?.includes(o.id)||false;}
+ const p=await tx.get('result_publications',o.submissionId);return !p?.withdrawnAt&&(p?.version===o.correctionVersion||p?.publishedVersions?.includes(o.correctionVersion)||false);
 }
 export async function latestObservations(tx,classId,learnerId){
- const out=[];for(const o of await tx.list('competency_observations',classId)){if(o.learnerId!==learnerId)continue;const c=await tx.get('corrections',o.submissionId);if(c?.version===o.correctionVersion)out.push(o);}return out.sort(newest);
+ const out=[];for(const o of await tx.list('competency_observations',classId)){if(o.learnerId!==learnerId)continue;const c=o.teacherEvidenceId?await tx.get('teacher_observations',o.teacherEvidenceId):await tx.get('corrections',o.submissionId);if((o.teacherEvidenceId?c?.revision:c?.version)===o.correctionVersion)out.push(o);}return out.sort(newest);
 }
 export async function saveMasteryRule(tx,actor,input){
- const f=await scoped(tx,'framework_versions',input.frameworkVersionId,actor),node=f.nodes.find(n=>n.id===input.competencyId);requireValue(node?.kind==='competency','Compétence attendue.');validateCategories(input.categories);
+ const f=await scoped(tx,'framework_versions',input.frameworkVersionId,actor);requireValue(!f.status||f.status==='published','Choisissez un référentiel publié.');const node=f.nodes.find(n=>n.id===input.competencyId);requireValue(['competency','subcompetency'].includes(node?.kind),'Compétence attendue.');validateCategories(input.categories);
  const prior=(await tx.list('mastery_rules',actor.classId)).filter(r=>r.frameworkVersionId===f.id&&r.competencyId===node.id).at(-1);
  if((input.version||0)!==(prior?.version||0))fail(409,'La règle a changé.');
  const min=input.minSituations??2;requireValue(Number.isInteger(min)&&min>=2&&min<=10,'Entre deux et dix situations indépendantes.');
@@ -122,7 +130,7 @@ export async function saveMasteryRule(tx,actor,input){
  await invalidateDerived(tx,actor.classId);return row;
 }
 export async function currentRule(tx,table,row,keys){return (await tx.list(table,row.classId)).filter(r=>keys.every(k=>r[k]===row[k])).sort((a,b)=>a.version-b.version).at(-1);}
-export async function evidenceCurrent(tx,proofs){for(const p of proofs){const o=await tx.get('competency_observations',p.id),c=await tx.get('corrections',p.submissionId);if(!o||c?.version!==p.correctionVersion||o.gridId!==p.gridId)return false;}return true;}
+export async function evidenceCurrent(tx,proofs){for(const p of proofs){const o=await tx.get('competency_observations',p.id),c=o?.teacherEvidenceId?await tx.get('teacher_observations',o.teacherEvidenceId):await tx.get('corrections',p.submissionId);if(!o||(o.teacherEvidenceId?c?.revision:c?.version)!==p.correctionVersion||o.gridId!==p.gridId)return false;}return true;}
 export async function decisionCurrent(tx,d){const rule=await tx.get('mastery_rules',d.ruleId);if(!rule)return false;const mappings=(await tx.list('framework_mappings',d.classId)).filter(m=>m.toFrameworkId===d.frameworkVersionId&&m.toCompetencyId===d.competencyId);const observations=(await latestObservations(tx,d.classId,d.learnerId)).filter(o=>o.frameworkVersionId===d.frameworkVersionId&&o.competencyId===d.competencyId||mappings.some(m=>m.fromFrameworkId===o.frameworkVersionId&&m.fromCompetencyId===o.competencyId));if(digest(unique(observations.map(o=>o.id)).sort())!==digest(unique(d.observationIds||[]).sort()))return false;return rule&&(await currentRule(tx,'mastery_rules',rule,['frameworkVersionId','competencyId']))?.id===rule.id&&await evidenceCurrent(tx,d.proofs);}
 export async function proposeMastery(tx,actor,input){
  await learnerInScope(tx,input.learnerId,actor);const rule=await scoped(tx,'mastery_rules',input.ruleId,actor);requireValue((await currentRule(tx,'mastery_rules',rule,['frameworkVersionId','competencyId'])).id===rule.id,'Utilisez la règle actuelle.');
@@ -164,21 +172,22 @@ export async function invalidateDerived(tx,classId){
 export async function competencyView(tx,actor,learnerId){
  if(actor.role==='student'){if(learnerId!==actor.id)fail(404,'Suivi introuvable.');}else await learnerInScope(tx,learnerId,actor);
  const rows=await tx.list('competency_observations',actor.role==='teacher'?actor.classId:undefined),observations=[];
- for(const o of rows.filter(o=>o.learnerId===learnerId))if(await observationVisible(tx,o,actor)&&(actor.role==='student'||(await tx.get('corrections',o.submissionId))?.version===o.correctionVersion))observations.push(o);
+ for(const o of rows.filter(o=>o.learnerId===learnerId))if(await observationVisible(tx,o,actor)&&(actor.role==='student'||(o.teacherEvidenceId?(await tx.get('teacher_observations',o.teacherEvidenceId))?.revision:(await tx.get('corrections',o.submissionId))?.version)===o.correctionVersion))observations.push(o);
  const decisions=[];
  for(const d of (await tx.list('mastery_decisions',actor.role==='teacher'?actor.classId:undefined)).filter(d=>d.learnerId===learnerId)){
   if(actor.role==='teacher'){decisions.push({...d,stale:!d.publishedAt&&!await decisionCurrent(tx,d)});continue;}
   if(!d.publishedAt)continue;
   // A later private correction must not erase an earlier published decision.
-  let allowed=true;for(const p of d.proofs){const o=await tx.get('competency_observations',p.id);try{await assignmentAccess(tx,o.assignmentId,actor);}catch{allowed=false;}const pub=await tx.get('result_publications',p.submissionId);if(!pub||(pub.version!==p.correctionVersion&&!pub.publishedVersions?.includes(p.correctionVersion)))allowed=false;}
+  let allowed=true;for(const p of d.proofs){const o=await tx.get('competency_observations',p.id);if(!o||!await observationVisible(tx,o,actor))allowed=false;}
   if(allowed)decisions.push({id:d.id,frameworkVersionId:d.frameworkVersionId,competencyId:d.competencyId,grade:d.grade,reason:d.reason,publishedAt:d.publishedAt,proofs:d.proofs,rule:d.rule,lastWorkedAt:d.lastWorkedAt});
  }
- const frameworkIds=unique([...observations.map(o=>o.frameworkVersionId),...decisions.map(d=>d.frameworkVersionId)]),frameworks=actor.role==='teacher'?await tx.list('framework_versions',actor.classId):await Promise.all(frameworkIds.map(id=>tx.get('framework_versions',id)));
+ const planned=[];if(actor.role==='student')for(const a of await tx.list('lesson_assignments')){if(a.learnerId!==actor.id)continue;try{await assignmentAccess(tx,a.id,actor);}catch{continue;}const run=await tx.get('lesson_runs',a.runId);if(run?.planStatus==='cancelled')continue;for(const ref of run?.objectives||[])planned.push({...ref,assignmentId:a.id,date:run.date});}
+ const frameworkIds=unique([...planned.map(p=>p.frameworkVersionId),...observations.map(o=>o.frameworkVersionId),...decisions.map(d=>d.frameworkVersionId)]),frameworks=actor.role==='teacher'?await tx.list('framework_versions',actor.classId):await Promise.all(frameworkIds.map(id=>tx.get('framework_versions',id)));
  const competencies=[];
- for(const f of frameworks)for(const n of f.nodes.filter(n=>n.kind==='competency')){
+ for(const f of frameworks)for(const n of f.nodes.filter(n=>['competency','subcompetency'].includes(n.kind))){
   const os=observations.filter(o=>o.frameworkVersionId===f.id&&o.competencyId===n.id).sort(newest),ds=decisions.filter(d=>d.frameworkVersionId===f.id&&d.competencyId===n.id);
-  if(actor.role==='student'&&!os.length&&!ds.length)continue;
-  competencies.push({frameworkVersionId:f.id,frameworkTitle:f.title,sourceVersion:f.sourceVersion,id:n.id,code:n.code,title:n.studentLabel||n.title,expectedLevel:n.expectedLevel,parentId:n.parentId,latest:os[0]||null,retained:ds.filter(d=>d.publishedAt).at(-1)||null,proposal:actor.role==='teacher'?ds.filter(d=>!d.publishedAt).at(-1)||null:null,observations:os.map(o=>actor.role==='teacher'?o:{id:o.id,submissionId:o.submissionId,attemptId:o.attemptId,grade:o.grade,criteria:o.criteria,coverage:o.coverage,rule:o.rule,workedAt:o.workedAt}),decisions:ds,coverage:coverage(n,unique(os.flatMap(o=>o.criteria.map(c=>c.criterionId))).map(id=>os.flatMap(o=>o.criteria).find(c=>c.criterionId===id)))});
+  const upcoming=planned.filter(p=>p.frameworkVersionId===f.id&&p.competencyId===n.id);if(actor.role==='student'&&!os.length&&!ds.length&&!upcoming.length)continue;
+  competencies.push({upcoming,frameworkVersionId:f.id,frameworkTitle:f.title,sourceVersion:f.sourceVersion,id:n.id,code:n.code,title:n.studentLabel||n.title,expectedLevel:n.expectedLevel,parentId:n.parentId,latest:os[0]||null,retained:ds.filter(d=>d.publishedAt).at(-1)||null,proposal:actor.role==='teacher'?ds.filter(d=>!d.publishedAt).at(-1)||null:null,observations:os.map(o=>actor.role==='teacher'?o:{id:o.id,submissionId:o.submissionId,attemptId:o.attemptId,grade:o.grade,criteria:o.criteria,coverage:o.coverage,rule:o.rule,workedAt:o.workedAt,source:o.source,description:o.description,groupContext:o.groupContext}),decisions:ds,coverage:coverage(n,unique(os.flatMap(o=>o.criteria.map(c=>c.criterionId))).map(id=>os.flatMap(o=>o.criteria).find(c=>c.criterionId===id)))});
  }
  return {competencies};
 }

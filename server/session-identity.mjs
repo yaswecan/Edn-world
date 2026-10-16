@@ -58,7 +58,7 @@ export function proposeTitle({lesson={},spec={},entry={},journal=[],sequence={}}
 
 export async function competencyCatalog(tx,classId){
  const result=(await tx.list('competency_n3',classId)).map(c=>({ref:{competencyId:c.id},code:c.n3_code||null,label:c.n3_label,parent:c.n2_code?{code:c.n2_code,label:c.n2_label}:null,criteria:c.observable_criterion?[{label:c.observable_criterion}]:[]}));
- for(const f of await tx.list('framework_versions',classId))for(const n of f.nodes||[])if(n.kind==='competency'){
+ for(const f of await tx.list('framework_versions',classId))for(const n of f.nodes||[])if(['competency','subcompetency'].includes(n.kind)){
   const parent=f.nodes.find(p=>p.id===n.parentId);
   result.push({ref:{frameworkVersionId:f.id,competencyId:n.id},code:n.code,label:n.title,parent:parent?{code:parent.code,label:parent.title}:null,criteria:(n.criteria||[]).map(c=>({code:c.code,label:c.title})),framework:f.title});
  }

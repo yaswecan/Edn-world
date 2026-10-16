@@ -102,10 +102,11 @@ export async function decodeBackup(buffer,classId){
  catch{fail(400,'Sauvegarde compressée illisible ou trop volumineuse. Utilisez le fichier .eden-db.gz.');}
  // Optional transfer tables were added without changing business rows. Verify
  // the original digest before extending an older v1 backup with empty tables.
- const additions=['lesson_transfers','lesson_transfer_chunks','lesson_transfer_links','lesson_transfer_receipts'],legacy=TABLES.filter(t=>!additions.includes(t));
- if(object(backup?.tables)&&Object.keys(backup.tables).length===legacy.length&&legacy.every(t=>Array.isArray(backup.tables[t]))){
-  ensure(snapshotDigest(backup.tables,legacy)===backup.fingerprint,'L’empreinte de la sauvegarde ne correspond pas à son contenu.');
-  for(const table of additions)backup.tables[table]=[];
+ const optional=['lesson_transfers','lesson_transfer_chunks','lesson_transfer_links','lesson_transfer_receipts','occurrence_participations','result_questions','learning_alerts'];
+ const original=TABLES.filter(t=>Object.hasOwn(backup?.tables||{},t)),missing=TABLES.filter(t=>!Object.hasOwn(backup?.tables||{},t));
+ if(object(backup?.tables)&&missing.length&&missing.every(t=>optional.includes(t))&&Object.keys(backup.tables).length===original.length&&original.every(t=>Array.isArray(backup.tables[t]))){
+  ensure(snapshotDigest(backup.tables,original)===backup.fingerprint,'L’empreinte de la sauvegarde ne correspond pas à son contenu.');
+  for(const table of missing)backup.tables[table]=[];
   backup.fingerprint=snapshotDigest(backup.tables);
  }
  const report=validateBackup(backup,classId);

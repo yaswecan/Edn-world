@@ -34,9 +34,9 @@ async function fixture(port){
  };
 }
 async function listening(server){server.listen(0,'127.0.0.1');await once(server,'listening');return server.address().port;}
-async function ready(run){
+async function ready(run,message='EDEN Teacher Twin →'){
  for(let i=0;i<200;i++){
-  if(run.output.includes('EDEN Teacher Twin →'))return;
+  if(run.output.includes(message))return;
   if(run.child.exitCode!==null)assert.fail(run.output);
   await delay(50);
  }
@@ -71,7 +71,7 @@ test('LAN students use persistent courses while personal setup and AI connection
  const local=`http://127.0.0.1:${port}`,lan=`http://${address}:${port}`;
  const request=(base,path,{body,cookie}={})=>fetch(base+path,{method:body?'POST':'GET',headers:{Origin:base,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{})},body:body?JSON.stringify(body):undefined});
  try{
-  const run=f.launch(['--lan',`--lan-host=${address}`]);await ready(run);
+  const run=f.launch(['--lan',`--lan-host=${address}`]);await ready(run,'Accès élèves sur le même Wi-Fi');
   assert.match(run.output,/Accès élèves sur le même Wi-Fi/);
   assert.equal((await request(lan,'/api/health')).status,200);
   assert.equal((await request(lan,'/api/setup',{body:{password:'lan-teacher-only'}})).status,403);
@@ -87,7 +87,7 @@ test('LAN students use persistent courses while personal setup and AI connection
   const saved=await request(lan,'/api/events',{cookie:student,body:{lessonId:'lan-lesson',lessonVersionId:'lan-v1',eventId:'lan-answer',progressVersion:0,type:'answer_saved',activityId:'exercise',payload:{answer:'My saved answer'}}});assert.equal(saved.status,200);
   const shared=await (await request(local,'/api/today?lesson=lan-lesson',{cookie:student})).json();assert.equal(shared.progress.answers.exercise,'My saved answer');
   run.child.kill('SIGTERM');assert.equal((await run.closed)[0],0,run.output);
-  const restarted=f.launch(['--lan',`--lan-host=${address}`]);await ready(restarted);
+  const restarted=f.launch(['--lan',`--lan-host=${address}`]);await ready(restarted,'Accès élèves sur le même Wi-Fi');
   const persisted=await (await request(lan,'/api/today?lesson=lan-lesson',{cookie:student})).json();assert.equal(persisted.progress.answers.exercise,'My saved answer');
  }finally{await f.close();}
 });

@@ -100,7 +100,7 @@ export function trackingRoutes(app,store){
   await tx.audit(req.user,'run.created',r.id);return r;
  })));
  app.patch('/api/tracking/runs/:id',teacher,async(req,res)=>res.json(await store.transaction(async tx=>{
-  const r=await scoped(tx,'lesson_runs',req.params.id,req.user);requireValue(['closed','archived','revoked'].includes(req.body.availability),'État de disponibilité invalide.');r.availability=req.body.availability;r.submissionsClosedAt||=now();await tx.put('lesson_runs',r);await tx.audit(req.user,'run.availability',r.id,{availability:r.availability});return r;
+  const r=await scoped(tx,'lesson_runs',req.params.id,req.user);requireValue(['closed','archived','revoked'].includes(req.body.availability),'État de disponibilité invalide.');r.revision=(r.revision||1)+1;r.availability=req.body.availability;r.submissionsClosedAt||=now();await tx.put('lesson_runs',r);await tx.audit(req.user,'run.availability',r.id,{availability:r.availability});return r;
  })));
  app.post('/api/tracking/runs/:id/assign',teacher,async(req,res)=>res.json(await store.transaction(async tx=>{
   const r=await scoped(tx,'lesson_runs',req.params.id,req.user);requireValue(Array.isArray(req.body.learnerIds)&&req.body.learnerIds.length<=500,'Élèves attendus.');const rows=[];

@@ -1,3 +1,4 @@
+import {trackingV3Routes} from './tracking-v3-routes.mjs';
 import {identityRoutes,presentLesson,presentSpec} from './session-identity.mjs';
 import {competencyRoutes} from './competency-routes.mjs';
 import {trackingRoutes} from './student-tracking-routes.mjs';
@@ -56,6 +57,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  trackingRoutes(app,store);
  identityRoutes(app,store,teacher);
  competencyRoutes(app,store);
+ trackingV3Routes(app,store);
  databaseRoutes(app,store);
  lessonTransferRoutes(app,store);
  lessonEditorRoutes(app,store);

@@ -20,7 +20,7 @@ export function validateSessionIdentity(p){
  requireValue(Array.isArray(p.associations)&&p.associations.length<=100,'Associations portables invalides.');
  for(const a of p.associations){
   if(a.kind==='curriculum')requireValue(Object.keys(a).every(k=>['kind','node'].includes(k))&&a.node&&Object.keys(a.node).every(k=>nodeKeys.includes(k))&&typeof a.node.n3_code==='string'&&a.node.n3_code.length<=200&&typeof a.node.n3_label==='string'&&a.node.n3_label.length<=2000,'Compétence source invalide.');
-  else {requireValue(a.kind==='framework'&&Object.keys(a).every(k=>['kind','framework','competencyId'].includes(k)),'Source de compétence invalide.');const f=validateFramework(a.framework);requireValue(canonical(f)===canonical(a.framework)&&f.nodes.some(n=>n.kind==='competency'&&n.id===a.competencyId),'Compétence absente du référentiel embarqué.');}
+  else {requireValue(a.kind==='framework'&&Object.keys(a).every(k=>['kind','framework','competencyId'].includes(k)),'Source de compétence invalide.');const f=validateFramework(a.framework);requireValue(canonical(f)===canonical(a.framework)&&f.nodes.some(n=>['competency','subcompetency'].includes(n.kind)&&n.id===a.competencyId),'Compétence absente du référentiel embarqué.');}
  }
 }
 export async function checkSessionIdentity(tx,actor,p){

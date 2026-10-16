@@ -14,6 +14,7 @@ export async function member(tx,learner,classId=learner.classId){
  return tx.insert('enrollments',{id,classId,learnerId:learner.id,status:'active'});
 }
 export async function assignRun(tx,run,learner,{versionId=run.lessonVersionId,provenance='publication'}={}){
+ if(run.planningRequestId)requireValue(run.planStatus!=='cancelled'&&(run.releasedAt||provenance==='planning-release'),'Ouvrez explicitement cette occurrence depuis la planification avant de l’attribuer.');
  const id=assignmentKey(run.id,learner.id),old=await tx.get('lesson_assignments',id);if(old)return old;
  return tx.insert('lesson_assignments',{id,classId:run.classId,learnerId:learner.id,lessonId:run.lessonId,runId:run.id,lessonVersionId:versionId,date:run.date,progressId:provenance.startsWith('legacy')?`${learner.id}:${versionId}`:id,access:'allowed',provenance,assignedAt:now()});
 }
@@ -111,7 +112,7 @@ export async function saveAttempt(tx,actor,id,input){
 export function publicCorrection(c){return {version:c.version,status:'published',score:c.score,scoreMax:c.scoreMax,partialScore:c.partialScore??null,gradingMode:c.gradingMode||'numeric',level:c.grade!==undefined?c.grade:c.level,grade:c.grade??null,gradeStatus:c.gradeStatus||'Grade à déterminer',gradeReasons:c.gradeReasons||[],gradeRule:c.gradeRule||null,categories:c.categories||[],competencyResults:c.competencyResults||[],feedback:c.feedback,source:'teacher',approvedAt:c.approvedAt,items:(c.items||[]).map(i=>({id:i.id,taskId:i.taskId,label:i.label,criterion:i.criterion,points:i.points,max:i.max,coefficient:i.coefficient??1,observedGrade:i.observedGrade||null,exempt:i.exempt===true,exemptionReason:i.exemptionReason||null,feedback:i.feedback,source:i.source||'teacher',evidence:i.evidence||null})),criteria:(c.criteria||[]).map(i=>({criterion:i.criterion,points:i.points,max:i.max,level:i.level}))};}
 export async function resultFor(tx,a){
  if(!a?.submissionId)return {status:'not_submitted'};
- const p=await tx.get('result_publications',a.submissionId);if(p)return {...p.result,publishedAt:p.publishedAt};
+ const p=await tx.get('result_publications',a.submissionId);if(p?.withdrawnAt)return {status:'results_pending'};if(p)return {...p.result,publishedAt:p.publishedAt};
  const c=await tx.get('corrections',a.submissionId),run=await tx.get('lesson_runs',a.runId);if(run?.formativePolicy?.enabled&&c?.status==='approved')return {...publicCorrection(c),status:'formative'};return {status:c?.status==='approved'?'results_pending':'submitted'};
 }
 export async function publishResult(tx,id,actor,input){
@@ -122,8 +123,8 @@ export async function publishResult(tx,id,actor,input){
  const assigned=a?.assignmentId?await tx.get('lesson_assignments',a.assignmentId):null;
  const run=await tx.get('lesson_runs',assigned?.runId||a?.runId);
  requireValue(a?.targetedOpen?a.closedAt:run&&(run.closedAt||['closed','archived'].includes(run.availability)),'Fermez cette passation avant de publier ses résultats.');
- const old=await tx.get('result_publications',id);if(old?.version===c.version)return old;
- const row={id,classId:s.classId,learnerId:s.learnerId,assignmentId:assigned?.id,version:c.version,result:publicCorrection(c),publishedAt:now(),publishedBy:actor.id,publishedVersions:[...new Set([...(old?.publishedVersions||[]),...(old?[old.version]:[]),c.version])]};
+ const old=await tx.get('result_publications',id);if(old?.version===c.version&&!old.withdrawnAt)return old;
+ const row={id,classId:s.classId,learnerId:s.learnerId,assignmentId:assigned?.id,version:c.version,result:publicCorrection(c),publishedAt:now(),publishedBy:actor.id,withdrawals:old?.withdrawals||[],publishedVersions:[...new Set([...(old?.withdrawnAt?[]:old?.publishedVersions||[]),...(old&&!old.withdrawnAt?[old.version]:[]),c.version])]};
  if(old)await tx.put('result_publications',row);else await tx.insert('result_publications',row);
  await tx.audit(actor,'result.published',id,{revision:c.version});if(run)await refreshPublishedPaths(tx,actor,run.id,s.learnerId);return row;
 }

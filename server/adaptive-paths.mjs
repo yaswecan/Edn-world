@@ -1,11 +1,12 @@
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 import {assignRun,assignmentAccess,availability} from './student-tracking.mjs';
-import {digest,learnerInScope,activeGrid,latestObservations,currentRule,evidenceCurrent,invalidateDerived} from './competency-service.mjs';
+import {digest,learnerInScope,activeGrid,latestObservations,observationVisible,currentRule,evidenceCurrent,invalidateDerived} from './competency-service.mjs';
 import {unique,rank,validateCategories,newest} from './competency-calculations.mjs';
 export async function activityTarget(tx,actor,target){
  requireValue(target&&typeof target.runId==='string'&&typeof target.activityId==='string','Choisissez une activité publiée.');
  const run=await scoped(tx,'lesson_runs',target.runId,actor),version=await scoped(tx,'lesson_versions',run.lessonVersionId,actor),activity=version.spec.activities.find(a=>a.id===target.activityId);
  requireValue(activity&&run.availability!=='revoked','Activité publiée introuvable ou accès retiré.');
+ requireValue(!run.planningRequestId||run.releasedAt&&run.planStatus!=='cancelled','Ouvrez cette occurrence planifiée avant de l’utiliser dans un parcours.');
  const lesson=await scoped(tx,'lessons',run.lessonId,actor);requireValue(lesson.status!=='draft'||lesson.publicationId,'Cette activité doit être publiée.');
  return {runId:run.id,activityId:activity.id,lessonVersionId:version.id,title:activity.title};
 }
@@ -61,7 +62,8 @@ export async function configureAutomatic(tx,actor,runId,input){
 export async function pathCurrent(tx,p){const r=await tx.get('adaptation_rules',p.ruleId);if(!r)return false;if(p.inputObservationIds&&digest((await pathInputs(tx,r,p.learnerId)).map(o=>o.id).sort())!==digest(p.inputObservationIds))return false;return r&&(await currentRule(tx,'adaptation_rules',r,['runId','activityId']))?.id===r.id&&await evidenceCurrent(tx,p.proofs);}
 export async function authorizedProofs(tx,p){
  for(const proof of p.proofs){const o=await tx.get('competency_observations',proof.id);if(!o||o.learnerId!==p.learnerId)return false;try{await assignmentAccess(tx,o.assignmentId,{id:p.learnerId,role:'student'});}catch{return false;}
-  const published=await tx.get('result_publications',o.submissionId);if(published?.version!==o.correctionVersion){const run=await tx.get('lesson_runs',o.runId),correction=await tx.get('corrections',o.submissionId);if(!run?.formativePolicy?.enabled||correction?.status!=='approved'||correction.version!==o.correctionVersion)return false;}
+  if(o.teacherEvidenceId){if(!await observationVisible(tx,o,{id:p.learnerId,role:'student'}))return false;continue;}
+  const published=await tx.get('result_publications',o.submissionId);if(published?.withdrawnAt)return false;if(published?.version!==o.correctionVersion){const run=await tx.get('lesson_runs',o.runId),correction=await tx.get('corrections',o.submissionId);if(!run?.formativePolicy?.enabled||correction?.status!=='approved'||correction.version!==o.correctionVersion)return false;}
  }return true;
 }
 export async function assignActivity(tx,actor,p,target){
