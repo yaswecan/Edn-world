@@ -321,3 +321,14 @@ dialog{width:calc(100vw - 20px)}
 .modal-body input:not([type=checkbox]), .modal-body select, .modal-body textarea { max-width:100%; }
 [data-form-error] { border-left:4px solid #a63030; padding:.75rem; color:#862323; }
 :focus-visible { outline:3px solid #257559; outline-offset:3px; }
+.diagnostic-profile { display:grid; grid-template-columns:minmax(210px,1fr) minmax(0,3fr); gap:20px; margin:20px 0; align-items:start; }
+.diagnostic-profile > *, .response-comment { min-width:0; overflow-wrap:anywhere; }
+.response-comment { margin:16px 0; padding:16px; border-left:3px solid var(--brand,#008f83); background:var(--surface,#f3f8f7); }
+.response-comment textarea { min-height:88px; }
+.diagnostic-clock { margin-bottom:16px; }
+.diagnostic-answer-layout { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:24px; }
+.diagnostic-answer-layout > * { min-width:0; }
+.diagnostic-points { padding:16px; border:1px solid var(--line,#d8e3e0); border-radius:12px; }
+.diagnostic-answer-layout:has(> :only-child) { grid-template-columns:minmax(0,1fr); }
+.diagnostic-profile .flex { flex-wrap:wrap; }
+@media(max-width:767px) { .diagnostic-profile, .diagnostic-answer-layout { grid-template-columns:1fr; } }

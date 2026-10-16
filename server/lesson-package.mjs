@@ -36,6 +36,7 @@ export function normalizedSpec(original){
  Object.assign(spec,{lessonId:'portable',lessonVersion:1,classId:'portable',date:'',planEntryId:'',planVersion:0,sequence:''});
  spec.sourceVersions={curriculumVersion:'',planVersion:0,previousLessonRunId:null};
  Object.assign(spec.diagnostic,{id:'portable-diagnostic',sourceLessonRunId:null,sourceLessonVersion:null});
+ if(spec.diagnostic.contract){Object.assign(spec.diagnostic.contract,{source:null,sourceConfirmed:false,reviewed:false});for(const k of ['confirmedBy','confirmedAt','reason'])delete spec.diagnostic.contract[k];}
  if(spec.codeStation){Object.assign(spec.codeStation,{missionId:'portable-mission',missionVersion:1});delete spec.codeStation.missionSignature;}
  return spec;
 }

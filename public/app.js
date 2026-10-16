@@ -367,8 +367,9 @@ function lessonView() {
       `${dateText(s.date)} · ${s.sequence} · version ${s.lessonVersion}`,
       btn("Retour aux séances", "nav", "lessons", "", "arrow"),
     ) + competencyBadges(l,{teacher:true}) + btn('Intitulé et compétences','edit-identity',l.id) + revisionEditor(l) +
-    (l.status==='draft'&&s.diagnostic.policyVersion!=='diagnostic-practice-1'?`<div class="card pad spaced"><h2>Un diagnostic plus pratique</h2><p>Ajoutez des éditeurs, des écrans à analyser et des preuves d’autonomie pour A2. Une nouvelle version du brouillon sera créée ; les anciennes versions restent conservées.</p>${btn('Renforcer le diagnostic','revise-diagnostic',l.id,'','code')}</div>`:'')+
-    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${todayLessonAction(l)}${l.runId?`<a class="btn" href="/suivi.html?run=${enc(l.runId)}">Copies de la classe</a>`:""}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${["draft","published"].includes(l.status)?btn("Modifier", "edit-lesson", l.id, "", "settings"):""}${btn("Exporter cette séance", "transfer-export", l.id)}${["draft","published"].includes(l.status)?btn("Remplacer depuis un fichier", "transfer-replace", l.id):""}${l.status === "draft" ? btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul>${competencyBadges(l,{teacher:true})}</div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Vérifications facultatives</h2><details><summary>Consulter les remarques</summary>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}</details><p class="section-note">Ces repères vous aident à relire. Vous pouvez publier la séance dès qu’elle vous convient.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille /20", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
+    (l.status==='draft'?`<div class="card pad spaced"><h2>Diagnostic de début de séance</h2><p>Confirmez le réalisé, préparez l’exercice supplémentaire et relisez le budget complet de vingt minutes.</p><a class="btn primary" href="/suivi.html?view=diagnostic&lesson=${enc(l.id)}">Préparer le diagnostic V3.1</a></div>`:'')+
+    (l.status==='draft'&&s.diagnostic.policyVersion!=='diagnostic-practice-1'&&!s.diagnostic.contract?`<div class="card pad spaced"><h2>Un diagnostic plus pratique</h2><p>Ajoutez des éditeurs, des écrans à analyser et des preuves d’autonomie pour A2. Une nouvelle version du brouillon sera créée ; les anciennes versions restent conservées.</p>${btn('Renforcer le diagnostic','revise-diagnostic',l.id,'','code')}</div>`:'')+
+    `<div class="flex wrap spaced">${pill(stateLabel(l.status), "brand-tone")}${todayLessonAction(l)}${l.runId?`<a class="btn" href="/suivi.html?run=${enc(l.runId)}">Copies de la classe</a>`:""}${btn("Aperçu élève", "preview", l.id, "", "book")}${btn("Corpus complet", "corpus", l.id, "", "folder")}${["draft","published"].includes(l.status)?btn("Modifier", "edit-lesson", l.id, "", "settings"):""}${btn("Exporter cette séance", "transfer-export", l.id)}${["draft","published"].includes(l.status)?btn("Remplacer depuis un fichier", "transfer-replace", l.id):""}${l.status === "draft" ? btn("Mission de jeu", "choose-mission", l.id, "small") + btn("Plus pratique", "adapt-practice", l.id, "small") + btn("Différencier", "adapt-remediation", l.id, "small") + btn("Publier cette version", "publish", l.id, "primary", "check") : l.status === "published" ? btn("Accès élèves", "student-access", l.id, "primary", "people") + btn("Adapter la suite", "adapt-remediation", l.id, "small") + btn("Clôturer la séance", "close-lesson", l.id, "primary", "check") : ""}</div><div class="lesson-layout"><div><div class="card pad spaced"><div class="eyebrow">La séance en un regard</div><h2>Ce que l’élève saura faire</h2><ul class="block-content">${s.objectives.map((o) => `<li>${esc(o)}</li>`).join("")}</ul>${competencyBadges(l,{teacher:true})}</div><div class="card pad spaced"><h2>Le déroulé · ${s.blocks.reduce((a, b) => a + b.minutes, 0)} minutes</h2>${s.blocks.map((b) => `<div class="timeline-row"><div class="timeline-time">${b.minutes} min</div><div><strong>${esc(b.title)}</strong><p>${esc(b.content)}</p></div></div>`).join("")}</div><div class="card pad"><h2>Guide d’animation</h2><div class="block-content">${esc(s.teacherGuide)}</div></div></div><aside><div class="card pad spaced"><h2>Vérifications facultatives</h2><details><summary>Consulter les remarques</summary>${l.quality.checks.map((c) => `<div class="check ${c.ok ? "" : "bad"}"><b>${c.ok ? "✓" : "○"}</b>${esc(c.message)}</div>`).join("")}</details><p class="section-note">Ces repères vous aident à relire. Vous pouvez publier la séance dès qu’elle vous convient.</p></div><div class="card pad spaced"><div class="eyebrow">Diagnostic · ${s.diagnostic.duration} min</div><h2>${s.diagnostic.kind === "baseline" ? "Point de départ" : "La dernière séance réelle"}</h2><p class="subtitle">${s.diagnostic.sourceLessonRunId ? esc(s.diagnostic.sourceLessonRunId) : "Aucune séance précédente n’est présumée réalisée."}</p><div class="pills" style="margin-top:14px">${s.diagnostic.criteria.map((c) => pill(c)).join("")}</div>${btn("Consignes et grille", "diagnostic", l.id, "subtle small", "arrow")}</div><div class="card pad"><div class="eyebrow">Activité native EDEN</div><h2>${s.codeStation ? "CODE//STATION" : "Transfert autonome"}</h2><p class="subtitle">${s.codeStation ? "Mission du catalogue PédagoLab · tests et preuve finale." : "Une activité de transfert remplace le jeu lorsqu’aucune mission n’est compatible avec les critères."}</p></div></aside></div>`
   );
 }
 function correctionsView() {
@@ -377,7 +378,7 @@ function correctionsView() {
       "Observer avant de conclure.",
       "Les productions sont figées. Votre validation transforme la correction en preuve.",
     ) +
-    `<p><a class="btn" href="/suivi.html?view=runs">Évaluations de classe et publication</a></p><div class="card table-wrap"><table><thead><tr><th>Élève</th><th>Séance</th><th>Note /20</th><th>Niveau</th><th>Statut</th><th></th></tr></thead><tbody>${S.data.corrections.map((c) => `<tr><td><strong>${esc(S.data.learners.find((l) => l.id === c.learnerId)?.displayName || c.learnerId)}</strong></td><td>${esc(S.data.lessons.find((l) => l.id === c.lessonId)?.title || c.lessonId)}</td><td>${c.score ?? "—"}</td><td>${pill(c.level, c.level === "NE" ? "amber" : "brand-tone")}</td><td>${pill(stateLabel(c.status), c.status === "approved" ? "green" : "amber")}</td><td>${(c.status !== "approved" && S.data.integrations.openai ? btn("Pré-corriger", "precorrect", c.id, "small") : "") + btn("Relire", "review", c.id, "small", "arrow")}</td></tr>`).join("")}</tbody></table>${S.data.corrections.length ? "" : empty("Les diagnostics remis par les élèves apparaîtront ici.", "check")}</div>`
+    `<p><a class="btn" href="/suivi.html?view=runs">Évaluations de classe et publication</a></p><div class="card table-wrap"><table><thead><tr><th>Élève</th><th>Séance</th><th>Note</th><th>Niveau</th><th>Statut</th><th></th></tr></thead><tbody>${S.data.corrections.map((c) => `<tr><td><strong>${esc(S.data.learners.find((l) => l.id === c.learnerId)?.displayName || c.learnerId)}</strong></td><td>${esc(S.data.lessons.find((l) => l.id === c.lessonId)?.title || c.lessonId)}</td><td>${c.score==null?"—":`${c.score} / ${c.scoreMax??"—"}`}</td><td>${pill(c.level, c.level === "NE" ? "amber" : "brand-tone")}</td><td>${pill(stateLabel(c.status), c.status === "approved" ? "green" : "amber")}</td><td>${(c.status !== "approved" && S.data.integrations.openai ? btn("Pré-corriger", "precorrect", c.id, "small") : "") + btn("Relire", "review", c.id, "small", "arrow")}</td></tr>`).join("")}</tbody></table>${S.data.corrections.length ? "" : empty("Les diagnostics remis par les élèves apparaîtront ici.", "check")}</div>`
   );
 }
 function gameReviews() {
@@ -595,7 +596,7 @@ async function startStudent(date) {
       S.step=Math.min(saved.step||0,S.student.spec.blocks.length-1);
     }
     const diagnostic=S.student.spec.blocks.findIndex(b=>b.type==='Diagnostic');
-    if(!S.attempt.submissionId&&!result.summary?.reprises?.length&&diagnostic>=0&&S.step>diagnostic)S.step=diagnostic;
+    if(!S.attempt?.submissionId&&!result.summary?.reprises?.length&&diagnostic>=0&&S.step>diagnostic)S.step=diagnostic;
   }
   const activity=params.get('activity');if(activity){const step=S.student?.spec.blocks.findIndex(b=>b.activityIds?.includes(activity));if(step>=0)S.step=step;}
   S.reprise=!!result.summary?.reprises?.length;S.targeted=!!S.attempt?.targetedOpen;S.workReadOnly=result.summary?.availability!=='open';
@@ -606,7 +607,7 @@ function studentStorageKey(){return `eden:${S.user.id}:${S.assignmentId}:${S.att
 function studentWorkActions(){return !S.readOnly&&S.student?`<div class="student-work-actions"><span id="work-save-status" role="status">${esc(S.workSaveMessage||'')}</span>${btn('Enregistrer mon travail','save-work')}</div>`:'';}
 
 async function saveDiagnostic(){
- const attempt=S.attempt;if(!attempt||attempt.submissionId||S.readOnly)return;
+ const attempt=S.attempt;if(!attempt||attempt.submissionId||S.readOnly||attempt.timing&&!attempt.timing.startedAt)return;
  const run=async()=>{
   if(S.attempt!==attempt)return;
   const values=()=>Object.fromEntries(S.student.spec.diagnostic.tasks.filter(t=>Object.hasOwn(S.answers,t.id)).map(t=>[t.id,S.answers[t.id]]));
@@ -660,9 +661,10 @@ function renderStudent() {
     completed: S.completed || [],
     support: S.diagnosticSupport || [],
     displayDate: S.studentDisplayDate,
-    readOnly: S.readOnly||S.workReadOnly&&S.student.spec.blocks[S.step]?.type!=='Diagnostic',
+    readOnly: S.readOnly||S.workReadOnly&&S.student.spec.blocks[S.step]?.type!=='Diagnostic'||S.student.spec.blocks[S.step]?.type==='Diagnostic'&&!!S.attempt?.timing&&(!S.attempt.timing.startedAt||!!S.attempt.timing.pausedAt||S.attempt.expired),
   });
   $(".student-hub-workspace")?.insertAdjacentHTML("afterbegin",studentWorkActions());
+  renderDiagnosticClock();
   if(S.readOnly)$(".lesson-stage")?.insertAdjacentHTML("afterbegin",'<p role="status">Consultation — les rendus sont fermés. Ton avancement est conservé.</p>');
   showStudentVersionNotice();
   if(S.availableLessons.length>1) $('.student-hub-workspace')?.insertAdjacentHTML('afterbegin',`<details class="student-available-lessons"><summary>Mes séances disponibles</summary>${studentLessonLinks()}</details>`);
@@ -993,7 +995,7 @@ const actions = {
     S.closingLesson = l;
     modal(
       "Clôturer : noter le réel",
-      `<p class="subtitle spaced">${esc(l.title)} · ${dateText(l.date)}</p><form data-form="close-lesson" data-id="${esc(id)}"><div class="field"><label for="run-status">Ce qui s’est passé</label><select id="run-status" name="status"><option value="completed">Séance réalisée</option><option value="partially_completed">Partiellement réalisée</option><option value="postponed">Reportée</option><option value="cancelled">Annulée</option><option value="replaced">Remplacée</option><option value="not_completed">Non réalisée</option><option value="non_evaluable">Événement non évaluable</option></select></div><div class="field"><label>Critères réellement travaillés</label>${l.spec.skills.map((c) => `<label class="check-label"><input type="checkbox" name="coveredSkills" value="${esc(c)}" checked>${esc(c)}</label>`).join("")}</div><div class="field"><label for="covered">Contenu réellement couvert</label><textarea id="covered" name="coveredContent" placeholder="Précisez les activités et notions réellement travaillées."></textarea></div><div class="form-grid"><div class="field"><label for="difficulties">Difficultés</label><textarea id="difficulties" name="difficulties"></textarea></div><div class="field"><label for="next-action">Prochaine étape</label><textarea id="next-action" name="nextAction"></textarea></div></div><div class="field"><label for="journal-comment">Commentaire professeur</label><textarea id="journal-comment" name="comment"></textarea></div><div class="modal-actions"><button class="btn primary">${icon("check")} Clôturer et alimenter le Twin</button></div></form>`,
+      `<p class="subtitle spaced">${esc(l.title)} · ${dateText(l.date)}</p><form data-form="close-lesson" data-id="${esc(id)}"><div class="field"><label for="run-status">Ce qui s’est passé</label><select id="run-status" name="status"><option value="completed">Séance réalisée</option><option value="partially_completed">Partiellement réalisée</option><option value="postponed">Reportée</option><option value="cancelled">Annulée</option><option value="replaced">Remplacée</option><option value="not_completed">Non réalisée</option><option value="non_evaluable">Événement non évaluable</option></select></div><div class="field"><label>Critères réellement travaillés</label>${l.spec.skills.map((c) => `<label class="check-label"><input type="checkbox" name="coveredSkills" value="${esc(c)}" checked>${esc(c)}</label>`).join("")}</div><div class="field"><label>Date réelle de travail<input type="date" name="actualDate" value="${esc(l.date)}" required></label><fieldset><legend>Activités effectivement réalisées</legend>${l.spec.activities.map(a=>`<label class="check-label"><input type="checkbox" name="coveredActivityIds" value="${esc(a.id)}">${esc(a.title)}</label>`).join('')}</fieldset></div><div class="field"><label for="covered">Contenu réellement couvert</label><textarea id="covered" name="coveredContent" placeholder="Précisez les activités et notions réellement travaillées."></textarea></div><div class="form-grid"><div class="field"><label for="difficulties">Difficultés</label><textarea id="difficulties" name="difficulties"></textarea></div><div class="field"><label for="next-action">Prochaine étape</label><textarea id="next-action" name="nextAction"></textarea></div></div><div class="field"><label for="journal-comment">Commentaire professeur</label><textarea id="journal-comment" name="comment"></textarea></div><div class="modal-actions"><button class="btn primary">${icon("check")} Clôturer et alimenter le Twin</button></div></form>`,
     );
   },
   "journal-detail": (id) => {
@@ -1005,6 +1007,7 @@ const actions = {
   },
   review: async (id) => {
     const data = await api("/api/teacher/submissions/" + enc(id));
+    if(data.submission.diagnostic.contract){location.href="/suivi.html?attempt="+enc(data.submission.attemptId);return;}
     S.review = data;
     const { submission: s, correction: c } = data;
     modal(
@@ -1181,20 +1184,22 @@ const actions = {
   },
   "save-work":async()=>{for(const timer of answerTimers.values())clearTimeout(timer);if(!S.attempt?.submissionId)await saveDiagnostic();if(!S.workReadOnly)for(const a of S.student.spec.activities)if(Object.hasOwn(S.answers,a.id))await studentEvent('answer_saved',a.id,{answer:S.answers[a.id]});S.workSaveMessage='Travail enregistré';const el=$('#work-save-status');if(el)el.textContent=S.workSaveMessage;},
   "save-answers": () => saveDiagnostic(),
+  "begin-diagnostic":async()=>{S.attempt=await post('/api/assessments/'+enc(S.student.id)+'/start',{assignmentId:S.assignmentId,attemptId:S.attempt.id,begin:true});S.clockOffset=Date.parse(S.attempt.serverNow)-Date.now();renderStudent();},
+  "recover-local-diagnostic":()=>{const data={attemptId:S.attempt.id,answers:Object.fromEntries(S.student.spec.diagnostic.tasks.filter(t=>Object.hasOwn(S.answers,t.id)).map(t=>[t.id,S.answers[t.id]]))},url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='diagnostic-recuperation.json';a.click();URL.revokeObjectURL(url);},
   "submit-answers": () =>
     modal(
       studentCopy.submit,
       `<p>Tu ne pourras plus modifier ce travail après l’envoi. Tu peux rendre une réponse incomplète.</p><div class="modal-actions">${btn("Continuer à travailler", "close-modal")}${btn("Confirmer l’envoi", "confirm-submit", "", "primary", "check")}</div>`,
     ),
   "confirm-submit": async () => {
-    clearTimeout(answerTimers.get('diagnostic'));await saveDiagnostic();await S.eventQueue;
+    clearTimeout(answerTimers.get('diagnostic'));await flushTerminalFiles();await saveDiagnostic();await S.eventQueue;
     const r = await post(`/api/assessments/${enc(S.attempt.id)}/submit`, {
       answers: S.answers,draftVersion:S.attempt.draftVersion,
     });
     S.attempt.submissionId = r.submissionId;
     S.diagnosticSupport = [];
     closeModal();
-    toast(studentCopy.submitted);
+    toast(r.closure==='deadline'?'Temps écoulé : seules les réponses reçues par le serveur ont été conservées.':studentCopy.submitted);
     renderStudent();
   },
   "student-result": async () => {
@@ -1337,7 +1342,7 @@ const forms = {
   "close-lesson": async (f, data) => {
     await post(`/api/lessons/${enc(f.dataset.id)}/close`, {
       ...data,
-      coveredSkills: new FormData(f).getAll("coveredSkills"),
+      coveredSkills: new FormData(f).getAll("coveredSkills"),coveredActivityIds:new FormData(f).getAll('coveredActivityIds'),
     });
     closeModal();
     S.lesson = null;
@@ -1984,5 +1989,27 @@ async function boot() {
 }
 boot().catch(showError);
 
-installTerminalLabs({getLesson:()=>S.user?.role==='teacher'?S.previewLesson:S.student,getJob:()=>S.user?.role==='teacher'?S.previewLesson?.qualityJobId:null});
-installDOMLabs({getLesson:()=>S.user?.role==='teacher'?S.previewLesson:S.student,getJob:()=>S.user?.role==='teacher'?S.previewLesson?.qualityJobId:null});
+installTerminalLabs({getAttempt:()=>S.attempt,getLesson:()=>S.user?.role==='teacher'?S.previewLesson:S.student,getJob:()=>S.user?.role==='teacher'?S.previewLesson?.qualityJobId:null});
+installDOMLabs({getAttempt:()=>S.attempt,getLesson:()=>S.user?.role==='teacher'?S.previewLesson:S.student,getJob:()=>S.user?.role==='teacher'?S.previewLesson?.qualityJobId:null});
+
+function renderDiagnosticClock(){
+ const a=S.attempt;if(!a?.timing||S.student?.spec.blocks[S.step]?.type!=='Diagnostic')return;
+ const text=a.submissionId?(a.expired?'Échéance atteinte : copie serveur conservée. Les éléments non synchronisés restent séparés.':'Copie remise et figée.'):
+ !a.timing.startedAt?'L’interface est prête. Le temps commence lorsque tu choisis de démarrer.':a.timing.pausedAt?'Interruption autorisée. Le professeur relancera le temps.':a.expired?'Échéance serveur atteinte. Les modifications tardives ne changent pas la copie.':'Temps restant indicatif';
+ document.querySelector('.lesson-stage')?.insertAdjacentHTML('afterbegin',`<section class="notice diagnostic-clock"><p id="diagnostic-clock" role="status">${esc(text)}</p>${!a.timing.startedAt&&!a.submissionId?btn('Démarrer le diagnostic','begin-diagnostic') : ''}${a.expired?btn('Conserver ma saisie locale','recover-local-diagnostic'):''}</section>`);
+}
+let diagnosticPoll=false;
+setInterval(async()=>{
+ const a=S.attempt;if(!a?.timing?.startedAt||a.submissionId||diagnosticPoll||S.user?.role!=='student')return;
+ const remaining=Date.parse(a.timing.deadlineAt)-(Date.now()+(S.clockOffset||0)),label=document.querySelector('#diagnostic-clock');
+ if(label&&!a.timing.pausedAt)label.textContent=remaining>0?`Temps restant indicatif : ${Math.ceil(remaining/60000)} min. Lecture et remise comprises.`:'Échéance estimée atteinte. Vérification auprès du serveur…';
+ diagnosticPoll=true;
+ try{const state=await api('/api/diagnostics/attempts/'+enc(a.id)+'/state');if(S.attempt!==a)return;
+  const changedPause=!!a.timing.pausedAt!==!!state.timing.pausedAt;
+  S.clockOffset=Date.parse(state.serverNow)-Date.now();a.timing=state.timing;a.expired=state.expired;
+  if(state.expired&&!state.submissionId){persistLocal();const receipt=await post('/api/diagnostics/attempts/'+enc(a.id)+'/expire');if(S.attempt!==a)return;a.submissionId=receipt.submissionId;renderStudent();}
+  else if(state.submissionId){a.submissionId=state.submissionId;renderStudent();}
+  else if(changedPause){persistLocal();renderStudent();}
+ }catch(error){if(label?.isConnected&&error.name!=='AbortError')label.textContent='Connexion interrompue : sauvegarde et remise non confirmées. Ta saisie locale reste disponible.';}
+ finally{diagnosticPoll=false;}
+},5000);

@@ -1,3 +1,4 @@
+import {diagnosticV31Issues} from './diagnostic-v31.mjs';
 import {activity} from './activity.mjs';
 import {practicalBaseline,DIAGNOSTIC_POLICY,diagnosticExpectations} from './diagnostic-practice.mjs';
 
@@ -72,8 +73,9 @@ export function diagnosticChecks(spec){
  const blocks=spec.blocks.filter(b=>b.type==='Diagnostic');
  const skills=[...new Set(tasks.flatMap(t=>t.skills))];
  return [
-  {id:'diagnostic_tasks',ok:tasks.length>=2&&tasks.length<=4&&tasks.every(t=>t.required&&t.correctionMode!=='none'&&t.instruction.trim()&&t.expectedEvidence.trim()&&t.reference.trim()),message:'Évaluation diagnostique obligatoire : 2 à 4 tâches avec consignes, traces attendues et corrigés'},
-  {id:'diagnostic_timing',ok:d.duration>=5&&d.duration<=20&&tasks.reduce((n,t)=>n+t.duration,0)===d.duration&&blocks.length===1&&blocks[0].minutes===d.duration,message:'Diagnostic de 5 à 20 minutes intégré au déroulé'},
+  ...diagnosticV31Issues(d).map(message=>({id:'diagnostic_v31',ok:false,message})),
+  {id:'diagnostic_tasks',ok:tasks.length>=2&&tasks.length<=(d.contract?12:4)&&tasks.every(t=>t.required&&t.correctionMode!=='none'&&t.instruction.trim()&&t.expectedEvidence.trim()&&t.reference.trim()),message:'Évaluation diagnostique obligatoire : 2 à 4 tâches avec consignes, traces attendues et corrigés'},
+  {id:'diagnostic_timing',ok:d.duration>=5&&d.duration<=20&&tasks.reduce((n,t)=>n+t.duration,0)+(d.contract?.readingMinutes||0)+(d.contract?.submissionMinutes||0)===d.duration&&blocks.length===1&&blocks[0].minutes===d.duration,message:'Diagnostic de 5 à 20 minutes intégré au déroulé'},
   {id:'diagnostic_coverage',ok:tasks.length>0&&tasks.every(t=>(t.skills.length?t.skills:['baseline']).every(c=>rubric.some(r=>r.taskId===t.id&&r.criterion===c)))&&criteria.length===skills.length&&skills.every(c=>criteria.includes(c)),message:'Chaque tâche et chaque critère du diagnostic sont couverts par le barème'},
   {id:'diagnostic_flow',ok:blocks.length===1&&spec.studentFlow.filter(id=>id===blocks[0].id).length===1,message:'Diagnostic accessible dans le parcours de chaque séance'}
  ];

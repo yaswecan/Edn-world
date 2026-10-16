@@ -11,11 +11,11 @@ export async function flushTerminalFiles(){
 }
 function loadTerminal(){return loading??=new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href='/vendor/xterm.css';document.head.append(link);const script=document.createElement('script');script.src='/vendor/xterm.js';script.onload=resolve;script.onerror=()=>reject(Error('Interface terminal indisponible.'));document.head.append(script);});}
 async function call(path,body){const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}),v=await r.json();if(!r.ok)throw Error(v.error||'Incident technique. Aucune compétence évaluée.');return v;}
-export function installTerminalLabs({getLesson,getJob}){
+export function installTerminalLabs({getLesson,getJob,getAttempt=()=>null}){
  document.addEventListener('click',async event=>{const button=event.target.closest('[data-connect-lab]');if(!button)return;const root=button.closest('[data-real-lab]'),status=root.querySelector('[role=status]');button.disabled=true;
   let terminal,timer,resize,busy=false,cursor=0,pending='';
   try{
-   const lesson=getLesson(),job=getJob?.(),session=await call(job?`/api/preparation/jobs/${encodeURIComponent(job)}/lab`:lesson.preview?`/api/lessons/${encodeURIComponent(lesson.id)}/preview/lab`:'/api/labs',{lessonId:lesson.id,lessonVersionId:lesson.versionId,assignmentId:lesson.assignmentId,activityId:root.dataset.realLab,...(lesson.editorSpec?{editorSpec:lesson.editorSpec,editorToken:lesson.editorToken}:{})});await loadTerminal();if(!root.isConnected)return;
+   const lesson=getLesson(),job=getJob?.(),session=await call(job?`/api/preparation/jobs/${encodeURIComponent(job)}/lab`:lesson.preview?`/api/lessons/${encodeURIComponent(lesson.id)}/preview/lab`:'/api/labs',{lessonId:lesson.id,lessonVersionId:lesson.versionId,assignmentId:lesson.assignmentId,attemptId:getAttempt()?.id,activityId:root.dataset.realLab,...(lesson.editorSpec?{editorSpec:lesson.editorSpec,editorToken:lesson.editorToken}:{})});await loadTerminal();if(!root.isConnected)return;
    const editor=root.querySelector('[data-file-content]');
    const changed=()=>{const file={sessionId:session.id,path:root.querySelector('[data-file-path]').value,content:editor.value};unsavedFiles.set(session.id,file);localStorage.setItem('eden-lab-draft:'+session.id,JSON.stringify(file));};
    try{const saved=JSON.parse(localStorage.getItem('eden-lab-draft:'+session.id));if(saved){root.querySelector('[data-file-path]').value=saved.path;editor.value=saved.content;unsavedFiles.set(session.id,saved);}}catch{}

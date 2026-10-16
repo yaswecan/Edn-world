@@ -271,6 +271,36 @@
       ],
       "additionalProperties": false
     },
+    "itemVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "diagnosticRole": {
+      "const": "near-transfer-3.1"
+    },
+    "answerParts": {
+      "type": "array",
+      "maxItems": 30,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^[A-Za-z0-9_.:-]+$"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "label"
+        ],
+        "additionalProperties": false
+      }
+    },
     "richText": {
       "type": "object",
       "additionalProperties": false,

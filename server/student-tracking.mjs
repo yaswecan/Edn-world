@@ -1,5 +1,6 @@
+import {DIAGNOSTIC_V31,isTimed,deadlinePassed,assertDiagnosticWriting,beginDiagnostic,requireDiagnosticV31} from './diagnostic-v31.mjs';
 import {sessionIdentity,presentSpec} from './session-identity.mjs';
-import {activeGrid} from './competency-service.mjs';
+import {activeGrid,currentActor} from './competency-service.mjs';
 import {assertPathStart,adaptiveAccessAllowed,refreshPublishedPaths} from './adaptive-paths.mjs';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 import {studentSpec} from './generator.mjs';
@@ -84,18 +85,24 @@ export async function ownedAttempt(tx,id,actor,{write=false}={}){
  const a=await tx.get('assessment_attempts',id);if(!a||a.learnerId!==actor.id)fail(404,'Tentative introuvable.');
  if(a.assignmentId){const assigned=await assignmentAccess(tx,a.assignmentId,actor);if(write){if(a.mode==='practice'){if(await availability(tx,assigned)==='revoked')fail(404,'Travail introuvable.');}else if(a.targetedOpen===true){if(a.closedAt)fail(409,'Cette reprise est fermée.');}else await assertWritable(tx,assigned);}}
  else if(a.classId!==actor.classId)fail(404,'Tentative introuvable.');
- if(write&&a.submissionId)fail(409,'Copie déjà figée.');return a;
+ if(write&&a.submissionId)fail(409,'Copie déjà figée.');if(write)assertDiagnosticWriting(a);return a;
 }
-export function safeAttempt(a){if(!a)return null;return {id:a.id,assignmentId:a.assignmentId,lessonId:a.lessonId,lessonVersionId:a.lessonVersionId,answers:a.answers||{},submissionId:a.submissionId||null,draftVersion:a.draftVersion||0,mode:a.mode||'diagnostic',afterCorrection:!!a.afterCorrection,number:a.number||1,savedAt:a.savedAt||null,closedAt:a.closedAt||null,targetedOpen:!!a.targetedOpen};}
+export function safeAttempt(a){if(!a)return null;return {id:a.id,assignmentId:a.assignmentId,lessonId:a.lessonId,lessonVersionId:a.lessonVersionId,answers:a.answers||{},submissionId:a.submissionId||null,draftVersion:a.draftVersion||0,mode:a.mode||'diagnostic',afterCorrection:!!a.afterCorrection,number:a.number||1,savedAt:a.savedAt||null,closedAt:a.closedAt||null,targetedOpen:!!a.targetedOpen,timing:a.timing?{...a.timing,history:undefined}:null,exposure:a.exposure||'unknown',serverNow:now(),expired:deadlinePassed(a)};}
 export async function startAttempt(tx,actor,input){
+ await currentActor(tx,actor);
  const assigned=await findAssignment(tx,actor,input),all=(await tx.list('assessment_attempts',assigned.classId)).filter(a=>a.learnerId===actor.id&&a.assignmentId===assigned.id);
- if(input.attemptId){const a=await ownedAttempt(tx,input.attemptId,actor);if(a.assignmentId!==assigned.id)fail(404,'Tentative introuvable.');return safeAttempt(a);}
- const existing=all.find(a=>!a.previousSubmissionId&&a.mode!=='practice')||all.filter(a=>a.mode!=='practice').at(-1);if(existing)return safeAttempt(existing);
+ if(input.attemptId){const a=await ownedAttempt(tx,input.attemptId,actor);if(a.assignmentId!==assigned.id)fail(404,'Tentative introuvable.');if(input.begin===true){if(a.targetedOpen)requireValue(!a.closedAt&&await availability(tx,assigned)!=='revoked','Cette reprise est fermée.');else await assertWritable(tx,assigned);await beginDiagnostic(tx,a);}return safeAttempt(a);}
+ const existing=all.find(a=>!a.previousSubmissionId&&a.mode!=='practice')||all.filter(a=>a.mode!=='practice').at(-1);if(existing){if(input.begin===true){await assertWritable(tx,assigned);await beginDiagnostic(tx,existing);}return safeAttempt(existing);}
  await assertWritable(tx,assigned);
- return safeAttempt(await tx.insert('assessment_attempts',{id:uid('attempt'),classId:assigned.classId,learnerId:actor.id,lessonId:assigned.lessonId,lessonVersionId:assigned.lessonVersionId,assignmentId:assigned.id,runId:assigned.runId,competencyGridId:(await activeGrid(tx,assigned.lessonVersionId))?.id||null,mode:'diagnostic',number:1,draftVersion:0,status:'started',answers:{},history:[],firstAttempt:{},lastAttempt:{},executions:0,hints:0}));
+ const diagnostic=(await tx.get('lesson_versions',assigned.lessonVersionId)).spec.diagnostic;requireDiagnosticV31(diagnostic);
+ const timed=diagnostic.contract?.version===DIAGNOSTIC_V31;
+ const participation=(await tx.list('occurrence_participations',assigned.classId)).filter(p=>p.runId===diagnostic.sourceLessonRunId&&p.learnerId===actor.id).at(-1);
+ const attempt=await tx.insert('assessment_attempts',{id:uid('attempt'),classId:assigned.classId,learnerId:actor.id,lessonId:assigned.lessonId,lessonVersionId:assigned.lessonVersionId,assignmentId:assigned.id,runId:assigned.runId,competencyGridId:(await activeGrid(tx,assigned.lessonVersionId))?.id||null,mode:'diagnostic',number:1,draftVersion:0,status:'started',answers:{},history:[],firstAttempt:{},lastAttempt:{},executions:0,hints:0,...(timed?{timing:{version:DIAGNOSTIC_V31,standardMinutes:diagnostic.duration,extraMinutes:0,revision:0,startedAt:null,deadlineAt:null},exposure:participation?.state==='absent'?'not_exposed':participation?.state==='observed'?'exposed':'unknown'}:{})});
+ if(input.begin===true)await beginDiagnostic(tx,attempt);return safeAttempt(attempt);
 }
 export function checkDraftVersion(a,input){if(input.draftVersion!==(a.draftVersion||0))fail(409,'Le travail a changé dans un autre onglet. Recharge la copie avant de réessayer ; ta saisie reste disponible.',{draftVersion:a.draftVersion||0});}
 export async function saveAttempt(tx,actor,id,input){
+ await currentActor(tx,actor);
  const a=await ownedAttempt(tx,id,actor,{write:true});
  requireValue(input.answers&&typeof input.answers==='object'&&!Array.isArray(input.answers)&&JSON.stringify(input.answers).length<=150000,'Réponses invalides.');
  const signature=sha256(canonical({answers:input.answers,draftVersion:input.draftVersion}));
@@ -106,19 +113,21 @@ export async function saveAttempt(tx,actor,id,input){
  // diagnostic fields, never browser-computed scores or arbitrary properties.
  a.answers=Object.fromEntries(Object.entries(input.answers).filter(([id])=>known.has(id)));
  for(const value of Object.values(a.answers))requireValue(typeof value==='string'&&value.length<=100000,'Réponse invalide.');
- a.draftVersion=(a.draftVersion||0)+1;a.savedAt=now();a.lastSave={requestId:input.requestId,signature};await tx.put('assessment_attempts',a);
+ assertDiagnosticWriting(a);a.draftVersion=(a.draftVersion||0)+1;a.savedAt=now();a.lastSave={requestId:input.requestId,signature};await tx.put('assessment_attempts',a);
  return {attemptId:a.id,receivedAt:a.savedAt,draftVersion:a.draftVersion};
 }
-export function publicCorrection(c){return {version:c.version,status:'published',score:c.score,scoreMax:c.scoreMax,partialScore:c.partialScore??null,gradingMode:c.gradingMode||'numeric',level:c.grade!==undefined?c.grade:c.level,grade:c.grade??null,gradeStatus:c.gradeStatus||'Grade à déterminer',gradeReasons:c.gradeReasons||[],gradeRule:c.gradeRule||null,categories:c.categories||[],competencyResults:c.competencyResults||[],feedback:c.feedback,source:'teacher',approvedAt:c.approvedAt,items:(c.items||[]).map(i=>({id:i.id,taskId:i.taskId,label:i.label,criterion:i.criterion,points:i.points,max:i.max,coefficient:i.coefficient??1,observedGrade:i.observedGrade||null,exempt:i.exempt===true,exemptionReason:i.exemptionReason||null,feedback:i.feedback,source:i.source||'teacher',evidence:i.evidence||null})),criteria:(c.criteria||[]).map(i=>({criterion:i.criterion,points:i.points,max:i.max,level:i.level}))};}
+export function publicCorrection(c){return {version:c.version,status:'published',score:c.score,scoreMax:c.scoreMax,partialScore:c.partialScore??null,gradingMode:c.gradingMode||'numeric',level:c.grade!==undefined?c.grade:c.level,grade:c.grade??null,gradeStatus:c.gradeStatus||'Grade à déterminer',gradeReasons:c.gradeReasons||[],gradeRule:c.gradeRule||null,categories:c.categories||[],competencyResults:c.competencyResults||[],feedback:c.feedback,responseComments:c.responseComments||[],source:'teacher',approvedAt:c.approvedAt,items:(c.items||[]).map(i=>({id:i.id,taskId:i.taskId,label:i.label,criterion:i.criterion,points:i.points,max:i.max,coefficient:i.coefficient??1,observedGrade:i.observedGrade||null,exempt:i.exempt===true,exemptionReason:i.exemptionReason||null,feedback:i.feedback,source:i.source||'teacher',evidence:i.evidence||null})),criteria:(c.criteria||[]).map(i=>({criterion:i.criterion,points:i.points,max:i.max,level:i.level}))};}
 export async function resultFor(tx,a){
  if(!a?.submissionId)return {status:'not_submitted'};
  const p=await tx.get('result_publications',a.submissionId);if(p?.withdrawnAt)return {status:'results_pending'};if(p)return {...p.result,publishedAt:p.publishedAt};
  const c=await tx.get('corrections',a.submissionId),run=await tx.get('lesson_runs',a.runId);if(run?.formativePolicy?.enabled&&c?.status==='approved')return {...publicCorrection(c),status:'formative'};return {status:c?.status==='approved'?'results_pending':'submitted'};
 }
 export async function publishResult(tx,id,actor,input){
+ await currentActor(tx,actor);
  const s=await scoped(tx,'submissions',id,actor),c=await scoped(tx,'corrections',id,actor),a=await tx.get('assessment_attempts',s.attemptId);
  requireValue(a?.mode!=='practice','Un entraînement ne publie pas un résultat diagnostique.');
  requireValue(c.status==='approved','Cette copie reste à corriger.');
+ if(s.diagnostic.contract?.version===DIAGNOSTIC_V31){requireValue(c.finalized!==false,'Finalisez cette révision avant publication.');requireValue(c.feedback?.trim(),'Rédigez l’appréciation globale avant publication.');requireValue((c.gradingMode==='ordinal'?c.items.every(i=>i.observedGrade||i.exempt):c.items.every(i=>i.points!==null||i.exempt))&&c.grade,'Finalisez la note et le niveau selon la grille.');}
  if(input.version!==c.version)fail(409,'La correction a changé. Relisez-la avant publication.');
  const assigned=a?.assignmentId?await tx.get('lesson_assignments',a.assignmentId):null;
  const run=await tx.get('lesson_runs',assigned?.runId||a?.runId);
@@ -136,7 +145,7 @@ export async function newAttempt(tx,s,actor,{mode='retake',reason,requestId}={})
  const current=all.find(a=>a.mode===mode&&!a.submissionId&&!a.closedAt);if(current)return safeAttempt(current);
  requireValue(await availability(tx,assigned)!=='revoked','L’accès à cette activité a été retiré.');
  const p=await tx.get('result_publications',s.id);
- const a=await tx.insert('assessment_attempts',{id:uid('attempt'),classId:s.classId,learnerId:s.learnerId,lessonId:s.lessonId,lessonVersionId:s.lessonVersionId,assignmentId:assigned.id,runId:assigned.runId,number:all.length+1,mode,afterCorrection:!!p,targetedOpen:true,openedAt:now(),previousSubmissionId:s.id,competencyGridId:original.competencyGridId||null,reason,requestId,draftVersion:0,status:'started',answers:mode==='practice'?structuredClone(s.answers):{},history:[],firstAttempt:{},lastAttempt:{},executions:0,hints:0});
+ const a=await tx.insert('assessment_attempts',{id:uid('attempt'),classId:s.classId,learnerId:s.learnerId,lessonId:s.lessonId,lessonVersionId:s.lessonVersionId,assignmentId:assigned.id,runId:assigned.runId,number:all.length+1,...(original.timing&&mode!=='practice'?{timing:{version:DIAGNOSTIC_V31,standardMinutes:original.timing.standardMinutes,extraMinutes:original.timing.extraMinutes,revision:0,startedAt:null,deadlineAt:null},exposure:original.exposure}:{}),mode,afterCorrection:!!p,targetedOpen:true,openedAt:now(),previousSubmissionId:s.id,competencyGridId:original.competencyGridId||null,reason,requestId,draftVersion:0,status:'started',answers:mode==='practice'?structuredClone(s.answers):{},history:[],firstAttempt:{},lastAttempt:{},executions:0,hints:0});
  await tx.audit(actor,'attempt.authorized',a.id,{mode,previousSubmissionId:s.id,reason});return safeAttempt(a);
 }
 export function pageRows(rows,query={}){const offset=Math.max(0,Number(query.offset)||0),limit=Math.min(100,Math.max(1,Number(query.limit)||30));return {items:rows.slice(offset,offset+limit),total:rows.length,offset,limit};}

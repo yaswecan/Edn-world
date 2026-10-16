@@ -1,3 +1,5 @@
+import {refreshDiagnosticSuggestions} from './adaptive-paths.mjs';
+import {DIAGNOSTIC_V31,isTimed,deadlinePassed,assertDiagnosticWriting,applyResponseComments,responseUnits} from './diagnostic-v31.mjs';
 import {evaluateCorrection,currentActor,invalidateDerived} from './competency-service.mjs';
 import {ownedAttempt,checkDraftVersion} from './student-tracking.mjs';
 import {aiPreferences} from './ai/settings.mjs';
@@ -13,6 +15,7 @@ export const valueOfLevel={NA:0,EC:1,A1:2,A2:3,NE:null};
 export function gradeTask(task,answer) {
  const text=typeof answer==='string'?answer:String(answer?.text??'');
  if(!text.trim())return {ratio:0,confidence:1,status:'auto_corrected_to_review',feedback:'Production absente dans la copie remise.',observations:[]};
+ if(['dom','shell-git'].includes(task.workshop?.profile))return {ratio:null,confidence:0,status:'review_required',feedback:'Fichiers et production à relire par le professeur ; une exécution du laboratoire ne suffit pas à établir la compréhension.',observations:[]};
  if(['html','css'].includes(task.correctionMode))return structuralGrade(task,text);
  if(task.correctionMode==='exact')return {ratio:text.trim()===task.expectedAnswer.trim()?1:0,confidence:1,status:'auto_corrected_to_review',feedback:'Comparaison déterministe avec la réponse attendue.',observations:[]};
  if(task.correctionMode==='structured'){
@@ -43,18 +46,33 @@ export function mastery(evidence,{minSpacingDays=7,minEvidence=2,requireTransfer
 }
 export async function submitAttempt(store,attemptId,answers,actor,input) {
  return store.transaction(async tx=>{
- const attempt=await ownedAttempt(tx,attemptId,actor);
+ await currentActor(tx,actor);const attempt=await ownedAttempt(tx,attemptId,actor);
  if(attempt.submissionId)return tx.get('submissions',attempt.submissionId);
- await ownedAttempt(tx,attemptId,actor,{write:true});if(input)checkDraftVersion(attempt,input);
+ const expired=deadlinePassed(attempt)&&!attempt.timing?.pausedAt;
+ if(!expired){await ownedAttempt(tx,attemptId,actor,{write:true});if(input)checkDraftVersion(attempt,input);}
+ else answers=structuredClone(attempt.answers||{});
  requireValue(answers&&typeof answers==='object'&&!Array.isArray(answers),'Réponses invalides.');if(JSON.stringify(answers).length>150000)fail(413,'Copie trop volumineuse.');
  const lv=await tx.get('lesson_versions',attempt.lessonVersionId);const frozen=Object.fromEntries(lv.spec.diagnostic.tasks.filter(t=>Object.hasOwn(answers,t.id)).map(t=>[t.id,structuredClone(answers[t.id])])),submittedAt=now();
  requireValue(Object.values(frozen).every(a=>typeof a==='string'&&a.length<=100000),'Réponses invalides.');
+ // Shell files are accepted only from checkpoints received while writable.
+ // DOM answers already contain the student's three editable files.
+ for(const task of lv.spec.diagnostic.tasks.filter(t=>t.workshop?.profile==='shell-git')){
+  const saved=attempt.labResponses?.[task.id];if(saved)frozen[task.id]=JSON.stringify({text:frozen[task.id]||'',files:saved.files,capturedAt:saved.capturedAt});
+ }
+ for(const task of lv.spec.diagnostic.tasks.filter(t=>t.workshop?.profile==='dom')){
+  const saved=attempt.labResponses?.[task.id];if(saved&&(!Object.hasOwn(frozen,task.id)||expired&&saved.capturedAt>(attempt.savedAt||'')))frozen[task.id]=JSON.stringify({files:saved.files});
+ }
  actor={...actor,classId:attempt.classId};
  attempt.firstAttempt??={};attempt.lastAttempt??={};
  for(const [taskId,answer] of Object.entries(frozen)){const event={timestamp:submittedAt,type:'answer_submitted',payload:{answer}};attempt.firstAttempt[taskId]??=event;attempt.lastAttempt[taskId]=event;}
  const submission=await tx.insert('submissions',{id:uid('submission'),classId:actor.classId,learnerId:actor.id,attemptId:attempt.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,diagnostic:lv.spec.diagnostic,competencyGrid:attempt.competencyGridId?await tx.get('competency_grids',attempt.competencyGridId):null,answers:frozen,history:attempt.history||[],submittedAt,sha256:hash(JSON.stringify(frozen))});
  const snapshot=await freezeContent(tx,{classId:actor.classId,event:'diagnostic.submitted',eventId:submission.id,acceptedAt:submittedAt,subject:{kind:'diagnostic',learnerId:actor.id,lessonId:attempt.lessonId,lessonVersionId:lv.id,attemptId:attempt.id},versions:{criteria:hash(canonical(lv.spec.diagnostic)),validator:'eden-assessment-1'},files:[{path:'answers.json',content:canonical(frozen),audience:'student'}]});submission.snapshotId=snapshot.id;await tx.put('submissions',submission);
- const correction=await correctAsync(lv.spec.diagnostic,frozen);await evaluateCorrection(tx,submission,correction);await tx.insert('corrections',{...correction,id:submission.id,classId:actor.classId,learnerId:actor.id,lessonId:attempt.lessonId,submissionId:submission.id,version:1});
+ submission.closure=expired?'deadline':'submitted';submission.answerStates=Object.fromEntries(lv.spec.diagnostic.tasks.map(t=>[t.id,Object.hasOwn(frozen,t.id)?(frozen[t.id].trim()?'answered':'explicit_empty'):expired?'time_limit':'not_addressed']));submission.exposure=attempt.exposure||'unknown';
+ if(expired){submission.closedAt=attempt.timing.deadlineAt;attempt.closedAt=submission.closedAt;}
+ await tx.put('submissions',submission);
+ const correction=await correctAsync(lv.spec.diagnostic,frozen);correction.diagnosticPolicy=lv.spec.diagnostic.contract?.version||null;
+ if(lv.spec.diagnostic.contract?.version===DIAGNOSTIC_V31){for(const item of correction.items){const state=submission.answerStates[item.taskId],configured=submission.competencyGrid?.items.find(i=>i.id===item.id);item.answerState=state;item.feedback='';if(state!=='answered'){item.points=state==='explicit_empty'&&Number.isFinite(configured?.blankPoints)?configured.blankPoints:null;item.ratio=null;item.status='review_required';}}Object.assign(correction,summarizeItems(correction.items));correction.feedback='';correction.responseComments=[];}
+ await evaluateCorrection(tx,submission,correction);await tx.insert('corrections',{...correction,id:submission.id,classId:actor.classId,learnerId:actor.id,lessonId:attempt.lessonId,submissionId:submission.id,version:1});
  attempt.answers=frozen;attempt.draftVersion=(attempt.draftVersion||0)+1;attempt.submissionId=submission.id;attempt.status='submitted';await tx.put('assessment_attempts',attempt);await tx.audit(actor,'diagnostic.submitted',submission.id,{sha256:submission.sha256});
  return submission;
  });
@@ -65,14 +83,17 @@ export async function reviseCorrection(store,id,input,actor) {
  const submission=await scoped(tx,'submissions',id,actor),old=await scoped(tx,'corrections',id,actor);
  requireValue(input.reason?.trim(),'Une justification est obligatoire.');if(input.version!==old.version)fail(409,'La correction a changé. Rechargez-la.');
  requireValue(Array.isArray(input.items)&&input.items.length===old.items.length,'Chaque item doit être relu.');
- const items=old.items.map(item=>{const edited=input.items.find(i=>i.id===item.id);requireValue(edited&&(edited.points===null||Number.isFinite(edited.points)&&edited.points>=0&&edited.points<=item.max),'Points hors barème.');return {...item,source:'teacher',evidence:{taskId:item.taskId,answer:submission.answers[item.taskId]||''},points:edited.points,feedback:String(edited.feedback||item.feedback),ratio:edited.points==null?null:edited.points/item.max,status:'approved',confidence:1};});
+ const items=old.items.map(item=>{const edited=input.items.find(i=>i.id===item.id);requireValue(edited&&(edited.points===null||Number.isFinite(edited.points)&&edited.points>=0&&edited.points<=item.max),'Points hors barème.');return {...item,source:'teacher',evidence:{taskId:item.taskId,answer:submission.answers[item.taskId]||''},points:edited.points,feedback:typeof edited.feedback==='string'?edited.feedback:item.feedback,ratio:edited.points==null?null:edited.points/item.max,status:'approved',confidence:1};});
  const criteria=[...new Set(items.map(i=>i.criterion))].map(criterion=>{const group=items.filter(i=>i.criterion===criterion),points=group.some(i=>i.points==null)?null:group.reduce((s,i)=>s+i.points,0),max=group.reduce((s,i)=>s+i.max,0);return {criterion,points,max,level:points==null?'NE':points>=group.reduce((s,i)=>s+i.a2,0)?'A2':points>=group.reduce((s,i)=>s+i.a1,0)?'A1':points>0?'EC':'NA'};});
  const score=!items.length||items.some(i=>i.points==null)?null:Math.round(items.reduce((s,i)=>s+i.points,0)*100)/100,revision=old.version+1;
- const updated={...old,version:revision,items,criteria,score,scoreMax:items.reduce((n,i)=>n+i.max,0)||null,level:items.reduce((n,i)=>n+i.max,0)===20?level(score):null,status:'approved',feedback:String(input.feedback||old.feedback),approvedBy:actor.id,approvedAt:now(),autonomous:input.autonomous===true,transfer:input.transfer===true};
+ const updated={...old,version:revision,items,criteria,score,scoreMax:items.reduce((n,i)=>n+i.max,0)||null,level:items.reduce((n,i)=>n+i.max,0)===20?level(score):null,status:input.finalize===false&&!input.validateObservations?'draft':'approved',finalized:input.finalize!==false,feedback:typeof input.feedback==='string'?input.feedback:old.feedback,responseComments:applyResponseComments(submission,old,input),privateNotes:typeof input.privateNotes==='string'?input.privateNotes:old.privateNotes||'',approvedBy:actor.id,approvedAt:now(),autonomous:input.autonomous===true,transfer:input.transfer===true};
+ requireValue(typeof updated.feedback==='string'&&updated.feedback.length<=6000&&updated.privateNotes.length<=6000&&items.every(i=>typeof i.feedback==='string'&&i.feedback.length<=4000),'Commentaires trop longs.');
+ if(submission.diagnostic.contract?.version===DIAGNOSTIC_V31&&input.finalize!==false)requireValue(updated.feedback.trim(),'Rédigez une appréciation globale avant finalisation.');
  await evaluateCorrection(tx,submission,updated,input);
  await tx.insert('correction_revisions',{id:uid('revision'),classId:actor.classId,submissionId:id,version:revision,oldValue:old,newValue:updated,authorId:actor.id,reason:input.reason});await tx.put('corrections',updated);await invalidateDerived(tx,actor.classId);
  const attempt=await tx.get('assessment_attempts',submission.attemptId);
- for(const c of criteria.filter(c=>!submission.competencyGrid&&c.criterion!=='baseline'&&c.level!=='NE'&&attempt?.mode!=='practice'))await tx.insert('evidence',{id:uid('evidence'),classId:actor.classId,learnerId:submission.learnerId,criterion:c.criterion,sourceId:id,revision,date:submission.submittedAt.slice(0,10),level:c.level,approved:true,autonomous:updated.autonomous,transfer:updated.transfer,correctionVersion:revision,lessonVersionId:submission.lessonVersionId});
+ for(const c of criteria.filter(c=>updated.status==='approved'&&!submission.competencyGrid&&c.criterion!=='baseline'&&c.level!=='NE'&&attempt?.mode!=='practice'))await tx.insert('evidence',{id:uid('evidence'),classId:actor.classId,learnerId:submission.learnerId,criterion:c.criterion,sourceId:id,revision,date:submission.submittedAt.slice(0,10),level:c.level,approved:true,autonomous:updated.autonomous,transfer:updated.transfer,correctionVersion:revision,lessonVersionId:submission.lessonVersionId});
+ if(attempt?.runId)await refreshDiagnosticSuggestions(tx,actor,attempt.runId,submission.learnerId);
  await tx.audit(actor,'correction.approved',id,{revision,reason:input.reason});return updated;
  });
 }

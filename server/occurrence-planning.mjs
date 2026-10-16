@@ -27,7 +27,7 @@ async function planFields(tx,actor,input,version){
  requireValue(validDate(input.date),'Date locale invalide.');requireValue(Number.isInteger(input.duration)&&input.duration>=5&&input.duration<=600,'Durée attendue : 5 à 600 minutes.');
  const activities=version.spec.activities||[],ids=input.activityIds||activities.map(a=>a.id);
  requireValue(Array.isArray(ids)&&unique(ids).length===ids.length&&ids.every(id=>activities.some(a=>a.id===id)),'Activités invalides.');
- return {date:input.date,duration:input.duration,sequence:String(input.sequence||'').slice(0,500),group:String(input.group||'').slice(0,200),activityIds:ids,objectives:await validateObjectives(tx,actor,input.objectives||[],ids)};
+ return {date:input.date,duration:input.duration,trackId:typeof input.trackId==='string'&&input.trackId.trim()?input.trackId.trim().slice(0,200):null,sequence:String(input.sequence||'').slice(0,500),group:String(input.group||'').slice(0,200),activityIds:ids,objectives:await validateObjectives(tx,actor,input.objectives||[],ids)};
 }
 async function checkConflicts(tx,actor,row,input){const conflicts=await occurrenceConflicts(tx,actor,row);if(conflicts.length&&!(input.confirmConflicts===true&&input.reason?.trim()))fail(409,'Vérifiez les conflits connus et confirmez avec un motif.',{conflicts});return conflicts;}
 async function journal(tx,actor,before,after,reason){await tx.insert('plan_changes',{id:uid('occurrence-change'),classId:actor.classId,occurrenceId:after.id,status:'applied',before,after:structuredClone(after),reason,authorId:actor.id,changedAt:now()});await tx.audit(actor,'occurrence.changed',after.id,{revision:after.revision});}

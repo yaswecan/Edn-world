@@ -1,3 +1,5 @@
+import {assertDiagnosticWriting} from './diagnostic-v31.mjs';
+import {diagnosticV31Routes} from './diagnostic-v31-routes.mjs';
 import {trackingV3Routes} from './tracking-v3-routes.mjs';
 import {identityRoutes,presentLesson,presentSpec} from './session-identity.mjs';
 import {competencyRoutes} from './competency-routes.mjs';
@@ -57,7 +59,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
  trackingRoutes(app,store);
  identityRoutes(app,store,teacher);
  competencyRoutes(app,store);
- trackingV3Routes(app,store);
+ trackingV3Routes(app,store);diagnosticV31Routes(app,store);
  databaseRoutes(app,store);
  lessonTransferRoutes(app,store);
  lessonEditorRoutes(app,store);
@@ -131,7 +133,7 @@ export function createApp(store,{chatgpt,lessonRevision={}}={}){
   }
   res.json({lesson:{...lesson,spec:studentSpec(await presentSpec(store,lesson,(await store.get('lesson_versions',lesson.versionId)).spec))},availableLessons,todayLesson:current});
  });
- app.post('/api/assessments/:id/test',student,async(req,res)=>{const code=req.body.code;requireValue(typeof code==='string'&&code.length<=10000,'Code limité à 10 000 caractères.');res.json(await store.transaction(async tx=>{const a=await ownedAttempt(tx,req.params.id,req.user,{write:true});requireValue(a.history.length<500,'Limite d’essais atteinte.');const spec=(await tx.get('lesson_versions',a.lessonVersionId)).spec,task=spec.diagnostic.tasks.find(t=>t.id===req.body.taskId&&['CodeEditor','TestRunner'].includes(t.type));requireValue(task,'Exercice diagnostique inconnu.');let result;try{result=await testActivityCode({...task,tests:task.publicTests||[]},code);}catch{result={ok:false,pending:true,status:'technical_incident',logs:['Incident technique : aucun niveau de compétence déduit.'],error:'Exécution indisponible.'};}const event={timestamp:now(),type:'code_run',payload:{taskId:req.body.taskId,code,result}};a.history.push(event);a.firstAttempt[req.body.taskId]??=event;a.lastAttempt[req.body.taskId]=event;a.executions++;await tx.put('assessment_attempts',a);return result;}));});
+ app.post('/api/assessments/:id/test',student,async(req,res)=>{const code=req.body.code;requireValue(typeof code==='string'&&code.length<=10000,'Code limité à 10 000 caractères.');res.json(await store.transaction(async tx=>{const a=await ownedAttempt(tx,req.params.id,req.user,{write:true});requireValue(a.history.length<500,'Limite d’essais atteinte.');const spec=(await tx.get('lesson_versions',a.lessonVersionId)).spec,task=spec.diagnostic.tasks.find(t=>t.id===req.body.taskId&&['CodeEditor','TestRunner'].includes(t.type));requireValue(task,'Exercice diagnostique inconnu.');let result;try{result=await testActivityCode({...task,tests:task.publicTests||[]},code);}catch{result={ok:false,pending:true,status:'technical_incident',logs:['Incident technique : aucun niveau de compétence déduit.'],error:'Exécution indisponible.'};}assertDiagnosticWriting(a);const event={timestamp:now(),type:'code_run',payload:{taskId:req.body.taskId,code,result}};a.history.push(event);a.firstAttempt[req.body.taskId]??=event;a.lastAttempt[req.body.taskId]=event;a.executions++;await tx.put('assessment_attempts',a);return result;}));});
  app.get('/api/teacher/assessments/:id/submissions',teacher,async(req,res)=>res.json((await store.list('submissions',req.user.classId)).filter(s=>s.lessonId===req.params.id)));
  app.get('/api/teacher/submissions/:id',teacher,async(req,res)=>res.json({submission:await scoped(store,'submissions',req.params.id,req.user),correction:await scoped(store,'corrections',req.params.id,req.user)}));
  app.post('/api/teacher/submissions/:id/correction',teacher,async(req,res)=>{const correction=await reviseCorrection(store,req.params.id,req.body,req.user);await computeRemediation(store,req.user);res.json(correction);});

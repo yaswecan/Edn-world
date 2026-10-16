@@ -1,3 +1,5 @@
+import {diagnosticNeeds} from './diagnostic-needs.mjs';
+import {DIAGNOSTIC_V31} from './diagnostic-v31.mjs';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
 import {assignRun,assignmentAccess,availability} from './student-tracking.mjs';
 import {digest,learnerInScope,activeGrid,latestObservations,observationVisible,currentRule,evidenceCurrent,invalidateDerived} from './competency-service.mjs';
@@ -17,21 +19,25 @@ export async function saveAdaptationRule(tx,actor,input){
  requireValue(input.reason?.trim()&&input.continuation?.trim(),'Décrivez l’objectif et la condition de poursuite.');
  requireValue(Array.isArray(input.prerequisites)&&input.prerequisites.length>0&&input.prerequisites.length<=20,'Définissez les prérequis de cette activité.');
  const prerequisites=[];
- for(const p of input.prerequisites){const f=await scoped(tx,'framework_versions',p.frameworkVersionId,actor),n=f.nodes.find(n=>n.id===p.competencyId);requireValue(n&&Array.isArray(p.criterionIds)&&p.criterionIds.length&&p.criterionIds.every(id=>n.criteria.some(c=>c.id===id)),'Critères prérequis invalides.');validateCategories(p.categories);requireValue(p.categories.some(c=>c.id===p.expectedGrade),'Attendu du prérequis invalide.');prerequisites.push({frameworkVersionId:f.id,competencyId:n.id,criterionIds:unique(p.criterionIds),title:n.title,code:n.code,categories:p.categories,expectedGrade:p.expectedGrade,newConcept:p.newConcept===true});}
- const targets={ready:common};for(const key of ['fragile','insufficient','verify','extension'])if(input.targets?.[key])targets[key]=await activityTarget(tx,actor,input.targets[key]);
+ for(const p of input.prerequisites){const f=await scoped(tx,'framework_versions',p.frameworkVersionId,actor),n=f.nodes.find(n=>n.id===p.competencyId);requireValue(n&&Array.isArray(p.criterionIds)&&p.criterionIds.length&&p.criterionIds.every(id=>n.criteria.some(c=>c.id===id)),'Critères prérequis invalides.');validateCategories(p.categories);requireValue(p.categories.some(c=>c.id===p.expectedGrade),'Attendu du prérequis invalide.');for(const key of ['guidedGrades','consolidationGrades'])if(p[key])requireValue(Array.isArray(p[key])&&p[key].every(g=>p.categories.some(c=>c.id===g&&c.order<p.categories.find(c=>c.id===p.expectedGrade).order)),'Niveaux de soutien invalides.');if(p.extensionGrade)requireValue(p.categories.some(c=>c.id===p.extensionGrade&&c.order>p.categories.find(c=>c.id===p.expectedGrade).order),'Attendu d’approfondissement invalide.');prerequisites.push({guidedGrades:p.guidedGrades||[],consolidationGrades:p.consolidationGrades||[],extensionGrade:p.extensionGrade||null,priority:prerequisites.length,frameworkVersionId:f.id,competencyId:n.id,criterionIds:unique(p.criterionIds),title:n.title,code:n.code,categories:p.categories,expectedGrade:p.expectedGrade,newConcept:p.newConcept===true});}
+ const targets={ready:common};for(const key of ['fragile','insufficient','verify','extension','guided','consolidation'])if(input.targets?.[key])targets[key]=await activityTarget(tx,actor,input.targets[key]);
  for(const [key,t] of Object.entries(targets))if(key!=='ready')requireValue(!(t.runId===run.id&&t.activityId===common.activityId),'La reprise ne peut pas dépendre d’elle-même.');
  const others=(await tx.list('adaptation_rules',actor.classId)).filter(r=>r.id!==prior?.id),origin=run.id+':'+common.activityId;
  const edges=new Map(others.map(r=>[r.runId+':'+r.activityId,Object.entries(r.targets).filter(([k])=>k!=='ready').map(([,t])=>t.runId+':'+t.activityId)]));edges.set(origin,Object.entries(targets).filter(([k])=>k!=='ready').map(([,t])=>t.runId+':'+t.activityId));
  const visit=(key,path)=>{requireValue(!path.has(key),'Dépendance circulaire entre activités.');for(const next of edges.get(key)||[])visit(next,new Set([...path,key]));};visit(origin,new Set());
  const maxCycles=input.maxCycles??1;requireValue(Number.isInteger(maxCycles)&&maxCycles>=1&&maxCycles<=5,'Limite de cycles attendue (1 à 5).');
- const row=await tx.insert('adaptation_rules',{id:uid('path-rule'),classId:actor.classId,runId:run.id,activityId:common.activityId,version:(prior?.version||0)+1,reason:input.reason,continuation:input.continuation,help:String(input.help||''),prerequisites,targets,maxCycles,approvedBy:actor.id,approvedAt:now()});await invalidateDerived(tx,actor.classId);return row;
+ requireValue(input.capacity==null||Number.isInteger(input.capacity)&&input.capacity>0&&input.capacity<=200,'Capacité d’atelier invalide.');
+ const v31=input.policyVersion===DIAGNOSTIC_V31;
+ const row=await tx.insert('adaptation_rules',{policyVersion:v31?DIAGNOSTIC_V31:null,capacity:input.capacity||null,id:uid('path-rule'),classId:actor.classId,runId:run.id,activityId:common.activityId,version:(prior?.version||0)+1,reason:input.reason,continuation:input.continuation,help:String(input.help||''),prerequisites,targets,maxCycles,approvedBy:actor.id,approvedAt:now()});await invalidateDerived(tx,actor.classId);if(v31)for(const a of (await tx.list('lesson_assignments',actor.classId)).filter(a=>a.runId===run.id&&a.access==='allowed'))await proposePath(tx,actor,{ruleId:row.id,learnerId:a.learnerId});return row;
 }
 export async function pathInputs(tx,rule,learnerId){return (await latestObservations(tx,rule.classId,learnerId)).filter(o=>o.validated&&!o.practice&&!o.afterCorrection&&rule.prerequisites.some(p=>p.frameworkVersionId===o.frameworkVersionId&&p.competencyId===o.competencyId&&o.criteria.some(c=>p.criterionIds.includes(c.criterionId))));}
 export async function proposePath(tx,actor,input){
  const learner=await learnerInScope(tx,input.learnerId,actor),rule=await scoped(tx,'adaptation_rules',input.ruleId,actor);
  requireValue((await currentRule(tx,'adaptation_rules',rule,['runId','activityId'])).id===rule.id,'Utilisez la version actuelle de la règle.');
  const source=(await tx.list('lesson_assignments',actor.classId)).find(a=>a.runId===rule.runId&&a.learnerId===learner.id);requireValue(source&&await availability(tx,source)!=='revoked','Le diagnostic doit être attribué avec un accès actif.');
- const inputs=await pathInputs(tx,rule,learner.id),all=inputs.filter(o=>o.workedAt),proofs=new Map(),states=[];
+ const inputs=await pathInputs(tx,rule,learner.id);
+ if(rule.policyVersion===DIAGNOSTIC_V31){const calculated=await diagnosticNeeds(tx,rule,learner.id),signature=digest([rule.id,learner.id,inputs.map(o=>o.id).sort(),calculated]),existing=(await tx.list('adaptation_proposals',actor.classId)).find(p=>p.inputHash===signature);if(existing)return existing;return tx.insert('adaptation_proposals',{id:uid('path'),classId:actor.classId,learnerId:learner.id,runId:rule.runId,sourceAssignmentId:source.id,ruleId:rule.id,ruleVersion:rule.version,inputHash:signature,inputObservationIds:inputs.map(o=>o.id).sort(),calculationHash:digest(calculated),...calculated,activityId:calculated.target?.activityId||null,continuation:rule.continuation,state:'suggested',missingActivity:!calculated.target,authorId:actor.id});}
+ const all=inputs.filter(o=>o.workedAt),proofs=new Map(),states=[];
  for(const p of rule.prerequisites){
   if(p.newConcept){states.push({...p,state:'ready',reason:'Notion nouvelle à introduire.'});continue;}
   const observations=all.filter(o=>o.frameworkVersionId===p.frameworkVersionId&&o.competencyId===p.competencyId&&o.scaleKey===digest(p.categories)).sort(newest),conditions=[];
@@ -55,11 +61,11 @@ export async function configureAutomatic(tx,actor,runId,input){
  requireValue(Array.isArray(input.ruleIds)&&input.ruleIds.length&&Array.isArray(input.learnerIds)&&input.learnerIds.length,'Choisissez les règles et les élèves autorisés.');
  requireValue(Number.isFinite(Date.parse(input.expiresAt))&&Date.parse(input.expiresAt)>Date.now()&&Date.parse(input.expiresAt)<=Date.now()+31*86400000,'Fixez une fin de validité dans les 31 prochains jours.');
  requireValue(Number.isInteger(input.budget)&&input.budget>=1&&input.budget<=1000,'Budget d’attributions invalide.');
- const rules=[];for(const ruleId of unique(input.ruleIds)){const r=await scoped(tx,'adaptation_rules',ruleId,actor);requireValue(r.runId===run.id&&(await currentRule(tx,'adaptation_rules',r,['runId','activityId'])).id===r.id,'Règle obsolète ou d’une autre occurrence.');for(const target of Object.values(r.targets))await activityTarget(tx,actor,target);rules.push({id:r.id,version:r.version,targets:r.targets});}
+ const rules=[];for(const ruleId of unique(input.ruleIds)){const r=await scoped(tx,'adaptation_rules',ruleId,actor);requireValue(r.policyVersion!==DIAGNOSTIC_V31,'Les groupes de diagnostic V3.1 demandent une validation professeur.');requireValue(r.runId===run.id&&(await currentRule(tx,'adaptation_rules',r,['runId','activityId'])).id===r.id,'Règle obsolète ou d’une autre occurrence.');for(const target of Object.values(r.targets))await activityTarget(tx,actor,target);rules.push({id:r.id,version:r.version,targets:r.targets});}
  for(const learnerId of unique(input.learnerIds)){await learnerInScope(tx,learnerId,actor);requireValue((await tx.list('lesson_assignments',actor.classId)).some(a=>a.runId===run.id&&a.learnerId===learnerId&&a.access==='allowed'),'Élève non attribué à cette occurrence.');}
  const row={id,classId:actor.classId,runId,enabled:true,version:(old?.version||0)+1,rules,learnerIds:unique(input.learnerIds),budget:input.budget,used:0,expiresAt:new Date(input.expiresAt).toISOString(),authorId:actor.id,activatedAt:now()};old?await tx.put('adaptation_authorizations',row):await tx.insert('adaptation_authorizations',row);await tx.audit(actor,'adaptation.automatic_enabled',id,{version:row.version});return row;
 }
-export async function pathCurrent(tx,p){const r=await tx.get('adaptation_rules',p.ruleId);if(!r)return false;if(p.inputObservationIds&&digest((await pathInputs(tx,r,p.learnerId)).map(o=>o.id).sort())!==digest(p.inputObservationIds))return false;return r&&(await currentRule(tx,'adaptation_rules',r,['runId','activityId']))?.id===r.id&&await evidenceCurrent(tx,p.proofs);}
+export async function pathCurrent(tx,p){const r=await tx.get('adaptation_rules',p.ruleId);if(!r)return false;if(r.policyVersion===DIAGNOSTIC_V31&&p.calculationHash!==digest(await diagnosticNeeds(tx,r,p.learnerId)))return false;if(p.inputObservationIds&&digest((await pathInputs(tx,r,p.learnerId)).map(o=>o.id).sort())!==digest(p.inputObservationIds))return false;return r&&(await currentRule(tx,'adaptation_rules',r,['runId','activityId']))?.id===r.id&&await evidenceCurrent(tx,p.proofs);}
 export async function authorizedProofs(tx,p){
  for(const proof of p.proofs){const o=await tx.get('competency_observations',proof.id);if(!o||o.learnerId!==p.learnerId)return false;try{await assignmentAccess(tx,o.assignmentId,{id:p.learnerId,role:'student'});}catch{return false;}
   if(o.teacherEvidenceId){if(!await observationVisible(tx,o,{id:p.learnerId,role:'student'}))return false;continue;}
@@ -68,7 +74,7 @@ export async function authorizedProofs(tx,p){
 }
 export async function assignActivity(tx,actor,p,target){
  const checked=await activityTarget(tx,actor,target);if(checked.lessonVersionId!==target.lessonVersionId)fail(409,'La version de l’activité a changé.');
- const run=await scoped(tx,'lesson_runs',target.runId,actor),learner=await learnerInScope(tx,p.learnerId,actor),original=await assignRun(tx,run,learner);requireValue(await availability(tx,original)!=='revoked','L’accès à cette activité a été retiré.');
+ const run=await scoped(tx,'lesson_runs',target.runId,actor),learner=await learnerInScope(tx,p.learnerId,actor);requireValue(!learner.suspended,'Le compte de cet élève est suspendu.');const original=await assignRun(tx,run,learner);requireValue(await availability(tx,original)!=='revoked','L’accès à cette activité a été retiré.');
  // Isolated persistent work, even when a previous occurrence is still open.
  const id='adapted-run_'+digest([p.id,target.runId,target.activityId]);let targeted=await tx.get('lesson_runs',id);
  if(!targeted)targeted=await tx.insert('lesson_runs',{id,classId:actor.classId,lessonId:run.lessonId,lessonVersionId:target.lessonVersionId,date:now().slice(0,10),availability:'open',parentRunId:run.id,targetLearnerId:learner.id,status:'planned',closedAt:null,adaptationProposalId:p.id});
@@ -87,8 +93,9 @@ export async function activatePath(tx,actor,id,input={}){
  const overlap=h=>h.prerequisites.some(a=>p.prerequisites.some(b=>a.frameworkVersionId===b.frameworkVersionId&&a.competencyId===b.competencyId&&a.criterionIds.some(id=>b.criterionIds.includes(id))));
  if(history.filter(overlap).length>=rule.maxCycles)fail(409,'La limite de consolidation est atteinte. Une intervention du professeur est nécessaire.');
  let authorization=null;
- if(input.automatic){authorization=await tx.get('adaptation_authorizations','automatic:'+p.runId);requireValue(authorization?.enabled&&authorization.expiresAt>now()&&authorization.learnerIds.includes(p.learnerId)&&authorization.rules.some(r=>r.id===p.ruleId&&r.version===p.ruleVersion)&&authorization.used<authorization.budget,'Autorisation automatique absente, expirée, révoquée ou épuisée.');requireValue(p.readiness!=='insufficient'&&p.proofs.length>0,'Preuves insuffisantes pour une attribution automatique.');}
+ if(input.automatic){requireValue(rule.policyVersion!==DIAGNOSTIC_V31,'Validez manuellement les propositions de ce diagnostic.');authorization=await tx.get('adaptation_authorizations','automatic:'+p.runId);requireValue(authorization?.enabled&&authorization.expiresAt>now()&&authorization.learnerIds.includes(p.learnerId)&&authorization.rules.some(r=>r.id===p.ruleId&&r.version===p.ruleVersion)&&authorization.used<authorization.budget,'Autorisation automatique absente, expirée, révoquée ou épuisée.');requireValue(p.readiness!=='insufficient'&&p.proofs.length>0,'Preuves insuffisantes pour une attribution automatique.');}
  else requireValue(input.confirmed===true,'Validez la proposition avant attribution.');
+ if(rule.capacity){const occupied=(await tx.list('adaptation_proposals',actor.classId)).filter(o=>o.id!==p.id&&o.ruleId===rule.id&&o.target?.activityId===p.target.activityId&&o.assignmentId&&!['closed','dismissed'].includes(o.state));if(occupied.length>=rule.capacity)fail(409,'Capacité de l’atelier atteinte : prévoyez une rotation. Le besoin est conservé.',{capacity:rule.capacity});}
  const a=await assignActivity(tx,actor,p,p.target);p.assignmentId=a.id;p.state='assigned';p.validatedAt=now();p.validatedBy=actor.id;p.automatic=!!authorization;p.authorizationVersion=authorization?.version||null;await tx.put('adaptation_proposals',p);
  if(authorization){authorization.used++;await tx.put('adaptation_authorizations',authorization);}await tx.audit(actor,'adaptation.assigned',id,{assignmentId:a.id,automatic:p.automatic});return p;
 }
@@ -143,7 +150,7 @@ export async function adaptiveAccessAllowed(tx,a){
 
 export async function applyAutomaticIfEnabled(tx,actor,p){
  const authorization=await tx.get('adaptation_authorizations','automatic:'+p.runId);
- if(!authorization?.enabled||p.state!=='suggested'||p.readiness==='insufficient')return p;
+ if(p.policyVersion===DIAGNOSTIC_V31||!authorization?.enabled||p.state!=='suggested'||p.readiness==='insufficient')return p;
  try{return await activatePath(tx,actor,p.id,{automatic:true});}
  catch(error){if(!error.status)throw error;p.automaticError=error.message;await tx.put('adaptation_proposals',p);return p;}
 }
@@ -152,4 +159,8 @@ export async function refreshPublishedPaths(tx,actor,runId,learnerId){
   if((await currentRule(tx,'adaptation_rules',rule,['runId','activityId'])).id!==rule.id)continue;
   const p=await proposePath(tx,actor,{ruleId:rule.id,learnerId});await applyAutomaticIfEnabled(tx,actor,p);
  }
+}
+
+export async function refreshDiagnosticSuggestions(tx,actor,runId,learnerId){
+ for(const rule of (await tx.list('adaptation_rules',actor.classId)).filter(r=>r.runId===runId&&r.policyVersion===DIAGNOSTIC_V31)){if((await currentRule(tx,'adaptation_rules',rule,['runId','activityId'])).id===rule.id)await proposePath(tx,actor,{ruleId:rule.id,learnerId});}
 }

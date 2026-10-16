@@ -1,3 +1,4 @@
+import {responseUnits,deadlinePassed} from './diagnostic-v31.mjs';
 import {sessionIdentity,presentSpec} from './session-identity.mjs';
 import {randomBytes} from 'node:crypto';
 import {teacher,student,loggedIn,passwordHash,replacePassword,safeUser} from './auth.mjs';
@@ -132,7 +133,8 @@ export function trackingRoutes(app,store){
   const original=await presentSpec(store,await store.get('lessons',a.lessonId),v?.spec||{diagnostic:s?.diagnostic||{tasks:[],rubric:[]}});
   const spec=req.user.role==='teacher'?original:studentSpec(original,{published:result.status==='published'});
   let nextAttemptId=null;if(req.user.role==='teacher'&&a.runId){const copies=(await store.list('assessment_attempts',req.user.classId)).filter(t=>t.runId===a.runId&&t.submissionId);const index=copies.findIndex(t=>t.id===a.id);nextAttemptId=copies[index+1]?.id||null;}
-  res.json({attempt:safeAttempt(a),nextAttemptId,runId:a.runId,title:spec?.title,pedagogicalTitle:spec?.pedagogicalTitle,competencies:spec?.competencies,diagnostic:spec?.diagnostic,answers:s?.answers||a.answers,history:req.user.role==='teacher'?s?.history:undefined,correction:c,result,provenance:v?'version-conservée':'contexte-incomplet'});
+  const learner=await store.get('learners',a.learnerId);
+  res.json({learnerId:a.learnerId,displayName:learner?.displayName,responseUnits:responseUnits(spec.diagnostic,a.id,a.lessonVersionId,s?.answers||a.answers),attempt:safeAttempt(a),nextAttemptId,runId:a.runId,title:spec?.title,pedagogicalTitle:spec?.pedagogicalTitle,competencies:spec?.competencies,diagnostic:spec?.diagnostic,answers:s?.answers||a.answers,history:req.user.role==='teacher'?s?.history:undefined,correction:c,result,provenance:v?'version-conservée':'contexte-incomplet'});
  });
  app.post('/api/tracking/submissions/:id/publish',teacher,async(req,res)=>res.json(await store.transaction(tx=>publishResult(tx,req.params.id,req.user,req.body))));
  app.post('/api/tracking/attempts/:id/close',teacher,async(req,res)=>res.json(await store.transaction(async tx=>{const a=await scoped(tx,'assessment_attempts',req.params.id,req.user);requireValue(a.targetedOpen,'Fermez la passation collective depuis la vue de classe.');a.closedAt||=now();await tx.put('assessment_attempts',a);return safeAttempt(a);}))); 
@@ -153,6 +155,6 @@ export function trackingRoutes(app,store){
  app.post('/api/assessments/:id/start',student,async(req,res)=>res.json(await store.transaction(tx=>startAttempt(tx,req.user,{...req.body,lessonId:req.params.id}))));
  app.post('/api/assessments/:id/save',student,async(req,res)=>res.json(await store.transaction(tx=>saveAttempt(tx,req.user,req.params.id,req.body))));
  app.get('/api/assessments/:id/result',student,async(req,res)=>res.json(await resultFor(store,await ownedAttempt(store,req.params.id,req.user))));
- app.post('/api/assessments/:id/submit',student,async(req,res)=>{const s=await submitAttempt(store,req.params.id,req.body.answers,req.user,{draftVersion:req.body.draftVersion});res.json({submissionId:s.id,sha256:s.sha256,receivedAt:s.submittedAt});});
+ app.post('/api/assessments/:id/submit',student,async(req,res)=>{const s=await submitAttempt(store,req.params.id,req.body.answers,req.user,{draftVersion:req.body.draftVersion});res.json({submissionId:s.id,sha256:s.sha256,receivedAt:s.submittedAt,closure:s.closure});});
  app.post('/api/teacher/submissions/:id/reopen',teacher,async(req,res)=>res.json(await store.transaction(async tx=>newAttempt(tx,await scoped(tx,'submissions',req.params.id,req.user),req.user,{...req.body,mode:'retake'}))));
 }

@@ -2,6 +2,8 @@
 
 Le socle décrit ci-dessous est complété par la [V2 : référentiel, grades, consolidation et progression adaptée](v2.md). Voir aussi la [recette V2 AC01–AC40](acceptance-v2.md).
 
+Les diagnostics de début de séance sont décrits dans le [guide V3.1](v31.md), avec [audit et migration](audit-v31.md) et [recette AD01–AD40](acceptance-v31.md).
+
 L’entrée **Élèves** de l’espace professeur ouvre `/suivi.html`. L’espace élève conserve **Aujourd’hui** et ajoute **Mes séances** et **Mes évaluations**. Ces écrans utilisent les comptes et les travaux du serveur ; les fixtures sont limitées aux tests.
 
 ## Utilisation professeur

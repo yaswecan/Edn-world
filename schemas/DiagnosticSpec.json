@@ -308,6 +308,36 @@
             ],
             "additionalProperties": false
           },
+          "itemVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "diagnosticRole": {
+            "const": "near-transfer-3.1"
+          },
+          "answerParts": {
+            "type": "array",
+            "maxItems": 30,
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "^[A-Za-z0-9_.:-]+$"
+                },
+                "label": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "label"
+              ],
+              "additionalProperties": false
+            }
+          },
           "richText": {
             "type": "object",
             "additionalProperties": false,
@@ -419,10 +449,16 @@
             "minimum": 0
           },
           "a1": {
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "a2": {
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ]
           }
         },
         "required": [
@@ -456,6 +492,74 @@
         "a2"
       ],
       "additionalProperties": false
+    },
+    "contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "baseCount",
+        "addedRole",
+        "readingMinutes",
+        "submissionMinutes",
+        "source",
+        "sourceConfirmed",
+        "reviewed",
+        "calibration",
+        "initialTaskIds"
+      ],
+      "properties": {
+        "version": {
+          "const": "diagnostic-3.1"
+        },
+        "baseCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 11
+        },
+        "addedRole": {
+          "const": "near-transfer-3.1"
+        },
+        "readingMinutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "submissionMinutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "sourceConfirmed": {
+          "type": "boolean"
+        },
+        "reviewed": {
+          "type": "boolean"
+        },
+        "calibration": {
+          "const": "estimated"
+        },
+        "initialTaskIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confirmedBy": {
+          "type": "string"
+        },
+        "confirmedAt": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 2000
+        }
+      }
     }
   },
   "required": [

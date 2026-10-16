@@ -12,7 +12,7 @@ export async function calculateRemediation(store,actor,input={}){return store.tr
  const add=(learnerId,criterion,group,reason,metrics)=>{const g=groups.find(g=>g.id===group);let m=g.members.find(m=>m.learnerId===learnerId);if(!m){m={learnerId,criteria:[],reason,metrics:{}};g.members.push(m);}if(criterion)m.criteria.push(criterion);if(metrics)m.metrics[criterion]=metrics;};
  const usedCorrections=new Map(),usedEvidence=new Set(),usedObservations=new Set();
  for(const learner of learners){
-  const proofs=evidence.filter(e=>e.learnerId===learner.id&&e.date<=date),feedback=corrections.filter(c=>c.learnerId===learner.id&&(c.createdAt||'').slice(0,10)<=date),notes=observations.filter(o=>o.learnerId===learner.id&&o.date<=date);
+  const proofs=evidence.filter(e=>e.learnerId===learner.id&&e.date<=date),feedback=corrections.filter(c=>c.diagnosticPolicy!=='diagnostic-3.1'&&c.learnerId===learner.id&&(c.createdAt||'').slice(0,10)<=date),notes=observations.filter(o=>o.learnerId===learner.id&&o.date<=date);
   const codes=[...new Set([...proofs.map(e=>e.criterion),...feedback.flatMap(c=>c.criteria.map(x=>x.criterion)),...notes.map(o=>o.criterion)])].filter(c=>c!=='baseline');
   if(!codes.length)add(learner.id,null,'NE','Aucune preuve corrigée.');
   for(const criterion of codes){

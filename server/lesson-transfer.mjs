@@ -1,3 +1,4 @@
+import {requireDiagnosticV31} from './diagnostic-v31.mjs';
 import {importSessionIdentity,checkSessionIdentity} from './session-identity-transfer.mjs';
 import {checkPedagogy,importPedagogy} from './competency-transfer.mjs';
 import {distributeRun} from './student-tracking.mjs';
@@ -160,6 +161,7 @@ export async function applyTransfer(store,id,input,actor){
    // Analysis never executes educational code. Publication repeats the existing
    // isolated correction validation only after the final teacher confirmation.
    if(target?.status==='published'){
+    requireDiagnosticV31(content.spec.diagnostic);
     const checks=await publicationCodeChecks(content.spec);if(checks.some(c=>!c.ok))fail(422,'Un corrigé ne satisfait pas les validations de publication. Aucun élément du lot n’a été appliqué.',checks.filter(c=>!c.ok));
    }
    for(const asset of content.assets)if(!await tx.get('lesson_assets',asset.id))await tx.insert('lesson_assets',asset);

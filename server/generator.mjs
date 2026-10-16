@@ -1,3 +1,4 @@
+import {diagnosticSources,upgradeDiagnostic} from './diagnostic-v31.mjs';
 import {deriveIdentity,titleQuality} from './session-identity.mjs';
 import {explorationForMission} from './game.mjs';
 import {aiPreferences} from './ai/settings.mjs';
@@ -49,7 +50,7 @@ export function qualityCheck(spec,{entry,criteria,previous,corpusComplete=false}
  const known=new Set(criteria.map(c=>c.n3_code));add('criteria',[...spec.skills,...spec.prerequisites,...spec.blocks.flatMap(b=>b.skills),...spec.activities.flatMap(a=>a.skills),...diagnostic.criteria,...diagnostic.tasks.flatMap(t=>t.skills)].every(c=>known.has(c)),'Tous les critères existent');
  add('instructions',[...spec.activities,...diagnostic.tasks].every(a=>!a.required||a.instruction.trim()),'Consignes obligatoires présentes');
  add('corrections',[...spec.activities,...diagnostic.tasks].every(a=>a.correctionMode==='none'||a.reference.trim()),'Références de correction présentes');
- add('rubric',Math.abs(diagnostic.rubric.reduce((s,i)=>s+i.max,0)-20)<1e-8,'Barème total /20');
+ add('rubric',diagnostic.contract?diagnostic.rubric.length>0&&diagnostic.rubric.every(r=>r.max>0):Math.abs(diagnostic.rubric.reduce((s,i)=>s+i.max,0)-20)<1e-8,diagnostic.contract?'Barème configuré pour toutes les tâches':'Barème total /20');
  add('pause',entry.duration<120||spec.blocks.some(b=>b.type==='Pause'&&b.minutes>=10),'Pause prévue');
  add('game',!spec.codeStation?.required||!!spec.codeStation.completionRule,'Mission avec règle de réussite');
  const unique=values=>new Set(values).size===values.length;
@@ -68,7 +69,8 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  const curriculum=await store.get('curriculum_versions',plan.curriculumVersion),nodes=entry.skills.map(code=>curriculum.criteria.find(c=>c.n3_code===code)).filter(Boolean);
  requireValue(nodes.length,'Aucun critère pédagogique pour ce créneau.');
  const initialBase=entry.resourcePack||`R-${entry.date.replaceAll('-','').slice(2)}`,initialId=`${actor.classId}:${qualityJobId?`${initialBase}-${qualityJobId}`:initialBase}`,initialVersionId=(await store.get('lessons',initialId))?.versionId||null;
- const runs=await store.list('lesson_runs',actor.classId),previous=previousCompleted(runs,entry.date),source=previous?await store.get('lesson_versions',previous.lessonVersionId):null;
+ const sourceChoice=await diagnosticSources(store,actor,{date:entry.date,trackId:entry.trackId||null}),selectedSource=sourceChoice.selected;
+ const previous=selectedSource?{id:selectedSource.runId,lessonVersionId:selectedSource.lessonVersionId,date:selectedSource.date,coveredSkills:selectedSource.criteria,coveredActivityIds:selectedSource.activities.map(a=>a.id),reactivatedPrerequisites:selectedSource.reactivatedPrerequisites,coveredContent:selectedSource.activities.map(a=>a.title).join(', ')}:null,source=previous?await store.get('lesson_versions',previous.lessonVersionId):null;
  const agent=await store.insert('agent_runs',{id:uid('run'),classId:actor.classId,intent,status:'running',steps:[],startedAt:now()});
  try {
  const dense=octoberContent(entry);let content=dense||localContent(entry,nodes,library);
@@ -77,7 +79,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  const references=await retrieveResources(store,actor.classId,{query:entry.objective,criteria:entry.skills,limit:6});const enrichment=localOnly||dense?{content,provider:'library'}:await enhanceContent(content,{intent:intent.intent,entry,criteria:nodes,references:references.map(r=>({sourceId:r.id,sourceVersion:r.sourceVersion,content:r.resource})),sequence:curriculum.sequences.find(s=>s.id===entry.sequence),remediation:(await store.list('remediation_snapshots',actor.classId)).at(-1)?.summary||null});content=enrichment.content;
  const baseLessonId=entry.resourcePack||`R-${entry.date.replaceAll('-','').slice(2)}`;
  const lessonId=qualityJobId?`${baseLessonId}-${qualityJobId}`:baseLessonId,id=`${actor.classId}:${lessonId}`;
- const diagnostic=diagnosticFrom(previous,source?.spec,nodes,lessonId);
+ const diagnostic=upgradeDiagnostic(diagnosticFrom(previous,source?.spec,nodes,lessonId),selectedSource);
  const missions=await store.list('game_missions',actor.classId),eligible=missions.filter(m=>m.status!=='draft'&&m.competencies.every(c=>entry.skills.includes(c)||previous?.coveredSkills.includes(c))&&m.competencies.some(c=>entry.skills.includes(c)));
  const invalidMissions=[];const playable=eligible.filter(m=>{try{explorationForMission(m);return true;}catch(error){invalidMissions.push({title:m.title,reason:error.message});return false;}});
  const mission=dense?null:playable.sort((a,b)=>b.competencies.filter(c=>entry.skills.includes(c)).length-a.competencies.filter(c=>entry.skills.includes(c)).length)[0];
@@ -105,7 +107,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
 const selectFields=(object,keys)=>Object.fromEntries(keys.filter(k=>object?.[k]!==undefined).map(k=>[k,structuredClone(object[k])]));
 export function studentSpec(spec,{published=false}={}) {
  const task=(a,diagnostic=false)=>{
-  const result=selectFields(a,['id','type','title','instruction','objective','skills','expectedEvidence','duration','required','correctionMode','starter','options','publicTests','observation']);
+  const result=selectFields(a,['id','type','title','instruction','objective','skills','expectedEvidence','duration','required','correctionMode','starter','options','publicTests','observation','itemVersion','answerParts','diagnosticRole']);
   if(a.workshop)result.workshop=selectFields(a.workshop,['language','document','style','checks','prediction','profile','files','visual',...(!diagnostic||published?['hints','board']:[])]);
   if(a.richText)result.richText=selectFields(a.richText,['instruction','objective','expectedEvidence',...(diagnostic&&published?['reference']:[])]);
   if(diagnostic&&published)Object.assign(result,selectFields(a,['expectedAnswer','reference','tests']));
@@ -115,6 +117,7 @@ export function studentSpec(spec,{published=false}={}) {
  result.blocks=(spec.blocks||[]).map(b=>selectFields(b,['id','type','title','content','minutes','activityIds','skills','boards','phase','teaching','editor']));
  result.activities=(spec.activities||[]).map(a=>task(a));
  result.diagnostic={...selectFields(spec.diagnostic,['id','kind','sourceLessonRunId','sourceLessonVersion','duration','criteria','rubric','policyVersion','expectations']),tasks:(spec.diagnostic?.tasks||[]).map(a=>task(a,true))};
+ if(spec.diagnostic.contract){const c=spec.diagnostic.contract;result.diagnostic.contract={version:c.version,baseCount:c.baseCount,readingMinutes:c.readingMinutes,submissionMinutes:c.submissionMinutes,source:c.source?selectFields(c.source,['title','date','criteria','activities']):null};}
  return result;
 }
 

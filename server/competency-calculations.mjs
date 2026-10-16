@@ -54,7 +54,7 @@ export function calculateGrid(grid,items,frameworks){
   const criteria=mapping.criteria.map(c=>{
    const relevant=weighted.filter(i=>c.itemIds.includes(i.id)),result=selectGrade(c.rules,relevant,grid.categories,grid);
    if(result.grade&&rank(grid.categories,result.grade)>rank(grid.categories,c.maximumGrade)){result.grade=c.maximumGrade;result.reasons.push('Niveau limité à la demande de cette situation.');}
-   return {criterionId:c.criterionId,title:node.criteria.find(k=>k.id===c.criterionId).title,itemIds:c.itemIds,grade:result.grade,reasons:result.reasons,essential:c.essential,maximumGrade:c.maximumGrade,meetsExpected:!!result.grade&&!!c.expectedGrade&&rank(grid.categories,result.grade)>=rank(grid.categories,c.expectedGrade)};
+   return {criterionId:c.criterionId,title:node.criteria.find(k=>k.id===c.criterionId).title,itemIds:c.itemIds,grade:result.grade,reasons:result.reasons,essential:c.essential,maximumGrade:c.maximumGrade,expectedGrade:c.expectedGrade||null,meetsExpected:!!result.grade&&!!c.expectedGrade&&rank(grid.categories,result.grade)>=rank(grid.categories,c.expectedGrade)};
   });
   const relevant=weighted.filter(i=>mapping.criteria.some(c=>c.itemIds.includes(i.id))),result=selectGrade(mapping.rules,relevant,grid.categories,grid);
   if(result.grade&&rank(grid.categories,result.grade)>rank(grid.categories,mapping.maximumGrade))result.grade=mapping.maximumGrade;

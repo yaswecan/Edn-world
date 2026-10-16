@@ -31,6 +31,7 @@ export async function editorCandidate(store,lesson,input,actor){
  const spec=synchronizeSpec(structuredClone(input.spec));
  for(const key of ['lessonId','classId','date','planEntryId','planVersion','sequence','sourceVersions'])requireValue(JSON.stringify(spec[key])===JSON.stringify(old.spec[key]),'Le rattachement et les sources de la séance ne sont pas modifiables ici.');
  for(const key of ['id','kind','sourceLessonRunId','sourceLessonVersion'])requireValue(spec.diagnostic[key]===old.spec.diagnostic[key],'La source du diagnostic doit être conservée.');
+ if(old.spec.diagnostic.contract)for(const key of ['version','baseCount','source','sourceConfirmed','addedRole'])requireValue(canonical(spec.diagnostic.contract?.[key]??null)===canonical(old.spec.diagnostic.contract[key]),'Confirmez les changements de source dans la préparation du diagnostic.');
  spec.lessonVersion=old.version+1;validateReferences(spec);await validateEditorAssets(store,spec,actor);return {old,spec};
 }
 export async function saveEditor(store,id,input,actor){return store.transaction(async tx=>{
