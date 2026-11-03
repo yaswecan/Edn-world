@@ -16,19 +16,19 @@ const ttl=()=>new Date(Date.now()+24*3600000).toISOString();
 function authorize(actor){if(actor?.role!=='teacher')fail(403,'Transfert réservé au professeur.');}
 export async function ownedTransfer(tx,id,actor){authorize(actor);const t=await scoped(tx,'lesson_transfers',id,actor);if(t.actorId!==actor.id)fail(404,'Transfert introuvable.');if(t.expiresAt<now())fail(410,'Ce transfert a expiré. Choisissez de nouveau le fichier.');return t;}
 async function cleanup(tx,actor){
- for(const t of await tx.list('lesson_transfers',actor.classId))if(t.expiresAt<now()){
+ for(const t of await tx.list('lesson_transfers',actor.classId))if(t.expiresAt<=now()&&t.status!=='applying'){
   for(const c of await tx.list('lesson_transfer_chunks',actor.classId))if(c.transferId===t.id)await tx.remove('lesson_transfer_chunks',c.id);
   await tx.remove('lesson_transfers',t.id);
  }
 }
 export async function beginUpload(store,input,actor){
  authorize(actor);requireValue(Number.isInteger(input.bytes)&&input.bytes>0&&input.bytes<=LIMITS.archive&&/^[a-f0-9]{64}$/.test(input.sha256),'Archive limitée à 64 Mio ; empreinte requise.');
- return store.transaction(async tx=>{await cleanup(tx,actor);const pending=(await tx.list('lesson_transfers',actor.classId)).filter(t=>t.actorId===actor.id);if(pending.length>=10)fail(429,'Dix transferts sont conservés pendant 24 heures. Fermez un transfert avant de recommencer.');const t=await tx.insert('lesson_transfers',{id:uid('transfer'),classId:actor.classId,actorId:actor.id,kind:'import',bytes:input.bytes,sha256:input.sha256,chunks:Math.ceil(input.bytes/LIMITS.chunk),expiresAt:ttl()});return transferSummary(t);});
+ return store.transaction(async tx=>{await tx.lockTables();await cleanup(tx,actor);const pending=(await tx.list('lesson_transfers',actor.classId)).filter(t=>t.actorId===actor.id);if(pending.length>=10)return null;const t=await tx.insert('lesson_transfers',{id:uid('transfer'),classId:actor.classId,actorId:actor.id,kind:'import',bytes:input.bytes,sha256:input.sha256,chunks:Math.ceil(input.bytes/LIMITS.chunk),expiresAt:ttl()});return transferSummary(t);}).then(result=>{if(!result)fail(429,'Dix transferts sont conservés pendant 24 heures. Fermez un transfert dans « Mes transferts » avant de recommencer.');return result;});
 }
-const transferSummary=t=>({id:t.id,bytes:t.bytes,sha256:t.sha256,chunks:t.chunks,chunkBytes:LIMITS.chunk,expiresAt:t.expiresAt});
+const transferSummary=t=>({id:t.id,kind:t.kind,createdAt:t.createdAt,sealed:!!t.sealed,status:t.status|| (t.sealed?'ready':'uploading'),bytes:t.bytes,sha256:t.sha256,chunks:t.chunks,chunkBytes:LIMITS.chunk,expiresAt:t.expiresAt});
 export async function writeChunk(store,id,index,bytes,actor){
  requireValue(Buffer.isBuffer(bytes),'Fragment binaire attendu.');
- return store.transaction(async tx=>{const t=await ownedTransfer(tx,id,actor);requireValue(t.kind==='import'&&!t.sealed,'Transfert déjà analysé.');requireValue(Number.isInteger(index)&&index>=0&&index<t.chunks&&bytes.length===Math.min(LIMITS.chunk,t.bytes-index*LIMITS.chunk),'Fragment incomplet ou hors limites.');const key=`${id}:${index}`,old=await tx.get('lesson_transfer_chunks',key),hash=sha256(bytes);if(old){if(old.sha256!==hash)fail(409,'Ce fragment contient déjà d’autres données.');return {saved:true,index};}await tx.insert('lesson_transfer_chunks',{id:key,classId:actor.classId,transferId:id,index,sha256:hash,base64:bytes.toString('base64')});return {saved:true,index};});
+ return store.transaction(async tx=>{await tx.lockTables();const t=await ownedTransfer(tx,id,actor);requireValue(t.kind==='import'&&!t.sealed,'Transfert déjà analysé.');requireValue(Number.isInteger(index)&&index>=0&&index<t.chunks&&bytes.length===Math.min(LIMITS.chunk,t.bytes-index*LIMITS.chunk),'Fragment incomplet ou hors limites.');const key=`${id}:${index}`,old=await tx.get('lesson_transfer_chunks',key),hash=sha256(bytes);if(old){if(old.sha256!==hash)fail(409,'Ce fragment contient déjà d’autres données.');return {saved:true,index};}await tx.insert('lesson_transfer_chunks',{id:key,classId:actor.classId,transferId:id,index,sha256:hash,base64:bytes.toString('base64')});return {saved:true,index};});
 }
 export async function readTransfer(store,id,actor){
  const t=await ownedTransfer(store,id,actor),chunks=[];
@@ -43,7 +43,7 @@ export async function exportLessons(store,ids,actor){
  const lessons=await store.transaction(async tx=>{await tx.lockTables();const rows=[];for(const id of ids){const lesson=await scoped(tx,'lessons',id,actor);if(lesson.versionId!==versions.get(id).versionId||(lesson.identityRevision||0)!==versions.get(id).identityRevision)fail(409,'Une séance a changé pendant la préparation de l’archive. Relancez l’export.');rows.push(await captureLesson(tx,lesson,actor,files));}return rows;});
  for(const l of lessons)validatePayload(l.payload,files);
  const {bytes,manifest}=await encodePackage(lessons,files);
- return store.transaction(async tx=>{await cleanup(tx,actor);const t=await tx.insert('lesson_transfers',{id:uid('export'),classId:actor.classId,actorId:actor.id,kind:'export',bytes:bytes.length,sha256:sha256(bytes),chunks:Math.ceil(bytes.length/LIMITS.chunk),expiresAt:ttl(),sealed:true});for(let i=0;i<t.chunks;i++){const chunk=bytes.subarray(i*LIMITS.chunk,(i+1)*LIMITS.chunk);await tx.insert('lesson_transfer_chunks',{id:`${t.id}:${i}`,classId:actor.classId,transferId:t.id,index:i,sha256:sha256(chunk),base64:chunk.toString('base64')});}return {...transferSummary(t),filename:`seances-${manifest.packageId.slice(0,8)}.tweenteach.zip`,external:[...new Set(lessons.flatMap(l=>l.payload.external))],count:lessons.length};});
+ return store.transaction(async tx=>{await tx.lockTables();await cleanup(tx,actor);const t=await tx.insert('lesson_transfers',{id:uid('export'),classId:actor.classId,actorId:actor.id,kind:'export',bytes:bytes.length,sha256:sha256(bytes),chunks:Math.ceil(bytes.length/LIMITS.chunk),expiresAt:ttl(),sealed:true});for(let i=0;i<t.chunks;i++){const chunk=bytes.subarray(i*LIMITS.chunk,(i+1)*LIMITS.chunk);await tx.insert('lesson_transfer_chunks',{id:`${t.id}:${i}`,classId:actor.classId,transferId:t.id,index:i,sha256:sha256(chunk),base64:chunk.toString('base64')});}return {...transferSummary(t),filename:`seances-${manifest.packageId.slice(0,8)}.tweenteach.zip`,external:[...new Set(lessons.flatMap(l=>l.payload.external))],count:lessons.length};});
 }
 // Generated PDFs and manifests can be rebuilt after an identity change.
 const transferredRevision=payload=>contentFingerprint({...payload,corpus:null});
@@ -135,18 +135,20 @@ async function analyze(tx,pack,actor,choicesInput,{forcedTarget=null,capabilityI
 async function availability(pack){const issues=[];for(const capability of new Set(pack.lessons.flatMap(l=>l.capabilities)))for(const message of await runtimeBlockers([capability]))issues.push({capability,message});return issues;}
 export async function previewTransfer(store,id,input,actor){
  const {t,bytes}=await readTransfer(store,id,actor);requireValue(t.kind==='import','Choisissez une archive à importer.');const pack=await decodePackage(bytes),capabilityIssues=await availability(pack);
- return store.transaction(async tx=>{const transfer=await ownedTransfer(tx,id,actor),analysis=await analyze(tx,pack,actor,input.choices,{forcedTarget:input.targetId,capabilityIssues}),token=randomUUID();transfer.sealed=true;transfer.review={token,choices:analysis.choices,contextHash:analysis.contextHash};await tx.put('lesson_transfers',transfer);return {...analysis,token,transferId:id};});
+ return store.transaction(async tx=>{await tx.lockTables();const transfer=await ownedTransfer(tx,id,actor),analysis=await analyze(tx,pack,actor,input.choices,{forcedTarget:input.targetId,capabilityIssues}),token=randomUUID();transfer.sealed=true;transfer.review={token,choices:analysis.choices,contextHash:analysis.contextHash};await tx.put('lesson_transfers',transfer);return {...analysis,token,transferId:id};});
 }
 export async function applyTransfer(store,id,input,actor){
  requireValue(input.confirmed===true&&typeof input.token==='string','Confirmez le récapitulatif avant application.');
- const {t,bytes}=await readTransfer(store,id,actor);
+ // Hold the same database lock as closure and expiry cleanup throughout application.
+ return store.transaction(async tx=>{
+ await tx.lockTables();
+ const {t,bytes}=await readTransfer(tx,id,actor);
  // Response loss and double click return the original receipt even if the
  // destination has advanced since the successful operation.
- const receiptId=fingerprint([actor.classId,actor.id,id,input.token]),old=await store.get('lesson_transfer_receipts',receiptId);if(old)return old.result;
+ const receiptId=fingerprint([actor.classId,actor.id,id,input.token]),old=await tx.get('lesson_transfer_receipts',receiptId);if(old)return old.result;
  if(t.review?.token!==input.token)fail(409,'Le récapitulatif a changé. Analysez de nouveau votre sélection.');
  const pack=await decodePackage(bytes),capabilityIssues=await availability(pack);
- return store.transaction(async tx=>{
-  await tx.lockTables();const transfer=await ownedTransfer(tx,id,actor),receipt=await tx.get('lesson_transfer_receipts',receiptId);if(receipt)return receipt.result;
+ const transfer=await ownedTransfer(tx,id,actor),receipt=await tx.get('lesson_transfer_receipts',receiptId);if(receipt)return receipt.result;
   if(transfer.review?.token!==input.token)fail(409,'Le récapitulatif a changé. Analysez de nouveau votre sélection.');
   const review=transfer.review,operationId=fingerprint([actor.classId,actor.id,pack.sha256,review.choices]);
   const analysis=await analyze(tx,pack,actor,review.choices,{capabilityIssues});
@@ -189,4 +191,18 @@ export async function applyTransfer(store,id,input,actor){
  });
 }
 async function txPutLink(tx,actor,portableId,lessonId,revisions={}){const id=linkId(actor.classId,portableId),old=await tx.get('lesson_transfer_links',id),record={...(old?.lessonId===lessonId?old:{}),id,classId:actor.classId,portableId,lessonId,...revisions};if(old)await tx.put('lesson_transfer_links',record);else await tx.insert('lesson_transfer_links',record);}
-export async function removeTransfer(store,id,actor){return store.transaction(async tx=>{await ownedTransfer(tx,id,actor);for(const c of await tx.list('lesson_transfer_chunks',actor.classId))if(c.transferId===id)await tx.remove('lesson_transfer_chunks',c.id);await tx.remove('lesson_transfers',id);return {removed:true};});}
+export async function listTransfers(store,actor){
+ authorize(actor);
+ return store.transaction(async tx=>{await tx.lockTables();await cleanup(tx,actor);return {limit:10,transfers:(await tx.list('lesson_transfers',actor.classId)).filter(t=>t.actorId===actor.id).map(transferSummary)};});
+}
+export async function removeTransfer(store,id,actor){
+ authorize(actor);
+ return store.transaction(async tx=>{
+  await tx.lockTables();
+  const t=await scoped(tx,'lesson_transfers',id,actor);
+  if(t.actorId!==actor.id)fail(404,'Transfert introuvable.');
+  if(t.status==='applying')fail(409,'Ce transfert est en cours d’application.');
+  for(const c of await tx.list('lesson_transfer_chunks',actor.classId))if(c.transferId===id)await tx.remove('lesson_transfer_chunks',c.id);
+  await tx.remove('lesson_transfers',id);return {removed:true};
+ });
+}

@@ -11,7 +11,7 @@ import {compileCorpus} from '../server/corpus.mjs';
 import {preparePublication} from '../server/publication-readiness.mjs';
 import {publishLesson,editLesson,lessonQuality} from '../server/domain.mjs';
 import {sha256} from '../server/content-snapshots.mjs';
-import {exportLessons,readTransfer,beginUpload,writeChunk,previewTransfer,applyTransfer,ownedTransfer} from '../server/lesson-transfer.mjs';
+import {exportLessons,readTransfer,beginUpload,writeChunk,previewTransfer,applyTransfer,ownedTransfer,removeTransfer,listTransfers} from '../server/lesson-transfer.mjs';
 import {decodePackage,encodePackage,LIMITS,contentFingerprint} from '../server/lesson-package.mjs';
 import {createApp} from '../server/app.mjs';
 import {passwordHash} from '../server/auth.mjs';
@@ -207,5 +207,69 @@ test('adding into a different class assigns destination ownership without creati
   assert.equal(lesson.classId,'B1');assert.equal(lesson.authorId,dest.actor.id);assert.equal(version.spec.classId,'B1');assert.deepEqual(version.spec.objectives,source.spec.objectives);assert.equal((await store.list('plan_entries')).length,0);assert.equal((await store.list('classes')).length,0);
   assert.ok((await store.list('pedagogical_sources')).every(s=>s.ownerId===dest.actor.id&&s.classId==='B1'));assert.ok((await store.list('lesson_assets')).every(a=>a.classId==='B1'));
   assert.equal((await preview(dest,t)).rows[0].status,'identical');
+ }finally{await close(source,dest);}
+});
+
+test('ten transfers: closing an old upload immediately frees a server slot without changing lessons',async()=>{
+ const f=await fixture({rich:true});try{
+  const before=await snapshot(f.store),bytes=Buffer.from('invalid archive'),uploads=[];
+  for(let i=0;i<10;i++)uploads.push(await upload(f,bytes));
+  await assert.rejects(beginUpload(f.store,{bytes:bytes.length,sha256:sha256(bytes)},f.actor),{status:429});
+  assert.equal((await listTransfers(f.store,f.actor)).transfers.length,10);
+  await assert.rejects(preview(f,uploads[0]));
+  await assert.rejects(removeTransfer(f.store,uploads[0].id,{...f.actor,id:'other'}),{status:404});
+  await removeTransfer(f.store,uploads[0].id,f.actor);
+  assert.equal(await f.store.get('lesson_transfers',uploads[0].id),null);
+  assert.ok(!(await f.store.list('lesson_transfer_chunks')).some(c=>c.transferId===uploads[0].id));
+  await upload(f,bytes);
+  assert.equal((await listTransfers(f.store,f.actor)).transfers.length,10);
+  assert.deepEqual(await snapshot(f.store),before);
+ }finally{await close(f);}
+});
+
+test('expired transfers are cleaned before quota; applying transfers and private ownership are preserved',async()=>{
+ const f=await fixture();try{
+  const bytes=Buffer.from('failed import'),uploads=[];
+  for(let i=0;i<10;i++)uploads.push(await upload(f,bytes));
+  const expired=await f.store.get('lesson_transfers',uploads[0].id);
+  await f.store.put('lesson_transfers',{...expired,expiresAt:'2000-01-01T00:00:00.000Z'});
+  const active=await f.store.get('lesson_transfers',uploads[1].id);
+  await f.store.put('lesson_transfers',{...active,status:'applying',expiresAt:'2000-01-01T00:00:00.000Z'});
+  await upload(f,bytes);
+  assert.equal(await f.store.get('lesson_transfers',expired.id),null);
+  assert.equal(await f.store.get('lesson_transfer_chunks',expired.id+':0'),null);
+  assert.ok(await f.store.get('lesson_transfers',active.id));
+  await assert.rejects(removeTransfer(f.store,active.id,f.actor),{status:409});
+  assert.deepEqual((await listTransfers(f.store,{...f.actor,id:'other'})).transfers,[]);
+ }finally{await close(f);}
+});
+
+test('closing an applied transfer preserves imported resources, receipts and mappings',async()=>{
+ const source=await fixture({rich:true}),dest=await fixture();try{
+  const t=await upload(dest,(await exported(source)).bytes),p=await preview(dest,t);
+  await apply(dest,t,p);
+  const before=await snapshot(dest.store),receipts=await dest.store.list('lesson_transfer_receipts'),links=await dest.store.list('lesson_transfer_links');
+  await removeTransfer(dest.store,t.id,dest.actor);
+  assert.deepEqual(await snapshot(dest.store),before);
+  assert.deepEqual(await dest.store.list('lesson_transfer_receipts'),receipts);
+  assert.deepEqual(await dest.store.list('lesson_transfer_links'),links);
+ }finally{await close(source,dest);}
+});
+
+test('closure waits for an application already holding the transaction',async()=>{
+ const source=await fixture({rich:true}),dest=await fixture();try{
+  const t=await upload(dest,(await exported(source)).bytes),p=await preview(dest,t);
+  let started,release;
+  const entered=new Promise(resolve=>{started=resolve;}),gate=new Promise(resolve=>{release=resolve;});
+  const held={...dest.store,transaction:fn=>dest.store.transaction(async tx=>{started();await gate;return fn(tx);})};
+  const application=applyTransfer(held,t.id,{token:p.token,confirmed:true},dest.actor);
+  await entered;
+  const closure=removeTransfer(dest.store,t.id,dest.actor);
+  release();
+  const result=await application;await closure;
+  assert.equal(result.lessons.length,1);
+  assert.ok(await dest.store.get('lessons',result.lessons[0].id));
+  assert.ok((await dest.store.list('lesson_assets')).length);
+  assert.equal(await dest.store.get('lesson_transfers',t.id),null);
  }finally{await close(source,dest);}
 });

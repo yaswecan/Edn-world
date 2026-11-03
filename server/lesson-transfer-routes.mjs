@@ -2,13 +2,14 @@ import {availability} from './student-tracking.mjs';
 import express from 'express';
 import {teacher,loggedIn,accountLimit} from './auth.mjs';
 import {LIMITS} from './lesson-package.mjs';
-import {exportLessons,beginUpload,writeChunk,previewTransfer,applyTransfer,ownedTransfer,removeTransfer} from './lesson-transfer.mjs';
+import {exportLessons,beginUpload,writeChunk,previewTransfer,applyTransfer,ownedTransfer,removeTransfer,listTransfers} from './lesson-transfer.mjs';
 import {fail,scoped,requireValue} from './store.mjs';
 import {sha256} from './content-snapshots.mjs';
 import {studentSpec} from './generator.mjs';
 export function lessonTransferRoutes(app,store){
  const limited=accountLimit(100);
  app.post('/api/lesson-transfers/export',teacher,accountLimit(10),async(req,res)=>res.json(await exportLessons(store,req.body.lessonIds,req.user)));
+ app.get('/api/lesson-transfers',teacher,async(req,res)=>res.json(await listTransfers(store,req.user)));
  app.post('/api/lesson-transfers',teacher,limited,async(req,res)=>res.json(await beginUpload(store,req.body,req.user)));
  app.get('/api/lesson-transfers/:id',teacher,async(req,res)=>{const t=await ownedTransfer(store,req.params.id,req.user);const received=(await store.list('lesson_transfer_chunks',req.user.classId)).filter(c=>c.transferId===t.id).map(c=>c.index);res.json({id:t.id,kind:t.kind,sealed:!!t.sealed,received,bytes:t.bytes,sha256:t.sha256,chunks:t.chunks,chunkBytes:LIMITS.chunk});});
  app.put('/api/lesson-transfers/:id/chunks/:index',teacher,express.raw({type:'application/octet-stream',limit:LIMITS.chunk,inflate:false}),async(req,res)=>res.json(await writeChunk(store,req.params.id,Number(req.params.index),req.body,req.user)));

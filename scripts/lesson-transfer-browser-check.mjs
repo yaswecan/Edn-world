@@ -6,6 +6,7 @@ import {transferFixture} from '../tests/fixtures/lesson-transfer.mjs';
 import {createApp} from '../server/app.mjs';
 import {preparePublication} from '../server/publication-readiness.mjs';
 import {publishLesson} from '../server/domain.mjs';
+import {beginUpload} from '../server/lesson-transfer.mjs';
 import {passwordHash} from '../server/auth.mjs';
 
 const source=await transferFixture({rich:true}),dest=await transferFixture(),directory='test-results/lesson-transfer';await mkdir(directory,{recursive:true});
@@ -38,6 +39,22 @@ try{
  await page.getByRole('button',{name:'Remplacer depuis un fichier',exact:true}).click();await page.locator('#lesson-package-file').setInputFiles(archive);await page.getByRole('button',{name:'Analyser le fichier'}).click();await expect(rows).toHaveCount(2);await rows.nth(0).locator('[data-transfer-action]').selectOption('replace');await rows.nth(0).locator('[data-transfer-target]').selectOption(dest.lesson.id);await page.getByRole('button',{name:'Actualiser le récapitulatif'}).click();await expect(rows.nth(0)).toContainText('Identique — aucune modification');const version=(await dest.store.get('lessons',dest.lesson.id)).version;await page.locator('[data-action="transfer-apply"]').click();await expect(page.getByRole('heading',{name:'Transfert terminé'})).toBeVisible();assert.equal((await dest.store.get('lessons',dest.lesson.id)).version,version);report.checks.push('identical-reimport-no-new-version');
  await page.getByRole('button',{name:'Fermer',exact:true}).click();await page.getByRole('button',{name:'Importer des séances',exact:true}).click();await page.locator('#lesson-package-file').setInputFiles(archive);await page.getByRole('button',{name:'Analyser le fichier'}).click();await expect(rows).toHaveCount(2);await rows.nth(0).locator('[data-transfer-action]').selectOption('ignore');await rows.nth(1).locator('[data-transfer-action]').selectOption('add');await page.getByRole('button',{name:'Actualiser le récapitulatif'}).click();
  await page.setViewportSize({width:390,height:844});assert.equal(await page.locator('#dialog').evaluate(el=>el.scrollWidth>el.clientWidth+2),false);await page.screenshot({path:directory+'/mobile-review.png'});await page.locator('[data-action="transfer-apply"]').click();await expect(page.getByRole('heading',{name:'Transfert terminé'})).toBeVisible();await expect(page.locator('#dialog')).toContainText('Ajoutée en brouillon');assert.equal((await dest.store.list('lessons')).length,2);report.checks.push('list-import-subset-added-as-draft','mobile-review-no-overflow');
+ await page.getByRole('button',{name:'Fermer',exact:true}).click();
+ for(let n=(await dest.store.list('lesson_transfers')).length;n<10;n++)await beginUpload(dest.store,{bytes:1,sha256:'a'.repeat(64)},dest.actor);
+ await page.getByRole('button',{name:'Importer des séances',exact:true}).click();
+ await page.getByRole('button',{name:'Mes transferts',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Fermer ce transfert',exact:true})).toHaveCount(10);
+ await page.getByRole('button',{name:'Fermer ce transfert',exact:true}).first().click();
+ await expect(page.getByRole('button',{name:'Fermer ce transfert',exact:true})).toHaveCount(9);
+ assert.equal((await dest.store.list('lesson_transfers')).length,9);
+ await page.getByRole('button',{name:'Importer un fichier',exact:true}).click();
+ await page.locator('#lesson-package-file').setInputFiles(directory+'/single.tweenteach.zip');
+ await page.getByRole('button',{name:'Analyser le fichier',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Vérifier les séances à importer'})).toBeVisible();
+ assert.equal((await dest.store.list('lesson_transfers')).length,10);
+ report.checks.push('ten-transfers-close-old-transfer-new-import-immediately');
+ await page.getByRole('button',{name:'Annuler ce transfert',exact:true}).click();
+ await expect(page.getByRole('button',{name:'Fermer ce transfert',exact:true})).toHaveCount(9);
  await page.setViewportSize({width:390,height:844});assert.equal(await page.locator('#dialog').evaluate(el=>el.scrollWidth>el.clientWidth+2),false);await page.screenshot({path:directory+'/mobile.png'});assert.deepEqual(errors,[]);report.checks.push('mobile-dialog-no-overflow','no-browser-errors');report.status='PASS';
 }catch(e){report.status='FAIL';report.error=e.stack;await page?.screenshot({path:directory+'/failure.png',fullPage:true});throw e;}
 finally{await writeFile(directory+'/report.json',JSON.stringify(report,null,2)+'\n');if(browser){for(const context of browser.contexts()){for(const page of context.pages())await page.close({runBeforeUnload:false});await context.close();}await browser.close();}if(!sourceClosed){a.server.closeAllConnections();await new Promise(r=>a.server.close(r));}b.server.closeAllConnections();await new Promise(r=>b.server.close(r));await source.store.close();await dest.store.close();}
