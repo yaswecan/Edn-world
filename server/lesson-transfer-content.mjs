@@ -39,10 +39,13 @@ async function mapStrings(value,fn,path=[]){
 }
 // No arbitrary local reads and no fetching an URL supplied by an archive.
 // Public bundled assets and authenticated EDEN sources are the only resolvers.
-async function portableLinks(value,tx,actor,files,external){
- return mapStrings(value,async text=>{
+async function portableLinks(value,tx,actor,files,external,source='payload'){
+ return mapStrings(value,async (text,pointer)=>{
+  // Corpus inventory paths are identifiers, not resource URLs. Its bytes were
+  // processed separately above; never resolve metadata against public/assets.
+  if(source==='payload'&&pointer[0]==='corpus')return text;
   text=text.replace(/data:(image\/(?:png|jpeg|webp|gif|svg\+xml));base64,([A-Za-z0-9+/=]+)/g,(_all,mime,encoded)=>{const bytes=Buffer.from(encoded,'base64'),hash=sha256(bytes);addResource(files,hash,bytes);return `tweenteach-file:${hash}:${mime}`;});
-  const urls=[...new Set(text.match(/(?:https?:\/\/|file:\/\/|\/api\/(?:lesson-assets|lesson-transfer-files)\/|\/assets\/)[^\s<>"')\]\\]+/g)||[])];
+  const urls=[...new Set(text.match(/(?<![\w./-])(?:https?:\/\/|file:\/\/|\/api\/(?:lesson-assets|lesson-transfer-files)\/|\/assets\/)[^\s<>"')\]\\]+/g)||[])];
   for(const url of urls){
    let parsed;try{parsed=new URL(url,'http://localhost');}catch{fail(422,'Lien de ressource invalide.');}
    if(parsed.protocol==='file:')fail(422,'Une ressource utilise un chemin de fichier local. Importez-la dans les ressources de la séance avant l’export.');
@@ -54,7 +57,7 @@ async function portableLinks(value,tx,actor,files,external){
    let bytes,mime;
    if(parsed.pathname.startsWith('/assets/')){
     const base=await realpath(resolve('public/assets')),path=await realpath(resolve('public','.'+decodeURIComponent(parsed.pathname))).catch(()=>null);
-    requireValue(path&&path.startsWith(base+sep),'Ressource locale absente ou hors du dossier public/assets.');bytes=await readFile(path);mime=mimeFor(path);
+    if(!path||!path.startsWith(base+sep))fail(422,'Ressource locale absente ou hors du dossier public/assets.',{incidentId:randomUUID(),stage:'capture',source,pointer:'/'+pointer.map(p=>String(p).replace(/~/g,'~0').replace(/\//g,'~1')).join('/'),category:'static-asset',value:parsed.pathname.slice(0,200),reason:path?'outside-static-root':'missing-static-asset'});bytes=await readFile(path);mime=mimeFor(path);
    }else if(/^\/api\/(lesson-assets|lesson-transfer-files)\/[a-f0-9]{64}$/.test(parsed.pathname)){
     const asset=await scoped(tx,'lesson_assets',parsed.pathname.split('/').at(-1),actor);bytes=Buffer.from(asset.base64,'base64');requireValue(sha256(bytes)===asset.sha256,'Ressource altérée.');mime=asset.mimeType;
    }else fail(422,'Une ressource dépend de localhost et ne peut pas être transportée. Importez son fichier dans la séance.');
@@ -97,7 +100,7 @@ export async function captureLesson(tx,lesson,actor,files,{identity=true}={}){
   if(file.path==='03_PROFESSEUR/groupes-remediation.xlsx'||file.path==='00_MANIFEST/manifest.json')continue;
   safeContentPath(file.path);let bytes=await artifactBuffer(file);
   if(/\.(?:html?|css|js|mjs|json|txt|svg)$/i.test(file.path)){
-   const portable=await portableLinks(bytes.toString('utf8'),tx,actor,files,external);
+   const portable=await portableLinks(bytes.toString('utf8'),tx,actor,files,external,file.path);
    bytes=Buffer.from(portable.replace(/tweenteach-file:([a-f0-9]{64}):([\w.+-]+\/[\w.+-]+)/g,(_m,hash,mime)=>`data:${mime};base64,${files.get(hash).toString('base64')}`));
   }
   const hash=sha256(bytes);addResource(files,hash,bytes);

@@ -12,3 +12,5 @@ playwright-report/
 .lab-data/
 __pycache__/
 .vercel
+
+!tests/fixtures/import-diagnostic/*.tweenteach.zip

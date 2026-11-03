@@ -117,6 +117,6 @@ export function decideQuality({spec,sources,brief,report,checks,policy={minimum:
 }
 export async function publicationGate(store,lesson,spec){
  if(!lesson.qualityRequired)return [];
- const job=await store.get('generation_jobs',lesson.qualityJobId),validation=lesson.pedagogicalValidation;
+ const job=lesson.qualityJobId?await store.get('generation_jobs',lesson.qualityJobId):null,validation=lesson.pedagogicalValidation;
  return [{id:'independent_review',ok:!!(job?.status==='completed'&&!job.simulation&&!job.sourceChanged&&validation?.state==='ready'&&validation.contentHash===candidateHash(spec,job.sources)),message:'Revue indépendante acceptée sur le contenu, les sources et le runtime exacts ; aucune simulation.'}];
 }
