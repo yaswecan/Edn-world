@@ -24,7 +24,7 @@ Le code élève n’a aucune liaison à `fetch`, au réseau, au DOM, aux cookies
 
 ## Trace et schémas
 
-Chaque événement contient ligne, nature, explication, variables, pile d’appels et compteur d’opérations. Les lectures ajoutent le nom réel du tableau, l’indice et sa valeur ; les appels ajoutent les arguments et paramètres ; les sorties ajoutent le contenu de console. Le lecteur n’utilise aucun nom de variable ou identifiant d’activité particulier.
+Chaque événement contient ligne, nature, explication, variables, pile d’appels et compteur d’opérations. Les lectures ajoutent le nom réel du tableau, l’indice et sa valeur ; les appels ajoutent les arguments et paramètres ; les sorties ajoutent le contenu de console. Le module `public/programming/visuals.js` construit les schémas à partir de ces valeurs et des en-têtes du code affiché.
 
 | `diagramType` | État observé |
 | --- | --- |
@@ -35,8 +35,14 @@ Chaque événement contient ligne, nature, explication, variables, pile d’appe
 | `foreach` | Valeur et indice, appel du callback, retour ignoré |
 | `decompose` | Pile d’appels, valeurs transmises, composition des résultats |
 
-Ces six présentations partagent le rendu d’état et se distinguent par le mécanisme à observer. Elles sont pilotées par la trace réellement obtenue. Les boutons relisent la trace enregistrée ; le retour arrière ne réexécute aucun effet. Console, ligne active, pile et retour suivent la même position. Une modification du code ou des arguments invalide trace et résultats. L’exemple en lecture seule ne remplace pas le brouillon.
+Ces six présentations reprennent les cases indice/valeur, le code couleur violet/bleu/orange, les étapes du mécanisme, les liaisons arguments/paramètres, les retours et la pile d’appels du cours source. Elles sont pilotées par la trace réellement obtenue. Les boutons relisent la trace enregistrée ; le retour arrière ne réexécute aucun effet. Console, ligne active, pile et retour suivent la même position. Une modification du code ou des arguments invalide trace et résultats. L’exemple en lecture seule ne remplace pas le brouillon ; il n’est proposé que si `interactive.demo` est renseigné.
 
-Lecture/pause, vitesse, étapes et état final sont disponibles. Le mode sans mouvement et `prefers-reduced-motion` désactivent la lecture animée ; le pas à pas reste disponible. La case et la ligne actives possèdent aussi des libellés/indices, pas uniquement une couleur.
+Lecture/pause, vitesse, curseur de trace, étapes et état final sont disponibles. Les données de départ et une liste vide peuvent être choisies depuis les arguments de l’appel. Ctrl/⌘ + Entrée lance le programme ; Tab insère deux espaces dans le code modifiable. Le mode sans mouvement et `prefers-reduced-motion` désactivent la lecture animée ; le pas à pas reste disponible. La case et la ligne actives possèdent aussi des libellés/indices, pas uniquement une couleur.
 
-Une comparaison déclare `id`, `blockId`, `invoke`, des arguments communs et plusieurs programmes avec leur `diagramType`. Changer de programme conserve les arguments de comparaison, puis recalcule résultat et trace. Aucun branchement spécifique au contexte « batteries » n’existe dans le lecteur.
+Une comparaison déclare `id`, `blockId`, `invoke`, des arguments communs et plusieurs programmes avec leur `diagramType`. Changer de programme conserve les arguments déclarés de comparaison, puis recalcule résultat et trace. Les descriptions, règles et tableaux d’explication sont des données facultatives de `programming.presentation.comparisons`.
+
+## Présentation et travail élève
+
+`public/programming/original.css` reprend les styles du cours fourni en les limitant à `.programming-reader`. `reader.css` les intègre aux conteneurs TweenTeach. La présentation est native : aucun HTML ou script du ZIP n’est inséré dans la page authentifiée. Les textes de mission, mémo et bilan sont des données échappées au rendu.
+
+Le code, les arguments, la prédiction, les indices, la réflexion et les réponses restent séparés par activité. L’export global `programming-course-work-1` regroupe ces travaux avec l’identité du cours et de sa version. Les anciens exports unitaires `programming-work-1` restent importables. L’import valide toutes les activités avant remplacement, puis supprime les résultats antérieurs pour demander une nouvelle vérification.

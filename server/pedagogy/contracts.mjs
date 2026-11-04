@@ -40,6 +40,7 @@ export function planSchemaFor(spec,sources){
  // JSON expansion intentionally breaks shared schema-node references (strings/text).
  const schema=JSON.parse(JSON.stringify(planSchema)),p=schema.properties,c=p.contract.properties;
  const enumeration=values=>({type:'string',enum:[...new Set(values)]});
+ if(spec.sessionType==='web-design')c.family={type:'string',enum:['Design']};
  const activities=[...spec.activities,...spec.diagnostic.tasks].map(a=>a.id),blocks=spec.blocks.map(b=>b.id),skills=spec.skills;
  p.coverage.minItems=skills.length;p.coverage.maxItems=skills.length;
  const coverage=p.coverage.items.properties;coverage.skill=enumeration(skills);coverage.activityIds.items=enumeration(activities);coverage.explanationBlockId=enumeration(spec.blocks.filter(b=>b.phase==='understand').map(b=>b.id));coverage.sourceSegments.items=enumeration(sources.flatMap(s=>s.segments.map(x=>x.id)));

@@ -1,9 +1,11 @@
+import {sessionType} from './session-types.mjs';
 import {fail,requireValue,scoped} from './store.mjs';
 import {parisDate,resolveEntry} from './generator.mjs';
 import {proposePlanOperations} from './planning.mjs';
 const normalize=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export async function interpretIntent(store,actor,input){
  requireValue(typeof input.intent==='string'&&input.intent.trim()&&input.intent.length<=4000,'Intention attendue (4000 caractères maximum).');
+ sessionType(input);
  const text=normalize(input.intent),entries=await store.list('plan_entries',actor.classId),active=entries.filter(e=>!['replaced','cancelled','postponed'].includes(e.status));
  if(input.operations||input.mode==='change_plan')return {kind:'plan_proposal',proposal:await proposePlanOperations(store,actor,input.operations?input:{reason:input.reason||input.intent,operations:[{type:'update',entryId:input.entryId,patch:input.patch}]})};
  const before=text.match(/(?:faire|placer|mettre|deplacer)\s+(.+?)\s+avant\s+(?:le |la |les |l['’])?(.+?)[.!?]?$/);
@@ -27,7 +29,7 @@ export async function interpretIntent(store,actor,input){
  try{entry=input.entryId?await scoped(store,'plan_entries',input.entryId,actor):resolveEntry(entries,input);}catch(error){
   if(error.status!==409)throw error;
   if(error.details?.entries)return {kind:'clarification',message:error.message,candidates:entries.filter(e=>error.details.entries.includes(e.id))};
-  return {kind:'unplanned_draft',date:error.details?.targetDate||input.targetDate||parisDate(),objective:input.intent,message:'Aucun créneau prévu. Complétez ce brouillon et validez son insertion dans le plan avant la préparation.'};
+  return {kind:'unplanned_draft',date:error.details?.targetDate||input.targetDate||parisDate(),objective:input.intent,...input.sessionType?{sessionType:input.sessionType}:{},message:'Aucun créneau prévu. Complétez ce brouillon et validez son insertion dans le plan avant la préparation.'};
  }
  requireValue(!['replaced','cancelled','postponed'].includes(entry.status),'Ce créneau n’est plus actif.');
  if(!entry.durationConfirmed)return {kind:'confirm_duration',entryId:entry.id,intent:input.intent};

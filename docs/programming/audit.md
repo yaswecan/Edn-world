@@ -19,7 +19,9 @@ Résultat : 10 CodeEditor, 12 Quiz et 2 Quiz de rappel avec leurs propres identi
 
 Le diagnostic séparé devient un diagnostic natif formatif avec `activityIds: [q1-indice, q2-for]`, `tasks: []` et `rubric: []`. Ses questions sont les activités existantes et leurs réponses utilisent le suivi de séance. Il n’y a ni copie d’activité ni tentative diagnostique notée artificielle. Les diagnostics évaluatifs historiques restent inchangés.
 
-Le comparatif extrait après lecture de `lesson.js` est devenu `programming.comparisons`. L’adaptateur reconnaît l’empreinte du script examiné ; un script différent exige une migration déclarative explicite. `course-data.js` n’est pas nécessaire : aucune extraction de JavaScript et aucune évaluation ne sont réalisées.
+Le comparatif extrait après lecture de `lesson.js` est devenu `programming.comparisons`. L’adaptateur reconnaît l’empreinte du script examiné ; un script différent exige une migration déclarative explicite. Les introductions, les six sections du mémo, les explications du comparatif, les notes de bilan et les consignes de réflexion sont transcrites dans `programming.presentation`. Ces données sont incluses dans le paquet canonique, sans dépendance ultérieure au script source.
+
+`course-data.js` contient une affectation unique `window.ARRAY_COURSE = <JSON>;`. L’adaptateur reconnaît cette enveloppe exacte, extrait son texte JSON et utilise `JSON.parse` ; il n’exécute jamais le fichier. La projection élève doit correspondre aux données auteur sans `reference`, avec des démonstrations vides pour les ateliers autonomes. Cette vérification est nécessaire : `course-author.json` contient les solutions de `a5-reconstruction`, `a9-bilan-flotte` et `a10-transfert` dans `demo`, tandis que le cours élève les masque volontairement. La conversion conserve cette absence de démonstration.
 
 Les ressources originales restent dans le corpus professeur pour l’audit, y compris les HTML autonomes et les scripts qui contiennent des corrections. Seuls le mémo PDF, les consignes et les départs sont exposés comme ressources élèves. La projection `studentSpec` expose les démonstrations et feedbacks formatifs voulus, mais masque `reference`, les tests privés et les guides. Les URL de fichier sont autorisées uniquement si elles figurent dans une version affectée au compte élève. Les sources originales ne deviennent jamais des fichiers publics.
 
@@ -29,6 +31,8 @@ L’adaptateur produit le même objet portable que le décodeur natif ; le préc
 
 Le lecteur est sélectionné seulement par `programming.format === programming-1` après validation des capacités et du moteur. Une activité ou capacité inconnue est refusée, sans repli silencieux. Les anciens cours sans cette extension conservent leur lecteur et leurs moteurs. Les sources auteur ne servent plus au rendu après conversion : le format canonique est autonome.
 
+Le champ optionnel `sessionType` distingue maintenant `web-design` (**Conception web**) et `programming` (**Programmation**) dans la planification et la création. Un import EDEN porte explicitement le second type. Choisir un modèle de programmation lors de la préparation instancie le corpus relu, entier ou limité à une de ses séances. La sélection filtre les blocs, activités, références de présentation et comparatifs ensemble ; les durées et textes des blocs conservés restent ceux du corpus. Aucun changement de type ne transforme rétroactivement les anciennes versions d’une séance.
+
 Le corpus fourni reste complet lors de l’export, de la publication ou d’un changement d’intitulé ; il n’est pas remplacé par une reconstruction qui perdrait ses supports. Les nouveaux fichiers de correction restent protégés par les API professeur. Export canonique puis réimport conserve les données riches.
 
 ## Limites explicites
@@ -37,5 +41,5 @@ Le corpus fourni reste complet lors de l’export, de la publication ou d’un c
 - Le diagnostic de ce corpus est formatif, pas une conversion arbitraire en évaluation sur 20.
 - Les tests navigateur automatisés utilisent Chrome local et des bases isolées. Ils ne prouvent pas une publication sur l’instance de production ni une synchronisation dans votre base réelle.
 - Les contrôles clavier, focus, largeur et préférences de mouvement ne remplacent pas un audit complet avec lecteurs d’écran.
-- L’assistant IA peut modifier un brouillon riche depuis un modèle importé. Le générateur historique de squelettes n’a pas été remplacé et aucun résultat d’appel IA réel n’est revendiqué.
+- L’assistant IA peut modifier un brouillon riche depuis un modèle importé ou créé dans TweenTeach. Le choix **Programmation** crée actuellement l’un des trois découpages explicites du corpus fourni ; il ne génère pas un nouveau sujet de programmation à partir d’une demande libre. Le générateur historique de squelettes reste disponible pour ses parcours existants.
 - Les programmes dépassant les budgets ou utilisant un JavaScript hors sous-ensemble nécessitent une adaptation de contenu ou un futur moteur applicatif déclaré, jamais un script privilégié fourni par le paquet.

@@ -17,3 +17,5 @@ __pycache__/
 
 !tests/fixtures/programming/*.zip
 !docs/programming/examples/*.zip
+
+!data/programming/*.zip

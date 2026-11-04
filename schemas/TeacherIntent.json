@@ -50,6 +50,19 @@
         "remediation",
         "change_plan"
       ]
+    },
+    "sessionType": {
+      "enum": [
+        "web-design",
+        "programming"
+      ]
+    },
+    "programmingTemplate": {
+      "enum": [
+        "tableaux-complet",
+        "tableaux-s1",
+        "tableaux-s2"
+      ]
     }
   },
   "required": [

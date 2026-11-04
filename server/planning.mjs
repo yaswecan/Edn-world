@@ -1,9 +1,11 @@
 import {uid,now,requireValue,fail,scoped} from './store.mjs';
+import {sessionType,programmingTemplate} from './session-types.mjs';
 
-const editable=['date','objective','activity','skills','sequence','module','duration','durationConfirmed','status'];
+const editable=['date','objective','activity','skills','sequence','module','duration','durationConfirmed','status','sessionType','programmingTemplate'];
 const active=e=>!['cancelled','postponed','replaced'].includes(e.status);
 export function validDate(value){return typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&Number.isFinite(Date.parse(value))&&new Date(value+'T12:00:00Z').toISOString().slice(0,10)===value;}
 function validateEntry(entry,criteria){
+ sessionType(entry);if(entry.programmingTemplate!==undefined)programmingTemplate(entry);
  requireValue(validDate(entry.date),'Date invalide.');
  requireValue(typeof entry.objective==='string'&&entry.objective.trim(),'Objectif requis.');
  requireValue(Number.isInteger(entry.duration)&&entry.duration>=30&&entry.duration<=600,'Durée : 30 à 600 minutes.');
@@ -21,7 +23,7 @@ export async function proposePlanOperations(store,actor,input){
  const original=await tx.list('plan_entries',actor.classId),criteria=await tx.list('competency_n3',actor.classId),working=new Map(original.map(e=>[e.id,structuredClone(e)])),touched=new Set();
  const get=id=>{const e=working.get(id);if(!e)fail(404,'Créneau inconnu.');return e;};
  const update=(id,patch)=>{const e=get(id);const clean=Object.fromEntries(Object.entries(patch||{}).filter(([k])=>editable.includes(k)));requireValue(Object.keys(clean).length,'Aucune modification.');working.set(id,validateEntry({...e,...clean},criteria));touched.add(id);};
- const insert=(input,source=null)=>{const id=uid(`${actor.classId}:PE`);const e=validateEntry({...source,id,classId:actor.classId,date:input.date,day:'',category:'Séance',sequence:input.sequence??source?.sequence??'',module:input.module??source?.module??'',skills:input.skills??source?.skills??[],objective:input.objective,activity:input.activity??source?.activity??'',notes:'',assessmentId:'',assessmentDuration:0,assessmentCriteria:[],resourcePack:uid('R'),duration:input.duration??source?.duration??175,durationConfirmed:input.durationConfirmed??false,status:'planned',sourceRow:null,parentEntryIds:source?[source.id]:[]},criteria);working.set(id,e);touched.add(id);return e;};
+ const insert=(input,source=null)=>{const id=uid(`${actor.classId}:PE`);const e=validateEntry({...source,id,classId:actor.classId,date:input.date,day:'',category:'Séance',sequence:input.sequence??source?.sequence??'',module:input.module??source?.module??'',...(input.sessionType??source?.sessionType?{sessionType:input.sessionType??source.sessionType}:{}),...(input.programmingTemplate??source?.programmingTemplate?{programmingTemplate:input.programmingTemplate??source.programmingTemplate}:{}),skills:input.skills??source?.skills??[],objective:input.objective,activity:input.activity??source?.activity??'',notes:'',assessmentId:'',assessmentDuration:0,assessmentCriteria:[],resourcePack:uid('R'),duration:input.duration??source?.duration??175,durationConfirmed:input.durationConfirmed??false,status:'planned',sourceRow:null,parentEntryIds:source?[source.id]:[]},criteria);working.set(id,e);touched.add(id);return e;};
  for(const op of input.operations){
   if(['update','move','postpone'].includes(op.type)){const patch=op.type==='update'?op.patch:op.type==='move'?{date:op.date}:{status:'postponed'};update(op.entryId,patch);}
   else if(op.type==='insert')insert(op.entry);

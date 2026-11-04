@@ -6,7 +6,7 @@ import {coursePolicy,CONTENT_VERSION,runtimeManifest} from './policy.mjs';
 export function designContext(job) {
  const entry=job.brief.entry;
  return {version:CONTENT_VERSION,policy:coursePolicy,capabilities:job.capabilities||runtimeManifest(),
-  session:{classId:job.classId,entryId:entry.id,entryVersion:entry.version||null,date:entry.date,timezone:'Europe/Paris',planningType:entry.category||null,sequence:entry.sequence||null,planVersion:job.brief.planVersion,duration:entry.duration,sourceRow:entry.sourceRow||null},
+  session:{classId:job.classId,entryId:entry.id,entryVersion:entry.version||null,date:entry.date,timezone:'Europe/Paris',planningType:entry.category||null,sessionType:job.brief.sessionType||entry.sessionType||null,sequence:entry.sequence||null,planVersion:job.brief.planVersion,duration:entry.duration,sourceRow:entry.sourceRow||null},
   resolvedContextHash:job.brief.resolvedContext?.hash||null,documentContext:job.documentContext||null,sourceVersions:job.sources.map(s=>({id:s.id,hash:s.contentHash})),revision:job.revision||1};
 }
 export function validateDocumentary(value,sources) {
@@ -23,6 +23,7 @@ export function contractIssues(plan,spec,context) {
  const issues=[],c=plan.contract;
  const add=(location,problem)=>issues.push({location,problem});
  if(!c){add('contract','Contrat de conception absent.');return issues;}
+ if(spec.sessionType==='web-design'&&c.family!=='Design')add('contract/family','Le type Conception web choisi exige une conception de la famille Design.');
  const activities=new Map([...spec.activities,...spec.diagnostic.tasks].map(a=>[a.id,a]));
  const diagnostics=new Set(spec.diagnostic.tasks.map(a=>a.id));
  const phases=new Map([...spec.activities.map(a=>[a.id,spec.blocks.find(b=>b.activityIds.includes(a.id))?.phase]),...spec.diagnostic.tasks.map(a=>[a.id,'diagnostic'])]);

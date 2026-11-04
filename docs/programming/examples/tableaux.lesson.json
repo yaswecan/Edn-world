@@ -538,7 +538,7 @@
           "Une seule case",
           "Changer de tableau"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -665,7 +665,7 @@
           "Une seule case doit être visitée",
           "Conserver aussi les doublons"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -793,7 +793,7 @@
           "Aucun niveau suffisant",
           "Chaque drone compte une fois"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -934,7 +934,7 @@
           "Liste vide",
           "Seuil zéro"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -1042,7 +1042,7 @@
           "Une batterie exactement au seuil ne doit donc pas être comptée.",
           "Reconstruis le parcours sans afficher le corrigé ; note d’abord tes résultats attendus pour une liste vide et pour [50] avec seuil 50."
         ],
-        "demo": "function compterSousSeuil(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] < seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}",
+        "demo": "",
         "invoke": "compterSousSeuil",
         "args": [
           [
@@ -1080,7 +1080,7 @@
           "Aucune recharge nécessaire",
           "Toutes les batteries sous le seuil"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -1226,7 +1226,7 @@
           "Liste vide",
           "Retourner la première correspondance, même à la limite"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -1359,7 +1359,7 @@
           "Un drone à l’indice zéro",
           "Même valeur, indices différents"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -1489,7 +1489,7 @@
           "Aucun résultat",
           "Aucun appel sur une liste vide"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -1593,7 +1593,7 @@
           "bilanFlotte appelle ces deux fonctions avec la même liste et le même seuil, puis rassemble leurs résultats.",
           "Réutilise tes fonctions déjà vérifiées ; la ligne de retour du bilan est fournie pour concentrer le travail sur les appels."
         ],
-        "demo": "function compterPrets(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}\n\nfunction premierPret(batteries, seuil) {\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}\n\nfunction bilanFlotte(batteries, seuil) {\n  const prets = compterPrets(batteries, seuil);\n  const premier = premierPret(batteries, seuil);\n  return [batteries.length, prets, premier];\n}",
+        "demo": "",
         "invoke": "bilanFlotte",
         "args": [
           [
@@ -1631,7 +1631,7 @@
           "Égalité et première position",
           "Seuil variable et dernière position"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -1745,7 +1745,7 @@
           "bilanTemperatures doit renvoyer [nombre de mesures, nombre d’alertes, premier indice en alerte] ; sans alerte, le dernier résultat vaut -1.",
           "Choisis tes fonctions et tes boucles ; explique ce qui reste identique au bilan de flotte et ce qui change dans la condition."
         ],
-        "demo": "function compterAlertes(temperatures, minimum) {\n  let nombre = 0;\n  for (let i = 0; i < temperatures.length; i++) {\n    if (temperatures[i] < minimum) {\n      nombre++;\n    }\n  }\n  return nombre;\n}\n\nfunction premiereAlerte(temperatures, minimum) {\n  let i = 0;\n  while (i < temperatures.length) {\n    if (temperatures[i] < minimum) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}\n\nfunction bilanTemperatures(temperatures, minimum) {\n  const nombre = compterAlertes(temperatures, minimum);\n  const premier = premiereAlerte(temperatures, minimum);\n  return [temperatures.length, nombre, premier];\n}",
+        "demo": "",
         "invoke": "bilanTemperatures",
         "args": [
           [
@@ -1784,7 +1784,7 @@
           "Minimum zéro et température négative",
           "Aucune alerte"
         ],
-        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+        "reflection": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…"
       },
       "publicTests": [
         {
@@ -2894,7 +2894,7 @@
     "comparisons": [
       {
         "id": "compare-traversals",
-        "title": "Comparer for, while et forEach",
+        "title": "Comparer for, while et forEach sur les mêmes données",
         "blockId": "s2-bloc-3",
         "invoke": "compter",
         "args": [
@@ -2936,8 +2936,266 @@
         "Diagnostic formatif par références, sans duplication ni note certifiée.",
         "12 QCM et 2 rappels restaurés ; 2 bilans à trous structurés.",
         "Comparatif relu et converti en données ; aucun script importé exécuté.",
-        "Sources originales conservées côté professeur ; seuls PDF, consignes et départs autorisés aux élèves."
+        "Sources originales conservées côté professeur ; seuls PDF, consignes et départs autorisés aux élèves.",
+        "Présentation originale relue et conservée en données : ouvertures, mémo, bilan, comparatif et consignes de réflexion."
       ]
+    },
+    "presentation": {
+      "theme": "array-lab",
+      "sessionLabels": [
+        {
+          "id": "s1",
+          "title": "Parcourir et compter"
+        },
+        {
+          "id": "s2",
+          "title": "Rechercher et décomposer"
+        }
+      ],
+      "headings": [
+        {
+          "blockId": "s1-bloc-1",
+          "title": "Je réactive",
+          "lead": "Une liste de batteries. Un programme pour préparer la flotte."
+        },
+        {
+          "blockId": "s1-bloc-2",
+          "title": "Je découvre et j’essaie",
+          "lead": "Lis, prévois et observe ce que fait chaque ligne."
+        },
+        {
+          "blockId": "s1-bloc-3",
+          "title": "Je m’entraîne",
+          "lead": "Change une chose. Compare ton résultat à ta prévision."
+        },
+        {
+          "blockId": "s1-bloc-4",
+          "title": "Je réalise",
+          "lead": "Construis une solution et vérifie-la sur plusieurs cas."
+        },
+        {
+          "blockId": "s1-bloc-5",
+          "title": "Je retiens",
+          "lead": "Retrouve les mots, prends des décisions et conserve ton travail."
+        },
+        {
+          "blockId": "s2-bloc-1",
+          "title": "Je réactive",
+          "lead": "Retrouve tes repères, puis choisis comment parcourir la flotte."
+        },
+        {
+          "blockId": "s2-bloc-2",
+          "title": "Je découvre et j’essaie",
+          "lead": "Lis, prévois et observe ce que fait chaque ligne."
+        },
+        {
+          "blockId": "s2-bloc-3",
+          "title": "Je m’entraîne",
+          "lead": "Change une chose. Compare ton résultat à ta prévision."
+        },
+        {
+          "blockId": "s2-bloc-4",
+          "title": "Je réalise",
+          "lead": "Construis une solution et vérifie-la sur plusieurs cas."
+        },
+        {
+          "blockId": "s2-bloc-5",
+          "title": "Je retiens",
+          "lead": "Retrouve les mots, prends des décisions et conserve ton travail."
+        }
+      ],
+      "openings": [
+        {
+          "blockId": "s1-bloc-1",
+          "tag": "MISSION FLOTTE · PARCOURIR ET COMPTER",
+          "title": "Quels drones peuvent partir ?",
+          "paragraphs": [
+            "La flotte possède quatre drones. Chaque nombre indique une batterie. Un drone est prêt à partir de 50 %, valeur incluse.",
+            "Ton programme doit compter les drones prêts, même quand la liste change."
+          ],
+          "actionLabel": "Observer la première case",
+          "nextBlockId": "s1-bloc-2",
+          "arrayName": "batteries",
+          "values": [
+            35,
+            80,
+            20,
+            65
+          ],
+          "stats": [
+            {
+              "value": "4",
+              "label": "drones au total"
+            },
+            {
+              "value": "2",
+              "label": "prêts à partir de 50 %"
+            },
+            {
+              "value": "1",
+              "label": "indice du premier prêt"
+            }
+          ],
+          "caption": "L’indice 1 désigne le deuxième drone, dont la batterie vaut 80.",
+          "note": "Avant de coder : désigne une case, son indice et sa valeur. Les fonctions des premiers exemples sont fournies ; tu apprendras ensuite à les déclarer et à les appeler."
+        },
+        {
+          "blockId": "s2-bloc-1",
+          "tag": "MISSION FLOTTE · RECHERCHER ET DÉCOMPOSER",
+          "title": "Trouver le bon drone. Réutiliser son code.",
+          "paragraphs": [
+            "Un parcours complet et une recherche du premier résultat ne répondent pas au même besoin. Tu vas comparer leurs étapes et assembler tes fonctions.",
+            "Le bilan final réunit trois informations : nombre total, nombre de drones prêts et indice du premier prêt."
+          ],
+          "actionLabel": "Reprendre avec une recherche",
+          "nextBlockId": "s2-bloc-2",
+          "arrayName": "batteries",
+          "values": [
+            35,
+            80,
+            20,
+            65
+          ],
+          "stats": [
+            {
+              "value": "4",
+              "label": "drones au total"
+            },
+            {
+              "value": "2",
+              "label": "prêts à partir de 50 %"
+            },
+            {
+              "value": "1",
+              "label": "indice du premier prêt"
+            }
+          ],
+          "caption": "L’indice 1 désigne le deuxième drone, dont la batterie vaut 80.",
+          "note": "Sans le cours : explique où commencent les indices, à quoi sert le compteur et ce qui fait avancer une boucle. Une difficulté ? Reprends le mémo avant la suite."
+        }
+      ],
+      "summaries": [
+        {
+          "blockId": "s1-bloc-5",
+          "note": "À la prochaine séance : retrouve les étapes du for et la différence entre paramètre et argument avant de rouvrir le mémo.",
+          "actionLabel": "Passer à la séance 2",
+          "nextBlockId": "s2-bloc-1"
+        },
+        {
+          "blockId": "s2-bloc-5",
+          "note": "Pour vérifier ce qui reste acquis : reprends plus tard le défi « Serre », avec de nouvelles données et une règle différente.",
+          "actionLabel": "Ouvrir le transfert différé",
+          "nextBlockId": "s2-bloc-4",
+          "nextActivityId": "a10-transfert"
+        }
+      ],
+      "memo": [
+        {
+          "title": "Indice, valeur et taille",
+          "paragraphs": [
+            "Dans [35,80,20,65], les indices vont de 0 à 3. batteries[1] vaut 80 ; batteries.length vaut 4. Le dernier indice d’un tableau non vide vaut length - 1."
+          ]
+        },
+        {
+          "title": "Un parcours for",
+          "code": "for (let i = 0; i < batteries.length; i++) {\n  console.log(batteries[i]);\n}",
+          "paragraphs": [
+            "Initialisation une fois → condition → corps si vrai → évolution → nouveau test. Le compteur des éléments retenus est distinct de l’indice qui parcourt les cases."
+          ]
+        },
+        {
+          "title": "Déclaration, paramètres et arguments",
+          "code": "function estPret(batterie, seuil) {\n  return batterie >= seuil;\n}\nconst resultat = estPret(80, 50);",
+          "paragraphs": [
+            "batterie et seuil sont les paramètres. Dans cet appel, 80 et 50 sont les arguments. return transmet la valeur true à l’appelant. console.log sert à afficher."
+          ]
+        },
+        {
+          "title": "Choisir le parcours",
+          "paragraphs": [],
+          "table": {
+            "headers": [],
+            "rows": [
+              [
+                "for",
+                "Départ, condition et évolution réunis dans l’en-tête."
+              ],
+              [
+                "while",
+                "Répéter tant que la condition est vraie ; prévoir ce qui la fait évoluer."
+              ],
+              [
+                "forEach",
+                "Appeler une fonction pour les éléments présents du tableau. Son callback reçoit valeur, indice, tableau. Un return quitte ce callback, pas le parcours."
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Trois tests utiles",
+          "paragraphs": [
+            "Liste vide ; valeur exactement à la limite ; résultat trouvé au premier ou au dernier indice, ou absent. Pour une recherche d’indice, 0 est un résultat valide et -1 peut signaler l’absence selon le contrat choisi."
+          ]
+        },
+        {
+          "title": "Décomposer",
+          "paragraphs": [
+            "Une fonction compte. Une autre recherche. Une troisième appelle les deux et réunit leurs résultats. Chaque fonction doit fonctionner avec d’autres arguments."
+          ]
+        }
+      ],
+      "comparisons": [
+        {
+          "id": "compare-traversals",
+          "description": "Les trois programmes ci-dessous comptent les batteries à partir de 50 %. Choisis une écriture, puis suis ses lectures et ses changements de compteur.",
+          "headers": [
+            "Écriture",
+            "Qui organise le parcours ?",
+            "Pour s’arrêter avant la fin"
+          ],
+          "rows": [
+            [
+              "for",
+              "Tu écris le départ, le test et l’évolution.",
+              "Condition, break ou return de la fonction."
+            ],
+            [
+              "while",
+              "Tu écris le test ; l’évolution doit être prévue.",
+              "Condition, break ou return de la fonction."
+            ],
+            [
+              "forEach",
+              "La méthode appelle ton callback pour les éléments présents.",
+              "Un return du callback ne termine pas le parcours. Choisis une autre écriture si nécessaire."
+            ]
+          ],
+          "rules": [
+            {
+              "id": "for",
+              "text": "L’incrémentation est écrite dans l’en-tête et se fait après le corps."
+            },
+            {
+              "id": "while",
+              "text": "L’incrémentation est écrite dans le corps. Son oubli peut empêcher la boucle de terminer."
+            },
+            {
+              "id": "forEach",
+              "text": "Le callback reçoit la valeur puis l’indice. forEach renvoie undefined ; la fonction compter renvoie nombre."
+            }
+          ]
+        }
+      ],
+      "workshop": {
+        "reflectionLabel": "Ma trace : j’attendais… / j’ai observé… / j’ai corrigé…",
+        "reflectionPlaceholder": "Explique une décision ou une correction avec un exemple précis.",
+        "continueNote": "Enregistre une explication, même si ton programme ne fonctionne pas encore.",
+        "transferNote": "À reprendre lors d’une prochaine séance, sans correction sous les yeux. La règle change : une température égale au minimum ne déclenche pas d’alerte.",
+        "transferContinueNote": "Garde cette production comme nouvelle preuve individuelle.",
+        "predictionContext": "Modifier les données ou le code ne change pas cette question."
+      },
+      "assessmentNote": "Les réponses aux QCM et aux textes à trous complètent ton programme. Le professeur observe aussi ta démarche, ton explication et l’aide utilisée."
     }
-  }
+  },
+  "sessionType": "programming"
 }

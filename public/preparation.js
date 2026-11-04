@@ -1,3 +1,4 @@
+import {sessionTypeOptions,programmingTemplateOptions,PROGRAMMING_TEMPLATES} from './session-types.js';
 import {SessionIdentity} from './session-identity.js';
 import {randomUUID} from './random-id.js';
 import {escape as esc,renderLessonPage} from './lesson-renderer.js';
@@ -75,19 +76,33 @@ function showDuration(){
  $('#duration-hours').value=entry?Math.floor(entry.duration/60):'';
  $('#duration-minutes').value=entry?entry.duration%60:'';
  $('#entry-summary').textContent=entry?[entry.module,entry.objective.split('\n').slice(1).join(' ')].filter(Boolean).join(' · '):'';
+ $('#generate [name=sessionType]').value=entry?.sessionType||'web-design';
+ $('#generate [name=programmingTemplate]').value=entry?.programmingTemplate||'tableaux-complet';
+ showSessionType();
+}
+function programmingSelected(){return $('#generate [name=sessionType]')?.value==='programming';}
+function showSessionType(){
+ const programming=programmingSelected(),template=PROGRAMMING_TEMPLATES.find(t=>t.id===$('#generate [name=programmingTemplate]')?.value);
+ $('#programming-template').hidden=!programming;
+ $('#generate [name=intent]').closest('.form-section').hidden=programming;
+ $('#sources-options').hidden=programming;
+ $('#ai-options').hidden=programming;
+ $('#generate .preparation-submit p').textContent=programming?'Le brouillon s’ouvrira pour relecture. La publication reste votre choix.':'Vous suivrez ensuite son avancement. La séance restera un brouillon jusqu’à votre publication.';
+ if(programming&&durationValue()<template.minutes){$('#duration-hours').value=Math.floor(template.minutes/60);$('#duration-minutes').value=template.minutes%60;}
  updateDurationStatus();setPreparationBusy(preparationBusy);
 }
 function setPreparationBusy(busy){
  preparationBusy=busy;
  for(const control of document.querySelectorAll('#generate input, #generate select, #generate textarea, #generate button'))control.disabled=busy||!entries.length;
- $('#generate [type=submit]').disabled=busy||!entries.length||!generationConfigured;
- $('#generate [type=submit]').textContent=busy?'Enregistrement de la demande…':'Lancer la préparation';
+ $('#generate [type=submit]').disabled=busy||!entries.length||!generationConfigured&&!programmingSelected();
+ $('#generate [type=submit]').textContent=busy?'Enregistrement de la demande…':programmingSelected()?'Créer le brouillon de programmation':'Lancer la préparation';
 }
 async function confirmDuration(duration){
  const entry=selectedEntry();if(!entry)throw Error('Choisissez un créneau à préparer.');
- if(!entry.durationConfirmed||entry.duration!==duration){
+ const sessionType=$('#generate [name=sessionType]').value,programmingTemplate=$('#generate [name=programmingTemplate]').value;
+ if(!entry.durationConfirmed||entry.duration!==duration||entry.sessionType!==sessionType||sessionType==='programming'&&entry.programmingTemplate!==programmingTemplate){
   const path=`/api/plans/${encodeURIComponent(entry.classId)}/changes`;
-  const proposal=await post(`${path}/propose`,{entryId:entry.id,patch:{duration,durationConfirmed:true},reason:'Confirmation de la durée de séance avant préparation'});
+  const proposal=await post(`${path}/propose`,{entryId:entry.id,patch:{duration,durationConfirmed:true,sessionType,...sessionType==='programming'?{programmingTemplate}:{}},reason:'Type et durée choisis avant préparation'});
   const applied=await post(`${path}/${encodeURIComponent(proposal.id)}/apply`,{confirmed:true});
   Object.assign(entry,applied.newValue);
   const option=[...$('#generate [name=entryId]').options].find(option=>option.value===entry.id);if(option)option.textContent=entryLabel(entry);
@@ -114,6 +129,8 @@ async function boot(){
     <form id="generate">
      <div class="form-section"><p class="eyebrow">1 · VOTRE SÉANCE</p><h2>Quelle séance préparez-vous ?</h2>
       <label for="entry-choice">Créneau dans votre planification<select id="entry-choice" name="entryId">${entries.map(e=>`<option value="${esc(e.id)}" ${e.id===params.get('entry')?'selected':''}>${esc(entryLabel(e))}</option>`).join('')}</select></label><p id="entry-summary" class="field-help"></p>
+      <label for="session-type">Type de séance<select id="session-type" name="sessionType">${sessionTypeOptions()}</select></label>
+      <div id="programming-template" hidden><label for="programming-course">Parcours de programmation<select id="programming-course" name="programmingTemplate">${programmingTemplateOptions()}</select></label><p class="field-help">Le parcours fourni reprend ses schémas, explications, exercices, ateliers et bilans. Le contenu choisi est conservé dans un brouillon modifiable, sans appel IA.</p></div>
       <fieldset class="session-duration" aria-describedby="duration-status"><legend>Durée avec les élèves</legend><div class="duration-fields"><label for="duration-hours">Heures<input id="duration-hours" name="durationHours" type="number" min="0" max="10" step="1" required></label><label for="duration-minutes">Minutes<input id="duration-minutes" name="durationMinutes" type="number" min="0" max="59" step="1" required></label></div><p id="duration-status" role="status"></p></fieldset>
      </div>
      <div class="form-section"><p class="eyebrow">2 · VOS CONSIGNES</p><h2>Vos objectifs pour les élèves</h2><label for="preparation-intent">Objectif, niveau des élèves et contraintes<textarea id="preparation-intent" name="intent" required maxlength="4000">Prépare une séance approfondie pour des débutants, avec prédiction, explication des mécanismes, enquête sur une erreur et production autonome justifiée.</textarea></label><p class="field-help">Précisez, par exemple, une difficulté à reprendre, un exercice à conserver ou un outil à utiliser.</p></div>
@@ -184,7 +201,7 @@ async function showJob(){
  if(focused&&document.getElementById(focused))document.getElementById(focused).focus({preventScroll:true});
  else if(focusedDetail)$(`#job details[data-detail="${focusedDetail}"]>summary`)?.focus({preventScroll:true});
 }
-document.addEventListener('change',event=>{if(event.target.matches('#generate [name=entryId]'))showDuration();if(event.target.matches('[name=source]'))updateSourceCount();});
+document.addEventListener('change',event=>{if(event.target.matches('#generate [name=entryId]'))showDuration();if(event.target.matches('#generate [name=sessionType], #generate [name=programmingTemplate]'))showSessionType();if(event.target.matches('[name=source]'))updateSourceCount();});
 document.addEventListener('input',event=>{if(event.target.matches('#history-search'))renderJobs();if(event.target.matches('#duration-hours, #duration-minutes'))updateDurationStatus();if(event.target.matches('#preview [data-answer]'))previewAnswers[event.target.dataset.answer]=event.target.value;});
 document.addEventListener('submit',async event=>{
  const f=event.target;if(!['import','url','generate'].includes(f.id))return;event.preventDefault();
@@ -197,12 +214,13 @@ document.addEventListener('submit',async event=>{
  if(f.id==='import'){const file=data.get('file'),r=await fetch('/api/preparation/sources',{method:'POST',headers:{'Content-Type':'application/octet-stream','X-Source-Filename':encodeURIComponent(file.name),'X-Source-Role':data.get('role'),'X-Source-Version':encodeURIComponent(data.get('version'))},body:file});const result=await r.json();if(!r.ok)throw Error(result.error);await refreshSources();message('Document conservé et extraction terminée. Vérifiez les limites signalées.');}
  if(f.id==='url'){await post('/api/preparation/sources/url',{url:data.get('url'),role:'reference'});await refreshSources();message('Page importée.');}
  if(f.id==='generate'){
-  if(!generationConfigured)throw Error('Choisissez et enregistrez votre accès IA ci-dessus avant de lancer la préparation.');
+  if(!generationConfigured&&!programmingSelected())throw Error('Choisissez et enregistrez votre accès IA ci-dessus avant de lancer la préparation.');
   await confirmDuration(duration);
-  const body={entryId:data.get('entryId'),intent:data.get('intent'),sourceIds:[...document.querySelectorAll('[name=source]:checked')].map(x=>x.value)},fingerprint=JSON.stringify({...body,duration});
+  const body={entryId:data.get('entryId'),intent:data.get('intent'),sessionType:data.get('sessionType'),programmingTemplate:data.get('programmingTemplate'),sourceIds:[...document.querySelectorAll('[name=source]:checked')].map(x=>x.value)},fingerprint=JSON.stringify({...body,duration});
   let action;try{action=JSON.parse(sessionStorage.getItem('tween-preparation-action'));}catch{}
   if(action?.fingerprint!==fingerprint)action={fingerprint,requestId:randomUUID()};
   sessionStorage.setItem('tween-preparation-action',JSON.stringify(action));
+  if(programmingSelected()){const lesson=await post('/api/lessons/generate',{...body,requestId:action.requestId});location.href='/?editLesson='+encodeURIComponent(lesson.id);return;}
   const j=await post('/api/preparation/jobs',{...body,requestId:action.requestId});sessionStorage.setItem('tween-preparation-action',JSON.stringify({...action,jobId:j.id}));selectedJob=j.id;lastJobJSON='';preview=null;previewInfo=null;$('#preview').replaceChildren();setView('current',{focus:true});await showJob();await loadJobs();message('Votre demande est enregistrée. Vous pouvez suivre sa préparation ici.');
  }
  }catch(e){message(e.message,true);}finally{if(f.id==='generate')setPreparationBusy(false);else button.disabled=false;}

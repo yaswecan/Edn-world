@@ -16,6 +16,7 @@ const q=structuredClone(s.activities.find(a=>a.type==='Quiz'));Object.assign(q,{
 s.activities=[q,a];s.blocks=[{id:'observer',type:'Activity',phase:'opening',title:'Prévoir',content:'Observe les stocks des rayons.',minutes:10,skills:s.skills,activityIds:[q.id]},{id:'chercher',type:'Activity',phase:'guided',title:'Parcourir et expliquer',content:'Change les stocks et vérifie ton raisonnement.',minutes:25,skills:s.skills,activityIds:[a.id]}];s.timeline=s.blocks.map(b=>({blockId:b.id,minutes:b.minutes}));s.studentFlow=s.blocks.map(b=>b.id);
 s.diagnostic={...s.diagnostic,id:'bibliotheque-diagnostic',activityIds:[q.id]};
 s.programming={...s.programming,contentVersion:'1',sessions:[{id:'atelier-livres',title:'Atelier bibliothèque',blockIds:s.studentFlow,minutes:35}],optionalActivityIds:[],comparisons:[],provenance:{adapter:'canonical-author',sourceVersion:'1',conversions:[]}};
+delete s.programming.presentation;
 payload.sessionIdentity.pedagogicalTitle=s.title;payload.corpus={complete:true,files:[]};payload.context.entry.duration=35;payload.context.entry.objective=s.objectives[0];
 validateReferences(s);
 await writeFile(directory+'/bibliotheque.lesson.json',JSON.stringify(s,null,2)+'\n');

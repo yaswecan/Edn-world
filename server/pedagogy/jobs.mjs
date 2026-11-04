@@ -1,3 +1,4 @@
+import {sessionType} from '../session-types.mjs';
 import {deriveIdentity} from '../session-identity.mjs';
 import {uid,now,fail,requireValue,scoped} from '../store.mjs';
 import {generateLesson,resolveEntry} from '../generator.mjs';
@@ -48,11 +49,13 @@ export async function enqueueGeneration(store,actor,input,{config=null,simulatio
  requireValue(qualityEnabled(),'Préparation approfondie désactivée sur cette instance.');
  requireValue(actor.role==='teacher','Action réservée au professeur.');
  requireValue(!input.requestId||typeof input.requestId==='string'&&input.requestId.length<=200,'Identifiant de demande invalide.');
- const requestDigest=digest({entryId:input.entryId||null,intent:input.intent,sourceIds:input.sourceIds||[],constraints:input.constraints||[],targetDate:input.targetDate||null});
+ const requestDigest=digest({entryId:input.entryId||null,intent:input.intent,sourceIds:input.sourceIds||[],constraints:input.constraints||[],targetDate:input.targetDate||null,sessionType:input.sessionType||null});
  const duplicate=async tx=>{const previous=(await tx.list('generation_jobs',actor.classId)).find(j=>j.actor?.id===actor.id&&input.requestId&&j.requestId===input.requestId);if(previous?.requestDigest&&previous.requestDigest!==requestDigest)fail(409,'Cette action a déjà été enregistrée avec un autre contenu.');return previous;};
  const existing=await duplicate(store);if(existing)return existing;
  requireValue(typeof input.intent==='string'&&input.intent.trim()&&input.intent.length<=4000,'Intention requise, 4 000 caractères maximum.');
  const entry=input.entryId?await scoped(store,'plan_entries',input.entryId,actor):resolveEntry(await store.list('plan_entries',actor.classId),input);
+ const chosenType=sessionType(input,entry);
+ requireValue(chosenType!=='programming','Créez ce parcours de programmation depuis le choix « Programmation » de la page de préparation.');
  requireValue(entry.durationConfirmed,'Confirmer la durée de séance.');requireValue(entry.skills.length<=8,'Scinder la séance au-delà de huit compétences pour préserver la profondeur.');
  const sources=await sourceDossier(store,actor,input.sourceIds||[]),plan=(await store.list('plan_versions',actor.classId)).at(-1);
  requireValue(plan,'Planification absente.');
@@ -61,7 +64,7 @@ export async function enqueueGeneration(store,actor,input,{config=null,simulatio
  return store.transaction(async tx=>{
   const previous=await duplicate(tx);if(previous)return previous;
   const job=await tx.insert('generation_jobs',{id:uid('prep'),classId:actor.classId,requestId:input.requestId||uid('request'),requestDigest,actor:{id:actor.id,classId:actor.classId,role:'teacher'},entryId:entry.id,sourceIds:sources.map(s=>s.id),sources,
-   brief:{version:2,intent:input.intent,entry,planVersion:plan.version,resolvedContext,constraints:input.constraints||[],priorLearning:'Seules les séances clôturées sont des preuves ; diagnostic du jour non réalisé.'},
+   brief:{version:2,intent:input.intent,entry,...chosenType?{sessionType:chosenType}:{},planVersion:plan.version,resolvedContext,constraints:input.constraints||[],priorLearning:'Seules les séances clôturées sont des preuves ; diagnostic du jour non réalisé.'},
    revision:1,policyVersion:CHARTER_VERSION,capabilities:runtimeManifest(),candidateCount:0,config:settings,simulation,status:unavailable?'blocked':'queued',stage:'assemble',reason:unavailable,events:[{stage:'queued',at:now()}],startedAt:now(),calls:0,reservedUSD:0,spentUSD:0,iteration:0,unitIndex:0,reports:[],planRevisions:0,retryAttempts:{}});
   await tx.audit(actor,'generation.queued',job.id,{simulation,sourceIds:job.sourceIds});return job;
  });
@@ -180,7 +183,7 @@ export async function runGenerationStep(store,{call=callStructured,inspect=null,
   const currentPlan=(await store.list('plan_versions',job.classId)).at(-1);requireValue(currentPlan?.version===job.brief.planVersion,'Le plan a changé : préparer un nouveau brouillon.');
   if(job.stage==='assemble'){
    let lesson=(await store.list('lessons',job.classId)).find(l=>l.qualityJobId===job.id);
-   if(!lesson)lesson=await generateLesson(store,{classId:job.classId,intent:job.brief.intent,mode:'prepare',constraints:job.brief.constraints},job.actor,{entryId:job.entryId,localOnly:true,qualityJobId:job.id});
+   if(!lesson)lesson=await generateLesson(store,{classId:job.classId,intent:job.brief.intent,mode:'prepare',constraints:job.brief.constraints,sessionType:job.brief.sessionType},job.actor,{entryId:job.entryId,localOnly:true,qualityJobId:job.id});
    const version=await store.get('lesson_versions',lesson.versionId);job.lessonId=lesson.id;job.lessonVersionId=lesson.versionId;job.baseline=version.spec;job.workingSpec=prepareScaffold(version.spec,{diagnosticMinutes:process.env.EDEN_DIAGNOSTIC_MINUTES||version.spec.diagnostic.duration});
    if(!job.simulation){
     const required=new Set(job.workingSpec.activities.map(a=>a.workshop?.profile).filter(p=>['dom','shell-git'].includes(p)));

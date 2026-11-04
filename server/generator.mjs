@@ -1,3 +1,6 @@
+import {sessionType} from './session-types.mjs';
+import {createProgrammingLesson} from './programming/templates.mjs';
+import {validateProgramming} from './programming/contract.mjs';
 import {diagnosticSources,upgradeDiagnostic} from './diagnostic-v31.mjs';
 import {deriveIdentity,titleQuality} from './session-identity.mjs';
 import {explorationForMission} from './game.mjs';
@@ -38,6 +41,18 @@ export function diagnosticFrom(previous,sourceLesson,nodes,lessonId) {
  return buildDiagnostic(previous,sourceLesson,nodes,lessonId,library);
 }
 export function qualityCheck(spec,{entry,criteria,previous,corpusComplete=false}) {
+ if(spec.programming){
+  const checks=[],add=(id,ok,message)=>checks.push({id,ok:!!ok,message});
+  try{validate(lessonSchema,spec);validateProgramming(spec,(path,_received,expected)=>{throw Error(path+' : '+expected);});add('schema',true,'Cours interactif et références valides');}catch(error){add('schema',false,error.message);}
+  add('duration',spec.blocks.reduce((sum,block)=>sum+block.minutes,0)<=entry.duration,'Durée du parcours compatible avec le créneau');
+  add('duration_confirmed',entry.durationConfirmed,'Durée confirmée par le professeur');
+  const known=new Set(criteria.map(c=>c.n3_code));add('criteria',spec.skills.every(skill=>known.has(skill)),'Compétences du parcours présentes dans le référentiel');
+  add('instructions',spec.activities.every(activity=>!activity.required||activity.instruction.trim()),'Consignes présentes pour chaque activité obligatoire');
+  add('plan_identity',spec.date===entry.date&&spec.planEntryId===entry.id&&!['cancelled','postponed','replaced'].includes(entry.status),'Créneau actif et date identique au plan');
+  add('formative_diagnostic',spec.diagnostic.tasks.length===0&&spec.diagnostic.rubric.length===0&&spec.diagnostic.activityIds?.length>0,'Réactivation formative intégrée au parcours');
+  add('corpus',corpusComplete,'Supports du parcours conservés');
+  return {publishable:checks.every(check=>check.ok),checks,checkedAt:now()};
+ }
  const checks=[...pedagogyChecks(spec),...diagnosticChecks(spec)];const add=(id,ok,message)=>checks.push({id,ok:!!ok,message});
  const diagnostic=spec.diagnostic||{tasks:[],criteria:[],rubric:[]};
  try{validate(lessonSchema,spec);add('schema',true,'DailyLessonSpec valide');}catch(e){add('schema',false,'Schéma invalide : '+JSON.stringify(e.details));}
@@ -63,8 +78,10 @@ export function qualityCheck(spec,{entry,criteria,previous,corpusComplete=false}
  return {publishable:checks.every(c=>c.ok),checks,checkedAt:now()};
 }
 export async function generateLesson(store,intent,actor,{entryId,localOnly=false,qualityJobId=null}={}) {
- if(!localOnly&&(await aiPreferences(store,actor)).provider==='chatgpt_plan')fail(409,'Utilisez la préparation approfondie avec votre connexion ChatGPT. Aucun appel API effectué.');
  const entries=await store.list('plan_entries',actor.classId),entry=entryId?await scoped(store,'plan_entries',entryId,actor):resolveEntry(entries,intent);
+ const chosenType=sessionType(intent,entry);
+ if(chosenType==='programming')return createProgrammingLesson(store,actor,intent,entry);
+ if(!localOnly&&(await aiPreferences(store,actor)).provider==='chatgpt_plan')fail(409,'Utilisez la préparation approfondie avec votre connexion ChatGPT. Aucun appel API effectué.');
  const plan=(await store.list('plan_versions',actor.classId)).at(-1);requireValue(plan,'Importez une planification.');
  const curriculum=await store.get('curriculum_versions',plan.curriculumVersion),nodes=entry.skills.map(code=>curriculum.criteria.find(c=>c.n3_code===code)).filter(Boolean);
  requireValue(nodes.length,'Aucun critère pédagogique pour ce créneau.');
@@ -73,7 +90,12 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  const previous=selectedSource?{id:selectedSource.runId,lessonVersionId:selectedSource.lessonVersionId,date:selectedSource.date,coveredSkills:selectedSource.criteria,coveredActivityIds:selectedSource.activities.map(a=>a.id),reactivatedPrerequisites:selectedSource.reactivatedPrerequisites,coveredContent:selectedSource.activities.map(a=>a.title).join(', ')}:null,source=previous?await store.get('lesson_versions',previous.lessonVersionId):null;
  const agent=await store.insert('agent_runs',{id:uid('run'),classId:actor.classId,intent,status:'running',steps:[],startedAt:now()});
  try {
- const dense=octoberContent(entry);let content=dense||localContent(entry,nodes,library);
+ const dense=chosenType==='web-design'?null:octoberContent(entry);let content=dense||localContent(entry,nodes,library);
+ if(chosenType==='web-design'){
+  const practices=content.activities.filter(activity=>activity.type==='CodeEditor');
+  requireValue(practices.some(activity=>['html','css'].includes(activity.workshop?.language))&&practices.every(activity=>['html','css'].includes(activity.workshop?.language)),'Ce créneau ne correspond pas à la conception web HTML/CSS. Choisissez un créneau web, ajustez ses compétences dans la planification, ou choisissez Programmation pour le parcours fourni.');
+  for(const activity of practices)activity.workshop.profile='html-css';
+ }
  const snapshot=(await store.list('remediation_snapshots',actor.classId)).sort((a,b)=>a.version-b.version).at(-1);
  if(intent.mode==='remediation'&&snapshot){const allowed=new Set([...entry.skills,...nodes.flatMap(n=>n.prerequisiteCodes)]),workshops=snapshot.groups.flatMap(g=>g.activities.filter(a=>allowed.has(a.criterion)).map(a=>`${g.id} · ${a.criterion} : ${a.mode}. ${a.evidence}`));const block=content.blocks.find(b=>b.type==='Activity');if(block&&workshops.length){block.title='Entraînement';block.content='';content.teacherGuide+=`\nDifférenciation issue des groupes v${snapshot.version} :\n${workshops.join('\n')}`;}}
  const references=await retrieveResources(store,actor.classId,{query:entry.objective,criteria:entry.skills,limit:6});const enrichment=localOnly||dense?{content,provider:'library'}:await enhanceContent(content,{intent:intent.intent,entry,criteria:nodes,references:references.map(r=>({sourceId:r.id,sourceVersion:r.sourceVersion,content:r.resource})),sequence:curriculum.sequences.find(s=>s.id===entry.sequence),remediation:(await store.list('remediation_snapshots',actor.classId)).at(-1)?.summary||null});content=enrichment.content;
@@ -93,7 +115,7 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
  const old=await tx.get('lessons',id),version=(old?.version||0)+1;
  if((old?.versionId||null)!==initialVersionId)fail(409,'Séance modifiée pendant la génération. Aucun remplacement effectué.');
  if(old&&['published','completed'].includes(old.status))fail(409,'Cette séance est publiée. Créez une révision explicite depuis l’éditeur.');
- const spec={schemaVersion:'1.0',lessonId,lessonVersion:version,classId:actor.classId,date:entry.date,planEntryId:entry.id,planVersion:plan.version,sequence:entry.sequence,title:content.title,skills:entry.skills,objectives:content.objectives,prerequisites:nodes.flatMap(c=>c.prerequisiteCodes),reactivation:previous?.coveredSkills||[],diagnostic,timeline:content.blocks.map(b=>({blockId:b.id,minutes:b.minutes})),blocks:content.blocks,activities:content.activities,slides:content.slides||content.blocks.filter(b=>!['Pause','Diagnostic'].includes(b.type)).map(b=>({title:b.title,body:b.content})),resources:nodes.map(c=>c.n3_code),codeStation,teacherGuide:content.teacherGuide,studentFlow:content.blocks.map(b=>b.id),sourceVersions:{curriculumVersion:curriculum.id,planVersion:plan.version,previousLessonRunId:previous?.id||null}};
+ const spec={schemaVersion:'1.0',...(chosenType?{sessionType:chosenType}:{}),lessonId,lessonVersion:version,classId:actor.classId,date:entry.date,planEntryId:entry.id,planVersion:plan.version,sequence:entry.sequence,title:content.title,skills:entry.skills,objectives:content.objectives,prerequisites:nodes.flatMap(c=>c.prerequisiteCodes),reactivation:previous?.coveredSkills||[],diagnostic,timeline:content.blocks.map(b=>({blockId:b.id,minutes:b.minutes})),blocks:content.blocks,activities:content.activities,slides:content.slides||content.blocks.filter(b=>!['Pause','Diagnostic'].includes(b.type)).map(b=>({title:b.title,body:b.content})),resources:nodes.map(c=>c.n3_code),codeStation,teacherGuide:content.teacherGuide,studentFlow:content.blocks.map(b=>b.id),sourceVersions:{curriculumVersion:curriculum.id,planVersion:plan.version,previousLessonRunId:previous?.id||null}};
  const identity=await deriveIdentity(tx,{...old,classId:actor.classId,planEntryId:entry.id,date:entry.date},spec);Object.assign(spec,identity,{title:identity.pedagogicalTitle});
  validate(lessonSchema,spec);
  const versionId=`${id}:v${version}`,quality=qualityCheck(spec,{entry,criteria:curriculum.criteria,previous});
@@ -113,7 +135,7 @@ export function studentSpec(spec,{published=false}={}) {
   if(diagnostic&&published)Object.assign(result,selectFields(a,['expectedAnswer','reference','tests']));
   return result;
  };
- const result=selectFields(spec,['schemaVersion','lessonId','lessonVersion','classId','date','planEntryId','planVersion','sequence','title','pedagogicalTitle','competencies','skills','objectives','prerequisites','reactivation','timeline','slides','resources','codeStation','studentFlow','sourceVersions','sourceNotes','editorVersion','programming']);
+ const result=selectFields(spec,['schemaVersion','lessonId','lessonVersion','classId','date','planEntryId','planVersion','sequence','title','pedagogicalTitle','competencies','skills','objectives','prerequisites','reactivation','timeline','slides','resources','codeStation','studentFlow','sourceVersions','sourceNotes','editorVersion','programming','sessionType']);
  result.blocks=(spec.blocks||[]).map(b=>selectFields(b,['id','type','title','content','minutes','activityIds','skills','boards','phase','teaching','editor']));
  result.activities=(spec.activities||[]).map(a=>task(a));
  result.diagnostic={...selectFields(spec.diagnostic,['id','kind','sourceLessonRunId','sourceLessonVersion','duration','criteria','rubric','policyVersion','expectations','activityIds','purpose']),tasks:(spec.diagnostic?.tasks||[]).map(a=>task(a,true))};

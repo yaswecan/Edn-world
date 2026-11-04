@@ -1,3 +1,4 @@
+import {sessionTypeOptions,sessionTypeLabel,programmingTemplateOptions,PROGRAMMING_TEMPLATES} from './session-types.js';
 import {StudentHubLayout,StudentHubState} from './student-hub.js';
 import {SessionIdentity,competencyBadges,mountCompetencyPicker,competencyKey} from './session-identity.js';
 import {bindPrivateAccount,invalidatePrivateSession,announceAccountChange,purgePrivateStorage} from './private-session.js';
@@ -340,7 +341,7 @@ function planView() {
     `<p><a class="btn" href="/suivi.html?view=planning">Occurrences et réalisé</a> <a class="btn" href="/suivi.html?view=pilotage">Couverture et pilotage</a></p><div class="filters"><input class="search" id="plan-search" placeholder="Rechercher une date, séquence, compétence…" aria-label="Rechercher dans le planning" value="${esc(S.filter)}">${pill(`Version ${S.data.planVersion}`, "brand-tone")}${pill(`${entries.length} créneaux`)}</div><div class="card table-wrap"><table><thead><tr><th>Date</th><th>Objectif / séquence</th><th>Compétences</th><th>État</th><th>Actions</th></tr></thead><tbody>${entries
       .map((e) => {
         const l = S.data.lessons.find((l) => l.date === e.date);
-        return `<tr draggable="true" data-plan-entry="${esc(e.id)}" data-plan-date="${e.date}"><td style="white-space:nowrap"><strong>${shortDate(e.date)}</strong><br><small>${e.day} · ${e.duration} min${e.durationConfirmed ? "" : " ?"}</small></td><td><strong>${esc(e.objective.split("\n")[0])}</strong><br><small>${esc(e.sequence)} · ${esc(e.module)}</small></td><td><div class="pills">${e.skills.map((c) => pill(c)).join("")}</div></td><td>${pill(l ? stateLabel(l.status) : stateLabel(e.status), l?.status === "completed" ? "green" : l ? "brand-tone" : "")}</td><td><div class="flex">${btn("Modifier", "edit-plan", e.id, "small") + btn("Organiser", "structure-plan", e.id, "small")}${e.skills.length ? (l ? btn("Ouvrir", "open-lesson", l.id, "small") : btn("Préparer", "generate-entry", e.id, "small primary")) : ""}</div></td></tr>`;
+        return `<tr draggable="true" data-plan-entry="${esc(e.id)}" data-plan-date="${e.date}"><td style="white-space:nowrap"><strong>${shortDate(e.date)}</strong><br><small>${e.day} · ${e.duration} min${e.durationConfirmed ? "" : " ?"}</small></td><td><strong>${esc(e.objective.split("\n")[0])}</strong><br><small>${esc(e.sequence)} · ${esc(e.module)}${e.sessionType?` · ${esc(sessionTypeLabel(e.sessionType))}`:""}</small></td><td><div class="pills">${e.skills.map((c) => pill(c)).join("")}</div></td><td>${pill(l ? stateLabel(l.status) : stateLabel(e.status), l?.status === "completed" ? "green" : l ? "brand-tone" : "")}</td><td><div class="flex">${btn("Modifier", "edit-plan", e.id, "small") + btn("Organiser", "structure-plan", e.id, "small")}${e.skills.length ? (l ? btn("Ouvrir", "open-lesson", l.id, "small") : btn("Préparer", "generate-entry", e.id, "small primary")) : ""}</div></td></tr>`;
       })
       .join(
         "",
@@ -540,36 +541,51 @@ async function previewDatabase(mode) {
     headers: {"Content-Type": "application/octet-stream", "X-Database-Mode": mode},
   })), "Vérification de la base et des documents…");
 }
-function preparationAction(intent, entryId) {
-  const fingerprint = JSON.stringify([S.user?.id, intent, entryId || null]);
+function preparationAction(intent, entryId, choices = {}) {
+  const fingerprint = JSON.stringify([S.user?.id, intent, entryId || null, choices]);
   let action;
   try { action = JSON.parse(sessionStorage.getItem("tween-main-preparation-action")); } catch {}
   if (action?.fingerprint !== fingerprint) action = { fingerprint, requestId: randomUUID() };
   sessionStorage.setItem("tween-main-preparation-action", JSON.stringify(action));
   return action.requestId;
 }
-async function generateEntry(id, intent = "Prépare cette séance") {
-  const entry = S.data.entries.find((e) => e.id === id);
-  if (entry && !entry.durationConfirmed) return editPlanDialog(id, true);
+function preparationDialog(id = '', intent = 'Prépare cette séance') {
+  const entries=S.data.entries.filter(e=>e.skills.length&&!['cancelled','postponed','replaced'].includes(e.status));
+  const entry=entries.find(e=>e.id===id)||upcoming()[0]||entries[0];
+  modal('Préparer une séance', `<form data-form="prepare"><div class="field"><label for="prepare-entry">Créneau à préparer</label><select id="prepare-entry" name="entryId">${entries.map(e=>`<option value="${esc(e.id)}" ${e.id===entry?.id?'selected':''}>${e.date} · ${esc(e.objective.split('\n')[0])}</option>`).join('')}</select></div><div class="form-grid"><div class="field"><label for="prepare-type">Type de séance</label><select id="prepare-type" name="sessionType" data-session-type>${sessionTypeOptions(entry?.sessionType)}</select></div><div class="field"><label for="prepare-duration">Durée du créneau (minutes)</label><input id="prepare-duration" name="duration" type="number" min="30" max="600" value="${entry?.duration||180}" required></div></div><div class="field" data-programming-template ${entry?.sessionType==='programming'?'':'hidden'}><label for="prepare-template">Parcours de programmation</label><select id="prepare-template" name="programmingTemplate">${programmingTemplateOptions(entry?.programmingTemplate)}</select><p class="section-note">Retrouvez le contenu fourni : schémas animés, explications, exercices, ateliers, QCM et bilans. Le parcours complet dure 360 minutes, en deux séances de 180 minutes. Vous pourrez ensuite adapter le brouillon.</p></div><div class="field" data-web-intent><label for="prepare-intent">Que souhaitez-vous préparer ?</label><textarea id="prepare-intent" name="intent" required>${esc(intent)}</textarea></div><p class="section-note">Le type et la durée choisis seront enregistrés dans la planification. La séance restera en brouillon jusqu’à votre publication.</p><div class="modal-actions"><button class="btn primary" type="submit" ${entry?'':'disabled'}>${icon('spark')} Préparer la séance</button></div></form>`);
+  syncPreparationType($('#dialog form'));
+}
+function syncPreparationType(form, fromEntry = false) {
+  if(!form)return;
+  if(fromEntry){const entry=S.data.entries.find(e=>e.id===form.elements.entryId?.value);if(entry){form.elements.sessionType.value=entry.sessionType||'web-design';form.elements.programmingTemplate.value=entry.programmingTemplate||'tableaux-complet';form.elements.duration.value=entry.duration;}}
+  const programming=form.elements.sessionType?.value==='programming',template=PROGRAMMING_TEMPLATES.find(t=>t.id===form.elements.programmingTemplate?.value);
+  const choices=form.querySelector('[data-programming-template]');if(choices)choices.hidden=!programming;
+  const intent=form.querySelector('[data-web-intent]');if(intent)intent.hidden=programming;
+  if(form.elements.duration){form.elements.duration.min=programming?template.minutes:30;if(programming&&Number(form.elements.duration.value)<template.minutes)form.elements.duration.value=template.minutes;}
+}
+async function generateEntry(id, intent = 'Prépare cette séance', choices = null) {
+  if(!choices)return preparationDialog(id,intent);
+  const entry=S.data.entries.find(e=>e.id===id);if(!entry)throw Error('Choisissez un créneau.');
   closeModal();
-  await busy(async () => {
-    const lesson = await post("/api/lessons/generate", {
-      intent,
-      entryId: id || undefined,
-      requestId: preparationAction(intent, id),
-    });
+  await busy(async()=>{
+    const patch={duration:Number(choices.duration),durationConfirmed:true,sessionType:choices.sessionType,...choices.sessionType==='programming'?{programmingTemplate:choices.programmingTemplate}:{}};
+    if(Object.entries(patch).some(([key,value])=>entry[key]!==value)){
+      const proposal=await post('/api/plans/A1/changes/propose',{entryId:id,patch,reason:'Type et durée choisis lors de la création de la séance'});
+      await post(`/api/plans/A1/changes/${enc(proposal.id)}/apply`,{confirmed:true});
+    }
+    const lesson=await post('/api/lessons/generate',{intent,entryId:id,...choices,requestId:preparationAction(intent,id,choices)});
     await loadDashboard();
     if(lesson.kind==='preparation_job'){location.href='/preparation.html?job='+enc(lesson.job.id);return;}
     await openLesson(lesson.id);
   });
-  toast("Séance préparée et corpus compilé. Relisez avant publication.");
+  toast('Séance préparée et corpus compilé. Relisez avant publication.');
 }
 function editPlanDialog(id, prepareAfter = false) {
   const e = S.data.entries.find((e) => e.id === id);
   S.prepareAfter = prepareAfter;
   modal(
     prepareAfter ? "Confirmer le créneau" : "Proposer une modification du plan",
-    `<p class="subtitle spaced">${prepareAfter ? "La durée de séance n’est pas précisée dans le classeur. Confirmez-la avant la préparation." : "Le Twin analyse les dépendances avant que vous validiez la nouvelle version."}</p><form data-form="plan-change" data-id="${esc(id)}"><div class="form-grid"><div class="field"><label for="entry-date">Date</label><input id="entry-date" type="date" name="date" value="${e.date}" required></div><div class="field"><label for="duration">Durée du créneau (minutes)</label><input id="duration" type="number" name="duration" min="30" max="600" value="${e.duration}" required></div></div><div class="field"><label for="objective">Objectif</label><textarea id="objective" name="objective" required>${esc(e.objective)}</textarea></div><div class="field"><label for="reason">Justification</label><input id="reason" name="reason" value="${prepareAfter ? "Confirmation de la durée du créneau" : ""}" required></div><div class="modal-actions"><button class="btn primary" type="submit">Analyser la modification ${icon("arrow")}</button></div></form>`,
+    `<p class="subtitle spaced">${prepareAfter ? "La durée de séance n’est pas précisée dans le classeur. Confirmez-la avant la préparation." : "Le Twin analyse les dépendances avant que vous validiez la nouvelle version."}</p><form data-form="plan-change" data-id="${esc(id)}"><div class="form-grid"><div class="field"><label for="entry-date">Date</label><input id="entry-date" type="date" name="date" value="${e.date}" required></div><div class="field"><label for="duration">Durée du créneau (minutes)</label><input id="duration" type="number" name="duration" min="30" max="600" value="${e.duration}" required></div></div><div class="field"><label for="entry-type">Type de séance</label><select id="entry-type" name="sessionType">${sessionTypeOptions(e.sessionType)}</select></div><div class="field"><label for="objective">Objectif</label><textarea id="objective" name="objective" required>${esc(e.objective)}</textarea></div><div class="field"><label for="reason">Justification</label><input id="reason" name="reason" value="${prepareAfter ? "Confirmation de la durée du créneau" : ""}" required></div><div class="modal-actions"><button class="btn primary" type="submit">Analyser la modification ${icon("arrow")}</button></div></form>`,
   );
 }
 async function startStudent(date) {
@@ -818,19 +834,7 @@ const actions = {
     S.lesson = null;
     await navigate("lessons");
   },
-  prepare: () =>
-    modal(
-      "Une intention, une séance.",
-      `<form data-form="prepare"><div class="field"><label for="prepare-intent">Que souhaitez-vous préparer ?</label><textarea id="prepare-intent" name="intent" required placeholder="Prépare ma séance de jeudi">Prépare ma prochaine séance</textarea></div><div class="field"><label for="prepare-entry">Créneau à préparer</label><select id="prepare-entry" name="entryId" style="width:100%">${S.data.entries
-        .filter((e) => e.skills.length)
-        .map(
-          (e) =>
-            `<option value="${esc(e.id)}" ${e.id === upcoming()[0]?.id ? "selected" : ""}>${e.date} · ${esc(e.objective.split("\n")[0])}</option>`,
-        )
-        .join(
-          "",
-        )}</select></div><p class="section-note">Le Twin utilisera le plan, le référentiel et la dernière séance réellement clôturée. Vous relirez la séance avant publication.</p><div class="modal-actions"><button class="btn primary" type="submit">${icon("spark")} Préparer la séance</button></div></form>`,
-    ),
+  prepare: () => preparationDialog('', 'Prépare ma prochaine séance'),
   "quick-intent": (id) => {
     actions.prepare();
     $("#prepare-intent").value = id;
@@ -1285,7 +1289,7 @@ const forms = {
     S.session.setupRequired = false;
     await boot();
   },
-  prepare: async (f, data) => generateEntry(data.entryId, data.intent),
+  prepare: async (f, data) => generateEntry(data.entryId, data.intent, {sessionType:data.sessionType,programmingTemplate:data.programmingTemplate,duration:Number(data.duration)}),
   intent: async (f, data) => {
     const weekday = [
       "dimanche",
@@ -1314,12 +1318,13 @@ const forms = {
         duration: Number(data.duration),
         durationConfirmed: true,
         objective: data.objective,
+        sessionType: data.sessionType,
       },
       reason: data.reason,
     });
     modal(
       "L’impact de votre modification",
-      `<p><strong>${esc(change.oldValue.date)} → ${esc(change.newValue.date)}</strong> · ${change.newValue.duration} minutes</p><p class="block-content">${esc(change.newValue.objective)}</p><div class="alert info">${icon("shield")}${change.impact.warnings.length ? change.impact.warnings.map(esc).join("<br>") : "Aucune dépendance explicite bloquante détectée."}</div><p class="section-note">${change.impact.assessments.length} évaluation(s) concernée(s). Le plan passera de la version ${change.baseVersion} à ${change.baseVersion + 1}.</p><div class="modal-actions">${btn("Annuler", "close-modal")}${btn("Valider cette modification", "apply-change", change.id, "primary", "check")}</div>`,
+      `<p><strong>${esc(change.oldValue.date)} → ${esc(change.newValue.date)}</strong> · ${change.newValue.duration} minutes</p><p>${esc(sessionTypeLabel(change.newValue.sessionType))}</p><p class="block-content">${esc(change.newValue.objective)}</p><div class="alert info">${icon("shield")}${change.impact.warnings.length ? change.impact.warnings.map(esc).join("<br>") : "Aucune dépendance explicite bloquante détectée."}</div><p class="section-note">${change.impact.assessments.length} évaluation(s) concernée(s). Le plan passera de la version ${change.baseVersion} à ${change.baseVersion + 1}.</p><div class="modal-actions">${btn("Annuler", "close-modal")}${btn("Valider cette modification", "apply-change", change.id, "primary", "check")}</div>`,
     );
   },
   'revise-lesson':async(f,data)=>{
@@ -1437,7 +1442,7 @@ function planProposal(change) {
   S.prepareAfter = false;
   modal(
     "Relire la nouvelle planification",
-    `<p>${esc(change.reason)}</p>${(change.changes || [change]).map((c) => `<div class="block-card"><strong>${esc(c.newValue.objective)}</strong><p>${esc(c.oldValue?.date || "Nouveau créneau")} → ${esc(c.newValue.date)} · ${c.newValue.duration} min · ${esc(c.newValue.status)}</p><div class="pills">${c.newValue.skills.map((c) => pill(c)).join("")}</div></div>`).join("")}<div class="alert info">${change.impact.warnings.map(esc).join("<br>") || "Aucune dépendance explicite signalée."}</div><p>Version ${change.baseVersion} → ${change.baseVersion + 1} · ${change.impact.assessments.length} évaluation(s) concernée(s).</p><div class="modal-actions">${btn("Annuler", "close-modal")}${btn("Valider cette modification", "apply-change", change.id, "primary")}</div>`,
+    `<p>${esc(change.reason)}</p>${(change.changes || [change]).map((c) => `<div class="block-card"><strong>${esc(c.newValue.objective)}</strong><p>${esc(c.oldValue?.date || "Nouveau créneau")} → ${esc(c.newValue.date)} · ${c.newValue.duration} min · ${esc(c.newValue.status)} · ${esc(sessionTypeLabel(c.newValue.sessionType))}</p><div class="pills">${c.newValue.skills.map((c) => pill(c)).join("")}</div></div>`).join("")}<div class="alert info">${change.impact.warnings.map(esc).join("<br>") || "Aucune dépendance explicite signalée."}</div><p>Version ${change.baseVersion} → ${change.baseVersion + 1} · ${change.impact.assessments.length} évaluation(s) concernée(s).</p><div class="modal-actions">${btn("Annuler", "close-modal")}${btn("Valider cette modification", "apply-change", change.id, "primary")}</div>`,
   );
 }
 function planStructureDialog(id = "", draft = null) {
@@ -1448,7 +1453,7 @@ function planStructureDialog(id = "", draft = null) {
   S.structureDraft = draft;
   modal(
     "Organiser les créneaux",
-    `<form data-form="plan-structure"><div class="field"><label>Opération<select name="operation"><option value="insert" ${draft ? "selected" : ""}>Insérer une séance</option><option value="split" ${id ? "selected" : ""}>Diviser un créneau</option><option value="merge">Fusionner deux créneaux</option><option value="swap">Permuter deux créneaux</option><option value="postpone">Marquer comme reporté</option></select></label></div><div class="form-grid"><div class="field"><label>Créneau source<select name="source">${entries.map((e) => `<option value="${esc(e.id)}" ${e.id === source?.id ? "selected" : ""}>${e.date} · ${esc(e.objective.slice(0, 70))}</option>`).join("")}</select></label></div><div class="field"><label>Second créneau (fusion / permutation)<select name="other">${entries.map((e) => `<option value="${esc(e.id)}">${e.date} · ${esc(e.objective.slice(0, 70))}</option>`).join("")}</select></label></div></div><div class="form-grid"><div class="field"><label>Date de destination<input name="date" type="date" value="${esc(draft?.date || source?.date || S.data.date)}" required></label></div><div class="field"><label>Durée de destination<input name="duration" type="number" min="30" max="600" value="175" required></label></div></div><div class="field"><label>Objectif de la nouvelle séance<input name="objective" value="${esc(draft?.objective || source?.objective || "")}" required></label></div><div class="field"><label>Critères N3 (séparés par des virgules)<input name="skills" value="${esc(source?.skills.join(", ") || "")}"></label></div><div class="field"><label>Séquence<input name="sequence" value="${esc(source?.sequence || "")}"></label></div><details><summary>Deuxième partie d’une division</summary><div class="form-grid"><div class="field"><label>Date<input name="secondDate" type="date" value="${source?.date || S.data.date}"></label></div><div class="field"><label>Durée<input name="secondDuration" type="number" value="90" min="30" max="600"></label></div></div><div class="field"><label>Objectif<input name="secondObjective" value="Approfondir et transférer"></label></div></details><div class="field"><label>Justification<input name="reason" required value="${esc(draft?.objective || "")}"></label></div><p class="section-note">Les créneaux remplacés et les séances déjà réalisées restent dans l’historique. Relisez les impacts avant validation.</p><button class="btn primary">Analyser la proposition</button></form>`,
+    `<form data-form="plan-structure"><div class="field"><label>Opération<select name="operation"><option value="insert" ${draft ? "selected" : ""}>Insérer une séance</option><option value="split" ${id ? "selected" : ""}>Diviser un créneau</option><option value="merge">Fusionner deux créneaux</option><option value="swap">Permuter deux créneaux</option><option value="postpone">Marquer comme reporté</option></select></label></div><div class="form-grid"><div class="field"><label>Créneau source<select name="source">${entries.map((e) => `<option value="${esc(e.id)}" ${e.id === source?.id ? "selected" : ""}>${e.date} · ${esc(e.objective.slice(0, 70))}</option>`).join("")}</select></label></div><div class="field"><label>Second créneau (fusion / permutation)<select name="other">${entries.map((e) => `<option value="${esc(e.id)}">${e.date} · ${esc(e.objective.slice(0, 70))}</option>`).join("")}</select></label></div></div><div class="form-grid"><div class="field"><label>Date de destination<input name="date" type="date" value="${esc(draft?.date || source?.date || S.data.date)}" required></label></div><div class="field"><label>Durée de destination<input name="duration" type="number" min="30" max="600" value="175" required></label></div></div><div class="field"><label>Type de séance<select name="sessionType">${sessionTypeOptions(draft?.sessionType||source?.sessionType)}</select></label></div><div class="field"><label>Objectif de la nouvelle séance<input name="objective" value="${esc(draft?.objective || source?.objective || "")}" required></label></div><div class="field"><label>Critères N3 (séparés par des virgules)<input name="skills" value="${esc(source?.skills.join(", ") || "")}"></label></div><div class="field"><label>Séquence<input name="sequence" value="${esc(source?.sequence || "")}"></label></div><details><summary>Deuxième partie d’une division</summary><div class="form-grid"><div class="field"><label>Date<input name="secondDate" type="date" value="${source?.date || S.data.date}"></label></div><div class="field"><label>Durée<input name="secondDuration" type="number" value="90" min="30" max="600"></label></div></div><div class="field"><label>Objectif<input name="secondObjective" value="Approfondir et transférer"></label></div></details><div class="field"><label>Justification<input name="reason" required value="${esc(draft?.objective || "")}"></label></div><p class="section-note">Les créneaux remplacés et les séances déjà réalisées restent dans l’historique. Relisez les impacts avant validation.</p><button class="btn primary">Analyser la proposition</button></form>`,
   );
 }
 async function handleIntent(intent, entryId) {
@@ -1729,6 +1734,7 @@ Object.assign(forms, {
       duration: Number(d.duration),
       durationConfirmed: true,
       objective: d.objective,
+      sessionType: d.sessionType,
       skills: d.skills
         .split(",")
         .map((c) => c.trim())
@@ -1772,6 +1778,19 @@ Object.assign(forms, {
   },
 });
 
+document.addEventListener('change',event=>{
+ const form=event.target.closest('form[data-form=prepare]');
+ if(form&&['sessionType','programmingTemplate','entryId'].includes(event.target.name))syncPreparationType(form,event.target.name==='entryId');
+});
+document.addEventListener('programming-navigate',async event=>{
+ const {index,activityId}=event.detail||{},preview=!!event.target.closest('#preview-body');
+ const spec=preview?S.previewSpec:S.student?.spec;
+ if(!Number.isInteger(index)||index<0||index>=(spec?.blocks.length||0))return;
+ if(preview){S.previewStep=index;drawTeacherPreview();}
+ else if(S.user?.role==='student')await actions['student-step'](String(index));
+ const reader=preview?$('#preview-body programming-lesson'):$('programming-lesson');
+ if(activityId&&spec.activities.some(a=>a.id===activityId))reader?.select(activityId);
+});
 document.addEventListener('programming-answer',event=>{
  const {id,answer}=event.detail,preview=!!event.target.closest('#preview-body');
  if(preview){S.previewAnswers[id]=answer;return;}

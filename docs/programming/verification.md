@@ -4,16 +4,19 @@ Les preuves ci-dessous proviennent des tests exécutés dans ce dépôt et d’u
 
 | Commande | Résultat |
 | --- | --- |
-| `node --import tsx --test --test-concurrency=4 tests/*.test.mjs` | 440 tests réussis, 0 échec, 0 ignoré |
-| Tests ciblés programmation, transfert, révision, suivi et domaine après les derniers contrôles de validation | 79 réussis, 0 échec |
-| `node --import tsx --test tests/programming.test.mjs tests/lesson-transfer.test.mjs` après conservation des ressources entre révisions | 28 réussis, 0 échec |
+| `node --import tsx --test --test-concurrency=4 tests/*.test.mjs` | 456 tests réussis, 0 échec, 0 ignoré |
 | `npm run check` | Syntaxe, schémas exportés, DDL et primitives Drive : réussite |
 | `node --import tsx scripts/programming-package.mjs docs/programming/examples/bibliotheque.lesson.json /tmp/bibliotheque.tweenteach.zip` | Paquet construit et validé par le lecteur natif |
-| `npm run test:programming:browser` | Recette Chrome : 20 contrôles réussis |
+| `npm run test:programming:browser` | Recette Chrome : 29 contrôles réussis |
+| `node --import tsx scripts/session-types-browser-check.mjs` | Planification et deux écrans de création : 5 contrôles réussis |
 
-La recette navigateur couvre l’import du ZIP original depuis le sélecteur professeur, sa création en brouillon, les six familles de schémas, les modifications effectives du code et des arguments, la séparation console/retour, les résultats de tests, l’invalidation de trace, la préservation du brouillon en mode exemple, les QCM et leurs feedbacks, les bilans segmentés avec variantes, le transfert facultatif, le comparatif déclaratif, l’interruption effective du Worker et son redémarrage, l’indice zéro, les largeurs 768 et 390 pixels, la sauvegarde/reprise authentifiée, le refus direct du corpus professeur, le mémo autorisé, l’import/exécution du second corpus et le mode sans mouvement.
+La fidélité au ZIP est vérifiée contre ses données réelles : explications, départs, exemples visibles, prédictions, indices, cas de test, QCM, textes à trous, mémo, introductions et tableaux comparatifs. Les démonstrations des ateliers autonomes restent absentes comme dans le cours élève original. Les tests de présentation couvrent les dix ateliers et les changements de noms de variables.
+
+La recette navigateur couvre l’import du ZIP original depuis le sélecteur professeur, sa création en brouillon, les six familles de schémas, les modifications effectives du code et des arguments, la séparation console/retour, les résultats de tests, l’invalidation de trace, la préservation du brouillon en mode exemple, les QCM et leurs feedbacks, les bilans segmentés avec variantes, le transfert facultatif, le comparatif déclaratif, l’interruption effective du Worker et son redémarrage, l’indice zéro, les largeurs 768 et 390 pixels, la sauvegarde/reprise authentifiée, le refus direct du corpus professeur, le mémo autorisé, l’import/exécution du second corpus et le mode sans mouvement. Elle contrôle aussi la disposition schéma/code, la palette du ZIP, les cinq repères, le mémo, le sélecteur de séance, l’export/reprise du travail complet et la largeur réelle du lecteur élève sur ordinateur, tablette et mobile. Tester plusieurs cas conserve la trace de l’appel affiché : des arguments de test différents ne sont pas présentés comme ceux de l’éditeur.
 
 Le rapport détaillé est généré dans `test-results/programming/report.json` et les captures dans le même dossier : import, array, for, while, function, foreach, decompose, largeur tablette/mobile, travail élève sauvegardé et second corpus. Ces fichiers de recette restent dans le répertoire ignoré habituel du dépôt.
+
+La recette des types de séance vérifie le choix et la persistance dans le plan, la création depuis la fenêtre principale et depuis la page de préparation, ainsi que la durée du modèle choisi. La création utilise le parcours complet de 360 minutes ou une de ses séances de 180 minutes ; elle ne prétend pas adapter automatiquement ce contenu à un autre sujet.
 
 Les tests de programmation vérifient aussi :
 
