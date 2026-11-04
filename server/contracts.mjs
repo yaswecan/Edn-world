@@ -1,3 +1,4 @@
+import {programmingSchema,interactiveSchema} from './programming/contract.mjs';
 import Ajv from 'ajv';
 import { fail } from './store.mjs';
 import {depthSchema} from './pedagogy/contracts.mjs';
@@ -51,5 +52,9 @@ activitySchema.properties.richText={type:'object',additionalProperties:false,pro
 diagnosticSchema.properties.tasks.minItems=0;
 diagnosticSchema.properties.tasks.maxItems=100;
 diagnosticSchema.properties.rubric.minItems=0;
+lessonSchema.properties.programming=programmingSchema;
+activitySchema.properties.interactive=interactiveSchema;
+diagnosticSchema.properties.activityIds=strings;
+diagnosticSchema.properties.purpose=str;
 const ajv=new Ajv({allErrors:true});const validators=new Map();
 export function validate(schema,value){let validator=validators.get(schema);if(!validator){validator=ajv.compile(schema);validators.set(schema,validator);}if(!validator(value))fail(422,'Le document ne respecte pas le schéma.',validator.errors);return value;}

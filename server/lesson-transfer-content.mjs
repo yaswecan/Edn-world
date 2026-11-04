@@ -1,3 +1,4 @@
+import {studentSpec} from './generator.mjs';
 import {exportSessionIdentity,validateSessionIdentity} from './session-identity-transfer.mjs';
 import {exportPedagogy,validatePortablePedagogy} from './competency-transfer.mjs';
 import {readFile,realpath} from 'node:fs/promises';
@@ -134,6 +135,7 @@ export function validatePayload(payload,files){
  if(payload.mission){assertKeys(payload.mission,[...missionFields,'localId']);requireValue(payload.spec.codeStation,'Mission sans affectation.');explorationForMission({...payload.mission,id:'portable-mission',version:1});for(const path of Object.keys(payload.mission.files||{}))safeContentPath(path);}
  requireValue(!!payload.spec.codeStation===!!payload.mission,'Configuration de mission absente.');
  requireValue(payload.external.every(u=>typeof u==='string'&&/^https?:\/\//.test(u)),'Dépendance externe invalide.');
+ if(payload.spec.programming){const visible=JSON.stringify(studentSpec(payload.spec));for(const f of payload.corpus.files)if(f.audience==='teacher'&&!payload.corpus.files.some(s=>s.sha256===f.sha256&&s.audience==='student'))requireValue(!visible.includes(`tweenteach-file:${f.sha256}:`),'Support professeur exposé dans la représentation élève.');}
  const text=JSON.stringify(payload);for(const match of text.matchAll(/tweenteach-file:([a-f0-9]{64}):([\w.+-]+\/[\w.+-]+)/g))need(match[1]);
  requireValue(!/https?:\/\/(?:localhost|127\.0\.0\.1|\[::1\])(?=[:/])|file:\/\//i.test(text),'Lien local non transporté.');
  return capabilities(payload.spec);

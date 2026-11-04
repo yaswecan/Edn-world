@@ -403,6 +403,272 @@
                 "additionalProperties": false
               }
             }
+          },
+          "interactive": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "code"
+                  },
+                  "explanation": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "demo": {
+                    "type": "string"
+                  },
+                  "invoke": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z_$][\\w$]*$"
+                  },
+                  "args": {
+                    "type": "array",
+                    "maxItems": 20,
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "maxItems": 1000,
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "boolean"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "array",
+                                "maxItems": 1000,
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "diagramType": {
+                    "enum": [
+                      "array",
+                      "for",
+                      "while",
+                      "function",
+                      "foreach",
+                      "decompose"
+                    ]
+                  },
+                  "prediction": {
+                    "type": "object",
+                    "properties": {
+                      "question": {
+                        "type": "string"
+                      },
+                      "options": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string"
+                            },
+                            "feedback": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "text",
+                            "feedback"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "correct": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "code": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "question",
+                      "options",
+                      "correct"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "testLabels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "reflection": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "explanation",
+                  "demo",
+                  "invoke",
+                  "args",
+                  "diagramType",
+                  "prediction",
+                  "testLabels",
+                  "reflection"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "quiz"
+                  },
+                  "question": {
+                    "type": "object",
+                    "properties": {
+                      "question": {
+                        "type": "string"
+                      },
+                      "options": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string"
+                            },
+                            "feedback": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "text",
+                            "feedback"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "correct": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "code": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "question",
+                      "options",
+                      "correct"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "sourceId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "question"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "cloze"
+                  },
+                  "segments": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "answer": {
+                              "type": "string"
+                            },
+                            "alternatives": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": [
+                            "answer"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "bank": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "explanation": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "segments",
+                  "bank",
+                  "explanation"
+                ],
+                "additionalProperties": false
+              }
+            ]
           }
         },
         "required": [
@@ -560,6 +826,15 @@
           "maxLength": 2000
         }
       }
+    },
+    "activityIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "purpose": {
+      "type": "string"
     }
   },
   "required": [

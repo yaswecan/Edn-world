@@ -1,3 +1,4 @@
+import {validateProgramming} from './programming/contract.mjs';
 import {validateEditorContent} from './lesson-editor-validation.mjs';
 import {isDeepStrictEqual} from 'node:util';
 import {uid,now,fail,requireValue,scoped} from './store.mjs';
@@ -9,7 +10,7 @@ import {editLesson} from './domain.mjs';
 import {qualityCheck,previousCompleted} from './generator.mjs';
 import {publicationCodeChecks} from './publication-code.mjs';
 
-const editable=new Set(['title','objectives','reactivation','blocks','activities','teacherGuide','studentFlow']);
+const editable=new Set(['title','objectives','reactivation','blocks','activities','teacherGuide','studentFlow','programming']);
 const active=['queued','running','retry_wait'];
 const summary={type:'string',minLength:1,maxLength:4000},path={type:'string',minLength:1};
 // Patch values are native JSON. The old string-within-JSON contract could pass
@@ -20,6 +21,7 @@ const definitions={},valueTypes=new Map();
 function valueType(schema){
  const key=JSON.stringify(schema);if(valueTypes.has(key))return valueTypes.get(key);
  const name=`value${valueTypes.size}`,ref={$ref:`#/$defs/${name}`};valueTypes.set(key,ref);
+ if(schema.anyOf||schema.oneOf){definitions[name]={anyOf:(schema.anyOf||schema.oneOf).map(valueType)};return ref;}
  const type=schema.type||typeof (schema.enum?.[0]??schema.const),wire={...schema,type};
  if(type==='object'){
   wire.properties=Object.fromEntries(Object.entries(schema.properties).map(([key,child])=>[key,['editor','richText'].includes(key)?{type:'null'}:(schema.required||[]).includes(key)?valueType(child):{anyOf:[valueType(child),{type:'null'}]}]));
@@ -44,6 +46,7 @@ function lessonValueSchema(keys){
  return schema;
 }
 function lessonValue(value,schema){
+ if(schema?.anyOf||schema?.oneOf){const choices=schema.anyOf||schema.oneOf;schema=choices.find(s=>value?.kind!==undefined&&s.properties?.kind?.const===value.kind)||choices.find(s=>s.type===(Array.isArray(value)?'array':typeof value));}
  if(Array.isArray(value))return value.map(item=>lessonValue(item,schema?.items));
  if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value)
   .filter(([key,item])=>!(item===null&&schema?.properties?.[key]&&!(schema.required||[]).includes(key)))
@@ -98,7 +101,7 @@ export function applyRevisionPatch(original,result){
  spec.timeline=spec.blocks.map(b=>({blockId:b.id,minutes:b.minutes}));
  spec.slides=spec.blocks.filter(b=>!['Diagnostic','Pause'].includes(b.type)).map(b=>({title:b.title,body:b.content}));
  if(spec.sourceNotes)spec.sourceNotes=spec.sourceNotes.filter(n=>blocks.has(n.blockId));
- validate(lessonSchema,spec);validateEditorContent(spec);return spec;
+ validate(lessonSchema,spec);validateEditorContent(spec);validateProgramming(spec,(path,received,expected)=>fail(422,`${path} : ${expected}`,{path,received,expected}));return spec;
 }
 
 export async function proposeLessonRevision(store,id,input,actor,{chatgpt,call=callStructured,configure=freezeProvider}={}){
@@ -110,7 +113,7 @@ export async function proposeLessonRevision(store,id,input,actor,{chatgpt,call=c
  if(existing){requireValue(existing.requestHash===requestHash,'Cette demande a déjà été utilisée pour un autre contenu.');if(existing.status==='ready')return existing;fail(409,existing.status==='running'?'Cette modification est déjà en cours.':'Cette demande est terminée. Lancez une nouvelle demande pour réessayer.');}
  const original=(await scoped(store,'lesson_versions',lesson.versionId,actor)).spec;
  const settings=await configure(store,actor,{chatgpt}),config={...settings,background:false,roles:{...settings.roles,revision:settings.roles.write}};
- const entry=await scoped(store,'plan_entries',original.planEntryId,actor);
+ const entry=original.programming&&!original.planEntryId?{duration:original.timeline.reduce((n,t)=>n+t.minutes,0),durationConfirmed:false,date:original.date}:await scoped(store,'plan_entries',original.planEntryId,actor);
  const content={instruction:input.prompt.trim(),draft:original,duration:entry.duration,editableFields:[...editable],activityContract:lessonSchema.properties.activities,blockContract:lessonSchema.properties.blocks};
  const estimate=estimateCall(config.roles.revision,content,{role:'revision',schema:revisionSchema});
  if(config.provider!=='chatgpt_plan'&&estimate.usd>Math.min(config.maxCallUSD,config.maxUSD))fail(409,'Cette modification dépasse le budget IA configuré. Réduisez le périmètre de la demande.');
@@ -120,7 +123,7 @@ export async function proposeLessonRevision(store,id,input,actor,{chatgpt,call=c
   const result=await call({role:'revision',input:content,schema:revisionSchema,config,chatgpt});trace=result.trace;
   requireValue(!result.pending&&result.value,'La modification est incomplète. Le brouillon est conservé.');
   const spec=applyRevisionPatch(original,result.value);
-  const curriculum=await scoped(store,'curriculum_versions',original.sourceVersions.curriculumVersion,actor);
+  const curriculum=original.programming&&!original.sourceVersions.curriculumVersion?{criteria:lesson.transferContext?.criteria||[]}:await scoped(store,'curriculum_versions',original.sourceVersions.curriculumVersion,actor);
   const quality=qualityCheck(spec,{entry,criteria:curriculum.criteria,previous:previousCompleted(await store.list('lesson_runs',actor.classId),spec.date)});
   const checks=[...quality.checks.filter(c=>c.id!=='corpus'),...await publicationCodeChecks(spec)];
   return await store.transaction(async tx=>{

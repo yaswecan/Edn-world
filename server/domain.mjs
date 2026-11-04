@@ -1,3 +1,4 @@
+import {validateProgramming} from './programming/contract.mjs';
 import {requireDiagnosticV31,assertDiagnosticSourceCurrent} from './diagnostic-v31.mjs';
 import {activeGrid} from './competency-service.mjs';
 import {identityFields,deriveIdentity,saveIdentity} from './session-identity.mjs';
@@ -60,6 +61,7 @@ export async function editLesson(store,id,input,actor){return store.transaction(
  // Source identity cannot be edited into a different history.
  requireValue(spec.date===old.date&&spec.planVersion===old.planVersion&&spec.planEntryId===old.planEntryId&&JSON.stringify(spec.sourceVersions)===JSON.stringify(old.sourceVersions)&&JSON.stringify(spec.diagnostic)===JSON.stringify(old.diagnostic),'Régénérez pour changer le plan ou le diagnostic source.');
  validateEditorContent(spec);
+ validateProgramming(spec,(path,received,expected)=>fail(422,`${path} : ${expected}`,{path,received,expected}));
  const identity=await deriveIdentity(tx,lesson,old);Object.assign(lesson,identity);
  if(!input.generated&&spec.title!==identity.pedagogicalTitle)await saveIdentity(tx,lesson,{pedagogicalTitle:spec.title,competencyRefs:identity.competencyRefs,identityRevision:identity.identityRevision},actor);
  Object.assign(spec,identityFields(lesson),{title:lesson.pedagogicalTitle});

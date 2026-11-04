@@ -26,7 +26,17 @@ const mime=path=>path.endsWith('.png')?'image/png':path.endsWith('.html')?'text/
 export async function compileCorpus(store,lessonId,actor,{candidateVersionId}={}) {
  const lesson=await scoped(store,'lessons',lessonId,actor),version=await scoped(store,'lesson_versions',candidateVersionId||lesson.versionId,actor),identity=await sessionIdentity(store,lesson,version.spec),s={...version.spec,...identityFields(identity),title:identity.title};
  if(candidateVersionId&&version.lessonId!==lessonId)fail(400,'Version candidate liée à une autre séance.');
- const existing=(await store.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id&&c.identityTitle===s.title&&c.identityRevision===(lesson.identityRevision||0));if(existing)return existing;
+ const existing=(await store.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id&&(s.programming||c.identityTitle===s.title&&c.identityRevision===(lesson.identityRevision||0)));if(existing)return existing;
+ // Rich revisions retain the imported resource inventory. Rendering is driven
+ // by the new canonical spec; original author files remain audit resources.
+ if(s.programming&&version.previousVersionId){
+  const packs=await store.list('corpus_packages',actor.classId);let previous=version.previousVersionId,source;
+  for(let depth=0;previous&&depth<100;depth++){source=packs.find(c=>c.lessonVersionId===previous);if(source)break;previous=(await scoped(store,'lesson_versions',previous,actor)).previousVersionId;}
+  if(source)return store.transaction(async tx=>{
+   await tx.lockTables();const already=(await tx.list('corpus_packages',actor.classId)).find(c=>c.lessonVersionId===version.id);if(already)return already;
+   return tx.insert('corpus_packages',{...source,id:uid('corpus'),lessonVersionId:version.id,version:version.version,identityTitle:s.title,identityRevision:lesson.identityRevision||0,manifest:{...source.manifest,lessonVersionId:version.id,lessonVersion:version.version}});
+  });
+ }
  const files=[];const add=(path,buffer,audience='teacher')=>files.push({path,buffer,audience});
  const student=studentSpec(s),activities=s.activities.map(a=>({title:a.title,body:a.instruction+'\nÀ rendre : '+a.expectedEvidence})),guide=[{title:'Objectifs',body:s.objectives.join('\n')},{title:'Animation',body:s.teacherGuide},...s.blocks.map(b=>({title:`${b.minutes} min · ${b.title}`,body:b.content}))];
  if(s.editorVersion===1){

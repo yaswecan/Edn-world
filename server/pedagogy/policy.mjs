@@ -1,3 +1,4 @@
+import {CAPABILITIES,ENGINE,ENGINE_VERSION} from '../programming/contract.mjs';
 // Application-owned rules. A model selects content, never permissions or gates.
 export const POLICY_VERSION = 'tween-depth-2026-10-07.3';
 export const CONTENT_VERSION = 2;
@@ -29,5 +30,5 @@ const profiles = [
  {id:'concepts',families:['Savoir','Design'],capabilities:['annotations','diagrams','comparison'],available:true}
 ];
 export function runtimeManifest(env=process.env) {
- return {version:RUNTIME_VERSION,profiles:profiles.map(({lab,...p})=>({...p,available:lab?!!(env.EDEN_LAB_URL&&env.EDEN_LAB_TOKEN&&/^(?:sha256:|[^\s]+@sha256:)[a-f0-9]{64}$/.test(env[`EDEN_LAB_${lab}_IMAGE`]||'')):p.available,scope:p.scope||(lab?'Laboratoire isolé, image figée ; disponibilité opérationnelle vérifiée séparément.':'Composants natifs EDEN.')}))};
+ return {version:RUNTIME_VERSION,courseFormats:[{id:'programming-1',family:'Programmation',engine:ENGINE,engineVersion:ENGINE_VERSION,capabilities:CAPABILITIES,selection:'explicit'}],profiles:profiles.map(({lab,...p})=>({...p,available:lab?!!(env.EDEN_LAB_URL&&env.EDEN_LAB_TOKEN&&/^(?:sha256:|[^\s]+@sha256:)[a-f0-9]{64}$/.test(env[`EDEN_LAB_${lab}_IMAGE`]||'')):p.available,scope:p.scope||(lab?'Laboratoire isolé, image figée ; disponibilité opérationnelle vérifiée séparément.':'Composants natifs EDEN.')}))};
 }

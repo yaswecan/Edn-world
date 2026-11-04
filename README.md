@@ -398,3 +398,9 @@ npx vercel@62.4.0 --prod
 ```
 
 Aucune connexion de migration PostgreSQL, génération IA payante ou publication en production n’a été effectuée pour cette évolution.
+
+### Cours de programmation interactifs
+
+Le format optionnel `programming-1` ajoute un lecteur pédagogique avec exécution interrompable, traces, six familles de schémas, QCM structurés et bilans à trous. L’import professeur accepte le corpus EDEN « Tableaux : parcours, recherche et décomposition » et le format canonique natif. Les anciens lecteurs restent inchangés.
+
+Voir [le guide d’import et de création](docs/programming/README.md), [l’audit de migration](docs/programming/audit.md) et [les vérifications exécutées](docs/programming/verification.md). Exemples importables dans `docs/programming/examples/`. Aucune migration SQL supplémentaire.

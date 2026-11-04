@@ -107,16 +107,16 @@ export async function generateLesson(store,intent,actor,{entryId,localOnly=false
 const selectFields=(object,keys)=>Object.fromEntries(keys.filter(k=>object?.[k]!==undefined).map(k=>[k,structuredClone(object[k])]));
 export function studentSpec(spec,{published=false}={}) {
  const task=(a,diagnostic=false)=>{
-  const result=selectFields(a,['id','type','title','instruction','objective','skills','expectedEvidence','duration','required','correctionMode','starter','options','publicTests','observation','itemVersion','answerParts','diagnosticRole']);
+  const result=selectFields(a,['id','type','title','instruction','objective','skills','expectedEvidence','duration','required','correctionMode','starter','options','publicTests','observation','itemVersion','answerParts','diagnosticRole','interactive']);
   if(a.workshop)result.workshop=selectFields(a.workshop,['language','document','style','checks','prediction','profile','files','visual',...(!diagnostic||published?['hints','board']:[])]);
   if(a.richText)result.richText=selectFields(a.richText,['instruction','objective','expectedEvidence',...(diagnostic&&published?['reference']:[])]);
   if(diagnostic&&published)Object.assign(result,selectFields(a,['expectedAnswer','reference','tests']));
   return result;
  };
- const result=selectFields(spec,['schemaVersion','lessonId','lessonVersion','classId','date','planEntryId','planVersion','sequence','title','pedagogicalTitle','competencies','skills','objectives','prerequisites','reactivation','timeline','slides','resources','codeStation','studentFlow','sourceVersions','sourceNotes','editorVersion']);
+ const result=selectFields(spec,['schemaVersion','lessonId','lessonVersion','classId','date','planEntryId','planVersion','sequence','title','pedagogicalTitle','competencies','skills','objectives','prerequisites','reactivation','timeline','slides','resources','codeStation','studentFlow','sourceVersions','sourceNotes','editorVersion','programming']);
  result.blocks=(spec.blocks||[]).map(b=>selectFields(b,['id','type','title','content','minutes','activityIds','skills','boards','phase','teaching','editor']));
  result.activities=(spec.activities||[]).map(a=>task(a));
- result.diagnostic={...selectFields(spec.diagnostic,['id','kind','sourceLessonRunId','sourceLessonVersion','duration','criteria','rubric','policyVersion','expectations']),tasks:(spec.diagnostic?.tasks||[]).map(a=>task(a,true))};
+ result.diagnostic={...selectFields(spec.diagnostic,['id','kind','sourceLessonRunId','sourceLessonVersion','duration','criteria','rubric','policyVersion','expectations','activityIds','purpose']),tasks:(spec.diagnostic?.tasks||[]).map(a=>task(a,true))};
  if(spec.diagnostic.contract){const c=spec.diagnostic.contract;result.diagnostic.contract={version:c.version,baseCount:c.baseCount,readingMinutes:c.readingMinutes,submissionMinutes:c.submissionMinutes,source:c.source?selectFields(c.source,['title','date','criteria','activities']):null};}
  return result;
 }

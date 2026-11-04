@@ -1,3 +1,5 @@
+import {adaptEdenPackage} from './programming/adapter.mjs';
+import {validateProgramming} from './programming/contract.mjs';
 import {identityKeys} from './session-identity.mjs';
 import {validateSessionIdentity} from './session-identity-transfer.mjs';
 import {validateEditorContent} from './lesson-editor-validation.mjs';
@@ -14,8 +16,9 @@ export const filePath=hash=>`files/${hash}`;
 const check=(ok,message)=>{if(!ok)fail(422,message);};
 export function assertKeys(value,keys){check(value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).every(k=>keys.includes(k)),'Champ inconnu dans le paquet.');}
 export function validateReferences(spec){
- validate(lessonSchema,spec);
+ try{validate(lessonSchema,spec);}catch(error){if(!spec?.programming)throw error;const detail=error.details?.[0],pointer=detail?.instancePath||'/';let received=spec;for(const key of pointer.split('/').slice(1))received=received?.[key.replace(/~1/g,'/').replace(/~0/g,'~')];fail(422,`Le document ne respecte pas le schéma : lesson.json${pointer}.`,{file:'lesson.json',pointer,received,expected:detail?.message||'Contrat programming-1',action:'Corriger le champ ou utiliser une capacité prise en charge.',errors:error.details});}
  validateEditorContent(spec);
+ validateProgramming(spec,(pointer,received,expected)=>fail(422,`Cours interactif invalide : ${pointer} — ${expected}`,{file:'lesson.json',pointer,received,expected,action:'Corriger les données puis réimporter.'}));
  const unique=items=>new Set(items).size===items.length;
  check(unique(spec.blocks.map(b=>b.id))&&unique([...spec.activities,...spec.diagnostic.tasks].map(a=>a.id)),'Identifiants d’activités ou de blocs dupliqués.');
  check(spec.blocks.every(b=>b.activityIds.every(id=>spec.activities.some(a=>a.id===id)))&&spec.studentFlow.every(id=>spec.blocks.some(b=>b.id===id)),'Référence de bloc ou d’activité manquante.');
@@ -51,6 +54,7 @@ export function capabilities(spec){
   if(a.workshop?.language)set.add(`editor:${a.workshop.language}`);
  }
  if(spec.codeStation)set.add('game:exploration-v1');
+ if(spec.programming)for(const c of spec.programming.requiredCapabilities)set.add('programming:'+c);
  return [...set].sort();
 }
 export async function encodePackage(lessons,files){
@@ -71,7 +75,7 @@ export async function encodePackage(lessons,files){
 }
 // Parse ZIP central and local headers ourselves before inflation. JSZip's
 // path sanitization and advertised uncompressedSize are not a security boundary.
-function unzip(bytes){
+export function unzip(bytes){
  check(Buffer.isBuffer(bytes)&&bytes.length>=22&&bytes.length<=LIMITS.archive,'Archive vide ou supérieure à 64 Mio.');
  let end=-1;for(let p=bytes.length-22;p>=Math.max(0,bytes.length-65557);p--)if(bytes.readUInt32LE(p)===0x06054b50&&p+22+bytes.readUInt16LE(p+20)===bytes.length){end=p;break;}
  check(end>=0,'Archive ZIP invalide.');
@@ -83,8 +87,9 @@ function unzip(bytes){
   const flags=bytes.readUInt16LE(p+8),method=bytes.readUInt16LE(p+10),compressed=bytes.readUInt32LE(p+20),length=bytes.readUInt32LE(p+24),n=bytes.readUInt16LE(p+28),extra=bytes.readUInt16LE(p+30),comment=bytes.readUInt16LE(p+32),offset=bytes.readUInt32LE(p+42),mode=bytes.readUInt32LE(p+38)>>>16;
   check(p+46+n+extra+comment<=end,'Entrée ZIP tronquée.');
   const name=bytes.subarray(p+46,p+46+n).toString('utf8');
-  check(/^(manifest\.json|lessons\/[a-zA-Z0-9_-]+\.json|files\/[a-f0-9]{64})$/.test(name)&&!names.has(name),'Chemin ZIP interdit ou dupliqué.');names.add(name);
-  check(!(flags&1)&&[0,8].includes(method)&&(!mode||(mode&0xf000)===0x8000||(mode&0xf000)===0)&&!bytes.readUInt16LE(p+34),'Archive chiffrée, lien ou compression non pris en charge.');
+  const normalized=name.normalize('NFC').replace(/\/$/,'');
+  check(name&&!name.startsWith('/')&&!/[\\:\x00-\x1f]/.test(name)&&!normalized.split('/').some(x=>!x||x==='.'||x==='..')&&!names.has(normalized),'Chemin ZIP interdit ou dupliqué : '+name);names.add(normalized);
+  check(!(flags&1)&&[0,8].includes(method)&&(!mode||(mode&0xf000)===0x8000||(mode&0xf000)===0||(name.endsWith('/')&&(mode&0xf000)===0x4000))&&!bytes.readUInt16LE(p+34),'Archive chiffrée, lien ou compression non pris en charge.');
   total+=length;check(length<=LIMITS.file&&total<=LIMITS.expanded,'Limite de décompression dépassée (16 Mio par fichier, 128 Mio au total).');
   check(offset>=localEnd&&offset+30<=start&&bytes.readUInt32LE(offset)===0x04034b50,'Entrée locale ZIP invalide.');
   const localN=bytes.readUInt16LE(offset+26),localExtra=bytes.readUInt16LE(offset+28),dataStart=offset+30+localN+localExtra;
@@ -95,7 +100,12 @@ function unzip(bytes){
  const result=new Map();for(const e of entries){let out;try{const raw=bytes.subarray(e.dataStart,e.dataStart+e.compressed);out=e.method===0?Buffer.from(raw):inflateRawSync(raw,{maxOutputLength:Math.max(1,e.length)});}catch{fail(422,'Décompression refusée ou ressource corrompue.');}check(out.length===e.length,'Taille décompressée incohérente.');result.set(e.name,out);}return result;
 }
 export async function decodePackage(bytes){
- const entries=unzip(bytes),json=path=>{try{return JSON.parse(entries.get(path)?.toString('utf8'));}catch{fail(422,`Document JSON invalide : ${path}.`);}};
+ let entries=unzip(bytes);
+ for(const [name,data] of entries)if(name.endsWith('/')){check(data.length===0,'Dossier ZIP non vide.');entries.delete(name);}
+ if(!entries.has('manifest.json')&&!entries.has('00_MANIFEST/manifest.json')){const roots=new Set([...entries.keys()].map(n=>n.split('/')[0]));if(roots.size===1){const root=[...roots][0]+'/';entries=new Map([...entries].map(([n,b])=>[n.slice(root.length),b]));}}
+ if(entries.has('00_MANIFEST/manifest.json')){const pack=adaptEdenPackage(entries);for(const l of pack.lessons){validateReferences(l.payload.spec);l.capabilities=capabilities(l.payload.spec);l.revision=contentFingerprint(l.payload);}return {...pack,sha256:sha256(bytes)};}
+ for(const name of entries.keys())check(/^(manifest\.json|lessons\/[a-zA-Z0-9_-]+\.json|files\/[a-f0-9]{64})$/.test(name),'Chemin ZIP interdit : '+name);
+ const json=path=>{try{return JSON.parse(entries.get(path)?.toString('utf8'));}catch{fail(422,`Document JSON invalide : ${path}.`);}};
  const manifest=json('manifest.json');assertKeys(manifest,['format','version','packageId','lessons','files']);
  check(manifest.format==='tweenteach'&&manifest.version===1,'Version de paquet non prise en charge.');
  check(typeof manifest.packageId==='string'&&manifest.packageId.length<=100&&Array.isArray(manifest.lessons)&&manifest.lessons.length>0&&manifest.lessons.length<=LIMITS.lessons&&Array.isArray(manifest.files),'Manifeste invalide.');

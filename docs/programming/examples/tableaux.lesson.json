@@ -1,0 +1,2943 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "R-261015-tableaux-parcours-fonctions-20261103",
+  "lessonVersion": 2,
+  "classId": "A1",
+  "date": "2026-11-03",
+  "planEntryId": "",
+  "planVersion": 0,
+  "sequence": "S04",
+  "title": "Tableaux : parcours, recherche et décomposition",
+  "skills": [
+    "BC05-C1-5",
+    "BC05-C2-2",
+    "BC05-C1-3",
+    "BC05-C1-7"
+  ],
+  "objectives": [
+    "Parcourir un tableau et distinguer indice, valeur et longueur.",
+    "Compter et rechercher avec des boucles en vérifiant les cas limites.",
+    "Déclarer et appeler une fonction ; distinguer paramètres, arguments, affichage et valeur de retour.",
+    "Comparer for, while et forEach ; décomposer un problème en fonctions testables."
+  ],
+  "prerequisites": [
+    "Variables, affectation, comparaison, condition if.",
+    "Lecture d’un court programme JavaScript. Les fonctions sont expliquées dans ce module."
+  ],
+  "reactivation": [
+    "Prévoir avant d’exécuter.",
+    "Vérifier une condition et lire les indices d’un tableau."
+  ],
+  "diagnostic": {
+    "id": "R-261015-tableaux-parcours-fonctions-20261103:reactivation",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 10,
+    "criteria": [
+      "BC05-C1-5",
+      "BC05-C2-2",
+      "BC05-C1-3",
+      "BC05-C1-7"
+    ],
+    "tasks": [],
+    "activityIds": [
+      "q1-indice",
+      "q2-for"
+    ],
+    "rubric": [],
+    "purpose": "Réactivation formative, sans validation automatique de compétence."
+  },
+  "timeline": [
+    {
+      "blockId": "s1-bloc-1",
+      "minutes": 10
+    },
+    {
+      "blockId": "s1-bloc-2",
+      "minutes": 65
+    },
+    {
+      "blockId": "s1-bloc-3",
+      "minutes": 60
+    },
+    {
+      "blockId": "s1-bloc-4",
+      "minutes": 30
+    },
+    {
+      "blockId": "s1-bloc-5",
+      "minutes": 15
+    },
+    {
+      "blockId": "s2-bloc-1",
+      "minutes": 10
+    },
+    {
+      "blockId": "s2-bloc-2",
+      "minutes": 65
+    },
+    {
+      "blockId": "s2-bloc-3",
+      "minutes": 60
+    },
+    {
+      "blockId": "s2-bloc-4",
+      "minutes": 30
+    },
+    {
+      "blockId": "s2-bloc-5",
+      "minutes": 15
+    }
+  ],
+  "blocks": [
+    {
+      "id": "s1-bloc-1",
+      "type": "Activity",
+      "phase": "opening",
+      "title": "Séance 1 · Je réactive",
+      "content": "Mission Flotte : les batteries valent [35, 80, 20, 65]. Un drone est prêt à partir de 50 %, valeur incluse. Il faut compter les drones prêts, quelle que soit la liste. Désigne une case, son indice et sa valeur, puis réponds aux deux questions de départ.",
+      "minutes": 10,
+      "activityIds": [
+        "q1-indice",
+        "q2-for"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Un indice indique une position ; la valeur est le contenu de la case."
+        ],
+        "diagram": [
+          "Indices : 0 → 1 → 2 → 3 ; valeurs : 35 → 80 → 20 → 65"
+        ]
+      }
+    },
+    {
+      "id": "s1-bloc-2",
+      "type": "Activity",
+      "phase": "observe",
+      "title": "Séance 1 · Je découvre et j’essaie",
+      "content": "Observe un tableau puis parcours ses éléments avec for. Prévois ce qui sera lu avant chaque exécution. Modifie le code de départ dans les éditeurs, puis vérifie une liste vide, un élément et plusieurs éléments. La fonction du premier exercice est fournie ; sa déclaration sera étudiée dans le repère suivant.",
+      "minutes": 65,
+      "activityIds": [
+        "a1-indices",
+        "a2-parcours-for"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [
+          "Une valeur est le contenu d’une case ; son indice est sa position, à partir de 0.",
+          "La propriété length donne le nombre de cases : avec 4 valeurs, les indices vont de 0 à 3.",
+          "La fonction est fournie pour lancer l’exercice ; nous étudierons son fonctionnement dans l’atelier 4.",
+          "Le for regroupe le départ, le test et l’évolution de l’indice.",
+          "Après chaque corps de boucle, i++ augmente i de 1 ; la condition est ensuite testée à nouveau.",
+          "copie.push(valeur) ajoute une valeur à la fin de la nouvelle liste.",
+          "Après 55 minutes d’activité, prévoir une pause de 10 minutes."
+        ],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Les indices commencent à 0. Le dernier indice vaut length - 1.",
+          "for organise le départ, le test et la progression."
+        ],
+        "diagram": [
+          "i = 0 → i < length ? → lire tableau[i] → i++ → refaire le test",
+          "Si le test est faux → terminer le parcours"
+        ]
+      }
+    },
+    {
+      "id": "s1-bloc-3",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Séance 1 · Je m’entraîne",
+      "content": "Construis un compteur qui augmente seulement lorsque la batterie atteint le seuil. Place ce traitement dans une fonction, puis change les arguments de son appel. Distingue les paramètres de la déclaration, les arguments fournis et la valeur renvoyée par return.",
+      "minutes": 60,
+      "activityIds": [
+        "a3-compteur",
+        "a4-fonction"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [
+          "Le compteur commence à 0 avant la boucle.",
+          "À chaque batterie prête, il augmente de 1 ; une batterie insuffisante le laisse inchangé.",
+          "Le symbole >= inclut la limite : une batterie à 50 est prête.",
+          "batteries et seuil sont les paramètres écrits dans la déclaration ; [35, 80, 20, 65] et 70 sont les arguments fournis à cet appel.",
+          "Déclarer la fonction prépare les instructions ; l’appel lance leur exécution avec ces valeurs.",
+          "return transmet le résultat à l’appelant ; console.log affiche une information sans la renvoyer.",
+          "Après 50 minutes d’activité, prévoir une pause de 10 minutes."
+        ],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Initialiser le compteur avant la boucle ; incrémenter seulement si le critère est vrai.",
+          "Les arguments de l’appel alimentent les paramètres de la fonction. return renvoie son résultat."
+        ],
+        "diagram": [
+          "Arguments de l’appel → paramètres → boucle et condition → return",
+          "Compteur : 0 → 0 → 1 → 1 → 2 pour un seuil de 50"
+        ]
+      }
+    },
+    {
+      "id": "s1-bloc-4",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "Séance 1 · Je réalise",
+      "content": "Reconstruis individuellement une fonction qui compte les batteries strictement sous un seuil. Le critère change : décide si une batterie égale au seuil doit être comptée. Vérifie ta solution sans recopier la correction et explique une décision.",
+      "minutes": 30,
+      "activityIds": [
+        "a5-reconstruction"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [
+          "Une batterie doit être rechargée si sa valeur est strictement inférieure au seuil demandé.",
+          "Une batterie exactement au seuil ne doit donc pas être comptée.",
+          "Reconstruis le parcours sans afficher le corrigé ; note d’abord tes résultats attendus pour une liste vide et pour [50] avec seuil 50."
+        ],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Choisir la comparaison à partir du besoin, puis essayer les cas limites."
+        ],
+        "diagram": [
+          "Besoin → condition → boucle → résultat → essais"
+        ]
+      }
+    },
+    {
+      "id": "s1-bloc-5",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Séance 1 · Je retiens",
+      "content": "Complète le texte à trous puis réponds aux QCM. Explique la différence entre indice, valeur, longueur, compteur, paramètre, argument et valeur de retour. Reprends une erreur avec un appel précis et le résultat obtenu.",
+      "minutes": 15,
+      "activityIds": [
+        "bilan-s1",
+        "q3-vide",
+        "q4-compteur",
+        "q5-arguments",
+        "q6-return",
+        "trace-s1"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Prévoir → coder → vérifier → expliquer ; conserver un essai précis."
+        ],
+        "diagram": [
+          "Tableau → indice → valeur ; fonction → appel → résultat"
+        ]
+      }
+    },
+    {
+      "id": "s2-bloc-1",
+      "type": "Activity",
+      "phase": "opening",
+      "title": "Séance 2 · Je réactive",
+      "content": "Retrouve tes repères sur for et les appels de fonctions. La mission devient : rechercher le premier drone prêt puis produire le bilan [total, nombre de prêts, indice du premier prêt]. Avec [35, 80, 20, 65] et le seuil 50, le bilan attendu est [4, 2, 1].",
+      "minutes": 10,
+      "activityIds": [
+        "q2-for-rappel-s2",
+        "q5-arguments-rappel-s2"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Compter tous les résultats et trouver le premier résultat sont deux traitements distincts."
+        ],
+        "diagram": [
+          "Tableau et seuil → compter les prêts ; tableau et seuil → chercher le premier"
+        ]
+      }
+    },
+    {
+      "id": "s2-bloc-2",
+      "type": "Activity",
+      "phase": "observe",
+      "title": "Séance 2 · Je découvre et j’essaie",
+      "content": "Cherche le premier drone prêt avec while. Observe ce qui se produit lorsque l’indice ne change pas, puis corrige la progression. Utilise ensuite forEach pour effectuer une action pour chaque élément. Compare les étapes avant de choisir une écriture.",
+      "minutes": 65,
+      "activityIds": [
+        "a6-recherche-while",
+        "a7-journal-foreach",
+        "q7-while",
+        "q8-zero"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [
+          "while teste sa condition avant chaque tour : si elle est fausse dès le départ, le corps ne s’exécute pas.",
+          "L’évolution de i est écrite dans le corps ; sans progression, la même case peut être relue indéfiniment.",
+          "Ici, return i termine la fonction dès la première correspondance ; return -1 traite l’absence après le parcours.",
+          "forEach reçoit une fonction de rappel et l’appelle pour chaque élément présent du tableau.",
+          "Les deux premiers arguments transmis à cette fonction sont la valeur, puis l’indice ; leurs noms ne changent pas cet ordre.",
+          "Ici, le parcours complet est souhaité : chaque drone doit avoir une ligne de journal.",
+          "Après 55 minutes d’activité, prévoir une pause de 10 minutes."
+        ],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "while teste avant chaque tour ; le traitement doit faire évoluer la situation.",
+          "forEach appelle une fonction pour chaque élément présent et renvoie undefined."
+        ],
+        "diagram": [
+          "while : tester → agir → faire évoluer → tester ; faux → terminer",
+          "forEach : élément → appel du callback → élément suivant"
+        ]
+      }
+    },
+    {
+      "id": "s2-bloc-3",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Séance 2 · Je m’entraîne",
+      "content": "Explique où s’arrête return dans une fonction callback de forEach. Corrige une recherche qui continue après un résultat. Compare les rôles de for, while et forEach à partir du résultat attendu, de la progression et de la condition d’arrêt.",
+      "minutes": 60,
+      "activityIds": [
+        "a8-retour-callback"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [
+          "Un return termine la fonction dans laquelle il est exécuté.",
+          "Dans le code de départ, return indice termine seulement l’appel de la fonction de rappel ; forEach poursuit ses autres appels et ignore cette valeur renvoyée.",
+          "Pour cette recherche avec arrêt anticipé, reprends un for ou un while ; les deux permettent de terminer premierPret dès la correspondance.",
+          "Après 50 minutes d’activité, prévoir une pause de 10 minutes."
+        ],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "return quitte le callback où il se trouve ; il ne quitte pas la fonction qui a lancé forEach."
+        ],
+        "diagram": [
+          "return du callback → fin de cet appel → poursuite de forEach",
+          "return de la fonction de recherche → résultat transmis à son appelant"
+        ]
+      }
+    },
+    {
+      "id": "s2-bloc-4",
+      "type": "Activity",
+      "phase": "autonomy",
+      "title": "Séance 2 · Je réalise",
+      "content": "Réalise bilanFlotte en réutilisant les fonctions de comptage et de recherche. Sépare le problème en traitements testables. Essaie plusieurs seuils, le tableau vide et l’absence de drone prêt ; explique comment les résultats partiels composent le bilan.",
+      "minutes": 30,
+      "activityIds": [
+        "a9-bilan-flotte"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [
+          "compterPrets répond « combien ? » ; premierPret répond « où commence le premier résultat ? ».",
+          "bilanFlotte appelle ces deux fonctions avec la même liste et le même seuil, puis rassemble leurs résultats.",
+          "Réutilise tes fonctions déjà vérifiées ; la ligne de retour du bilan est fournie pour concentrer le travail sur les appels."
+        ],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Chaque fonction a une responsabilité ; le bilan réutilise leurs résultats."
+        ],
+        "diagram": [
+          "bilanFlotte → length, compterPrets, premierPret → [total, prêts, premier]"
+        ]
+      }
+    },
+    {
+      "id": "s2-bloc-5",
+      "type": "Reflection",
+      "phase": "summary",
+      "title": "Séance 2 · Je retiens",
+      "content": "Complète le texte à trous puis réponds aux QCM. Explique la condition d’arrêt, la progression, le rôle du callback, la portée de return et la décomposition. Le transfert vers les températures sera repris lors d’une séance ultérieure.",
+      "minutes": 15,
+      "activityIds": [
+        "bilan-s2",
+        "q9-callback",
+        "q10-retour-callback",
+        "q11-foreach-resultat",
+        "q12-decomposer",
+        "trace-s2"
+      ],
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "teaching": {
+        "steps": [],
+        "hint": "Utiliser les indices progressivement.",
+        "check": "Comparer une prévision à une exécution et expliquer une décision.",
+        "takeaways": [
+          "Choisir la boucle à partir du besoin et justifier la terminaison."
+        ],
+        "diagram": [
+          "Prévoir → exécuter → comparer → expliquer → réutiliser"
+        ]
+      }
+    }
+  ],
+  "activities": [
+    {
+      "id": "a1-indices",
+      "type": "CodeEditor",
+      "title": "Une case, deux informations",
+      "instruction": "Renvoyer la taille du tableau et la valeur située à l’indice demandé.\n\nUne valeur est le contenu d’une case ; son indice est sa position, à partir de 0.\nLa propriété length donne le nombre de cases : avec 4 valeurs, les indices vont de 0 à 3.\nLa fonction est fournie pour lancer l’exercice ; nous étudierons son fonctionnement dans l’atelier 4.\n\nAvant de modifier le code : Dans [35, 80, 20, 65], que contient la case d’indice 1 ?",
+      "objective": "Renvoyer la taille du tableau et la valeur située à l’indice demandé.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function tailleEtValeur(batteries, indice) {\n  return [batteries.length, batteries[indice]];\n}",
+      "starter": "function tailleEtValeur(batteries, indice) {\n  return [batteries.length, indice];\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[35, 80, 20, 65], 1]",
+          "expectedJSON": "[4, 80]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[35, 80, 20, 65], 0]",
+          "expectedJSON": "[4, 35]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[35, 80, 20, 65], 3]",
+          "expectedJSON": "[4, 65]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[50], 0]",
+          "expectedJSON": "[1, 50]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[7, 12, 4], 2]",
+          "expectedJSON": "[3, 4]"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Repère les indices 0, 1, 2 et 3 sous les quatre valeurs.",
+          "batteries.length donne la taille. Quel accès permet de lire une case ?",
+          "Remplace le deuxième élément renvoyé par batteries[indice]."
+        ],
+        "checks": [
+          "La première valeur du résultat est la taille du tableau.",
+          "La deuxième valeur est le contenu de la case demandée.",
+          "Je distingue une position de la valeur qui s’y trouve."
+        ],
+        "prediction": "Dans [35, 80, 20, 65], que contient la case d’indice 1 ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "Une valeur est le contenu d’une case ; son indice est sa position, à partir de 0.",
+          "La propriété length donne le nombre de cases : avec 4 valeurs, les indices vont de 0 à 3.",
+          "La fonction est fournie pour lancer l’exercice ; nous étudierons son fonctionnement dans l’atelier 4."
+        ],
+        "demo": "function tailleEtValeur(batteries, indice) {\n  return [batteries.length, batteries[indice]];\n}",
+        "invoke": "tailleEtValeur",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ],
+          1
+        ],
+        "diagramType": "array",
+        "prediction": {
+          "question": "Dans [35, 80, 20, 65], que contient la case d’indice 1 ?",
+          "options": [
+            {
+              "text": "35",
+              "feedback": "35 se trouve à l’indice 0. Les indices commencent à zéro."
+            },
+            {
+              "text": "80",
+              "feedback": "Exact : l’indice 1 désigne la deuxième case, dont la valeur est 80."
+            },
+            {
+              "text": "1",
+              "feedback": "1 est la position demandée, pas la valeur stockée dans cette case."
+            }
+          ],
+          "correct": 1
+        },
+        "testLabels": [
+          "Lire la deuxième case",
+          "Lire la première case",
+          "Lire la dernière case",
+          "Une seule case",
+          "Changer de tableau"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[35, 80, 20, 65], 1]",
+          "expectedJSON": "[4, 80]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[35, 80, 20, 65], 0]",
+          "expectedJSON": "[4, 35]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[35, 80, 20, 65], 3]",
+          "expectedJSON": "[4, 65]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[50], 0]",
+          "expectedJSON": "[1, 50]"
+        },
+        {
+          "invoke": "tailleEtValeur",
+          "argsJSON": "[[7, 12, 4], 2]",
+          "expectedJSON": "[3, 4]"
+        }
+      ]
+    },
+    {
+      "id": "a2-parcours-for",
+      "type": "CodeEditor",
+      "title": "Visiter toutes les cases",
+      "instruction": "Construire une copie contenant toutes les valeurs, dans leur ordre initial.\n\nLe for regroupe le départ, le test et l’évolution de l’indice.\nAprès chaque corps de boucle, i++ augmente i de 1 ; la condition est ensuite testée à nouveau.\ncopie.push(valeur) ajoute une valeur à la fin de la nouvelle liste.\n\nAvant de modifier le code : Le code de départ commence avec i = 1. Quel résultat produit-il sur [35, 80, 20, 65] ?",
+      "objective": "Construire une copie contenant toutes les valeurs, dans leur ordre initial.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function parcourir(batteries) {\n  const copie = [];\n  for (let i = 0; i < batteries.length; i++) {\n    copie.push(batteries[i]);\n  }\n  return copie;\n}",
+      "starter": "function parcourir(batteries) {\n  const copie = [];\n  for (let i = 1; i < batteries.length; i++) {\n    copie.push(batteries[i]);\n  }\n  return copie;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[35, 80, 20, 65]]",
+          "expectedJSON": "[35, 80, 20, 65]"
+        },
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[]]",
+          "expectedJSON": "[]"
+        },
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[50]]",
+          "expectedJSON": "[50]"
+        },
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[10, 10, 90]]",
+          "expectedJSON": "[10, 10, 90]"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Quel est l’indice de la première case ?",
+          "Observe la valeur de i avant le tout premier test.",
+          "Initialise i à 0 ; conserve i < batteries.length pour rester dans les indices valides."
+        ],
+        "checks": [
+          "Le parcours commence au premier indice.",
+          "Le dernier élément est conservé.",
+          "Le tableau vide produit une liste vide, sans lire de case."
+        ],
+        "prediction": "Le code de départ commence avec i = 1. Quel résultat produit-il sur [35, 80, 20, 65] ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "Le for regroupe le départ, le test et l’évolution de l’indice.",
+          "Après chaque corps de boucle, i++ augmente i de 1 ; la condition est ensuite testée à nouveau.",
+          "copie.push(valeur) ajoute une valeur à la fin de la nouvelle liste."
+        ],
+        "demo": "function parcourir(batteries) {\n  const copie = [];\n  for (let i = 0; i < batteries.length; i++) {\n    copie.push(batteries[i]);\n  }\n  return copie;\n}",
+        "invoke": "parcourir",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ]
+        ],
+        "diagramType": "for",
+        "prediction": {
+          "question": "Le code de départ commence avec i = 1. Quel résultat produit-il sur [35, 80, 20, 65] ?",
+          "options": [
+            {
+              "text": "[35, 80, 20, 65]",
+              "feedback": "Le code de départ ne visite pas l’indice 0. Il manque donc une valeur."
+            },
+            {
+              "text": "[80, 20, 65]",
+              "feedback": "Exact : il commence directement à l’indice 1 et oublie 35."
+            },
+            {
+              "text": "[35, 80, 20]",
+              "feedback": "Ce serait un problème de fin de parcours. Ici, le départ est incorrect."
+            }
+          ],
+          "correct": 1
+        },
+        "testLabels": [
+          "Toutes les cases, dans l’ordre",
+          "Aucun élément : aucun tour",
+          "Une seule case doit être visitée",
+          "Conserver aussi les doublons"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[35, 80, 20, 65]]",
+          "expectedJSON": "[35, 80, 20, 65]"
+        },
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[]]",
+          "expectedJSON": "[]"
+        },
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[50]]",
+          "expectedJSON": "[50]"
+        },
+        {
+          "invoke": "parcourir",
+          "argsJSON": "[[10, 10, 90]]",
+          "expectedJSON": "[10, 10, 90]"
+        }
+      ]
+    },
+    {
+      "id": "a3-compteur",
+      "type": "CodeEditor",
+      "title": "Compter les drones prêts",
+      "instruction": "Compter les batteries supérieures ou égales à 50, sans additionner leurs niveaux.\n\nLe compteur commence à 0 avant la boucle.\nÀ chaque batterie prête, il augmente de 1 ; une batterie insuffisante le laisse inchangé.\nLe symbole >= inclut la limite : une batterie à 50 est prête.\n\nAvant de modifier le code : Le code de départ ajoute 80 puis 65. Quelle valeur renvoie-t-il ?",
+      "objective": "Compter les batteries supérieures ou égales à 50, sans additionner leurs niveaux.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function compterPrets50(batteries) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= 50) {\n      nombre++;\n    }\n  }\n  return nombre;\n}",
+      "starter": "function compterPrets50(batteries) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= 50) {\n      nombre = nombre + batteries[i];\n    }\n  }\n  return nombre;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[35, 80, 20, 65]]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[50]]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[49, 0, 20]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[50, 50, 100]]",
+          "expectedJSON": "3"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Observe ce qui change quand une batterie est retenue : un drone de plus ou plusieurs points de batterie ?",
+          "Le compteur doit augmenter de la même quantité pour 50, 65 et 100.",
+          "Remplace l’addition du niveau de batterie par nombre++ ou nombre = nombre + 1."
+        ],
+        "checks": [
+          "Le compteur est initialisé une seule fois, avant le parcours.",
+          "Une batterie exactement à 50 est comptée.",
+          "Je distingue compter les éléments et additionner leurs valeurs."
+        ],
+        "prediction": "Le code de départ ajoute 80 puis 65. Quelle valeur renvoie-t-il ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "Le compteur commence à 0 avant la boucle.",
+          "À chaque batterie prête, il augmente de 1 ; une batterie insuffisante le laisse inchangé.",
+          "Le symbole >= inclut la limite : une batterie à 50 est prête."
+        ],
+        "demo": "function compterPrets50(batteries) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= 50) {\n      nombre++;\n    }\n  }\n  return nombre;\n}",
+        "invoke": "compterPrets50",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ]
+        ],
+        "diagramType": "for",
+        "prediction": {
+          "question": "Le code de départ ajoute 80 puis 65. Quelle valeur renvoie-t-il ?",
+          "options": [
+            {
+              "text": "2",
+              "feedback": "2 est le nombre de drones prêts attendu, mais le code actuel additionne leurs niveaux."
+            },
+            {
+              "text": "145",
+              "feedback": "Exact : 80 + 65 vaut 145. Il faut compter les drones, donc ajouter 1 à chaque réussite."
+            },
+            {
+              "text": "200",
+              "feedback": "200 est la somme de toutes les batteries. La condition exclut 35 et 20."
+            }
+          ],
+          "correct": 1
+        },
+        "testLabels": [
+          "Deux drones prêts",
+          "Aucun drone",
+          "La limite est incluse",
+          "Aucun niveau suffisant",
+          "Chaque drone compte une fois"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[35, 80, 20, 65]]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[50]]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[49, 0, 20]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets50",
+          "argsJSON": "[[50, 50, 100]]",
+          "expectedJSON": "3"
+        }
+      ]
+    },
+    {
+      "id": "a4-fonction",
+      "type": "CodeEditor",
+      "title": "Même fonction, autre mission",
+      "instruction": "Utiliser le seuil reçu en paramètre et renvoyer le nombre calculé.\n\nbatteries et seuil sont les paramètres écrits dans la déclaration ; [35, 80, 20, 65] et 70 sont les arguments fournis à cet appel.\nDéclarer la fonction prépare les instructions ; l’appel lance leur exécution avec ces valeurs.\nreturn transmet le résultat à l’appelant ; console.log affiche une information sans la renvoyer.\n\nAvant de modifier le code : Un appel compterPrets([35, 80, 20, 65], 70) devrait renvoyer combien ?",
+      "objective": "Utiliser le seuil reçu en paramètre et renvoyer le nombre calculé.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function compterPrets(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}",
+      "starter": "function compterPrets(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= 50) {\n      nombre++;\n    }\n  }\n  console.log(nombre);\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[35, 80, 20, 65], 70]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[35, 80, 20, 65], 90]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[50], 50]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[0, 20], 0]",
+          "expectedJSON": "2"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Cherche le nombre fixé dans la condition : utilise-t-il l’argument reçu ?",
+          "La condition doit comparer chaque valeur au paramètre seuil.",
+          "Après le parcours, return nombre transmet le résultat ; un affichage seul ne le fait pas."
+        ],
+        "checks": [
+          "Changer l’argument seuil change le calcul sans réécrire la fonction.",
+          "Je peux nommer les deux paramètres et montrer les deux arguments de l’appel.",
+          "Le nombre calculé est renvoyé par return."
+        ],
+        "prediction": "Un appel compterPrets([35, 80, 20, 65], 70) devrait renvoyer combien ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "batteries et seuil sont les paramètres écrits dans la déclaration ; [35, 80, 20, 65] et 70 sont les arguments fournis à cet appel.",
+          "Déclarer la fonction prépare les instructions ; l’appel lance leur exécution avec ces valeurs.",
+          "return transmet le résultat à l’appelant ; console.log affiche une information sans la renvoyer."
+        ],
+        "demo": "function compterPrets(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}",
+        "invoke": "compterPrets",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ],
+          70
+        ],
+        "diagramType": "function",
+        "prediction": {
+          "question": "Un appel compterPrets([35, 80, 20, 65], 70) devrait renvoyer combien ?",
+          "options": [
+            {
+              "text": "1",
+              "feedback": "Exact : seule la batterie à 80 atteint le seuil 70."
+            },
+            {
+              "text": "2",
+              "feedback": "2 correspond au seuil 50. Le deuxième argument de cet appel vaut 70."
+            },
+            {
+              "text": "70",
+              "feedback": "70 est le seuil reçu ; le résultat attendu est un nombre de drones."
+            }
+          ],
+          "correct": 0
+        },
+        "testLabels": [
+          "Mission avec seuil 50",
+          "Même liste, seuil 70",
+          "Seuil supérieur à toutes les batteries",
+          "Égalité au seuil",
+          "Liste vide",
+          "Seuil zéro"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[35, 80, 20, 65], 70]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[35, 80, 20, 65], 90]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[50], 50]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterPrets",
+          "argsJSON": "[[0, 20], 0]",
+          "expectedJSON": "2"
+        }
+      ]
+    },
+    {
+      "id": "a5-reconstruction",
+      "type": "CodeEditor",
+      "title": "À toi : préparer la recharge",
+      "instruction": "Écrire la fonction qui compte les batteries strictement sous le seuil.\n\nUne batterie doit être rechargée si sa valeur est strictement inférieure au seuil demandé.\nUne batterie exactement au seuil ne doit donc pas être comptée.\nReconstruis le parcours sans afficher le corrigé ; note d’abord tes résultats attendus pour une liste vide et pour [50] avec seuil 50.\n\nAvant de modifier le code : Pour [0, 10, 50] avec un seuil de 50, combien de batteries faut-il recharger ?",
+      "objective": "Écrire la fonction qui compte les batteries strictement sous le seuil.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function compterSousSeuil(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] < seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}",
+      "starter": "function compterSousSeuil(batteries, seuil) {\n  // Écris ton programme ici.\n  return 0;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[50], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[0, 10, 50], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[90, 80], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[10, 20, 30], 40]",
+          "expectedJSON": "3"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Précise les trois informations : résultat initial, parcours, condition de sélection.",
+          "Le compteur commence avant le for et augmente seulement quand batteries[i] < seuil.",
+          "Après la fin du parcours, renvoie le compteur avec return."
+        ],
+        "checks": [
+          "J’ai écrit le parcours et la condition à partir de la consigne.",
+          "J’ai essayé la liste vide et la valeur exactement au seuil.",
+          "J’explique pourquoi < convient et pourquoi <= changerait le résultat."
+        ],
+        "prediction": "Pour [0, 10, 50] avec un seuil de 50, combien de batteries faut-il recharger ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "Une batterie doit être rechargée si sa valeur est strictement inférieure au seuil demandé.",
+          "Une batterie exactement au seuil ne doit donc pas être comptée.",
+          "Reconstruis le parcours sans afficher le corrigé ; note d’abord tes résultats attendus pour une liste vide et pour [50] avec seuil 50."
+        ],
+        "demo": "function compterSousSeuil(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] < seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}",
+        "invoke": "compterSousSeuil",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ],
+          50
+        ],
+        "diagramType": "function",
+        "prediction": {
+          "question": "Pour [0, 10, 50] avec un seuil de 50, combien de batteries faut-il recharger ?",
+          "options": [
+            {
+              "text": "2",
+              "feedback": "Exact : 0 et 10 sont strictement sous 50 ; la batterie à 50 est déjà suffisante."
+            },
+            {
+              "text": "3",
+              "feedback": "La règle est strictement sous le seuil. La valeur 50 ne doit pas être retenue."
+            },
+            {
+              "text": "1",
+              "feedback": "0 est aussi une valeur de batterie valide et doit être comptée."
+            }
+          ],
+          "correct": 0
+        },
+        "testLabels": [
+          "Deux batteries à recharger",
+          "Liste vide",
+          "L’égalité ne déclenche pas la recharge",
+          "La dernière valeur est à la limite",
+          "Aucune recharge nécessaire",
+          "Toutes les batteries sous le seuil"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[50], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[0, 10, 50], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[90, 80], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterSousSeuil",
+          "argsJSON": "[[10, 20, 30], 40]",
+          "expectedJSON": "3"
+        }
+      ]
+    },
+    {
+      "id": "a6-recherche-while",
+      "type": "CodeEditor",
+      "title": "Chercher puis s’arrêter",
+      "instruction": "Renvoyer l’indice du premier drone prêt, ou -1 si aucun ne convient.\n\nwhile teste sa condition avant chaque tour : si elle est fausse dès le départ, le corps ne s’exécute pas.\nL’évolution de i est écrite dans le corps ; sans progression, la même case peut être relue indéfiniment.\nIci, return i termine la fonction dès la première correspondance ; return -1 traite l’absence après le parcours.\n\nAvant de modifier le code : Sur [35, 80, 20, 65], que fait le code de départ après avoir lu 35 ?",
+      "objective": "Renvoyer l’indice du premier drone prêt, ou -1 si aucun ne convient.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function premierPret(batteries, seuil) {\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}",
+      "starter": "function premierPret(batteries, seuil) {\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n    // Fais progresser la recherche.\n  }\n  return -1;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[80, 35], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20, 90], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20], 50]",
+          "expectedJSON": "-1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "-1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[50, 90], 50]",
+          "expectedJSON": "0"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Regarde i avant et après un tour où la batterie ne convient pas.",
+          "Quel changement permet d’atteindre la case suivante ?",
+          "Ajoute i++ après le if ; garde return -1 après la boucle pour traiter toute absence."
+        ],
+        "checks": [
+          "La recherche progresse quand la valeur ne convient pas.",
+          "Elle renvoie un indice, pas le niveau de batterie.",
+          "Les cas vide, absent et trouvé à l’indice 0 sont distingués."
+        ],
+        "prediction": "Sur [35, 80, 20, 65], que fait le code de départ après avoir lu 35 ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "while teste sa condition avant chaque tour : si elle est fausse dès le départ, le corps ne s’exécute pas.",
+          "L’évolution de i est écrite dans le corps ; sans progression, la même case peut être relue indéfiniment.",
+          "Ici, return i termine la fonction dès la première correspondance ; return -1 traite l’absence après le parcours."
+        ],
+        "demo": "function premierPret(batteries, seuil) {\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}",
+        "invoke": "premierPret",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ],
+          50
+        ],
+        "diagramType": "while",
+        "prediction": {
+          "question": "Sur [35, 80, 20, 65], que fait le code de départ après avoir lu 35 ?",
+          "options": [
+            {
+              "text": "Il passe automatiquement à 80.",
+              "feedback": "while ne fait pas avancer l’indice automatiquement : il faut modifier i dans le corps."
+            },
+            {
+              "text": "Il relit la case 0.",
+              "feedback": "Exact : i reste à 0. La condition reste vraie et la recherche ne progresse pas."
+            },
+            {
+              "text": "Il renvoie -1.",
+              "feedback": "Le return -1 est après la boucle. Tant que la boucle continue, cette ligne n’est pas atteinte."
+            }
+          ],
+          "correct": 1
+        },
+        "testLabels": [
+          "La première correspondance est en deuxième position",
+          "L’indice zéro est une réponse valide",
+          "Correspondance en dernière position",
+          "Aucune correspondance",
+          "Liste vide",
+          "Retourner la première correspondance, même à la limite"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[80, 35], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20, 90], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20], 50]",
+          "expectedJSON": "-1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "-1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[50, 90], 50]",
+          "expectedJSON": "0"
+        }
+      ]
+    },
+    {
+      "id": "a7-journal-foreach",
+      "type": "CodeEditor",
+      "title": "Une action pour chaque drone",
+      "instruction": "Créer une ligne de journal pour chaque batterie avec sa position et sa valeur.\n\nforEach reçoit une fonction de rappel et l’appelle pour chaque élément présent du tableau.\nLes deux premiers arguments transmis à cette fonction sont la valeur, puis l’indice ; leurs noms ne changent pas cet ordre.\nIci, le parcours complet est souhaité : chaque drone doit avoir une ligne de journal.\n\nAvant de modifier le code : Lors du premier appel de la fonction de rappel sur [35, 80, 20, 65], quelles valeurs sont transmises dans cet ordre ?",
+      "objective": "Créer une ligne de journal pour chaque batterie avec sa position et sa valeur.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function journalBatteries(batteries) {\n  const journal = [];\n  batteries.forEach(function(batterie, indice) {\n    journal.push(\"Drone \" + indice + \" : \" + batterie + \"%\");\n  });\n  return journal;\n}",
+      "starter": "function journalBatteries(batteries) {\n  const journal = [];\n  batteries.forEach(function(indice, batterie) {\n    journal.push(\"Drone \" + indice + \" : \" + batterie + \"%\");\n  });\n  return journal;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[35, 80, 20, 65]]",
+          "expectedJSON": "[\"Drone 0 : 35%\", \"Drone 1 : 80%\", \"Drone 2 : 20%\", \"Drone 3 : 65%\"]"
+        },
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[]]",
+          "expectedJSON": "[]"
+        },
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[50]]",
+          "expectedJSON": "[\"Drone 0 : 50%\"]"
+        },
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[20, 20]]",
+          "expectedJSON": "[\"Drone 0 : 20%\", \"Drone 1 : 20%\"]"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Compare l’ordre des arguments réellement reçus avec les noms utilisés dans le texte.",
+          "Le premier paramètre reçoit la valeur ; le deuxième reçoit la position.",
+          "Écris function(batterie, indice), puis conserve les noms correspondants dans journal.push."
+        ],
+        "checks": [
+          "Je distingue la fonction reçue par forEach de son appel pour chaque élément.",
+          "Le journal associe correctement indice et valeur.",
+          "Une liste vide ne déclenche aucun appel de la fonction de rappel."
+        ],
+        "prediction": "Lors du premier appel de la fonction de rappel sur [35, 80, 20, 65], quelles valeurs sont transmises dans cet ordre ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "forEach reçoit une fonction de rappel et l’appelle pour chaque élément présent du tableau.",
+          "Les deux premiers arguments transmis à cette fonction sont la valeur, puis l’indice ; leurs noms ne changent pas cet ordre.",
+          "Ici, le parcours complet est souhaité : chaque drone doit avoir une ligne de journal."
+        ],
+        "demo": "function journalBatteries(batteries) {\n  const journal = [];\n  batteries.forEach(function(batterie, indice) {\n    journal.push(\"Drone \" + indice + \" : \" + batterie + \"%\");\n  });\n  return journal;\n}",
+        "invoke": "journalBatteries",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ]
+        ],
+        "diagramType": "foreach",
+        "prediction": {
+          "question": "Lors du premier appel de la fonction de rappel sur [35, 80, 20, 65], quelles valeurs sont transmises dans cet ordre ?",
+          "options": [
+            {
+              "text": "0 puis 35",
+              "feedback": "Tu inverses les informations : forEach transmet d’abord la valeur, ensuite l’indice."
+            },
+            {
+              "text": "35 puis 0",
+              "feedback": "Exact : la première valeur est 35 et sa position est l’indice 0."
+            },
+            {
+              "text": "35 puis 80",
+              "feedback": "80 appartient au deuxième appel. Un appel traite ici une seule valeur avec son indice."
+            }
+          ],
+          "correct": 1
+        },
+        "testLabels": [
+          "Une ligne par drone",
+          "Aucune ligne pour une liste vide",
+          "Un drone à l’indice zéro",
+          "Même valeur, indices différents"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[35, 80, 20, 65]]",
+          "expectedJSON": "[\"Drone 0 : 35%\", \"Drone 1 : 80%\", \"Drone 2 : 20%\", \"Drone 3 : 65%\"]"
+        },
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[]]",
+          "expectedJSON": "[]"
+        },
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[50]]",
+          "expectedJSON": "[\"Drone 0 : 50%\"]"
+        },
+        {
+          "invoke": "journalBatteries",
+          "argsJSON": "[[20, 20]]",
+          "expectedJSON": "[\"Drone 0 : 20%\", \"Drone 1 : 20%\"]"
+        }
+      ]
+    },
+    {
+      "id": "a8-retour-callback",
+      "type": "CodeEditor",
+      "title": "Quel appel se termine ?",
+      "instruction": "Réparer la recherche pour renvoyer le premier indice et arrêter le parcours utile.\n\nUn return termine la fonction dans laquelle il est exécuté.\nDans le code de départ, return indice termine seulement l’appel de la fonction de rappel ; forEach poursuit ses autres appels et ignore cette valeur renvoyée.\nPour cette recherche avec arrêt anticipé, reprends un for ou un while ; les deux permettent de terminer premierPret dès la correspondance.\n\nAvant de modifier le code : Le code de départ rencontre 80 à l’indice 1. Que renvoie finalement premierPret ?",
+      "objective": "Réparer la recherche pour renvoyer le premier indice et arrêter le parcours utile.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function premierPret(batteries, seuil) {\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n  }\n  return -1;\n}",
+      "starter": "function premierPret(batteries, seuil) {\n  batteries.forEach(function(batterie, indice) {\n    console.log(\"Case visitée\", indice);\n    if (batterie >= seuil) {\n      return indice;\n    }\n  });\n  return -1;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[80, 95], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20, 50], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20], 50]",
+          "expectedJSON": "-1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "-1"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Repère les deux fonctions : premierPret et la fonction passée à forEach.",
+          "Le return qui doit produire le résultat final doit appartenir à premierPret.",
+          "Un for avec if (batteries[i] >= seuil) { return i; } permet ce retour ; place return -1 après la boucle."
+        ],
+        "checks": [
+          "Je peux montrer quelle fonction chaque return termine.",
+          "La recherche conserve la première correspondance.",
+          "J’explique pourquoi forEach convient au journal complet et moins bien à cet arrêt anticipé."
+        ],
+        "prediction": "Le code de départ rencontre 80 à l’indice 1. Que renvoie finalement premierPret ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "Un return termine la fonction dans laquelle il est exécuté.",
+          "Dans le code de départ, return indice termine seulement l’appel de la fonction de rappel ; forEach poursuit ses autres appels et ignore cette valeur renvoyée.",
+          "Pour cette recherche avec arrêt anticipé, reprends un for ou un while ; les deux permettent de terminer premierPret dès la correspondance."
+        ],
+        "demo": "function premierPret(batteries, seuil) {\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n  }\n  return -1;\n}",
+        "invoke": "premierPret",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ],
+          50
+        ],
+        "diagramType": "foreach",
+        "prediction": {
+          "question": "Le code de départ rencontre 80 à l’indice 1. Que renvoie finalement premierPret ?",
+          "options": [
+            {
+              "text": "1",
+              "feedback": "Le 1 est renvoyé à forEach par la fonction de rappel. Il ne devient pas le résultat de premierPret."
+            },
+            {
+              "text": "-1",
+              "feedback": "Exact : forEach poursuit le parcours ; premierPret atteint ensuite son propre return -1."
+            },
+            {
+              "text": "undefined",
+              "feedback": "forEach renvoie undefined, mais premierPret exécute encore return -1 après cet appel."
+            }
+          ],
+          "correct": 1
+        },
+        "testLabels": [
+          "Trouver la première batterie suffisante",
+          "Ne pas écraser le premier résultat par le dernier",
+          "Trouver à la dernière position et à la limite",
+          "Aucun résultat",
+          "Aucun appel sur une liste vide"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[80, 95], 50]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20, 50], 50]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[10, 20], 50]",
+          "expectedJSON": "-1"
+        },
+        {
+          "invoke": "premierPret",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "-1"
+        }
+      ]
+    },
+    {
+      "id": "a9-bilan-flotte",
+      "type": "CodeEditor",
+      "title": "Mission : le bilan de la flotte",
+      "instruction": "Assembler trois fonctions pour produire [nombre total, nombre prêt, premier indice prêt].\n\ncompterPrets répond « combien ? » ; premierPret répond « où commence le premier résultat ? ».\nbilanFlotte appelle ces deux fonctions avec la même liste et le même seuil, puis rassemble leurs résultats.\nRéutilise tes fonctions déjà vérifiées ; la ligne de retour du bilan est fournie pour concentrer le travail sur les appels.\n\nAvant de modifier le code : Quel bilan attend-on pour [35, 80, 20, 65] avec un seuil de 50 ?",
+      "objective": "Assembler trois fonctions pour produire [nombre total, nombre prêt, premier indice prêt].",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3",
+        "BC05-C1-7",
+        "BC05-C2-2"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 20,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function compterPrets(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}\n\nfunction premierPret(batteries, seuil) {\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}\n\nfunction bilanFlotte(batteries, seuil) {\n  const prets = compterPrets(batteries, seuil);\n  const premier = premierPret(batteries, seuil);\n  return [batteries.length, prets, premier];\n}",
+      "starter": "function compterPrets(batteries, seuil) {\n  // Reprends ta fonction vérifiée.\n  return 0;\n}\n\nfunction premierPret(batteries, seuil) {\n  // Reprends ta recherche vérifiée.\n  return -1;\n}\n\nfunction bilanFlotte(batteries, seuil) {\n  const prets = 0;\n  const premier = -1;\n  return [batteries.length, prets, premier];\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "[4, 2, 1]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[35, 80, 20, 65], 90]",
+          "expectedJSON": "[4, 0, -1]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[35, 80, 20, 65], 0]",
+          "expectedJSON": "[4, 4, 0]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "[0, 0, -1]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[50, 10, 50], 50]",
+          "expectedJSON": "[3, 2, 0]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[10, 20, 70], 70]",
+          "expectedJSON": "[3, 1, 2]"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Teste séparément compterPrets et premierPret avant de les assembler.",
+          "Une constante 0 ou -1 ne peut pas représenter le résultat de toutes les missions.",
+          "Remplace ces constantes par compterPrets(batteries, seuil) et premierPret(batteries, seuil)."
+        ],
+        "checks": [
+          "Chaque fonction a une tâche identifiable.",
+          "Le bilan passe ses paramètres aux deux fonctions sans figer le seuil.",
+          "Je justifie les résultats sur liste vide, seuil atteint et absence de résultat."
+        ],
+        "prediction": "Quel bilan attend-on pour [35, 80, 20, 65] avec un seuil de 50 ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "compterPrets répond « combien ? » ; premierPret répond « où commence le premier résultat ? ».",
+          "bilanFlotte appelle ces deux fonctions avec la même liste et le même seuil, puis rassemble leurs résultats.",
+          "Réutilise tes fonctions déjà vérifiées ; la ligne de retour du bilan est fournie pour concentrer le travail sur les appels."
+        ],
+        "demo": "function compterPrets(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}\n\nfunction premierPret(batteries, seuil) {\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}\n\nfunction bilanFlotte(batteries, seuil) {\n  const prets = compterPrets(batteries, seuil);\n  const premier = premierPret(batteries, seuil);\n  return [batteries.length, prets, premier];\n}",
+        "invoke": "bilanFlotte",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ],
+          50
+        ],
+        "diagramType": "decompose",
+        "prediction": {
+          "question": "Quel bilan attend-on pour [35, 80, 20, 65] avec un seuil de 50 ?",
+          "options": [
+            {
+              "text": "[4, 2, 1]",
+              "feedback": "Exact : 4 drones au total, 2 prêts, et le premier prêt à l’indice 1."
+            },
+            {
+              "text": "[4, 2, 80]",
+              "feedback": "80 est le niveau de batterie ; la dernière information demandée est son indice."
+            },
+            {
+              "text": "[4, 145, 1]",
+              "feedback": "145 additionne les batteries retenues. Le bilan demande leur nombre, soit 2."
+            }
+          ],
+          "correct": 0
+        },
+        "testLabels": [
+          "Bilan de la flotte principale",
+          "Aucun drone prêt",
+          "Tous les drones prêts",
+          "Flotte vide",
+          "Égalité et première position",
+          "Seuil variable et dernière position"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[35, 80, 20, 65], 50]",
+          "expectedJSON": "[4, 2, 1]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[35, 80, 20, 65], 90]",
+          "expectedJSON": "[4, 0, -1]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[35, 80, 20, 65], 0]",
+          "expectedJSON": "[4, 4, 0]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[], 50]",
+          "expectedJSON": "[0, 0, -1]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[50, 10, 50], 50]",
+          "expectedJSON": "[3, 2, 0]"
+        },
+        {
+          "invoke": "bilanFlotte",
+          "argsJSON": "[[10, 20, 70], 70]",
+          "expectedJSON": "[3, 1, 2]"
+        }
+      ]
+    },
+    {
+      "id": "a10-transfert",
+      "type": "CodeEditor",
+      "title": "Transfert : surveiller une serre",
+      "instruction": "Décomposer un nouveau problème : compter les températures trop basses et trouver la première alerte.\n\nDans cette serre fictive, une alerte apparaît seulement si la température est strictement inférieure au minimum demandé.\nbilanTemperatures doit renvoyer [nombre de mesures, nombre d’alertes, premier indice en alerte] ; sans alerte, le dernier résultat vaut -1.\nChoisis tes fonctions et tes boucles ; explique ce qui reste identique au bilan de flotte et ce qui change dans la condition.\n\nAvant de modifier le code : Pour [6, 2, 4, 1] avec un minimum de 4, quelles mesures déclenchent une alerte ?",
+      "objective": "Décomposer un nouveau problème : compter les températures trop basses et trouver la première alerte.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3",
+        "BC05-C1-7",
+        "BC05-C2-2"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 15,
+      "required": false,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function compterAlertes(temperatures, minimum) {\n  let nombre = 0;\n  for (let i = 0; i < temperatures.length; i++) {\n    if (temperatures[i] < minimum) {\n      nombre++;\n    }\n  }\n  return nombre;\n}\n\nfunction premiereAlerte(temperatures, minimum) {\n  let i = 0;\n  while (i < temperatures.length) {\n    if (temperatures[i] < minimum) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}\n\nfunction bilanTemperatures(temperatures, minimum) {\n  const nombre = compterAlertes(temperatures, minimum);\n  const premier = premiereAlerte(temperatures, minimum);\n  return [temperatures.length, nombre, premier];\n}",
+      "starter": "function bilanTemperatures(temperatures, minimum) {\n  // Décompose le problème avec des fonctions nommées.\n  // Renvoie [nombre de mesures, nombre d’alertes, premier indice].\n  return [temperatures.length, 0, -1];\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[6, 2, 4, 1], 4]",
+          "expectedJSON": "[4, 2, 1]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[4], 4]",
+          "expectedJSON": "[1, 0, -1]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[1, 6], 4]",
+          "expectedJSON": "[2, 1, 0]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[8, 7, 2], 4]",
+          "expectedJSON": "[3, 1, 2]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[], 4]",
+          "expectedJSON": "[0, 0, -1]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[-2, 0, 3], 0]",
+          "expectedJSON": "[3, 1, 0]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[6, 7], 4]",
+          "expectedJSON": "[2, 0, -1]"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Sépare la question « combien ? » de la question « où est la première ? ».",
+          "Le parcours et le compteur restent utiles ; la condition devient temperature < minimum.",
+          "Fais appeler tes deux fonctions par bilanTemperatures, puis rassemble taille, nombre d’alertes et indice."
+        ],
+        "checks": [
+          "J’ai adapté la condition, pas seulement les noms de variables.",
+          "J’ai testé le minimum exact et l’absence de résultat.",
+          "J’explique mes choix sans consulter une correction complète."
+        ],
+        "prediction": "Pour [6, 2, 4, 1] avec un minimum de 4, quelles mesures déclenchent une alerte ?"
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "Dans cette serre fictive, une alerte apparaît seulement si la température est strictement inférieure au minimum demandé.",
+          "bilanTemperatures doit renvoyer [nombre de mesures, nombre d’alertes, premier indice en alerte] ; sans alerte, le dernier résultat vaut -1.",
+          "Choisis tes fonctions et tes boucles ; explique ce qui reste identique au bilan de flotte et ce qui change dans la condition."
+        ],
+        "demo": "function compterAlertes(temperatures, minimum) {\n  let nombre = 0;\n  for (let i = 0; i < temperatures.length; i++) {\n    if (temperatures[i] < minimum) {\n      nombre++;\n    }\n  }\n  return nombre;\n}\n\nfunction premiereAlerte(temperatures, minimum) {\n  let i = 0;\n  while (i < temperatures.length) {\n    if (temperatures[i] < minimum) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}\n\nfunction bilanTemperatures(temperatures, minimum) {\n  const nombre = compterAlertes(temperatures, minimum);\n  const premier = premiereAlerte(temperatures, minimum);\n  return [temperatures.length, nombre, premier];\n}",
+        "invoke": "bilanTemperatures",
+        "args": [
+          [
+            6,
+            2,
+            4,
+            1
+          ],
+          4
+        ],
+        "diagramType": "decompose",
+        "prediction": {
+          "question": "Pour [6, 2, 4, 1] avec un minimum de 4, quelles mesures déclenchent une alerte ?",
+          "options": [
+            {
+              "text": "2 et 1",
+              "feedback": "Exact : seules ces deux valeurs sont strictement inférieures à 4."
+            },
+            {
+              "text": "2, 4 et 1",
+              "feedback": "La valeur 4 est égale au minimum ; la règle exige une valeur strictement inférieure."
+            },
+            {
+              "text": "6 et 4",
+              "feedback": "Ces valeurs atteignent le minimum ; cette fois, nous cherchons les valeurs insuffisantes."
+            }
+          ],
+          "correct": 0
+        },
+        "testLabels": [
+          "Deux températures strictement trop basses",
+          "L’égalité ne déclenche pas d’alerte",
+          "Alerte dès la première mesure",
+          "Alerte à la dernière mesure",
+          "Aucune mesure",
+          "Minimum zéro et température négative",
+          "Aucune alerte"
+        ],
+        "reflection": "Explique une décision de ton programme et un cas limite que tu as vérifié."
+      },
+      "publicTests": [
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[6, 2, 4, 1], 4]",
+          "expectedJSON": "[4, 2, 1]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[4], 4]",
+          "expectedJSON": "[1, 0, -1]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[1, 6], 4]",
+          "expectedJSON": "[2, 1, 0]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[8, 7, 2], 4]",
+          "expectedJSON": "[3, 1, 2]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[], 4]",
+          "expectedJSON": "[0, 0, -1]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[-2, 0, 3], 0]",
+          "expectedJSON": "[3, 1, 0]"
+        },
+        {
+          "invoke": "bilanTemperatures",
+          "argsJSON": "[[6, 7], 4]",
+          "expectedJSON": "[2, 0, -1]"
+        }
+      ]
+    },
+    {
+      "id": "q1-indice",
+      "type": "Quiz",
+      "title": "Quel est le dernier indice de [35, 80, 20, 65] ?",
+      "instruction": "Quel est le dernier indice de [35, 80, 20, 65] ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. 4 est le nombre d’éléments. Le comptage des indices commence à zéro.\nB. Exact : les indices sont 0, 1, 2 et 3.\nC. 65 est la dernière valeur, pas son indice.",
+      "starter": "",
+      "options": [
+        "4",
+        "3",
+        "65"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Quel est le dernier indice de [35, 80, 20, 65] ?",
+          "options": [
+            {
+              "text": "4",
+              "feedback": "4 est le nombre d’éléments. Le comptage des indices commence à zéro."
+            },
+            {
+              "text": "3",
+              "feedback": "Exact : les indices sont 0, 1, 2 et 3."
+            },
+            {
+              "text": "65",
+              "feedback": "65 est la dernière valeur, pas son indice."
+            }
+          ],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "q2-for",
+      "type": "Quiz",
+      "title": "Quelles valeurs sont affichées, dans l’ordre ?",
+      "instruction": "Quelles valeurs sont affichées, dans l’ordre ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "0",
+      "reference": "Choix attendu : A.\nA. Exact : le test i < 3 devient faux dès que i vaut 3.\nB. L’initialisation vaut 0, et 3 ne satisfait pas le test.\nC. La condition est strictement inférieure à 3 : aucun affichage n’a lieu pour 3.",
+      "starter": "",
+      "options": [
+        "0, 1, 2",
+        "1, 2, 3",
+        "0, 1, 2, 3"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Quelles valeurs sont affichées, dans l’ordre ?",
+          "options": [
+            {
+              "text": "0, 1, 2",
+              "feedback": "Exact : le test i < 3 devient faux dès que i vaut 3."
+            },
+            {
+              "text": "1, 2, 3",
+              "feedback": "L’initialisation vaut 0, et 3 ne satisfait pas le test."
+            },
+            {
+              "text": "0, 1, 2, 3",
+              "feedback": "La condition est strictement inférieure à 3 : aucun affichage n’a lieu pour 3."
+            }
+          ],
+          "correct": 0,
+          "code": "for (let i = 0; i < 3; i++) {\n  console.log(i);\n}"
+        }
+      }
+    },
+    {
+      "id": "q3-vide",
+      "type": "Quiz",
+      "title": "Combien de fois le corps de cette boucle s’exécute-t-il ?",
+      "instruction": "Combien de fois le corps de cette boucle s’exécute-t-il ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. Le test a lieu avant le corps : 0 < 0 est faux dès le départ.\nB. Exact : length vaut 0, donc le premier test est faux.\nC. La boucle n’entre jamais dans le corps. Il n’y a aucun problème d’incrémentation ici.",
+      "starter": "",
+      "options": [
+        "Une fois",
+        "Zéro fois",
+        "Indéfiniment"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Combien de fois le corps de cette boucle s’exécute-t-il ?",
+          "options": [
+            {
+              "text": "Une fois",
+              "feedback": "Le test a lieu avant le corps : 0 < 0 est faux dès le départ."
+            },
+            {
+              "text": "Zéro fois",
+              "feedback": "Exact : length vaut 0, donc le premier test est faux."
+            },
+            {
+              "text": "Indéfiniment",
+              "feedback": "La boucle n’entre jamais dans le corps. Il n’y a aucun problème d’incrémentation ici."
+            }
+          ],
+          "correct": 1,
+          "code": "const batteries = [];\nfor (let i = 0; i < batteries.length; i++) {\n  console.log(batteries[i]);\n}"
+        }
+      }
+    },
+    {
+      "id": "q4-compteur",
+      "type": "Quiz",
+      "title": "Deux batteries satisfont la condition. Quelle instruction permet de les compter ?",
+      "instruction": "Deux batteries satisfont la condition. Quelle instruction permet de les compter ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "2",
+      "reference": "Choix attendu : C.\nA. Cette instruction additionne les niveaux de batterie retenus.\nB. Cela réinitialise le compteur et efface les résultats précédents.\nC. Exact : chaque batterie retenue ajoute une unité au compteur.",
+      "starter": "",
+      "options": [
+        "nombre += batteries[i];",
+        "nombre = 0;",
+        "nombre++;"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Deux batteries satisfont la condition. Quelle instruction permet de les compter ?",
+          "options": [
+            {
+              "text": "nombre += batteries[i];",
+              "feedback": "Cette instruction additionne les niveaux de batterie retenus."
+            },
+            {
+              "text": "nombre = 0;",
+              "feedback": "Cela réinitialise le compteur et efface les résultats précédents."
+            },
+            {
+              "text": "nombre++;",
+              "feedback": "Exact : chaque batterie retenue ajoute une unité au compteur."
+            }
+          ],
+          "correct": 2
+        }
+      }
+    },
+    {
+      "id": "q5-arguments",
+      "type": "Quiz",
+      "title": "Dans cet exemple, quels sont les arguments de l’appel ?",
+      "instruction": "Dans cet exemple, quels sont les arguments de l’appel ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. Ce sont les paramètres écrits dans la déclaration.\nB. Exact : ces valeurs sont fournies à la fonction lors de cet appel.\nC. estPret est le nom de la fonction ; return est une instruction.",
+      "starter": "",
+      "options": [
+        "batterie et seuil",
+        "65 et 50",
+        "estPret et return"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Dans cet exemple, quels sont les arguments de l’appel ?",
+          "options": [
+            {
+              "text": "batterie et seuil",
+              "feedback": "Ce sont les paramètres écrits dans la déclaration."
+            },
+            {
+              "text": "65 et 50",
+              "feedback": "Exact : ces valeurs sont fournies à la fonction lors de cet appel."
+            },
+            {
+              "text": "estPret et return",
+              "feedback": "estPret est le nom de la fonction ; return est une instruction."
+            }
+          ],
+          "correct": 1,
+          "code": "function estPret(batterie, seuil) {\n  return batterie >= seuil;\n}\nestPret(65, 50);"
+        }
+      }
+    },
+    {
+      "id": "q6-return",
+      "type": "Quiz",
+      "title": "Que contient n après cet appel ?",
+      "instruction": "Que contient n après cet appel ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. 2 est affiché dans la console. La fonction n’a pas de return pour transmettre ce résultat.\nB. Exact : une fonction qui atteint sa fin sans return de valeur renvoie undefined.\nC. Le tableau est l’argument reçu ; il n’est pas renvoyé par cette fonction.",
+      "starter": "",
+      "options": [
+        "2",
+        "undefined",
+        "[35, 80]"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Que contient n après cet appel ?",
+          "options": [
+            {
+              "text": "2",
+              "feedback": "2 est affiché dans la console. La fonction n’a pas de return pour transmettre ce résultat."
+            },
+            {
+              "text": "undefined",
+              "feedback": "Exact : une fonction qui atteint sa fin sans return de valeur renvoie undefined."
+            },
+            {
+              "text": "[35, 80]",
+              "feedback": "Le tableau est l’argument reçu ; il n’est pas renvoyé par cette fonction."
+            }
+          ],
+          "correct": 1,
+          "code": "function taille(liste) {\n  console.log(liste.length);\n}\nconst n = taille([35, 80]);"
+        }
+      }
+    },
+    {
+      "id": "q7-while",
+      "type": "Quiz",
+      "title": "Pourquoi cette recherche ne progresse-t-elle pas ?",
+      "instruction": "Pourquoi cette recherche ne progresse-t-elle pas ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "0",
+      "reference": "Choix attendu : A.\nA. Exact : i reste à 0 et le même test reste vrai.\nB. while peut parcourir un tableau si le programme fait évoluer l’indice et vérifie les bornes.\nC. Cela ne ferait pas évoluer i et autoriserait en plus un indice hors du tableau.",
+      "starter": "",
+      "options": [
+        "Il manque une modification de i.",
+        "while interdit les tableaux.",
+        "Il faut remplacer < par <=."
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Pourquoi cette recherche ne progresse-t-elle pas ?",
+          "options": [
+            {
+              "text": "Il manque une modification de i.",
+              "feedback": "Exact : i reste à 0 et le même test reste vrai."
+            },
+            {
+              "text": "while interdit les tableaux.",
+              "feedback": "while peut parcourir un tableau si le programme fait évoluer l’indice et vérifie les bornes."
+            },
+            {
+              "text": "Il faut remplacer < par <=.",
+              "feedback": "Cela ne ferait pas évoluer i et autoriserait en plus un indice hors du tableau."
+            }
+          ],
+          "correct": 0,
+          "code": "const batteries = [35, 80];\nlet i = 0;\nwhile (i < batteries.length) {\n  console.log(batteries[i]);\n}"
+        }
+      }
+    },
+    {
+      "id": "q8-zero",
+      "type": "Quiz",
+      "title": "premierPret([80, 35], 50) renvoie 0. Que signifie ce résultat ?",
+      "instruction": "premierPret([80, 35], 50) renvoie 0. Que signifie ce résultat ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. Notre contrat réserve -1 à l’absence de résultat.\nB. Exact : 0 est l’indice valide de la première case.\nC. Le résultat est une position ; la valeur à cette position vaut 80.",
+      "starter": "",
+      "options": [
+        "Aucun drone prêt.",
+        "Le premier drone convient.",
+        "La batterie du drone vaut 0."
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "premierPret([80, 35], 50) renvoie 0. Que signifie ce résultat ?",
+          "options": [
+            {
+              "text": "Aucun drone prêt.",
+              "feedback": "Notre contrat réserve -1 à l’absence de résultat."
+            },
+            {
+              "text": "Le premier drone convient.",
+              "feedback": "Exact : 0 est l’indice valide de la première case."
+            },
+            {
+              "text": "La batterie du drone vaut 0.",
+              "feedback": "Le résultat est une position ; la valeur à cette position vaut 80."
+            }
+          ],
+          "correct": 1
+        }
+      }
+    },
+    {
+      "id": "q9-callback",
+      "type": "Quiz",
+      "title": "Au deuxième appel de la fonction de rappel, que valent valeur et indice ?",
+      "instruction": "Au deuxième appel de la fonction de rappel, que valent valeur et indice ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. L’ordre est inversé : la valeur arrive avant l’indice.\nB. Exact : la deuxième case a pour valeur 80 et pour indice 1.\nC. 2 désigne le rang usuel « deuxième », mais son indice est 1.",
+      "starter": "",
+      "options": [
+        "1 et 80",
+        "80 et 1",
+        "80 et 2"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Au deuxième appel de la fonction de rappel, que valent valeur et indice ?",
+          "options": [
+            {
+              "text": "1 et 80",
+              "feedback": "L’ordre est inversé : la valeur arrive avant l’indice."
+            },
+            {
+              "text": "80 et 1",
+              "feedback": "Exact : la deuxième case a pour valeur 80 et pour indice 1."
+            },
+            {
+              "text": "80 et 2",
+              "feedback": "2 désigne le rang usuel « deuxième », mais son indice est 1."
+            }
+          ],
+          "correct": 1,
+          "code": "[35, 80, 20].forEach(function(valeur, indice) {\n  console.log(valeur, indice);\n});"
+        }
+      }
+    },
+    {
+      "id": "q10-retour-callback",
+      "type": "Quiz",
+      "title": "Quelles valeurs sont affichées ?",
+      "instruction": "Quelles valeurs sont affichées ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. return termine l’appel courant de la fonction de rappel ; les éléments suivants restent visités.\nB. Exact : les appels pour 80 et 65 se terminent avant console.log, mais le parcours continue.\nC. Les valeurs au moins égales à 50 rencontrent return avant l’affichage.",
+      "starter": "",
+      "options": [
+        "35 seulement",
+        "35 puis 20",
+        "35, 80, 20, 65"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Quelles valeurs sont affichées ?",
+          "options": [
+            {
+              "text": "35 seulement",
+              "feedback": "return termine l’appel courant de la fonction de rappel ; les éléments suivants restent visités."
+            },
+            {
+              "text": "35 puis 20",
+              "feedback": "Exact : les appels pour 80 et 65 se terminent avant console.log, mais le parcours continue."
+            },
+            {
+              "text": "35, 80, 20, 65",
+              "feedback": "Les valeurs au moins égales à 50 rencontrent return avant l’affichage."
+            }
+          ],
+          "correct": 1,
+          "code": "[35, 80, 20, 65].forEach(function(batterie) {\n  if (batterie >= 50) {\n    return;\n  }\n  console.log(batterie);\n});"
+        }
+      }
+    },
+    {
+      "id": "q11-foreach-resultat",
+      "type": "Quiz",
+      "title": "Que contient resultat après cet appel ?",
+      "instruction": "Que contient resultat après cet appel ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. forEach ne construit pas un tableau à partir des valeurs renvoyées par la fonction de rappel.\nB. Exact : forEach ignore ces valeurs et renvoie undefined.\nC. 81 est la valeur renvoyée par le dernier appel de la fonction de rappel, pas par forEach.",
+      "starter": "",
+      "options": [
+        "[36, 81]",
+        "undefined",
+        "81"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Que contient resultat après cet appel ?",
+          "options": [
+            {
+              "text": "[36, 81]",
+              "feedback": "forEach ne construit pas un tableau à partir des valeurs renvoyées par la fonction de rappel."
+            },
+            {
+              "text": "undefined",
+              "feedback": "Exact : forEach ignore ces valeurs et renvoie undefined."
+            },
+            {
+              "text": "81",
+              "feedback": "81 est la valeur renvoyée par le dernier appel de la fonction de rappel, pas par forEach."
+            }
+          ],
+          "correct": 1,
+          "code": "const resultat = [35, 80].forEach(function(batterie) {\n  return batterie + 1;\n});"
+        }
+      }
+    },
+    {
+      "id": "q12-decomposer",
+      "type": "Quiz",
+      "title": "Le bilan doit utiliser le seuil demandé par l’appelant. Quelle correction faut-il faire ?",
+      "instruction": "Le bilan doit utiliser le seuil demandé par l’appelant. Quelle correction faut-il faire ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "0",
+      "reference": "Choix attendu : A.\nA. Exact : chaque sous-fonction recevra la valeur choisie à l’appel de bilanFlotte.\nB. Cela corrigerait un seul appel et figerait de nouveau le seuil.\nC. Un changement de nom ne remplace pas les constantes passées aux sous-fonctions.",
+      "starter": "",
+      "options": [
+        "Remplacer les deux 50 par seuil.",
+        "Remplacer les deux 50 par 90.",
+        "Renommer seulement le paramètre seuil."
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Le bilan doit utiliser le seuil demandé par l’appelant. Quelle correction faut-il faire ?",
+          "options": [
+            {
+              "text": "Remplacer les deux 50 par seuil.",
+              "feedback": "Exact : chaque sous-fonction recevra la valeur choisie à l’appel de bilanFlotte."
+            },
+            {
+              "text": "Remplacer les deux 50 par 90.",
+              "feedback": "Cela corrigerait un seul appel et figerait de nouveau le seuil."
+            },
+            {
+              "text": "Renommer seulement le paramètre seuil.",
+              "feedback": "Un changement de nom ne remplace pas les constantes passées aux sous-fonctions."
+            }
+          ],
+          "correct": 0,
+          "code": "function bilanFlotte(batteries, seuil) {\n  return [batteries.length,\n    compterPrets(batteries, 50),\n    premierPret(batteries, 50)];\n}\nbilanFlotte([35, 80], 90);"
+        }
+      }
+    },
+    {
+      "id": "bilan-s1",
+      "type": "FillBlank",
+      "title": "Je retiens · séance 1",
+      "instruction": "Un ____ (1) contient des valeurs repérées par un ____ (2), à partir de ____ (3). Sa propriété ____ (4) donne le nombre d’éléments ; si le tableau n’est pas vide, le dernier indice vaut length - 1. Une boucle ____ (5) réalise l’initialisation une fois, teste sa ____ (6) avant chaque tour, exécute le corps, puis son incrémentation. Pour compter les valeurs retenues, j’initialise un ____ (7) à 0 avant le parcours. Je déclare une ____ (8) avec des ____ (9). À l’appel, je fournis des ____ (10). L’instruction ____ (11) transmet un résultat à l’appelant ; console.log l’affiche.",
+      "objective": "Retrouver les notions étudiées et leurs relations.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Mots retrouvés et erreurs corrigées après explication.",
+      "duration": 5,
+      "required": true,
+      "correctionMode": "structured",
+      "expectedAnswer": "{\"0\": \"tableau\", \"1\": \"indice\", \"2\": \"0\", \"3\": \"length\", \"4\": \"for\", \"5\": \"condition\", \"6\": \"compteur\", \"7\": \"fonction\", \"8\": \"paramètres\", \"9\": \"arguments\", \"10\": \"return\"}",
+      "reference": "Texte complété : Un tableau contient des valeurs repérées par un indice, à partir de 0. Sa propriété length donne le nombre d’éléments ; si le tableau n’est pas vide, le dernier indice vaut length - 1. Une boucle for réalise l’initialisation une fois, teste sa condition avant chaque tour, exécute le corps, puis son incrémentation. Pour compter les valeurs retenues, j’initialise un compteur à 0 avant le parcours. Je déclare une fonction avec des paramètres. À l’appel, je fournis des arguments. L’instruction return transmet un résultat à l’appelant ; console.log l’affiche.\nRelis les mots dans le code de tes ateliers : indice et valeur, taille et dernier indice, étapes du for, compteur initialisé avant le parcours, déclaration et appel d’une fonction, paramètres et arguments, résultat renvoyé et affichage.",
+      "starter": "",
+      "options": [
+        "Mot 1",
+        "Mot 2",
+        "Mot 3",
+        "Mot 4",
+        "Mot 5",
+        "Mot 6",
+        "Mot 7",
+        "Mot 8",
+        "Mot 9",
+        "Mot 10",
+        "Mot 11"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "cloze",
+        "segments": [
+          "Un ",
+          {
+            "answer": "tableau",
+            "alternatives": [
+              "tableaux"
+            ]
+          },
+          " contient des valeurs repérées par un ",
+          {
+            "answer": "indice"
+          },
+          ", à partir de ",
+          {
+            "answer": "0",
+            "alternatives": [
+              "zéro",
+              "zero"
+            ]
+          },
+          ". Sa propriété ",
+          {
+            "answer": "length"
+          },
+          " donne le nombre d’éléments ; si le tableau n’est pas vide, le dernier indice vaut length - 1. Une boucle ",
+          {
+            "answer": "for"
+          },
+          " réalise l’initialisation une fois, teste sa ",
+          {
+            "answer": "condition"
+          },
+          " avant chaque tour, exécute le corps, puis son incrémentation. Pour compter les valeurs retenues, j’initialise un ",
+          {
+            "answer": "compteur"
+          },
+          " à 0 avant le parcours. Je déclare une ",
+          {
+            "answer": "fonction"
+          },
+          " avec des ",
+          {
+            "answer": "paramètres",
+            "alternatives": [
+              "parametres"
+            ]
+          },
+          ". À l’appel, je fournis des ",
+          {
+            "answer": "arguments"
+          },
+          ". L’instruction ",
+          {
+            "answer": "return"
+          },
+          " transmet un résultat à l’appelant ; console.log l’affiche."
+        ],
+        "bank": [
+          "arguments",
+          "for",
+          "indice",
+          "compteur",
+          "return",
+          "tableau",
+          "condition",
+          "0",
+          "paramètres",
+          "length",
+          "fonction"
+        ],
+        "explanation": "Relis les mots dans le code de tes ateliers : indice et valeur, taille et dernier indice, étapes du for, compteur initialisé avant le parcours, déclaration et appel d’une fonction, paramètres et arguments, résultat renvoyé et affichage."
+      }
+    },
+    {
+      "id": "trace-s1",
+      "type": "Reflection",
+      "title": "Expliquer une décision",
+      "instruction": "Décris une prévision, le résultat observé, puis une correction. Cite un appel précis et sa sortie.",
+      "objective": "Rendre la démarche observable.",
+      "skills": [
+        "BC05-C2-2"
+      ],
+      "expectedEvidence": "Une explication liée au code et aux essais.",
+      "duration": 3,
+      "required": true,
+      "correctionMode": "manual",
+      "expectedAnswer": "",
+      "reference": "Accepter les démarches cohérentes. Vérifier que l’explication correspond au code, aux arguments et aux sorties. Le nombre de tests réussis ne valide pas seul la maîtrise.",
+      "starter": "",
+      "options": [],
+      "tests": []
+    },
+    {
+      "id": "bilan-s2",
+      "type": "FillBlank",
+      "title": "Je retiens · séance 2",
+      "instruction": "Une boucle ____ (1) recommence tant que sa condition vaut ____ (2). Je dois faire évoluer ce qui permet l’____ (3). Pour notre recherche, ____ (4) est un indice trouvé valide ; notre contrat utilise ____ (5) pour signaler l’absence. La méthode ____ (6) appelle une fonction de ____ (7) pour chaque élément présent. Ses deux premiers arguments sont la ____ (8) et l’____ (9). Un return dans cette fonction termine seulement son appel ; le parcours continue et forEach renvoie ____ (10). Décomposer consiste à répartir le problème entre plusieurs ____ (11), puis à les appeler avec les bons arguments. Je teste une liste ____ (12), les première et dernière positions, l’absence de résultat et les valeurs exactement au seuil.",
+      "objective": "Retrouver les notions étudiées et leurs relations.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Mots retrouvés et erreurs corrigées après explication.",
+      "duration": 5,
+      "required": true,
+      "correctionMode": "structured",
+      "expectedAnswer": "{\"0\": \"while\", \"1\": \"true\", \"2\": \"arrêt\", \"3\": \"0\", \"4\": \"-1\", \"5\": \"forEach\", \"6\": \"rappel\", \"7\": \"valeur\", \"8\": \"indice\", \"9\": \"undefined\", \"10\": \"fonctions\", \"11\": \"vide\"}",
+      "reference": "Texte complété : Une boucle while recommence tant que sa condition vaut true. Je dois faire évoluer ce qui permet l’arrêt. Pour notre recherche, 0 est un indice trouvé valide ; notre contrat utilise -1 pour signaler l’absence. La méthode forEach appelle une fonction de rappel pour chaque élément présent. Ses deux premiers arguments sont la valeur et l’indice. Un return dans cette fonction termine seulement son appel ; le parcours continue et forEach renvoie undefined. Décomposer consiste à répartir le problème entre plusieurs fonctions, puis à les appeler avec les bons arguments. Je teste une liste vide, les première et dernière positions, l’absence de résultat et les valeurs exactement au seuil.\nVérifie l’évolution de l’indice dans while, le contrat indice ou -1, le rôle de la fonction de rappel, la portée de return et les appels entre les fonctions. Les cas limites vérifient le raisonnement au-delà de l’exemple principal.",
+      "starter": "",
+      "options": [
+        "Mot 1",
+        "Mot 2",
+        "Mot 3",
+        "Mot 4",
+        "Mot 5",
+        "Mot 6",
+        "Mot 7",
+        "Mot 8",
+        "Mot 9",
+        "Mot 10",
+        "Mot 11",
+        "Mot 12"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "cloze",
+        "segments": [
+          "Une boucle ",
+          {
+            "answer": "while"
+          },
+          " recommence tant que sa condition vaut ",
+          {
+            "answer": "true",
+            "alternatives": [
+              "vrai"
+            ]
+          },
+          ". Je dois faire évoluer ce qui permet l’",
+          {
+            "answer": "arrêt",
+            "alternatives": [
+              "arret"
+            ]
+          },
+          ". Pour notre recherche, ",
+          {
+            "answer": "0",
+            "alternatives": [
+              "zéro",
+              "zero"
+            ]
+          },
+          " est un indice trouvé valide ; notre contrat utilise ",
+          {
+            "answer": "-1"
+          },
+          " pour signaler l’absence. La méthode ",
+          {
+            "answer": "forEach",
+            "alternatives": [
+              "foreach",
+              "forEach()"
+            ]
+          },
+          " appelle une fonction de ",
+          {
+            "answer": "rappel",
+            "alternatives": [
+              "callback"
+            ]
+          },
+          " pour chaque élément présent. Ses deux premiers arguments sont la ",
+          {
+            "answer": "valeur"
+          },
+          " et l’",
+          {
+            "answer": "indice"
+          },
+          ". Un return dans cette fonction termine seulement son appel ; le parcours continue et forEach renvoie ",
+          {
+            "answer": "undefined"
+          },
+          ". Décomposer consiste à répartir le problème entre plusieurs ",
+          {
+            "answer": "fonctions"
+          },
+          ", puis à les appeler avec les bons arguments. Je teste une liste ",
+          {
+            "answer": "vide"
+          },
+          ", les première et dernière positions, l’absence de résultat et les valeurs exactement au seuil."
+        ],
+        "bank": [
+          "indice",
+          "while",
+          "undefined",
+          "fonctions",
+          "-1",
+          "rappel",
+          "arrêt",
+          "0",
+          "valeur",
+          "true",
+          "vide",
+          "forEach"
+        ],
+        "explanation": "Vérifie l’évolution de l’indice dans while, le contrat indice ou -1, le rôle de la fonction de rappel, la portée de return et les appels entre les fonctions. Les cas limites vérifient le raisonnement au-delà de l’exemple principal."
+      }
+    },
+    {
+      "id": "trace-s2",
+      "type": "Reflection",
+      "title": "Expliquer une décision",
+      "instruction": "Décris une prévision, le résultat observé, puis une correction. Cite un appel précis et sa sortie.",
+      "objective": "Rendre la démarche observable.",
+      "skills": [
+        "BC05-C2-2"
+      ],
+      "expectedEvidence": "Une explication liée au code et aux essais.",
+      "duration": 3,
+      "required": true,
+      "correctionMode": "manual",
+      "expectedAnswer": "",
+      "reference": "Accepter les démarches cohérentes. Vérifier que l’explication correspond au code, aux arguments et aux sorties. Le nombre de tests réussis ne valide pas seul la maîtrise.",
+      "starter": "",
+      "options": [],
+      "tests": []
+    },
+    {
+      "id": "q2-for-rappel-s2",
+      "type": "Quiz",
+      "title": "Réactivation · Quelles valeurs sont affichées, dans l’ordre ?",
+      "instruction": "Quelles valeurs sont affichées, dans l’ordre ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "0",
+      "reference": "Choix attendu : A.\nA. Exact : le test i < 3 devient faux dès que i vaut 3.\nB. L’initialisation vaut 0, et 3 ne satisfait pas le test.\nC. La condition est strictement inférieure à 3 : aucun affichage n’a lieu pour 3.",
+      "starter": "",
+      "options": [
+        "0, 1, 2",
+        "1, 2, 3",
+        "0, 1, 2, 3"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Quelles valeurs sont affichées, dans l’ordre ?",
+          "options": [
+            {
+              "text": "0, 1, 2",
+              "feedback": "Exact : le test i < 3 devient faux dès que i vaut 3."
+            },
+            {
+              "text": "1, 2, 3",
+              "feedback": "L’initialisation vaut 0, et 3 ne satisfait pas le test."
+            },
+            {
+              "text": "0, 1, 2, 3",
+              "feedback": "La condition est strictement inférieure à 3 : aucun affichage n’a lieu pour 3."
+            }
+          ],
+          "correct": 0,
+          "code": "for (let i = 0; i < 3; i++) {\n  console.log(i);\n}"
+        },
+        "sourceId": "q2-for"
+      }
+    },
+    {
+      "id": "q5-arguments-rappel-s2",
+      "type": "Quiz",
+      "title": "Réactivation · Dans cet exemple, quels sont les arguments de l’appel ?",
+      "instruction": "Dans cet exemple, quels sont les arguments de l’appel ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "1",
+      "reference": "Choix attendu : B.\nA. Ce sont les paramètres écrits dans la déclaration.\nB. Exact : ces valeurs sont fournies à la fonction lors de cet appel.\nC. estPret est le nom de la fonction ; return est une instruction.",
+      "starter": "",
+      "options": [
+        "batterie et seuil",
+        "65 et 50",
+        "estPret et return"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Dans cet exemple, quels sont les arguments de l’appel ?",
+          "options": [
+            {
+              "text": "batterie et seuil",
+              "feedback": "Ce sont les paramètres écrits dans la déclaration."
+            },
+            {
+              "text": "65 et 50",
+              "feedback": "Exact : ces valeurs sont fournies à la fonction lors de cet appel."
+            },
+            {
+              "text": "estPret et return",
+              "feedback": "estPret est le nom de la fonction ; return est une instruction."
+            }
+          ],
+          "correct": 1,
+          "code": "function estPret(batterie, seuil) {\n  return batterie >= seuil;\n}\nestPret(65, 50);"
+        },
+        "sourceId": "q5-arguments"
+      }
+    }
+  ],
+  "slides": [
+    {
+      "title": "Une case, deux informations",
+      "body": "Une valeur est le contenu d’une case ; son indice est sa position, à partir de 0.\nLa propriété length donne le nombre de cases : avec 4 valeurs, les indices vont de 0 à 3.\nLa fonction est fournie pour lancer l’exercice ; nous étudierons son fonctionnement dans l’atelier 4.\n\nfunction tailleEtValeur(batteries, indice) {\n  return [batteries.length, batteries[indice]];\n}"
+    },
+    {
+      "title": "Visiter toutes les cases",
+      "body": "Le for regroupe le départ, le test et l’évolution de l’indice.\nAprès chaque corps de boucle, i++ augmente i de 1 ; la condition est ensuite testée à nouveau.\ncopie.push(valeur) ajoute une valeur à la fin de la nouvelle liste.\n\nfunction parcourir(batteries) {\n  const copie = [];\n  for (let i = 0; i < batteries.length; i++) {\n    copie.push(batteries[i]);\n  }\n  return copie;\n}"
+    },
+    {
+      "title": "Compter les drones prêts",
+      "body": "Le compteur commence à 0 avant la boucle.\nÀ chaque batterie prête, il augmente de 1 ; une batterie insuffisante le laisse inchangé.\nLe symbole >= inclut la limite : une batterie à 50 est prête.\n\nfunction compterPrets50(batteries) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= 50) {\n      nombre++;\n    }\n  }\n  return nombre;\n}"
+    },
+    {
+      "title": "Même fonction, autre mission",
+      "body": "batteries et seuil sont les paramètres écrits dans la déclaration ; [35, 80, 20, 65] et 70 sont les arguments fournis à cet appel.\nDéclarer la fonction prépare les instructions ; l’appel lance leur exécution avec ces valeurs.\nreturn transmet le résultat à l’appelant ; console.log affiche une information sans la renvoyer.\n\nfunction compterPrets(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      nombre++;\n    }\n  }\n  return nombre;\n}"
+    },
+    {
+      "title": "Chercher puis s’arrêter",
+      "body": "while teste sa condition avant chaque tour : si elle est fausse dès le départ, le corps ne s’exécute pas.\nL’évolution de i est écrite dans le corps ; sans progression, la même case peut être relue indéfiniment.\nIci, return i termine la fonction dès la première correspondance ; return -1 traite l’absence après le parcours.\n\nfunction premierPret(batteries, seuil) {\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n    i++;\n  }\n  return -1;\n}"
+    },
+    {
+      "title": "Une action pour chaque drone",
+      "body": "forEach reçoit une fonction de rappel et l’appelle pour chaque élément présent du tableau.\nLes deux premiers arguments transmis à cette fonction sont la valeur, puis l’indice ; leurs noms ne changent pas cet ordre.\nIci, le parcours complet est souhaité : chaque drone doit avoir une ligne de journal.\n\nfunction journalBatteries(batteries) {\n  const journal = [];\n  batteries.forEach(function(batterie, indice) {\n    journal.push(\"Drone \" + indice + \" : \" + batterie + \"%\");\n  });\n  return journal;\n}"
+    },
+    {
+      "title": "Quel appel se termine ?",
+      "body": "Un return termine la fonction dans laquelle il est exécuté.\nDans le code de départ, return indice termine seulement l’appel de la fonction de rappel ; forEach poursuit ses autres appels et ignore cette valeur renvoyée.\nPour cette recherche avec arrêt anticipé, reprends un for ou un while ; les deux permettent de terminer premierPret dès la correspondance.\n\nfunction premierPret(batteries, seuil) {\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) {\n      return i;\n    }\n  }\n  return -1;\n}"
+    }
+  ],
+  "resources": [
+    "tweenteach-file:16c89202ca0798e1d531bf1e8e82f629ab4ea0b1bb75cff42f553215528345e9:text/plain",
+    "tweenteach-file:3c7b62475c46a92ba8f0b7d0fd851e72721f40e406b4b5070040599cc2b47d6b:text/javascript",
+    "tweenteach-file:34b71daf841fc584dd8897d92fef26dbb91d0538f52d0472118482097cd97a63:text/plain",
+    "tweenteach-file:7fcc911ed0d0287cc4f1177e46b9bfa9827b801b5b3a551529a802a88fed7687:text/javascript",
+    "tweenteach-file:5136ab6ac7829676e46086e854cdc907c075ca05832a6308dc48c3bb4ed9931d:text/plain",
+    "tweenteach-file:0124532b32538c5b93e1811d3feeb460f92a2d78a324ca87dbb6a49c5a1eaa09:text/javascript",
+    "tweenteach-file:66c6cfddfde621269925f584a8afe14c1aea3f59e064f04c9cf71eeb25f91127:text/plain",
+    "tweenteach-file:883bc27f5ea2b1d748c40286098f2dab9186283485e37c7cb13349435a08ff35:text/javascript",
+    "tweenteach-file:09a84a527ffce00991b531ca00005c13c2ae559944d8da1aac05fac28b75fc6a:text/plain",
+    "tweenteach-file:74ad66c5513613836e4c6c62516fe9f66f01a4cd6f39086107406fe3845e112f:text/javascript",
+    "tweenteach-file:90a5ed8361771f0392eb86d49ff9585ab2765c4eeb7150c71f44cabe26dcbac8:text/plain",
+    "tweenteach-file:150c756d273d633ef8a3f6af5e3a33d4c7f8e1eabe9ce36ec15cd08d83486238:text/javascript",
+    "tweenteach-file:fbbaed9a1ca343cff886ca126fbbc2eac09757e2e3fb33e57f252d8bc0a4d9d5:text/plain",
+    "tweenteach-file:636672dc68d8d1c892fc64ea62717a37031351902972d34135957572b7c3d048:text/javascript",
+    "tweenteach-file:f2a15e8bb842b2521f54c5a34192fd79807001435c99f44799b629ecc60d837b:text/plain",
+    "tweenteach-file:19372744d67a7cef2f9ccdbe0d9e81d300725096a3ab7e40ae0b54a948aed305:text/javascript",
+    "tweenteach-file:3addac5930351f17af28365648f53a1bc2c19ae28284f31e4bf2819a06620d38:text/plain",
+    "tweenteach-file:40e5416af1501cc9af225b93cd979bc5a4e8e4e0167d99aa81953b10e90abc67:text/javascript",
+    "tweenteach-file:fd34c45f0e8fc29860ca6894909492a4720303a052c946abb44c43f854214e96:text/plain",
+    "tweenteach-file:cc23adb02b13538d3bdb1073d13c3b8bdc98ba8293e3e8099de3156adcce3c77:text/javascript",
+    "tweenteach-file:d0856e05ffd71a924ed29afe008fcfad1091fe8caba0a145eeb4a295dfeefb4e:application/pdf"
+  ],
+  "codeStation": null,
+  "teacherGuide": "Deux séances de 180 minutes, chacune avec 160 minutes d’activité et deux pauses de 10 minutes. Les cinq repères regroupent les activités. La pause est incluse dans le temps du deuxième et du troisième bloc de la source JSON. Consulter 03_PROFESSEUR/guide-professeur.pdf. Atelier animé : 01_ELEVE/index.html. Rendu HTML compact : 01_ELEVE/cours-integre.html. Son rattachement au lecteur natif reste à vérifier dans l’application. Transfert a10 à reprendre à distance ; disponible dans activities, hors déroulé principal.",
+  "studentFlow": [
+    "s1-bloc-1",
+    "s1-bloc-2",
+    "s1-bloc-3",
+    "s1-bloc-4",
+    "s1-bloc-5",
+    "s2-bloc-1",
+    "s2-bloc-2",
+    "s2-bloc-3",
+    "s2-bloc-4",
+    "s2-bloc-5"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "",
+    "planVersion": 0,
+    "previousLessonRunId": null
+  },
+  "programming": {
+    "format": "programming-1",
+    "family": "Programmation",
+    "contentVersion": "2",
+    "workVersion": 1,
+    "language": "javascript",
+    "engine": {
+      "id": "tweenteach-js",
+      "version": "1.0.0"
+    },
+    "requiredCapabilities": [
+      "editor",
+      "execution",
+      "console",
+      "behavior-tests",
+      "trace",
+      "prediction",
+      "quiz",
+      "cloze",
+      "comparison",
+      "diagram:array",
+      "diagram:for",
+      "diagram:while",
+      "diagram:function",
+      "diagram:foreach",
+      "diagram:decompose"
+    ],
+    "sessions": [
+      {
+        "id": "s1",
+        "title": "Séance 1",
+        "blockIds": [
+          "s1-bloc-1",
+          "s1-bloc-2",
+          "s1-bloc-3",
+          "s1-bloc-4",
+          "s1-bloc-5"
+        ],
+        "minutes": 180
+      },
+      {
+        "id": "s2",
+        "title": "Séance 2",
+        "blockIds": [
+          "s2-bloc-1",
+          "s2-bloc-2",
+          "s2-bloc-3",
+          "s2-bloc-4",
+          "s2-bloc-5"
+        ],
+        "minutes": 180
+      }
+    ],
+    "optionalActivityIds": [
+      "a10-transfert"
+    ],
+    "comparisons": [
+      {
+        "id": "compare-traversals",
+        "title": "Comparer for, while et forEach",
+        "blockId": "s2-bloc-3",
+        "invoke": "compter",
+        "args": [
+          [
+            35,
+            80,
+            20,
+            65
+          ],
+          50
+        ],
+        "programs": [
+          {
+            "id": "for",
+            "title": "for",
+            "code": "function compter(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) { nombre++; }\n  }\n  return nombre;\n}",
+            "diagramType": "for"
+          },
+          {
+            "id": "while",
+            "title": "while",
+            "code": "function compter(batteries, seuil) {\n  let nombre = 0;\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) { nombre++; }\n    i++;\n  }\n  return nombre;\n}",
+            "diagramType": "while"
+          },
+          {
+            "id": "forEach",
+            "title": "forEach",
+            "code": "function compter(batteries, seuil) {\n  let nombre = 0;\n  batteries.forEach(function(batterie, indice) {\n    if (batterie >= seuil) { nombre++; }\n  });\n  return nombre;\n}",
+            "diagramType": "foreach"
+          }
+        ]
+      }
+    ],
+    "provenance": {
+      "adapter": "eden-tableaux-1",
+      "sourceVersion": "2",
+      "conversions": [
+        "Manifeste 2 distinct du cours 1.0 ; métadonnées nulles normalisées.",
+        "Diagnostic formatif par références, sans duplication ni note certifiée.",
+        "12 QCM et 2 rappels restaurés ; 2 bilans à trous structurés.",
+        "Comparatif relu et converti en données ; aucun script importé exécuté.",
+        "Sources originales conservées côté professeur ; seuls PDF, consignes et départs autorisés aux élèves."
+      ]
+    }
+  }
+}

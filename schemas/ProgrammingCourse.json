@@ -1,0 +1,257 @@
+{
+  "type": "object",
+  "properties": {
+    "format": {
+      "const": "programming-1"
+    },
+    "family": {
+      "const": "Programmation"
+    },
+    "contentVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workVersion": {
+      "const": 1
+    },
+    "language": {
+      "const": "javascript"
+    },
+    "engine": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "const": "tweenteach-js"
+        },
+        "version": {
+          "const": "1.0.0"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "requiredCapabilities": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "editor",
+          "execution",
+          "console",
+          "behavior-tests",
+          "trace",
+          "prediction",
+          "quiz",
+          "cloze",
+          "comparison",
+          "diagram:array",
+          "diagram:for",
+          "diagram:while",
+          "diagram:function",
+          "diagram:foreach",
+          "diagram:decompose"
+        ]
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "blockIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "minutes": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "blockIds",
+          "minutes"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "optionalActivityIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "comparisons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "blockId": {
+            "type": "string"
+          },
+          "invoke": {
+            "type": "string"
+          },
+          "args": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "maxItems": 1000,
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "maxItems": 1000,
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "string"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "programs": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "code": {
+                  "type": "string"
+                },
+                "diagramType": {
+                  "enum": [
+                    "array",
+                    "for",
+                    "while",
+                    "function",
+                    "foreach",
+                    "decompose"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "code",
+                "diagramType"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "blockId",
+          "invoke",
+          "args",
+          "programs"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "adapter": {
+          "type": "string"
+        },
+        "sourceVersion": {
+          "type": "string"
+        },
+        "conversions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "adapter",
+        "sourceVersion",
+        "conversions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "format",
+    "family",
+    "contentVersion",
+    "workVersion",
+    "language",
+    "engine",
+    "requiredCapabilities",
+    "sessions",
+    "optionalActivityIds",
+    "comparisons",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

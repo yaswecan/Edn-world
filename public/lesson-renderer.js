@@ -1,3 +1,4 @@
+import {programmingBlock} from './programming/reader.js';
 import {StudentHubLayout,StudentHubState} from './student-hub.js';
 import {competencyBadges} from './session-identity.js';
 import {renderRich} from './rich-document.js';
@@ -70,6 +71,7 @@ function renderEditedSection(spec,b,ctx){
 
 export function renderLessonBlock(spec,index,ctx={}){
  const b=spec.blocks[index];if(!b)return '';
+ if(spec.programming?.format==='programming-1')return programmingBlock(spec,index,ctx);
  if(b.editor)return renderEditedSection(spec,b,ctx);
  if(b.type==='LessonHero')return LessonHero(spec,b);
  const g=guide(b),phase=phaseOf(b),label=PHASES.find(([id])=>id===phase)?.[1]||'Une pause';

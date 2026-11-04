@@ -585,8 +585,8 @@ async function startStudent(date) {
   S.answers={...(result.progress?.answers||{}),...(result.attempt?.answers||{})};
   S.writerQueue=Promise.resolve();S.eventQueue=Promise.resolve();S.pendingDiagnostic=null;S.workSaveMessage=result.progress?.savedAt?'Travail enregistré':'';
   if(S.student&&!S.readOnly){
-    S.attempt=await post('/api/assessments/'+enc(S.student.id)+'/start',{assignmentId:S.assignmentId,attemptId:attempt||undefined});
-    S.answers={...(result.progress?.answers||{}),...(S.attempt.answers||{})};
+    if(!S.student.spec.programming)S.attempt=await post('/api/assessments/'+enc(S.student.id)+'/start',{assignmentId:S.assignmentId,attemptId:attempt||undefined});
+    S.answers={...(result.progress?.answers||{}),...(S.attempt?.answers||{})};
     let saved;try{saved=JSON.parse(localStorage.getItem(studentStorageKey())||'null');}catch{}
     if(saved){
       for(const [id,value] of Object.entries(saved.answers||{})){
@@ -1127,7 +1127,7 @@ const actions = {
       diagnostic = S.student.spec.blocks.findIndex(
         (b) => b.type === "Diagnostic",
       );
-    if (!S.readOnly&&!S.reprise&&target > diagnostic && !S.attempt?.submissionId)
+    if (!S.readOnly&&!S.reprise&&diagnostic>=0&&target > diagnostic && !S.attempt?.submissionId)
       throw Error(
         studentCopy.diagnosticGate,
       );
@@ -1772,6 +1772,12 @@ Object.assign(forms, {
   },
 });
 
+document.addEventListener('programming-answer',event=>{
+ const {id,answer}=event.detail,preview=!!event.target.closest('#preview-body');
+ if(preview){S.previewAnswers[id]=answer;return;}
+ if(S.user?.role!=='student'||S.readOnly||S.workReadOnly)return;
+ S.answers[id]=answer;persistLocal();autosaveActivity(id);
+});
 const answerTimers = new Map();
 function autosaveActivity(id) {
  if(!S.student||S.user?.role!=='student'||S.readOnly)return;

@@ -61,7 +61,10 @@
     "test:tracking:v3": "node --import tsx --test tests/tracking-v3.test.mjs",
     "test:tracking:v3:browser": "node --import tsx scripts/tracking-v3-browser-check.mjs",
     "test:diagnostics:v31": "node --import tsx --test tests/diagnostic-v31.test.mjs",
-    "test:diagnostics:v31:browser": "node --import tsx scripts/diagnostic-v31-browser-check.mjs"
+    "test:diagnostics:v31:browser": "node --import tsx scripts/diagnostic-v31-browser-check.mjs",
+    "test:programming": "node --import tsx --test tests/programming.test.mjs",
+    "test:programming:browser": "node --import tsx scripts/programming-browser-check.mjs",
+    "examples:programming": "node --import tsx scripts/programming-examples.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1146.0",

@@ -1,3 +1,4 @@
+import {parseWork} from '../public/programming/work.js';
 import {findAssignment,assertWritable,assignmentAccess} from './student-tracking.mjs';
 import {uid,now,scoped,requireValue,fail} from './store.mjs';
 import {freezeContent,canonical,sha256,safeContentPath,snapshotView,preserveOriginal} from './content-snapshots.mjs';
@@ -19,10 +20,11 @@ export async function submitWork(store,actor,input,{laboratory=labService}={}){
  const prior=(await store.list('work_submissions',actor.classId)).find(s=>s.assignmentId===assignment.id);if(prior)return receipt(prior);
  const lv=await scoped(store,'lesson_versions',lesson.versionId,actor),spec=lv.spec;
  const attempt=(await store.list('assessment_attempts',actor.classId)).filter(a=>a.learnerId===actor.id&&a.assignmentId===assignment.id&&a.mode!=='practice').at(-1);
- requireValue(attempt?.submissionId||(await store.list('learning_reprises',actor.classId)).some(r=>r.assignmentId===assignment.id),'Terminez le diagnostic avant la remise de séance.');
+ requireValue(spec.programming&&spec.diagnostic.activityIds?.length>0||attempt?.submissionId||(await store.list('learning_reprises',actor.classId)).some(r=>r.assignmentId===assignment.id),'Terminez le diagnostic avant la remise de séance.');
  const known=new Set([...spec.activities,...spec.diagnostic.tasks].map(a=>a.id));
  requireValue(Object.entries(input.answers).every(([id,answer])=>known.has(id)&&typeof answer==='string'&&answer.length<=100000),'Réponse hors activité ou trop volumineuse.');
  const answers=Object.fromEntries(spec.activities.filter(a=>Object.hasOwn(input.answers,a.id)).map(a=>[a.id,input.answers[a.id]]));
+ if(spec.programming)for(const answer of Object.values(answers)){try{parseWork(answer);}catch(e){fail(422,e.message);}}
  const completedActivityIds=spec.activities.filter(a=>typeof answers[a.id]==='string'&&answers[a.id].trim()).map(a=>a.id);
  const files=[{path:'answers.json',content:canonical(answers),audience:'student'}],external=[];
  for(const a of spec.activities){
@@ -51,7 +53,7 @@ export async function submitWork(store,actor,input,{laboratory=labService}={}){
    if(selected)for(const f of validateDOMFiles(selected))files.push({path:`${prefix}/${f.path}`,content:f.content,audience:'student'});
   }else if(a.type==='CodeEditor'&&Object.hasOwn(answers,a.id)){
    const filename={html:'index.html',css:'style.css',javascript:'main.js',sql:'query.sql'}[a.workshop?.language]||'answer.txt';
-   files.push({path:`${prefix}/${filename}`,content:answers[a.id],audience:'student'});
+   files.push({path:`${prefix}/${filename}`,content:a.interactive?.kind==='code'?JSON.parse(answers[a.id]).code:answers[a.id],audience:'student'});
    if(a.workshop?.language==='css'&&a.workshop.document)files.push({path:`${prefix}/index.html`,content:a.workshop.document,audience:'student'});
   }
  }

@@ -1,0 +1,309 @@
+{
+  "schemaVersion": "1.0",
+  "lessonId": "bibliotheque",
+  "lessonVersion": 1,
+  "classId": "A1",
+  "date": "2026-11-03",
+  "planEntryId": "",
+  "planVersion": 0,
+  "sequence": "S04",
+  "title": "Bibliothèque : compter les livres disponibles",
+  "skills": [
+    "BC05-C1-5",
+    "BC05-C2-2",
+    "BC05-C1-3",
+    "BC05-C1-7"
+  ],
+  "objectives": [
+    "Parcourir des stocks et compter les rayons non vides."
+  ],
+  "prerequisites": [
+    "Variables, affectation, comparaison, condition if.",
+    "Lecture d’un court programme JavaScript. Les fonctions sont expliquées dans ce module."
+  ],
+  "reactivation": [
+    "Prévoir avant d’exécuter.",
+    "Vérifier une condition et lire les indices d’un tableau."
+  ],
+  "diagnostic": {
+    "id": "bibliotheque-diagnostic",
+    "kind": "baseline",
+    "sourceLessonRunId": null,
+    "sourceLessonVersion": null,
+    "duration": 10,
+    "criteria": [
+      "BC05-C1-5",
+      "BC05-C2-2",
+      "BC05-C1-3",
+      "BC05-C1-7"
+    ],
+    "tasks": [],
+    "activityIds": [
+      "prevoir-stocks"
+    ],
+    "rubric": [],
+    "purpose": "Réactivation formative, sans validation automatique de compétence."
+  },
+  "timeline": [
+    {
+      "blockId": "observer",
+      "minutes": 10
+    },
+    {
+      "blockId": "chercher",
+      "minutes": 25
+    }
+  ],
+  "blocks": [
+    {
+      "id": "observer",
+      "type": "Activity",
+      "phase": "opening",
+      "title": "Prévoir",
+      "content": "Observe les stocks des rayons.",
+      "minutes": 10,
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "activityIds": [
+        "prevoir-stocks"
+      ]
+    },
+    {
+      "id": "chercher",
+      "type": "Activity",
+      "phase": "guided",
+      "title": "Parcourir et expliquer",
+      "content": "Change les stocks et vérifie ton raisonnement.",
+      "minutes": 25,
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "activityIds": [
+        "stocks"
+      ]
+    }
+  ],
+  "activities": [
+    {
+      "id": "prevoir-stocks",
+      "type": "Quiz",
+      "title": "Prévoir le décompte",
+      "instruction": "Combien de rayons ont du stock ?",
+      "objective": "Choisir et justifier sur un cas concret.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C2-2",
+        "BC05-C1-3",
+        "BC05-C1-7"
+      ],
+      "expectedEvidence": "Un choix puis une explication de la conséquence.",
+      "duration": 2,
+      "required": true,
+      "correctionMode": "exact",
+      "expectedAnswer": "0",
+      "reference": "Deux rayons.",
+      "starter": "",
+      "options": [
+        "2",
+        "6"
+      ],
+      "tests": [],
+      "interactive": {
+        "kind": "quiz",
+        "question": {
+          "question": "Combien de rayons ont du stock ?",
+          "options": [
+            {
+              "text": "2",
+              "feedback": "Oui, deux rayons ont un stock positif."
+            },
+            {
+              "text": "6",
+              "feedback": "6 est le nombre de livres."
+            }
+          ],
+          "correct": 0
+        }
+      }
+    },
+    {
+      "id": "stocks",
+      "type": "CodeEditor",
+      "title": "Compter les rayons",
+      "instruction": "Compte les rayons dont le stock est strictement positif.",
+      "objective": "Parcourir des stocks et compter les rayons non vides.",
+      "skills": [
+        "BC05-C1-5",
+        "BC05-C1-3"
+      ],
+      "expectedEvidence": "Code fonctionnel sur plusieurs arguments, prévision conservée et explication d’une décision.",
+      "duration": 25,
+      "required": true,
+      "correctionMode": "javascript",
+      "expectedAnswer": "",
+      "reference": "function compterRayons(stocks) {\n  let total = 0;\n  let position = 0;\n  while (position < stocks.length) {\n    if (stocks[position] > 0) { total++; }\n    position++;\n  }\n  return total;\n}",
+      "starter": "function compterRayons(stocks) {\n  let total = 0;\n  let position = 0;\n  while (position < stocks.length) {\n    if (stocks[position] > 0) { total = total + stocks[position]; }\n    position++;\n  }\n  return total;\n}",
+      "options": [],
+      "tests": [
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[2,0,4]]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[0]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[1]]",
+          "expectedJSON": "1"
+        }
+      ],
+      "workshop": {
+        "language": "javascript",
+        "profile": "algorithm",
+        "hints": [
+          "Une unité par rayon retenu.",
+          "Fais avancer la position."
+        ],
+        "checks": [
+          "Le stock nul ne compte pas.",
+          "Une liste vide renvoie 0."
+        ]
+      },
+      "interactive": {
+        "kind": "code",
+        "explanation": [
+          "Chaque valeur indique le stock d’un rayon. Le résultat compte les rayons, pas les livres."
+        ],
+        "demo": "function compterRayons(stocks) {\n  let total = 0;\n  let position = 0;\n  while (position < stocks.length) {\n    if (stocks[position] > 0) { total++; }\n    position++;\n  }\n  return total;\n}",
+        "invoke": "compterRayons",
+        "args": [
+          [
+            2,
+            0,
+            4
+          ]
+        ],
+        "diagramType": "while",
+        "prediction": {
+          "question": "Combien de rayons ont du stock ?",
+          "options": [
+            {
+              "text": "2",
+              "feedback": "Oui, deux rayons ont un stock positif."
+            },
+            {
+              "text": "6",
+              "feedback": "6 est le nombre de livres."
+            }
+          ],
+          "correct": 0
+        },
+        "testLabels": [
+          "Deux rayons",
+          "Liste vide",
+          "Stock nul",
+          "Premier rayon"
+        ],
+        "reflection": "Pourquoi ne faut-il pas additionner les stocks ?"
+      },
+      "publicTests": [
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[2,0,4]]",
+          "expectedJSON": "2"
+        },
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[0]]",
+          "expectedJSON": "0"
+        },
+        {
+          "invoke": "compterRayons",
+          "argsJSON": "[[1]]",
+          "expectedJSON": "1"
+        }
+      ]
+    }
+  ],
+  "slides": [],
+  "resources": [],
+  "codeStation": null,
+  "teacherGuide": "Observer la différence entre compter des rayons et additionner les stocks.",
+  "studentFlow": [
+    "observer",
+    "chercher"
+  ],
+  "sourceVersions": {
+    "curriculumVersion": "",
+    "planVersion": 0,
+    "previousLessonRunId": null
+  },
+  "programming": {
+    "format": "programming-1",
+    "family": "Programmation",
+    "contentVersion": "1",
+    "workVersion": 1,
+    "language": "javascript",
+    "engine": {
+      "id": "tweenteach-js",
+      "version": "1.0.0"
+    },
+    "requiredCapabilities": [
+      "editor",
+      "execution",
+      "console",
+      "behavior-tests",
+      "trace",
+      "prediction",
+      "quiz",
+      "cloze",
+      "comparison",
+      "diagram:array",
+      "diagram:for",
+      "diagram:while",
+      "diagram:function",
+      "diagram:foreach",
+      "diagram:decompose"
+    ],
+    "sessions": [
+      {
+        "id": "atelier-livres",
+        "title": "Atelier bibliothèque",
+        "blockIds": [
+          "observer",
+          "chercher"
+        ],
+        "minutes": 35
+      }
+    ],
+    "optionalActivityIds": [],
+    "comparisons": [],
+    "provenance": {
+      "adapter": "canonical-author",
+      "sourceVersion": "1",
+      "conversions": []
+    }
+  },
+  "pedagogicalTitle": "Bibliothèque : compter les livres disponibles"
+}

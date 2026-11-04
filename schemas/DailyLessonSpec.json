@@ -461,6 +461,272 @@
                     "additionalProperties": false
                   }
                 }
+              },
+              "interactive": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "code"
+                      },
+                      "explanation": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "demo": {
+                        "type": "string"
+                      },
+                      "invoke": {
+                        "type": "string",
+                        "pattern": "^[A-Za-z_$][\\w$]*$"
+                      },
+                      "args": {
+                        "type": "array",
+                        "maxItems": 20,
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "null"
+                            },
+                            {
+                              "type": "boolean"
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "array",
+                              "maxItems": 1000,
+                              "items": {
+                                "anyOf": [
+                                  {
+                                    "type": "null"
+                                  },
+                                  {
+                                    "type": "boolean"
+                                  },
+                                  {
+                                    "type": "number"
+                                  },
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "array",
+                                    "maxItems": 1000,
+                                    "items": {
+                                      "anyOf": [
+                                        {
+                                          "type": "null"
+                                        },
+                                        {
+                                          "type": "boolean"
+                                        },
+                                        {
+                                          "type": "number"
+                                        },
+                                        {
+                                          "type": "string"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      "diagramType": {
+                        "enum": [
+                          "array",
+                          "for",
+                          "while",
+                          "function",
+                          "foreach",
+                          "decompose"
+                        ]
+                      },
+                      "prediction": {
+                        "type": "object",
+                        "properties": {
+                          "question": {
+                            "type": "string"
+                          },
+                          "options": {
+                            "type": "array",
+                            "minItems": 2,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string"
+                                },
+                                "feedback": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "text",
+                                "feedback"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "correct": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "code": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "question",
+                          "options",
+                          "correct"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "testLabels": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "reflection": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "explanation",
+                      "demo",
+                      "invoke",
+                      "args",
+                      "diagramType",
+                      "prediction",
+                      "testLabels",
+                      "reflection"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "quiz"
+                      },
+                      "question": {
+                        "type": "object",
+                        "properties": {
+                          "question": {
+                            "type": "string"
+                          },
+                          "options": {
+                            "type": "array",
+                            "minItems": 2,
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string"
+                                },
+                                "feedback": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "text",
+                                "feedback"
+                              ],
+                              "additionalProperties": false
+                            }
+                          },
+                          "correct": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "code": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "question",
+                          "options",
+                          "correct"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "sourceId": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "question"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "cloze"
+                      },
+                      "segments": {
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "answer": {
+                                  "type": "string"
+                                },
+                                "alternatives": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "required": [
+                                "answer"
+                              ],
+                              "additionalProperties": false
+                            }
+                          ]
+                        }
+                      },
+                      "bank": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "explanation": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "segments",
+                      "bank",
+                      "explanation"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
               }
             },
             "required": [
@@ -618,6 +884,15 @@
               "maxLength": 2000
             }
           }
+        },
+        "activityIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "purpose": {
+          "type": "string"
         }
       },
       "required": [
@@ -1306,6 +1581,272 @@
                 "additionalProperties": false
               }
             }
+          },
+          "interactive": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "code"
+                  },
+                  "explanation": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "demo": {
+                    "type": "string"
+                  },
+                  "invoke": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z_$][\\w$]*$"
+                  },
+                  "args": {
+                    "type": "array",
+                    "maxItems": 20,
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "maxItems": 1000,
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "boolean"
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "array",
+                                "maxItems": 1000,
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "null"
+                                    },
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "string"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "diagramType": {
+                    "enum": [
+                      "array",
+                      "for",
+                      "while",
+                      "function",
+                      "foreach",
+                      "decompose"
+                    ]
+                  },
+                  "prediction": {
+                    "type": "object",
+                    "properties": {
+                      "question": {
+                        "type": "string"
+                      },
+                      "options": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string"
+                            },
+                            "feedback": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "text",
+                            "feedback"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "correct": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "code": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "question",
+                      "options",
+                      "correct"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "testLabels": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "reflection": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "explanation",
+                  "demo",
+                  "invoke",
+                  "args",
+                  "diagramType",
+                  "prediction",
+                  "testLabels",
+                  "reflection"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "quiz"
+                  },
+                  "question": {
+                    "type": "object",
+                    "properties": {
+                      "question": {
+                        "type": "string"
+                      },
+                      "options": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "text": {
+                              "type": "string"
+                            },
+                            "feedback": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "text",
+                            "feedback"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "correct": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "code": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "question",
+                      "options",
+                      "correct"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "sourceId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "question"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "cloze"
+                  },
+                  "segments": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "answer": {
+                              "type": "string"
+                            },
+                            "alternatives": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "required": [
+                            "answer"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
+                  },
+                  "bank": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "explanation": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "segments",
+                  "bank",
+                  "explanation"
+                ],
+                "additionalProperties": false
+              }
+            ]
           }
         },
         "required": [
@@ -1518,6 +2059,263 @@
     },
     "editorVersion": {
       "const": 1
+    },
+    "programming": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "const": "programming-1"
+        },
+        "family": {
+          "const": "Programmation"
+        },
+        "contentVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workVersion": {
+          "const": 1
+        },
+        "language": {
+          "const": "javascript"
+        },
+        "engine": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "const": "tweenteach-js"
+            },
+            "version": {
+              "const": "1.0.0"
+            }
+          },
+          "required": [
+            "id",
+            "version"
+          ],
+          "additionalProperties": false
+        },
+        "requiredCapabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "editor",
+              "execution",
+              "console",
+              "behavior-tests",
+              "trace",
+              "prediction",
+              "quiz",
+              "cloze",
+              "comparison",
+              "diagram:array",
+              "diagram:for",
+              "diagram:while",
+              "diagram:function",
+              "diagram:foreach",
+              "diagram:decompose"
+            ]
+          }
+        },
+        "sessions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "blockIds": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "minutes": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "blockIds",
+              "minutes"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "optionalActivityIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comparisons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "blockId": {
+                "type": "string"
+              },
+              "invoke": {
+                "type": "string"
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "array",
+                      "maxItems": 1000,
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "maxItems": 1000,
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "null"
+                                },
+                                {
+                                  "type": "boolean"
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "string"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "programs": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "diagramType": {
+                      "enum": [
+                        "array",
+                        "for",
+                        "while",
+                        "function",
+                        "foreach",
+                        "decompose"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "title",
+                    "code",
+                    "diagramType"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "blockId",
+              "invoke",
+              "args",
+              "programs"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "provenance": {
+          "type": "object",
+          "properties": {
+            "adapter": {
+              "type": "string"
+            },
+            "sourceVersion": {
+              "type": "string"
+            },
+            "conversions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "adapter",
+            "sourceVersion",
+            "conversions"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "format",
+        "family",
+        "contentVersion",
+        "workVersion",
+        "language",
+        "engine",
+        "requiredCapabilities",
+        "sessions",
+        "optionalActivityIds",
+        "comparisons",
+        "provenance"
+      ],
+      "additionalProperties": false
     }
   },
   "required": [

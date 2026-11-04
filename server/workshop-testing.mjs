@@ -1,3 +1,4 @@
+import {testProgramming} from './programming/testing.mjs';
 import {studentFeedback,testSummary} from '../public/student-copy.js';
 import {gradeTask} from './assessment.mjs';
 import {sqlGrade} from './sql-grading.mjs';
@@ -5,6 +6,7 @@ import {runSafe} from './safe-js.mjs';
 import {isDeepStrictEqual} from 'node:util';
 
 export async function testActivityCode(task,code){
+ if(task.interactive?.kind==='code')return testProgramming(task,code);
  if(['dom','shell-git'].includes(task.workshop?.profile)){
   const {labService}=await import('./pedagogy/labs.mjs');let result;
   if(task.workshop.profile==='dom'){const {domFiles,validateDOMFiles}=await import('./pedagogy/dom.mjs');result=await labService('/dom',{files:validateDOMFiles(domFiles({...task,starter:code})),actions:[],...(task.tests.length?{tests:task.tests}:{})});}
