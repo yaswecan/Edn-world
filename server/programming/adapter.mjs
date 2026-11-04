@@ -2,12 +2,7 @@ import {canonical,sha256} from '../content-snapshots.mjs';
 import {fail} from '../store.mjs';
 import {CAPABILITIES,ENGINE,ENGINE_VERSION} from './contract.mjs';
 import {tableauxPresentation} from './source-presentation.mjs';
-// Reviewed declarative counterpart of wireComparison in this adapter family.
-const comparisonPrograms=[
- ['for','function compter(batteries, seuil) {\n  let nombre = 0;\n  for (let i = 0; i < batteries.length; i++) {\n    if (batteries[i] >= seuil) { nombre++; }\n  }\n  return nombre;\n}'],
- ['while','function compter(batteries, seuil) {\n  let nombre = 0;\n  let i = 0;\n  while (i < batteries.length) {\n    if (batteries[i] >= seuil) { nombre++; }\n    i++;\n  }\n  return nombre;\n}'],
- ['forEach','function compter(batteries, seuil) {\n  let nombre = 0;\n  batteries.forEach(function(batterie, indice) {\n    if (batterie >= seuil) { nombre++; }\n  });\n  return nombre;\n}']
-];
+import {readSourceComparison} from './source-comparison.mjs';
 export function adaptEdenPackage(entries){
  const bad=(file,pointer,received,expected)=>fail(422,`${file}${pointer} : ${expected}`,{file,pointer,received,expected,action:'Corriger le paquet source et ses empreintes, ou exporter au format canonique programming-1.'});
  const read=path=>{try{return JSON.parse(entries.get(path).toString('utf8'));}catch{bad(path,'/',null,'Fichier JSON valide requis.');}};
@@ -64,13 +59,14 @@ export function adaptEdenPackage(entries){
  for(const t of diagnostic.tasks)if(canonical(activities.find(a=>a.id===t.id))!==canonical(t))bad(dp,'/tasks/'+t.id,t.id,'Question identique à l’activité, sans copie divergente.');
  spec.diagnostic={id:diagnostic.id,kind:diagnostic.kind,sourceLessonRunId:null,sourceLessonVersion:null,duration:diagnostic.duration,criteria:spec.skills,tasks:[],activityIds:diagnostic.tasks.map(t=>t.id),rubric:[],purpose:diagnostic.purpose};
  spec.planEntryId??='';spec.planVersion??=0;spec.sourceVersions.curriculumVersion??='';spec.sourceVersions.planVersion??=0;
- const script=entries.get('01_ELEVE/assets/lesson.js');
- if(!script||sha256(script)!=='8c41325187153320d1064b2e755b1a9b9ee08a9f9658dbbf2d4225155d491110')bad('01_ELEVE/assets/lesson.js','/comparison',script?sha256(script):null,'Comparatif non reconnu : le déclarer dans programming.comparisons. Aucun script n’est exécuté.');
+ const comparisons=spec.programming&&Object.hasOwn(spec.programming,'comparisons')?spec.programming.comparisons:[readSourceComparison(entries.get('01_ELEVE/assets/lesson.js'),bad)];
+ if(!Array.isArray(comparisons))bad(lp,'/programming/comparisons',comparisons,'Liste de comparatifs déclaratifs requise.');
  const sessions=[...new Set(spec.blocks.map(b=>b.id.match(/^s(\d+)-bloc-/)?.[1]))].map(n=>{if(!n)bad(lp,'/blocks',null,'Identifiant de séance du paquet EDEN attendu.');const blocks=spec.blocks.filter(b=>b.id.startsWith(`s${n}-bloc-`));return {id:`s${n}`,title:`Séance ${n}`,blockIds:blocks.map(b=>b.id),minutes:blocks.reduce((sum,b)=>sum+b.minutes,0)};});
  if(sessions.reduce((s,x)=>s+x.minutes,0)!==manifest.duration)bad(mp,'/duration',manifest.duration,'Durée égale au déroulé obligatoire.');
- spec.programming={format:'programming-1',family:'Programmation',contentVersion:String(manifest.lessonVersion),workVersion:1,language:'javascript',engine:{id:ENGINE,version:ENGINE_VERSION},requiredCapabilities:CAPABILITIES,sessions,optionalActivityIds:spec.activities.filter(a=>!a.required).map(a=>a.id),comparisons:[{id:'compare-traversals',title:'Comparer for, while et forEach sur les mêmes données',blockId:'s2-bloc-3',invoke:'compter',args:[[35,80,20,65],50],programs:comparisonPrograms.map(([id,code])=>({id,title:id,code,diagramType:id.toLowerCase()}))}],provenance:{adapter:'eden-tableaux-1',sourceVersion:String(manifest.lessonVersion),conversions:['Manifeste 2 distinct du cours 1.0 ; métadonnées nulles normalisées.','Diagnostic formatif par références, sans duplication ni note certifiée.','12 QCM et 2 rappels restaurés ; 2 bilans à trous structurés.','Comparatif relu et converti en données ; aucun script importé exécuté.','Sources originales conservées côté professeur ; seuls PDF, consignes et départs autorisés aux élèves.']}};
+ spec.programming={format:'programming-1',family:'Programmation',contentVersion:String(manifest.lessonVersion),workVersion:1,language:'javascript',engine:{id:ENGINE,version:ENGINE_VERSION},requiredCapabilities:CAPABILITIES,sessions,optionalActivityIds:spec.activities.filter(a=>!a.required).map(a=>a.id),comparisons,provenance:{adapter:'eden-tableaux-1',sourceVersion:String(manifest.lessonVersion),conversions:['Manifeste 2 distinct du cours 1.0 ; métadonnées nulles normalisées.','Diagnostic formatif par références, sans duplication ni note certifiée.','12 QCM et 2 rappels restaurés ; 2 bilans à trous structurés.','Comparatif relu et converti en données ; aucun script importé exécuté.','Sources originales conservées côté professeur ; seuls PDF, consignes et départs autorisés aux élèves.']}};
  spec.sessionType='programming';
  spec.programming.presentation=tableauxPresentation();
+ spec.programming.presentation.comparisons=spec.programming.presentation.comparisons.filter(copy=>comparisons.some(c=>c?.id===copy.id&&Array.isArray(c.programs)&&copy.rules.every(rule=>c.programs.some(p=>p?.id===rule.id))));
  spec.programming.provenance.conversions.push('Présentation originale relue et conservée en données : ouvertures, mémo, bilan, comparatif et consignes de réflexion.');
  const corpusFiles=manifest.files.map(f=>({...f,audience:/^01_ELEVE\/(memo-visuel\.pdf|fichiers-depart\/[^/]+\.(js|txt))$/.test(f.path)?'student':'teacher'}));
  spec.resources=corpusFiles.filter(f=>f.audience==='student').map(f=>`tweenteach-file:${f.sha256}:${f.mimeType}`);

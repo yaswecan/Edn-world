@@ -24,7 +24,7 @@ Le parcours complet conserve ses deux séances internes de 180 minutes ; il ne c
 5. Ouvrir **Aperçu élève** : choisir la séance dans la barre latérale, puis l’un de ses cinq repères et un atelier. Le bilan de la séance 2 permet d’ouvrir le transfert différé, hors des 360 minutes obligatoires.
 6. Après relecture, utiliser la publication habituelle. La publication reste une action explicite du professeur. Ce diagnostic est une réactivation formative ; il ne produit pas de note automatique.
 
-Le fichier source doit correspondre à la famille examinée `eden-tableaux-1`. Un script de comparaison différent est refusé avec un diagnostic : produire alors un paquet canonique déclaratif. Il n’y a aucune exécution des scripts du ZIP pendant l’import.
+Le fichier source doit correspondre à la famille examinée `eden-tableaux-1`. Le comparatif est lu comme des données littérales dans `wireComparison` : programmes, fonction appelée et arguments. Une modification de l’interface, des commentaires ou des fins de ligne ne bloque plus cet import. Les expressions calculées ou ambiguës sont refusées ; déclarer alors les données dans `07_SOURCES_EDEN/lesson.json` → `programming.comparisons`, ou produire un paquet canonique. Cette déclaration explicite est prioritaire. Les tailles et empreintes du manifeste restent vérifiées. Il n’y a aucune exécution des scripts du ZIP pendant l’import.
 
 Un réimport identique ne crée pas de version. Un remplacement de brouillon crée une nouvelle version et conserve l’historique. Pour un cours déjà publié, le récapitulatif demande d’ajouter une préparation distincte : la nouvelle version doit être relue en brouillon. Les travaux existants restent rattachés à leur affectation/version.
 
