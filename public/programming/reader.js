@@ -1,125 +1,934 @@
-import {parseWork} from './work.js';
-import {execute} from './runner.js';
-import {renderProgrammingVisual,renderArray,kindName} from './visuals.js';
-const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const pretty=v=>v===undefined?'undefined':JSON.stringify(v,null,2);
-const compact=v=>v===undefined?'undefined':JSON.stringify(v);
-const button=(label,action,cls='',attrs='')=>`<button type="button" class="${cls}" data-p-action="${action}" ${attrs}>${label}</button>`;
-const paragraphs=xs=>(xs||[]).map(x=>`<p>${esc(x)}</p>`).join('');
-const table=t=>`<div class="p-table-scroll"><table>${t.headers?.length?`<thead><tr>${t.headers.map(x=>`<th>${esc(x)}</th>`).join('')}</tr></thead>`:''}<tbody>${t.rows.map(row=>`<tr>${row.map(x=>`<td>${esc(x)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-export function programmingBlock(spec,index,ctx={}){
- const data={block:spec.blocks[index],blocks:spec.blocks.map(({id,title})=>({id,title})),index,activities:spec.activities,programming:spec.programming,answers:ctx.answers||{},identity:{course:spec.lessonId,version:spec.lessonVersion,content:spec.programming.contentVersion},readOnly:!!ctx.readOnly,preview:!!ctx.preview,resources:spec.resources};
- // Source corrections never enter the student DOM, including teacher preview.
- data.activities=data.activities.map(({reference,expectedAnswer,tests,validationVariants,...a})=>a);
- return `<programming-lesson data-content="${esc(JSON.stringify(data))}"></programming-lesson>`;
+import { parseWork } from "./work.js";
+import { execute } from "./runner.js";
+import { renderProgrammingVisual, renderArray, kindName } from "./visuals.js";
+const esc = (v) =>
+  String(v ?? "").replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ],
+  );
+const pretty = (v) =>
+  v === undefined ? "undefined" : JSON.stringify(v, null, 2);
+const compact = (v) => (v === undefined ? "undefined" : JSON.stringify(v));
+const button = (label, action, cls = "", attrs = "") =>
+  `<button type="button" class="${cls}" data-p-action="${action}" ${attrs}>${label}</button>`;
+const paragraphs = (xs) => (xs || []).map((x) => `<p>${esc(x)}</p>`).join("");
+const table = (t) =>
+  `<div class="p-table-scroll"><table>${t.headers?.length ? `<thead><tr>${t.headers.map((x) => `<th>${esc(x)}</th>`).join("")}</tr></thead>` : ""}<tbody>${t.rows.map((row) => `<tr>${row.map((x) => `<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+export function programmingBlock(spec, index, ctx = {}) {
+  const data = {
+    block: spec.blocks[index],
+    blocks: spec.blocks.map(({ id, title }) => ({ id, title })),
+    index,
+    activities: spec.activities,
+    programming: spec.programming,
+    answers: ctx.answers || {},
+    identity: {
+      course: spec.lessonId,
+      version: spec.lessonVersion,
+      content: spec.programming.contentVersion,
+    },
+    readOnly: !!ctx.readOnly,
+    preview: !!ctx.preview,
+    resources: spec.resources,
+  };
+  // Source corrections never enter the student DOM, including teacher preview.
+  data.activities = data.activities.map(
+    ({ reference, expectedAnswer, tests, validationVariants, ...a }) => a,
+  );
+  return `<programming-lesson data-content="${esc(JSON.stringify(data))}"></programming-lesson>`;
 }
-const Base=globalThis.HTMLElement||class {};
-class ProgrammingLesson extends Base{
- connectedCallback(){
-  if(this.ready)return;this.ready=true;this.data=JSON.parse(this.getAttribute('data-content'));this.removeAttribute('data-content');this.answers={...this.data.answers};this.works=new Map();this.selected=this.data.block.activityIds[0];this.position=0;this.speed=650;this.reduced=!!globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;this.className='programming-reader';
-  this.addEventListener('scroll',e=>{if(e.target.matches?.('[data-p-field=code]'))this.highlightLine();},true);
-  this.addEventListener('click',e=>this.click(e));this.addEventListener('input',e=>this.input(e));this.addEventListener('change',e=>this.change(e));
-  this.addEventListener('keydown',e=>{if(!e.target.matches('[data-p-field=code]'))return;if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();this.run();}else if(e.key==='Tab'&&!e.target.readOnly){e.preventDefault();e.target.setRangeText('  ',e.target.selectionStart,e.target.selectionEnd,'end');e.target.dispatchEvent(new Event('input',{bubbles:true}));}});
-  this.visibility=()=>{if(document.hidden)this.stop();};document.addEventListener('visibilitychange',this.visibility);this.setInitialMode();this.render();
-  queueMicrotask(()=>{if(!this.isConnected||this.data.preview)return;const status=document.querySelector('#work-save-status');if(!status)return;this.saveObserver=new MutationObserver(()=>this.status(status.textContent||'Sauvegarde TweenTeach'));this.saveObserver.observe(status,{childList:true,characterData:true,subtree:true});if(status.textContent)this.status(status.textContent);});
- }
- disconnectedCallback(){this.stop();this.saveObserver?.disconnect();document.removeEventListener('visibilitychange',this.visibility);}
- get activity(){return this.data.activities.find(a=>a.id===this.selected);}
- get presentation(){return this.data.programming.presentation||{};}
- workFor(id){if(!this.works.has(id)){let w;try{w=parseWork(this.answers[id]);}catch{}const a=this.data.activities.find(x=>x.id===id);if(w?.format!=='programming-work-1')w={format:'programming-work-1',code:a?.starter||'',args:compact(a?.interactive?.args||[]),prediction:null,hints:0,reflection:'',responses:{},attempts:0};this.works.set(id,w);}return this.works.get(id);}
- get work(){return this.workFor(this.selected);}
- save(id=this.selected){if(this.data.readOnly)return;const answer=JSON.stringify(this.workFor(id));this.answers[id]=answer;this.dispatchEvent(new CustomEvent('programming-answer',{bubbles:true,detail:{id,answer}}));this.status(this.data.preview?'Conservé dans cet aperçu':'Sauvegarde en cours · Mon travail');}
- status(text){const n=this.querySelector('[data-save]');if(n)n.textContent=text;}
- stop(){clearInterval(this.playTimer);this.playTimer=null;this.job?.stop();this.job=null;this.compareJob?.stop();this.compareJob=null;const b=this.querySelector('[data-p-action=play]');if(b)b.textContent='Lire ▶';}
- resetExecution(){this.stop();this.execution=null;this.stale=true;this.work.results=null;}
- setInitialMode(){this.mode=this.activity?.interactive?.demo&&!this.answers[this.selected]&&this.data.block.phase!=='autonomy'?'demo':'draft';}
- select(id){if(!this.data.activities.some(a=>a.id===id))return;this.stop();this.selected=id;this.execution=null;this.stale=false;this.setInitialMode();this.renderContent();}
- navigate(blockId,activityId){const index=typeof blockId==='number'?blockId:this.data.blocks.findIndex(b=>b.id===blockId);if(index<0||index>=this.data.blocks.length)return;if(index===this.data.index){if(activityId)this.select(activityId);return;}this.stop();this.dispatchEvent(new CustomEvent('programming-navigate',{bubbles:true,detail:{index,activityId}}));}
- get session(){return this.data.programming.sessions.find(s=>s.blockIds.includes(this.data.block.id));}
- render(){
-  const {block,programming,blocks}=this.data,s=this.session,heading=this.presentation.headings?.find(h=>h.blockId===block.id),sessionIndex=programming.sessions.indexOf(s);
-  this.classList.toggle('reduced-motion',this.reduced);
-  this.innerHTML=`<div class="shell"><aside class="sidebar"><p class="eyebrow">MON PARCOURS</p><label class="select-label">Séance<select data-p-session aria-label="Séance du parcours">${programming.sessions.map((x,n)=>`<option value="${esc(x.id)}" ${s===x?'selected':''}>${String(n+1).padStart(2,'0')} · ${esc(this.presentation.sessionLabels?.find(label=>label.id===x.id)?.title||x.title.replace(/^Séance \d+\s*[—:·-]\s*/,''))}</option>`).join('')}</select></label><nav class="p-steps" aria-label="Les repères de la séance">${(s?.blockIds||blocks.map(b=>b.id)).map((id,n)=>`<button type="button" class="nav-step" data-p-block="${esc(id)}" ${id===block.id?'aria-current="step"':''}><span class="n">${String(n+1).padStart(2,'0')}</span><span>${esc(this.presentation.headings?.find(h=>h.blockId===id)?.title||blocks.find(b=>b.id===id)?.title)}</span></button>`).join('')}</nav><div class="sidebar-note"><span class="dot"></span><strong>Une méthode, à chaque essai</strong><p>Observer<br>Prévoir<br>Coder<br>Vérifier<br>Expliquer</p></div><div class="sidebar-footer">${this.presentation.memo?.length?button('Ouvrir mon mémo','memo','text-button'):''}<label class="motion"><input type="checkbox" data-reduced ${this.reduced?'checked':''}> Réduire les animations</label><p>Ton code reste disponible quand tu changes d’atelier.</p></div></aside><div class="p-main" tabindex="-1"><div class="top-actions" aria-label="Conserver et reprendre mon travail">${button('Exporter mon travail','export','quiet')}${button('Reprendre un fichier','import','quiet',this.data.readOnly?'disabled':'')}<input type="file" data-work-file accept="application/json,.json" hidden><span data-save class="save-state" role="status">${this.data.preview?'Aperçu · travail dans cet onglet':'Sauvegarde TweenTeach'}</span></div><header><p class="eyebrow">SÉANCE ${sessionIndex+1} / ${programming.sessions.length} · REPÈRE ${(s?.blockIds.indexOf(block.id)??this.data.index)+1} / ${s?.blockIds.length||blocks.length}</p><h1 tabindex="-1">${esc(heading?.title||block.title)}</h1><p class="lead">${esc(heading?.lead||block.content)}</p></header><div data-content-view></div>${this.teachingView()}${this.resourceView()}</div></div><dialog data-memo><div class="dialog-heading"><h2>Mes repères JavaScript</h2>${button('Fermer','close-memo','quiet')}</div><div data-memo-body>${(this.presentation.memo||[]).map(m=>`<h3>${esc(m.title)}</h3>${m.code?`<pre>${esc(m.code)}</pre>`:''}${paragraphs(m.paragraphs)}${m.table?table(m.table):''}`).join('')}${this.resourceView()}</div></dialog>`;
-  this.renderContent();
- }
- teachingView(){const g=this.data.block.teaching;if(!g)return '';return `<details class="p-teaching"><summary>Les repères de cette étape</summary>${paragraphs([this.data.block.content])}${g.steps?.length?`<ol>${g.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>`:''}${g.diagram?.length?`<div class="p-teaching-diagram">${g.diagram.map(row=>`<div class="flow">${row.split(/\s*→\s*/).map(x=>`<span class="flow-node">${esc(x)}</span>`).join('<span aria-hidden="true">→</span>')}</div>`).join('')}</div>`:''}${paragraphs([g.hint,g.check,...g.takeaways||[]].filter(Boolean))}</details>`;}
- resourceView(){const resources=(this.data.resources||[]).filter(r=>r.startsWith('/api/lesson-transfer-files/'));return resources.length?`<details class="p-resources"><summary>Supports de la séance</summary>${resources.map((r,i)=>`<p><a href="${esc(r)}" target="_blank" rel="noopener">${i===0?'Mémo et support du cours':'Support '+(i+1)}</a></p>`).join('')}</details>`:'';}
- tasks(){return this.data.block.activityIds.map(id=>this.data.activities.find(a=>a.id===id)).filter(Boolean);}
- optionalTasks(){const target=this.presentation.summaries?.find(s=>s.nextBlockId===this.data.block.id&&s.nextActivityId);return target||!this.presentation.theme&&this.data.index===this.data.blocks.length-1?this.data.programming.optionalActivityIds.map(id=>this.data.activities.find(a=>a.id===id)).filter(Boolean):[];}
- renderContent(){
-  const tasks=this.tasks(),codes=tasks.filter(a=>a.interactive?.kind==='code'),view=this.querySelector('[data-content-view]'),opening=this.presentation.openings?.find(x=>x.blockId===this.data.block.id),summary=this.presentation.summaries?.find(x=>x.blockId===this.data.block.id);
-  if(codes.length||this.optionalTasks().some(a=>a.id===this.selected)){
-   if(this.activity?.interactive?.kind!=='code'){this.selected=codes[0].id;this.setInitialMode();}
-   const choices=[...codes,...this.optionalTasks()];
-   view.innerHTML=`<div class="activity-picker">${choices.map(a=>`<button type="button" class="activity-chip ${a.id===this.selected?'active':''}" data-p-select="${esc(a.id)}" aria-pressed="${a.id===this.selected}">${a.required?'':'Reprise différée · '}${esc(a.title)}</button>`).join('')}</div><article data-activity="${esc(this.selected)}" data-work-id="${esc(this.selected)}">${this.codeView(this.activity)}</article>`;
-   this.drawTrace();this.drawComparison();return;
+const Base = globalThis.HTMLElement || class {};
+class ProgrammingLesson extends Base {
+  connectedCallback() {
+    if (this.ready) return;
+    this.ready = true;
+    this.data = JSON.parse(this.getAttribute("data-content"));
+    this.removeAttribute("data-content");
+    this.answers = { ...this.data.answers };
+    this.works = new Map();
+    this.selected = this.data.block.activityIds[0];
+    this.position = 0;
+    this.speed = 650;
+    this.reduced = !!globalThis.matchMedia?.("(prefers-reduced-motion: reduce)")
+      .matches;
+    this.className = "programming-reader";
+    this.addEventListener(
+      "scroll",
+      (e) => {
+        if (e.target.matches?.("[data-p-field=code]")) this.highlightLine();
+      },
+      true,
+    );
+    this.addEventListener("click", (e) => this.click(e));
+    this.addEventListener("input", (e) => this.input(e));
+    this.addEventListener("change", (e) => this.change(e));
+    this.addEventListener("keydown", (e) => {
+      if (!e.target.matches("[data-p-field=code]")) return;
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+        e.preventDefault();
+        this.run();
+      } else if (e.key === "Tab" && !e.target.readOnly) {
+        e.preventDefault();
+        e.target.setRangeText(
+          "  ",
+          e.target.selectionStart,
+          e.target.selectionEnd,
+          "end",
+        );
+        e.target.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    });
+    this.visibility = () => {
+      if (document.hidden) this.stop();
+    };
+    document.addEventListener("visibilitychange", this.visibility);
+    this.setInitialMode();
+    this.render();
+    queueMicrotask(() => {
+      if (!this.isConnected || this.data.preview) return;
+      const status = document.querySelector("#work-save-status");
+      if (!status) return;
+      this.saveObserver = new MutationObserver(() =>
+        this.status(status.textContent || "Sauvegarde TweenTeach"),
+      );
+      this.saveObserver.observe(status, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+      if (status.textContent) this.status(status.textContent);
+    });
   }
-  if(opening)view.innerHTML=`<div class="hero-grid"><section class="hero-copy"><span class="hero-pill">${esc(opening.tag)}</span><h2>${esc(opening.title)}</h2>${paragraphs(opening.paragraphs)}<button type="button" class="primary" data-p-block="${esc(opening.nextBlockId)}">${esc(opening.actionLabel)} →</button></section><section class="panel"><p class="eyebrow">DONNÉES DE DÉPART</p><div class="array-label"><code>${esc(opening.arrayName)}</code><span>length = ${opening.values.length}</span></div>${renderArray(opening.values,-1,{battery:opening.arrayName==='batteries'})}<div class="dashboard">${opening.stats.map(stat=>`<div class="stat"><strong>${esc(stat.value)}</strong><span>${esc(stat.label)}</span></div>`).join('')}</div><p class="small">${esc(opening.caption)}</p></section></div><div class="note p-spaced">${esc(opening.note)}</div><h2 class="p-section-title">Deux questions pour démarrer</h2><div class="quiz-grid">${tasks.map(a=>this.taskView(a)).join('')}</div>`;
-  else if(summary){const quizzes=tasks.filter(a=>a.interactive?.kind==='quiz');view.innerHTML=`${tasks.filter(a=>a.interactive?.kind==='cloze').map(a=>this.taskView(a)).join('')}<h2 class="p-section-title">Trois décisions à expliquer</h2><div class="quiz-grid">${quizzes.slice(0,3).map(a=>this.taskView(a)).join('')}</div>${quizzes.length>3?`<details class="panel p-spaced"><summary>Une question supplémentaire pour aller plus loin</summary><div class="quiz-grid">${quizzes.slice(3).map(a=>this.taskView(a)).join('')}</div></details>`:''}${tasks.filter(a=>!a.interactive).map(a=>this.taskView(a)).join('')}<div class="note p-spaced">${esc(summary.note)}</div><div class="summary-actions">${button('Exporter mon travail','export','primary')}${summary.nextBlockId?`<button type="button" data-p-block="${esc(summary.nextBlockId)}" data-p-target="${esc(summary.nextActivityId||'')}">${esc(summary.actionLabel)} →</button>`:''}${this.optionalTasks().map(a=>`<button type="button" class="activity-chip" data-p-select="${esc(a.id)}">Reprise différée · ${esc(a.title)}</button>`).join('')}</div><p class="small">${esc(this.presentation.assessmentNote)}</p>`;}
-  else view.innerHTML=`<div class="quiz-grid">${tasks.map(a=>this.taskView(a)).join('')}</div>`;
- }
- taskView(a){const w=this.workFor(a.id),i=a.interactive;return `<section data-work-id="${esc(a.id)}" data-activity="${esc(a.id)}" class="${i?.kind==='quiz'?'quiz-card':i?.kind==='cloze'?'panel':'reflection panel p-spaced'}">${i?.kind==='quiz'?this.quizView(i.question,w.responses.choice,'choice',a.id):i?.kind==='cloze'?this.clozeView(a):`<h3>${esc(a.title)}</h3>${paragraphs([a.instruction||a.objective])}<label>${esc(a.expectedEvidence||'Ton explication')}<textarea data-p-field="reflection" ${this.data.readOnly?'readonly':''}>${esc(w.reflection)}</textarea></label>`}</section>`;}
- quizView(q,value,field,id=this.selected){return `<fieldset class="p-question" ${this.data.readOnly?'disabled':''}><legend class="${field==='prediction'?'question':''}">${esc(q.question)}</legend>${q.code?`<pre class="quiz-code">${esc(q.code)}</pre>`:''}<div class="options">${q.options.map((o,n)=>`<label class="option ${value===n?'selected '+(n===q.correct?'good':''):''}"><input type="radio" name="${esc(id+'-'+field)}" data-p-field="${field}" value="${n}" ${value===n?'checked':''}><span>${esc(o.text)}</span></label>`).join('')}</div>${field==='prediction'?`<p class="small">${esc(this.presentation.workshop?.predictionContext||'Modifier les données ou le code ne change pas cette question.')}</p>`:''}<div data-feedback="${field}" aria-live="polite">${Number.isInteger(value)?`<p class="feedback ${value===q.correct?'':'warn'}">${esc(q.options[value]?.feedback)}</p>`:''}</div></fieldset>`;}
- clozeView(a){const i=a.interactive,w=this.workFor(a.id);let n=0;return `<p class="eyebrow">JE RETROUVE LES MOTS</p><h2>Mon bilan à compléter</h2><p class="small">Fais un premier essai de mémoire. Tu peux ensuite afficher les mots disponibles.</p><div class="cloze">${i.segments.map(s=>typeof s==='string'?esc(s):`<input aria-label="Mot à compléter ${++n}" data-gap="${n-1}" value="${esc(w.responses[n-1]||'')}" autocomplete="off" spellcheck="false" ${this.data.readOnly?'readonly':''}>`).join('')}</div><div class="word-bank" data-bank hidden>${i.bank.map(s=>`<span>${esc(s)}</span>`).join('')}</div><div class="cloze-actions">${button('Vérifier mes mots','cloze','primary')}${button('Afficher les mots disponibles','bank')}</div><div data-cloze-result aria-live="polite"></div>`;}
- codeView(a){const i=a.interactive,w=this.work,copy=this.presentation.workshop||{},demo=this.mode==='demo',code=demo?i.demo:w.code;const embeddedQuizzes=this.tasks().filter(t=>t.interactive?.kind!=='code');return `<div class="activity-top"><div><h2>${esc(a.title)}</h2><p class="goal">${esc(a.objective)}</p></div><div class="mode-switch">${i.demo?button('Voir l’exemple','demo',demo?'active':'','aria-pressed="'+demo+'"'):''}${button('Mon code','draft',!demo?'active':'','aria-pressed="'+!demo+'"')}</div></div>${!a.required?`<p class="note">Prolongement facultatif · ${a.duration} min. ${esc(copy.transferNote||'À reprendre lors d’une prochaine séance avec de nouvelles données.')}</p>`:''}<div class="explanation"><span class="micro-tag">LE REPÈRE</span><div>${paragraphs(i.explanation)}</div></div><div data-prediction-area>${!demo?`<section class="prediction"><p class="eyebrow">AVANT DE CODER · QUESTION SUR LES DONNÉES INDIQUÉES</p>${this.quizView(i.prediction,w.prediction,'prediction')}</section>`:''}</div><details class="call-data"><summary>Modifier les données de l’appel</summary><div class="inputs-row"><label>Arguments de l’appel<input class="args-input" data-p-field="args" aria-label="Arguments de l’appel" spellcheck="false" value="${esc(w.args)}" ${this.data.readOnly?'readonly':''}></label>${button('Essayer une liste vide','empty')}${button('Données de départ','default-args')}</div></details><p data-call-caption class="small"></p><p data-error role="alert" hidden></p><div class="workspace"><section class="visual-pane" aria-label="Ce que fait le programme"><div class="pane-header"><strong>Ce que fait le programme</strong><small data-trace-kind>Avant l’exécution</small></div><div class="visual-body" data-trace></div></section><section class="code-pane"><div class="pane-header"><strong data-mode>${demo?'Exemple travaillé · lecture seule':'main.js · ton programme'}</strong><small data-active-line>Code JavaScript</small></div><div class="editor-wrap"><pre class="line-numbers" data-lines aria-hidden="true">${code.split('\n').map((_,n)=>n+1).join('\n')}</pre><div class="active-line" data-active-line-marker aria-hidden="true"></div><textarea class="code-editor" data-p-field="code" aria-label="Éditeur de code JavaScript" spellcheck="false" wrap="off" autocapitalize="off" autocomplete="off" ${demo||this.data.readOnly?'readonly':''}>${esc(code)}</textarea></div><div class="editor-footer">${button('Exécuter','run','primary')}${button('Arrêter','stop')}${button(demo?'Passer à mon code':'Reprendre le départ','reset')}${button('Exporter .js','export-code')}<small>Ctrl / ⌘ + Entrée</small></div></section></div><div class="runbar">${button('↺ Début','first')}${button('← Précédent','previous')}${button('Pas suivant →','next')}${button('Lire ▶','play')}<input class="range" type="range" data-range min="0" max="0" value="0" aria-label="Position dans la trace"><span class="counter" data-trace-count>0 / 0</span><label class="small">Rythme<select data-speed><option value="1100" ${this.speed===1100?'selected':''}>Lent</option><option value="650" ${this.speed===650?'selected':''}>Normal</option><option value="300" ${this.speed===300?'selected':''}>Rapide</option></select></label>${button('Résultat','last')}</div><p class="run-info">La trace provient du code affiché et de tes arguments. Une étape correspond à une opération expliquée, pas à une mesure de vitesse du programme.</p><details class="console-panel"><summary>Console · ce qui a été affiché</summary><pre class="console-output" data-console aria-label="Console">Aucun affichage pour le moment.</pre></details>${embeddedQuizzes.length&&this.selected===this.tasks().find(t=>t.interactive?.kind==='code')?.id?`<section class="panel p-spaced"><h3>Vérifier ma recherche</h3><div class="quiz-grid">${embeddedQuizzes.map(q=>this.taskView(q)).join('')}</div></section>`:''}<div class="practice-tools"><section class="panel"><h3>Un coup de pouce</h3><p>Commence par décrire ce que tu attendais et ce que tu observes.</p><div data-hints>${(a.workshop?.hints||[]).slice(0,w.hints).map((h,n)=>`<p class="hint">${n+1}. ${esc(h)}</p>`).join('')}</div>${button('Afficher un indice','hint','quiet',w.hints>=(a.workshop?.hints||[]).length?'disabled':'')}</section><section class="panel"><h3>Vérifier mon programme</h3><ul>${(a.workshop?.checks||[]).map(c=>`<li>${esc(c)}</li>`).join('')}</ul>${button('Tester plusieurs cas','test','primary',demo?'disabled':'')}<div class="test-list" data-tests aria-live="polite"></div></section></div>${this.comparisonView()}<div class="reflection"><label>${esc(i.reflection)}<textarea data-p-field="reflection" placeholder="${esc(copy.reflectionPlaceholder||'Explique ta démarche avec un exemple précis.')}" ${this.data.readOnly?'readonly':''}>${esc(w.reflection)}</textarea></label></div><div class="next-row"><span class="fine">${esc(!a.required?copy.transferContinueNote||'Garde ta production.':copy.continueNote||'Enregistre une explication, même si ton programme ne fonctionne pas encore.')}</span>${button(this.tasks().filter(t=>t.interactive?.kind==='code').at(-1)?.id!==a.id&&a.required?'Atelier suivant →':'Repère suivant →','continue','primary')}</div>`;}
- comparisonView(){const c=this.data.programming.comparisons.find(c=>c.blockId===this.data.block.id);if(!c)return '';this.comparison=c;this.compareIndex=0;this.compareExecution=null;this.comparePosition=-1;const copy=this.presentation.comparisons?.find(p=>p.id===c.id);return `<details class="panel comparison" data-comparison><summary>${esc(c.title)}</summary><p>${esc(copy?.description||'Compare les programmes sur les mêmes données, puis suis leurs étapes.')}</p><div class="comparison-buttons">${c.programs.map((p,n)=>`<button type="button" data-compare-program="${n}" class="${n===0?'active':''}" aria-pressed="${n===0}">${esc(p.title)}</button>`).join('')}</div><pre data-compare-code></pre><div class="compare-vis" data-compare-array></div><div class="comparison-run">${button('Étape suivante','compare-step')}${button('Recommencer','compare-reset')}<span data-compare-caption aria-live="polite"></span></div><p class="small" data-compare-rule></p>${copy?table(copy):''}</details>`;}
- input(e){const el=e.target;if(el.matches('[data-range]')){this.stop();this.position=Number(el.value);this.drawTrace();return;}if(this.data.readOnly)return;const id=el.closest('[data-work-id]')?.dataset.workId||this.selected,w=this.workFor(id);if(el.dataset.gap!==undefined){w.responses[el.dataset.gap]=el.value;el.classList.remove('valid','invalid');this.save(id);return;}const field=el.dataset.pField;if(!field||el.type==='radio'||this.mode==='demo'&&field==='code')return;w[field]=el.value;if(['code','args'].includes(field)){this.resetExecution();this.drawTrace();this.querySelector('[data-tests]').textContent='';}this.save(id);}
- change(e){const el=e.target,field=el.dataset.pField,id=el.closest('[data-work-id]')?.dataset.workId||this.selected;
-  if(el.type==='radio'&&field&&!this.data.readOnly){const value=Number(el.value),w=this.workFor(id),a=this.data.activities.find(a=>a.id===id);if(field==='prediction')w.prediction=value;else w.responses.choice=value;const q=field==='prediction'?a.interactive.prediction:a.interactive.question,box=el.closest('fieldset');box.querySelector('[data-feedback]').innerHTML=`<p class="feedback ${value===q.correct?'':'warn'}">${esc(q.options[value].feedback)}</p>`;for(const l of box.querySelectorAll('.option')){l.classList.toggle('selected',l.contains(el));l.classList.toggle('good',l.contains(el)&&value===q.correct);}this.save(id);}
-  if(el.matches('[data-speed]')){this.speed=Number(el.value);this.stop();}if(el.matches('[data-reduced]')){this.reduced=el.checked;this.classList.toggle('reduced-motion',this.reduced);this.stop();}if(el.matches('[data-work-file]'))this.importWork(el.files[0]);if(el.matches('[data-p-session]'))this.navigate(this.data.programming.sessions.find(s=>s.id===el.value).blockIds[0]);
- }
- async click(e){
-  const select=e.target.closest('[data-p-select]');if(select){this.select(select.dataset.pSelect);return;}
-  const nav=e.target.closest('[data-p-block]');if(nav){this.navigate(nav.dataset.pBlock,nav.dataset.pTarget||undefined);return;}
-  const compare=e.target.closest('[data-compare-program]');if(compare){this.compareJob?.stop();this.compareJob=null;this.compareIndex=Number(compare.dataset.compareProgram);this.compareExecution=null;this.comparePosition=-1;this.drawComparison();return;}
-  const b=e.target.closest('[data-p-action]');if(!b)return;const action=b.dataset.pAction;
-  if(action==='memo'){this.querySelector('[data-memo]').showModal();return;}if(action==='close-memo'){this.querySelector('[data-memo]').close();return;}if(action==='export'){this.download();return;}if(action==='export-code'){this.saveFile(this.selected+'.js',this.querySelector('[data-p-field=code]').value,'text/javascript');return;}if(action==='import'){this.querySelector('[data-work-file]').click();return;}
-  if(action==='continue'){const codes=this.tasks().filter(a=>a.interactive?.kind==='code'),n=codes.findIndex(a=>a.id===this.selected);if(n>=0&&n<codes.length-1)this.select(codes[n+1].id);else this.navigate(Math.min(this.data.blocks.length-1,this.data.index+1));return;}
-  if(action==='compare-step'){await this.stepComparison();return;}if(action==='compare-reset'){this.compareJob?.stop();this.compareJob=null;this.compareExecution=null;this.comparePosition=-1;this.drawComparison();return;}
-  if(action==='bank'){const box=b.closest('[data-work-id]').querySelector('[data-bank]');box.hidden=!box.hidden;b.textContent=box.hidden?'Afficher les mots disponibles':'Masquer les mots';return;}
-  if(action==='cloze'){const box=b.closest('[data-work-id]'),a=this.data.activities.find(a=>a.id===box.dataset.workId),norm=v=>v.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase();let n=0,correct=0;for(const s of a.interactive.segments)if(typeof s!=='string'){const input=box.querySelector(`[data-gap="${n++}"]`),good=[s.answer,...s.alternatives||[]].some(v=>norm(v)===norm(input.value));input.classList.toggle('valid',good);input.classList.toggle('invalid',!good);if(good)correct++;}box.querySelector('[data-cloze-result]').innerHTML=`<p class="feedback ${correct===n?'':'warn'}">${correct} / ${n} mots retrouvés. ${esc(correct===n?a.interactive.explanation:'Reprends les champs soulignés en orange. Les mots disponibles peuvent te donner un indice.')}</p>`;return;}
-  if(['draft','demo'].includes(action)){this.stop();this.mode=action;this.execution=null;this.stale=false;this.renderContent();return;}
-  if(action==='stop'){this.stop();this.showError('Exécution arrêtée.');return;}
-  if(['run','test'].includes(action)){await this.run(action==='test');return;}
-  if(action==='reset'){if(this.mode==='demo'){this.mode='draft';this.execution=null;this.renderContent();return;}if(this.data.readOnly||!confirm('Reprendre le code de départ de cet atelier ? Exporte ton travail pour conserver cette version.'))return;this.resetExecution();Object.assign(this.work,{code:this.activity.starter,args:compact(this.activity.interactive.args)});this.save();this.renderContent();return;}
-  if(['empty','default-args'].includes(action)){if(this.data.readOnly)return;this.work.args=compact(action==='empty'?[[],...this.activity.interactive.args.slice(1)]:this.activity.interactive.args);this.querySelector('[data-p-field=args]').value=this.work.args;this.resetExecution();this.drawTrace();this.save();return;}
-  if(action==='hint'){if(this.data.readOnly)return;const hints=this.activity.workshop?.hints||[];this.work.hints=Math.min(hints.length,this.work.hints+1);this.querySelector('[data-hints]').innerHTML=hints.slice(0,this.work.hints).map((h,n)=>`<p class="hint">${n+1}. ${esc(h)}</p>`).join('');b.disabled=this.work.hints>=hints.length;this.save();return;}
-  if(!['first','previous','next','last','play'].includes(action))return;
-  if(!this.execution)await this.run();if(!this.execution?.trace?.length)return;
-  if(action==='play'){if(this.playTimer)this.stop();else if(!this.reduced){if(this.position>=this.execution.trace.length-1)this.position=-1;b.textContent='Pause ❚❚';this.playTimer=setInterval(()=>{if(!this.isConnected||this.position>=this.execution.trace.length-1){this.stop();return;}this.position++;this.drawTrace();},this.speed);}return;}
-  this.stop();if(action==='first')this.position=0;if(action==='previous')this.position=Math.max(0,this.position-1);if(action==='next')this.position=Math.min(this.execution.trace.length-1,this.position+1);if(action==='last')this.position=this.execution.trace.length-1;this.drawTrace();
- }
- showError(text){const n=this.querySelector('[data-error]');if(n){n.hidden=!text;n.className=text?'error':'';n.textContent=text;}}
- async run(test=false){
-  this.stop();const a=this.activity,i=a.interactive,code=this.querySelector('[data-p-field=code]').value;
-  let args;try{args=JSON.parse(this.querySelector('[data-p-field=args]').value);if(!Array.isArray(args)||JSON.stringify(args).length>16000)throw Error();}catch{this.showError('Arguments : tableau JSON valide requis, 16 Ko maximum.');return;}
-  const request={code,invoke:i.invoke,args};if(test)request.tests=(a.publicTests||[]).map((t,n)=>({invoke:t.invoke,args:JSON.parse(t.argsJSON),expected:JSON.parse(t.expectedJSON),label:i.testLabels[n]}));
-  const job=this.job=execute(request);this.showError('Exécution en cours…');const result=await job.promise;if(this.job!==job||!this.isConnected)return;this.job=null;this.showError(result.error||result.results?.find(r=>r.error)?.error||'');
-  // Test cases have their own arguments. Preserve the displayed invocation's
-  // trace so its editor arguments and its visual state can never disagree.
-  if(!test){this.execution=result.results?.[0]||null;this.executedCode=code;this.executedArgs=args;this.position=0;this.stale=false;}
-  if(test){const results=result.results||[],passed=results.filter(t=>t.passed).length;this.querySelector('[data-tests]').innerHTML=`<p class="small">${passed} / ${results.length} cas vérifiés. ${passed===results.length?'Explique maintenant pourquoi ta solution fonctionne.':'Commence par le premier cas qui échoue.'}</p>${results.map(t=>`<details class="test-row ${t.passed?'pass':'fail'}"><summary>${t.passed?'✓':'À reprendre'} · ${esc(t.label)}</summary><span>Attendu : ${esc(compact(t.expected))}</span><span>Obtenu : ${esc(t.error||compact(t.result))}</span></details>`).join('')}`;}
-  if(this.mode==='draft'&&!this.data.readOnly){this.work.attempts++;this.work.results={code,args:pretty(args),status:result.errorCode||this.execution?.errorCode||(test&&result.results?.some(r=>!r.passed)?'TEST_FAILED':'OK'),passed:test?result.results?.filter(r=>r.passed).length:null,certified:false};this.save();}this.drawTrace();
- }
- drawTrace(){
-  const target=this.querySelector('[data-trace]');if(!target)return;let args=[];try{args=JSON.parse(this.work.args);}catch{}
-  const code=this.querySelector('[data-p-field=code]').value,frame=this.execution?.trace?.[this.position];
-  target.innerHTML=renderProgrammingVisual({activity:this.activity,code:this.execution?this.executedCode:code,args:this.execution?this.executedArgs:args,execution:this.execution,position:this.position,stale:this.stale});
-  this.querySelector('[data-call-caption]').textContent=`Appel observé : ${this.activity.interactive.invoke}(${Array.isArray(args)?args.map(compact).join(', '):'…'})`;
-  this.querySelector('[data-trace-kind]').textContent=frame?kindName(frame.kind):'Avant l’exécution';
-  this.querySelector('[data-console]').textContent=this.execution?.trace.slice(0,this.position+1).filter(f=>f.kind==='output').map(f=>f.output.map(v=>typeof v==='string'?v:compact(v)).join(' ')).join('\n')||'Aucun affichage pour le moment.';
-  const range=this.querySelector('[data-range]');range.max=Math.max(0,(this.execution?.trace?.length||0)-1);range.value=this.position;
-  this.querySelector('[data-trace-count]').textContent=`${frame?this.position+1:0} / ${this.execution?.trace?.length||0}`;
-  this.querySelector('[data-lines]').textContent=code.split('\n').map((_,n)=>n+1).join('\n');this.highlightLine(true);
- }
- highlightLine(follow=false){const e=this.querySelector('[data-p-field=code]'),gutter=this.querySelector('[data-lines]'),marker=this.querySelector('[data-active-line-marker]');if(!e||!gutter)return;const frame=this.execution?.trace?.[this.position],line=frame?.line,top=14+Math.max(0,(line||1)-1)*23;if(follow&&line&&(top<e.scrollTop||top>e.scrollTop+e.clientHeight-45))e.scrollTop=Math.max(0,top-80);gutter.scrollTop=e.scrollTop;marker.style.display=line?'block':'none';marker.style.top=(top-e.scrollTop)+'px';this.querySelector('[data-active-line]').textContent=line?'Ligne '+line:'Code JavaScript';}
- drawComparison(){const box=this.querySelector('[data-comparison]'),c=this.comparison;if(!box||!c)return;const p=c.programs[this.compareIndex],f=this.compareExecution?.trace?.[this.comparePosition];box.querySelector('[data-compare-code]').textContent=p.code;for(const b of box.querySelectorAll('[data-compare-program]')){const active=Number(b.dataset.compareProgram)===this.compareIndex;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));}
-  const recent=this.compareExecution?.trace?.slice(0,this.comparePosition+1).findLast(t=>['read','foreach-item'].includes(t.kind)&&Number.isInteger(t.index)),idx=Number.isInteger(f?.index)?f.index:recent?.index;
-  box.querySelector('[data-compare-array]').innerHTML=(c.args.find(Array.isArray)||[]).map((v,n)=>`<div class="compare-item ${idx===n?'active':''}">${esc(compact(v))}</div>`).join('');box.querySelector('[data-compare-caption]').textContent=f?f.label+(typeof f.variables?.nombre==='number'?' · nombre = '+f.variables.nombre:''):'Prêt à parcourir.';box.querySelector('[data-compare-rule]').textContent=this.presentation.comparisons?.find(x=>x.id===c.id)?.rules.find(r=>r.id===p.id)?.text||'';box.querySelector('[data-p-action=compare-step]').disabled=!!this.compareExecution&&this.comparePosition>=this.compareExecution.trace.length-1;
- }
- async stepComparison(){const c=this.comparison;if(!c)return;if(!this.compareExecution){const job=this.compareJob=execute({code:c.programs[this.compareIndex].code,invoke:c.invoke,args:c.args});const result=await job.promise;if(this.compareJob!==job||!this.isConnected)return;this.compareJob=null;this.compareExecution=result.results?.[0];if(!this.compareExecution){this.querySelector('[data-compare-caption]').textContent=result.error||'Exécution indisponible.';return;}}this.comparePosition=Math.min(this.compareExecution.trace.length-1,this.comparePosition+1);this.drawComparison();}
- saveFile(name,content,type='application/json'){const url=URL.createObjectURL(new Blob([content],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
- download(){const work=Object.fromEntries(Object.keys(this.answers).map(id=>[id,this.workFor(id)]));for(const [id,w] of this.works)work[id]=w;this.saveFile('programmation-mon-travail.json',JSON.stringify({format:'programming-course-work-1',identity:this.data.identity,work,certified:false},null,2));}
- async importWork(file){try{if(this.data.readOnly)return;if(!file||file.size>2000000)throw Error('Fichier limité à 2 Mo.');const d=JSON.parse(await file.text());if(JSON.stringify(d.identity)!==JSON.stringify(this.data.identity))throw Error('Ce fichier appartient à un autre cours ou à une autre version.');const entries=d.format==='programming-course-work-1'?Object.entries(d.work||{}):d.format==='programming-work-1'?[[d.activityId,d.work]]:null;if(!entries?.length)throw Error('Format de travail incompatible.');const valid=entries.map(([id,w])=>{if(!this.data.activities.some(a=>a.id===id))throw Error('Activité inconnue dans ce fichier.');return [id,parseWork(JSON.stringify({...w,results:null,attempts:0}))];});if(!confirm('Reprendre le travail de ce fichier ? Les brouillons des activités présentes seront remplacés.'))return;this.stop();for(const [id,w] of valid){this.works.set(id,w);this.save(id);}this.execution=null;this.mode='draft';this.renderContent();this.status('Travail repris · relance les tests.');}catch(e){alert(e.message);}finally{const el=this.querySelector('[data-work-file]');if(el)el.value='';}}
+  disconnectedCallback() {
+    this.stop();
+    this.saveObserver?.disconnect();
+    document.removeEventListener("visibilitychange", this.visibility);
+  }
+  get activity() {
+    return this.data.activities.find((a) => a.id === this.selected);
+  }
+  get presentation() {
+    return this.data.programming.presentation || {};
+  }
+  workFor(id) {
+    if (!this.works.has(id)) {
+      let w;
+      try {
+        w = parseWork(this.answers[id]);
+      } catch {}
+      const a = this.data.activities.find((x) => x.id === id);
+      if (w?.format !== "programming-work-1")
+        w = {
+          format: "programming-work-1",
+          code: a?.starter || "",
+          args: compact(a?.interactive?.args || []),
+          prediction: null,
+          hints: 0,
+          reflection: "",
+          responses: {},
+          attempts: 0,
+        };
+      this.works.set(id, w);
+    }
+    return this.works.get(id);
+  }
+  get work() {
+    return this.workFor(this.selected);
+  }
+  save(id = this.selected) {
+    if (this.data.readOnly) return;
+    const answer = JSON.stringify(this.workFor(id));
+    this.answers[id] = answer;
+    this.dispatchEvent(
+      new CustomEvent("programming-answer", {
+        bubbles: true,
+        detail: { id, answer },
+      }),
+    );
+    this.status(
+      this.data.preview
+        ? "Conservé dans cet aperçu"
+        : "Sauvegarde en cours · Mon travail",
+    );
+  }
+  status(text) {
+    const n = this.querySelector("[data-save]");
+    if (n) n.textContent = text;
+  }
+  stop() {
+    clearInterval(this.playTimer);
+    this.playTimer = null;
+    this.job?.stop();
+    this.job = null;
+    this.compareJob?.stop();
+    this.compareJob = null;
+    const b = this.querySelector("[data-p-action=play]");
+    if (b) b.textContent = "Lire ▶";
+  }
+  resetExecution() {
+    this.stop();
+    this.execution = null;
+    this.stale = true;
+    this.work.results = null;
+  }
+  setInitialMode() {
+    this.mode =
+      this.activity?.interactive?.demo &&
+      !this.answers[this.selected] &&
+      this.data.block.phase !== "autonomy"
+        ? "demo"
+        : "draft";
+  }
+  select(id) {
+    if (!this.data.activities.some((a) => a.id === id)) return;
+    this.stop();
+    this.selected = id;
+    this.execution = null;
+    this.stale = false;
+    this.setInitialMode();
+    this.renderContent();
+  }
+  navigate(blockId, activityId) {
+    const index =
+      typeof blockId === "number"
+        ? blockId
+        : this.data.blocks.findIndex((b) => b.id === blockId);
+    if (index < 0 || index >= this.data.blocks.length) return;
+    if (index === this.data.index) {
+      if (activityId) this.select(activityId);
+      return;
+    }
+    this.stop();
+    this.dispatchEvent(
+      new CustomEvent("programming-navigate", {
+        bubbles: true,
+        detail: { index, activityId },
+      }),
+    );
+  }
+  get session() {
+    return this.data.programming.sessions.find((s) =>
+      s.blockIds.includes(this.data.block.id),
+    );
+  }
+  render() {
+    const { block, programming, blocks } = this.data,
+      s = this.session,
+      heading = this.presentation.headings?.find((h) => h.blockId === block.id),
+      sessionIndex = programming.sessions.indexOf(s);
+    this.classList.toggle("reduced-motion", this.reduced);
+    this.innerHTML = `<div class="shell"><aside class="sidebar"><p class="eyebrow">MON PARCOURS</p><label class="select-label">Séance<select data-p-session aria-label="Séance du parcours">${programming.sessions.map((x, n) => `<option value="${esc(x.id)}" ${s === x ? "selected" : ""}>${String(n + 1).padStart(2, "0")} · ${esc(this.presentation.sessionLabels?.find((label) => label.id === x.id)?.title || x.title.replace(/^Séance \d+\s*[—:·-]\s*/, ""))}</option>`).join("")}</select></label><nav class="p-steps" aria-label="Les repères de la séance">${(s?.blockIds || blocks.map((b) => b.id)).map((id, n) => `<button type="button" class="nav-step" data-p-block="${esc(id)}" ${id === block.id ? 'aria-current="step"' : ""}><span class="n">${String(n + 1).padStart(2, "0")}</span><span>${esc(this.presentation.headings?.find((h) => h.blockId === id)?.title || blocks.find((b) => b.id === id)?.title)}</span></button>`).join("")}</nav><div class="sidebar-footer">${this.presentation.memo?.length ? button("Ouvrir mon mémo", "memo", "text-button") : ""}<label class="motion"><input type="checkbox" data-reduced ${this.reduced ? "checked" : ""}> Réduire les animations</label><p>Ton code reste disponible quand tu changes d’atelier.</p></div></aside><div class="p-main" tabindex="-1"><div class="top-actions" aria-label="Conserver et reprendre mon travail">${button("Exporter mon travail", "export", "quiet")}${button("Reprendre un fichier", "import", "quiet", this.data.readOnly ? "disabled" : "")}<input type="file" data-work-file accept="application/json,.json" hidden><span data-save class="save-state" role="status">${this.data.preview ? "Aperçu · travail dans cet onglet" : "Sauvegarde TweenTeach"}</span></div><header><p class="eyebrow">SÉANCE ${sessionIndex + 1} / ${programming.sessions.length} · REPÈRE ${(s?.blockIds.indexOf(block.id) ?? this.data.index) + 1} / ${s?.blockIds.length || blocks.length}</p><h1 tabindex="-1">${esc(heading?.title || block.title)}</h1><p class="lead">${esc(heading?.lead || block.content)}</p></header><div data-content-view></div>${this.teachingView()}${this.resourceView()}</div></div><dialog data-memo><div class="dialog-heading"><h2>Mes repères JavaScript</h2>${button("Fermer", "close-memo", "quiet")}</div><div data-memo-body>${(this.presentation.memo || []).map((m) => `<h3>${esc(m.title)}</h3>${m.code ? `<pre>${esc(m.code)}</pre>` : ""}${paragraphs(m.paragraphs)}${m.table ? table(m.table) : ""}`).join("")}${this.resourceView()}</div></dialog>`;
+    this.renderContent();
+  }
+  teachingView() {
+    const g = this.data.block.teaching;
+    if (!g) return "";
+    return `<details class="p-teaching"><summary>Les repères de cette étape</summary>${paragraphs([this.data.block.content])}${g.steps?.length ? `<ol>${g.steps.map((x) => `<li>${esc(x)}</li>`).join("")}</ol>` : ""}${
+      g.diagram?.length
+        ? `<div class="p-teaching-diagram">${g.diagram
+            .map(
+              (row) =>
+                `<div class="flow">${row
+                  .split(/\s*→\s*/)
+                  .map((x) => `<span class="flow-node">${esc(x)}</span>`)
+                  .join('<span aria-hidden="true">→</span>')}</div>`,
+            )
+            .join("")}</div>`
+        : ""
+    }${paragraphs([g.hint, g.check, ...(g.takeaways || [])].filter(Boolean))}</details>`;
+  }
+  resourceView() {
+    const resources = (this.data.resources || []).filter((r) =>
+      r.startsWith("/api/lesson-transfer-files/"),
+    );
+    return resources.length
+      ? `<details class="p-resources"><summary>Supports de la séance</summary>${resources.map((r, i) => `<p><a href="${esc(r)}" target="_blank" rel="noopener">${i === 0 ? "Mémo et support du cours" : "Support " + (i + 1)}</a></p>`).join("")}</details>`
+      : "";
+  }
+  tasks() {
+    return this.data.block.activityIds
+      .map((id) => this.data.activities.find((a) => a.id === id))
+      .filter(Boolean);
+  }
+  optionalTasks() {
+    const target = this.presentation.summaries?.find(
+      (s) => s.nextBlockId === this.data.block.id && s.nextActivityId,
+    );
+    return target ||
+      (!this.presentation.theme &&
+        this.data.index === this.data.blocks.length - 1)
+      ? this.data.programming.optionalActivityIds
+          .map((id) => this.data.activities.find((a) => a.id === id))
+          .filter(Boolean)
+      : [];
+  }
+  renderContent() {
+    const tasks = this.tasks(),
+      codes = tasks.filter((a) => a.interactive?.kind === "code"),
+      view = this.querySelector("[data-content-view]"),
+      opening = this.presentation.openings?.find(
+        (x) => x.blockId === this.data.block.id,
+      ),
+      summary = this.presentation.summaries?.find(
+        (x) => x.blockId === this.data.block.id,
+      );
+    if (
+      codes.length ||
+      this.optionalTasks().some((a) => a.id === this.selected)
+    ) {
+      if (this.activity?.interactive?.kind !== "code") {
+        this.selected = codes[0].id;
+        this.setInitialMode();
+      }
+      const choices = [...codes, ...this.optionalTasks()];
+      view.innerHTML = `<div class="activity-picker">${choices.map((a) => `<button type="button" class="activity-chip ${a.id === this.selected ? "active" : ""}" data-p-select="${esc(a.id)}" aria-pressed="${a.id === this.selected}">${a.required ? "" : "Reprise différée · "}${esc(a.title)}</button>`).join("")}</div><article data-activity="${esc(this.selected)}" data-work-id="${esc(this.selected)}">${this.codeView(this.activity)}</article>`;
+      this.drawTrace();
+      this.drawComparison();
+      return;
+    }
+    if (opening)
+      view.innerHTML = `<div class="hero-grid"><section class="hero-copy"><span class="hero-pill">${esc(opening.tag)}</span><h2>${esc(opening.title)}</h2>${paragraphs(opening.paragraphs)}<button type="button" class="primary" data-p-block="${esc(opening.nextBlockId)}">${esc(opening.actionLabel)} →</button></section><section class="panel"><p class="eyebrow">DONNÉES DE DÉPART</p><div class="array-label"><code>${esc(opening.arrayName)}</code><span>length = ${opening.values.length}</span></div>${renderArray(opening.values, -1, { battery: opening.arrayName === "batteries" })}<div class="dashboard">${opening.stats.map((stat) => `<div class="stat"><strong>${esc(stat.value)}</strong><span>${esc(stat.label)}</span></div>`).join("")}</div><p class="small">${esc(opening.caption)}</p></section></div><div class="note p-spaced">${esc(opening.note)}</div><h2 class="p-section-title">Deux questions pour démarrer</h2><div class="quiz-grid">${tasks.map((a) => this.taskView(a)).join("")}</div>`;
+    else if (summary) {
+      const quizzes = tasks.filter((a) => a.interactive?.kind === "quiz");
+      view.innerHTML = `${tasks
+        .filter((a) => a.interactive?.kind === "cloze")
+        .map((a) => this.taskView(a))
+        .join(
+          "",
+        )}<h2 class="p-section-title">Trois décisions à expliquer</h2><div class="quiz-grid">${quizzes
+        .slice(0, 3)
+        .map((a) => this.taskView(a))
+        .join("")}</div>${
+        quizzes.length > 3
+          ? `<details class="panel p-spaced"><summary>Une question supplémentaire pour aller plus loin</summary><div class="quiz-grid">${quizzes
+              .slice(3)
+              .map((a) => this.taskView(a))
+              .join("")}</div></details>`
+          : ""
+      }${tasks
+        .filter((a) => !a.interactive)
+        .map((a) => this.taskView(a))
+        .join(
+          "",
+        )}<div class="note p-spaced">${esc(summary.note)}</div><div class="summary-actions">${button("Exporter mon travail", "export", "primary")}${summary.nextBlockId ? `<button type="button" data-p-block="${esc(summary.nextBlockId)}" data-p-target="${esc(summary.nextActivityId || "")}">${esc(summary.actionLabel)} →</button>` : ""}${this.optionalTasks()
+        .map(
+          (a) =>
+            `<button type="button" class="activity-chip" data-p-select="${esc(a.id)}">Reprise différée · ${esc(a.title)}</button>`,
+        )
+        .join(
+          "",
+        )}</div><p class="small">${esc(this.presentation.assessmentNote)}</p>`;
+    } else
+      view.innerHTML = `<div class="quiz-grid">${tasks.map((a) => this.taskView(a)).join("")}</div>`;
+  }
+  taskView(a) {
+    const w = this.workFor(a.id),
+      i = a.interactive;
+    return `<section data-work-id="${esc(a.id)}" data-activity="${esc(a.id)}" class="${i?.kind === "quiz" ? "quiz-card" : i?.kind === "cloze" ? "panel" : "reflection panel p-spaced"}">${i?.kind === "quiz" ? this.quizView(i.question, w.responses.choice, "choice", a.id) : i?.kind === "cloze" ? this.clozeView(a) : `<h3>${esc(a.title)}</h3>${paragraphs([a.instruction || a.objective])}<label>${esc(a.expectedEvidence || "Ton explication")}<textarea data-p-field="reflection" ${this.data.readOnly ? "readonly" : ""}>${esc(w.reflection)}</textarea></label>`}</section>`;
+  }
+  quizView(q, value, field, id = this.selected) {
+    return `<fieldset class="p-question" ${this.data.readOnly ? "disabled" : ""}><legend class="${field === "prediction" ? "question" : ""}">${esc(q.question)}</legend>${q.code ? `<pre class="quiz-code">${esc(q.code)}</pre>` : ""}<div class="options">${q.options.map((o, n) => `<label class="option ${value === n ? "selected " + (n === q.correct ? "good" : "") : ""}"><input type="radio" name="${esc(id + "-" + field)}" data-p-field="${field}" value="${n}" ${value === n ? "checked" : ""}><span>${esc(o.text)}</span></label>`).join("")}</div>${field === "prediction" ? `<p class="small">${esc(this.presentation.workshop?.predictionContext || "Modifier les données ou le code ne change pas cette question.")}</p>` : ""}<div data-feedback="${field}" aria-live="polite">${Number.isInteger(value) ? `<p class="feedback ${value === q.correct ? "" : "warn"}">${esc(q.options[value]?.feedback)}</p>` : ""}</div></fieldset>`;
+  }
+  clozeView(a) {
+    const i = a.interactive,
+      w = this.workFor(a.id);
+    let n = 0;
+    return `<p class="eyebrow">JE RETROUVE LES MOTS</p><h2>Mon bilan à compléter</h2><p class="small">Fais un premier essai de mémoire. Tu peux ensuite afficher les mots disponibles.</p><div class="cloze">${i.segments.map((s) => (typeof s === "string" ? esc(s) : `<input aria-label="Mot à compléter ${++n}" data-gap="${n - 1}" value="${esc(w.responses[n - 1] || "")}" autocomplete="off" spellcheck="false" ${this.data.readOnly ? "readonly" : ""}>`)).join("")}</div><div class="word-bank" data-bank hidden>${i.bank.map((s) => `<span>${esc(s)}</span>`).join("")}</div><div class="cloze-actions">${button("Vérifier mes mots", "cloze", "primary")}${button("Afficher les mots disponibles", "bank")}</div><div data-cloze-result aria-live="polite"></div>`;
+  }
+  codeView(a) {
+    const i = a.interactive,
+      w = this.work,
+      copy = this.presentation.workshop || {},
+      demo = this.mode === "demo",
+      code = demo ? i.demo : w.code;
+    const embeddedQuizzes = this.tasks().filter(
+      (t) => t.interactive?.kind !== "code",
+    );
+    return `<div class="activity-top"><div><h2>${esc(a.title)}</h2><p class="goal">${esc(a.objective)}</p></div><div class="mode-switch">${i.demo ? button("Voir l’exemple", "demo", demo ? "active" : "", 'aria-pressed="' + demo + '"') : ""}${button("Mon code", "draft", !demo ? "active" : "", 'aria-pressed="' + !demo + '"')}</div></div>${!a.required ? `<p class="note">Prolongement facultatif · ${a.duration} min. ${esc(copy.transferNote || "À reprendre lors d’une prochaine séance avec de nouvelles données.")}</p>` : ""}<div class="explanation"><span class="micro-tag">LE REPÈRE</span><div>${paragraphs(i.explanation)}</div></div><div data-prediction-area>${!demo ? `<section class="prediction"><p class="eyebrow">AVANT DE CODER · QUESTION SUR LES DONNÉES INDIQUÉES</p>${this.quizView(i.prediction, w.prediction, "prediction")}</section>` : ""}</div><details class="call-data"><summary>Modifier les données de l’appel</summary><div class="inputs-row"><label>Arguments de l’appel<input class="args-input" data-p-field="args" aria-label="Arguments de l’appel" spellcheck="false" value="${esc(w.args)}" ${this.data.readOnly ? "readonly" : ""}></label>${button("Essayer une liste vide", "empty")}${button("Données de départ", "default-args")}</div></details><p data-call-caption class="small"></p><p data-error role="alert" hidden></p><div class="workspace"><section class="visual-pane" aria-label="Ce que fait le programme"><div class="pane-header"><strong>Ce que fait le programme</strong><small data-trace-kind>Avant l’exécution</small></div><div class="visual-body" data-trace></div></section><section class="code-pane"><div class="pane-header"><strong data-mode>${demo ? "Exemple travaillé · lecture seule" : "main.js · ton programme"}</strong><small data-active-line>Code JavaScript</small></div><div class="editor-wrap"><pre class="line-numbers" data-lines aria-hidden="true">${code
+      .split("\n")
+      .map((_, n) => n + 1)
+      .join(
+        "\n",
+      )}</pre><div class="active-line" data-active-line-marker aria-hidden="true"></div><textarea class="code-editor" data-p-field="code" aria-label="Éditeur de code JavaScript" spellcheck="false" wrap="off" autocapitalize="off" autocomplete="off" ${demo || this.data.readOnly ? "readonly" : ""}>${esc(code)}</textarea></div><div class="editor-footer">${button("Exécuter", "run", "primary")}${button("Arrêter", "stop")}${button(demo ? "Passer à mon code" : "Reprendre le départ", "reset")}${button("Exporter .js", "export-code")}<small>Ctrl / ⌘ + Entrée</small></div></section></div><div class="runbar">${button("↺ Début", "first")}${button("← Précédent", "previous")}${button("Pas suivant →", "next")}${button("Lire ▶", "play")}<input class="range" type="range" data-range min="0" max="0" value="0" aria-label="Position dans la trace"><span class="counter" data-trace-count>0 / 0</span><label class="small">Rythme<select data-speed><option value="1100" ${this.speed === 1100 ? "selected" : ""}>Lent</option><option value="650" ${this.speed === 650 ? "selected" : ""}>Normal</option><option value="300" ${this.speed === 300 ? "selected" : ""}>Rapide</option></select></label>${button("Résultat", "last")}</div><p class="run-info">La trace provient du code affiché et de tes arguments. Une étape correspond à une opération expliquée, pas à une mesure de vitesse du programme.</p><details class="console-panel"><summary>Console · ce qui a été affiché</summary><pre class="console-output" data-console aria-label="Console">Aucun affichage pour le moment.</pre></details>${embeddedQuizzes.length && this.selected === this.tasks().find((t) => t.interactive?.kind === "code")?.id ? `<section class="panel p-spaced"><h3>Vérifier ma recherche</h3><div class="quiz-grid">${embeddedQuizzes.map((q) => this.taskView(q)).join("")}</div></section>` : ""}<div class="practice-tools"><section class="panel"><h3>Un coup de pouce</h3><p>Commence par décrire ce que tu attendais et ce que tu observes.</p><div data-hints>${(
+      a.workshop?.hints || []
+    )
+      .slice(0, w.hints)
+      .map((h, n) => `<p class="hint">${n + 1}. ${esc(h)}</p>`)
+      .join(
+        "",
+      )}</div>${button("Afficher un indice", "hint", "quiet", w.hints >= (a.workshop?.hints || []).length ? "disabled" : "")}</section><section class="panel"><h3>Vérifier mon programme</h3><ul>${(a.workshop?.checks || []).map((c) => `<li>${esc(c)}</li>`).join("")}</ul>${button("Tester plusieurs cas", "test", "primary", demo ? "disabled" : "")}<div class="test-list" data-tests aria-live="polite"></div></section></div>${this.comparisonView()}<div class="reflection"><label>${esc(i.reflection)}<textarea data-p-field="reflection" placeholder="${esc(copy.reflectionPlaceholder || "Explique ta démarche avec un exemple précis.")}" ${this.data.readOnly ? "readonly" : ""}>${esc(w.reflection)}</textarea></label></div><div class="next-row"><span class="fine">${esc(!a.required ? copy.transferContinueNote || "Garde ta production." : copy.continueNote || "Enregistre une explication, même si ton programme ne fonctionne pas encore.")}</span>${button(
+      this.tasks()
+        .filter((t) => t.interactive?.kind === "code")
+        .at(-1)?.id !== a.id && a.required
+        ? "Atelier suivant →"
+        : "Repère suivant →",
+      "continue",
+      "primary",
+    )}</div>`;
+  }
+  comparisonView() {
+    const c = this.data.programming.comparisons.find(
+      (c) => c.blockId === this.data.block.id,
+    );
+    if (!c) return "";
+    this.comparison = c;
+    this.compareIndex = 0;
+    this.compareExecution = null;
+    this.comparePosition = -1;
+    const copy = this.presentation.comparisons?.find((p) => p.id === c.id);
+    return `<details class="panel comparison" data-comparison><summary>${esc(c.title)}</summary><p>${esc(copy?.description || "Compare les programmes sur les mêmes données, puis suis leurs étapes.")}</p><div class="comparison-buttons">${c.programs.map((p, n) => `<button type="button" data-compare-program="${n}" class="${n === 0 ? "active" : ""}" aria-pressed="${n === 0}">${esc(p.title)}</button>`).join("")}</div><pre data-compare-code></pre><div class="compare-vis" data-compare-array></div><div class="comparison-run">${button("Étape suivante", "compare-step")}${button("Recommencer", "compare-reset")}<span data-compare-caption aria-live="polite"></span></div><p class="small" data-compare-rule></p>${copy ? table(copy) : ""}</details>`;
+  }
+  input(e) {
+    const el = e.target;
+    if (el.matches("[data-range]")) {
+      this.stop();
+      this.position = Number(el.value);
+      this.drawTrace();
+      return;
+    }
+    if (this.data.readOnly) return;
+    const id = el.closest("[data-work-id]")?.dataset.workId || this.selected,
+      w = this.workFor(id);
+    if (el.dataset.gap !== undefined) {
+      w.responses[el.dataset.gap] = el.value;
+      el.classList.remove("valid", "invalid");
+      this.save(id);
+      return;
+    }
+    const field = el.dataset.pField;
+    if (
+      !field ||
+      el.type === "radio" ||
+      (this.mode === "demo" && field === "code")
+    )
+      return;
+    w[field] = el.value;
+    if (["code", "args"].includes(field)) {
+      this.resetExecution();
+      this.drawTrace();
+      this.querySelector("[data-tests]").textContent = "";
+    }
+    this.save(id);
+  }
+  change(e) {
+    const el = e.target,
+      field = el.dataset.pField,
+      id = el.closest("[data-work-id]")?.dataset.workId || this.selected;
+    if (el.type === "radio" && field && !this.data.readOnly) {
+      const value = Number(el.value),
+        w = this.workFor(id),
+        a = this.data.activities.find((a) => a.id === id);
+      if (field === "prediction") w.prediction = value;
+      else w.responses.choice = value;
+      const q =
+          field === "prediction"
+            ? a.interactive.prediction
+            : a.interactive.question,
+        box = el.closest("fieldset");
+      box.querySelector("[data-feedback]").innerHTML =
+        `<p class="feedback ${value === q.correct ? "" : "warn"}">${esc(q.options[value].feedback)}</p>`;
+      for (const l of box.querySelectorAll(".option")) {
+        l.classList.toggle("selected", l.contains(el));
+        l.classList.toggle("good", l.contains(el) && value === q.correct);
+      }
+      this.save(id);
+    }
+    if (el.matches("[data-speed]")) {
+      this.speed = Number(el.value);
+      this.stop();
+    }
+    if (el.matches("[data-reduced]")) {
+      this.reduced = el.checked;
+      this.classList.toggle("reduced-motion", this.reduced);
+      this.stop();
+    }
+    if (el.matches("[data-work-file]")) this.importWork(el.files[0]);
+    if (el.matches("[data-p-session]"))
+      this.navigate(
+        this.data.programming.sessions.find((s) => s.id === el.value)
+          .blockIds[0],
+      );
+  }
+  async click(e) {
+    const select = e.target.closest("[data-p-select]");
+    if (select) {
+      this.select(select.dataset.pSelect);
+      return;
+    }
+    const nav = e.target.closest("[data-p-block]");
+    if (nav) {
+      this.navigate(nav.dataset.pBlock, nav.dataset.pTarget || undefined);
+      return;
+    }
+    const compare = e.target.closest("[data-compare-program]");
+    if (compare) {
+      this.compareJob?.stop();
+      this.compareJob = null;
+      this.compareIndex = Number(compare.dataset.compareProgram);
+      this.compareExecution = null;
+      this.comparePosition = -1;
+      this.drawComparison();
+      return;
+    }
+    const b = e.target.closest("[data-p-action]");
+    if (!b) return;
+    const action = b.dataset.pAction;
+    if (action === "memo") {
+      this.querySelector("[data-memo]").showModal();
+      return;
+    }
+    if (action === "close-memo") {
+      this.querySelector("[data-memo]").close();
+      return;
+    }
+    if (action === "export") {
+      this.download();
+      return;
+    }
+    if (action === "export-code") {
+      this.saveFile(
+        this.selected + ".js",
+        this.querySelector("[data-p-field=code]").value,
+        "text/javascript",
+      );
+      return;
+    }
+    if (action === "import") {
+      this.querySelector("[data-work-file]").click();
+      return;
+    }
+    if (action === "continue") {
+      const codes = this.tasks().filter((a) => a.interactive?.kind === "code"),
+        n = codes.findIndex((a) => a.id === this.selected);
+      if (n >= 0 && n < codes.length - 1) this.select(codes[n + 1].id);
+      else
+        this.navigate(
+          Math.min(this.data.blocks.length - 1, this.data.index + 1),
+        );
+      return;
+    }
+    if (action === "compare-step") {
+      await this.stepComparison();
+      return;
+    }
+    if (action === "compare-reset") {
+      this.compareJob?.stop();
+      this.compareJob = null;
+      this.compareExecution = null;
+      this.comparePosition = -1;
+      this.drawComparison();
+      return;
+    }
+    if (action === "bank") {
+      const box = b.closest("[data-work-id]").querySelector("[data-bank]");
+      box.hidden = !box.hidden;
+      b.textContent = box.hidden
+        ? "Afficher les mots disponibles"
+        : "Masquer les mots";
+      return;
+    }
+    if (action === "cloze") {
+      const box = b.closest("[data-work-id]"),
+        a = this.data.activities.find((a) => a.id === box.dataset.workId),
+        norm = (v) =>
+          v
+            .trim()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLocaleLowerCase();
+      let n = 0,
+        correct = 0;
+      for (const s of a.interactive.segments)
+        if (typeof s !== "string") {
+          const input = box.querySelector(`[data-gap="${n++}"]`),
+            good = [s.answer, ...(s.alternatives || [])].some(
+              (v) => norm(v) === norm(input.value),
+            );
+          input.classList.toggle("valid", good);
+          input.classList.toggle("invalid", !good);
+          if (good) correct++;
+        }
+      box.querySelector("[data-cloze-result]").innerHTML =
+        `<p class="feedback ${correct === n ? "" : "warn"}">${correct} / ${n} mots retrouvés. ${esc(correct === n ? a.interactive.explanation : "Reprends les champs soulignés en orange. Les mots disponibles peuvent te donner un indice.")}</p>`;
+      return;
+    }
+    if (["draft", "demo"].includes(action)) {
+      this.stop();
+      this.mode = action;
+      this.execution = null;
+      this.stale = false;
+      this.renderContent();
+      return;
+    }
+    if (action === "stop") {
+      this.stop();
+      this.showError("Exécution arrêtée.");
+      return;
+    }
+    if (["run", "test"].includes(action)) {
+      await this.run(action === "test");
+      return;
+    }
+    if (action === "reset") {
+      if (this.mode === "demo") {
+        this.mode = "draft";
+        this.execution = null;
+        this.renderContent();
+        return;
+      }
+      if (
+        this.data.readOnly ||
+        !confirm(
+          "Reprendre le code de départ de cet atelier ? Exporte ton travail pour conserver cette version.",
+        )
+      )
+        return;
+      this.resetExecution();
+      Object.assign(this.work, {
+        code: this.activity.starter,
+        args: compact(this.activity.interactive.args),
+      });
+      this.save();
+      this.renderContent();
+      return;
+    }
+    if (["empty", "default-args"].includes(action)) {
+      if (this.data.readOnly) return;
+      this.work.args = compact(
+        action === "empty"
+          ? [[], ...this.activity.interactive.args.slice(1)]
+          : this.activity.interactive.args,
+      );
+      this.querySelector("[data-p-field=args]").value = this.work.args;
+      this.resetExecution();
+      this.drawTrace();
+      this.save();
+      return;
+    }
+    if (action === "hint") {
+      if (this.data.readOnly) return;
+      const hints = this.activity.workshop?.hints || [];
+      this.work.hints = Math.min(hints.length, this.work.hints + 1);
+      this.querySelector("[data-hints]").innerHTML = hints
+        .slice(0, this.work.hints)
+        .map((h, n) => `<p class="hint">${n + 1}. ${esc(h)}</p>`)
+        .join("");
+      b.disabled = this.work.hints >= hints.length;
+      this.save();
+      return;
+    }
+    if (!["first", "previous", "next", "last", "play"].includes(action)) return;
+    if (!this.execution) await this.run();
+    if (!this.execution?.trace?.length) return;
+    if (action === "play") {
+      if (this.playTimer) this.stop();
+      else if (!this.reduced) {
+        if (this.position >= this.execution.trace.length - 1)
+          this.position = -1;
+        b.textContent = "Pause ❚❚";
+        this.playTimer = setInterval(() => {
+          if (
+            !this.isConnected ||
+            this.position >= this.execution.trace.length - 1
+          ) {
+            this.stop();
+            return;
+          }
+          this.position++;
+          this.drawTrace();
+        }, this.speed);
+      }
+      return;
+    }
+    this.stop();
+    if (action === "first") this.position = 0;
+    if (action === "previous") this.position = Math.max(0, this.position - 1);
+    if (action === "next")
+      this.position = Math.min(
+        this.execution.trace.length - 1,
+        this.position + 1,
+      );
+    if (action === "last") this.position = this.execution.trace.length - 1;
+    this.drawTrace();
+  }
+  showError(text) {
+    const n = this.querySelector("[data-error]");
+    if (n) {
+      n.hidden = !text;
+      n.className = text ? "error" : "";
+      n.textContent = text;
+    }
+  }
+  async run(test = false) {
+    this.stop();
+    const a = this.activity,
+      i = a.interactive,
+      code = this.querySelector("[data-p-field=code]").value;
+    let args;
+    try {
+      args = JSON.parse(this.querySelector("[data-p-field=args]").value);
+      if (!Array.isArray(args) || JSON.stringify(args).length > 16000)
+        throw Error();
+    } catch {
+      this.showError("Arguments : tableau JSON valide requis, 16 Ko maximum.");
+      return;
+    }
+    const request = { code, invoke: i.invoke, args };
+    if (test)
+      request.tests = (a.publicTests || []).map((t, n) => ({
+        invoke: t.invoke,
+        args: JSON.parse(t.argsJSON),
+        expected: JSON.parse(t.expectedJSON),
+        label: i.testLabels[n],
+      }));
+    const job = (this.job = execute(request));
+    this.showError("Exécution en cours…");
+    const result = await job.promise;
+    if (this.job !== job || !this.isConnected) return;
+    this.job = null;
+    this.showError(
+      result.error || result.results?.find((r) => r.error)?.error || "",
+    );
+    // Test cases have their own arguments. Preserve the displayed invocation's
+    // trace so its editor arguments and its visual state can never disagree.
+    if (!test) {
+      this.execution = result.results?.[0] || null;
+      this.executedCode = code;
+      this.executedArgs = args;
+      this.position = 0;
+      this.stale = false;
+    }
+    if (test) {
+      const results = result.results || [],
+        passed = results.filter((t) => t.passed).length;
+      this.querySelector("[data-tests]").innerHTML =
+        `<p class="small">${passed} / ${results.length} cas vérifiés. ${passed === results.length ? "Explique maintenant pourquoi ta solution fonctionne." : "Commence par le premier cas qui échoue."}</p>${results.map((t) => `<details class="test-row ${t.passed ? "pass" : "fail"}"><summary>${t.passed ? "✓" : "À reprendre"} · ${esc(t.label)}</summary><span>Attendu : ${esc(compact(t.expected))}</span><span>Obtenu : ${esc(t.error || compact(t.result))}</span></details>`).join("")}`;
+    }
+    if (this.mode === "draft" && !this.data.readOnly) {
+      this.work.attempts++;
+      this.work.results = {
+        code,
+        args: pretty(args),
+        status:
+          result.errorCode ||
+          this.execution?.errorCode ||
+          (test && result.results?.some((r) => !r.passed)
+            ? "TEST_FAILED"
+            : "OK"),
+        passed: test ? result.results?.filter((r) => r.passed).length : null,
+        certified: false,
+      };
+      this.save();
+    }
+    this.drawTrace();
+  }
+  drawTrace() {
+    const target = this.querySelector("[data-trace]");
+    if (!target) return;
+    let args = [];
+    try {
+      args = JSON.parse(this.work.args);
+    } catch {}
+    const code = this.querySelector("[data-p-field=code]").value,
+      frame = this.execution?.trace?.[this.position];
+    target.innerHTML = renderProgrammingVisual({
+      activity: this.activity,
+      code: this.execution ? this.executedCode : code,
+      args: this.execution ? this.executedArgs : args,
+      execution: this.execution,
+      position: this.position,
+      stale: this.stale,
+    });
+    this.querySelector("[data-call-caption]").textContent =
+      `Appel observé : ${this.activity.interactive.invoke}(${Array.isArray(args) ? args.map(compact).join(", ") : "…"})`;
+    this.querySelector("[data-trace-kind]").textContent = frame
+      ? kindName(frame.kind)
+      : "Avant l’exécution";
+    this.querySelector("[data-console]").textContent =
+      this.execution?.trace
+        .slice(0, this.position + 1)
+        .filter((f) => f.kind === "output")
+        .map((f) =>
+          f.output
+            .map((v) => (typeof v === "string" ? v : compact(v)))
+            .join(" "),
+        )
+        .join("\n") || "Aucun affichage pour le moment.";
+    const range = this.querySelector("[data-range]");
+    range.max = Math.max(0, (this.execution?.trace?.length || 0) - 1);
+    range.value = this.position;
+    this.querySelector("[data-trace-count]").textContent =
+      `${frame ? this.position + 1 : 0} / ${this.execution?.trace?.length || 0}`;
+    this.querySelector("[data-lines]").textContent = code
+      .split("\n")
+      .map((_, n) => n + 1)
+      .join("\n");
+    this.highlightLine(true);
+  }
+  highlightLine(follow = false) {
+    const e = this.querySelector("[data-p-field=code]"),
+      gutter = this.querySelector("[data-lines]"),
+      marker = this.querySelector("[data-active-line-marker]");
+    if (!e || !gutter) return;
+    const frame = this.execution?.trace?.[this.position],
+      line = frame?.line,
+      top = 14 + Math.max(0, (line || 1) - 1) * 23;
+    if (
+      follow &&
+      line &&
+      (top < e.scrollTop || top > e.scrollTop + e.clientHeight - 45)
+    )
+      e.scrollTop = Math.max(0, top - 80);
+    gutter.scrollTop = e.scrollTop;
+    marker.style.display = line ? "block" : "none";
+    marker.style.top = top - e.scrollTop + "px";
+    this.querySelector("[data-active-line]").textContent = line
+      ? "Ligne " + line
+      : "Code JavaScript";
+  }
+  drawComparison() {
+    const box = this.querySelector("[data-comparison]"),
+      c = this.comparison;
+    if (!box || !c) return;
+    const p = c.programs[this.compareIndex],
+      f = this.compareExecution?.trace?.[this.comparePosition];
+    box.querySelector("[data-compare-code]").textContent = p.code;
+    for (const b of box.querySelectorAll("[data-compare-program]")) {
+      const active = Number(b.dataset.compareProgram) === this.compareIndex;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-pressed", String(active));
+    }
+    const recent = this.compareExecution?.trace
+        ?.slice(0, this.comparePosition + 1)
+        .findLast(
+          (t) =>
+            ["read", "foreach-item"].includes(t.kind) &&
+            Number.isInteger(t.index),
+        ),
+      idx = Number.isInteger(f?.index) ? f.index : recent?.index;
+    box.querySelector("[data-compare-array]").innerHTML = (
+      c.args.find(Array.isArray) || []
+    )
+      .map(
+        (v, n) =>
+          `<div class="compare-item ${idx === n ? "active" : ""}">${esc(compact(v))}</div>`,
+      )
+      .join("");
+    box.querySelector("[data-compare-caption]").textContent = f
+      ? f.label +
+        (typeof f.variables?.nombre === "number"
+          ? " · nombre = " + f.variables.nombre
+          : "")
+      : "Prêt à parcourir.";
+    box.querySelector("[data-compare-rule]").textContent =
+      this.presentation.comparisons
+        ?.find((x) => x.id === c.id)
+        ?.rules.find((r) => r.id === p.id)?.text || "";
+    box.querySelector("[data-p-action=compare-step]").disabled =
+      !!this.compareExecution &&
+      this.comparePosition >= this.compareExecution.trace.length - 1;
+  }
+  async stepComparison() {
+    const c = this.comparison;
+    if (!c) return;
+    if (!this.compareExecution) {
+      const job = (this.compareJob = execute({
+        code: c.programs[this.compareIndex].code,
+        invoke: c.invoke,
+        args: c.args,
+      }));
+      const result = await job.promise;
+      if (this.compareJob !== job || !this.isConnected) return;
+      this.compareJob = null;
+      this.compareExecution = result.results?.[0];
+      if (!this.compareExecution) {
+        this.querySelector("[data-compare-caption]").textContent =
+          result.error || "Exécution indisponible.";
+        return;
+      }
+    }
+    this.comparePosition = Math.min(
+      this.compareExecution.trace.length - 1,
+      this.comparePosition + 1,
+    );
+    this.drawComparison();
+  }
+  saveFile(name, content, type = "application/json") {
+    const url = URL.createObjectURL(new Blob([content], { type }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  download() {
+    const work = Object.fromEntries(
+      Object.keys(this.answers).map((id) => [id, this.workFor(id)]),
+    );
+    for (const [id, w] of this.works) work[id] = w;
+    this.saveFile(
+      "programmation-mon-travail.json",
+      JSON.stringify(
+        {
+          format: "programming-course-work-1",
+          identity: this.data.identity,
+          work,
+          certified: false,
+        },
+        null,
+        2,
+      ),
+    );
+  }
+  async importWork(file) {
+    try {
+      if (this.data.readOnly) return;
+      if (!file || file.size > 2000000) throw Error("Fichier limité à 2 Mo.");
+      const d = JSON.parse(await file.text());
+      if (JSON.stringify(d.identity) !== JSON.stringify(this.data.identity))
+        throw Error(
+          "Ce fichier appartient à un autre cours ou à une autre version.",
+        );
+      const entries =
+        d.format === "programming-course-work-1"
+          ? Object.entries(d.work || {})
+          : d.format === "programming-work-1"
+            ? [[d.activityId, d.work]]
+            : null;
+      if (!entries?.length) throw Error("Format de travail incompatible.");
+      const valid = entries.map(([id, w]) => {
+        if (!this.data.activities.some((a) => a.id === id))
+          throw Error("Activité inconnue dans ce fichier.");
+        return [
+          id,
+          parseWork(JSON.stringify({ ...w, results: null, attempts: 0 })),
+        ];
+      });
+      if (
+        !confirm(
+          "Reprendre le travail de ce fichier ? Les brouillons des activités présentes seront remplacés.",
+        )
+      )
+        return;
+      this.stop();
+      for (const [id, w] of valid) {
+        this.works.set(id, w);
+        this.save(id);
+      }
+      this.execution = null;
+      this.mode = "draft";
+      this.renderContent();
+      this.status("Travail repris · relance les tests.");
+    } catch (e) {
+      alert(e.message);
+    } finally {
+      const el = this.querySelector("[data-work-file]");
+      if (el) el.value = "";
+    }
+  }
 }
-if(globalThis.customElements&&!customElements.get('programming-lesson'))customElements.define('programming-lesson',ProgrammingLesson);
+if (globalThis.customElements && !customElements.get("programming-lesson"))
+  customElements.define("programming-lesson", ProgrammingLesson);
